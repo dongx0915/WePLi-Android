@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.application")
+    wepli("android.application")
     id("org.jetbrains.kotlin.android")
 }
 
