@@ -1,6 +1,11 @@
+import java.util.Properties
+
+val properties = Properties().apply {
+    load(rootProject.file("local.properties").inputStream())
+}
+
 plugins {
     wepli("android.application")
-    id("org.jetbrains.kotlin.android")
 }
 
 android {
@@ -9,26 +14,41 @@ android {
 
     defaultConfig {
         applicationId = "com.example.wepli"
-        minSdk = 30
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        versionCode = libs.versions.versionCode.get().toInt()
+        versionName = libs.versions.appVersion.get()
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = false // 코드 난독화 여부
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+
+    signingConfigs {
+        // debug는 AGP가 기본적으로 제공하므로 getByName 사용
+        // debug 서명은 자동으로 생성됨
+        getByName("debug") {
+
+        }
+
+        // release는 직접 정의해야한느 구성이므로 create 사용
+        create("release") {
+
+        }
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
+
+    buildTypes {
+        debug {
+            isDebuggable = true
+            signingConfig = signingConfigs.getByName("debug")
+        }
+
+        release {
+            isMinifyEnabled = true // 코드 난독화 여부
+            isShrinkResources = true
+            signingConfig = signingConfigs.getByName("release")
+        }
     }
 }
 
