@@ -1,17 +1,18 @@
-package com.example.convention
+package extensions
 
-import AndroidHiltPlugin
-import AndroidKotlinPlugin
-import KotlinSerializationPlugin
 import com.android.build.gradle.BaseExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
+import plugin.AndroidHiltPlugin
+import plugin.AndroidKotlinPlugin
+import plugin.KotlinSerializationPlugin
 import java.util.Properties
 
 /**
  * 공통 Kotlin Android 기본 설정
+ * Application, Feature에 적용
  */
 internal fun Project.configureAndroidCommonPlugin() {
     val properties = Properties().apply {
