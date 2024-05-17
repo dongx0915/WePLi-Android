@@ -1,30 +1,51 @@
 [versions] # 라이브러리 버전
+# Sdk
 compileSdk = "34"
 targetSdk = "34"
 minSdk = "30"
+
+# App Version
 appVersion = "0.0.1"
 versionCode = "1"
 
-# kotlin
-kotlin = "1.9.10"
-ksp = "1.9.10-1.0.13"
+# Kotlin
+kotlin = "1.9.22"
+ksp = "1.9.20-1.0.14"
+kotlinx-serialization-json = "1.6.0"
 
-# gradle
+# Gradle
 agp = "8.2.2"
 org-jetbrains-kotlin-jvm = "1.9.23"
 
-# android
+# Android
 hilt = "2.51.1"
 
 [libraries] # 라이브러리 의존성
+
+# Gradle
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+
+# Kotlin
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradle-plugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 
+# Hilt
+hilt-gradle-plugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 
 [bundles] # 라이브러리를 묶어서 선언
 
 [plugins] # 플러그인
-org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
+# Android
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+
+# Kotlin
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+# Hilt
+dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
