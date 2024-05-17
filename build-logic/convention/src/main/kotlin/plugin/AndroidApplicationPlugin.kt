@@ -20,6 +20,16 @@ import org.gradle.api.Project
  *      }
  * }
  * ```
+ *
+ * 기존 gradle 문법
+ * ```
+ * apply plugin: 'org.jetbrains.kotlin.android'
+ * ```
+ * ->
+ * Convention Plugin 문법
+ * ```
+ * apply("org.jetbrains.kotlin.android")
+ * ```
  */
 class AndroidApplicationPlugin: Plugin<Project> {
 
@@ -27,13 +37,6 @@ class AndroidApplicationPlugin: Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                /**
-                 * 기존 gradle 문법
-                 * apply plugin: 'org.jetbrains.kotlin.android'
-                 * ->
-                 * Convention Plugin 문법
-                 * apply("org.jetbrains.kotlin.android")
-                 */
                 apply("com.android.application")
                 configureAndroidCommonPlugin()
             }
