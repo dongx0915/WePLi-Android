@@ -23,7 +23,7 @@ internal fun Project.configureAndroidCommonPlugin() {
         apply<AndroidKotlinPlugin>()
         apply<KotlinSerializationPlugin>()
         apply("kotlin-parcelize")
-        // apply<AndroidHiltPlugin>()
+        apply<AndroidHiltPlugin>()
     }
 
     extensions.getByType<BaseExtension>().apply {

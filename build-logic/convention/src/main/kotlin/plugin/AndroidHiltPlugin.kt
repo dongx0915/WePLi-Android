@@ -29,7 +29,7 @@ class AndroidHiltPlugin : Plugin<Project> {
 
     companion object {
         const val IMPLEMENTATION = "implementation"
-        const val KAPT = "kapt"
+        const val KSP = "ksp"
     }
 
     override fun apply(target: Project) {
@@ -41,7 +41,7 @@ class AndroidHiltPlugin : Plugin<Project> {
 
             dependencies {
                 IMPLEMENTATION(libs.findLibrary("hilt-android").get())
-                KAPT(libs.findLibrary("hilt-compiler").get())
+                KSP(libs.findLibrary("hilt-compiler").get())
             }
         }
     }

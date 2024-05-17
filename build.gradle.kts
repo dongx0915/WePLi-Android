@@ -10,6 +10,7 @@ buildscript {
         // 플러그인을 사용할 수 있도록 클래스 패스에 추가
         classpath(libs.kotlin.gradle.plugin)
         classpath(libs.android.gradle.plugin)
+        classpath(libs.ksp.gradle.plugin)
         classpath(libs.hilt.gradle.plugin)
     }
 }
