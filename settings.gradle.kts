@@ -18,6 +18,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "WePLi"
+// app 모듈에는 다른 모듈 include만 추가
 include(":app")
 
 /**
