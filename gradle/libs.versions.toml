@@ -19,8 +19,20 @@ org-jetbrains-kotlin-jvm = "1.9.23"
 
 # Android
 hilt = "2.51.1"
+appcompat = "1.6.1"
+constraintlayout = "2.1.4"
+
+# Material
+material = "1.12.0"
 
 [libraries] # 라이브러리 의존성
+
+# Android
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+
+# Materail
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 # Gradle
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
