@@ -1,4 +1,6 @@
-import com.example.convention.configureAndroidCommonPlugin
+package plugin
+
+import extensions.configureAndroidCommonPlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 

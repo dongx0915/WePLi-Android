@@ -1,3 +1,6 @@
+package plugin
+
+import extensions.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -15,7 +18,6 @@ class KotlinSerializationPlugin : Plugin<Project> {
             apply("org.jetbrains.kotlin.plugin.serialization")
         }
 
-        val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
         dependencies {
             IMPLEMENTATION(libs.findLibrary("kotlin.serialization.json").get())
         }

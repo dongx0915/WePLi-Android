@@ -1,4 +1,6 @@
-import com.example.convention.configureAndroidCommonPlugin
+package plugin
+
+import extensions.configureAndroidCommonPlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -11,7 +13,7 @@ import org.gradle.api.Project
  * ```gradle
  * gradlePlugin {
  *      plugins {
- *          register("AndroidApplicationPlugin") {
+ *          register("com.example.wepli.plugin.AndroidApplicationPlugin") {
  *              id = "wepli.plugin.application" // 컨벤션 플러그인의 이름 (직접 지정)
  *              implementationClass = "AndroidApplicationConventionPlugin" // id에 매칭되는 클래스명 (구현체)
  *          }

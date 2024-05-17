@@ -1,5 +1,7 @@
+package plugin
+
 import com.android.build.gradle.BaseExtension
-import com.example.convention.libs
+import extensions.libs
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project

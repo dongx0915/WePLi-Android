@@ -3,6 +3,8 @@ plugins {
     `kotlin-dsl`
 }
 
+group = "com.example.wepli.buildlogic"
+
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
@@ -29,22 +31,27 @@ gradlePlugin {
     plugins {
         register("android-application") {
             id = "wepli.plugin.android.application" // 컨벤션 플러그인의 이름 (직접 지정)
-            implementationClass = "ApplicationConventionPlugin" // id에 매칭되는 클래스명
+            implementationClass = "plugin.AndroidApplicationPlugin" // id에 매칭되는 클래스명
+        }
+
+        register("android-kotlin") {
+            id = "wepli.plugin.android.kotlin"
+            implementationClass = "plugin.AndroidKotlinPlugin"
         }
 
         register("android-feature") {
             id = "wepli.plugin.android.feature"
-            implementationClass = "AndroidFeaturePlugin"
+            implementationClass = "plugin.AndroidFeaturePlugin"
         }
 
         register("android-hilt") {
             id = "wepli.plugin.android.hilt"
-            implementationClass = "HiltConventionPlugin"
+            implementationClass = "plugin.AndroidHiltPlugin"
         }
 
         register("kotlin-serialization") {
             id = "wepli.plugin.kotlin.serialization"
-            implementationClass = "KotlinSerializationPlugin"
+            implementationClass = "plugin.KotlinSerializationPlugin"
         }
     }
 }
