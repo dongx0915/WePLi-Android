@@ -14,6 +14,8 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 class AndroidKotlinPlugin : Plugin<Project> {
 
     override fun apply(target: Project): Unit = with(target) {
+        val appVersion = libs.findVersion("appVersion").get().requiredVersion
+        val appVersionCode = libs.findVersion("versionCode").get().requiredVersion.toInt()
         val compileSdkVersion = libs.findVersion("compileSdk").get().requiredVersion.toInt()
         val targetSdkVersion = libs.findVersion("targetSdk").get().requiredVersion.toInt()
         val minSdkVersion = libs.findVersion("minSdk").get().requiredVersion.toInt()
@@ -26,6 +28,8 @@ class AndroidKotlinPlugin : Plugin<Project> {
             setCompileSdkVersion(compileSdkVersion)
 
             defaultConfig {
+                version = appVersion
+                versionCode = appVersionCode
                 minSdk = minSdkVersion
                 targetSdk = targetSdkVersion
             }

@@ -11,7 +11,7 @@ versionCode = "1"
 # Kotlin
 kotlin = "1.9.22"
 ksp = "1.9.20-1.0.14"
-kotlinx-serialization-json = "1.6.0"
+kotlinx-serialization-json = "1.7.2"
 
 # Gradle
 agp = "8.2.2"
@@ -19,7 +19,7 @@ org-jetbrains-kotlin-jvm = "1.9.23"
 
 # Android
 hilt = "2.51.1"
-appcompat = "1.6.1"
+appcompat = "1.7.0"
 constraintlayout = "2.1.4"
 
 # Material
