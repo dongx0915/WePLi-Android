@@ -14,6 +14,7 @@ dependencies {
     compileOnly(libs.android.gradle.plugin)
     compileOnly(libs.kotlin.gradle.plugin)
     compileOnly(libs.ksp.gradle.plugin)
+    compileOnly(libs.compose.compiler.extension)
 }
 
 /**
@@ -34,14 +35,19 @@ gradlePlugin {
             implementationClass = "plugin.AndroidApplicationPlugin" // id에 매칭되는 클래스명
         }
 
-        register("android-kotlin") {
-            id = "wepli.plugin.android.kotlin"
-            implementationClass = "plugin.AndroidKotlinPlugin"
+        register("android-library") {
+            id = "wepli.plugin.android.library"
+            implementationClass = "plugin.AndroidLibraryPlugin"
         }
 
         register("android-feature") {
             id = "wepli.plugin.android.feature"
             implementationClass = "plugin.AndroidFeaturePlugin"
+        }
+
+        register("android-compose") {
+            id = "wepli.plugin.android.compose"
+            implementationClass = "plugin.AndroidComposePlugin"
         }
 
         register("android-hilt") {

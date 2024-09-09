@@ -1,8 +1,12 @@
 package plugin
 
-import extensions.configureAndroidCommonPlugin
+import com.android.build.gradle.LibraryExtension
+import extensions.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.getByType
 
 /**
  * Feature 모듈에서 공통으로 사용될 라이브러리들을 선언
@@ -10,7 +14,21 @@ import org.gradle.api.Project
 class AndroidFeaturePlugin : Plugin<Project> {
 
     override fun apply(target: Project) = with(target) {
-        plugins.apply("com.android.library")
-        configureAndroidCommonPlugin()
+        with(pluginManager) {
+            apply("com.android.library")
+            apply("org.jetbrains.kotlin.android")
+        }
+
+        val extension = extensions.getByType<LibraryExtension>()
+        configureKotlinAndroid(extension)
+
+        extensions.configure<LibraryExtension> {
+            defaultConfig.consumerProguardFiles("consumer-rules.pro")
+        }
+
+        dependencies {
+            // TODO Feature 모듈에서 공통으로 참조하는 모듈을 선언
+            "implementation"(project(":core:ui"))
+        }
     }
 }

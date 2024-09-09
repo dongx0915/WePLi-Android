@@ -1,45 +1,41 @@
 package extensions
 
-import com.android.build.gradle.BaseExtension
+import com.android.build.api.dsl.CommonExtension
+import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
-import plugin.AndroidHiltPlugin
-import plugin.AndroidKotlinPlugin
-import plugin.KotlinSerializationPlugin
-import java.util.Properties
+import org.gradle.kotlin.dsl.configure
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
 /**
  * 공통 Kotlin Android 기본 설정
  * Application, Feature에 적용
  */
-internal fun Project.configureAndroidCommonPlugin() {
-    val properties = Properties().apply {
-        load(rootProject.file("local.properties").inputStream())
-    }
+internal fun Project.configureKotlinAndroid(
+    commonExtension: CommonExtension<*, *, *, *, *>,
+) {
+    commonExtension.apply {
+        compileSdk = libs.findVersion("compileSdk").get().toString().toInt()
 
-    with(plugins) {
-        apply<AndroidKotlinPlugin>()
-        apply<KotlinSerializationPlugin>()
-        apply("kotlin-parcelize")
-        apply<AndroidHiltPlugin>()
-    }
-
-    extensions.getByType<BaseExtension>().apply {
         defaultConfig {
-            // TODO
-            // BuildConfig, baseUrl, apiKey 등 local.properties에 작성하던 것들을 작성
+            minSdk = libs.findVersion("minSdk").get().requiredVersion.toInt()
         }
 
-        buildFeatures.apply {
-            viewBinding = true
-            buildConfig = true
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
         }
-    }
 
-    dependencies {
-        // TODO feature 모듈에서 공통으로 사용되는 의존성 추가
-        // core.ktx, appcompat, lifecycle, material, fragment.ktx, etc...
+        extensions.configure<KotlinAndroidProjectExtension> {
+            compilerOptions {
+                jvmTarget.set(JvmTarget.JVM_17)
+            }
+        }
+
+        sourceSets {
+            getByName("main") {
+                java.srcDir("src/main/kotlin")
+            }
+        }
     }
 }
