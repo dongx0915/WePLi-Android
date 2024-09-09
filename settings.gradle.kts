@@ -28,3 +28,5 @@ include(":app")
  *  include(":build-logic:convention") // remove
  */
 include(":feature:main")
+include(":core")
+include(":core:ui")
