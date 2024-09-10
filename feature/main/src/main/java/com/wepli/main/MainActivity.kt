@@ -24,12 +24,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // enableEdgeToEdge는 시스템 창을 엣지 투 엣지로 확장하여 더 몰입감 있는 UI를 제공
         enableEdgeToEdge()
-
-        // Jetpack Compose UI를 설정하는 부분
         setContent {
-            // WePLiTheme은 앱의 테마를 적용하는 래퍼 함수
             WePLiTheme {
                 val scrollState = rememberScrollState()
                 ScrollableAppBar(
