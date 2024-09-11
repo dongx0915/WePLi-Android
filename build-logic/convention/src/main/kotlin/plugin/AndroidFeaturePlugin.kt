@@ -29,6 +29,7 @@ class AndroidFeaturePlugin : Plugin<Project> {
         dependencies {
             // TODO Feature 모듈에서 공통으로 참조하는 모듈을 선언
             "implementation"(project(":core:ui"))
+            "implementation"(project(":core:common"))
         }
     }
 }
