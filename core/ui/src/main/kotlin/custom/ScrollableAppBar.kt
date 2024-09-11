@@ -2,8 +2,10 @@ package custom
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.util.Log
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,6 +21,69 @@ import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import kotlin.math.min
+
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ScrollableAppBar(
+    title: String = "WePLi",
+    scrollState: LazyListState, // LazyColumn의 스크롤 상태를 사용
+    scrollThreshold: Float = 600f, // 스크롤 임계값을 600f로 설정
+    startBgColor: Color = Color.Transparent,
+    endBgColor: Color = Color.Black,
+    startIconColor: Color = Color.Black,
+    endIconColor: Color = Color.White,
+    content: @Composable (appbarPadding: PaddingValues) -> Unit
+) {
+    val itemHeight = 100f // offset 계산용 아이템 높이 (임의로 100f로 설정, 스크롤 강도는 Threshold로 조절)
+    // 첫 번째 보이는 아이템의 오프셋을 포함한 총 스크롤 거리 계산
+    val totalScrollOffset = scrollState.firstVisibleItemIndex * itemHeight + scrollState.firstVisibleItemScrollOffset
+
+    // 스크롤 비율을 계산 (아이템의 높이를 기준으로 스크롤 진행 비율을 더 세밀하게 계산)
+    val scrollFraction = min(1f, totalScrollOffset / scrollThreshold).coerceIn(0f, 1f)
+
+    // 배경색과 아이콘 색상 보간
+    val backgroundColor = lerp(startBgColor, endBgColor, scrollFraction)
+    val iconColor = lerp(startIconColor, endIconColor, scrollFraction)
+
+    val window = (LocalContext.current as? Activity)?.window
+    val view = LocalView.current
+
+    // 상태바 아이콘 색상 처리
+    DisposableEffect(view, scrollFraction) {
+        window?.let {
+            WindowCompat.getInsetsController(it, view).apply {
+                isAppearanceLightStatusBars = scrollFraction < 0.5f
+            }
+        }
+
+        onDispose {}
+    }
+
+    // Scaffold로 앱바와 콘텐츠 배치
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(title, color = iconColor) },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = backgroundColor,
+                ),
+                navigationIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Menu,
+                        contentDescription = "Menu",
+                        tint = iconColor
+                    )
+                }
+            )
+        },
+        content = { paddingValues ->
+            content(paddingValues) // 전달받은 콘텐츠 배치
+        }
+    )
+}
+
 
 /**
  *
@@ -34,7 +99,7 @@ import androidx.core.view.WindowCompat
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScrollableAppBar(
-    title: String = "App Bar",
+    title: String = "WePLi",
     scrollState: ScrollState,
     scrollThreshold: Float = 600f,
     startBgColor: Color = Color.Transparent,
@@ -45,7 +110,7 @@ fun ScrollableAppBar(
 ) {
     // 스크롤의 진행 비율을 0에서 1 사이로 계산 (외부에서 받은 scrollThreshold 값 사용)
     val scrollFraction = (scrollState.value / scrollThreshold).coerceIn(0f, 1f)
-
+    Log.d("ScrollableAppBar", "scrollFraction: $scrollFraction")
     // 배경색을 외부에서 받은 색상으로 선형 보간
     val backgroundColor = lerp(startBgColor, endBgColor, scrollFraction)
     val iconColor = lerp(startIconColor, endIconColor, scrollFraction)
