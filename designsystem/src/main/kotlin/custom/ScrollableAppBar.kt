@@ -16,12 +16,13 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import compose.rememberCurrentOffset
 import kotlin.math.min
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -37,8 +38,15 @@ fun ScrollableAppBar(
     endIconColor: Color = Color.White,
     content: @Composable (appbarPadding: PaddingValues) -> Unit
 ) {
-    val totalScrollOffset = rememberCurrentOffset(scrollState).value
-    val scrollFraction = min(1f, totalScrollOffset / scrollThreshold).coerceIn(0f, 1f)
+    val totalScrollOffset = remember {
+        derivedStateOf {
+            val firstItemIndex = scrollState.firstVisibleItemIndex
+            val firstOffset = scrollState.firstVisibleItemScrollOffset
+
+            firstItemIndex * 100 + firstOffset
+        }
+    }
+    val scrollFraction = min(1f, totalScrollOffset.value / scrollThreshold).coerceIn(0f, 1f)
     Log.d("ScrollableAppBar", "scrollFraction: $scrollFraction")
 
     // 배경색과 아이콘 색상 보간
@@ -51,9 +59,7 @@ fun ScrollableAppBar(
     // 상태바 아이콘 색상 처리
     DisposableEffect(view, scrollFraction) {
         window?.let {
-            WindowCompat.getInsetsController(it, view).apply {
-                isAppearanceLightStatusBars = scrollFraction < 0.5f
-            }
+            WindowCompat.getInsetsController(it, view).isAppearanceLightStatusBars = scrollFraction < 0.5f
         }
 
         onDispose {}
