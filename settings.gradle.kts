@@ -29,5 +29,5 @@ include(":app")
  */
 include(":feature:main")
 include(":core")
-include(":core:ui")
 include(":core:common")
+include(":designsystem")

@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.wepli.wepli.core.ui"
+    namespace = "com.wepli.wepli.designsystem"
 }
 
 dependencies {

@@ -59,7 +59,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun ScrollableAppBarPreview() {
     val scrollState = rememberScrollState()
-    custom.ScrollableAppBar(
+    ScrollableAppBar(
         title = "WePLi",
         scrollState = scrollState,
         content = { paddingValue ->
