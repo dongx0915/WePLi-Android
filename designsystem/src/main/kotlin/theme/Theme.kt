@@ -8,6 +8,8 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
@@ -54,4 +56,13 @@ fun WePLiTheme(
         typography = Typography,
         content = content
     )
+}
+
+@Stable
+object WePLiTheme {
+
+    val typography: WePLiTypography
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalWePLiTypography.current
 }
