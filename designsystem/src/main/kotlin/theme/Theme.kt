@@ -19,7 +19,7 @@ fun WePLiTheme(
 
     CompositionLocalProvider(
         LocalWePLiColors provides colorScheme,
-        LocalWePLiTypography provides WePLiTheme.typography,
+        LocalWePLiTypography provides WePLiTheme.typo,
     ) {
         MaterialTheme(
             content = content
@@ -35,7 +35,7 @@ object WePLiTheme {
         @ReadOnlyComposable
         get() = LocalWePLiColors.current
 
-    val typography: WePLiTypography
+    val typo: WePLiTypography
         @Composable
         @ReadOnlyComposable
         get() = LocalWePLiTypography.current
