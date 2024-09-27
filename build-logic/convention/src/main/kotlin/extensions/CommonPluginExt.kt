@@ -29,6 +29,7 @@ internal fun Project.configureKotlinAndroid(
         extensions.configure<KotlinAndroidProjectExtension> {
             compilerOptions {
                 jvmTarget.set(JvmTarget.JVM_17)
+                freeCompilerArgs.add("-Xcontext-receivers")
             }
         }
 
