@@ -41,6 +41,7 @@ class WePLiTypography internal constructor(
     val body3: TextStyle,
     val body4: TextStyle,
     val body5: TextStyle,
+    val body6: TextStyle,
 
     val caption: TextStyle,
     val overline: TextStyle,
@@ -153,6 +154,7 @@ class WePLiTypography internal constructor(
         body3 = body3,
         body4 = body4,
         body5 = body5,
+        body6 = body6,
         caption = caption,
         overline = overline,
     )
