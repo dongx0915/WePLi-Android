@@ -56,7 +56,8 @@ fun WePLiAppBar(
                     contentDescription = null,
                     modifier = Modifier
                         .size(44.dp)
-                        .padding(vertical = 14.dp, horizontal = 10.dp)
+                        .padding(horizontal = 10.dp)
+                        .offset(x = 6.dp)
                 )
             }
 
@@ -70,6 +71,7 @@ fun WePLiAppBar(
         actions = {
             if (showSearchButton) {
                 AppBarIcon(
+                    modifier = Modifier.offset(x = -6.dp),
                     iconResource = R.drawable.ic_search,
                     onClick = { onClickSearch?.invoke() }
                 )
@@ -77,6 +79,7 @@ fun WePLiAppBar(
 
             if (showNotificationButton) {
                 AppBarIcon(
+                    modifier = Modifier.offset(x = -6.dp),
                     iconResource = R.drawable.ic_alarm,
                     onClick = { onClickNotification?.invoke() },
                     badgeVisible = true
