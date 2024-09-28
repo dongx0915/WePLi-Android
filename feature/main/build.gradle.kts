@@ -9,5 +9,4 @@ android {
 
 dependencies {
     implementation(libs.material)
-    implementation(libs.bundles.androidx.compose)
 }

@@ -81,6 +81,9 @@ androidx-compose-destination-compiler = { group = "io.github.raamcosta.compose-d
 
 compose-compiler-extension = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
+# etc
+coil = { group = "io.coil-kt", name = "coil-compose", version = "2.7.0" }
+
 [bundles] # 라이브러리를 묶어서 선언
 androidx-compose = [
     "androidx-activity-compose",

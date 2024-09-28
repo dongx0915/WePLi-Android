@@ -2,6 +2,7 @@ package plugin
 
 import com.android.build.gradle.LibraryExtension
 import extensions.configureKotlinAndroid
+import extensions.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -30,6 +31,9 @@ class AndroidFeaturePlugin : Plugin<Project> {
             // TODO Feature 모듈에서 공통으로 참조하는 모듈을 선언
             "implementation"(project(":core:common"))
             "implementation"(project(":designsystem"))
+            "implementation"(project(":domain"))
+
+            "implementation"(libs.findLibrary("coil").get())
         }
     }
 }
