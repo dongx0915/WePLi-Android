@@ -30,6 +30,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -46,7 +47,7 @@ import theme.WePLiTheme
 fun MusicItemPreview() {
     MusicItem(
         musicData = MusicData(
-            rank = 1,
+            rank = 100,
             title = "Small girl (feat. 도경수 (D.O)) Small girl (feat. 도경수 (D.O))",
             artist = "이영지",
             album = "Hello",
@@ -67,15 +68,16 @@ fun MusicItem(modifier: Modifier = Modifier, musicData: MusicData) {
             shape = RoundedCornerShape(3.dp)
         )
 
-        Spacer(modifier = Modifier.size(10.dp))
         Text(
-            modifier = Modifier.padding(top = 9.dp),
+            modifier = Modifier
+                .padding(top = 9.dp)
+                .width(32.dp),
             text = musicData.rank.toString(),
-            style = WePLiTheme.typo.body6,
+            style = WePLiTheme.typo.caption1,
             color = WePLiTheme.color.gray700,
+            textAlign = TextAlign.Center
         )
 
-        Spacer(modifier = Modifier.size(10.dp))
         Column(
             modifier = Modifier
                 .weight(1f)
@@ -92,8 +94,8 @@ fun MusicItem(modifier: Modifier = Modifier, musicData: MusicData) {
             Spacer(modifier = Modifier.size(4.dp))
             Text(
                 text = musicData.artist,
-                style = WePLiTheme.typo.body6,
-                color = WePLiTheme.color.gray700,
+                style = WePLiTheme.typo.caption1,
+                color = WePLiTheme.color.gray500,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )

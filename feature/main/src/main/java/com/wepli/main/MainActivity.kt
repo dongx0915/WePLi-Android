@@ -109,12 +109,11 @@ fun WePLiChartLayout(musicList: List<MusicData>) {
     val pagerState = rememberPagerState(
         pageCount = { pageCount }
     )
-    val isLastPage = pagerState.currentPage == pageCount - 1
 
     Column {
         TitleItem(title = "위플리 TOP 100", subscription = "6월 23일 오전 7시 업데이트")
         HorizontalPager(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp),
             state = pagerState,
             contentPadding = PaddingValues(start = 20.dp, end = 10.dp),
         ) { page ->
