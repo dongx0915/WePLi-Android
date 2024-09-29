@@ -1,6 +1,7 @@
 plugins {
     wepli("android.feature")
     wepli("android.compose")
+    wepli("android.hilt")
 }
 
 android {

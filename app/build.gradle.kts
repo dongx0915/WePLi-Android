@@ -6,6 +6,7 @@ val properties = Properties().apply {
 
 plugins {
     wepli("android.application")
+    wepli("android.hilt")
 }
 
 android {

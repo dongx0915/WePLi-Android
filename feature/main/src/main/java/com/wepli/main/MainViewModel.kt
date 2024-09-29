@@ -1,12 +1,15 @@
 package com.wepli.main
 
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import model.Artist
 import model.MusicData
+import javax.inject.Inject
 
-class MainViewModel: ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor() : ViewModel() {
 
     private val _musicList = MutableStateFlow<List<MusicData>>(emptyList())
     val musicList: StateFlow<List<MusicData>> = _musicList

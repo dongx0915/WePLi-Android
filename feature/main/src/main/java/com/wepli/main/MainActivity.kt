@@ -29,11 +29,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import appbar.WePLiAppBar
 import com.wepli.component.MusicItem
+import dagger.hilt.android.AndroidEntryPoint
 import extensions.setStatusBarColor
 import model.Artist
 import model.MusicData
 import theme.WePLiTheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val viewModel: MainViewModel by viewModels()
