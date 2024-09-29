@@ -116,15 +116,14 @@ fun WePLiChartLayout(musicList: List<MusicData>) {
         HorizontalPager(
             modifier = Modifier.fillMaxWidth(),
             state = pagerState,
-            contentPadding = PaddingValues(end = 20.dp),
-            pageSpacing = if(isLastPage) 0.dp else (-10).dp,
+            contentPadding = PaddingValues(start = 20.dp, end = 10.dp),
         ) { page ->
             val musicChunk = musicList.chunked(5)[page]
 
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = PaddingValues(start = 20.dp),
+                contentPadding = PaddingValues(end = 12.dp)
             ) {
                 items(musicChunk) { music ->
                     MusicItem(musicData = music)
