@@ -46,7 +46,8 @@ class WePLiTypography internal constructor(
     val body5: TextStyle,
     val body6: TextStyle,
 
-    val caption: TextStyle,
+    val caption1: TextStyle,
+    val caption2: TextStyle,
     val overline: TextStyle,
 ) {
     constructor(
@@ -131,7 +132,12 @@ class WePLiTypography internal constructor(
             fontWeight = FontWeight.Light,
             fontSize = 14.sp
         ),
-        caption: TextStyle = TextStyle(
+        caption1: TextStyle = TextStyle(
+            fontFamily = defaultFontFamily,
+            fontWeight = FontWeight.Light,
+            fontSize = 13.sp
+        ),
+        caption2: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Normal,
             fontSize = 12.sp
@@ -158,7 +164,8 @@ class WePLiTypography internal constructor(
         body4 = body4,
         body5 = body5,
         body6 = body6,
-        caption = caption,
+        caption1 = caption1,
+        caption2 = caption2,
         overline = overline,
     )
 }
