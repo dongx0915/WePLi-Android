@@ -1,3 +1,4 @@
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.wepli.wepli.designsystem.R
+import extensions.toPx
 import model.Artist
 import theme.WePLiTheme
 
@@ -37,7 +39,6 @@ fun ArtistProfileListItem(
     artist: Artist
 ) {
     val isInPreview = LocalInspectionMode.current
-
     Column(
         modifier = Modifier.width(92.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -57,8 +58,7 @@ fun ArtistProfileListItem(
                     .clip(CircleShape),
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(artist.profileUrl)
-                    .size(80, 80)
-                    .crossfade(true)
+                    .size(80.dp.toPx())
                     .build(),
                 contentScale = ContentScale.Crop,
                 loading = {
