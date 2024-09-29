@@ -23,6 +23,9 @@ val pretendard = FontFamily(
     Font(R.font.pretendard_black, FontWeight.Black, FontStyle.Normal),
 )
 
+/**
+ * 참고) Figma 기준 폰트 사이즈 +2
+ */
 class WePLiTypography internal constructor(
     val title1: TextStyle,
     val title2: TextStyle,
@@ -51,92 +54,92 @@ class WePLiTypography internal constructor(
         title1: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 28.sp
+            fontSize = 30.sp
         ),
         title2: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 24.sp
+            fontSize = 26.sp
         ),
         title3: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 20.sp
+            fontSize = 22.sp
         ),
         subTitle1: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 18.sp
+            fontSize = 20.sp
         ),
         subTitle2: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 16.sp
+            fontSize = 18.sp
         ),
         subTitle3: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Normal,
-            fontSize = 16.sp
+            fontSize = 18.sp
         ),
         subTitle4: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 15.sp
+            fontSize = 17.sp
         ),
         subTitle5: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 14.sp
+            fontSize = 16.sp
         ),
         subTitle6: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Medium,
-            fontSize = 12.sp
+            fontSize = 14.sp
         ),
-        subTItle7: TextStyle = TextStyle(
+        subTitle7: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Normal,
-            fontSize = 10.sp
+            fontSize = 12.sp
         ),
         body1: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Normal,
-            fontSize = 15.sp
+            fontSize = 17.sp
         ),
         body2: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Light,
-            fontSize = 15.sp
+            fontSize = 17.sp
         ),
         body3: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Normal,
-            fontSize = 14.sp
+            fontSize = 16.sp
         ),
         body4: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Light,
-            fontSize = 14.sp
+            fontSize = 16.sp
         ),
         body5: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Light,
-            fontSize = 13.sp
+            fontSize = 15.sp
         ),
         body6: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Light,
-            fontSize = 12.sp
+            fontSize = 14.sp
         ),
         caption: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Normal,
-            fontSize = 10.sp
+            fontSize = 12.sp
         ),
         overline: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Medium,
-            fontSize = 10.sp
+            fontSize = 12.sp
         ),
     ) : this(
         title1 = title1,
@@ -148,7 +151,7 @@ class WePLiTypography internal constructor(
         subTitle4 = subTitle4,
         subTitle5 = subTitle5,
         subTitle6 = subTitle6,
-        subTitle7 = subTItle7,
+        subTitle7 = subTitle7,
         body1 = body1,
         body2 = body2,
         body3 = body3,
