@@ -6,8 +6,10 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wepli.wepli.designsystem.R
+import extensions.toSp
 
 internal val LocalWePLiTypography = staticCompositionLocalOf { WePLiTypography() }
 
@@ -24,7 +26,8 @@ val pretendard = FontFamily(
 )
 
 /**
- * 참고) Figma 기준 폰트 사이즈 +2
+ * 폰트 Scale은 고정으로 사용 (dp와 동일)
+ * - 참고) Theme > fontScale = 1f
  */
 class WePLiTypography internal constructor(
     val title1: TextStyle,
@@ -55,97 +58,97 @@ class WePLiTypography internal constructor(
         title1: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 30.sp
+            fontSize = 28.sp
         ),
         title2: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 26.sp
+            fontSize = 24.sp
         ),
         title3: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 22.sp
+            fontSize = 20.sp
         ),
         subTitle1: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 20.sp
+            fontSize = 18.sp
         ),
         subTitle2: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 18.sp
+            fontSize = 16.sp
         ),
         subTitle3: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Normal,
-            fontSize = 18.sp
+            fontSize = 16.sp
         ),
         subTitle4: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 17.sp
+            fontSize = 15.sp
         ),
         subTitle5: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 16.sp
+            fontSize = 14.sp
         ),
         subTitle6: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Medium,
-            fontSize = 14.sp
+            fontSize = 12.sp
         ),
         subTitle7: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Normal,
-            fontSize = 12.sp
+            fontSize = 10.sp
         ),
         body1: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Normal,
-            fontSize = 17.sp
+            fontSize = 15.sp
         ),
         body2: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Light,
-            fontSize = 17.sp
+            fontSize = 15.sp
         ),
         body3: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Normal,
-            fontSize = 16.sp
+            fontSize = 14.sp
         ),
         body4: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Light,
-            fontSize = 16.sp
+            fontSize = 14.sp
         ),
         body5: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Light,
-            fontSize = 15.sp
+            fontSize = 13.sp
         ),
         body6: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Light,
-            fontSize = 14.sp
+            fontSize = 12.sp
         ),
         caption1: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Light,
-            fontSize = 13.sp
+            fontSize = 11.sp
         ),
         caption2: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Normal,
-            fontSize = 12.sp
+            fontSize = 10.sp
         ),
         overline: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Medium,
-            fontSize = 12.sp
+            fontSize = 10.sp
         ),
     ) : this(
         title1 = title1,

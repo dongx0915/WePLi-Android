@@ -7,6 +7,8 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
 
 @Composable
 fun WePLiTheme(
@@ -20,6 +22,10 @@ fun WePLiTheme(
     CompositionLocalProvider(
         LocalWePLiColors provides colorScheme,
         LocalWePLiTypography provides WePLiTheme.typo,
+        LocalDensity provides Density(
+            density = LocalDensity.current.density,
+            fontScale = 1f
+        )
     ) {
         MaterialTheme(
             content = content
