@@ -4,8 +4,15 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.util.Log
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,10 +25,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import kotlin.math.min
 
@@ -154,4 +164,68 @@ fun ScrollableAppBar(
             content(paddingValue) // 외부에서 전달된 콘텐츠를 표시
         }
     )
+}
+
+/* Preview */
+@Composable
+fun LazyScrollableAppBar() {
+    val scrollState = rememberLazyListState()
+    ScrollableAppBar(
+        scrollState = scrollState,
+        startBgColor = Color.Transparent,
+        endBgColor = Color.Black,
+        content = { paddingValue ->
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValue),
+                state = scrollState
+            ) {
+                items(100) {
+                    Text(
+                        text = "Item $it",
+                        color = Color.Black,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+            }
+        }
+    )
+}
+
+@Composable
+fun ScrollableAppBar() {
+    val scrollState = rememberScrollState()
+    ScrollableAppBar(
+        title = "WePLi",
+        scrollState = scrollState,
+        content = { paddingValue ->
+            Column(
+                modifier = Modifier
+                    .padding(paddingValue)
+                    .fillMaxSize()
+                    .verticalScroll(scrollState)
+            ) {
+                repeat(100) {
+                    Text(
+                        text = "Item $it",
+                        color = Color.Black,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+            }
+        }
+    )
+}
+
+@Preview
+@Composable
+fun LazyScrollableAppBarPreview() {
+    LazyScrollableAppBar()
+}
+
+@Preview
+@Composable
+fun ScrollableAppBarPreview() {
+    ScrollableAppBar()
 }

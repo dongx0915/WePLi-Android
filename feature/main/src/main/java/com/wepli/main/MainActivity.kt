@@ -21,7 +21,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -30,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import appbar.WePLiAppBar
 import com.wepli.component.MusicItem
+import com.wepli.component.TwoLineTitle
 import com.wepli.component.WePLiBanner
 import com.wepli.component.WePLiBannerType
 import dagger.hilt.android.AndroidEntryPoint
@@ -88,32 +88,6 @@ fun MainScreen(viewModel: MainViewModel) {
 }
 
 @Composable
-fun TitleItem(
-    title: String?,
-    subscription: String?,
-) {
-    Column(
-        modifier = Modifier.padding(vertical = 12.dp, horizontal = 20.dp)
-    ) {
-        title?.let {
-            Text(
-                text = it,
-                style = WePLiTheme.typo.subTitle2,
-                color = WePLiTheme.color.gray900,
-            )
-        }
-        Spacer(modifier = Modifier.height(4.dp))
-        subscription?.let {
-            Text(
-                text = it,
-                style = WePLiTheme.typo.body6,
-                color = WePLiTheme.color.gray600,
-            )
-        }
-    }
-}
-
-@Composable
 fun WePLiBannerLayout() {
     val bannerList = listOf(
         WePLiBannerType.Twitter,
@@ -142,7 +116,7 @@ fun WePLiChartLayout(musicList: List<MusicData>) {
     )
 
     Column {
-        TitleItem(title = "위플리 TOP 100", subscription = "6월 23일 오전 7시 업데이트")
+        TwoLineTitle(title = "위플리 TOP 100", subscription = "6월 23일 오전 7시 업데이트")
         HorizontalPager(
             modifier = Modifier
                 .fillMaxWidth()
@@ -168,7 +142,7 @@ fun WePLiChartLayout(musicList: List<MusicData>) {
 @Composable
 fun ArtistLayout(artistList: List<Artist>) {
     Column {
-        TitleItem(
+        TwoLineTitle(
             title = "위플리 인기 랭킹",
             subscription = "위플리 차트에서 인기가 많은 가수들을 모아봤어요"
         )
