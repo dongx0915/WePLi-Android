@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun LazyScrollableAppBar() {
     val scrollState = rememberLazyListState()
-    custom.ScrollableAppBar(
+    appbar.ScrollableAppBar(
         scrollState = scrollState,
         startBgColor = Color.Transparent,
         endBgColor = Color.Black,
@@ -43,7 +43,7 @@ fun LazyScrollableAppBar() {
 @Composable
 fun ScrollableAppBar() {
     val scrollState = rememberScrollState()
-    custom.ScrollableAppBar(
+    appbar.ScrollableAppBar(
         title = "WePLi",
         scrollState = scrollState,
         content = { paddingValue ->
