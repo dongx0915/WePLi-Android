@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -71,14 +72,17 @@ fun MainScreen(viewModel: MainViewModel) {
             )
         }
     ) { paddingValues ->
-        Column(
-            modifier = Modifier.padding(paddingValues)
+        LazyColumn(
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxHeight(),
+            verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            WePLiBannerLayout()
-            Spacer(modifier = Modifier.height(24.dp))
-            WePLiChartLayout(viewModel.musicList.value)
-            Spacer(modifier = Modifier.height(24.dp))
-            ArtistLayout(viewModel.artistList.value)
+            item { WePLiBannerLayout() }
+
+            item { WePLiChartLayout(viewModel.musicList.value) }
+
+            item { ArtistLayout(viewModel.artistList.value) }
         }
     }
 }
@@ -118,7 +122,9 @@ fun WePLiBannerLayout() {
     val pagerState = rememberPagerState(pageCount = { bannerList.size })
 
     HorizontalPager(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp),
         state = pagerState,
         contentPadding = PaddingValues(horizontal = 20.dp),
         pageSpacing = 16.dp
@@ -146,13 +152,13 @@ fun WePLiChartLayout(musicList: List<MusicData>) {
         ) { page ->
             val musicChunk = musicList.chunked(5)[page]
 
-            LazyColumn(
+            // LazyColumn 내에 동일한 스크롤 방향의 LazyColumn 추가 불가
+            Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = PaddingValues(end = 12.dp)
             ) {
-                items(musicChunk) { music ->
-                    MusicItem(musicData = music)
+                musicChunk.forEach { music ->
+                    MusicItem(musicData = music, modifier = Modifier.padding(end = 12.dp))
                 }
             }
         }
