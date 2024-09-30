@@ -29,6 +29,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import appbar.WePLiAppBar
 import com.wepli.component.MusicItem
+import com.wepli.component.WePLiBanner
+import com.wepli.component.WePLiBannerType
 import dagger.hilt.android.AndroidEntryPoint
 import extensions.setStatusBarColor
 import model.Artist
@@ -72,6 +74,8 @@ fun MainScreen(viewModel: MainViewModel) {
         Column(
             modifier = Modifier.padding(paddingValues)
         ) {
+            WePLiBannerLayout()
+            Spacer(modifier = Modifier.height(24.dp))
             WePLiChartLayout(viewModel.musicList.value)
             Spacer(modifier = Modifier.height(24.dp))
             ArtistLayout(viewModel.artistList.value)
@@ -106,6 +110,25 @@ fun TitleItem(
 }
 
 @Composable
+fun WePLiBannerLayout() {
+    val bannerList = listOf(
+        WePLiBannerType.Twitter,
+        WePLiBannerType.Instagram
+    )
+    val pagerState = rememberPagerState(pageCount = { bannerList.size })
+
+    HorizontalPager(
+        modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
+        state = pagerState,
+        contentPadding = PaddingValues(horizontal = 20.dp),
+        pageSpacing = 16.dp
+    ) { page ->
+        val banner = bannerList[page]
+        WePLiBanner(modifier = Modifier.fillMaxWidth(), bannerType = banner)
+    }
+}
+
+@Composable
 fun WePLiChartLayout(musicList: List<MusicData>) {
     val pageCount = remember { musicList.size / 5 }
     val pagerState = rememberPagerState(
@@ -115,7 +138,9 @@ fun WePLiChartLayout(musicList: List<MusicData>) {
     Column {
         TitleItem(title = "위플리 TOP 100", subscription = "6월 23일 오전 7시 업데이트")
         HorizontalPager(
-            modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 12.dp),
             state = pagerState,
             contentPadding = PaddingValues(start = 20.dp, end = 10.dp),
         ) { page ->
