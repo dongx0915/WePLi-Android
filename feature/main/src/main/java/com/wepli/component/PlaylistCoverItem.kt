@@ -12,26 +12,36 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.wepli.designsystem.R
+import model.RecommendPlaylist
 import theme.WePLiTheme
 
-
-@Preview
 @Composable
-fun PlayListCoverItem() {
+fun PlayListCoverItem(recommendPlaylist: RecommendPlaylist) {
     Column(modifier = Modifier.width(136.dp)) {
         CoverImage(
-            imageUrl = "",
+            imageUrl = recommendPlaylist.coverImgUrl,
             previewImage = R.drawable.img_placeholder_album_cover,
             size = 136.dp,
             shape = RoundedCornerShape(4.dp)
         )
         Spacer(modifier = Modifier.height(12.dp))
         Text(
-            text = "끈적달달한 체리위스키를 머금은 힙합 R&B 두 줄 넘어가면",
+            text = recommendPlaylist.title,
             style = WePLiTheme.typo.body5,
             color = WePLiTheme.color.white,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
         )
     }
+}
+
+@Preview
+@Composable
+fun PlaylistCoverPreview() {
+    PlayListCoverItem(
+        recommendPlaylist = RecommendPlaylist(
+            title = "끈적달달한 체리위스키를 머금은 힙합 R&B 두 줄 넘어가면",
+            coverImgUrl = "https://image.bugsm.co.kr/artist/images/1000/800100/80010025_100.jpg?version=332223&d=20220330143136"
+        )
+    )
 }

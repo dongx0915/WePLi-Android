@@ -4,18 +4,23 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import model.Artist
 import model.MusicData
+import model.RecommendPlaylist
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor() : ViewModel() {
 
     private val _musicList = MutableStateFlow<List<MusicData>>(emptyList())
-    val musicList: StateFlow<List<MusicData>> = _musicList
+    val musicList: StateFlow<List<MusicData>> = _musicList.asStateFlow()
 
     private val _artistList = MutableStateFlow<List<Artist>>(emptyList())
-    val artistList: StateFlow<List<Artist>> = _artistList
+    val artistList: StateFlow<List<Artist>> = _artistList.asStateFlow()
+
+    private val _recommendPlaylists = MutableStateFlow<List<RecommendPlaylist>>(emptyList())
+    val recommendPlaylists: StateFlow<List<RecommendPlaylist>> = _recommendPlaylists.asStateFlow()
 
     init {
         _musicList.value = listOf(
@@ -80,6 +85,18 @@ class MainViewModel @Inject constructor() : ViewModel() {
             Artist("로이킴", "https://image.bugsm.co.kr/artist/images/1000/801377/80137715.jpg?version=112079&d=20240304183844"),
             Artist("이승기", "https://image.bugsm.co.kr/artist/images/1000/721/72184_041.jpg?version=292892&d=20201211184753"),
             Artist("aespa", "https://image.bugsm.co.kr/artist/images/1000/803473/80347326_049.jpg?version=402792&d=20240510104032")
+        )
+        _recommendPlaylists.value = listOf(
+            RecommendPlaylist("To. X","https://cdnimg.melon.co.kr/cm2/album/images/113/72/896/11372896_20231127104957_500.jpg"),
+            RecommendPlaylist("주저하는 연인들을 위해","https://cdnimg.melon.co.kr/cm/album/images/102/60/858/10260858_500.jpg"),
+            RecommendPlaylist("내가 S면 넌 나의 N이 되어줘","https://cdnimg.melon.co.kr/cm2/album/images/115/05/319/11505319_20240624143253_500.jpg"),
+            RecommendPlaylist("ETA","https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg"),
+            RecommendPlaylist("너의 모든 순간","https://cdnimg.melon.co.kr/cm/album/images/022/32/505/2232505_500.jpg"),
+            RecommendPlaylist("Attention","https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg"),
+            RecommendPlaylist("Super Shy","https://cdnimg.melon.co.kr/cm2/album/images/113/72/896/11372896_20231127104957_500.jpg"),
+            RecommendPlaylist("MEOW","https://cdnimg.melon.co.kr/cm2/album/images/115/86/554/11586554_20240906095540_500.jpg"),
+            RecommendPlaylist("CRAZY","https://cdnimg.melon.co.kr/cm2/album/images/115/79/884/11579884_20240830100608_500.jpg"),
+            RecommendPlaylist("Drama","https://cdnimg.melon.co.kr/cm2/album/images/113/62/544/11362544_20231110142622_500.jpg"),
         )
     }
 }

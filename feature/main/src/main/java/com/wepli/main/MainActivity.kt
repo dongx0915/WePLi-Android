@@ -29,6 +29,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import appbar.WePLiAppBar
 import com.wepli.component.MusicItem
+import com.wepli.component.OneLineTitle
+import com.wepli.component.PlayListCoverItem
 import com.wepli.component.TwoLineTitle
 import com.wepli.component.WePLiBanner
 import com.wepli.component.WePLiBannerType
@@ -36,6 +38,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import extensions.setStatusBarColor
 import model.Artist
 import model.MusicData
+import model.RecommendPlaylist
 import theme.WePLiTheme
 
 @AndroidEntryPoint
@@ -76,13 +79,16 @@ fun MainScreen(viewModel: MainViewModel) {
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxHeight(),
-            verticalArrangement = Arrangement.spacedBy(24.dp)
+            verticalArrangement = Arrangement.spacedBy(24.dp),
+            contentPadding = PaddingValues(bottom = 40.dp)
         ) {
-            item { WePLiBannerLayout() }
-
             item { WePLiChartLayout(viewModel.musicList.value) }
 
+            item { WePLiBannerLayout() }
+
             item { ArtistLayout(viewModel.artistList.value) }
+
+            item { RecommendPlaylistLayout(viewModel.recommendPlaylists.value) }
         }
     }
 }
@@ -101,7 +107,7 @@ fun WePLiBannerLayout() {
             .padding(vertical = 16.dp),
         state = pagerState,
         contentPadding = PaddingValues(horizontal = 20.dp),
-        pageSpacing = 16.dp
+        pageSpacing = 12.dp
     ) { page ->
         val banner = bannerList[page]
         WePLiBanner(modifier = Modifier.fillMaxWidth(), bannerType = banner)
@@ -134,6 +140,22 @@ fun WePLiChartLayout(musicList: List<MusicData>) {
                 musicChunk.forEach { music ->
                     MusicItem(musicData = music, modifier = Modifier.padding(end = 12.dp))
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun RecommendPlaylistLayout(playlists: List<RecommendPlaylist>) {
+    Column {
+        OneLineTitle(title = "위플리 추천 플레이리스트")
+
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            contentPadding = PaddingValues(horizontal = 20.dp)
+        ) {
+            items(playlists) { playlist ->
+                PlayListCoverItem(playlist)
             }
         }
     }
