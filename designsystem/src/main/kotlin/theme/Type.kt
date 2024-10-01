@@ -58,97 +58,116 @@ class WePLiTypography internal constructor(
         title1: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 28.sp
+            fontSize = 28.sp,
+            lineHeight = 34.sp
         ),
         title2: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 24.sp
+            fontSize = 24.sp,
+            lineHeight = 30.sp
         ),
         title3: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 20.sp
+            fontSize = 20.sp,
+            lineHeight = 26.sp
         ),
         subTitle1: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 18.sp
+            fontSize = 18.sp,
+            lineHeight = 22.sp
         ),
         subTitle2: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 16.sp
+            fontSize = 16.sp,
+            lineHeight = 20.sp
         ),
         subTitle3: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Normal,
-            fontSize = 16.sp
+            fontSize = 16.sp,
+            lineHeight = 20.sp
         ),
         subTitle4: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 15.sp
+            fontSize = 15.sp,
+            lineHeight = 19.sp
         ),
         subTitle5: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 14.sp
+            fontSize = 14.sp,
+            lineHeight = 18.sp
         ),
         subTitle6: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Medium,
-            fontSize = 12.sp
+            fontSize = 12.sp,
+            lineHeight = 16.sp
         ),
         subTitle7: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Normal,
-            fontSize = 10.sp
+            fontSize = 10.sp,
+            lineHeight = 16.sp
         ),
         body1: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Normal,
-            fontSize = 15.sp
+            fontSize = 15.sp,
+            lineHeight = 20.sp
         ),
         body2: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Light,
-            fontSize = 15.sp
+            fontSize = 15.sp,
+            lineHeight = 21.sp
         ),
         body3: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Normal,
-            fontSize = 14.sp
+            fontSize = 14.sp,
+            lineHeight = 20.sp
         ),
         body4: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Light,
-            fontSize = 14.sp
+            fontSize = 14.sp,
+            lineHeight = 20.sp
         ),
         body5: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Light,
-            fontSize = 13.sp
+            fontSize = 13.sp,
+            lineHeight = 17.sp
         ),
         body6: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Light,
-            fontSize = 12.sp
+            fontSize = 12.sp,
+            lineHeight = 17.sp
         ),
         caption1: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Light,
-            fontSize = 11.sp
+            fontSize = 11.sp,
+            lineHeight = 12.sp
         ),
         caption2: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Normal,
-            fontSize = 10.sp
+            fontSize = 10.sp,
+            lineHeight = 12.sp
         ),
         overline: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Medium,
-            fontSize = 10.sp
+            fontSize = 10.sp,
+            lineHeight = 16.sp
         ),
     ) : this(
         title1 = title1,
