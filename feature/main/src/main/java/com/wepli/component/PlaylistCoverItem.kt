@@ -8,19 +8,21 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.wepli.designsystem.R
+import image.AsyncImageWithPreview
 import model.RecommendPlaylist
 import theme.WePLiTheme
 
 @Composable
 fun PlayListCoverItem(recommendPlaylist: RecommendPlaylist) {
     Column(modifier = Modifier.width(136.dp)) {
-        CoverImage(
+        AsyncImageWithPreview(
             imageUrl = recommendPlaylist.coverImgUrl,
-            previewImage = R.drawable.img_placeholder_album_cover,
+            previewImage = painterResource(id = R.drawable.img_placeholder_album_cover),
             size = 136.dp,
             shape = RoundedCornerShape(4.dp)
         )
