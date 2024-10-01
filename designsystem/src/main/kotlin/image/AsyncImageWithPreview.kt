@@ -25,8 +25,7 @@ fun AsyncImageWithPreview(
     modifier: Modifier = Modifier,
     imageUrl: String,
     previewImage: Painter,
-    size: Dp,
-    shape: Shape,
+    imageOverrideSize: Dp? = null,
     contentScale: ContentScale = ContentScale.Crop,
     loadingContent: @Composable (() -> Unit)? = null,
     errorContent: @Composable (SubcomposeAsyncImageScope.(AsyncImagePainter.State.Error) -> Unit)? = null,
@@ -34,34 +33,29 @@ fun AsyncImageWithPreview(
 ) {
     val isInPreview = LocalInspectionMode.current
     val context = LocalContext.current
-    val imageSizePx = size.toPx()
+    val imageSizePx = imageOverrideSize?.toPx()
 
     val imageRequest = remember(imageUrl) {
-        ImageRequest.Builder(context)
-            .data(imageUrl)
-            .size(imageSizePx)
-            .build()
+        ImageRequest.Builder(context).apply {
+            data(imageUrl)
+            imageSizePx?.let(::size)
+        }.build()
+
     }
 
     if (isInPreview) {
         Image(
-            modifier = modifier
-                .size(size)
-                .clip(shape),
+            modifier = modifier,
             painter = previewImage,
             contentDescription = null,
         )
     } else {
-        // SubcomposeAsyncImage 사용: 모든 파라미터를 노출해 원하는 대로 사용 가능
         SubcomposeAsyncImage(
             model = imageRequest,
             contentDescription = null,
-            modifier = modifier
-                .size(size)
-                .clip(shape),
+            modifier = modifier,
             contentScale = contentScale,
             loading = {
-                // 로딩 중 표시할 UI (사용자가 원하는 콘텐츠를 설정할 수 있음)
                 loadingContent?.invoke() ?: CircularProgressIndicator(modifier = Modifier.size(16.dp))
             },
             error = errorContent,

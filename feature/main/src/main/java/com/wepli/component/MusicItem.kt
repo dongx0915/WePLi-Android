@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -46,10 +47,10 @@ fun MusicItem(modifier: Modifier = Modifier, musicData: MusicData) {
         modifier = modifier.height(52.dp),
     ) {
         AsyncImageWithPreview(
+            modifier = Modifier.clip(RoundedCornerShape(3.dp)),
             imageUrl = musicData.albumCoverUrl,
             previewImage = painterResource(id = R.drawable.img_placeholder_album_cover),
-            size = 52.dp,
-            shape = RoundedCornerShape(3.dp)
+            imageOverrideSize = 52.dp,
         )
 
         Text(
