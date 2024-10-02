@@ -1,4 +1,4 @@
-package custom
+package common
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
