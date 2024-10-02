@@ -1,6 +1,6 @@
-package model
+package model.music
 
-data class MusicData(
+data class ChartMusic(
     val rank: Int,
     val title: String,
     val artist: String,

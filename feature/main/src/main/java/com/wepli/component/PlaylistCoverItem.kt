@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.wepli.designsystem.R
 import image.AsyncImageWithPreview
-import model.RecommendPlaylist
+import model.playlist.RecommendPlaylist
 import theme.WePLiTheme
 
 @Composable

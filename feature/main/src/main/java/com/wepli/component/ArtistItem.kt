@@ -23,7 +23,7 @@ import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.wepli.wepli.designsystem.R
 import extensions.toPx
-import model.Artist
+import model.artist.Artist
 import theme.WePLiTheme
 
 

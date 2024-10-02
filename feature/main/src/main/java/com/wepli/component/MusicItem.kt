@@ -24,14 +24,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.wepli.designsystem.R
 import image.AsyncImageWithPreview
-import model.MusicData
+import model.music.ChartMusic
 import theme.WePLiTheme
 
 @Preview
 @Composable
 fun MusicItemPreview() {
     MusicItem(
-        musicData = MusicData(
+        chartMusic = ChartMusic(
             rank = 100,
             title = "Small girl (feat. 도경수 (D.O)) Small girl (feat. 도경수 (D.O))",
             artist = "이영지",
@@ -42,13 +42,13 @@ fun MusicItemPreview() {
 }
 
 @Composable
-fun MusicItem(modifier: Modifier = Modifier, musicData: MusicData) {
+fun MusicItem(modifier: Modifier = Modifier, chartMusic: ChartMusic) {
     Row(
         modifier = modifier.height(52.dp),
     ) {
         AsyncImageWithPreview(
             modifier = Modifier.clip(RoundedCornerShape(3.dp)),
-            imageUrl = musicData.albumCoverUrl,
+            imageUrl = chartMusic.albumCoverUrl,
             previewImage = painterResource(id = R.drawable.img_placeholder_album_cover),
             imageOverrideSize = 52.dp,
         )
@@ -57,7 +57,7 @@ fun MusicItem(modifier: Modifier = Modifier, musicData: MusicData) {
             modifier = Modifier
                 .padding(top = 9.dp)
                 .width(32.dp),
-            text = musicData.rank.toString(),
+            text = chartMusic.rank.toString(),
             style = WePLiTheme.typo.caption1,
             color = WePLiTheme.color.gray700,
             textAlign = TextAlign.Center
@@ -70,7 +70,7 @@ fun MusicItem(modifier: Modifier = Modifier, musicData: MusicData) {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = musicData.title,
+                text = chartMusic.title,
                 style = WePLiTheme.typo.body4,
                 color = WePLiTheme.color.white,
                 maxLines = 1,
@@ -78,7 +78,7 @@ fun MusicItem(modifier: Modifier = Modifier, musicData: MusicData) {
             )
             Spacer(modifier = Modifier.size(4.dp))
             Text(
-                text = musicData.artist,
+                text = chartMusic.artist,
                 style = WePLiTheme.typo.caption1,
                 color = WePLiTheme.color.gray500,
                 maxLines = 1,

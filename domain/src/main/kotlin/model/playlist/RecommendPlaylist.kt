@@ -1,4 +1,4 @@
-package model
+package model.playlist
 
 data class RecommendPlaylist(
     val title: String,
