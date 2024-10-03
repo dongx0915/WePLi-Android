@@ -22,6 +22,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,11 +35,12 @@ import com.wepli.component.PlayListCoverItem
 import com.wepli.component.TwoLineTitle
 import com.wepli.component.WePLiBanner
 import com.wepli.component.WePLiBannerType
+import compose.MeasuredHeightContainer
 import dagger.hilt.android.AndroidEntryPoint
 import extensions.setStatusBarColor
-import model.Artist
-import model.MusicData
-import model.RecommendPlaylist
+import model.artist.Artist
+import model.music.ChartMusic
+import model.playlist.RecommendPlaylist
 import theme.WePLiTheme
 
 @AndroidEntryPoint
@@ -88,7 +90,13 @@ fun MainScreen(viewModel: MainViewModel) {
 
             item { ArtistLayout(viewModel.artistList.value) }
 
-            item { RecommendPlaylistLayout(viewModel.recommendPlaylists.value) }
+            item {
+                RecommendPlaylistLayout(playlists = viewModel.recommendPlaylists.value)
+            }
+
+            item {
+                RecommendPlaylistLayout(playlists = viewModel.recommendPlaylists.value)
+            }
         }
     }
 }
@@ -115,7 +123,7 @@ fun WePLiBannerLayout() {
 }
 
 @Composable
-fun WePLiChartLayout(musicList: List<MusicData>) {
+fun WePLiChartLayout(musicList: List<ChartMusic>) {
     val pageCount = remember { musicList.size / 5 }
     val pagerState = rememberPagerState(
         pageCount = { pageCount }
@@ -138,7 +146,7 @@ fun WePLiChartLayout(musicList: List<MusicData>) {
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 musicChunk.forEach { music ->
-                    MusicItem(musicData = music, modifier = Modifier.padding(end = 12.dp))
+                    MusicItem(chartMusic = music, modifier = Modifier.padding(end = 12.dp))
                 }
             }
         }
@@ -150,12 +158,19 @@ fun RecommendPlaylistLayout(playlists: List<RecommendPlaylist>) {
     Column {
         OneLineTitle(title = "위플리 추천 플레이리스트")
 
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = PaddingValues(horizontal = 20.dp)
+        MeasuredHeightContainer(
+            modifier = Modifier,
+            measured = {
+                PlayListCoverItem(recommendPlaylist = playlists.maxBy { it.title.length })
+            },
         ) {
-            items(playlists) { playlist ->
-                PlayListCoverItem(playlist)
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                contentPadding = PaddingValues(horizontal = 20.dp)
+            ) {
+                items(playlists) { playlist ->
+                    PlayListCoverItem(playlist)
+                }
             }
         }
     }
