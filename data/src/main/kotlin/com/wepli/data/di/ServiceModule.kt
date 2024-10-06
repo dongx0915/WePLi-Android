@@ -1,5 +1,6 @@
 package com.wepli.data.di
 
+import com.wepli.data.artist.ArtistApi
 import com.wepli.data.chart.ChartApi
 import dagger.Module
 import dagger.Provides
@@ -16,4 +17,8 @@ object ServiceModule {
     @Provides
     @Singleton
     fun provideChartService(retrofit: Retrofit): ChartApi = retrofit.create(ChartApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideArtistsService(retrofit: Retrofit): ArtistApi = retrofit.create(ArtistApi::class.java)
 }

@@ -2,7 +2,6 @@ package com.wepli.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.wepli.mock.artistMockData
 import com.wepli.mock.recommendPlaylistMockData
 import repository.chart.ChartRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,6 +14,7 @@ import kotlinx.coroutines.launch
 import model.artist.Artist
 import model.music.ChartMusic
 import model.playlist.RecommendPlaylist
+import repository.artist.ArtistRepository
 import javax.inject.Inject
 
 data class MainState(
@@ -25,7 +25,8 @@ data class MainState(
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val chartRepository: ChartRepository
+    private val chartRepository: ChartRepository,
+    private val artistRepository: ArtistRepository,
 ) : ViewModel() {
 
     // MainState를 StateFlow로 관리
@@ -49,10 +50,12 @@ class MainViewModel @Inject constructor(
     }
 
     private fun loadArtists() {
-        _state.update {
-            it.copy(
-                artistList = artistMockData
-            )
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = artistRepository.getArtists()
+
+            _state.update {
+                it.copy(artistList = response)
+            }
         }
     }
 
