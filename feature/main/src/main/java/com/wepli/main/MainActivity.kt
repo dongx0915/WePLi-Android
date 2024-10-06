@@ -24,6 +24,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -92,11 +93,11 @@ fun MainScreen(state: MainState) {
             verticalArrangement = Arrangement.spacedBy(24.dp),
             contentPadding = PaddingValues(bottom = 40.dp)
         ) {
-            item(key = state.topChartList.hashCode()) { WePLiChartLayout(state.topChartList) }
+            item { WePLiChartLayout(state.topChartList) }
 
             item { WePLiBannerLayout() }
 
-            item(key = state.artistList.hashCode()) { ArtistLayout(state.artistList) }
+            item { ArtistLayout(state.artistList) }
 
             item {
                 RecommendPlaylistLayout(playlists = state.recommendPlaylists)
@@ -134,7 +135,7 @@ fun WePLiBannerLayout() {
 fun WePLiChartLayout(musicList: List<ChartMusic>) {
     if (musicList.isEmpty()) return
 
-    val pageCount = remember { musicList.size / 5 }
+    val pageCount = musicList.size / 5
     val pagerState = rememberPagerState(
         pageCount = { pageCount }
     )
