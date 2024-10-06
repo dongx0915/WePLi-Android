@@ -47,7 +47,7 @@ fun MusicItem(modifier: Modifier = Modifier, chartMusic: ChartMusic) {
         modifier = modifier.height(52.dp),
     ) {
         AsyncImageWithPreview(
-            modifier = Modifier.clip(RoundedCornerShape(3.dp)),
+            modifier = Modifier.size(52.dp).clip(RoundedCornerShape(3.dp)),
             imageUrl = chartMusic.albumCoverUrl,
             previewImage = painterResource(id = R.drawable.img_placeholder_album_cover),
             imageOverrideSize = 52.dp,
