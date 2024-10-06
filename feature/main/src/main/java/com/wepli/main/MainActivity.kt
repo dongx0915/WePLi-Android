@@ -3,9 +3,9 @@ package com.wepli.main
 import ArtistProfileListItem
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -22,12 +22,14 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WePLiAppBar
 import com.wepli.component.MusicItem
 import com.wepli.component.OneLineTitle
@@ -35,6 +37,9 @@ import com.wepli.component.PlayListCoverItem
 import com.wepli.component.TwoLineTitle
 import com.wepli.component.WePLiBanner
 import com.wepli.component.WePLiBannerType
+import com.wepli.mock.artistMockData
+import com.wepli.mock.musicMockData
+import com.wepli.mock.recommendPlaylistMockData
 import compose.MeasuredHeightContainer
 import dagger.hilt.android.AndroidEntryPoint
 import extensions.setStatusBarColor
@@ -46,8 +51,6 @@ import theme.WePLiTheme
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val viewModel: MainViewModel by viewModels()
-
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,8 +58,11 @@ class MainActivity : ComponentActivity() {
         // enableEdgeToEdge()
         setStatusBarColor(Color.Black, darkIcons = false)
         setContent {
+            val viewModel:MainViewModel = hiltViewModel()
+            val state by viewModel.state.collectAsState()
+
             WePLiTheme {
-                MainScreen(viewModel)
+                MainScreen(state)
             }
         }
     }
@@ -65,7 +71,9 @@ class MainActivity : ComponentActivity() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(viewModel: MainViewModel) {
+fun MainScreen(state: MainState) {
+    Log.d("MainScreen", "Top chart list: ${state.topChartList}")
+
     Scaffold(
         containerColor = WePLiTheme.color.black,
         topBar = {
@@ -84,18 +92,18 @@ fun MainScreen(viewModel: MainViewModel) {
             verticalArrangement = Arrangement.spacedBy(24.dp),
             contentPadding = PaddingValues(bottom = 40.dp)
         ) {
-            item { WePLiChartLayout(viewModel.musicList.value) }
+            item(key = state.topChartList.hashCode()) { WePLiChartLayout(state.topChartList) }
 
             item { WePLiBannerLayout() }
 
-            item { ArtistLayout(viewModel.artistList.value) }
+            item(key = state.artistList.hashCode()) { ArtistLayout(state.artistList) }
 
             item {
-                RecommendPlaylistLayout(playlists = viewModel.recommendPlaylists.value)
+                RecommendPlaylistLayout(playlists = state.recommendPlaylists)
             }
 
             item {
-                RecommendPlaylistLayout(playlists = viewModel.recommendPlaylists.value)
+                RecommendPlaylistLayout(playlists = state.recommendPlaylists)
             }
         }
     }
@@ -124,6 +132,8 @@ fun WePLiBannerLayout() {
 
 @Composable
 fun WePLiChartLayout(musicList: List<ChartMusic>) {
+    if (musicList.isEmpty()) return
+
     val pageCount = remember { musicList.size / 5 }
     val pagerState = rememberPagerState(
         pageCount = { pageCount }
@@ -155,13 +165,15 @@ fun WePLiChartLayout(musicList: List<ChartMusic>) {
 
 @Composable
 fun RecommendPlaylistLayout(playlists: List<RecommendPlaylist>) {
+    val playlistWithMaxTitle = playlists.maxByOrNull { it.title.length } ?: return
+
     Column {
         OneLineTitle(title = "위플리 추천 플레이리스트")
 
         MeasuredHeightContainer(
             modifier = Modifier,
             measured = {
-                PlayListCoverItem(recommendPlaylist = playlists.maxBy { it.title.length })
+                PlayListCoverItem(recommendPlaylist = playlistWithMaxTitle)
             },
         ) {
             LazyRow(
@@ -178,6 +190,8 @@ fun RecommendPlaylistLayout(playlists: List<RecommendPlaylist>) {
 
 @Composable
 fun ArtistLayout(artistList: List<Artist>) {
+    if (artistList.isEmpty()) return
+
     Column {
         TwoLineTitle(
             title = "위플리 인기 랭킹",
@@ -198,7 +212,13 @@ fun ArtistLayout(artistList: List<Artist>) {
 @Preview
 @Composable
 fun MainScreenPreview() {
-    MainScreen(viewModel = MainViewModel())
+    MainScreen(
+        MainState(
+            topChartList = musicMockData,
+            artistList = artistMockData,
+            recommendPlaylists = recommendPlaylistMockData
+        )
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -213,16 +233,11 @@ fun AppBarPreview() {
 @Preview
 @Composable
 fun WePLiChartPreview() {
-    val musicList = remember { MainViewModel().musicList.value }
-
-    WePLiChartLayout(musicList = musicList)
+    WePLiChartLayout(musicList = musicMockData)
 }
 
 @Preview
 @Composable
 fun ArtistLayoutPreview() {
-    val artists = remember { MainViewModel().artistList.value }
-    ArtistLayout(
-        artistList = artists
-    )
+    ArtistLayout(artistList = artistMockData)
 }

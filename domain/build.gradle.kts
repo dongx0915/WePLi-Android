@@ -1,5 +1,6 @@
 plugins {
     wepli("android.library")
+    wepli("android.hilt")
     wepli("kotlin.serialization")
 }
 
