@@ -33,5 +33,6 @@ dependencies {
     implementation(projects.data)
     implementation(projects.domain)
     implementation(projects.core.common)
+    implementation(projects.core.navigator)
     implementation(projects.designsystem)
 }
