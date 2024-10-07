@@ -4,5 +4,5 @@ plugins {
 }
 
 android {
-    namespace = "com.wepli.wepli.core.common"
+    namespace = "com.wepli.core.common"
 }

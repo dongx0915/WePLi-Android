@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.wepli.wepli.feature.main"
+    namespace = "com.wepli.feature.community"
 }
 
 dependencies {
