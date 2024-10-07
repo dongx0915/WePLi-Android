@@ -29,7 +29,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.community.wepli.community.mock.posts
 import com.wepli.designsystem.R
 import custom.SongItem
 import image.AsyncImageWithPreview
@@ -37,52 +39,28 @@ import model.music.Song
 import theme.WePLiTheme
 import util.OrientationPreviews
 
-@Composable
-fun CommunityScreen() {
-
-}
-
-
 @OrientationPreviews
 @Composable
 fun PostPreview() {
-    val song = Song(
-        title = "비가 내리는 날에는",
-        artist = "윤하",
-        albumCoverImg = "https://image.bugsm.co.kr/artist/images/1000/800100/80010025_100.jpg?version=332223&d=20220330143136"
-    )
     val scrollState = rememberScrollState()
+
     Column(
         modifier = Modifier.verticalScroll(scrollState),
     ) {
-        Post(
-            title = "밤새면서 들을 수 있는 플리",
-            content = "여러분은 코딩할 때 어떤 곡을 듣나요?! 댓글로 알려주세요!\n제가 주로 듣는 곡들을 플레이리스트로 만들어봤어요~\n\n같이 들으면 좋을만한 노래 추천해주세요!",
-            nickname = "dlwlrma",
-            profileImageUrl = "https://image.bugsm.co.kr/artist/images/1000/800100/80010025_100.jpg?version=332223&d=20220330143136",
-            songList = List(10) { song }
-        )
-
-        Post(
-            title = "밤새면서 들을 수 있는 플리",
-            content = "여러분은 코딩할 때 어떤 곡을 듣나요?! 댓글로 알려주세요!\n제가 주로 듣는 곡들을 플레이리스트로 만들어봤어요~\n\n같이 들으면 좋을만한 노래 추천해주세요!",
-            nickname = "dlwlrma",
-            profileImageUrl = "https://image.bugsm.co.kr/artist/images/1000/800100/80010025_100.jpg?version=332223&d=20220330143136",
-            songList = List(1) { song }
-        )
-
-        Post(
-            title = "밤새면서 들을 수 있는 플리",
-            content = "여러분은 코딩할 때 어떤 곡을 듣나요?! 댓글로 알려주세요!\n제가 주로 듣는 곡들을 플레이리스트로 만들어봤어요~\n\n같이 들으면 좋을만한 노래 추천해주세요!",
-            nickname = "dlwlrma",
-            profileImageUrl = "https://image.bugsm.co.kr/artist/images/1000/800100/80010025_100.jpg?version=332223&d=20220330143136",
-            songList = emptyList()
-        )
+        posts.forEach { post ->
+            PostItem(
+                title = post.title,
+                content = post.content,
+                nickname = post.author,
+                profileImageUrl = post.profileImg,
+                songList = post.songList
+            )
+        }
     }
 }
 
 @Composable
-fun Post(
+fun PostItem(
     title: String,
     content: String,
     nickname: String,
@@ -113,7 +91,7 @@ fun Post(
             modifier = Modifier
                 .padding(horizontal = 20.dp)
                 .padding(top = 10.dp),
-            color = WePLiTheme.color.gray200,
+            color = WePLiTheme.color.gray050,
         )
     }
 }
@@ -181,7 +159,7 @@ fun PostContent(title: String, content: String) {
     ) {
         Text(
             text = title,
-            style = WePLiTheme.typo.subTitle2,
+            style = WePLiTheme.typo.subTitle1,
             color = WePLiTheme.color.white
         )
 
@@ -189,7 +167,7 @@ fun PostContent(title: String, content: String) {
 
         Text(
             text = content,
-            style = WePLiTheme.typo.body5,
+            style = WePLiTheme.typo.body4,
             color = WePLiTheme.color.gray700
         )
     }
@@ -259,10 +237,10 @@ fun SingleSongItem(
     ) {
         Text(
             text = "${song.title} - ${song.artist}",
-            style = WePLiTheme.typo.caption2,
+            style = WePLiTheme.typo.caption1,
             color = WePLiTheme.color.white,
         )
-
+        Spacer(modifier = Modifier.width(4.dp))
         Icon(
             modifier = Modifier.size(16.dp),
             painter = painterResource(id = R.drawable.ic_play_gradient),
@@ -289,7 +267,9 @@ fun LabeledIcon(
         Spacer(modifier = Modifier.width(4.dp))
         Text(
             text = text,
-            style = WePLiTheme.typo.overline,
+            style = WePLiTheme.typo.caption1.copy(
+                fontWeight = FontWeight.Medium,
+            ),
             color = WePLiTheme.color.gray800,
         )
     }
