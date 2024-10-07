@@ -24,7 +24,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,6 +40,7 @@ import com.wepli.component.WePLiBannerType
 import com.wepli.mock.artistMockData
 import com.wepli.mock.musicMockData
 import com.wepli.mock.recommendPlaylistMockData
+import com.wepli.state.MainUiState
 import compose.MeasuredHeightContainer
 import dagger.hilt.android.AndroidEntryPoint
 import extensions.setStatusBarColor
@@ -72,7 +72,7 @@ class MainActivity : ComponentActivity() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(state: MainState) {
+fun MainScreen(state: MainUiState) {
     Log.d("MainScreen", "Top chart list: ${state.topChartList}")
 
     Scaffold(
@@ -216,7 +216,7 @@ fun ArtistLayout(artistList: List<Artist>) {
 @Composable
 fun MainScreenPreview() {
     MainScreen(
-        MainState(
+        MainUiState(
             topChartList = musicMockData,
             artistList = artistMockData,
             recommendPlaylists = recommendPlaylistMockData

@@ -3,6 +3,7 @@ package com.wepli.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wepli.mock.recommendPlaylistMockData
+import com.wepli.state.MainUiState
 import repository.chart.ChartRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -11,17 +12,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import model.artist.Artist
-import model.music.ChartMusic
-import model.playlist.RecommendPlaylist
 import repository.artist.ArtistRepository
 import javax.inject.Inject
-
-data class MainState(
-    val topChartList: List<ChartMusic> = emptyList(),
-    val artistList: List<Artist> = emptyList(),
-    val recommendPlaylists: List<RecommendPlaylist> = emptyList()
-)
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -30,8 +22,8 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     // MainState를 StateFlow로 관리
-    private val _state = MutableStateFlow(MainState())
-    val state: StateFlow<MainState> = _state.asStateFlow()
+    private val _state = MutableStateFlow(MainUiState())
+    val state: StateFlow<MainUiState> = _state.asStateFlow()
 
     init {
         getTopChart()
