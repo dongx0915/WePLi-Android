@@ -121,14 +121,16 @@ fun PostHeader(nickname: String, profileImageUrl: String) {
             Text(
                 modifier = Modifier.alignByBaseline(),
                 text = nickname,
-                style = WePLiTheme.typo.subTitle5,
+                style = WePLiTheme.typo.subTitle5.copy(
+                    fontWeight = FontWeight.Medium
+                ),
                 color = WePLiTheme.color.white,
             )
-            Spacer(modifier = Modifier.width(10.dp))
+            Spacer(modifier = Modifier.width(8.dp))
             Text(
                 modifier = Modifier.alignByBaseline(),
                 text = "팔로우",
-                style = WePLiTheme.typo.overline.copy(
+                style = WePLiTheme.typo.caption1.copy(
                     brush = WePLiTheme.color.linear3
                 )
             )
