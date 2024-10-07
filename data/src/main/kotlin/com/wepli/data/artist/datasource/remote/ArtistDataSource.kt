@@ -1,8 +1,9 @@
 package com.wepli.data.artist.datasource.remote
 
 import com.wepli.data.artist.response.ArtistListResponse
+import common.FlowResult
 
 interface ArtistDataSource {
 
-    suspend fun getArtists(): ArtistListResponse
+    suspend fun getArtists(): FlowResult<ArtistListResponse>
 }

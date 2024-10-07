@@ -1,9 +1,10 @@
 package repository.chart
 
+import common.FlowResult
 import model.music.ChartMusic
 
 
 interface ChartRepository {
 
-    suspend fun getTopChart(): List<ChartMusic>
+    suspend fun getTopChart(): FlowResult<List<ChartMusic>>
 }
