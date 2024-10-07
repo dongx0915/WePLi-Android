@@ -1,6 +1,7 @@
 package com.wepli.data.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.wepli.data.network.calladapter.FlowCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -52,6 +53,7 @@ object RetrofitModule {
             .baseUrl(BASE_URL)
             .client(httpClient)
             .addConverterFactory(converterFactory)
+            .addCallAdapterFactory(FlowCallAdapterFactory.create())
             .build()
     }
 }
