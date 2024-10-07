@@ -40,6 +40,7 @@ import com.wepli.component.WePLiBannerType
 import com.wepli.mock.artistMockData
 import com.wepli.mock.musicMockData
 import com.wepli.mock.recommendPlaylistMockData
+import com.wepli.navigator.feature.community.CommunityNavigator
 import com.wepli.state.MainUiState
 import compose.MeasuredHeightContainer
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,9 +49,13 @@ import model.artist.Artist
 import model.music.ChartMusic
 import model.playlist.RecommendPlaylist
 import theme.WePLiTheme
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var communityNavigator: CommunityNavigator
 
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +68,12 @@ class MainActivity : ComponentActivity() {
             val state by viewModel.state.collectAsState()
 
             WePLiTheme {
-                MainScreen(state)
+                MainScreen(
+                    state = state,
+                    onNavigateCommunity = {
+                        communityNavigator.navigateFrom(this)
+                    }
+                )
             }
         }
     }
@@ -72,7 +82,10 @@ class MainActivity : ComponentActivity() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(state: MainUiState) {
+fun MainScreen(
+    state: MainUiState,
+    onNavigateCommunity: () -> Unit = {},
+) {
     Log.d("MainScreen", "Top chart list: ${state.topChartList}")
 
     Scaffold(
@@ -83,6 +96,9 @@ fun MainScreen(state: MainUiState) {
                 showBackButton = false,
                 showSearchButton = true,
                 showNotificationButton = true,
+                onClickNotification = {
+                    onNavigateCommunity.invoke()
+                }
             )
         }
     ) { paddingValues ->
