@@ -135,7 +135,7 @@ fun WePLiBannerLayout() {
 fun WePLiChartLayout(musicList: List<ChartMusic>) {
     if (musicList.isEmpty()) return
 
-    val pageCount = musicList.size / 5
+    val pageCount = remember(key1 = musicList.size) { musicList.size / 5 }
     val pagerState = rememberPagerState(
         pageCount = { pageCount }
     )
@@ -166,7 +166,9 @@ fun WePLiChartLayout(musicList: List<ChartMusic>) {
 
 @Composable
 fun RecommendPlaylistLayout(playlists: List<RecommendPlaylist>) {
-    val playlistWithMaxTitle = playlists.maxByOrNull { it.title.length } ?: return
+    val playlistWithMaxTitle = remember(key1 = playlists) {
+        playlists.maxByOrNull { it.title.length }
+    } ?: return
 
     Column {
         OneLineTitle(title = "위플리 추천 플레이리스트")
