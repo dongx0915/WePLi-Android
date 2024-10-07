@@ -31,7 +31,7 @@ fun SongItem(song: Song) {
     ) {
         Box(modifier = Modifier) {
             AsyncImageWithPreview(
-                modifier = Modifier.clip(RoundedCornerShape(4.dp)),
+                modifier = Modifier.size(92.dp).clip(RoundedCornerShape(4.dp)),
                 imageUrl = song.albumCoverImg,
                 previewImage = painterResource(id = R.drawable.img_placeholder_album_cover),
                 imageOverrideSize = 92.dp,
@@ -55,15 +55,17 @@ fun SongItem(song: Song) {
 
         Text(
             text = song.title,
-            style = WePLiTheme.typo.body6,
+            style = WePLiTheme.typo.body5,
             color = WePLiTheme.color.white,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
         Text(
             text = song.artist,
-            style = WePLiTheme.typo.caption2,
+            style = WePLiTheme.typo.caption1,
             color = WePLiTheme.color.gray500,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
         )
     }
 }
