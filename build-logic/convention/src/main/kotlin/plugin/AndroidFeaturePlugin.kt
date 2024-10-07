@@ -14,6 +14,10 @@ import org.gradle.kotlin.dsl.getByType
  */
 class AndroidFeaturePlugin : Plugin<Project> {
 
+    companion object {
+        private const val IMPLEMENTATION = "implementation"
+    }
+
     override fun apply(target: Project) = with(target) {
         with(pluginManager) {
             apply("com.android.library")
@@ -29,11 +33,13 @@ class AndroidFeaturePlugin : Plugin<Project> {
 
         dependencies {
             // TODO Feature 모듈에서 공통으로 참조하는 모듈을 선언
-            "implementation"(project(":core:common"))
-            "implementation"(project(":designsystem"))
-            "implementation"(project(":domain"))
+            IMPLEMENTATION(project(":core:common"))
+            IMPLEMENTATION(project(":core:navigator"))
+            IMPLEMENTATION(project(":designsystem"))
+            IMPLEMENTATION(project(":domain"))
 
-            "implementation"(libs.findLibrary("coil").get())
+            IMPLEMENTATION(libs.findLibrary("coil").get())
+            IMPLEMENTATION(libs.findLibrary("material").get())
         }
     }
 }

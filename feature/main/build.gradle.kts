@@ -7,7 +7,3 @@ plugins {
 android {
     namespace = "com.wepli.feature.main"
 }
-
-dependencies {
-    implementation(libs.material)
-}
