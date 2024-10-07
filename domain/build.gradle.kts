@@ -7,3 +7,7 @@ plugins {
 android {
     namespace = "com.wepli.wepli.domain"
 }
+
+dependencies {
+    implementation(project(":core:common"))
+}
