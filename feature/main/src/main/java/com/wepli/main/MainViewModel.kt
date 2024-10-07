@@ -6,10 +6,12 @@ import com.wepli.mock.recommendPlaylistMockData
 import com.wepli.state.MainUiState
 import repository.chart.ChartRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import extensions.collectResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import repository.artist.ArtistRepository
@@ -31,24 +33,28 @@ class MainViewModel @Inject constructor(
         loadRecommendPlaylists()
     }
 
-    private fun getTopChart() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val response = chartRepository.getTopChart()
-
-            _state.update {
-                it.copy(topChartList = response)
-            }
-        }
+    private fun getTopChart() = viewModelScope.launch {
+        chartRepository.getTopChart()
+            .flowOn(Dispatchers.IO)
+            .collectResult(
+                onSuccess = { topChartList ->
+                    _state.update {
+                        it.copy(topChartList = topChartList)
+                    }
+                }
+            )
     }
 
-    private fun loadArtists() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val response = artistRepository.getArtists()
-
-            _state.update {
-                it.copy(artistList = response)
-            }
-        }
+    private fun loadArtists() = viewModelScope.launch {
+        artistRepository.getArtists()
+            .flowOn(Dispatchers.IO)
+            .collectResult(
+                onSuccess = { artistList ->
+                    _state.update {
+                        it.copy(artistList = artistList)
+                    }
+                }
+            )
     }
 
     private fun loadRecommendPlaylists() {
