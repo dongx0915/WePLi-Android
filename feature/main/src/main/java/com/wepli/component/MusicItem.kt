@@ -22,7 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.wepli.wepli.designsystem.R
+import com.wepli.designsystem.R
 import image.AsyncImageWithPreview
 import model.music.ChartMusic
 import theme.WePLiTheme

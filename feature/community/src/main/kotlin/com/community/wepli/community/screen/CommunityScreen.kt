@@ -30,7 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.wepli.wepli.designsystem.R
+import com.wepli.designsystem.R
 import custom.SongItem
 import image.AsyncImageWithPreview
 import model.music.Song
