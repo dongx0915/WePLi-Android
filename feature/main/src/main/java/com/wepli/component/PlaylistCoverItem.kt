@@ -14,6 +14,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
+import com.wepli.mock.recommendPlaylistMockData
 import image.AsyncImageWithPreview
 import model.playlist.RecommendPlaylist
 import theme.WePLiTheme
@@ -42,9 +43,8 @@ fun PlayListCoverItem(recommendPlaylist: RecommendPlaylist) {
 @Composable
 fun PlaylistCoverPreview() {
     PlayListCoverItem(
-        recommendPlaylist = RecommendPlaylist(
-            title = "끈적달달한 체리위스키를 머금은 힙합 R&B 두 줄 넘어가면",
-            coverImgUrl = "https://image.bugsm.co.kr/artist/images/1000/800100/80010025_100.jpg?version=332223&d=20220330143136"
+        recommendPlaylist = recommendPlaylistMockData[0].copy(
+            title = "끈적달달한 체리위스키를 머금은 힙합 R&B 두 줄 넘어가면"
         )
     )
 }

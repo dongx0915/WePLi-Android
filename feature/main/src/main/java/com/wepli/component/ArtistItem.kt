@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.wepli.designsystem.R
+import com.wepli.mock.artistMockData
 import extensions.toPx
 import model.artist.Artist
 import theme.WePLiTheme
@@ -30,7 +31,7 @@ import theme.WePLiTheme
 @Preview
 @Composable
 fun ArtistProfileListItemPreview() {
-    ArtistProfileListItem(artist = Artist("윤하(Younha/ユンナ)", "https://image.bugsm.co.kr/artist/images/1000/800100/80010025_100.jpg?version=332223&d=20220330143136"),)
+    ArtistProfileListItem(artist = artistMockData[0])
 }
 
 @Composable

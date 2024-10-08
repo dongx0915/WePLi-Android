@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
+import com.wepli.mock.musicMockData
 import image.AsyncImageWithPreview
 import model.music.ChartMusic
 import theme.WePLiTheme
@@ -31,13 +32,7 @@ import theme.WePLiTheme
 @Composable
 fun MusicItemPreview() {
     MusicItem(
-        chartMusic = ChartMusic(
-            rank = 100,
-            title = "Small girl (feat. 도경수 (D.O)) Small girl (feat. 도경수 (D.O))",
-            artist = "이영지",
-            album = "Hello",
-            albumCoverUrl = "https://image.bugsm.co.kr/artist/images/1000/800100/80010025_100.jpg?version=332223&d=20220330143136"
-        )
+        chartMusic = musicMockData.last()
     )
 }
 
