@@ -12,13 +12,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WePLiAppBar
+import com.community.wepli.community.component.PostItem
+import com.community.wepli.community.component.WePLiStoryLayout
 import com.community.wepli.community.main.state.CommunityMainState
 import com.community.wepli.community.mock.postMockData
 import com.community.wepli.community.mock.userMockData
