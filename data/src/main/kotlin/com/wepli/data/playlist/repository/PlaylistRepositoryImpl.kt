@@ -17,4 +17,10 @@ class PlaylistRepositoryImpl @Inject constructor(
             it.toEntities()
         }
     }
+
+    override fun getThemePlaylist(): FlowResult<List<RecommendPlaylist>> {
+        return playlistDatasource.getThemePlaylist().toEntityResult {
+            it.toEntities()
+        }
+    }
 }

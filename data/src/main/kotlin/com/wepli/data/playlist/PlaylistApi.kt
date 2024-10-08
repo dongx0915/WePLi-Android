@@ -8,4 +8,7 @@ interface PlaylistApi {
 
     @GET("api/playlists/recommend")
     fun getRecommendPlaylist(): FlowResult<List<PlaylistResponse>>
+
+    @GET("api/playlists/theme")
+    fun getThemePlaylist(): FlowResult<List<PlaylistResponse>>
 }

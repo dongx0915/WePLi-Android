@@ -32,6 +32,7 @@ class MainViewModel @Inject constructor(
         getTopChart()
         loadArtists()
         loadRecommendPlaylists()
+        loadThemePlaylists()
     }
 
     private fun getTopChart() = viewModelScope.launch {
@@ -65,6 +66,18 @@ class MainViewModel @Inject constructor(
                 onSuccess = { playlists ->
                     _state.update {
                         it.copy(recommendPlaylists = playlists)
+                    }
+                }
+            )
+    }
+
+    private fun loadThemePlaylists() = viewModelScope.launch {
+        playlistRepository.getThemePlaylist()
+            .flowOn(Dispatchers.IO)
+            .collectResult(
+                onSuccess = { playlists ->
+                    _state.update {
+                        it.copy(themePlaylists = playlists)
                     }
                 }
             )

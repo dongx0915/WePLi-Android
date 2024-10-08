@@ -6,4 +6,6 @@ import common.FlowResult
 interface PlaylistDataSource {
 
     fun getRecommendPlaylist(): FlowResult<List<PlaylistResponse>>
+
+    fun getThemePlaylist(): FlowResult<List<PlaylistResponse>>
 }

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -24,7 +23,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
@@ -126,12 +124,12 @@ fun MainScreen(
 
             item {
                 val recommendPlaylists by rememberUpdatedState(newValue = state.recommendPlaylists)
-                RecommendPlaylistLayout(playlists = recommendPlaylists)
+                WePLiPlaylistLayout(title = "위플리 추천 플레이리스트", playlists = recommendPlaylists)
             }
 
             item {
-                val recommendPlaylists by rememberUpdatedState(newValue = state.recommendPlaylists)
-                RecommendPlaylistLayout(playlists = recommendPlaylists)
+                val themePlaylists by rememberUpdatedState(newValue = state.themePlaylists)
+                WePLiPlaylistLayout(title = "테마별 플레이리스트", playlists = themePlaylists)
             }
         }
     }
@@ -193,13 +191,16 @@ fun WePLiChartLayout(musicList: List<ChartMusic>) {
 }
 
 @Composable
-fun RecommendPlaylistLayout(playlists: List<RecommendPlaylist>) {
+fun WePLiPlaylistLayout(
+    title: String,
+    playlists: List<RecommendPlaylist>
+) {
     val playlistWithMaxTitle = remember(key1 = playlists) {
         playlists.maxByOrNull { it.title.length }
     } ?: return
 
     Column {
-        OneLineTitle(title = "위플리 추천 플레이리스트")
+        OneLineTitle(title = title)
 
         MeasuredHeightContainer(
             modifier = Modifier,

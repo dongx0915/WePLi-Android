@@ -12,4 +12,8 @@ class PlaylistDataSourceImpl @Inject constructor(
     override fun getRecommendPlaylist(): FlowResult<List<PlaylistResponse>> {
         return playlistApi.getRecommendPlaylist()
     }
+
+    override fun getThemePlaylist(): FlowResult<List<PlaylistResponse>> {
+        return playlistApi.getThemePlaylist()
+    }
 }
