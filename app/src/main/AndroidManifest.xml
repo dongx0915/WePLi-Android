@@ -17,7 +17,7 @@
         android:theme="@style/Theme.WePLi"
         tools:targetApi="31">
         <activity
-            android:name="com.wepli.main.MainActivity"
+            android:name="com.wepli.home.main.MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

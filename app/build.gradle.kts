@@ -29,6 +29,7 @@ android {
 // App 모듈에선 모든 모듈 참조 필요
 dependencies {
     implementation(projects.feature.main)
+    implementation(projects.feature.home)
     implementation(projects.feature.community)
     implementation(projects.data)
     implementation(projects.domain)

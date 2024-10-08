@@ -1,9 +1,9 @@
-package com.wepli.main
+package com.wepli.home.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.wepli.mock.recommendPlaylistMockData
-import com.wepli.state.MainUiState
+import com.wepli.home.mock.recommendPlaylistMockData
+import com.wepli.home.state.HomeUiState
 import repository.chart.ChartRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import extensions.collectResult
@@ -24,8 +24,8 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     // MainState를 StateFlow로 관리
-    private val _state = MutableStateFlow(MainUiState())
-    val state: StateFlow<MainUiState> = _state.asStateFlow()
+    private val _state = MutableStateFlow(HomeUiState())
+    val state: StateFlow<HomeUiState> = _state.asStateFlow()
 
     init {
         getTopChart()

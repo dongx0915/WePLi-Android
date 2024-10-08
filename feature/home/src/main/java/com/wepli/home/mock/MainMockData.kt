@@ -1,4 +1,4 @@
-package com.wepli.mock
+package com.wepli.home.mock
 
 import model.artist.Artist
 import model.music.ChartMusic

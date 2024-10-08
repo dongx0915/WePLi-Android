@@ -1,6 +1,5 @@
-package com.wepli.main
+package com.wepli.home.main
 
-import ArtistProfileListItem
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
@@ -31,17 +30,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WePLiAppBar
-import com.wepli.component.MusicItem
-import com.wepli.component.OneLineTitle
-import com.wepli.component.PlayListCoverItem
-import com.wepli.component.TwoLineTitle
-import com.wepli.component.WePLiBanner
-import com.wepli.component.WePLiBannerType
-import com.wepli.mock.artistMockData
-import com.wepli.mock.musicMockData
-import com.wepli.mock.recommendPlaylistMockData
+import com.wepli.home.component.ArtistProfileListItem
+import com.wepli.home.component.MusicItem
+import com.wepli.home.component.OneLineTitle
+import com.wepli.home.component.PlayListCoverItem
+import com.wepli.home.component.TwoLineTitle
+import com.wepli.home.component.WePLiBanner
+import com.wepli.home.component.WePLiBannerType
+import com.wepli.home.mock.artistMockData
+import com.wepli.home.mock.musicMockData
+import com.wepli.home.mock.recommendPlaylistMockData
 import com.wepli.navigator.feature.community.CommunityNavigator
-import com.wepli.state.MainUiState
+import com.wepli.home.state.HomeUiState
 import compose.MeasuredHeightContainer
 import dagger.hilt.android.AndroidEntryPoint
 import extensions.setStatusBarColor
@@ -64,7 +64,7 @@ class MainActivity : ComponentActivity() {
         // enableEdgeToEdge()
         setStatusBarColor(Color.Black, darkIcons = false)
         setContent {
-            val viewModel:MainViewModel = hiltViewModel()
+            val viewModel: MainViewModel = hiltViewModel()
             val state by viewModel.state.collectAsState()
 
             WePLiTheme {
@@ -83,7 +83,7 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    state: MainUiState,
+    state: HomeUiState,
     onNavigateCommunity: () -> Unit = {},
 ) {
     Log.d("MainScreen", "Top chart list: ${state.topChartList}")
@@ -232,7 +232,7 @@ fun ArtistLayout(artistList: List<Artist>) {
 @Composable
 fun MainScreenPreview() {
     MainScreen(
-        MainUiState(
+        HomeUiState(
             topChartList = musicMockData,
             artistList = artistMockData,
             recommendPlaylists = recommendPlaylistMockData

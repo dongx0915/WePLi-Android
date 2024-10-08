@@ -1,4 +1,4 @@
-package com.wepli.component
+package com.wepli.home.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,7 +23,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
-import com.wepli.mock.musicMockData
+import com.wepli.home.mock.musicMockData
 import image.AsyncImageWithPreview
 import model.music.ChartMusic
 import theme.WePLiTheme

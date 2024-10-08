@@ -1,3 +1,5 @@
+package com.wepli.home.component
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.wepli.designsystem.R
-import com.wepli.mock.artistMockData
+import com.wepli.home.mock.artistMockData
 import extensions.toPx
 import model.artist.Artist
 import theme.WePLiTheme
