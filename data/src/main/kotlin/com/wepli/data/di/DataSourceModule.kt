@@ -4,6 +4,8 @@ import com.wepli.data.artist.datasource.remote.ArtistDataSource
 import com.wepli.data.artist.datasource.remote.ArtistDataSourceImpl
 import com.wepli.data.chart.datasource.remote.ChartDataSource
 import com.wepli.data.chart.datasource.remote.ChartDataSourceImpl
+import com.wepli.data.playlist.datasource.remote.PlaylistDataSource
+import com.wepli.data.playlist.datasource.remote.PlaylistDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -22,4 +24,8 @@ interface DataSourceModule {
     @Binds
     @Singleton
     fun bindArtistDataSource(artistDataSourceImpl: ArtistDataSourceImpl): ArtistDataSource
+
+    @Binds
+    @Singleton
+    fun bindPlaylistDataSource(playlistDataSourceImpl: PlaylistDataSourceImpl): PlaylistDataSource
 }

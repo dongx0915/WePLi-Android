@@ -2,7 +2,6 @@ package com.wepli.home.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.wepli.home.mock.recommendPlaylistMockData
 import com.wepli.home.state.HomeUiState
 import repository.chart.ChartRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,12 +14,14 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import repository.artist.ArtistRepository
+import repository.playlist.PlaylistRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val chartRepository: ChartRepository,
     private val artistRepository: ArtistRepository,
+    private val playlistRepository: PlaylistRepository,
 ) : ViewModel() {
 
     // MainState를 StateFlow로 관리
@@ -57,11 +58,15 @@ class MainViewModel @Inject constructor(
             )
     }
 
-    private fun loadRecommendPlaylists() {
-        _state.update {
-            it.copy(
-                recommendPlaylists = recommendPlaylistMockData
+    private fun loadRecommendPlaylists() = viewModelScope.launch {
+        playlistRepository.getRecommendPlaylist()
+            .flowOn(Dispatchers.IO)
+            .collectResult(
+                onSuccess = { playlists ->
+                    _state.update {
+                        it.copy(recommendPlaylists = playlists)
+                    }
+                }
             )
-        }
     }
 }
