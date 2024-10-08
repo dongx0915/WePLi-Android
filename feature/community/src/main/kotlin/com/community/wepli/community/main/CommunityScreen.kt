@@ -1,4 +1,4 @@
-package com.community.wepli.community.screen
+package com.community.wepli.community.main
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -27,15 +27,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.community.wepli.community.mock.posts
+import com.community.wepli.community.mock.postMockData
+import com.community.wepli.community.mock.userMockData
 import com.wepli.designsystem.R
 import custom.SongItem
 import image.AsyncImageWithPreview
 import model.music.Song
+import model.user.User
 import theme.WePLiTheme
 import util.OrientationPreviews
 
@@ -45,9 +50,13 @@ fun PostPreview() {
     val scrollState = rememberScrollState()
 
     Column(
-        modifier = Modifier.verticalScroll(scrollState),
+        modifier = Modifier
+            .background(color = WePLiTheme.color.black)
+            .verticalScroll(scrollState),
     ) {
-        posts.forEach { post ->
+        WePLiStoryLayout(users = userMockData)
+
+        postMockData.forEach { post ->
             PostItem(
                 title = post.title,
                 content = post.content,
@@ -68,9 +77,7 @@ fun PostItem(
     songList: List<Song>,
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(color = WePLiTheme.color.black)
+        modifier = Modifier.fillMaxWidth()
     ) {
         // 게시글 헤더
         PostHeader(nickname, profileImageUrl)
@@ -92,6 +99,65 @@ fun PostItem(
                 .padding(horizontal = 20.dp)
                 .padding(top = 10.dp),
             color = WePLiTheme.color.gray050,
+        )
+    }
+}
+
+@Composable
+fun WePLiStoryLayout(
+    modifier: Modifier = Modifier,
+    users: List<User>,
+) {
+    Column(
+        modifier = modifier
+    ) {
+        LazyRow(
+            modifier = Modifier.padding(vertical = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            contentPadding = PaddingValues(horizontal = 20.dp)
+        ) {
+            items(items = users, key = { user -> user.nickname }) { user ->
+                StoryItem(user.nickname, user.profileImgUrl)
+            }
+        }
+
+        HorizontalDivider(
+            modifier = Modifier.fillMaxWidth(),
+            color = WePLiTheme.color.gray050,
+        )
+    }
+}
+
+@Composable
+fun StoryItem(
+    nickname: String,
+    profileImgUrl: String,
+) {
+    val imageSize: Dp = 52.dp
+    val storyShape: Shape = RoundedCornerShape(20.dp)
+
+    Column(
+        modifier = Modifier.width(imageSize),
+    ) {
+        AsyncImageWithPreview(
+            modifier = Modifier
+                .size(imageSize)
+                .clip(storyShape)
+                .border(brush = WePLiTheme.color.linear3, shape = storyShape, width = (1.5).dp),
+            imageUrl = profileImgUrl,
+            previewImage = painterResource(id = R.drawable.img_placeholder_chuu),
+            imageOverrideSize = imageSize,
+        )
+
+        Spacer(modifier = Modifier.height(6.dp))
+
+        Text(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            text = nickname,
+            style = WePLiTheme.typo.caption2,
+            color = WePLiTheme.color.white,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
         )
     }
 }

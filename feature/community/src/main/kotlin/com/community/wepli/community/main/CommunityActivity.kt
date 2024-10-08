@@ -1,29 +1,31 @@
-package com.community.wepli.community
+package com.community.wepli.community.main
 
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WePLiAppBar
-import com.community.wepli.community.mock.posts
-import com.community.wepli.community.screen.PostItem
+import com.community.wepli.community.main.state.CommunityMainState
+import com.community.wepli.community.mock.postMockData
+import com.community.wepli.community.mock.userMockData
 import dagger.hilt.android.AndroidEntryPoint
 import extensions.setStatusBarColor
 import model.community.Post
+import model.user.User
 import theme.WePLiTheme
 
 @AndroidEntryPoint
@@ -34,8 +36,11 @@ class CommunityActivity : ComponentActivity() {
 
         setStatusBarColor(Color.Black, darkIcons = false)
         setContent {
+            val viewModel: CommunityViewModel = hiltViewModel()
+            val state by viewModel.state.collectAsState()
+
             WePLiTheme {
-                CommunityScreen()
+                CommunityScreen(state)
             }
         }
     }
@@ -43,12 +48,12 @@ class CommunityActivity : ComponentActivity() {
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
-fun CommunityScreen() {
-    val postItems: List<Post> = remember {
-        MutableList(100) { posts }.flatten().shuffled()
-    }
+fun CommunityScreen(
+    state: CommunityMainState,
+) {
+    val storyUsers: List<User> by rememberUpdatedState(newValue = state.storyUsers)
+    val posts: List<Post> by rememberUpdatedState(newValue = state.posts)
 
     Scaffold(
         containerColor = WePLiTheme.color.black,
@@ -64,7 +69,9 @@ fun CommunityScreen() {
         LazyColumn(
             modifier = Modifier.padding(paddingValues),
         ) {
-            items(postItems) { post ->
+            item { WePLiStoryLayout(users = storyUsers) }
+
+            items(posts) { post ->
                 PostItem(
                     title = post.title,
                     content = post.content,
@@ -75,4 +82,16 @@ fun CommunityScreen() {
             }
         }
     }
+}
+
+
+@Preview
+@Composable
+fun CommunityScreenPreview() {
+    CommunityScreen(
+        state = CommunityMainState(
+            storyUsers = userMockData,
+            posts = postMockData
+        )
+    )
 }
