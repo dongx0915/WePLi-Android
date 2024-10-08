@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,7 +24,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -105,22 +108,30 @@ fun MainScreen(
         LazyColumn(
             modifier = Modifier
                 .padding(paddingValues)
-                .fillMaxHeight(),
+                .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(24.dp),
             contentPadding = PaddingValues(bottom = 40.dp)
         ) {
-            item { WePLiChartLayout(state.topChartList) }
+            item {
+                val topChartList by rememberUpdatedState(newValue = state.topChartList)
+                WePLiChartLayout(topChartList)
+            }
 
             item { WePLiBannerLayout() }
 
-            item { ArtistLayout(state.artistList) }
-
             item {
-                RecommendPlaylistLayout(playlists = state.recommendPlaylists)
+                val artistList by rememberUpdatedState(newValue = state.artistList)
+                ArtistLayout(artistList)
             }
 
             item {
-                RecommendPlaylistLayout(playlists = state.recommendPlaylists)
+                val recommendPlaylists by rememberUpdatedState(newValue = state.recommendPlaylists)
+                RecommendPlaylistLayout(playlists = recommendPlaylists)
+            }
+
+            item {
+                val recommendPlaylists by rememberUpdatedState(newValue = state.recommendPlaylists)
+                RecommendPlaylistLayout(playlists = recommendPlaylists)
             }
         }
     }
@@ -155,6 +166,9 @@ fun WePLiChartLayout(musicList: List<ChartMusic>) {
     val pagerState = rememberPagerState(
         pageCount = { pageCount }
     )
+    val musicChunk = remember(musicList) {
+        musicList.chunked(5)
+    }
 
     Column {
         TwoLineTitle(title = "위플리 TOP 100", subscription = "6월 23일 오전 7시 업데이트")
@@ -165,14 +179,12 @@ fun WePLiChartLayout(musicList: List<ChartMusic>) {
             state = pagerState,
             contentPadding = PaddingValues(start = 20.dp, end = 10.dp),
         ) { page ->
-            val musicChunk = musicList.chunked(5)[page]
-
             // LazyColumn 내에 동일한 스크롤 방향의 LazyColumn 추가 불가
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                musicChunk.forEach { music ->
+                musicChunk[page].forEach { music ->
                     MusicItem(chartMusic = music, modifier = Modifier.padding(end = 12.dp))
                 }
             }

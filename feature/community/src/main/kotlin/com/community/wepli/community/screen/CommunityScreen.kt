@@ -157,7 +157,7 @@ fun PostContent(title: String, content: String) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp)
-            .padding(top = 14.dp, bottom = 20.dp)
+            .padding(top = 4.dp, bottom = 20.dp)
     ) {
         Text(
             text = title,
@@ -206,7 +206,6 @@ fun PostSongList(songList: List<Song>) {
                     SongItem(song)
                 }
             }
-
         }
         songList.size == 1 -> { // 노래 1개인 경우
             SingleSongItem(
