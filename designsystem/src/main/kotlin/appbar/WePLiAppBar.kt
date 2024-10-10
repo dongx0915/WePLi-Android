@@ -46,7 +46,7 @@ fun WePLiAppBar(
             Text(
                 text = title,
                 style = WePLiTheme.typo.subTitle3,
-                color = Color.White
+                color = contentsColor,
             )
         },
         navigationIcon = {
@@ -64,6 +64,7 @@ fun WePLiAppBar(
             if (showBackButton) {
                 AppBarIcon(
                     iconResource = R.drawable.ic_arrow_back,
+                    iconColor = contentsColor,
                     onClick = { onClickBack?.invoke() }
                 )
             }
@@ -73,6 +74,7 @@ fun WePLiAppBar(
                 AppBarIcon(
                     modifier = Modifier.offset(x = -6.dp),
                     iconResource = R.drawable.ic_search,
+                    iconColor = contentsColor,
                     onClick = { onClickSearch?.invoke() }
                 )
             }
@@ -81,6 +83,7 @@ fun WePLiAppBar(
                 AppBarIcon(
                     modifier = Modifier.offset(x = -6.dp),
                     iconResource = R.drawable.ic_alarm,
+                    iconColor = contentsColor,
                     onClick = { onClickNotification?.invoke() },
                     badgeVisible = true
                 )
