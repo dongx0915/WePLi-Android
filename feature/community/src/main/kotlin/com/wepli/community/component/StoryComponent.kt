@@ -1,4 +1,4 @@
-package com.community.wepli.community.component
+package com.wepli.community.component
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -25,7 +25,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.community.wepli.community.mock.userMockData
+import com.wepli.community.mock.userMockData
 import com.wepli.designsystem.R
 import image.AsyncImageWithPreview
 import model.user.User

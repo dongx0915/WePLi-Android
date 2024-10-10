@@ -1,4 +1,4 @@
-package com.community.wepli.community.mock
+package com.wepli.community.mock
 
 import model.community.Post
 import model.music.Song

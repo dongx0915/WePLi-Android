@@ -2,7 +2,7 @@
 
     <application>
         <activity
-            android:name="com.community.wepli.community.main.CommunityActivity"
+            android:name="com.wepli.community.main.CommunityActivity"
             android:exported="false" />
     </application>
 </manifest>

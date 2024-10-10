@@ -1,4 +1,4 @@
-package com.community.wepli.community.main
+package com.wepli.community.main
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -18,11 +18,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WePLiAppBar
-import com.community.wepli.community.component.PostItem
-import com.community.wepli.community.component.WePLiStoryLayout
-import com.community.wepli.community.main.state.CommunityMainState
-import com.community.wepli.community.mock.postMockData
-import com.community.wepli.community.mock.userMockData
+import com.wepli.community.component.PostItem
+import com.wepli.community.component.WePLiStoryLayout
+import com.wepli.community.main.state.CommunityMainState
+import com.wepli.community.mock.postMockData
+import com.wepli.community.mock.userMockData
 import dagger.hilt.android.AndroidEntryPoint
 import extensions.setStatusBarColor
 import model.community.Post

@@ -1,4 +1,4 @@
-package com.community.wepli.community.main.state
+package com.wepli.community.main.state
 
 import model.community.Post
 import model.user.User

@@ -1,4 +1,4 @@
-package com.community.wepli.community.component
+package com.wepli.community.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -31,8 +31,8 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.community.wepli.community.mock.postMockData
-import com.community.wepli.community.mock.userMockData
+import com.wepli.community.mock.postMockData
+import com.wepli.community.mock.userMockData
 import com.wepli.designsystem.R
 import custom.SongItem
 import image.AsyncImageWithPreview

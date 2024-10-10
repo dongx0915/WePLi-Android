@@ -1,8 +1,8 @@
-package com.community.wepli.community.navigator
+package com.wepli.community.navigator
 
 import android.app.Activity
 import android.content.Intent
-import com.community.wepli.community.main.CommunityActivity
+import com.wepli.community.main.CommunityActivity
 import com.wepli.navigator.feature.community.CommunityNavigator
 import common.startActivityWithAnimation
 import javax.inject.Inject

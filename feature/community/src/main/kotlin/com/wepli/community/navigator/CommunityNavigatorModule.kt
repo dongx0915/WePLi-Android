@@ -1,4 +1,4 @@
-package com.community.wepli.community.navigator
+package com.wepli.community.navigator
 
 import com.wepli.navigator.feature.community.CommunityNavigator
 import dagger.Binds
