@@ -2,7 +2,7 @@ package com.wepli.data.playlist.datasource.remote
 
 import com.wepli.data.playlist.PlaylistApi
 import com.wepli.data.playlist.response.PlaylistResponse
-import common.FlowResult
+import com.wepli.kotlin.FlowResult
 import javax.inject.Inject
 
 class PlaylistDataSourceImpl @Inject constructor(

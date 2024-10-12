@@ -3,7 +3,7 @@ package com.wepli.data.playlist.repository
 import com.wepli.data.network.toEntityResult
 import com.wepli.data.playlist.datasource.remote.PlaylistDataSource
 import com.wepli.data.playlist.response.toEntities
-import common.FlowResult
+import com.wepli.kotlin.FlowResult
 import model.playlist.RecommendPlaylist
 import repository.playlist.PlaylistRepository
 import javax.inject.Inject

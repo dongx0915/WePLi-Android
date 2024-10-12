@@ -1,7 +1,7 @@
 package com.wepli.data.artist
 
 import com.wepli.data.artist.response.ArtistListResponse
-import common.FlowResult
+import com.wepli.kotlin.FlowResult
 import retrofit2.http.GET
 
 interface ArtistApi {

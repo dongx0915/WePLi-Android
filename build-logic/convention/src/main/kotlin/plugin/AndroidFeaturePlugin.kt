@@ -34,6 +34,7 @@ class AndroidFeaturePlugin : Plugin<Project> {
         dependencies {
             // TODO Feature 모듈에서 공통으로 참조하는 모듈을 선언
             IMPLEMENTATION(project(":core:common"))
+            IMPLEMENTATION(project(":core:kotlin"))
             IMPLEMENTATION(project(":core:navigator"))
             IMPLEMENTATION(project(":designsystem"))
             IMPLEMENTATION(project(":domain"))

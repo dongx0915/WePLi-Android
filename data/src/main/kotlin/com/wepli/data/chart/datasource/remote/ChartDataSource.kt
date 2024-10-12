@@ -1,7 +1,7 @@
 package com.wepli.data.chart.datasource.remote
 
 import com.wepli.data.chart.response.ChartListResponse
-import common.FlowResult
+import com.wepli.kotlin.FlowResult
 
 interface ChartDataSource {
 

@@ -1,6 +1,6 @@
 package repository.playlist
 
-import common.FlowResult
+import com.wepli.kotlin.FlowResult
 import model.playlist.RecommendPlaylist
 
 interface PlaylistRepository {

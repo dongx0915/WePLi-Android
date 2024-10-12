@@ -1,7 +1,7 @@
 package com.wepli.data.network.calladapter
 
 import com.wepli.data.base.ErrorResponse
-import common.FlowResult
+import com.wepli.kotlin.FlowResult
 import common.WePLiException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow

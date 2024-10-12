@@ -1,7 +1,5 @@
-package extensions
+package com.wepli.kotlin
 
-import common.FlowResult
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onEach
 
 suspend fun <T> FlowResult<T>.collectResult(

@@ -2,7 +2,7 @@ package com.wepli.data.artist.datasource.remote
 
 import com.wepli.data.artist.ArtistApi
 import com.wepli.data.artist.response.ArtistListResponse
-import common.FlowResult
+import com.wepli.kotlin.FlowResult
 import javax.inject.Inject
 
 class ArtistDataSourceImpl @Inject constructor(

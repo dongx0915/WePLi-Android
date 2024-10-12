@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.wepli.home.state.HomeUiState
 import repository.chart.ChartRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import extensions.collectResult
+import com.wepli.kotlin.collectResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

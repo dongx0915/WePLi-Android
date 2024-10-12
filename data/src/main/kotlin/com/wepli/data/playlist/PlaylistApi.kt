@@ -1,7 +1,7 @@
 package com.wepli.data.playlist
 
 import com.wepli.data.playlist.response.PlaylistResponse
-import common.FlowResult
+import com.wepli.kotlin.FlowResult
 import retrofit2.http.GET
 
 interface PlaylistApi {

@@ -12,6 +12,7 @@ android {
 dependencies {
     implementation(project(":domain"))
     implementation(project(":core:common"))
+    implementation(project(":core:kotlin"))
 
     implementation(libs.retrofit)
     implementation(libs.okhttp3)
