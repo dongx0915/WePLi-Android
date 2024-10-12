@@ -19,13 +19,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
+import com.wepli.uimodel.music.SongUiData
 import image.AsyncImageWithPreview
-import model.music.Song
 import theme.WePLiTheme
 
-
 @Composable
-fun SongItem(song: Song) {
+fun SongItem(song: SongUiData) {
     Column(
         modifier = Modifier.width(92.dp)
     ) {
@@ -74,7 +73,7 @@ fun SongItem(song: Song) {
 @Composable
 fun SongItemPreview() {
     SongItem(
-        song = Song(
+        song = SongUiData(
             title = "비가 내리는 날에는",
             artist = "윤하",
             albumCoverImg = "https://image.bugsm.co.kr/artist/images/1000/800100/80010025_100.jpg?version=332223&d=20220330143136"

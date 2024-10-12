@@ -34,9 +34,9 @@ import androidx.compose.ui.unit.dp
 import com.wepli.community.mock.postMockData
 import com.wepli.community.mock.userMockData
 import com.wepli.designsystem.R
+import com.wepli.uimodel.music.SongUiData
 import custom.SongItem
 import image.AsyncImageWithPreview
-import model.music.Song
 import theme.WePLiTheme
 import util.OrientationPreviews
 
@@ -71,7 +71,7 @@ fun PostItem(
     content: String,
     nickname: String,
     profileImageUrl: String,
-    songList: List<Song>,
+    songList: List<SongUiData>,
 ) {
     Column(
         modifier = modifier.fillMaxWidth()
@@ -198,7 +198,7 @@ fun PostFooter(modifier: Modifier) {
 }
 
 @Composable
-fun PostSongList(songList: List<Song>) {
+fun PostSongList(songList: List<SongUiData>) {
     when {
         songList.size > 1 -> { // 노래 여러개인 경우
             LazyRow(
@@ -226,7 +226,7 @@ fun PostSongList(songList: List<Song>) {
 @Composable
 fun SingleSongItem(
     modifier: Modifier = Modifier,
-    song: Song,
+    song: SongUiData,
 ) {
     Row(
         modifier = modifier

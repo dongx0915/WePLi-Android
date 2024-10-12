@@ -36,6 +36,7 @@ class AndroidFeaturePlugin : Plugin<Project> {
             IMPLEMENTATION(project(":core:common"))
             IMPLEMENTATION(project(":core:kotlin"))
             IMPLEMENTATION(project(":core:navigator"))
+            IMPLEMENTATION(project(":shared:feature"))
             IMPLEMENTATION(project(":designsystem"))
             IMPLEMENTATION(project(":domain"))
 

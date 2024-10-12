@@ -27,8 +27,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.wepli.community.mock.userMockData
 import com.wepli.designsystem.R
+import com.wepli.shared.feature.uimodel.user.UserUiData
 import image.AsyncImageWithPreview
-import model.user.User
 import theme.WePLiTheme
 
 @Preview
@@ -44,7 +44,7 @@ fun StoryPreview() {
 @Composable
 fun WePLiStoryLayout(
     modifier: Modifier = Modifier,
-    users: List<User>,
+    users: List<UserUiData>,
 ) {
     Column(
         modifier = modifier
