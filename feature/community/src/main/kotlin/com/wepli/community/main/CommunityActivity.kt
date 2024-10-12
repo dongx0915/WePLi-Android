@@ -1,9 +1,11 @@
 package com.wepli.community.main
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,9 +22,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WePLiAppBar
 import com.wepli.community.component.PostItem
 import com.wepli.community.component.WePLiStoryLayout
+import com.wepli.community.detail.CommunityDetailActivity
 import com.wepli.community.main.state.CommunityMainState
 import com.wepli.community.mock.postMockData
 import com.wepli.community.mock.userMockData
+import common.startActivityWithAnimation
 import dagger.hilt.android.AndroidEntryPoint
 import extensions.setStatusBarColor
 import model.community.Post
@@ -41,7 +45,7 @@ class CommunityActivity : ComponentActivity() {
             val state by viewModel.state.collectAsState()
 
             WePLiTheme {
-                CommunityScreen(state)
+                CommunityScreen(this, state)
             }
         }
     }
@@ -51,6 +55,7 @@ class CommunityActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommunityScreen(
+    activity: Activity,
     state: CommunityMainState,
 ) {
     val storyUsers: List<User> by rememberUpdatedState(newValue = state.storyUsers)
@@ -74,6 +79,9 @@ fun CommunityScreen(
 
             items(posts) { post ->
                 PostItem(
+                    modifier = Modifier.clickable {
+                        activity.startActivityWithAnimation<CommunityDetailActivity>()
+                    },
                     title = post.title,
                     content = post.content,
                     nickname = post.author,
@@ -90,6 +98,7 @@ fun CommunityScreen(
 @Composable
 fun CommunityScreenPreview() {
     CommunityScreen(
+        activity = Activity(),
         state = CommunityMainState(
             storyUsers = userMockData,
             posts = postMockData
