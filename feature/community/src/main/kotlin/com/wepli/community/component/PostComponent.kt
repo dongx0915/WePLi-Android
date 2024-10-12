@@ -66,6 +66,7 @@ fun PostPreview() {
 
 @Composable
 fun PostItem(
+    modifier: Modifier = Modifier,
     title: String,
     content: String,
     nickname: String,
@@ -73,7 +74,7 @@ fun PostItem(
     songList: List<Song>,
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
         // 게시글 헤더
         PostHeader(nickname, profileImageUrl)
