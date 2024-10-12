@@ -26,6 +26,7 @@ import com.wepli.community.detail.CommunityDetailActivity
 import com.wepli.community.main.state.CommunityMainState
 import com.wepli.community.mock.postMockData
 import com.wepli.community.mock.userMockData
+import com.wepli.navigator.feature.community.CommunityDetailNavigator
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import com.wepli.uimodel.community.PostUiData
 import common.startActivityWithAnimation
@@ -36,6 +37,9 @@ import theme.WePLiTheme
 @AndroidEntryPoint
 class CommunityActivity : ComponentActivity() {
 
+    @Inject
+    lateinit var communityDetailNavigator: CommunityDetailNavigator
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -45,7 +49,11 @@ class CommunityActivity : ComponentActivity() {
             val state by viewModel.state.collectAsState()
 
             WePLiTheme {
-                CommunityScreen(this, state)
+                CommunityScreen(
+                    this,
+                    communityDetailNavigator,
+                    state
+                )
             }
         }
     }
@@ -56,6 +64,7 @@ class CommunityActivity : ComponentActivity() {
 @Composable
 fun CommunityScreen(
     activity: Activity,
+    communityDetailNavigator: CommunityDetailNavigator,
     state: CommunityMainState,
 ) {
     val storyUsers: List<com.wepli.shared.feature.uimodel.user.UserUiData> by rememberUpdatedState(newValue = state.storyUsers)
@@ -80,7 +89,12 @@ fun CommunityScreen(
             items(posts) { post: PostUiData ->
                 PostItem(
                     modifier = Modifier.clickable {
-                        activity.startActivityWithAnimation<CommunityDetailActivity>()
+                        communityDetailNavigator.navigateFrom(
+                            activity = activity,
+                            intentBuilder = {
+                                putExtra(Extras.POST_DATA, post)
+                            },
+                        )
                     },
                     title = post.title,
                     content = post.content,
@@ -99,6 +113,11 @@ fun CommunityScreen(
 fun CommunityScreenPreview() {
     CommunityScreen(
         activity = Activity(),
+        communityDetailNavigator = object : CommunityDetailNavigator {
+            override fun navigateFrom(activity: Activity, intentBuilder: Intent.() -> Intent, withFinish: Boolean) {
+                activity.startActivityWithAnimation<CommunityDetailActivity>(intentBuilder, withFinish)
+            }
+        },
         state = CommunityMainState(
             storyUsers = userMockData,
             posts = postMockData
