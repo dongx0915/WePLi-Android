@@ -1,5 +1,7 @@
 package model.music
 
+import common.DomainModel
+
 /**
  * 음악 정보
  *
@@ -11,4 +13,4 @@ data class Song(
     val title: String,
     val artist: String,
     val albumCoverImg: String,
-)
+) : DomainModel

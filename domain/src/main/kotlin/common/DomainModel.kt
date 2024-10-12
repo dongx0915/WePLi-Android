@@ -1,0 +1,3 @@
+package common
+
+interface DomainModel

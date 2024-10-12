@@ -1,5 +1,7 @@
 package model.artist
 
+import common.DomainModel
+
 /**
  * 가수 정보
  * @property name 가수 이름
@@ -8,4 +10,4 @@ package model.artist
 data class Artist(
     val name: String,
     val profileUrl: String,
-)
+) : DomainModel

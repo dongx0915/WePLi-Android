@@ -1,5 +1,6 @@
 package model.community
 
+import common.DomainModel
 import java.util.Date
 
 data class Comment(
@@ -9,4 +10,4 @@ data class Comment(
     val likeCount: Int,
     val replyCount: Int,
     val createdAt: Date,
-)
+) : DomainModel

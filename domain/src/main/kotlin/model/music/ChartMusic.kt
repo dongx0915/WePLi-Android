@@ -1,5 +1,7 @@
 package model.music
 
+import common.DomainModel
+
 /**
  * 차트 음악 정보
  *
@@ -15,4 +17,4 @@ data class ChartMusic(
     val artist: String,
     val album: String,
     val albumCoverUrl: String,
-)
+) : DomainModel

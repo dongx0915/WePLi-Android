@@ -1,5 +1,6 @@
 package model.community
 
+import common.DomainModel
 import model.music.Song
 
 /**
@@ -16,4 +17,4 @@ data class Post(
     val author: String,
     val profileImg: String,
     val songList: List<Song>
-)
+) : DomainModel

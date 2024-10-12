@@ -1,5 +1,7 @@
 package model.playlist
 
+import common.DomainModel
+
 /**
  * 추천 플레이리스트 정보
  *
@@ -9,4 +11,4 @@ package model.playlist
 data class RecommendPlaylist(
     val title: String,
     val coverImgUrl: String,
-)
+) : DomainModel
