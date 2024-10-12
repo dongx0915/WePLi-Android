@@ -1,9 +1,9 @@
 package com.wepli.community.main.state
 
-import model.community.Post
-import model.user.User
+import com.wepli.uimodel.community.PostUiData
+import com.wepli.shared.feature.uimodel.user.UserUiData
 
 data class CommunityMainState(
-    val storyUsers: List<User> = emptyList(),
-    val posts: List<Post> = emptyList(),
+    val storyUsers: List<com.wepli.shared.feature.uimodel.user.UserUiData> = emptyList(),
+    val posts: List<PostUiData> = emptyList(),
 )

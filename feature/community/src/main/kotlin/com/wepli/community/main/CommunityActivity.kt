@@ -26,11 +26,11 @@ import com.wepli.community.detail.CommunityDetailActivity
 import com.wepli.community.main.state.CommunityMainState
 import com.wepli.community.mock.postMockData
 import com.wepli.community.mock.userMockData
+import com.wepli.shared.feature.uimodel.user.UserUiData
+import com.wepli.uimodel.community.PostUiData
 import common.startActivityWithAnimation
 import dagger.hilt.android.AndroidEntryPoint
 import extensions.setStatusBarColor
-import model.community.Post
-import model.user.User
 import theme.WePLiTheme
 
 @AndroidEntryPoint
@@ -58,8 +58,8 @@ fun CommunityScreen(
     activity: Activity,
     state: CommunityMainState,
 ) {
-    val storyUsers: List<User> by rememberUpdatedState(newValue = state.storyUsers)
-    val posts: List<Post> by rememberUpdatedState(newValue = state.posts)
+    val storyUsers: List<com.wepli.shared.feature.uimodel.user.UserUiData> by rememberUpdatedState(newValue = state.storyUsers)
+    val posts: List<PostUiData> by rememberUpdatedState(newValue = state.posts)
 
     Scaffold(
         containerColor = WePLiTheme.color.black,
@@ -77,7 +77,7 @@ fun CommunityScreen(
         ) {
             item { WePLiStoryLayout(users = storyUsers) }
 
-            items(posts) { post ->
+            items(posts) { post: PostUiData ->
                 PostItem(
                     modifier = Modifier.clickable {
                         activity.startActivityWithAnimation<CommunityDetailActivity>()
