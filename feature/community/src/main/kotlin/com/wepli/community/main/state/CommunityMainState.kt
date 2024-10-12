@@ -4,6 +4,6 @@ import com.wepli.uimodel.community.PostUiData
 import com.wepli.shared.feature.uimodel.user.UserUiData
 
 data class CommunityMainState(
-    val storyUsers: List<com.wepli.shared.feature.uimodel.user.UserUiData> = emptyList(),
+    val storyUsers: List<UserUiData> = emptyList(),
     val posts: List<PostUiData> = emptyList(),
 )

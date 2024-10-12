@@ -2,6 +2,7 @@ package com.wepli.community.main
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -26,6 +27,7 @@ import com.wepli.community.detail.CommunityDetailActivity
 import com.wepli.community.main.state.CommunityMainState
 import com.wepli.community.mock.postMockData
 import com.wepli.community.mock.userMockData
+import com.wepli.navigator.extras.Extras
 import com.wepli.navigator.feature.community.CommunityDetailNavigator
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import com.wepli.uimodel.community.PostUiData
@@ -33,6 +35,7 @@ import common.startActivityWithAnimation
 import dagger.hilt.android.AndroidEntryPoint
 import extensions.setStatusBarColor
 import theme.WePLiTheme
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CommunityActivity : ComponentActivity() {
@@ -67,7 +70,7 @@ fun CommunityScreen(
     communityDetailNavigator: CommunityDetailNavigator,
     state: CommunityMainState,
 ) {
-    val storyUsers: List<com.wepli.shared.feature.uimodel.user.UserUiData> by rememberUpdatedState(newValue = state.storyUsers)
+    val storyUsers: List<UserUiData> by rememberUpdatedState(newValue = state.storyUsers)
     val posts: List<PostUiData> by rememberUpdatedState(newValue = state.posts)
 
     Scaffold(

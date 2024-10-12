@@ -23,6 +23,8 @@ data class PostUiData(
     val songList: List<SongUiData>
 ) : UiModel {
 
+    constructor() : this("", "", "", "", emptyList())
+
     companion object : UiModelMapper<Post, PostUiData> {
         override fun fromDomain(domainModel: Post): PostUiData {
             return PostUiData(
