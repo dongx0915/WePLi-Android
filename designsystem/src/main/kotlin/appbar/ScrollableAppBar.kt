@@ -86,7 +86,7 @@ fun ScrollableAppBar(
     scrollThreshold: Float = 1000f,
     backgroundColors: Pair<Color, Color> = Color.Transparent to Color.Black,
     contentsColors: Pair<Color, Color> = Color.Black to Color.White,
-    topBarComponent: @Composable (backgroundColor: Color, iconColor: Color) -> Unit,
+    topBarComponent: @Composable (backgroundColor: Color, contentsColor: Color) -> Unit,
     content: @Composable (appbarPadding: PaddingValues) -> Unit,
 ) {
     // 스크롤의 진행 비율을 0에서 1 사이로 계산 (외부에서 받은 scrollThreshold 값 사용)
