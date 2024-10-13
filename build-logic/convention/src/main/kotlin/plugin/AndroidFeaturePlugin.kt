@@ -42,6 +42,7 @@ class AndroidFeaturePlugin : Plugin<Project> {
 
             IMPLEMENTATION(libs.findLibrary("coil").get())
             IMPLEMENTATION(libs.findLibrary("material").get())
+            IMPLEMENTATION(libs.findLibrary("joda.time").get())
         }
     }
 }

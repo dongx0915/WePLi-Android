@@ -44,6 +44,7 @@ hilt-navigation-compose = "1.2.0"
 coil = "2.7.0"
 retrofit = "2.11.0"
 okhttp = "4.12.0"
+joda-time = "2.13.0"
 
 [libraries] # 라이브러리 의존성
 
@@ -95,6 +96,7 @@ coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 okhttp3-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+joda-time = { group = "joda-time", name = "joda-time", version.ref = "joda-time" }
 
 [bundles] # 라이브러리를 묶어서 선언
 androidx-compose = [
