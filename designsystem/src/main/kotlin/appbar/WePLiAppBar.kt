@@ -1,5 +1,6 @@
 package appbar
 
+import android.widget.Button
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
@@ -36,6 +38,8 @@ fun WePLiAppBar(
     showBackButton: Boolean = false,
     showSearchButton: Boolean = false,
     showNotificationButton: Boolean = false,
+    showLikeButton: Boolean = false,
+    showMoreButton: Boolean = false,
     scrollBehavior: TopAppBarScrollBehavior? = null,
     onClickBack: (() -> Unit)? = null,
     onClickSearch: (() -> Unit)? = null,
@@ -47,6 +51,8 @@ fun WePLiAppBar(
                 text = title,
                 style = WePLiTheme.typo.subTitle3,
                 color = contentsColor,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
             )
         },
         navigationIcon = {
@@ -86,6 +92,26 @@ fun WePLiAppBar(
                     iconColor = contentsColor,
                     onClick = { onClickNotification?.invoke() },
                     badgeVisible = true
+                )
+            }
+
+            if (showLikeButton) {
+                AppBarIcon(
+                    modifier = Modifier.offset(x = -6.dp),
+                    iconResource = R.drawable.ic_heart,
+                    iconColor = contentsColor,
+                    onClick = { onClickNotification?.invoke() },
+                    badgeVisible = false
+                )
+            }
+
+            if (showMoreButton) {
+                AppBarIcon(
+                    modifier = Modifier.offset(x = -6.dp),
+                    iconResource = R.drawable.ic_more_dot,
+                    iconColor = contentsColor,
+                    onClick = { onClickNotification?.invoke() },
+                    badgeVisible = false
                 )
             }
         },
