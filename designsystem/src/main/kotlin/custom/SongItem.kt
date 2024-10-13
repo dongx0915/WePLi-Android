@@ -76,6 +76,7 @@ fun SongItemPreview() {
         song = SongUiData(
             title = "비가 내리는 날에는",
             artist = "윤하",
+            album = "A Perfect Day to Say I Love You",
             albumCoverImg = "https://image.bugsm.co.kr/artist/images/1000/800100/80010025_100.jpg?version=332223&d=20220330143136"
         )
     )

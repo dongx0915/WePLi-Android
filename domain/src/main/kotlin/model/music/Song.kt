@@ -12,5 +12,6 @@ import common.DomainModel
 data class Song(
     val title: String,
     val artist: String,
+    val album: String,
     val albumCoverImg: String,
 ) : DomainModel

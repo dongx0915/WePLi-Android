@@ -21,81 +21,97 @@ val songMockData = listOf(
     SongUiData(
         title = "비가 내리는 날에는",
         artist = "윤하",
+        album = "A Perfect Day to Say I Love You",
         albumCoverImg = "https://image.bugsm.co.kr/artist/images/1000/800100/80010025_100.jpg?version=332223&d=20220330143136"
     ),
     SongUiData(
         title = "주저하는 연인들을 위해",
         artist = "잔나비",
+        album = "전설",
         albumCoverImg = "https://image.bugsm.co.kr/album/images/500/202371/20237198.jpg?version=20210422183751.0"
     ),
     SongUiData(
         title = "Boom Boom Bass",
         artist = "RIIZE",
+        album = "Boom Boom Bass",
         albumCoverImg = "https://cdnimg.melon.co.kr/cm2/album/images/114/56/179/11456179_20240617152303_500.jpg"
     ),
     SongUiData(
         title = "사막에서 꽃을 피우듯",
         artist = "우디 (Woody)",
+        album = "사막에서 꽃을 피우듯",
         albumCoverImg = "https://cdnimg.melon.co.kr/cm2/album/images/112/85/867/11285867_20230713162404_500.jpg"
     ),
     SongUiData(
         title = "퀸카 (Queencard)",
         artist = "(여자)아이들",
+        album = "I NEVER DIE",
         albumCoverImg = "https://cdnimg.melon.co.kr/cm2/album/images/112/40/232/11240232_20230509151820_500.jpg"
     ),
     SongUiData(
         title = "밤양갱",
         artist = "비비 (BIBI)",
+        album = "BIBI",
         albumCoverImg = "https://cdnimg.melon.co.kr/cm2/album/images/114/15/997/11415997_20240226162412_500.jpg"
     ),
     SongUiData(
         title = "모든 날, 모든 순간 (Every day, Every Moment)",
         artist = "폴킴",
+        album = "호텔 델루나 OST Part.3",
         albumCoverImg = "https://cdnimg.melon.co.kr/cm/album/images/101/49/492/10149492_500.jpg"
     ),
     SongUiData(
         title = "슬픈 초대장",
         artist = "순순희 (지환)",
+        album = "슬픈 초대장",
         albumCoverImg = "https://image.bugsm.co.kr/album/images/500/40943/4094328.jpg?version=20240125010600.0"
     ),
     SongUiData(
         title = "CRAZY",
         artist = "LE SSERAFIM (르세라핌)",
+        album = "CRAZY",
         albumCoverImg = "https://cdnimg.melon.co.kr/cm2/album/images/115/79/884/11579884_20240830100608_500.jpg"
     ),
     SongUiData(
         title = "I Don't Think That I Like Her",
         artist = "Charlie Puth",
+        album = "I Don't Think That I Like Her",
         albumCoverImg = "https://cdnimg.melon.co.kr/cm2/album/images/108/44/485/10844485_20221006154824_500.jpg"
     ),
     SongUiData(
         title = "어떻게 이별까지 사랑하겠어, 널 사랑하는 거지",
         artist = "AKMU (악뮤)",
+        album = "항해",
         albumCoverImg = "https://cdnimg.melon.co.kr/cm2/album/images/103/31/947/10331947_500.jpg"
     ),
     SongUiData(
         title = "그녀가 웃었다",
         artist = "DAY6 (데이식스)",
+        album = "The Book of Us : Negentropy - Chaos swallowed up in love",
         albumCoverImg = "https://cdnimg.melon.co.kr/cm2/album/images/115/80/616/11580616_20240830171855_500.jpg"
     ),
     SongUiData(
         title = "After LIKE",
         artist = "IVE (아이브)",
+        album = "LOVE DIVE",
         albumCoverImg = "https://image.bugsm.co.kr/album/images/500/40789/4078936.jpg?version=20220824005434.0"
     ),
     SongUiData(
         title = "Live My Life",
         artist = "aespa",
+        album = "Savage",
         albumCoverImg = "https://cdnimg.melon.co.kr/cm2/album/images/114/87/023/11487023_20240527154018_500.jpg"
     ),
     SongUiData(
         title = "Love Lee",
         artist = "AKMU (악뮤)",
+        album = "항해",
         albumCoverImg = "https://cdnimg.melon.co.kr/cm2/album/images/113/09/190/11309190_20230818161008_500.jpg"
     ),
     SongUiData(
         title = "오래된 노래",
         artist = "허각",
+        album = "오래된 노래",
         albumCoverImg = "https://cdnimg.melon.co.kr/cm2/album/images/115/13/169/11513169_20240614150349_500.jpg"
     ),
 )

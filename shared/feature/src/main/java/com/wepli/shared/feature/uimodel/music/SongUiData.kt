@@ -16,14 +16,18 @@ import model.music.Song
 data class SongUiData(
     val title: String,
     val artist: String,
+    val album: String,
     val albumCoverImg: String,
 ) : UiModel {
+
+    constructor() : this("", "", "", "")
 
     companion object : UiModelMapper<Song, SongUiData> {
         override fun fromDomain(domainModel: Song): SongUiData {
             return SongUiData(
                 title = domainModel.title,
                 artist = domainModel.artist,
+                album = domainModel.album,
                 albumCoverImg = domainModel.albumCoverImg,
             )
         }

@@ -70,6 +70,7 @@ fun MusicItemPreview() {
                 songUiData = SongUiData(
                     title = "title",
                     artist = "artist",
+                    album = "album",
                     albumCoverImg = "https://via.placeholder.com/150",
                 )
             ),
