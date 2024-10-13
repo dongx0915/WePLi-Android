@@ -187,7 +187,7 @@ fun WePLiChartLayout(musicList: List<ChartMusicUiData>) {
             ) {
                 musicChunk[page].forEach { music ->
                     MusicItem(
-                        modifier = Modifier.padding(end = 12.dp),
+                        modifier = Modifier.padding(end = 22.dp),
                         chartMusic = music,
                         showPlayIcon = true,
                     )

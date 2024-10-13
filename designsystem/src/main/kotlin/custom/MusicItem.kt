@@ -54,7 +54,9 @@ fun MusicItem(
         modifier = modifier.height(52.dp),
     ) {
         AsyncImageWithPreview(
-            modifier = Modifier.size(52.dp).clip(RoundedCornerShape(3.dp)),
+            modifier = Modifier
+                .size(52.dp)
+                .clip(RoundedCornerShape(3.dp)),
             imageUrl = chartMusic.albumCoverUrl,
             previewImage = painterResource(id = R.drawable.img_placeholder_album_cover),
             imageOverrideSize = 52.dp,
@@ -96,7 +98,9 @@ fun MusicItem(
         if (showPlayIcon) {
             Spacer(modifier = Modifier.size(4.dp))
             Icon(
-                modifier = Modifier.align(Alignment.CenterVertically).size(24.dp),
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .size(24.dp),
                 tint = WePLiTheme.color.gray800,
                 painter = painterResource(id = R.drawable.ic_play),
                 contentDescription = null
@@ -106,7 +110,9 @@ fun MusicItem(
         if (showMoreIcon) {
             Spacer(modifier = Modifier.size(4.dp))
             Icon(
-                modifier = Modifier.align(Alignment.CenterVertically).size(24.dp),
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .size(24.dp),
                 tint = WePLiTheme.color.gray800,
                 painter = painterResource(id = R.drawable.ic_more_dot),
                 contentDescription = null
