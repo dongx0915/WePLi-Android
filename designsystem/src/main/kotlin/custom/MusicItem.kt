@@ -1,4 +1,4 @@
-package com.wepli.home.component
+package custom
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,21 +22,34 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
-import com.wepli.home.mock.musicMockData
+import com.wepli.uimodel.music.ChartMusicUiData
 import image.AsyncImageWithPreview
-import model.music.ChartMusic
 import theme.WePLiTheme
 
 @Preview
 @Composable
 fun MusicItemPreview() {
     MusicItem(
-        chartMusic = musicMockData.last()
+        chartMusic = ChartMusicUiData(
+            rank = 1,
+            title = "title",
+            artist = "artist",
+            album = "album",
+            albumCoverUrl = "https://via.placeholder.com/150",
+        ),
+        showPlayIcon = true,
+        showMoreIcon = true
     )
 }
 
+
 @Composable
-fun MusicItem(modifier: Modifier = Modifier, chartMusic: ChartMusic) {
+fun MusicItem(
+    modifier: Modifier = Modifier,
+    chartMusic: ChartMusicUiData,
+    showPlayIcon: Boolean = false,
+    showMoreIcon: Boolean = false,
+) {
     Row(
         modifier = modifier.height(52.dp),
     ) {
@@ -81,14 +93,22 @@ fun MusicItem(modifier: Modifier = Modifier, chartMusic: ChartMusic) {
             )
         }
 
-        Spacer(modifier = Modifier.size(4.dp))
-        IconButton(
-            modifier = Modifier.align(Alignment.CenterVertically),
-            onClick = { /*TODO*/ }
-        ) {
+        if (showPlayIcon) {
+            Spacer(modifier = Modifier.size(4.dp))
             Icon(
+                modifier = Modifier.align(Alignment.CenterVertically).size(24.dp),
                 tint = WePLiTheme.color.gray800,
                 painter = painterResource(id = R.drawable.ic_play),
+                contentDescription = null
+            )
+        }
+
+        if (showMoreIcon) {
+            Spacer(modifier = Modifier.size(4.dp))
+            Icon(
+                modifier = Modifier.align(Alignment.CenterVertically).size(24.dp),
+                tint = WePLiTheme.color.gray800,
+                painter = painterResource(id = R.drawable.ic_more_dot),
                 contentDescription = null
             )
         }
