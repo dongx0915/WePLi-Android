@@ -1,5 +1,6 @@
 package com.wepli.home.mock
 
+import com.wepli.uimodel.music.ChartMusicUiData
 import model.artist.Artist
 import model.music.ChartMusic
 import model.playlist.RecommendPlaylist
@@ -13,16 +14,16 @@ val artistMockData = listOf(
 )
 
 val musicMockData = listOf(
-    ChartMusic(1, "HAPPY", "DAY6 (데이식스)", "Fourever", "https://cdnimg.melon.co.kr/cm2/album/images/114/44/397/11444397_20240318115810_500.jpg/melon/resize/120/quality/80/optimize"),
-    ChartMusic(2, "Welcome to the Show", "DAY6 (데이식스)", "Fourever", "https://cdnimg.melon.co.kr/cm2/album/images/114/44/397/11444397_20240318115810_500.jpg/melon/resize/120/quality/80/optimize"),
-    ChartMusic(3, "Supernova", "aespa", "Armageddon - The 1st Album", "https://cdnimg.melon.co.kr/cm2/album/images/114/87/023/11487023_20240527154018_500.jpg/melon/resize/120/quality/80/optimize"),
-    ChartMusic(4, "한 페이지가 될 수 있게", "DAY6 (데이식스)", "The Book of Us : Gravity", "https://cdnimg.melon.co.kr/cm/album/images/103/07/346/10307346_500.jpg/melon/resize/120/quality/80/optimize"),
-    ChartMusic(5, "녹아내려요", "DAY6 (데이식스)", "Band Aid", "https://cdnimg.melon.co.kr/cm2/album/images/115/80/616/11580616_20240830171855_500.jpg/melon/resize/120/quality/80/optimize"),
-    ChartMusic(6, "클락션 (Klaxon)", "(여자)아이들", "I SWAY", "https://cdnimg.melon.co.kr/cm2/album/images/115/33/515/11533515_20240708112323_500.jpg/melon/resize/120/quality/80/optimize"),
-    ChartMusic(7, "How Sweet", "NewJeans", "How Sweet", "https://cdnimg.melon.co.kr/cm2/album/images/114/75/749/11475749_20240524105642_500.jpg/melon/resize/120/quality/80/optimize"),
-    ChartMusic(8, "고민중독", "QWER", "1st Mini Album 'MANITO'", "https://cdnimg.melon.co.kr/cm2/album/images/114/54/681/11454681_20240328174504_500.jpg/melon/resize/120/quality/80/optimize"),
-    ChartMusic(9, "예뻤어", "DAY6 (데이식스)", "Every DAY6 February", "https://cdnimg.melon.co.kr/cm/album/images/100/36/099/10036099_500.jpg/melon/resize/120/quality/80/optimize"),
-    ChartMusic(10, "소나기", "이클립스 (ECLIPSE)", "선재 업고 튀어 OST Part 1", "https://cdnimg.melon.co.kr/cm2/album/images/114/59/325/11459325_20240405171054_500.jpg/melon/resize/120/quality/80/optimize"),
+    ChartMusicUiData(1, "HAPPY", "DAY6 (데이식스)", "Fourever", "https://cdnimg.melon.co.kr/cm2/album/images/114/44/397/11444397_20240318115810_500.jpg/melon/resize/120/quality/80/optimize"),
+    ChartMusicUiData(2, "Welcome to the Show", "DAY6 (데이식스)", "Fourever", "https://cdnimg.melon.co.kr/cm2/album/images/114/44/397/11444397_20240318115810_500.jpg/melon/resize/120/quality/80/optimize"),
+    ChartMusicUiData(3, "Supernova", "aespa", "Armageddon - The 1st Album", "https://cdnimg.melon.co.kr/cm2/album/images/114/87/023/11487023_20240527154018_500.jpg/melon/resize/120/quality/80/optimize"),
+    ChartMusicUiData(4, "한 페이지가 될 수 있게", "DAY6 (데이식스)", "The Book of Us : Gravity", "https://cdnimg.melon.co.kr/cm/album/images/103/07/346/10307346_500.jpg/melon/resize/120/quality/80/optimize"),
+    ChartMusicUiData(5, "녹아내려요", "DAY6 (데이식스)", "Band Aid", "https://cdnimg.melon.co.kr/cm2/album/images/115/80/616/11580616_20240830171855_500.jpg/melon/resize/120/quality/80/optimize"),
+    ChartMusicUiData(6, "클락션 (Klaxon)", "(여자)아이들", "I SWAY", "https://cdnimg.melon.co.kr/cm2/album/images/115/33/515/11533515_20240708112323_500.jpg/melon/resize/120/quality/80/optimize"),
+    ChartMusicUiData(7, "How Sweet", "NewJeans", "How Sweet", "https://cdnimg.melon.co.kr/cm2/album/images/114/75/749/11475749_20240524105642_500.jpg/melon/resize/120/quality/80/optimize"),
+    ChartMusicUiData(8, "고민중독", "QWER", "1st Mini Album 'MANITO'", "https://cdnimg.melon.co.kr/cm2/album/images/114/54/681/11454681_20240328174504_500.jpg/melon/resize/120/quality/80/optimize"),
+    ChartMusicUiData(9, "예뻤어", "DAY6 (데이식스)", "Every DAY6 February", "https://cdnimg.melon.co.kr/cm/album/images/100/36/099/10036099_500.jpg/melon/resize/120/quality/80/optimize"),
+    ChartMusicUiData(10, "소나기", "이클립스 (ECLIPSE)", "선재 업고 튀어 OST Part 1", "https://cdnimg.melon.co.kr/cm2/album/images/114/59/325/11459325_20240405171054_500.jpg/melon/resize/120/quality/80/optimize"),
 )
 
 val recommendPlaylistMockData = listOf(

@@ -43,7 +43,9 @@ import com.wepli.home.mock.musicMockData
 import com.wepli.home.mock.recommendPlaylistMockData
 import com.wepli.navigator.feature.community.CommunityNavigator
 import com.wepli.home.state.HomeUiState
+import com.wepli.uimodel.music.ChartMusicUiData
 import compose.MeasuredHeightContainer
+import custom.MusicItem
 import dagger.hilt.android.AndroidEntryPoint
 import extensions.setStatusBarColor
 import model.artist.Artist
@@ -157,7 +159,7 @@ fun WePLiBannerLayout() {
 }
 
 @Composable
-fun WePLiChartLayout(musicList: List<ChartMusic>) {
+fun WePLiChartLayout(musicList: List<ChartMusicUiData>) {
     if (musicList.isEmpty()) return
 
     val pageCount = remember(key1 = musicList.size) { musicList.size / 5 }
@@ -183,7 +185,11 @@ fun WePLiChartLayout(musicList: List<ChartMusic>) {
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 musicChunk[page].forEach { music ->
-                    MusicItem(chartMusic = music, modifier = Modifier.padding(end = 12.dp))
+                    MusicItem(
+                        modifier = Modifier.padding(end = 12.dp),
+                        chartMusic = music,
+                        showPlayIcon = true,
+                    )
                 }
             }
         }

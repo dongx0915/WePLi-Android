@@ -6,6 +6,7 @@ import com.wepli.home.state.HomeUiState
 import repository.chart.ChartRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import com.wepli.kotlin.collectResult
+import com.wepli.uimodel.music.ChartMusicUiData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -41,7 +42,7 @@ class MainViewModel @Inject constructor(
             .collectResult(
                 onSuccess = { topChartList ->
                     _state.update {
-                        it.copy(topChartList = topChartList)
+                        it.copy(topChartList = topChartList.map(ChartMusicUiData::fromDomain))
                     }
                 }
             )
