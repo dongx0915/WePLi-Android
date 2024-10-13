@@ -23,30 +23,67 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
 import com.wepli.uimodel.music.ChartMusicUiData
+import com.wepli.uimodel.music.SongUiData
 import image.AsyncImageWithPreview
 import theme.WePLiTheme
+
+sealed interface MusicItemType {
+    val title: String
+    val artist: String
+    val coverImgUrl: String
+
+    data class Chart(val chartMusic: ChartMusicUiData) : MusicItemType {
+        override val title: String = chartMusic.title
+        override val artist: String = chartMusic.artist
+        override val coverImgUrl: String = chartMusic.albumCoverUrl
+    }
+
+    data class Normal(val songUiData: SongUiData) : MusicItemType {
+        override val title: String = songUiData.title
+        override val artist: String = songUiData.artist
+        override val coverImgUrl: String = songUiData.albumCoverImg
+    }
+}
 
 @Preview
 @Composable
 fun MusicItemPreview() {
-    MusicItem(
-        chartMusic = ChartMusicUiData(
-            rank = 1,
-            title = "title",
-            artist = "artist",
-            album = "album",
-            albumCoverUrl = "https://via.placeholder.com/150",
-        ),
-        showPlayIcon = true,
-        showMoreIcon = true
-    )
+    Column {
+        MusicItem(
+            musicItemType = MusicItemType.Chart(
+                chartMusic = ChartMusicUiData(
+                    rank = 100,
+                    title = "title",
+                    artist = "artist",
+                    album = "album",
+                    albumCoverUrl = "https://via.placeholder.com/150",
+                )
+            ),
+            showPlayIcon = true,
+            showMoreIcon = true
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        MusicItem(
+            musicItemType = MusicItemType.Normal(
+                songUiData = SongUiData(
+                    title = "title",
+                    artist = "artist",
+                    albumCoverImg = "https://via.placeholder.com/150",
+                )
+            ),
+            showPlayIcon = true,
+            showMoreIcon = true
+        )
+    }
 }
 
 
 @Composable
 fun MusicItem(
     modifier: Modifier = Modifier,
-    chartMusic: ChartMusicUiData,
+    musicItemType: MusicItemType,
     showPlayIcon: Boolean = false,
     showMoreIcon: Boolean = false,
 ) {
@@ -57,20 +94,28 @@ fun MusicItem(
             modifier = Modifier
                 .size(52.dp)
                 .clip(RoundedCornerShape(3.dp)),
-            imageUrl = chartMusic.albumCoverUrl,
+            imageUrl = musicItemType.coverImgUrl,
             previewImage = painterResource(id = R.drawable.img_placeholder_album_cover),
             imageOverrideSize = 52.dp,
         )
 
-        Text(
-            modifier = Modifier
-                .padding(top = 9.dp)
-                .width(32.dp),
-            text = chartMusic.rank.toString(),
-            style = WePLiTheme.typo.caption1,
-            color = WePLiTheme.color.gray700,
-            textAlign = TextAlign.Center
-        )
+        when (musicItemType) {
+            is MusicItemType.Chart -> {
+                Text(
+                    modifier = Modifier
+                        .padding(top = 9.dp)
+                        .width(32.dp),
+                    text = musicItemType.chartMusic.rank.toString(),
+                    style = WePLiTheme.typo.caption1,
+                    color = WePLiTheme.color.gray700,
+                    textAlign = TextAlign.Center
+                )
+            }
+
+            is MusicItemType.Normal -> {
+                Spacer(modifier = Modifier.width(14.dp))
+            }
+        }
 
         Column(
             modifier = Modifier
@@ -79,7 +124,7 @@ fun MusicItem(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = chartMusic.title,
+                text = musicItemType.title,
                 style = WePLiTheme.typo.body4,
                 color = WePLiTheme.color.white,
                 maxLines = 1,
@@ -87,7 +132,7 @@ fun MusicItem(
             )
             Spacer(modifier = Modifier.size(4.dp))
             Text(
-                text = chartMusic.artist,
+                text = musicItemType.artist,
                 style = WePLiTheme.typo.caption1,
                 color = WePLiTheme.color.gray500,
                 maxLines = 1,
