@@ -56,12 +56,11 @@ fun OneLineTitle(
 
 @Composable
 fun TwoLineTitle(
+    modifier: Modifier = Modifier.padding(vertical = 12.dp, horizontal = 20.dp),
     title: String?,
     subscription: String?,
 ) {
-    Column(
-        modifier = Modifier.padding(vertical = 12.dp, horizontal = 20.dp)
-    ) {
+    Column(modifier = modifier) {
         title?.let {
             Text(
                 text = it,
