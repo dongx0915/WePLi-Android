@@ -20,8 +20,11 @@ import model.playlist.RecommendPlaylist
 import theme.WePLiTheme
 
 @Composable
-fun PlayListCoverItem(recommendPlaylist: RecommendPlaylist) {
-    Column(modifier = Modifier.width(136.dp)) {
+fun PlayListCoverItem(
+    modifier: Modifier = Modifier,
+    recommendPlaylist: RecommendPlaylist,
+) {
+    Column(modifier = modifier.width(136.dp)) {
         AsyncImageWithPreview(
             modifier = Modifier.clip(RoundedCornerShape(4.dp)),
             imageUrl = recommendPlaylist.coverImgUrl,

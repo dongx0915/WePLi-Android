@@ -2,9 +2,9 @@ package com.wepli.home.main
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -43,13 +43,13 @@ import com.wepli.navigator.feature.playlist.PlaylistNavigator
 import com.wepli.shared.feature.mock.artistMockData
 import com.wepli.shared.feature.mock.musicMockData
 import com.wepli.shared.feature.mock.recommendPlaylistMockData
+import com.wepli.uimodel.artist.ArtistUiData
 import com.wepli.uimodel.music.ChartMusicUiData
 import compose.MeasuredHeightContainer
 import custom.MusicItem
+import custom.MusicItemType
 import dagger.hilt.android.AndroidEntryPoint
 import extensions.setStatusBarColor
-import model.artist.Artist
-import model.music.ChartMusic
 import model.playlist.RecommendPlaylist
 import theme.WePLiTheme
 import javax.inject.Inject
@@ -57,8 +57,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject
-    lateinit var communityNavigator: CommunityNavigator
+    @Inject lateinit var communityNavigator: CommunityNavigator
+    @Inject lateinit var playlistNavigator: PlaylistNavigator
 
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,6 +75,9 @@ class MainActivity : ComponentActivity() {
                     state = state,
                     onNavigateCommunity = {
                         communityNavigator.navigateFrom(this)
+                    },
+                    onNavigatePlaylist = {
+                        playlistNavigator.navigateFrom(this)
                     }
                 )
             }
@@ -88,9 +91,8 @@ class MainActivity : ComponentActivity() {
 fun MainScreen(
     state: HomeUiState,
     onNavigateCommunity: () -> Unit = {},
+    onNavigatePlaylist: () -> Unit = {},
 ) {
-    Log.d("MainScreen", "Top chart list: ${state.topChartList}")
-
     Scaffold(
         containerColor = WePLiTheme.color.black,
         topBar = {
@@ -126,12 +128,12 @@ fun MainScreen(
 
             item {
                 val recommendPlaylists by rememberUpdatedState(newValue = state.recommendPlaylists)
-                WePLiPlaylistLayout(title = "위플리 추천 플레이리스트", playlists = recommendPlaylists)
+                WePLiPlaylistLayout(title = "위플리 추천 플레이리스트", playlists = recommendPlaylists, onClick = { onNavigatePlaylist() })
             }
 
             item {
                 val themePlaylists by rememberUpdatedState(newValue = state.themePlaylists)
-                WePLiPlaylistLayout(title = "테마별 플레이리스트", playlists = themePlaylists)
+                WePLiPlaylistLayout(title = "테마별 플레이리스트", playlists = themePlaylists, onClick = { onNavigatePlaylist() })
             }
         }
     }
@@ -199,7 +201,8 @@ fun WePLiChartLayout(musicList: List<ChartMusicUiData>) {
 @Composable
 fun WePLiPlaylistLayout(
     title: String,
-    playlists: List<RecommendPlaylist>
+    playlists: List<RecommendPlaylist>,
+    onClick: () -> Unit = {},
 ) {
     val playlistWithMaxTitle = remember(key1 = playlists) {
         playlists.maxByOrNull { it.title.length }
@@ -219,7 +222,10 @@ fun WePLiPlaylistLayout(
                 contentPadding = PaddingValues(horizontal = 20.dp)
             ) {
                 items(playlists) { playlist ->
-                    PlayListCoverItem(playlist)
+                    PlayListCoverItem(
+                        modifier = Modifier.clickable { onClick() },
+                        recommendPlaylist = playlist,
+                    )
                 }
             }
         }
