@@ -31,6 +31,7 @@ dependencies {
     implementation(projects.feature.main)
     implementation(projects.feature.home)
     implementation(projects.feature.community)
+    implementation(projects.feature.playlist)
     implementation(projects.data)
     implementation(projects.domain)
     implementation(projects.core.common)
