@@ -26,9 +26,9 @@ import appbar.WePLiAppBar
 import com.wepli.community.component.CommentItem
 import com.wepli.community.component.PostItem
 import com.wepli.community.detail.state.CommunityDetailState
-import com.wepli.community.mock.commentMockData
-import com.wepli.community.mock.postMockData
 import com.wepli.navigator.extras.Extras
+import com.wepli.shared.feature.mock.commentMockData
+import com.wepli.shared.feature.mock.postMockData
 import com.wepli.uimodel.community.CommentUiData
 import com.wepli.uimodel.community.PostUiData
 import dagger.hilt.android.AndroidEntryPoint

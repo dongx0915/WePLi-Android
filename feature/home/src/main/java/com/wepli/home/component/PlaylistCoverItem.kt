@@ -14,7 +14,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
-import com.wepli.home.mock.recommendPlaylistMockData
+import com.wepli.shared.feature.mock.recommendPlaylistMockData
 import image.AsyncImageWithPreview
 import model.playlist.RecommendPlaylist
 import theme.WePLiTheme

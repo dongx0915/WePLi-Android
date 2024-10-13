@@ -38,11 +38,12 @@ import com.wepli.home.component.PlayListCoverItem
 import com.wepli.home.component.TwoLineTitle
 import com.wepli.home.component.WePLiBanner
 import com.wepli.home.component.WePLiBannerType
-import com.wepli.home.mock.artistMockData
-import com.wepli.home.mock.musicMockData
-import com.wepli.home.mock.recommendPlaylistMockData
 import com.wepli.navigator.feature.community.CommunityNavigator
 import com.wepli.home.state.HomeUiState
+import com.wepli.navigator.feature.playlist.PlaylistNavigator
+import com.wepli.shared.feature.mock.artistMockData
+import com.wepli.shared.feature.mock.musicMockData
+import com.wepli.shared.feature.mock.recommendPlaylistMockData
 import com.wepli.uimodel.music.ChartMusicUiData
 import compose.MeasuredHeightContainer
 import custom.MusicItem

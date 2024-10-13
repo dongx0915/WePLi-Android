@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.wepli.designsystem.R
-import com.wepli.home.mock.artistMockData
+import com.wepli.shared.feature.mock.artistMockData
 import extensions.toPx
 import model.artist.Artist
 import theme.WePLiTheme

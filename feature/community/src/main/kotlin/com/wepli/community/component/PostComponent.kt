@@ -31,9 +31,9 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.wepli.community.mock.postMockData
-import com.wepli.community.mock.userMockData
 import com.wepli.designsystem.R
+import com.wepli.shared.feature.mock.postMockData
+import com.wepli.shared.feature.mock.userMockData
 import com.wepli.uimodel.music.SongUiData
 import custom.SongItem
 import image.AsyncImageWithPreview

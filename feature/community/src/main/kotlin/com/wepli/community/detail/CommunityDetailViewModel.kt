@@ -2,7 +2,7 @@ package com.wepli.community.detail
 
 import base.BaseViewModel
 import com.wepli.community.detail.state.CommunityDetailState
-import com.wepli.community.mock.commentMockData
+import com.wepli.shared.feature.mock.commentMockData
 import com.wepli.uimodel.community.PostUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

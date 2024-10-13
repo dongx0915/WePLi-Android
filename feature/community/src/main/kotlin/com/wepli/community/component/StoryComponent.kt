@@ -25,8 +25,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.wepli.community.mock.userMockData
 import com.wepli.designsystem.R
+import com.wepli.shared.feature.mock.userMockData
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import image.AsyncImageWithPreview
 import theme.WePLiTheme

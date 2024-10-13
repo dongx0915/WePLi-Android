@@ -25,10 +25,10 @@ import com.wepli.community.component.PostItem
 import com.wepli.community.component.WePLiStoryLayout
 import com.wepli.community.detail.CommunityDetailActivity
 import com.wepli.community.main.state.CommunityMainState
-import com.wepli.community.mock.postMockData
-import com.wepli.community.mock.userMockData
 import com.wepli.navigator.extras.Extras
 import com.wepli.navigator.feature.community.CommunityDetailNavigator
+import com.wepli.shared.feature.mock.postMockData
+import com.wepli.shared.feature.mock.userMockData
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import com.wepli.uimodel.community.PostUiData
 import common.startActivityWithAnimation

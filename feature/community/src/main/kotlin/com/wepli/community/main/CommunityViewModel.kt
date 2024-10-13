@@ -2,8 +2,8 @@ package com.wepli.community.main
 
 import base.BaseViewModel
 import com.wepli.community.main.state.CommunityMainState
-import com.wepli.community.mock.postMockData
-import com.wepli.community.mock.userMockData
+import com.wepli.shared.feature.mock.postMockData
+import com.wepli.shared.feature.mock.userMockData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
