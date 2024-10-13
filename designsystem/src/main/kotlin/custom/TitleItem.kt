@@ -1,4 +1,4 @@
-package com.wepli.home.component
+package custom
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

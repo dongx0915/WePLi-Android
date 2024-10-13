@@ -31,11 +31,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WePLiAppBar
-import com.wepli.home.component.ArtistProfileListItem
-import com.wepli.home.component.MusicItem
-import com.wepli.home.component.OneLineTitle
+import custom.ArtistProfileListItem
+import custom.OneLineTitle
 import com.wepli.home.component.PlayListCoverItem
-import com.wepli.home.component.TwoLineTitle
+import custom.TwoLineTitle
 import com.wepli.home.component.WePLiBanner
 import com.wepli.home.component.WePLiBannerType
 import com.wepli.navigator.feature.community.CommunityNavigator
@@ -228,7 +227,7 @@ fun WePLiPlaylistLayout(
 }
 
 @Composable
-fun ArtistLayout(artistList: List<Artist>) {
+fun ArtistLayout(artistList: List<ArtistUiData>) {
     if (artistList.isEmpty()) return
 
     Column {

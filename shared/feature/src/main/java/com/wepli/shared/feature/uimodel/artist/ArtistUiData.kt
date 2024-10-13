@@ -14,4 +14,15 @@ import model.artist.Artist
 data class ArtistUiData(
     val name: String,
     val profileUrl: String,
-) : UiModel
+) : UiModel {
+
+    companion object : UiModelMapper<Artist, ArtistUiData> {
+
+        override fun fromDomain(domainModel: Artist): ArtistUiData {
+            return ArtistUiData(
+                name = domainModel.name,
+                profileUrl = domainModel.profileUrl
+            )
+        }
+    }
+}

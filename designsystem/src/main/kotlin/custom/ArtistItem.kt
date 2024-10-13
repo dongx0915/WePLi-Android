@@ -1,4 +1,4 @@
-package com.wepli.home.component
+package custom
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -25,8 +25,8 @@ import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.artistMockData
+import com.wepli.uimodel.artist.ArtistUiData
 import extensions.toPx
-import model.artist.Artist
 import theme.WePLiTheme
 
 
@@ -38,7 +38,7 @@ fun ArtistProfileListItemPreview() {
 
 @Composable
 fun ArtistProfileListItem(
-    artist: Artist
+    artist: ArtistUiData
 ) {
     val isInPreview = LocalInspectionMode.current
     Column(
