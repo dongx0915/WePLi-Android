@@ -18,6 +18,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
@@ -36,14 +37,14 @@ import kotlin.math.min
  * @param contentsColors 콘텐츠 색상
  * @param content 재사용 가능한 콘텐츠
  */
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState")
 @Composable
 fun ScrollableAppBar(
     scrollState: LazyListState,
     scrollThreshold: Float = 1000f,
     backgroundColors: Pair<Color, Color> = Color.Transparent to Color.Black,
     contentsColors: Pair<Color, Color> = Color.Black to Color.White,
-    topBarComponent: @Composable (backgroundColor: Color, iconColor: Color) -> Unit,
+    topBarComponent: @Composable (backgroundColor: Color, contentsColor: Color, isFullScrolled: Boolean) -> Unit,
     content: @Composable (appbarPadding: PaddingValues) -> Unit,
 ) {
     val totalScrollOffset = rememberCurrentOffset(scrollState)
@@ -53,7 +54,7 @@ fun ScrollableAppBar(
     // 배경색과 아이콘 색상 보간
     val backgroundColor = lerp(backgroundColors.first, backgroundColors.second, scrollFraction)
     val contentsColor = lerp(contentsColors.first, contentsColors.second, scrollFraction)
-
+    val isFullScrolled = derivedStateOf { scrollFraction >= 1f }
     val window = (LocalContext.current as? Activity)?.window
     val view = LocalView.current
 
@@ -68,7 +69,7 @@ fun ScrollableAppBar(
 
     // Scaffold로 앱바와 콘텐츠 배치
     Scaffold(
-        topBar = { topBarComponent(backgroundColor, contentsColor) },
+        topBar = { topBarComponent(backgroundColor, contentsColor, isFullScrolled.value) },
         content = { paddingValues -> content(paddingValues) }
     )
 }
@@ -79,14 +80,14 @@ fun ScrollableAppBar(
  * @param contentsColors 콘텐츠 색상
  * @param content 재사용 가능한 콘텐츠
  */
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState")
 @Composable
 fun ScrollableAppBar(
     scrollState: ScrollState,
     scrollThreshold: Float = 1000f,
     backgroundColors: Pair<Color, Color> = Color.Transparent to Color.Black,
     contentsColors: Pair<Color, Color> = Color.Black to Color.White,
-    topBarComponent: @Composable (backgroundColor: Color, contentsColor: Color) -> Unit,
+    topBarComponent: @Composable (backgroundColor: Color, contentsColor: Color, isFullScrolled: Boolean) -> Unit,
     content: @Composable (appbarPadding: PaddingValues) -> Unit,
 ) {
     // 스크롤의 진행 비율을 0에서 1 사이로 계산 (외부에서 받은 scrollThreshold 값 사용)
@@ -96,6 +97,7 @@ fun ScrollableAppBar(
     // 배경색을 외부에서 받은 색상으로 선형 보간
     val backgroundColor = lerp(backgroundColors.first, backgroundColors.second, scrollFraction)
     val contentsColor = lerp(contentsColors.first, contentsColors.second, scrollFraction)
+    val isFullScrolled = derivedStateOf { scrollFraction >= 1f }
     val window = (LocalContext.current as? Activity)?.window
     val view = LocalView.current
 
@@ -110,7 +112,7 @@ fun ScrollableAppBar(
 
     // Scaffold는 Jetpack Compose의 레이아웃을 구성하는 기본 구조로, topBar와 content를 설정
     Scaffold(
-        topBar = { topBarComponent(backgroundColor, contentsColor) },
+        topBar = { topBarComponent(backgroundColor, contentsColor, isFullScrolled.value) },
         content = { paddingValue -> content(paddingValue) }
     )
 }
@@ -124,12 +126,11 @@ fun LazyScrollableAppBar() {
         scrollState = scrollState,
         backgroundColors = Color.Transparent to Color.Black,
         contentsColors = Color.Black to Color.White,
-        topBarComponent = { backgroundColor, iconColor ->
+        topBarComponent = { backgroundColor, iconColor, _ ->
             WePLiAppBar(
                 containerColor = backgroundColor,
                 contentsColor = iconColor,
                 showBackButton = true,
-                showSearchButton = true
             )
         },
         content = { paddingValue ->
@@ -159,12 +160,11 @@ fun ScrollableAppBar() {
         scrollState = scrollState,
         backgroundColors = Color.Transparent to Color.Black,
         contentsColors = Color.Black to Color.White,
-        topBarComponent = { backgroundColor, iconColor ->
+        topBarComponent = { backgroundColor, iconColor, _ ->
             WePLiAppBar(
                 containerColor = backgroundColor,
                 contentsColor = iconColor,
                 showBackButton = true,
-                showSearchButton = true
             )
         },
         content = { paddingValue ->
