@@ -1,11 +1,11 @@
 package appbar
 
-import android.widget.Button
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -36,14 +36,9 @@ fun WePLiAppBar(
     contentsColor: Color = Color.White,
     showLogo: Boolean = false,
     showBackButton: Boolean = false,
-    showSearchButton: Boolean = false,
-    showNotificationButton: Boolean = false,
-    showLikeButton: Boolean = false,
-    showMoreButton: Boolean = false,
     scrollBehavior: TopAppBarScrollBehavior? = null,
     onClickBack: (() -> Unit)? = null,
-    onClickSearch: (() -> Unit)? = null,
-    onClickNotification: (() -> Unit)? = null,
+    actionIcons: List<@Composable () -> Unit> = emptyList(),
 ) {
     CenterAlignedTopAppBar(
         title = {
@@ -76,43 +71,8 @@ fun WePLiAppBar(
             }
         },
         actions = {
-            if (showSearchButton) {
-                AppBarIcon(
-                    modifier = Modifier.offset(x = -6.dp),
-                    iconResource = R.drawable.ic_search,
-                    iconColor = contentsColor,
-                    onClick = { onClickSearch?.invoke() }
-                )
-            }
-
-            if (showNotificationButton) {
-                AppBarIcon(
-                    modifier = Modifier.offset(x = -6.dp),
-                    iconResource = R.drawable.ic_alarm,
-                    iconColor = contentsColor,
-                    onClick = { onClickNotification?.invoke() },
-                    badgeVisible = true
-                )
-            }
-
-            if (showLikeButton) {
-                AppBarIcon(
-                    modifier = Modifier.offset(x = -6.dp),
-                    iconResource = R.drawable.ic_heart,
-                    iconColor = contentsColor,
-                    onClick = { onClickNotification?.invoke() },
-                    badgeVisible = false
-                )
-            }
-
-            if (showMoreButton) {
-                AppBarIcon(
-                    modifier = Modifier.offset(x = -6.dp),
-                    iconResource = R.drawable.ic_more_dot,
-                    iconColor = contentsColor,
-                    onClick = { onClickNotification?.invoke() },
-                    badgeVisible = false
-                )
+            actionIcons.forEach { actionIcon ->
+                actionIcon()
             }
         },
         scrollBehavior = scrollBehavior,
@@ -170,8 +130,21 @@ fun AppBarPreview() {
         WePLiAppBar(
             showLogo = true,
             showBackButton = false,
-            showSearchButton = true,
-            showNotificationButton = true,
+            actionIcons = listOf {
+                AppBarIcon(
+                    modifier = Modifier.offset(x = (-6).dp),
+                    iconResource = R.drawable.ic_search,
+                    iconColor = WePLiTheme.color.white,
+                    onClick = { }
+                )
+                AppBarIcon(
+                    modifier = Modifier.offset(x = (-6).dp),
+                    iconResource = R.drawable.ic_alarm,
+                    iconColor = WePLiTheme.color.white,
+                    onClick = { },
+                    badgeVisible = true
+                )
+            }
         )
     }
 }

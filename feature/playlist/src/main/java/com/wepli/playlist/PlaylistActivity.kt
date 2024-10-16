@@ -82,14 +82,24 @@ fun PlaylistScreen(state: PlaylistState) {
         scrollState = scrollState,
         backgroundColors = Color.Transparent to Color.Black,
         contentsColors = Color.White to Color.White,
-        topBarComponent = { backgroundColor, contentsColor ->
+        topBarComponent = { backgroundColor, contentsColor, isFullScrolled ->
             WePLiAppBar(
-                title = playlist.title,
+                title = if (isFullScrolled) playlist.title else "",
                 containerColor = backgroundColor,
                 contentsColor = contentsColor,
                 showBackButton = true,
-                showLikeButton = true,
-                showMoreButton = true,
+                actionIcons = listOf {
+                    AppBarIcon(
+                        iconResource = if (playlist.isLiked) R.drawable.ic_heart_filled else R.drawable.ic_heart,
+                        iconColor = if (playlist.isLiked) Color.Unspecified else contentsColor,
+                        onClick = { viewModel.toggleLiked() }
+                    )
+                    AppBarIcon(
+                        iconResource = R.drawable.ic_more_dot,
+                        iconColor = contentsColor,
+                        onClick = { /* TODO */ }
+                    )
+                }
             )
         }
     ) { paddingValue ->

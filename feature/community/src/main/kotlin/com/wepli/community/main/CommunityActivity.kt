@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,12 +20,15 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import appbar.AppBarIcon
 import appbar.WePLiAppBar
 import com.wepli.community.component.PostItem
 import com.wepli.community.component.WePLiStoryLayout
 import com.wepli.community.detail.CommunityDetailActivity
 import com.wepli.community.main.state.CommunityMainState
+import com.wepli.designsystem.R
 import com.wepli.navigator.extras.Extras
 import com.wepli.navigator.feature.community.CommunityDetailNavigator
 import com.wepli.shared.feature.mock.postMockData
@@ -79,8 +83,21 @@ fun CommunityScreen(
             WePLiAppBar(
                 showLogo = true,
                 showBackButton = false,
-                showSearchButton = true,
-                showNotificationButton = true,
+                actionIcons = listOf {
+                    AppBarIcon(
+                        modifier = Modifier.offset(x = (-6).dp),
+                        iconResource = R.drawable.ic_search,
+                        iconColor = WePLiTheme.color.white,
+                        onClick = { }
+                    )
+                    AppBarIcon(
+                        modifier = Modifier.offset(x = (-6).dp),
+                        iconResource = R.drawable.ic_alarm,
+                        iconColor = WePLiTheme.color.white,
+                        onClick = { },
+                        badgeVisible = true
+                    )
+                }
             )
         }
     ) { paddingValues ->
