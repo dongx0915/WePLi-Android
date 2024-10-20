@@ -3,7 +3,7 @@ package com.wepli.data.artist.repository
 import com.wepli.data.artist.datasource.remote.ArtistDataSource
 import com.wepli.data.artist.response.toDomain
 import com.wepli.data.network.toEntityResult
-import com.wepli.kotlin.FlowResult
+import com.wepli.core.kotlin.FlowResult
 import model.artist.Artist
 import repository.artist.ArtistRepository
 import javax.inject.Inject

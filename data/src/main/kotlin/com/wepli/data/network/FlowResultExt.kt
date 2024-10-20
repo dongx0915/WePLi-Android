@@ -1,10 +1,10 @@
 package com.wepli.data.network
 
-import com.wepli.kotlin.FlowResult
+import com.wepli.core.kotlin.FlowResult
 import common.WePLiException
 import kotlinx.coroutines.flow.map
 
-fun <R, D> FlowResult<R>.toEntityResult(mapper: (R) -> D): com.wepli.kotlin.FlowResult<D> {
+fun <R, D> FlowResult<R>.toEntityResult(mapper: (R) -> D): FlowResult<D> {
     fun <R, D> Result<R>.parseResult(mapper: (R) -> D): Result<D> = when {
         this.isSuccess -> Result.success(
             // CallAdapter에서 body가 null인 경우도 걸러주고 있으므로

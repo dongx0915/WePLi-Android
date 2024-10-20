@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.wepli.home.state.HomeUiState
 import repository.chart.ChartRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import com.wepli.kotlin.collectResult
+import com.wepli.core.kotlin.collectResult
 import com.wepli.uimodel.artist.ArtistUiData
 import com.wepli.uimodel.music.ChartMusicUiData
 import kotlinx.coroutines.Dispatchers

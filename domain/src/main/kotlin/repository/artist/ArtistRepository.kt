@@ -1,6 +1,6 @@
 package repository.artist
 
-import com.wepli.kotlin.FlowResult
+import com.wepli.core.kotlin.FlowResult
 import model.artist.Artist
 
 interface ArtistRepository {
