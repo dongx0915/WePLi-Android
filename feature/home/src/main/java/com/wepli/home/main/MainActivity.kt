@@ -46,6 +46,7 @@ import com.wepli.navigator.feature.playlist.PlaylistNavigator
 import com.wepli.shared.feature.mock.artistMockData
 import com.wepli.shared.feature.mock.musicMockData
 import com.wepli.shared.feature.mock.recommendPlaylistMockData
+import com.wepli.shared.feature.uimodel.playlist.PlaylistUiData
 import com.wepli.uimodel.artist.ArtistUiData
 import com.wepli.uimodel.music.ChartMusicUiData
 import compose.MeasuredHeightContainer
@@ -79,7 +80,7 @@ class MainActivity : ComponentActivity() {
                     onNavigateCommunity = {
                         communityNavigator.navigateFrom(this)
                     },
-                    onNavigatePlaylist = {
+                    onNavigatePlaylist = { playlist ->
                         playlistNavigator.navigateFrom(this)
                     }
                 )
@@ -94,7 +95,7 @@ class MainActivity : ComponentActivity() {
 fun MainScreen(
     state: HomeUiState,
     onNavigateCommunity: () -> Unit = {},
-    onNavigatePlaylist: () -> Unit = {},
+    onNavigatePlaylist: (playlist: RecommendPlaylist) -> Unit = {},
 ) {
     Scaffold(
         containerColor = WePLiTheme.color.black,
@@ -141,12 +142,12 @@ fun MainScreen(
 
             item {
                 val recommendPlaylists by rememberUpdatedState(newValue = state.recommendPlaylists)
-                WePLiPlaylistLayout(title = "위플리 추천 플레이리스트", playlists = recommendPlaylists, onClick = { onNavigatePlaylist() })
+                WePLiPlaylistLayout(title = "위플리 추천 플레이리스트", playlists = recommendPlaylists, onClick = { onNavigatePlaylist(it) })
             }
 
             item {
                 val themePlaylists by rememberUpdatedState(newValue = state.themePlaylists)
-                WePLiPlaylistLayout(title = "테마별 플레이리스트", playlists = themePlaylists, onClick = { onNavigatePlaylist() })
+                WePLiPlaylistLayout(title = "테마별 플레이리스트", playlists = themePlaylists, onClick = { onNavigatePlaylist(it) })
             }
         }
     }
@@ -215,7 +216,7 @@ fun WePLiChartLayout(musicList: List<ChartMusicUiData>) {
 fun WePLiPlaylistLayout(
     title: String,
     playlists: List<RecommendPlaylist>,
-    onClick: () -> Unit = {},
+    onClick: (playlist: RecommendPlaylist) -> Unit = {},
 ) {
     val playlistWithMaxTitle = remember(key1 = playlists) {
         playlists.maxByOrNull { it.title.length }
@@ -236,7 +237,7 @@ fun WePLiPlaylistLayout(
             ) {
                 items(playlists) { playlist ->
                     PlayListCoverItem(
-                        modifier = Modifier.clickable { onClick() },
+                        modifier = Modifier.clickable { onClick(playlist) },
                         recommendPlaylist = playlist,
                     )
                 }
