@@ -28,6 +28,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -116,7 +119,9 @@ fun BottomNavigationBar(navController: NavHostController) {
             containerColor = Color.Transparent,
         ) {
             val navBackStackEntry = navController.currentBackStackEntryAsState()
-            val currentRoute = navBackStackEntry.value?.destination?.route
+            val currentRoute by remember {
+                derivedStateOf { navBackStackEntry.value?.destination?.route }
+            }
 
             navItems.forEach { item ->
                 val isSelected = currentRoute == item.route
