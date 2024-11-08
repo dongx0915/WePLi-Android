@@ -28,7 +28,6 @@ include(":app")
  *  include(":build-logic:convention") // remove
  */
 // App 모듈에도 모든 모듈에 대해 참조 설정 해주어야함
-include(":feature:main")
 include(":feature:home")
 include(":feature:community")
 include(":feature:playlist")
