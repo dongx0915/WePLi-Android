@@ -5,9 +5,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.wepli.ChartScreen
-import com.wepli.CommunityScreen
 import com.wepli.MyPageScreen
 import com.wepli.SearchScreen
+import com.wepli.community.main.CommunityScreen
 import com.wepli.home.screen.HomeScreen
 
 @Composable

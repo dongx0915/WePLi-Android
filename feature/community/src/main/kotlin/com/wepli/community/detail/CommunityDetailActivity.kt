@@ -56,7 +56,7 @@ class CommunityDetailActivity : ComponentActivity() {
             }
 
             WePLiTheme {
-                CommunityDetailScreen(state)
+                CommunityDetailScreen()
             }
         }
     }
@@ -66,18 +66,16 @@ class CommunityDetailActivity : ComponentActivity() {
 @Composable
 fun CommunityDetailScreenPreview() {
     CommunityDetailScreen(
-        state = CommunityDetailState(
-            post = postMockData.first(),
-            comments = commentMockData()
-        )
+
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommunityDetailScreen(
-    state: CommunityDetailState,
+    viewModel: CommunityDetailViewModel = hiltViewModel(),
 ) {
+    val state by viewModel.state.collectAsState()
     val post = state.post
     val scrollState = rememberLazyListState()
     val comments = remember {

@@ -5,10 +5,6 @@
         <activity
             android:name="com.wepli.community.detail.CommunityDetailActivity"
             android:exported="false" />
-
-        <activity
-            android:name="com.wepli.community.main.CommunityActivity"
-            android:exported="false" />
     </application>
 
 </manifest>
