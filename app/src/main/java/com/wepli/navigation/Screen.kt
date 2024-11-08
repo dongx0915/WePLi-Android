@@ -6,8 +6,8 @@ import com.wepli.designsystem.R
 sealed class Screen(
     val route: String,
     val title: String,
-    @DrawableRes val icon: Int,
-    @DrawableRes val selectedIcon: Int
+    @DrawableRes val bottomTabIcon: Int? = null,
+    @DrawableRes val bottomTabSelectedIcon: Int? = null
 ) {
     data object Home : Screen("home", "홈", R.drawable.ic_home, R.drawable.ic_home_color)
     data object Search : Screen("search", "검색", R.drawable.ic_search_2, R.drawable.ic_search_2_color)

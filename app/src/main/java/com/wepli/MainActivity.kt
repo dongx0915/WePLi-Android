@@ -31,11 +31,10 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.wepli.navigation.Screen
+import com.wepli.navigation.SetUpNavGraph
 import theme.WePLiTheme
 
 class MainActivity : ComponentActivity() {
@@ -57,7 +56,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainApp() {
     val navController = rememberNavController()
-    val navItems = listOf(
+    val bottomNavItems = listOf(
         Screen.Home,
         Screen.Search,
         Screen.Chart,
@@ -67,26 +66,10 @@ fun MainApp() {
 
     Scaffold(
         bottomBar = {
-            BottomNavigationBar(navItems = navItems, navController = navController)
+            BottomNavigationBar(navItems = bottomNavItems, navController = navController)
         }
     ) {
-        NavHost(navController = navController, startDestination = Screen.Home.route) {
-            composable(Screen.Home.route) {
-                HomeScreen()
-            }
-            composable(Screen.Search.route) {
-                SearchScreen()
-            }
-            composable(Screen.Chart.route) {
-                ChartScreen()
-            }
-            composable(Screen.Community.route) {
-                CommunityScreen()
-            }
-            composable(Screen.MyPage.route) {
-                MyPageScreen()
-            }
-        }
+        SetUpNavGraph(navController = navController, startDestination = Screen.Home.route)
     }
 }
 
@@ -123,9 +106,12 @@ fun BottomNavigationBar(navItems: List<Screen>, navController: NavHostController
 
                 NavigationBarItem(
                     icon = {
-                        val icon = if (isSelected) item.selectedIcon else item.icon
+                        val icon: Int = (if (isSelected) item.bottomTabSelectedIcon else item.bottomTabIcon) ?: return@NavigationBarItem
+
                         Icon(
-                            modifier = Modifier.size(24.dp).offset(y = 2.dp),
+                            modifier = Modifier
+                                .size(24.dp)
+                                .offset(y = 2.dp),
                             imageVector = ImageVector.vectorResource(id = icon),
                             tint = Color.Unspecified,
                             contentDescription = item.title
