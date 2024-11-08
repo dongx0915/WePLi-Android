@@ -33,7 +33,7 @@ import com.wepli.designsystem.R
 import com.wepli.home.component.PlayListCoverItem
 import com.wepli.home.component.WePLiBanner
 import com.wepli.home.component.WePLiBannerType
-import com.wepli.home.main.MainViewModel
+import com.wepli.home.viewmodel.HomeViewModel
 import com.wepli.shared.feature.mock.artistMockData
 import com.wepli.shared.feature.mock.musicMockData
 import com.wepli.uimodel.artist.ArtistUiData
@@ -51,7 +51,7 @@ import theme.WePLiTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    viewModel: MainViewModel = hiltViewModel(),
+    viewModel: HomeViewModel = hiltViewModel(),
     onNavigateCommunity: () -> Unit = {},
     onNavigatePlaylist: (playlist: RecommendPlaylist) -> Unit = {},
 ) {

@@ -1,4 +1,4 @@
-package com.wepli.home.main
+package com.wepli.home.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,7 +20,7 @@ import repository.playlist.PlaylistRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val chartRepository: ChartRepository,
     private val artistRepository: ArtistRepository,
     private val playlistRepository: PlaylistRepository,
