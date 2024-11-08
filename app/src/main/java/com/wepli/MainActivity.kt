@@ -35,8 +35,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.wepli.navigation.Screen
 import com.wepli.navigation.SetUpNavGraph
+import dagger.hilt.android.AndroidEntryPoint
 import theme.WePLiTheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

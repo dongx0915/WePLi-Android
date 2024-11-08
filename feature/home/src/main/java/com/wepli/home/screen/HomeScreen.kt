@@ -1,9 +1,6 @@
-package com.wepli.home.main
+package com.wepli.home.screen
 
 import android.annotation.SuppressLint
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,76 +24,39 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.AppBarIcon
 import appbar.WePLiAppBar
 import com.wepli.designsystem.R
-import custom.ArtistProfileListItem
-import custom.OneLineTitle
 import com.wepli.home.component.PlayListCoverItem
-import custom.TwoLineTitle
 import com.wepli.home.component.WePLiBanner
 import com.wepli.home.component.WePLiBannerType
-import com.wepli.navigator.feature.community.CommunityNavigator
-import com.wepli.home.state.HomeUiState
-import com.wepli.navigator.feature.playlist.PlaylistNavigator
+import com.wepli.home.main.MainViewModel
 import com.wepli.shared.feature.mock.artistMockData
 import com.wepli.shared.feature.mock.musicMockData
-import com.wepli.shared.feature.mock.recommendPlaylistMockData
-import com.wepli.shared.feature.uimodel.playlist.PlaylistUiData
 import com.wepli.uimodel.artist.ArtistUiData
 import com.wepli.uimodel.music.ChartMusicUiData
 import compose.MeasuredHeightContainer
+import custom.ArtistProfileListItem
 import custom.MusicItem
 import custom.MusicItemType
-import dagger.hilt.android.AndroidEntryPoint
-import extensions.setStatusBarColor
+import custom.OneLineTitle
+import custom.TwoLineTitle
 import model.playlist.RecommendPlaylist
 import theme.WePLiTheme
-import javax.inject.Inject
-
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
-
-    @Inject lateinit var communityNavigator: CommunityNavigator
-    @Inject lateinit var playlistNavigator: PlaylistNavigator
-
-    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // enableEdgeToEdge()
-        setStatusBarColor(Color.Black, darkIcons = false)
-        setContent {
-            val viewModel: MainViewModel = hiltViewModel()
-            val state by viewModel.state.collectAsState()
-
-            WePLiTheme {
-                MainScreen(
-                    state = state,
-                    onNavigateCommunity = {
-                        communityNavigator.navigateFrom(this)
-                    },
-                    onNavigatePlaylist = { playlist ->
-                        playlistNavigator.navigateFrom(this)
-                    }
-                )
-            }
-        }
-    }
-}
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(
-    state: HomeUiState,
+fun HomeScreen(
+    viewModel: MainViewModel = hiltViewModel(),
     onNavigateCommunity: () -> Unit = {},
     onNavigatePlaylist: (playlist: RecommendPlaylist) -> Unit = {},
 ) {
+    val state by viewModel.state.collectAsState()
+
     Scaffold(
         containerColor = WePLiTheme.color.black,
         topBar = {
@@ -270,13 +230,7 @@ fun ArtistLayout(artistList: List<ArtistUiData>) {
 @Preview
 @Composable
 fun MainScreenPreview() {
-    MainScreen(
-        HomeUiState(
-            topChartList = musicMockData,
-            artistList = artistMockData,
-            recommendPlaylists = recommendPlaylistMockData
-        )
-    )
+    HomeScreen()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

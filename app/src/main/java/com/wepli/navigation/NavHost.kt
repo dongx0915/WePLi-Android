@@ -6,9 +6,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.wepli.ChartScreen
 import com.wepli.CommunityScreen
-import com.wepli.HomeScreen
 import com.wepli.MyPageScreen
 import com.wepli.SearchScreen
+import com.wepli.home.screen.HomeScreen
 
 @Composable
 fun SetUpNavGraph(
