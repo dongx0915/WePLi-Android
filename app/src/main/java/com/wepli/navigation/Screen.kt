@@ -1,4 +1,4 @@
-package com.wepli.main
+package com.wepli.navigation
 
 import androidx.annotation.DrawableRes
 import com.wepli.designsystem.R
