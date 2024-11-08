@@ -36,7 +36,8 @@ fun WePLiTheme(
 
             // 다크 모드에 따른 아이콘 색상 설정
             val controller = WindowInsetsControllerCompat(window, view)
-            controller.isAppearanceLightNavigationBars = !darkTheme
+            controller.isAppearanceLightStatusBars = false // 아이콘을 항상 밝게 설정
+            controller.isAppearanceLightNavigationBars = false
         }
     }
 
