@@ -76,6 +76,7 @@ fun MainApp() {
     }
 
     Scaffold(
+        containerColor = WePLiTheme.color.black,
         bottomBar = {
             if (isBottomTabVisible) {
                 BottomNavigationBar(
