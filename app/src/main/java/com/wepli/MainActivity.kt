@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.wepli.navigation.Screen
+import com.wepli.navigation.BottomNavRoute
 import com.wepli.navigation.SetUpNavGraph
 import dagger.hilt.android.AndroidEntryPoint
 import theme.WePLiTheme
@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "RememberReturnType")
 @Composable
 fun MainApp() {
     val navController = rememberNavController()
@@ -67,18 +67,35 @@ fun MainApp() {
             BottomNavRoute.MyPage,
         )
     }
+    val currentRoute by navController.currentBackStackEntryAsState().let { state ->
+        derivedStateOf { state.value?.destination?.route }
+    }
+
+    val isBottomTabVisible by remember {
+        derivedStateOf { currentRoute in bottomNavItems.map { it.route } }
+    }
 
     Scaffold(
         bottomBar = {
-            BottomNavigationBar(navItems = bottomNavItems, navController = navController)
+            if (isBottomTabVisible) {
+                BottomNavigationBar(
+                    navItems = bottomNavItems,
+                    navController = navController,
+                    currentRoute = currentRoute
+                )
+            }
         }
     ) {
-        SetUpNavGraph(navController = navController, startDestination = Screen.Home.route)
+        SetUpNavGraph(navController = navController, startDestination = BottomNavRoute.Home.route)
     }
 }
 
 @Composable
-fun BottomNavigationBar(navItems: List<Screen>, navController: NavHostController) {
+fun BottomNavigationBar(
+    navItems: List<BottomNavRoute>,
+    navController: NavHostController,
+    currentRoute: String?,
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -89,34 +106,25 @@ fun BottomNavigationBar(navItems: List<Screen>, navController: NavHostController
             modifier = Modifier.height(56.dp),
             containerColor = Color.Transparent,
         ) {
-            val navBackStackEntry = navController.currentBackStackEntryAsState()
-            val currentRoute by remember {
-                derivedStateOf { navBackStackEntry.value?.destination?.route }
-            }
-
             navItems.forEach { item ->
                 val isSelected = currentRoute == item.route
+                val iconRes = if (isSelected) item.bottomTabSelectedIcon else item.bottomTabIcon
+                val textTypo = WePLiTheme.typo.caption2.copy(
+                    fontWeight = FontWeight.Medium,
+                )
                 val textStyle = if (isSelected) {
-                    WePLiTheme.typo.caption2.copy(
-                        brush = WePLiTheme.color.linear3,
-                        fontWeight = FontWeight.Medium
-                    )
+                    textTypo.copy(brush = WePLiTheme.color.linear3,)
                 } else {
-                    WePLiTheme.typo.caption2.copy(
-                        color = WePLiTheme.color.gray500,
-                        fontWeight = FontWeight.Medium
-                    )
+                    textTypo.copy(color = WePLiTheme.color.gray500,)
                 }
 
                 NavigationBarItem(
                     icon = {
-                        val icon: Int = (if (isSelected) item.bottomTabSelectedIcon else item.bottomTabIcon) ?: return@NavigationBarItem
-
                         Icon(
                             modifier = Modifier
                                 .size(24.dp)
                                 .offset(y = 2.dp),
-                            imageVector = ImageVector.vectorResource(id = icon),
+                            imageVector = ImageVector.vectorResource(id = iconRes ?: return@NavigationBarItem),
                             tint = Color.Unspecified,
                             contentDescription = item.title
                         )
@@ -127,6 +135,9 @@ fun BottomNavigationBar(navItems: List<Screen>, navController: NavHostController
                     alwaysShowLabel = true,
                     selected = currentRoute == item.route,
                     onClick = {
+                        // 현재 경로와 클릭한 항목의 경로가 다를 때만 네비게이션 수행
+                        if (currentRoute == item.route) return@NavigationBarItem
+
                         navController.navigate(item.route) {
                             popUpTo(navController.graph.startDestinationId) {
                                 saveState = true
