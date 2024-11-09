@@ -89,8 +89,10 @@ androidx-compose-animation = { group = "androidx.compose.animation", name = "ani
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 androidx-compose-destination = { group = "io.github.raamcosta.compose-destinations", name = "core", version.ref = "composeDestination" }
 androidx-compose-destination-compiler = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "composeDestination" }
-androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
+
+# Compose Navigation
+androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
 
 compose-compiler-extension = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
@@ -116,7 +118,8 @@ androidx-compose = [
     "androidx-compose-animation",
     "androidx-compose-foundation",
     "androidx-compose-destination-compiler",
-    "androidx-hilt-navigation-compose"
+    "androidx-hilt-navigation-compose",
+    "androidx-compose-navigation",
 ]
 
 [plugins] # 플러그인
