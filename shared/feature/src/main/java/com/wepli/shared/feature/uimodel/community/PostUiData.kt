@@ -1,4 +1,4 @@
-package com.wepli.uimodel.community
+package com.wepli.shared.feature.uimodel.community
 
 import com.wepli.common.UiModel
 import com.wepli.common.UiModelMapper

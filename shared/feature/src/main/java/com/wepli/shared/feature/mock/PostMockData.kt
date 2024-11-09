@@ -1,6 +1,6 @@
 package com.wepli.shared.feature.mock
 
-import com.wepli.uimodel.community.PostUiData
+import com.wepli.shared.feature.uimodel.community.PostUiData
 
 val postMockData = listOf(
     PostUiData(

@@ -1,7 +1,7 @@
 package com.wepli.community.detail.state
 
 import com.wepli.uimodel.community.CommentUiData
-import com.wepli.uimodel.community.PostUiData
+import com.wepli.shared.feature.uimodel.community.PostUiData
 
 data class CommunityDetailState(
     val post: PostUiData = PostUiData(),

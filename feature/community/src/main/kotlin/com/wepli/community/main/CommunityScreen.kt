@@ -22,7 +22,7 @@ import com.wepli.community.component.PostItem
 import com.wepli.community.component.WePLiStoryLayout
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.uimodel.user.UserUiData
-import com.wepli.uimodel.community.PostUiData
+import com.wepli.shared.feature.uimodel.community.PostUiData
 import theme.WePLiTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
