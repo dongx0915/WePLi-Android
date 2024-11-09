@@ -1,7 +1,6 @@
 package com.wepli.community.navigation
 
 import android.net.Uri
-import android.util.Log
 import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -14,6 +13,7 @@ import com.wepli.community.detail.CommunityDetailViewModel
 import com.wepli.community.main.CommunityScreen
 import com.wepli.navigator.feature.community.CommunityRoute
 import com.wepli.shared.feature.uimodel.community.PostUiData
+import extensions.enterAnimation
 import extensions.parseFromJson
 import extensions.toJsonString
 
@@ -40,7 +40,8 @@ fun NavGraphBuilder.communityDetailGraph(
         route = "${CommunityRoute.Detail.route}/{post}",
         arguments = listOf(
             navArgument("post") { type = NavType.StringType }
-        )
+        ),
+        enterTransition = { enterAnimation() }
     ) {
         val post = it.arguments?.getString("post")?.parseFromJson<PostUiData>()
         val viewModel = hiltViewModel<CommunityDetailViewModel>()
