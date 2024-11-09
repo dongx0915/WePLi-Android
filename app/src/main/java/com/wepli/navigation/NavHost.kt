@@ -17,19 +17,16 @@ fun SetUpNavGraph(
 ) {
 
     NavHost(navController = navController, startDestination = startDestination) {
-        composable(Screen.Home.route) {
+        composable(BottomNavRoute.Home.route) {
             HomeScreen()
         }
-        composable(Screen.Search.route) {
+        composable(BottomNavRoute.Search.route) {
             SearchScreen()
         }
-        composable(Screen.Chart.route) {
+        composable(BottomNavRoute.Chart.route) {
             ChartScreen()
         }
-        composable(Screen.Community.route) {
-            CommunityScreen()
-        }
-        composable(Screen.MyPage.route) {
+        composable(BottomNavRoute.MyPage.route) {
             MyPageScreen()
         }
     }

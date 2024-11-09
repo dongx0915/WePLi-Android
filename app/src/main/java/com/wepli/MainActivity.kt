@@ -58,13 +58,15 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainApp() {
     val navController = rememberNavController()
-    val bottomNavItems = listOf(
-        Screen.Home,
-        Screen.Search,
-        Screen.Chart,
-        Screen.Community,
-        Screen.MyPage,
-    )
+    val bottomNavItems = remember {
+        listOf(
+            BottomNavRoute.Home,
+            BottomNavRoute.Search,
+            BottomNavRoute.Chart,
+            BottomNavRoute.Community,
+            BottomNavRoute.MyPage,
+        )
+    }
 
     Scaffold(
         bottomBar = {
