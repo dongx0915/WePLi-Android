@@ -33,7 +33,9 @@ fun NavGraphBuilder.communityMainGraph(
     }
 }
 
-fun NavGraphBuilder.communityDetailGraph() {
+fun NavGraphBuilder.communityDetailGraph(
+    navOnBack: () -> Unit
+) {
     composable(
         route = "${CommunityRoute.Detail.route}/{post}",
         arguments = listOf(
@@ -47,6 +49,6 @@ fun NavGraphBuilder.communityDetailGraph() {
             viewModel.setPost(post ?: PostUiData())
         }
 
-        CommunityDetailScreen(viewModel)
+        CommunityDetailScreen(viewModel = viewModel, navOnBack = { navOnBack() })
     }
 }

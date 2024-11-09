@@ -1,13 +1,13 @@
 package com.wepli.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.wepli.ChartScreen
 import com.wepli.MyPageScreen
 import com.wepli.SearchScreen
-import com.wepli.community.main.CommunityScreen
 import com.wepli.community.navigation.communityDetailGraph
 import com.wepli.community.navigation.communityMainGraph
 import com.wepli.community.navigation.navigateToCommunityDetail
@@ -18,7 +18,6 @@ fun SetUpNavGraph(
     navController: NavHostController,
     startDestination: String,
 ) {
-
     NavHost(navController = navController, startDestination = startDestination) {
         composable(BottomNavRoute.Home.route) {
             HomeScreen()
@@ -37,6 +36,10 @@ fun SetUpNavGraph(
         communityMainGraph(
             navOnCommunityDetail = { post -> navController.navigateToCommunityDetail(post) }
         )
-        communityDetailGraph()
+        communityDetailGraph(
+            navOnBack = { navController.navigateToBack() }
+        )
     }
 }
+
+fun NavController.navigateToBack() = navigateUp()

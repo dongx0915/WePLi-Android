@@ -72,6 +72,7 @@ fun CommunityDetailScreenPreview() {
 @Composable
 fun CommunityDetailScreen(
     viewModel: CommunityDetailViewModel = hiltViewModel(),
+    navOnBack: () -> Unit = {},
 ) {
     val state by viewModel.state.collectAsState()
     val post = state.post
@@ -90,6 +91,7 @@ fun CommunityDetailScreen(
                 containerColor = backgroundColor,
                 contentsColor = contentsColor,
                 showBackButton = true,
+                onClickBack = { navOnBack() }
             )
         }
     ) { paddingValue ->
