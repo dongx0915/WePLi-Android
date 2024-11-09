@@ -30,6 +30,7 @@ import theme.WePLiTheme
 @Composable
 fun CommunityScreen(
     viewModel: CommunityViewModel = hiltViewModel(),
+    navOnCommunityDetail: (PostUiData) -> Unit = {}
 ) {
     val state by viewModel.state.collectAsState()
     val storyUsers: List<UserUiData> by rememberUpdatedState(newValue = state.storyUsers)
@@ -67,12 +68,7 @@ fun CommunityScreen(
             items(posts) { post: PostUiData ->
                 PostItem(
                     modifier = Modifier.clickable {
-                        //                        communityDetailNavigator.navigateFrom(
-                        //                            activity = activity,
-                        //                            intentBuilder = {
-                        //                                putExtra(Extras.POST_DATA, post)
-                        //                            },
-                        //                        )
+                        navOnCommunityDetail.invoke(post)
                     },
                     title = post.title,
                     content = post.content,

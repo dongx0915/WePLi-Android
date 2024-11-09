@@ -8,6 +8,9 @@ import com.wepli.ChartScreen
 import com.wepli.MyPageScreen
 import com.wepli.SearchScreen
 import com.wepli.community.main.CommunityScreen
+import com.wepli.community.navigation.communityDetailGraph
+import com.wepli.community.navigation.communityMainGraph
+import com.wepli.community.navigation.navigateToCommunityDetail
 import com.wepli.home.screen.HomeScreen
 
 @Composable
@@ -29,5 +32,11 @@ fun SetUpNavGraph(
         composable(BottomNavRoute.MyPage.route) {
             MyPageScreen()
         }
+
+        // 커뮤니티 Graph
+        communityMainGraph(
+            navOnCommunityDetail = { post -> navController.navigateToCommunityDetail(post) }
+        )
+        communityDetailGraph()
     }
 }
