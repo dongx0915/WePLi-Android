@@ -149,16 +149,6 @@ fun BottomNavigationBar(navItems: List<Screen>, navController: NavHostController
 }
 
 @Composable
-fun HomeScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(text = "Home")
-    }
-}
-
-@Composable
 fun SearchScreen() {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -175,16 +165,6 @@ fun ChartScreen() {
         contentAlignment = Alignment.Center
     ) {
         Text(text = "Chart")
-    }
-}
-
-@Composable
-fun CommunityScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(text = "Community")
     }
 }
 
