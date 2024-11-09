@@ -37,4 +37,5 @@ dependencies {
     implementation(projects.core.common)
     implementation(projects.core.navigator)
     implementation(projects.designsystem)
+    implementation(projects.shared.feature)
 }

@@ -6,3 +6,7 @@ plugins {
 android {
     namespace = "com.wepli.core.common"
 }
+
+dependencies {
+    implementation(libs.gson)
+}

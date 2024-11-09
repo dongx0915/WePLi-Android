@@ -46,6 +46,7 @@ coil = "2.7.0"
 retrofit = "2.11.0"
 okhttp = "4.12.0"
 joda-time = "2.13.0"
+gson = "2.10.1"
 
 [libraries] # 라이브러리 의존성
 
@@ -99,6 +100,7 @@ retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = 
 okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 okhttp3-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 joda-time = { group = "joda-time", name = "joda-time", version.ref = "joda-time" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 
 [bundles] # 라이브러리를 묶어서 선언
 androidx-compose = [
