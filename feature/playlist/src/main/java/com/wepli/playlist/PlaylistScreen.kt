@@ -1,9 +1,5 @@
 package com.wepli.playlist
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -30,35 +26,18 @@ import com.wepli.playlist.component.ArtistLayout
 import com.wepli.playlist.component.PlaylistBsideTrackContent
 import com.wepli.playlist.component.PlaylistHeader
 import com.wepli.shared.feature.mock.artistMockData
-import dagger.hilt.android.AndroidEntryPoint
-import theme.WePLiTheme
-
-@AndroidEntryPoint
-class PlaylistActivity : ComponentActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        enableEdgeToEdge()
-        setContent {
-            WePLiTheme {
-                PlaylistScreen()
-            }
-        }
-    }
-}
-
 
 @Preview
 @Composable
 fun PlaylistScreenPreview() {
-    PlaylistScreen(viewModel = hiltViewModel())
+    PlaylistScreen(viewModel = hiltViewModel()) {}
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlaylistScreen(
-    viewModel: PlaylistViewModel = hiltViewModel()
+    viewModel: PlaylistViewModel = hiltViewModel(),
+    navOnBack: () -> Unit,
 ) {
     val state by viewModel.state.collectAsState()
     val scrollState = rememberScrollState()
@@ -85,7 +64,8 @@ fun PlaylistScreen(
                         iconColor = contentsColor,
                         onClick = { /* TODO */ }
                     )
-                }
+                },
+                onClickBack = { navOnBack() }
             )
         }
     ) { paddingValue ->

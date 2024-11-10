@@ -12,6 +12,8 @@ import com.wepli.community.navigation.communityDetailGraph
 import com.wepli.community.navigation.communityMainGraph
 import com.wepli.community.navigation.navigateToCommunityDetail
 import com.wepli.home.screen.HomeScreen
+import com.wepli.playlist.navigation.navigateToPlaylistDetail
+import com.wepli.playlist.navigation.playlistDetailGraph
 
 @Composable
 fun SetUpNavGraph(
@@ -20,7 +22,9 @@ fun SetUpNavGraph(
 ) {
     NavHost(navController = navController, startDestination = startDestination) {
         composable(BottomNavRoute.Home.route) {
-            HomeScreen()
+            HomeScreen(
+                onNavigatePlaylist = { playlist -> navController.navigateToPlaylistDetail(/* playlist */) },
+            )
         }
         composable(BottomNavRoute.Search.route) {
             SearchScreen()
@@ -37,6 +41,11 @@ fun SetUpNavGraph(
             navOnCommunityDetail = { post -> navController.navigateToCommunityDetail(post) }
         )
         communityDetailGraph(
+            navOnBack = { navController.navigateToBack() }
+        )
+
+        // 플레이리스트 Graph
+        playlistDetailGraph(
             navOnBack = { navController.navigateToBack() }
         )
     }

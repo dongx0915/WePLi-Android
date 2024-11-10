@@ -86,7 +86,7 @@ fun PlaylistContentBody(
         ),
         collapsedMaxLine = 2,
         showMoreText = " ...더보기",
-        showLessText = " ...닫기",
+        showLessText = " 닫기",
         showMoreStyle = spanStyle,
         showLessStyle = spanStyle,
     )
