@@ -1,9 +1,5 @@
 package com.wepli.community.detail
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,7 +8,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -25,47 +20,15 @@ import appbar.ScrollableAppBar
 import appbar.WePLiAppBar
 import com.wepli.community.component.CommentItem
 import com.wepli.community.component.PostItem
-import com.wepli.navigator.extras.Extras
 import com.wepli.shared.feature.mock.commentMockData
-import com.wepli.uimodel.community.CommentUiData
 import com.wepli.shared.feature.uimodel.community.PostUiData
-import dagger.hilt.android.AndroidEntryPoint
-import extensions.getParcelableExtraCompat
+import com.wepli.uimodel.community.CommentUiData
 import theme.WePLiTheme
-
-/**
- * 게시글 데이터는 Extra로 전달
- * 댓글은 Paging 필요하니까 id로 서버에서 조회
- */
-@AndroidEntryPoint
-class CommunityDetailActivity : ComponentActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val post = intent.getParcelableExtraCompat<PostUiData>(Extras.POST_DATA) ?: PostUiData()
-
-        enableEdgeToEdge()
-        setContent {
-            val viewModel: CommunityDetailViewModel = hiltViewModel()
-            val state by viewModel.state.collectAsState()
-
-            LaunchedEffect(Unit) {
-                viewModel.setPost(post)
-            }
-
-            WePLiTheme {
-                CommunityDetailScreen()
-            }
-        }
-    }
-}
 
 @Preview
 @Composable
 fun CommunityDetailScreenPreview() {
-    CommunityDetailScreen(
-
-    )
+    CommunityDetailScreen()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
