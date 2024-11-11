@@ -1,7 +1,7 @@
 package com.wepli.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -14,6 +14,7 @@ import com.wepli.home.screen.HomeScreen
 import com.wepli.mypage.menus.appinfo.navigation.mypageAppInfoGraph
 import com.wepli.mypage.menus.appinfo.navigation.navigateToAppInfo
 import com.wepli.mypage.menus.mypage.navigation.mypageMainGraph
+import com.wepli.navigation.extensions.navigateToBack
 import com.wepli.playlist.navigation.navigateToPlaylistDetail
 import com.wepli.playlist.navigation.playlistDetailGraph
 
@@ -36,26 +37,39 @@ fun SetUpNavGraph(
         }
 
         // 커뮤니티 Graph
-        communityMainGraph(
-            navOnCommunityDetail = { post -> navController.navigateToCommunityDetail(post) }
-        )
-        communityDetailGraph(
-            navOnBack = { navController.navigateToBack() }
-        )
+        communityGraph(navController)
 
         // 플레이리스트 Graph
-        playlistDetailGraph(
-            navOnBack = { navController.navigateToBack() }
-        )
+        playlistGraph(navController)
 
         // 마이페이지 Graph
-        mypageMainGraph(
-            navOnAppInfo = { navController.navigateToAppInfo() }
-        )
-        mypageAppInfoGraph(
-            navOnBack = { navController.navigateToBack() }
-        )
+        mypageGraph(navController)
     }
 }
 
-fun NavController.navigateToBack() = navigateUp()
+// 커뮤니티 Graph
+fun NavGraphBuilder.communityGraph(navController: NavHostController) {
+    communityMainGraph(
+        navOnCommunityDetail = { post -> navController.navigateToCommunityDetail(post) }
+    )
+    communityDetailGraph(
+        navOnBack = { navController.navigateToBack() }
+    )
+}
+
+// 플레이리스트 Graph
+fun NavGraphBuilder.playlistGraph(navController: NavHostController) {
+    playlistDetailGraph(
+        navOnBack = { navController.navigateToBack() }
+    )
+}
+
+// 마이페이지 Graph
+fun NavGraphBuilder.mypageGraph(navController: NavHostController) {
+    mypageMainGraph(
+        navOnAppInfo = { navController.navigateToAppInfo() }
+    )
+    mypageAppInfoGraph(
+        navOnBack = { navController.navigateToBack() }
+    )
+}
