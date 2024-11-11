@@ -22,17 +22,28 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WePLiAppBar
+import coil.compose.SubcomposeAsyncImage
+import coil.request.ImageRequest
 import com.wepli.designsystem.R
 import com.wepli.mypage.component.MenuComponent
 import com.wepli.mypage.component.MenuTitleComponent
+import com.wepli.mypage.menus.mypage.viewmodel.MyPageViewModel
 import theme.WePLiTheme
 
 @Preview
@@ -47,8 +58,11 @@ fun MyPageScreenPreview() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyPageScreen(
+    viewModel: MyPageViewModel = hiltViewModel(),
     navOnAppInfo: () -> Unit,
 ) {
+    val state by viewModel.state.collectAsState()
+    val user by rememberUpdatedState(newValue = state.user)
     val scrollState = rememberScrollState()
 
     Scaffold(
@@ -68,7 +82,12 @@ fun MyPageScreen(
                 .fillMaxSize(),
         ) {
             Spacer(modifier = Modifier.height(24.dp))
-            ProfileLayout(modifier = Modifier.padding(horizontal = 20.dp))
+            ProfileLayout(
+                modifier = Modifier.padding(horizontal = 20.dp),
+                nickname = user.nickname,
+                email = user.email,
+                profileImgUrl = user.profileImgUrl,
+            )
 
             Spacer(modifier = Modifier.height(24.dp))
             TendencyComponent(
@@ -94,24 +113,40 @@ fun MyPageScreen(
     }
 }
 
-
-@Preview
 @Composable
 fun ProfileImage(
-    imageModifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    profileImgUrl: String,
 ) {
+    val isInPreview = LocalInspectionMode.current
+    val imageModifier = modifier.border(
+        width = 1.dp,
+        brush = WePLiTheme.color.linear3,
+        shape = CircleShape
+    ).clip(CircleShape)
+
     Box {
-        Image(
-            modifier = imageModifier
-                .border(
-                    width = 1.dp,
-                    brush = WePLiTheme.color.linear3,
-                    shape = CircleShape
-                )
-                .clip(CircleShape),
-            painter = painterResource(id = R.drawable.img_placeholder_eunbin),
-            contentDescription = null
-        )
+        if (isInPreview) {
+            Image(
+                modifier = imageModifier,
+                painter = painterResource(id = R.drawable.img_placeholder_eunbin),
+                contentDescription = null
+            )
+        } else {
+            val context = LocalContext.current
+            val imageRequest = remember(profileImgUrl) {
+                ImageRequest.Builder(context).apply {
+                    data(profileImgUrl)
+                }.build()
+            }
+
+            SubcomposeAsyncImage(
+                model = imageRequest,
+                modifier = imageModifier,
+                contentScale = ContentScale.Crop,
+                contentDescription = null,
+            )
+        }
 
         Image(
             modifier = Modifier
@@ -123,13 +158,18 @@ fun ProfileImage(
     }
 }
 
-@Preview
 @Composable
 fun ProfileLayout(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    nickname: String,
+    email: String,
+    profileImgUrl: String,
 ) {
     Row(modifier = modifier) {
-        ProfileImage(imageModifier = Modifier.size(60.dp))
+        ProfileImage(
+            modifier = Modifier.size(60.dp),
+            profileImgUrl = profileImgUrl,
+        )
         Spacer(modifier = Modifier.width(20.dp))
         Column (
             modifier = Modifier
@@ -137,13 +177,13 @@ fun ProfileLayout(
                 .align(Alignment.CenterVertically)
         ) {
             Text(
-                text = "김동",
+                text = nickname,
                 style = WePLiTheme.typo.subTitle1,
                 color = WePLiTheme.color.gray900
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "dongdong0915_@naver.com",
+                text = email,
                 style = WePLiTheme.typo.body4,
                 color = WePLiTheme.color.gray700
             )
