@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import com.wepli.designsystem.R
 import com.wepli.navigator.feature.community.CommunityRoute
 import com.wepli.navigator.feature.home.HomeRoute
+import com.wepli.navigator.feature.mypage.MyPageRoute
 
 sealed class BottomNavRoute(
     val route: String,
@@ -15,5 +16,5 @@ sealed class BottomNavRoute(
     data object Search : BottomNavRoute("search", "검색", R.drawable.ic_search_2, R.drawable.ic_search_2_color)
     data object Chart : BottomNavRoute("chart", "차트", R.drawable.ic_stars, R.drawable.ic_stars_color)
     data object Community : BottomNavRoute(CommunityRoute.Home.route, "커뮤니티", R.drawable.ic_message, R.drawable.ic_message_color)
-    data object MyPage : BottomNavRoute("mypage", "마이페이지", R.drawable.ic_profile, R.drawable.ic_profile_color)
+    data object MyPage : BottomNavRoute(MyPageRoute.Main.route, "내정보", R.drawable.ic_profile, R.drawable.ic_profile_color)
 }

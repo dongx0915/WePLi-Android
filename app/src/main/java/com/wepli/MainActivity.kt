@@ -179,13 +179,3 @@ fun ChartScreen() {
         Text(text = "Chart")
     }
 }
-
-@Composable
-fun MyPageScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(text = "MyPage")
-    }
-}
