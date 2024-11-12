@@ -15,6 +15,8 @@ import com.wepli.SearchScreen
 import com.wepli.community.navigation.communityDetailGraph
 import com.wepli.community.navigation.communityMainGraph
 import com.wepli.community.navigation.navigateToCommunityDetail
+import com.wepli.home.navigation.homeGraph
+import com.wepli.home.screen.HomeRoute
 import com.wepli.home.screen.HomeScreen
 import com.wepli.mypage.menus.appinfo.navigation.mypageAppInfoGraph
 import com.wepli.mypage.menus.appinfo.navigation.navigateToAppInfo
@@ -38,11 +40,11 @@ fun SetUpNavGraph(
             fadeOut(animationSpec = tween(500))
         }
     ) {
-        composable(BottomNavRoute.Home.route) {
-            HomeScreen(
-                onNavigatePlaylist = { playlist -> navController.navigateToPlaylistDetail(/* playlist */) },
-            )
-        }
+        // 홈 Graph
+        homeGraph(
+            navOnPlaylistDetail = { playlist -> navController.navigateToPlaylistDetail(/* playlist */) }
+        )
+
         composable(BottomNavRoute.Search.route) {
             SearchScreen()
         }
