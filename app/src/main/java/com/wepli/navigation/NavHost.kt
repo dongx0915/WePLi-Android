@@ -1,5 +1,10 @@
 package com.wepli.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkOut
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -23,7 +28,16 @@ fun SetUpNavGraph(
     navController: NavHostController,
     startDestination: String,
 ) {
-    NavHost(navController = navController, startDestination = startDestination) {
+    NavHost(
+        navController = navController,
+        startDestination = startDestination,
+        enterTransition = {
+            fadeIn(animationSpec = tween(500))
+        },
+        exitTransition = {
+            fadeOut(animationSpec = tween(500))
+        }
+    ) {
         composable(BottomNavRoute.Home.route) {
             HomeScreen(
                 onNavigatePlaylist = { playlist -> navController.navigateToPlaylistDetail(/* playlist */) },
