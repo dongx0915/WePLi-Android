@@ -36,6 +36,7 @@ import com.wepli.home.component.WePLiBannerType
 import com.wepli.home.viewmodel.HomeViewModel
 import com.wepli.shared.feature.mock.artistMockData
 import com.wepli.shared.feature.mock.musicMockData
+import com.wepli.shared.feature.mock.recommendPlaylistMockData
 import com.wepli.uimodel.artist.ArtistUiData
 import com.wepli.uimodel.music.ChartMusicUiData
 import compose.MeasuredHeightContainer
@@ -47,16 +48,36 @@ import custom.TwoLineTitle
 import model.playlist.RecommendPlaylist
 import theme.WePLiTheme
 
+@Composable
+fun HomeRoute(
+    viewModel: HomeViewModel = hiltViewModel(),
+    onNavigatePlaylist: (playlist: RecommendPlaylist) -> Unit,
+) {
+    val state by viewModel.state.collectAsState()
+    val topChartList by rememberUpdatedState(newValue = state.topChartList)
+    val artistList by rememberUpdatedState(newValue = state.artistList)
+    val recommendPlaylists by rememberUpdatedState(newValue = state.recommendPlaylists)
+    val themePlaylists by rememberUpdatedState(newValue = state.themePlaylists)
+
+    HomeScreen(
+        topChartList = topChartList,
+        artistList = artistList,
+        recommendPlaylists = recommendPlaylists,
+        themePlaylists = themePlaylists,
+        onNavigatePlaylist = { playlist -> onNavigatePlaylist(playlist) }
+    )
+}
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = hiltViewModel(),
-    onNavigateCommunity: () -> Unit = {},
-    onNavigatePlaylist: (playlist: RecommendPlaylist) -> Unit = {},
+    topChartList: List<ChartMusicUiData>,
+    artistList: List<ArtistUiData>,
+    recommendPlaylists: List<RecommendPlaylist>,
+    themePlaylists: List<RecommendPlaylist>,
+    onNavigatePlaylist: (playlist: RecommendPlaylist) -> Unit,
 ) {
-    val state by viewModel.state.collectAsState()
-
     Scaffold(
         containerColor = WePLiTheme.color.black,
         topBar = {
@@ -74,7 +95,7 @@ fun HomeScreen(
                         modifier = Modifier.offset(x = (-6).dp),
                         iconResource = R.drawable.ic_alarm,
                         iconColor = WePLiTheme.color.white,
-                        onClick = { onNavigateCommunity.invoke()},
+                        onClick = { },
                         badgeVisible = true
                     )
                 }
@@ -88,25 +109,17 @@ fun HomeScreen(
             verticalArrangement = Arrangement.spacedBy(24.dp),
             contentPadding = PaddingValues(bottom = 40.dp)
         ) {
-            item {
-                val topChartList by rememberUpdatedState(newValue = state.topChartList)
-                WePLiChartLayout(topChartList)
-            }
+            item { WePLiChartLayout(topChartList) }
 
             item { WePLiBannerLayout() }
 
-            item {
-                val artistList by rememberUpdatedState(newValue = state.artistList)
-                ArtistLayout(artistList)
-            }
+            item { ArtistLayout(artistList) }
 
             item {
-                val recommendPlaylists by rememberUpdatedState(newValue = state.recommendPlaylists)
                 WePLiPlaylistLayout(title = "위플리 추천 플레이리스트", playlists = recommendPlaylists, onClick = { onNavigatePlaylist(it) })
             }
 
             item {
-                val themePlaylists by rememberUpdatedState(newValue = state.themePlaylists)
                 WePLiPlaylistLayout(title = "테마별 플레이리스트", playlists = themePlaylists, onClick = { onNavigatePlaylist(it) })
             }
         }
@@ -229,8 +242,14 @@ fun ArtistLayout(artistList: List<ArtistUiData>) {
 
 @Preview
 @Composable
-fun MainScreenPreview() {
-    HomeScreen()
+fun HomeScreenPreview() {
+    HomeScreen(
+        topChartList = musicMockData,
+        artistList = artistMockData,
+        recommendPlaylists = recommendPlaylistMockData,
+        themePlaylists = recommendPlaylistMockData,
+        onNavigatePlaylist = {}
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
