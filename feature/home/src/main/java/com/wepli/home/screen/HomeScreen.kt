@@ -1,8 +1,10 @@
 package com.wepli.home.screen
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -14,20 +16,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.AppBarIcon
+import appbar.ScrollableAppBar
 import appbar.WePLiAppBar
 import com.wepli.designsystem.R
 import com.wepli.home.component.PlayListCoverItem
@@ -41,6 +45,7 @@ import com.wepli.uimodel.artist.ArtistUiData
 import com.wepli.uimodel.music.ChartMusicUiData
 import compose.MeasuredHeightContainer
 import custom.ArtistProfileListItem
+import custom.BlurBackgroundOverlay
 import custom.MusicItem
 import custom.MusicItemType
 import custom.OneLineTitle
@@ -78,12 +83,18 @@ fun HomeScreen(
     themePlaylists: List<RecommendPlaylist>,
     onNavigatePlaylist: (playlist: RecommendPlaylist) -> Unit,
 ) {
-    Scaffold(
-        containerColor = WePLiTheme.color.black,
-        topBar = {
+    val scrollState = rememberLazyListState()
+
+    ScrollableAppBar(
+        scrollState = scrollState,
+        backgroundColors = Color.Transparent to Color.Black,
+        contentsColors = Color.White to Color.White,
+        topBarComponent = { backgroundColor, contentsColor, _ ->
             WePLiAppBar(
                 showLogo = true,
                 showBackButton = false,
+                containerColor = backgroundColor,
+                contentsColor = contentsColor,
                 actionIcons = listOf {
                     AppBarIcon(
                         modifier = Modifier.offset(x = (-6).dp),
@@ -102,14 +113,23 @@ fun HomeScreen(
             )
         }
     ) { paddingValues ->
+        val (topPadding, bottomPadding) = paddingValues.calculateTopPadding() to paddingValues.calculateBottomPadding()
+
         LazyColumn(
             modifier = Modifier
-                .padding(paddingValues)
+                .padding(bottom = bottomPadding)
+                .background(Color.Black)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(24.dp),
-            contentPadding = PaddingValues(bottom = 40.dp)
+            contentPadding = PaddingValues(bottom = 40.dp),
+            state = scrollState
         ) {
-            item { WePLiChartLayout(topChartList) }
+            item {
+                WePLiChartLayout(
+                    modifier = Modifier.padding(top = topPadding),
+                    musicList = topChartList
+                )
+            }
 
             item { WePLiBannerLayout() }
 
@@ -148,7 +168,10 @@ fun WePLiBannerLayout() {
 }
 
 @Composable
-fun WePLiChartLayout(musicList: List<ChartMusicUiData>) {
+fun WePLiChartLayout(
+    modifier: Modifier = Modifier,
+    musicList: List<ChartMusicUiData>
+) {
     if (musicList.isEmpty()) return
 
     val pageCount = remember(key1 = musicList.size) { musicList.size / 5 }
@@ -159,26 +182,33 @@ fun WePLiChartLayout(musicList: List<ChartMusicUiData>) {
         musicList.chunked(5)
     }
 
-    Column {
-        TwoLineTitle(title = "위플리 TOP 100", subscription = "6월 23일 오전 7시 업데이트")
-        HorizontalPager(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 12.dp),
-            state = pagerState,
-            contentPadding = PaddingValues(start = 20.dp, end = 10.dp),
-        ) { page ->
-            // LazyColumn 내에 동일한 스크롤 방향의 LazyColumn 추가 불가
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                musicChunk[page].forEach { music ->
-                    MusicItem(
-                        modifier = Modifier.padding(end = 22.dp),
-                        musicItemType = MusicItemType.Chart(music),
-                        showPlayIcon = true,
-                    )
+    Box {
+        BlurBackgroundOverlay(
+            modifier = Modifier.matchParentSize(),
+            imageResId = R.drawable.img_placeholder_eunbin,
+        )
+
+        Column(modifier = modifier) {
+            TwoLineTitle(title = "위플리 TOP 100", subscription = "6월 23일 오전 7시 업데이트")
+            HorizontalPager(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 12.dp),
+                state = pagerState,
+                contentPadding = PaddingValues(start = 20.dp, end = 10.dp),
+            ) { page ->
+                // LazyColumn 내에 동일한 스크롤 방향의 LazyColumn 추가 불가
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    musicChunk[page].forEach { music ->
+                        MusicItem(
+                            modifier = Modifier.padding(end = 22.dp),
+                            musicItemType = MusicItemType.Chart(music),
+                            showPlayIcon = true,
+                        )
+                    }
                 }
             }
         }
