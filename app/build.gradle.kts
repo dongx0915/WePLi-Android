@@ -39,4 +39,8 @@ dependencies {
     implementation(projects.core.navigator)
     implementation(projects.designsystem)
     implementation(projects.shared.feature)
+
+    // Blur 라이브러리
+    implementation(libs.blur.haze)
+    implementation(libs.blur.haze.materials)
 }

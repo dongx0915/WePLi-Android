@@ -43,6 +43,8 @@ class AndroidFeaturePlugin : Plugin<Project> {
             IMPLEMENTATION(libs.findLibrary("coil").get())
             IMPLEMENTATION(libs.findLibrary("material").get())
             IMPLEMENTATION(libs.findLibrary("joda.time").get())
+            IMPLEMENTATION(libs.findLibrary("blur.haze").get())
+            IMPLEMENTATION(libs.findLibrary("blur.haze.materials").get())
         }
     }
 }

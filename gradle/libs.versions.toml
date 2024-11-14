@@ -103,6 +103,8 @@ okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okht
 okhttp3-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 joda-time = { group = "joda-time", name = "joda-time", version.ref = "joda-time" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+blur-haze = { group = "dev.chrisbanes.haze", name = "haze", version = "1.0.1" }
+blur-haze-materials = { group = "dev.chrisbanes.haze", name = "haze-materials", version = "1.0.1" }
 
 [bundles] # 라이브러리를 묶어서 선언
 androidx-compose = [
