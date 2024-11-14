@@ -6,8 +6,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -41,6 +39,12 @@ import androidx.navigation.compose.rememberNavController
 import com.wepli.navigation.BottomNavRoute
 import com.wepli.navigation.SetUpNavGraph
 import dagger.hilt.android.AndroidEntryPoint
+import dev.chrisbanes.haze.HazeState
+import dev.chrisbanes.haze.HazeStyle
+import dev.chrisbanes.haze.HazeTint
+import dev.chrisbanes.haze.haze
+import dev.chrisbanes.haze.hazeChild
+import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import theme.WePLiTheme
 
 @AndroidEntryPoint
@@ -94,6 +98,8 @@ fun MainApp() {
         }
     }
 
+    val hazeState = remember { HazeState() }
+
     Scaffold(
         containerColor = WePLiTheme.color.black,
         bottomBar = {
@@ -101,31 +107,47 @@ fun MainApp() {
                 BottomNavigationBar(
                     navItems = bottomNavItems,
                     navController = navController,
-                    currentRoute = currentRoute
+                    currentRoute = currentRoute,
+                    hazeState = hazeState,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .navigationBarsPadding()
                 )
             }
         }
     ) {
-        SetUpNavGraph(navController = navController, startDestination = BottomNavRoute.Home.route)
+        Box(
+            modifier = Modifier
+                .haze(hazeState)
+                .fillMaxSize()
+        ) {
+            SetUpNavGraph(navController = navController, startDestination = BottomNavRoute.Home.route)
+        }
     }
 }
 
 @Composable
 fun BottomNavigationBar(
+    modifier: Modifier = Modifier,
     navItems: List<BottomNavRoute>,
     navController: NavHostController,
     currentRoute: String?,
+    hazeState: HazeState // hazeState 매개변수 추가
 ) {
+    val bottomNavColor = WePLiTheme.color.black.copy(0.7f)
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .navigationBarsPadding()
-            .background(WePLiTheme.color.black)
+        modifier = modifier
+            .hazeChild(
+                state = hazeState,
+                style = HazeStyle(
+                    backgroundColor = bottomNavColor,
+                    blurRadius = 24.dp,
+                    tint = HazeTint(color = bottomNavColor),
+                ),
+            )
+            .height(56.dp)
     ) {
-        NavigationBar(
-            modifier = Modifier.height(56.dp),
-            containerColor = Color.Transparent,
-        ) {
+        NavigationBar(containerColor = Color.Transparent) {
             navItems.forEach { item ->
                 val isSelected = currentRoute == item.route
                 val iconRes = if (isSelected) item.bottomTabSelectedIcon else item.bottomTabIcon

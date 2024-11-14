@@ -117,11 +117,10 @@ fun HomeScreen(
 
         LazyColumn(
             modifier = Modifier
-                .padding(bottom = bottomPadding)
-                .background(Color.Black)
+                .background(WePLiTheme.color.black)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(24.dp),
-            contentPadding = PaddingValues(bottom = 40.dp),
+            contentPadding = PaddingValues(bottom = bottomPadding * 3),
             state = scrollState
         ) {
             item {
