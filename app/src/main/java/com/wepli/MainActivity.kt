@@ -155,9 +155,9 @@ fun BottomNavigationBar(
                     fontWeight = FontWeight.Medium,
                 )
                 val textStyle = if (isSelected) {
-                    textTypo.copy(brush = WePLiTheme.color.linear3,)
+                    textTypo.copy(brush = WePLiTheme.color.linear3)
                 } else {
-                    textTypo.copy(color = WePLiTheme.color.gray500,)
+                    textTypo.copy(color = WePLiTheme.color.gray500)
                 }
 
                 NavigationBarItem(
