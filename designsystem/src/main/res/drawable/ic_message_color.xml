@@ -7,7 +7,7 @@
   <path
       android:pathData="M5,11C5,6.582 8.581,3 12.999,3C17.417,3 20.999,6.582 20.999,11C20.999,12.15 20.756,13.243 20.319,14.232L21,18.999L16.915,17.978C15.757,18.629 14.422,19 12.999,19M3.001,16C3.001,16.719 3.153,17.402 3.426,18.02L3,21L5.553,20.361C6.276,20.768 7.111,21 8,21C10.761,21 12.999,18.761 12.999,16C12.999,13.239 10.761,11 8,11C5.239,11 3.001,13.239 3.001,16Z"
       android:strokeLineJoin="round"
-      android:strokeWidth="2"
+      android:strokeWidth="1.5"
       android:fillColor="#00000000"
       android:strokeLineCap="round">
     <aapt:attr name="android:strokeColor">

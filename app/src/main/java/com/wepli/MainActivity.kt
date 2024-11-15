@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -152,6 +153,7 @@ fun BottomNavigationBar(
                 val isSelected = currentRoute == item.route
                 val iconRes = if (isSelected) item.bottomTabSelectedIcon else item.bottomTabIcon
                 val textTypo = WePLiTheme.typo.caption2.copy(
+                    fontSize = 9.sp,
                     fontWeight = FontWeight.Medium,
                 )
                 val textStyle = if (isSelected) {
@@ -164,7 +166,7 @@ fun BottomNavigationBar(
                     icon = {
                         Icon(
                             modifier = Modifier
-                                .size(24.dp)
+                                .size(20.dp)
                                 .offset(y = 2.dp),
                             imageVector = ImageVector.vectorResource(id = iconRes ?: return@NavigationBarItem),
                             tint = Color.Unspecified,
