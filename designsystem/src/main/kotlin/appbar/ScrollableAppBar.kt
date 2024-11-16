@@ -40,11 +40,12 @@ import kotlin.math.min
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState")
 @Composable
 fun ScrollableAppBar(
+    modifier: Modifier = Modifier,
     scrollState: LazyListState,
     scrollThreshold: Float = 1000f,
     backgroundColors: Pair<Color, Color> = Color.Transparent to Color.Black,
     contentsColors: Pair<Color, Color> = Color.Black to Color.White,
-    topBarComponent: @Composable (backgroundColor: Color, contentsColor: Color, isFullScrolled: Boolean) -> Unit,
+    topBarComponent: @Composable (backgroundColor: Color, contentsColor: Color, isFullScrolled: Boolean, scrollFaction: Float) -> Unit,
     content: @Composable (appbarPadding: PaddingValues) -> Unit,
 ) {
     val totalScrollOffset = rememberCurrentOffset(scrollState)
@@ -69,7 +70,8 @@ fun ScrollableAppBar(
 
     // Scaffold로 앱바와 콘텐츠 배치
     Scaffold(
-        topBar = { topBarComponent(backgroundColor, contentsColor, isFullScrolled.value) },
+        modifier = modifier,
+        topBar = { topBarComponent(backgroundColor, contentsColor, isFullScrolled.value, scrollFraction) },
         content = { paddingValues -> content(paddingValues) }
     )
 }
@@ -126,7 +128,7 @@ fun LazyScrollableAppBar() {
         scrollState = scrollState,
         backgroundColors = Color.Transparent to Color.Black,
         contentsColors = Color.Black to Color.White,
-        topBarComponent = { backgroundColor, iconColor, _ ->
+        topBarComponent = { backgroundColor, iconColor, _, _ ->
             WePLiAppBar(
                 containerColor = backgroundColor,
                 contentsColor = iconColor,

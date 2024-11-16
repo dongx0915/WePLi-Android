@@ -48,7 +48,7 @@ fun CommunityDetailScreen(
         scrollState = scrollState,
         backgroundColors = Color.Transparent to WePLiTheme.color.black,
         contentsColors = Color.White to Color.White,
-        topBarComponent = { backgroundColor, contentsColor, _ ->
+        topBarComponent = { backgroundColor, contentsColor, _, _ ->
             WePLiAppBar(
                 title = post.title,
                 containerColor = backgroundColor,
