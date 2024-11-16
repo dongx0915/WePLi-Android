@@ -50,7 +50,6 @@ fun ScrollableAppBar(
 ) {
     val totalScrollOffset = rememberCurrentOffset(scrollState)
     val scrollFraction = min(1f, totalScrollOffset.value / scrollThreshold).coerceIn(0f, 1f)
-    Log.d("ScrollableAppBar", "scrollFraction: $scrollFraction")
 
     // 배경색과 아이콘 색상 보간
     val backgroundColor = lerp(backgroundColors.first, backgroundColors.second, scrollFraction)
