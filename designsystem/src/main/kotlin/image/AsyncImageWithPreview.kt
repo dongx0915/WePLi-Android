@@ -17,7 +17,7 @@ import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageScope
 import coil.request.ImageRequest
-import extensions.toPx
+import extensions.compose.toPx
 
 @Composable
 fun AsyncImageWithPreview(

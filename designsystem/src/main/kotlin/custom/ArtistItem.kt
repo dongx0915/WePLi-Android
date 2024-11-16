@@ -26,7 +26,7 @@ import coil.request.ImageRequest
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.artistMockData
 import com.wepli.uimodel.artist.ArtistUiData
-import extensions.toPx
+import extensions.compose.toPx
 import theme.WePLiTheme
 
 

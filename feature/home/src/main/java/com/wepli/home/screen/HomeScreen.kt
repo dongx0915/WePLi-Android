@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -28,17 +27,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.AppBarIcon
+import appbar.AppBarIconType
 import appbar.ScrollableAppBar
 import appbar.WePLiAppBar
-import com.wepli.designsystem.R
 import com.wepli.home.component.PlayListCoverItem
 import com.wepli.home.component.RelaylistBackground
 import com.wepli.home.component.RelaylistBannerComponent
@@ -53,7 +49,6 @@ import com.wepli.uimodel.artist.ArtistUiData
 import com.wepli.uimodel.music.ChartMusicUiData
 import compose.MeasuredHeightContainer
 import custom.ArtistProfileListItem
-import custom.BlurBackgroundOverlay
 import custom.MusicItem
 import custom.MusicItemType
 import custom.OneLineTitle
@@ -63,10 +58,8 @@ import dev.chrisbanes.haze.HazeStyle
 import dev.chrisbanes.haze.HazeTint
 import dev.chrisbanes.haze.haze
 import dev.chrisbanes.haze.hazeChild
-import extensions.calculateCurrentOffsetForPage
-import extensions.gesturesDisabled
-import extensions.pagerFadeTransition
-import image.AsyncImageWithPreview
+import extensions.compose.calculateCurrentOffsetForPage
+import extensions.compose.gesturesDisabled
 import model.playlist.RecommendPlaylist
 import theme.WePLiTheme
 
@@ -123,19 +116,8 @@ fun HomeScreen(
                 containerColor = backgroundColor,
                 contentsColor = contentsColor,
                 actionIcons = listOf {
-                    AppBarIcon(
-                        modifier = Modifier.offset(x = (-6).dp),
-                        iconResource = R.drawable.ic_search,
-                        iconColor = WePLiTheme.color.white,
-                        onClick = { }
-                    )
-                    AppBarIcon(
-                        modifier = Modifier.offset(x = (-6).dp),
-                        iconResource = R.drawable.ic_alarm,
-                        iconColor = WePLiTheme.color.white,
-                        onClick = { },
-                        badgeVisible = true
-                    )
+                    AppBarIcon(icon = AppBarIconType.Search())
+                    AppBarIcon(icon = AppBarIconType.Notification())
                 }
             )
         }

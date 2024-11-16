@@ -1,4 +1,4 @@
-package extensions
+package extensions.compose
 
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.runtime.Composable

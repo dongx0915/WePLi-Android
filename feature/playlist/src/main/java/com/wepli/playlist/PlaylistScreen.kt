@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.AppBarIcon
+import appbar.AppBarIconType
 import appbar.ScrollableAppBar
 import appbar.WePLiAppBar
 import com.wepli.designsystem.R
@@ -55,15 +56,13 @@ fun PlaylistScreen(
                 showBackButton = true,
                 actionIcons = listOf {
                     AppBarIcon(
-                        iconResource = if (playlist.isLiked) R.drawable.ic_heart_filled else R.drawable.ic_heart,
-                        iconColor = if (playlist.isLiked) Color.Unspecified else contentsColor,
-                        onClick = { viewModel.toggleLiked() }
+                        icon = AppBarIconType.Like(
+                            isLiked = playlist.isLiked,
+                            iconColor = { contentsColor },
+                            onClick = { viewModel.toggleLiked() }
+                        )
                     )
-                    AppBarIcon(
-                        iconResource = R.drawable.ic_more_dot,
-                        iconColor = contentsColor,
-                        onClick = { /* TODO */ }
-                    )
+                    AppBarIcon(icon = AppBarIconType.More(iconColor = { contentsColor }))
                 },
                 onClickBack = { navOnBack() }
             )
