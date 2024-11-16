@@ -31,6 +31,7 @@ import theme.WePLiTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WePLiAppBar(
+    modifier: Modifier = Modifier,
     title: String = "",
     containerColor: Color = Color.Black,
     contentsColor: Color = Color.White,
@@ -41,6 +42,7 @@ fun WePLiAppBar(
     actionIcons: List<@Composable () -> Unit> = emptyList(),
 ) {
     CenterAlignedTopAppBar(
+        modifier = modifier,
         title = {
             Text(
                 text = title,
