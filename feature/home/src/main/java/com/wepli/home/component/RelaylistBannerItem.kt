@@ -1,22 +1,20 @@
 package com.wepli.home.component
 
-import android.graphics.Paint.Align
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -26,7 +24,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import com.wepli.designsystem.R
+import com.wepli.shared.feature.mock.replaylistMockData
 import custom.BlurBackgroundOverlay
+import extensions.pagerFadeTransition
 import image.AsyncImageWithPreview
 import model.relaylist.Relaylist
 import theme.WePLiTheme
@@ -36,12 +36,7 @@ import kotlin.math.absoluteValue
 @Composable
 fun RelaylistBannerPreview() {
     RelaylistBannerComponent(
-        item = Relaylist(
-            title = "손님들이 물어보는\n카페 BGM",
-            description = "트는 순간 바로 인생샷 건졌던\n카페로 순간이동하는 플레이리스트",
-            coverImgUrl = "https://cdn.music-flo.com/poc/p/image/channel/rep/20240509/7f46bce952e548919ef29cf897f6410c.jpg/dims/resize/1000x1000/quality/100",
-            artwork = Relaylist.Artwork(0xFF439EE6)
-        ),
+        item = replaylistMockData.first(),
         scaleSizeRatio = 0.8f,
         pageOffset = 0f
     )
@@ -57,16 +52,13 @@ fun RelaylistBannerComponent(
         modifier = Modifier
             .aspectRatio(5f / 6f)
             .graphicsLayer {
-                lerp(
-                    start = 1f,
-                    stop = scaleSizeRatio,
-                    fraction = pageOffset.absoluteValue.coerceIn(0f, 1f),
-                ).let {
+                val fraction = pageOffset.absoluteValue.coerceIn(0f, 1f)
+                val scale = lerp(1f, scaleSizeRatio, fraction).also {
                     scaleX = it
                     scaleY = it
-                    val sign = if (pageOffset > 0) 1 else -1
-                    translationX = sign * size.width * (1 - it) / 2
                 }
+
+                translationX = size.width * (1 - scale) / 2 * (if (pageOffset > 0) 1 else -1)
             }
             .clip(RoundedCornerShape(12.dp)),
     ) {
@@ -120,5 +112,33 @@ fun RelaylistBannerComponent(
                 )
             }
         }
+    }
+}
+
+
+@Composable
+fun RelaylistBackground(
+    modifier: Modifier = Modifier,
+    item: Relaylist,
+    page: Int,
+    bottomPagerState: PagerState,
+) {
+    Box(
+        modifier = modifier
+            .pagerFadeTransition(page, bottomPagerState) // 전환 효과 적용
+            .blur(70.dp)
+    ) {
+        AsyncImageWithPreview(
+            modifier = Modifier.fillMaxSize(),
+            imageUrl = item.coverImgUrl,
+            previewImage = painterResource(id = R.drawable.img_placeholder_eunbin),
+            contentScale = ContentScale.FillBounds,
+        )
+
+        BlurBackgroundOverlay(
+            modifier = Modifier.matchParentSize(),
+            blurModifier = Modifier.matchParentSize(),
+            colorStopRange = 0f..1f
+        )
     }
 }
