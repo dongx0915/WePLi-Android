@@ -212,13 +212,7 @@ fun PlaylistPagerLayout(
                 BlurBackgroundOverlay(
                     modifier = Modifier.matchParentSize(),
                     blurModifier = Modifier.matchParentSize(),
-                    colorStops = listOf(
-                        Color.Black.copy(alpha = 0.17f),
-                        Color.Black.copy(alpha = 0.20f),
-                        Color.Black.copy(alpha = 0.80f),
-                        Color.Black.copy(alpha = 0.90f),
-                        Color.Black.copy(alpha = 1.0f),
-                    ),
+                    colorStops = listOf(0.17f, 0.20f, 0.80f, 0.90f, 1.0f),
                 )
             }
         }

@@ -17,40 +17,34 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun BlurBackgroundOverlay(
+    backgroundColor: Color = Color.Black,
+    colorStops: List<Float> = listOf(0.67f, 0.70f, 0.82f, 0.85f, 1.0f),
     modifier: Modifier = Modifier,
+    blurModifier: Modifier = Modifier
+        .fillMaxWidth()
+        .aspectRatio(1f),
+    imageModifier: Modifier = Modifier
+        .fillMaxWidth()
+        .aspectRatio(1f),
     @DrawableRes imageResId: Int? = null,
 ) {
     val gradientBrush = remember {
-        val color = Color(0xFF000000)
-
         Brush.verticalGradient(
-            colors = listOf(
-                color.copy(alpha = 0.67f),
-                color.copy(alpha = 0.70f),
-                color.copy(alpha = 0.82f),
-                color.copy(alpha = 0.85f),
-                color.copy(alpha = 1.0f),
-            )
+            colors = colorStops.map { alpha ->
+                backgroundColor.copy(alpha = alpha)
+            }
         )
     }
 
     Box(modifier = modifier.fillMaxWidth()) {
         if (imageResId != null) {
             Image(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f)
-                    .blur(50.dp),
+                modifier = imageModifier.blur(50.dp),
                 painter = painterResource(id = imageResId),
                 contentDescription = ""
             )
         }
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(1f)
-                .background(brush = gradientBrush)
-        )
+        Box(modifier = blurModifier.background(brush = gradientBrush))
     }
 }
