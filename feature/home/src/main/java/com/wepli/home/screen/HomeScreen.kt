@@ -60,6 +60,11 @@ import custom.MusicItem
 import custom.MusicItemType
 import custom.OneLineTitle
 import custom.TwoLineTitle
+import dev.chrisbanes.haze.HazeState
+import dev.chrisbanes.haze.HazeStyle
+import dev.chrisbanes.haze.HazeTint
+import dev.chrisbanes.haze.haze
+import dev.chrisbanes.haze.hazeChild
 import extensions.calculateCurrentOffsetForPage
 import extensions.gesturesDisabled
 import extensions.pagerFadeTransition
@@ -99,13 +104,23 @@ fun HomeScreen(
     onNavigatePlaylist: (playlist: RecommendPlaylist) -> Unit,
 ) {
     val scrollState = rememberLazyListState()
+    val hazeState = remember { HazeState() }
 
     ScrollableAppBar(
         scrollState = scrollState,
-        backgroundColors = Color.Transparent to Color.Black,
+        backgroundColors = Color.Transparent to Color.Black.copy(0.5f),
         contentsColors = Color.White to Color.White,
-        topBarComponent = { backgroundColor, contentsColor, _ ->
+        topBarComponent = { backgroundColor, contentsColor, _, scrollFraction ->
             WePLiAppBar(
+                modifier = Modifier
+                    .hazeChild(
+                        state = hazeState,
+                        style = HazeStyle(
+                            backgroundColor = backgroundColor,
+                            blurRadius = (scrollFraction * 24).dp,
+                            tint = HazeTint(color = backgroundColor),
+                        ),
+                    ),
                 showLogo = true,
                 showBackButton = false,
                 containerColor = backgroundColor,
@@ -132,6 +147,7 @@ fun HomeScreen(
 
         LazyColumn(
             modifier = Modifier
+                .haze(hazeState)
                 .background(WePLiTheme.color.black)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(24.dp),
@@ -142,9 +158,7 @@ fun HomeScreen(
                 PlaylistPagerLayout(topPagerModifier = Modifier.padding(top = topPadding))
             }
 
-            item {
-                WePLiChartLayout(musicList = topChartList)
-            }
+            item { WePLiChartLayout(musicList = topChartList) }
 
             item { WePLiBannerLayout() }
 
@@ -226,13 +240,12 @@ fun PlaylistPagerLayout(
             pageSpacing = 12.dp
         ) { page ->
             val item = mockData[page]
+            val pageOffset = topPagerState.calculateCurrentOffsetForPage(page)
 
             Card(
                 modifier = Modifier
-                    .fillMaxSize()
                     .aspectRatio(5f / 6f)
                     .graphicsLayer {
-                        val pageOffset = topPagerState.calculateCurrentOffsetForPage(page)
                         lerp(
                             start = 1f,
                             stop = scaleSizeRatio,
@@ -297,33 +310,26 @@ fun WePLiChartLayout(
         musicList.chunked(5)
     }
 
-    Box {
-//        BlurBackgroundOverlay(
-//            modifier = Modifier.matchParentSize(),
-//            imageResId = R.drawable.img_placeholder_eunbin,
-//        )
-
-        Column(modifier = modifier) {
-            TwoLineTitle(title = "위플리 TOP 100", subscription = "6월 23일 오전 7시 업데이트")
-            HorizontalPager(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 12.dp),
-                state = pagerState,
-                contentPadding = PaddingValues(start = 20.dp, end = 10.dp),
-            ) { page ->
-                // LazyColumn 내에 동일한 스크롤 방향의 LazyColumn 추가 불가
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    musicChunk[page].forEach { music ->
-                        MusicItem(
-                            modifier = Modifier.padding(end = 22.dp),
-                            musicItemType = MusicItemType.Chart(music),
-                            showPlayIcon = true,
-                        )
-                    }
+    Column(modifier = modifier) {
+        TwoLineTitle(title = "위플리 TOP 100", subscription = "6월 23일 오전 7시 업데이트")
+        HorizontalPager(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 12.dp),
+            state = pagerState,
+            contentPadding = PaddingValues(start = 20.dp, end = 10.dp),
+        ) { page ->
+            // LazyColumn 내에 동일한 스크롤 방향의 LazyColumn 추가 불가
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                musicChunk[page].forEach { music ->
+                    MusicItem(
+                        modifier = Modifier.padding(end = 22.dp),
+                        musicItemType = MusicItemType.Chart(music),
+                        showPlayIcon = true,
+                    )
                 }
             }
         }
