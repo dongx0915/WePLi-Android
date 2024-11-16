@@ -55,7 +55,7 @@ fun WePLiAppBar(
         navigationIcon = {
             if (showLogo) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_wepli_logo),
+                    painter = painterResource(id = R.drawable.ic_wepli_logo_white),
                     contentDescription = null,
                     modifier = Modifier
                         .size(44.dp)
