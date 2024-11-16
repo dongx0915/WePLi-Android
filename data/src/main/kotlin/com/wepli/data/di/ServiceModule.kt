@@ -3,6 +3,7 @@ package com.wepli.data.di
 import com.wepli.data.artist.ArtistApi
 import com.wepli.data.chart.ChartApi
 import com.wepli.data.playlist.PlaylistApi
+import com.wepli.data.relaylist.RelaylistApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,4 +27,8 @@ object ServiceModule {
     @Provides
     @Singleton
     fun providePlaylistService(retrofit: Retrofit): PlaylistApi = retrofit.create(PlaylistApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideRelaylistService(retrofit: Retrofit): RelaylistApi = retrofit.create(RelaylistApi::class.java)
 }

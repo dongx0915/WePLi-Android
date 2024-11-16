@@ -70,13 +70,15 @@ fun HomeRoute(
     onNavigatePlaylist: (playlist: RecommendPlaylist) -> Unit,
 ) {
     val state by viewModel.state.collectAsState()
+
+    val relaylists by rememberUpdatedState(newValue = state.relaylists)
     val topChartList by rememberUpdatedState(newValue = state.topChartList)
     val artistList by rememberUpdatedState(newValue = state.artistList)
     val recommendPlaylists by rememberUpdatedState(newValue = state.recommendPlaylists)
     val themePlaylists by rememberUpdatedState(newValue = state.themePlaylists)
 
     HomeScreen(
-        relaylists = state.relaylists,
+        relaylists = relaylists,
         topChartList = topChartList,
         artistList = artistList,
         recommendPlaylists = recommendPlaylists,

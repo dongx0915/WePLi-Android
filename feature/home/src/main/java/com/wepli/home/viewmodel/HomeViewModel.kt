@@ -2,6 +2,7 @@ package com.wepli.home.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import base.BaseViewModel
 import com.wepli.home.state.HomeUiState
 import repository.chart.ChartRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import repository.artist.ArtistRepository
 import repository.playlist.PlaylistRepository
+import repository.relaylist.RelaylistRepository
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,17 +26,31 @@ class HomeViewModel @Inject constructor(
     private val chartRepository: ChartRepository,
     private val artistRepository: ArtistRepository,
     private val playlistRepository: PlaylistRepository,
-) : ViewModel() {
+    private val relaylistRepository: RelaylistRepository,
+) : BaseViewModel() {
 
     // MainState를 StateFlow로 관리
     private val _state = MutableStateFlow(HomeUiState())
     val state: StateFlow<HomeUiState> = _state.asStateFlow()
 
     init {
+        getRelaylists()
         getTopChart()
         loadArtists()
         loadRecommendPlaylists()
         loadThemePlaylists()
+    }
+
+    private fun getRelaylists() = launchWithHandler {
+        relaylistRepository.getRelaylists()
+            .flowOn(Dispatchers.IO)
+            .collectResult(
+                onSuccess = { relaylists ->
+                    _state.update {
+                        it.copy(relaylists = relaylists)
+                    }
+                }
+            )
     }
 
     private fun getTopChart() = viewModelScope.launch {
