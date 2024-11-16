@@ -48,3 +48,36 @@ fun BlurBackgroundOverlay(
         Box(modifier = blurModifier.background(brush = gradientBrush))
     }
 }
+
+/**
+ * Range에 따라 자연스럽게 블러 효과를 적용
+ *  - ex) 0.5f ~ 1f
+ *        0.5f, 0.55f, 0.6f, 0.65f ... 1.0f
+ */
+@Composable
+fun BlurBackgroundOverlay(
+    backgroundColor: Color = Color.Black,
+    colorStopRange: ClosedFloatingPointRange<Float>,
+    modifier: Modifier = Modifier,
+    blurModifier: Modifier = Modifier
+        .fillMaxWidth()
+        .aspectRatio(1f),
+    imageModifier: Modifier = Modifier
+        .fillMaxWidth()
+        .aspectRatio(1f),
+    @DrawableRes imageResId: Int? = null,
+) {
+    val alphaStops: List<Float> = (0..10).map { index ->
+        val fraction = index / 10f
+        (colorStopRange.start + (colorStopRange.endInclusive - colorStopRange.start)  * fraction)
+    }
+
+    BlurBackgroundOverlay(
+        backgroundColor = backgroundColor,
+        colorStops = alphaStops,
+        modifier = modifier,
+        blurModifier = blurModifier,
+        imageModifier = imageModifier,
+        imageResId = imageResId
+    )
+}
