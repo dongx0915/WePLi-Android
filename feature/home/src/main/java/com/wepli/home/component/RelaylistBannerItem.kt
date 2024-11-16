@@ -79,7 +79,7 @@ fun RelaylistBannerComponent(
                     modifier = Modifier.fillMaxSize(), // Box 전체를 차지하도록 설정
                     blurModifier = Modifier.fillMaxSize(),
                     backgroundColor = Color(it.backgroundColor),
-                    colorStopRange = 0f..1f, // 예제의 알파 값 범위
+                    colorStopRange = 0f..0.5f, // 예제의 알파 값 범위
                     imageResId = null // 필요에 따라 이미지 리소스를 전달
                 )
             }
@@ -107,8 +107,8 @@ fun RelaylistBannerComponent(
 
                 Text(
                     text = item.description,
-                    color = WePLiTheme.color.gray900,
-                    style = WePLiTheme.typo.body5,
+                    color = WePLiTheme.color.gray800,
+                    style = WePLiTheme.typo.body3,
                 )
             }
         }
