@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,16 +20,25 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.lerp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.AppBarIcon
 import appbar.ScrollableAppBar
@@ -50,8 +60,13 @@ import custom.MusicItem
 import custom.MusicItemType
 import custom.OneLineTitle
 import custom.TwoLineTitle
+import extensions.calculateCurrentOffsetForPage
+import extensions.gesturesDisabled
+import extensions.pagerFadeTransition
+import image.AsyncImageWithPreview
 import model.playlist.RecommendPlaylist
 import theme.WePLiTheme
+import kotlin.math.absoluteValue
 
 @Composable
 fun HomeRoute(
@@ -124,10 +139,11 @@ fun HomeScreen(
             state = scrollState
         ) {
             item {
-                WePLiChartLayout(
-                    modifier = Modifier.padding(top = topPadding),
-                    musicList = topChartList
-                )
+                PlaylistPagerLayout(topPagerModifier = Modifier.padding(top = topPadding))
+            }
+
+            item {
+                WePLiChartLayout(musicList = topChartList)
             }
 
             item { WePLiBannerLayout() }
@@ -140,6 +156,112 @@ fun HomeScreen(
 
             item {
                 WePLiPlaylistLayout(title = "테마별 플레이리스트", playlists = themePlaylists, onClick = { onNavigatePlaylist(it) })
+            }
+        }
+    }
+}
+
+
+@SuppressLint("RestrictedApi")
+@Composable
+fun PlaylistPagerLayout(
+    modifier: Modifier = Modifier,
+    topPagerModifier: Modifier = Modifier,
+) {
+    val mockData = recommendPlaylistMockData.toList()
+    val topPagerState = rememberPagerState(
+        pageCount = { mockData.size }
+    )
+    val bottomPagerState = rememberPagerState(
+        pageCount = { mockData.size }
+    )
+
+    val scaleSizeRatio = 0.8f
+
+    // 상위 Pager 스크롤에 따라 하위 Pager를 동기화
+    LaunchedEffect(topPagerState) {
+        snapshotFlow { topPagerState.currentPageOffsetFraction }
+            .collect { offset ->
+                // 하위 Pager의 오프셋을 상위 Pager와 동일하게 업데이트
+                bottomPagerState.scrollToPage(topPagerState.currentPage, offset)
+            }
+    }
+
+    Box(modifier = modifier) {
+        HorizontalPager(
+            state = bottomPagerState, // 상단 Pager와 동기화
+            modifier = Modifier
+                .matchParentSize()
+                .gesturesDisabled(disabled = true)
+        ) { page ->
+            val item = mockData[page]
+
+            Box(
+                modifier = Modifier
+                    .matchParentSize()
+                    .pagerFadeTransition(page, bottomPagerState) // 전환 효과 적용
+                    .blur(70.dp)
+            ) {
+                AsyncImageWithPreview(
+                    modifier = Modifier.fillMaxSize(),
+                    imageUrl = item.coverImgUrl,
+                    previewImage = painterResource(id = R.drawable.img_placeholder_eunbin),
+                    contentScale = ContentScale.FillBounds,
+                )
+
+                BlurBackgroundOverlay(
+                    modifier = Modifier.matchParentSize(),
+                    blurModifier = Modifier.matchParentSize(),
+                    colorStops = listOf(
+                        Color.Black.copy(alpha = 0.17f),
+                        Color.Black.copy(alpha = 0.20f),
+                        Color.Black.copy(alpha = 0.80f),
+                        Color.Black.copy(alpha = 0.90f),
+                        Color.Black.copy(alpha = 1.0f),
+                    ),
+                )
+            }
+        }
+
+        HorizontalPager(
+            state = topPagerState,
+            modifier = topPagerModifier
+                .fillMaxWidth()
+                .padding(top = 20.dp),
+            contentPadding = PaddingValues(horizontal = 20.dp),
+            pageSpacing = 12.dp
+        ) { page ->
+            val item = mockData[page]
+
+            Card(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .aspectRatio(5f / 6f)
+                    .graphicsLayer {
+                        val pageOffset = topPagerState.calculateCurrentOffsetForPage(page)
+                        lerp(
+                            start = 1f,
+                            stop = scaleSizeRatio,
+                            fraction = pageOffset.absoluteValue.coerceIn(0f, 1f),
+                        ).let {
+                            scaleX = it
+                            scaleY = it
+                            val sign = if (pageOffset > 0) 1 else -1
+                            translationX = sign * size.width * (1 - it) / 2
+                        }
+                    },
+            ) {
+                Box(
+                    modifier = Modifier.background(Color.Transparent),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    AsyncImageWithPreview(
+                        modifier = Modifier.fillMaxSize(),
+                        imageUrl = item.coverImgUrl,
+                        previewImage = painterResource(id = R.drawable.img_placeholder_eunbin),
+                        contentScale = ContentScale.FillBounds,
+                    )
+                }
             }
         }
     }
@@ -182,10 +304,10 @@ fun WePLiChartLayout(
     }
 
     Box {
-        BlurBackgroundOverlay(
-            modifier = Modifier.matchParentSize(),
-            imageResId = R.drawable.img_placeholder_eunbin,
-        )
+//        BlurBackgroundOverlay(
+//            modifier = Modifier.matchParentSize(),
+//            imageResId = R.drawable.img_placeholder_eunbin,
+//        )
 
         Column(modifier = modifier) {
             TwoLineTitle(title = "위플리 TOP 100", subscription = "6월 23일 오전 7시 업데이트")
