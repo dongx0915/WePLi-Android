@@ -24,7 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import com.wepli.designsystem.R
-import com.wepli.shared.feature.mock.replaylistMockData
+import com.wepli.shared.feature.mock.relaylistMockData
 import custom.BlurBackgroundOverlay
 import extensions.compose.pagerFadeTransition
 import image.AsyncImageWithPreview
@@ -36,7 +36,7 @@ import kotlin.math.absoluteValue
 @Composable
 fun RelaylistBannerPreview() {
     RelaylistBannerComponent(
-        item = replaylistMockData.first(),
+        item = relaylistMockData.first(),
         scaleSizeRatio = 0.8f,
         pageOffset = 0f
     )

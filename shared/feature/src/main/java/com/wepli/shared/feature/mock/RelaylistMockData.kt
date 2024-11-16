@@ -2,7 +2,7 @@ package com.wepli.shared.feature.mock
 
 import model.relaylist.Relaylist
 
-val replaylistMockData = listOf(
+val relaylistMockData = listOf(
     Relaylist(
         title = "그 시절, 아무 걱정 없었던 그때",
         description = "어린 시절이 생각나는 노래 모음",

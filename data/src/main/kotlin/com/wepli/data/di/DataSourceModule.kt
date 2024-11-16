@@ -6,6 +6,8 @@ import com.wepli.data.chart.datasource.remote.ChartDataSource
 import com.wepli.data.chart.datasource.remote.ChartDataSourceImpl
 import com.wepli.data.playlist.datasource.remote.PlaylistDataSource
 import com.wepli.data.playlist.datasource.remote.PlaylistDataSourceImpl
+import com.wepli.data.relaylist.datasource.remote.RelaylistDataSource
+import com.wepli.data.relaylist.datasource.remote.RelaylistDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -28,4 +30,9 @@ interface DataSourceModule {
     @Binds
     @Singleton
     fun bindPlaylistDataSource(playlistDataSourceImpl: PlaylistDataSourceImpl): PlaylistDataSource
+
+
+    @Binds
+    @Singleton
+    fun bindRelaylistDataSource(relaylistDataSourceImpl: RelaylistDataSourceImpl): RelaylistDataSource
 }

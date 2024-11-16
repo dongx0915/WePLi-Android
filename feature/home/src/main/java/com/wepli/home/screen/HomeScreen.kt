@@ -44,7 +44,7 @@ import com.wepli.home.viewmodel.HomeViewModel
 import com.wepli.shared.feature.mock.artistMockData
 import com.wepli.shared.feature.mock.musicMockData
 import com.wepli.shared.feature.mock.recommendPlaylistMockData
-import com.wepli.shared.feature.mock.replaylistMockData
+import com.wepli.shared.feature.mock.relaylistMockData
 import com.wepli.uimodel.artist.ArtistUiData
 import com.wepli.uimodel.music.ChartMusicUiData
 import compose.MeasuredHeightContainer
@@ -61,6 +61,7 @@ import dev.chrisbanes.haze.hazeChild
 import extensions.compose.calculateCurrentOffsetForPage
 import extensions.compose.gesturesDisabled
 import model.playlist.RecommendPlaylist
+import model.relaylist.Relaylist
 import theme.WePLiTheme
 
 @Composable
@@ -75,6 +76,7 @@ fun HomeRoute(
     val themePlaylists by rememberUpdatedState(newValue = state.themePlaylists)
 
     HomeScreen(
+        relaylists = state.relaylists,
         topChartList = topChartList,
         artistList = artistList,
         recommendPlaylists = recommendPlaylists,
@@ -87,6 +89,7 @@ fun HomeRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    relaylists: List<Relaylist>,
     topChartList: List<ChartMusicUiData>,
     artistList: List<ArtistUiData>,
     recommendPlaylists: List<RecommendPlaylist>,
@@ -134,7 +137,10 @@ fun HomeScreen(
             state = scrollState
         ) {
             item {
-                RelaylistPagerLayout(topPagerModifier = Modifier.padding(top = topPadding))
+                RelaylistPagerLayout(
+                    topPagerModifier = Modifier.padding(top = topPadding),
+                    relaylists = relaylists
+                )
             }
 
             item { WePLiChartLayout(musicList = topChartList) }
@@ -160,13 +166,13 @@ fun HomeScreen(
 fun RelaylistPagerLayout(
     modifier: Modifier = Modifier,
     topPagerModifier: Modifier = Modifier,
+    relaylists: List<Relaylist>,
 ) {
-    val mockData = replaylistMockData.toList()
     val topPagerState = rememberPagerState(
-        pageCount = { mockData.size }
+        pageCount = { relaylists.size }
     )
     val bottomPagerState = rememberPagerState(
-        pageCount = { mockData.size }
+        pageCount = { relaylists.size }
     )
 
     val scaleSizeRatio = 0.8f
@@ -187,11 +193,11 @@ fun RelaylistPagerLayout(
                 .matchParentSize()
                 .gesturesDisabled(disabled = true)
         ) { page ->
-            val item = mockData[page]
+            val relaylist = relaylists[page]
 
             RelaylistBackground(
                 modifier = Modifier.matchParentSize(),
-                item = item,
+                item = relaylist,
                 page = page,
                 bottomPagerState = bottomPagerState
             )
@@ -205,10 +211,10 @@ fun RelaylistPagerLayout(
             contentPadding = PaddingValues(horizontal = 20.dp),
             pageSpacing = 12.dp
         ) { page ->
-            val item = mockData[page]
+            val relaylist = relaylists[page]
             val pageOffset = topPagerState.calculateCurrentOffsetForPage(page)
 
-            RelaylistBannerComponent(item = item, scaleSizeRatio = scaleSizeRatio, pageOffset = pageOffset)
+            RelaylistBannerComponent(item = relaylist, scaleSizeRatio = scaleSizeRatio, pageOffset = pageOffset)
         }
     }
 }
@@ -334,6 +340,7 @@ fun ArtistLayout(artistList: List<ArtistUiData>) {
 @Composable
 fun HomeScreenPreview() {
     HomeScreen(
+        relaylists = relaylistMockData,
         topChartList = musicMockData,
         artistList = artistMockData,
         recommendPlaylists = recommendPlaylistMockData,
