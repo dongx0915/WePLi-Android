@@ -258,7 +258,7 @@ fun WePLiChartLayout(
     }
 
     Column(modifier = modifier) {
-        TwoLineTitle(title = "위플리 TOP 100", subscription = "6월 23일 오전 7시 업데이트")
+        TwoLineTitle(title = "위플리 TOP 100", subscription = "매일 오전 6시 업데이트")
         HorizontalPager(
             modifier = Modifier
                 .fillMaxWidth()
