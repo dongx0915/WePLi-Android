@@ -1,4 +1,4 @@
-package com.wepli.application
+package com.wepli.app.application
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

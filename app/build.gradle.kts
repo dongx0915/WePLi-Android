@@ -11,7 +11,7 @@ plugins {
 }
 
 android {
-    namespace = "com.wepli"
+    namespace = "com.wepli.app"
 
     buildTypes {
         debug {

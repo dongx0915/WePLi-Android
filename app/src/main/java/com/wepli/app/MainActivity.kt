@@ -1,4 +1,4 @@
-package com.wepli
+package com.wepli.app
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -37,15 +37,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.wepli.navigation.BottomNavRoute
-import com.wepli.navigation.SetUpNavGraph
+import com.wepli.app.navigation.BottomNavRoute
+import com.wepli.app.navigation.SetUpNavGraph
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.HazeStyle
 import dev.chrisbanes.haze.HazeTint
 import dev.chrisbanes.haze.haze
 import dev.chrisbanes.haze.hazeChild
-import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import theme.WePLiTheme
 
 @AndroidEntryPoint

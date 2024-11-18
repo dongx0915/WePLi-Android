@@ -1,4 +1,4 @@
-package com.wepli.navigation.extensions
+package com.wepli.app.navigation.extensions
 
 import androidx.navigation.NavController
 

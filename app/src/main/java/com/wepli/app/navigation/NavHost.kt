@@ -1,27 +1,23 @@
-package com.wepli.navigation
+package com.wepli.app.navigation
 
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleOut
-import androidx.compose.animation.shrinkOut
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.wepli.ChartScreen
-import com.wepli.SearchScreen
+import com.wepli.app.ChartScreen
+import com.wepli.app.SearchScreen
 import com.wepli.community.navigation.communityDetailGraph
 import com.wepli.community.navigation.communityMainGraph
 import com.wepli.community.navigation.navigateToCommunityDetail
 import com.wepli.home.navigation.homeGraph
-import com.wepli.home.screen.HomeRoute
-import com.wepli.home.screen.HomeScreen
 import com.wepli.mypage.menus.appinfo.navigation.mypageAppInfoGraph
 import com.wepli.mypage.menus.appinfo.navigation.navigateToAppInfo
 import com.wepli.mypage.menus.mypage.navigation.mypageMainGraph
-import com.wepli.navigation.extensions.navigateToBack
+import com.wepli.app.navigation.extensions.navigateToBack
 import com.wepli.playlist.navigation.navigateToPlaylistDetail
 import com.wepli.playlist.navigation.playlistDetailGraph
 
