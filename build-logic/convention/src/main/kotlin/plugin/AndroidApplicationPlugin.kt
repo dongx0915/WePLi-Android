@@ -58,7 +58,7 @@ class AndroidApplicationPlugin: Plugin<Project> {
                 configureKotlinAndroid(this)
 
                 defaultConfig {
-                    applicationId = "com.wepli"
+                    applicationId = "com.wepli.app"
                     versionName = appVersion
                     versionCode = appVersionCode
 
