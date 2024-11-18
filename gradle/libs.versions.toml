@@ -41,12 +41,16 @@ composeDestination = "1.10.2"
 composeNavigation = "2.8.3"
 hilt-navigation-compose = "1.2.0"
 
+# Firebase
+firebase-bom = "33.6.0"
+
 # Etc
 coil = "2.7.0"
 retrofit = "2.11.0"
 okhttp = "4.12.0"
 joda-time = "2.13.0"
 gson = "2.10.1"
+google-services = "4.4.2"
 
 [libraries] # 라이브러리 의존성
 
@@ -93,8 +97,10 @@ androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-com
 
 # Compose Navigation
 androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
-
 compose-compiler-extension = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
+
+# Firebase
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
 
 # etc
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
@@ -139,3 +145,6 @@ dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
 # Compose
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
+# Firebase
+google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }

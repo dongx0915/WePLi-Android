@@ -8,6 +8,7 @@ plugins {
     wepli("android.application")
     wepli("android.hilt")
     wepli("android.compose")
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -43,4 +44,7 @@ dependencies {
     // Blur 라이브러리
     implementation(libs.blur.haze)
     implementation(libs.blur.haze.materials)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
 }
