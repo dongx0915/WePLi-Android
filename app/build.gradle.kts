@@ -48,7 +48,12 @@ dependencies {
     // Firebase
     implementation(platform(libs.firebase.bom))
 
+    // Supabase
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services)
     implementation(libs.android.identity.googleid)
+
+    implementation(platform(libs.supabase.bom))
+    implementation(libs.supabase.postgrest.kt)
+    implementation(libs.supabase.realtime.kt)
 }

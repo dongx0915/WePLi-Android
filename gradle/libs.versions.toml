@@ -44,6 +44,10 @@ hilt-navigation-compose = "1.2.0"
 # Firebase
 firebase-bom = "33.6.0"
 
+# Supabase
+supabase = "3.0.2"
+ktor = "3.0.1"
+
 # Etc
 coil = "2.7.0"
 retrofit = "2.11.0"
@@ -105,6 +109,15 @@ compose-compiler-extension = { module = "org.jetbrains.kotlin:compose-compiler-g
 
 # Firebase
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
+
+# Supabase
+supabase-bom = { group = "io.github.jan-tennert.supabase", name = "bom", version.ref = "supabase" }
+supabase-postgrest-kt = { group = "io.github.jan-tennert.supabase", name = "postgrest-kt" }
+supabase-realtime-kt = { group = "io.github.jan-tennert.supabase", name = "realtime-kt" }
+
+# ktor
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 
 # etc
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
