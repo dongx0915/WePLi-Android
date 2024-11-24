@@ -14,16 +14,31 @@ plugins {
 android {
     namespace = "com.wepli.app"
 
+    // BuildConfig 기능 활성화
+    buildFeatures {
+        buildConfig = true
+    }
+
     buildTypes {
         debug {
             isDebuggable = true
             signingConfig = signingConfigs.getByName("debug")
+
+            // local.properties 값 추가
+            properties.filter { it.key != "sdk.dir" }.forEach { (key, value) ->
+                buildConfigField("String", key.toString().uppercase(), "\"$value\"")
+            }
         }
 
         release {
             isMinifyEnabled = true // 코드 난독화 여부
             isShrinkResources = true
             signingConfig = signingConfigs.getByName("release")
+
+            // local.properties 값 추가
+            properties.filter { it.key != "sdk.dir" }.forEach { (key, value) ->
+                buildConfigField("String", key.toString().uppercase(), "\"$value\"")
+            }
         }
     }
 }
