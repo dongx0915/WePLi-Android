@@ -2,13 +2,13 @@ package com.wepli.app.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Window
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,20 +18,29 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,9 +48,13 @@ import androidx.compose.ui.unit.dp
 import androidx.credentials.CredentialManager
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wepli.app.MainActivity
-import com.wepli.app.R
+import com.wepli.designsystem.R
+import com.wepli.shared.feature.mock.musicMockData
 import common.WepliSpacer
 import dagger.hilt.android.AndroidEntryPoint
+import image.AsyncImageWithPreview
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import theme.WePLiTheme
 
 @AndroidEntryPoint
@@ -92,11 +105,13 @@ fun LoginScreen(
             .padding(top = 130.dp, bottom = navBarBottomPadding + 48.dp)
     ) {
         LoginTitleComponent()
+        WepliSpacer(vertical = 48.dp)
+        PlaylistCoverPager()
 
         Spacer(modifier = Modifier.weight(1f))
         SocialLoginButton(
             modifier = Modifier.padding(horizontal = 24.dp),
-            iconVector = ImageVector.vectorResource(id = R.drawable.ic_google_logo),
+            iconVector = ImageVector.vectorResource(id = com.wepli.app.R.drawable.ic_google_logo),
             buttonText = "Google로 시작하기",
         ) {
             LoginIntent.RequestGoogleLogin { request ->
@@ -123,6 +138,49 @@ fun LoginTitleComponent() {
         style = WePLiTheme.typo.body3,
         color = WePLiTheme.color.white.copy(alpha = 0.6f),
     )
+}
+
+@Composable
+fun PlaylistCoverPager(modifier: Modifier = Modifier) {
+    val imageList = musicMockData.map { it.albumCoverUrl }
+    val listState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
+
+    var targetIndex by remember { mutableIntStateOf(0) }
+
+    LaunchedEffect(targetIndex) {
+        delay(2000)
+        val nextIndex = (targetIndex + 1) % imageList.size
+        coroutineScope.launch {
+            listState.animateScrollToItem(nextIndex)
+        }
+        targetIndex = nextIndex
+    }
+
+    LazyRow(
+        state = listState,
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        itemsIndexed(imageList) { index, item ->
+            val visibleItemsInfo = remember { derivedStateOf { listState.layoutInfo } }.value.visibleItemsInfo
+            val secondVisibleIndex = visibleItemsInfo.getOrNull(1)?.index // 두 번째로 보이는 아이템의 인덱스
+
+            Box(
+                modifier = Modifier.height(100.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                val isTargetItem = index == secondVisibleIndex
+                AsyncImageWithPreview(
+                    modifier = Modifier
+                        .size(if (isTargetItem) 100.dp else 60.dp)
+                        .clip(RoundedCornerShape(if (isTargetItem) 8.dp else 4.dp)),
+                    imageUrl = item,
+                    previewImage = painterResource(id = R.drawable.img_placeholder_eunbin)
+                )
+            }
+        }
+    }
 }
 
 @Composable
@@ -179,7 +237,7 @@ fun TermsText(
 @Composable
 fun GoogleLoginButtonPreview() {
     SocialLoginButton(
-        iconVector = ImageVector.vectorResource(id = R.drawable.ic_google_logo),
+        iconVector = ImageVector.vectorResource(id = com.wepli.app.R.drawable.ic_google_logo),
         buttonText = "Google로 시작하기",
         onClick = {}
     )
