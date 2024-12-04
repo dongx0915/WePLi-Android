@@ -6,6 +6,8 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -163,18 +165,28 @@ fun PlaylistCoverPager(modifier: Modifier = Modifier) {
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         itemsIndexed(imageList) { index, item ->
-            val visibleItemsInfo = remember { derivedStateOf { listState.layoutInfo } }.value.visibleItemsInfo
+            val visibleItemsInfo = listState.layoutInfo.visibleItemsInfo
             val secondVisibleIndex = visibleItemsInfo.getOrNull(1)?.index // 두 번째로 보이는 아이템의 인덱스
+
+            val isTargetItem = index == secondVisibleIndex
+            val animatedSize = animateDpAsState(
+                targetValue = if (isTargetItem) 100.dp else 60.dp,
+                animationSpec = tween(durationMillis = 250)
+            )
+
+            val animatedCornerRadius = animateDpAsState(
+                targetValue = if (isTargetItem) 8.dp else 4.dp,
+                animationSpec = tween(durationMillis = 250)
+            )
 
             Box(
                 modifier = Modifier.height(100.dp),
                 contentAlignment = Alignment.Center
             ) {
-                val isTargetItem = index == secondVisibleIndex
                 AsyncImageWithPreview(
                     modifier = Modifier
-                        .size(if (isTargetItem) 100.dp else 60.dp)
-                        .clip(RoundedCornerShape(if (isTargetItem) 8.dp else 4.dp)),
+                        .size(animatedSize.value)
+                        .clip(RoundedCornerShape(animatedCornerRadius.value)),
                     imageUrl = item,
                     previewImage = painterResource(id = R.drawable.img_placeholder_eunbin)
                 )
