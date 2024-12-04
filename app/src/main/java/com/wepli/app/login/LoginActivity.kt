@@ -54,6 +54,8 @@ import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.musicMockData
 import common.WepliSpacer
 import dagger.hilt.android.AndroidEntryPoint
+import extensions.compose.gesturesDisabled
+import extensions.compose.toPx
 import image.AsyncImageWithPreview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -146,26 +148,30 @@ fun LoginTitleComponent() {
 fun PlaylistCoverPager(modifier: Modifier = Modifier) {
     val imageList = musicMockData.map { it.albumCoverUrl }
     val listState = rememberLazyListState()
+    val layoutInfo = remember { derivedStateOf { listState.layoutInfo } }.value
     val coroutineScope = rememberCoroutineScope()
 
     var targetIndex by remember { mutableIntStateOf(0) }
+    val itemOffset = 48.dp.toPx()
 
     LaunchedEffect(targetIndex) {
         delay(2000)
         val nextIndex = (targetIndex + 1) % imageList.size
         coroutineScope.launch {
-            listState.animateScrollToItem(nextIndex)
+            listState.animateScrollToItem(nextIndex, itemOffset)
         }
         targetIndex = nextIndex
     }
 
     LazyRow(
         state = listState,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .gesturesDisabled(disabled = true),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        itemsIndexed(imageList) { index, item ->
-            val visibleItemsInfo = listState.layoutInfo.visibleItemsInfo
+        items(Int.MAX_VALUE) { index ->
+            val visibleItemsInfo = layoutInfo.visibleItemsInfo
             val secondVisibleIndex = visibleItemsInfo.getOrNull(1)?.index // 두 번째로 보이는 아이템의 인덱스
 
             val isTargetItem = index == secondVisibleIndex
@@ -187,7 +193,7 @@ fun PlaylistCoverPager(modifier: Modifier = Modifier) {
                     modifier = Modifier
                         .size(animatedSize.value)
                         .clip(RoundedCornerShape(animatedCornerRadius.value)),
-                    imageUrl = item,
+                    imageUrl = imageList[index % imageList.size],
                     previewImage = painterResource(id = R.drawable.img_placeholder_eunbin)
                 )
             }
