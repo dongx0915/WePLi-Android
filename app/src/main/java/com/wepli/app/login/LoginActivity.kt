@@ -149,17 +149,15 @@ fun PlaylistCoverPager(modifier: Modifier = Modifier) {
     val imageList = musicMockData.map { it.albumCoverUrl }
     val listState = rememberLazyListState()
     val layoutInfo = remember { derivedStateOf { listState.layoutInfo } }.value
-    val coroutineScope = rememberCoroutineScope()
 
     var targetIndex by remember { mutableIntStateOf(0) }
     val itemOffset = 48.dp.toPx()
 
+    LaunchedEffect(Unit) { listState.scrollToItem(targetIndex, itemOffset) }
     LaunchedEffect(targetIndex) {
         delay(2000)
         val nextIndex = (targetIndex + 1) % imageList.size
-        coroutineScope.launch {
-            listState.animateScrollToItem(nextIndex, itemOffset)
-        }
+        listState.animateScrollToItem(nextIndex, itemOffset)
         targetIndex = nextIndex
     }
 
