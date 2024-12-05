@@ -105,15 +105,15 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
                     nonce = rawNonce
                 }
             }.onSuccess {
-                val session = supabase.auth.currentSessionOrNull()
-                session?.expiresAt
-                session?.accessToken
-                session?.refreshToken
+                /* TODO 자동 로그인 처리시 필요
+                    val session = supabase.auth.currentSessionOrNull()
+                    session?.expiresAt
+                    session?.accessToken
+                    session?.refreshToken
+                */
 
-                // 로그인 성공
                 _effect.send(LoginEffect.NavigateToMain)
             }.onFailure {
-                // 로그인 실패
                 _effect.send(LoginEffect.ShowToast("로그인 실패: ${it.message}"))
             }
         }
