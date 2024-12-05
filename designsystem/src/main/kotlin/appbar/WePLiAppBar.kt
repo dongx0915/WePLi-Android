@@ -19,7 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
-import theme.WePLiTheme
+import theme.WepliTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,7 +39,7 @@ fun WePLiAppBar(
         title = {
             Text(
                 text = title,
-                style = WePLiTheme.typo.subTitle3,
+                style = WepliTheme.typo.subTitle3,
                 color = contentsColor,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,

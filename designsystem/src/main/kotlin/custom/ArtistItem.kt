@@ -27,7 +27,7 @@ import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.artistMockData
 import com.wepli.uimodel.artist.ArtistUiData
 import extensions.compose.toPx
-import theme.WePLiTheme
+import theme.WepliTheme
 
 
 @Preview
@@ -75,8 +75,8 @@ fun ArtistProfileListItem(
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = artist.name,
-            style = WePLiTheme.typo.body6,
-            color = WePLiTheme.color.gray600,
+            style = WepliTheme.typo.body6,
+            color = WepliTheme.color.gray600,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )

@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
 import com.wepli.uimodel.music.SongUiData
 import image.AsyncImageWithPreview
-import theme.WePLiTheme
+import theme.WepliTheme
 
 @Composable
 fun SongItem(song: SongUiData) {
@@ -44,7 +44,7 @@ fun SongItem(song: SongUiData) {
                 Icon(
                     modifier = Modifier.size(24.dp),
                     painter = painterResource(id = R.drawable.ic_play),
-                    tint = WePLiTheme.color.gray900,
+                    tint = WepliTheme.color.gray900,
                     contentDescription = null
                 )
             }
@@ -54,15 +54,15 @@ fun SongItem(song: SongUiData) {
 
         Text(
             text = song.title,
-            style = WePLiTheme.typo.body5,
-            color = WePLiTheme.color.white,
+            style = WepliTheme.typo.body5,
+            color = WepliTheme.color.white,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
         Text(
             text = song.artist,
-            style = WePLiTheme.typo.caption1,
-            color = WePLiTheme.color.gray500,
+            style = WepliTheme.typo.caption1,
+            color = WepliTheme.color.gray500,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )

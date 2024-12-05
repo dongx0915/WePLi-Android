@@ -18,7 +18,7 @@ import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.recommendPlaylistMockData
 import image.AsyncImageWithPreview
 import model.playlist.RecommendPlaylist
-import theme.WePLiTheme
+import theme.WepliTheme
 
 @Composable
 fun PlayListCoverItem(
@@ -37,8 +37,8 @@ fun PlayListCoverItem(
         Spacer(modifier = Modifier.height(12.dp))
         Text(
             text = recommendPlaylist.title,
-            style = WePLiTheme.typo.body5,
-            color = WePLiTheme.color.white,
+            style = WepliTheme.typo.body5,
+            color = WepliTheme.color.white,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
         )

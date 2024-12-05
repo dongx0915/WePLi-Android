@@ -58,6 +58,7 @@ import extensions.compose.toPx
 import image.AsyncImageWithPreview
 import kotlinx.coroutines.delay
 import theme.WePLiTheme
+import theme.WepliTheme
 
 @AndroidEntryPoint
 class LoginActivity : ComponentActivity() {
@@ -108,7 +109,7 @@ fun LoginScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(WePLiTheme.color.black)
+            .background(WepliTheme.color.black)
             .padding(top = 130.dp, bottom = navBarBottomPadding + 48.dp)
     ) {
         LoginTitleComponent()
@@ -135,15 +136,15 @@ fun LoginTitleComponent() {
     Text(
         modifier = Modifier.padding(horizontal = 24.dp),
         text = "함께 만드는\n플레이리스트",
-        style = WePLiTheme.typo.title1,
-        color = WePLiTheme.color.white,
+        style = WepliTheme.typo.title1,
+        color = WepliTheme.color.white,
     )
     WepliSpacer(vertical = 16.dp)
     Text(
         modifier = Modifier.padding(horizontal = 24.dp),
         text = "다양한 사람들과 음악으로 연결되는\n특별한 순간을 경험해보세요.",
-        style = WePLiTheme.typo.body3,
-        color = WePLiTheme.color.white.copy(alpha = 0.6f),
+        style = WepliTheme.typo.body3,
+        color = WepliTheme.color.white.copy(alpha = 0.6f),
     )
 }
 
@@ -215,7 +216,7 @@ fun SocialLoginButton(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
-            .background(WePLiTheme.color.gray000)
+            .background(WepliTheme.color.gray000)
             .height(52.dp)
             .clickable { onClick() },
         contentAlignment = Alignment.Center
@@ -232,8 +233,8 @@ fun SocialLoginButton(
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             text = buttonText,
-            style = WePLiTheme.typo.body1,
-            color = WePLiTheme.color.white,
+            style = WepliTheme.typo.body1,
+            color = WepliTheme.color.white,
         )
     }
 }
@@ -248,8 +249,8 @@ fun TermsText(
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             text = "최초 로그인은 계정을 생성하며,\n그와 동시에 서비스 조건과 개인정보처리방침에 동의하게 됩니다.",
-            style = WePLiTheme.typo.caption1,
-            color = WePLiTheme.color.gray500,
+            style = WepliTheme.typo.caption1,
+            color = WepliTheme.color.gray500,
         )
     }
 }

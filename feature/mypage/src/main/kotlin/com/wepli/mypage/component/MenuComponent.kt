@@ -15,7 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
-import theme.WePLiTheme
+import theme.WepliTheme
 
 @Preview
 @Composable
@@ -31,8 +31,8 @@ fun MenuTitleComponent(
     ) {
         Text(
             text = title,
-            style = WePLiTheme.typo.subTitle1,
-            color = WePLiTheme.color.gray900
+            style = WepliTheme.typo.subTitle1,
+            color = WepliTheme.color.gray900
         )
     }
 }
@@ -54,14 +54,14 @@ fun MenuComponent(
         Text(
             modifier = Modifier.weight(1f),
             text = title,
-            style = WePLiTheme.typo.body3,
-            color = WePLiTheme.color.gray600
+            style = WepliTheme.typo.body3,
+            color = WepliTheme.color.gray600
         )
 
         Icon(
             modifier = Modifier.size(16.dp),
             painter = painterResource(id = R.drawable.ic_arrow_forward),
-            tint = WePLiTheme.color.gray600,
+            tint = WepliTheme.color.gray600,
             contentDescription = null
         )
     }

@@ -25,7 +25,7 @@ import com.wepli.designsystem.R
 import com.wepli.uimodel.music.ChartMusicUiData
 import com.wepli.uimodel.music.SongUiData
 import image.AsyncImageWithPreview
-import theme.WePLiTheme
+import theme.WepliTheme
 
 sealed interface MusicItemType {
     val title: String
@@ -107,8 +107,8 @@ fun MusicItem(
                         .padding(top = 9.dp)
                         .width(32.dp),
                     text = musicItemType.chartMusic.rank.toString(),
-                    style = WePLiTheme.typo.caption1,
-                    color = WePLiTheme.color.gray700,
+                    style = WepliTheme.typo.caption1,
+                    color = WepliTheme.color.gray700,
                     textAlign = TextAlign.Center
                 )
             }
@@ -126,16 +126,16 @@ fun MusicItem(
         ) {
             Text(
                 text = musicItemType.title,
-                style = WePLiTheme.typo.body4,
-                color = WePLiTheme.color.white,
+                style = WepliTheme.typo.body4,
+                color = WepliTheme.color.white,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
             Spacer(modifier = Modifier.size(4.dp))
             Text(
                 text = musicItemType.artist,
-                style = WePLiTheme.typo.caption1,
-                color = WePLiTheme.color.gray500,
+                style = WepliTheme.typo.caption1,
+                color = WepliTheme.color.gray500,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
@@ -147,7 +147,7 @@ fun MusicItem(
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .size(24.dp),
-                tint = WePLiTheme.color.gray800,
+                tint = WepliTheme.color.gray800,
                 painter = painterResource(id = R.drawable.ic_play),
                 contentDescription = null
             )
@@ -159,7 +159,7 @@ fun MusicItem(
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .size(24.dp),
-                tint = WePLiTheme.color.gray800,
+                tint = WepliTheme.color.gray800,
                 painter = painterResource(id = R.drawable.ic_more_dot),
                 contentDescription = null
             )

@@ -23,7 +23,7 @@ import com.wepli.community.component.PostItem
 import com.wepli.shared.feature.mock.commentMockData
 import com.wepli.shared.feature.uimodel.community.PostUiData
 import com.wepli.uimodel.community.CommentUiData
-import theme.WePLiTheme
+import theme.WepliTheme
 
 @Preview
 @Composable
@@ -46,7 +46,7 @@ fun CommunityDetailScreen(
 
     ScrollableAppBar(
         scrollState = scrollState,
-        backgroundColors = Color.Transparent to WePLiTheme.color.black,
+        backgroundColors = Color.Transparent to WepliTheme.color.black,
         contentsColors = Color.White to Color.White,
         topBarComponent = { backgroundColor, contentsColor, _, _ ->
             WePLiAppBar(
@@ -62,7 +62,7 @@ fun CommunityDetailScreen(
             state = scrollState,
             modifier = Modifier
                 .fillMaxSize()
-                .background(WePLiTheme.color.black),
+                .background(WepliTheme.color.black),
             contentPadding = paddingValue
         ) {
             item { PostContent(post) }

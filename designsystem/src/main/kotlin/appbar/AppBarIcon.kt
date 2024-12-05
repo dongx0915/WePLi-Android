@@ -15,37 +15,37 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
 import common.NotificationDot
-import theme.WePLiTheme
+import theme.WepliTheme
 
 sealed interface AppBarIconType {
 
     data class Back(
-        val iconColor: @Composable () -> Color = { WePLiTheme.color.white },
+        val iconColor: @Composable () -> Color = { WepliTheme.color.white },
         val offset: Dp = (-6).dp,
         val onClick: () -> Unit = {},
     ) : AppBarIconType
 
     data class Search(
-        val iconColor: @Composable () -> Color = { WePLiTheme.color.white },
+        val iconColor: @Composable () -> Color = { WepliTheme.color.white },
         val offset: Dp = (-6).dp,
         val onClick: () -> Unit = {},
     ) : AppBarIconType
 
     data class Notification(
-        val iconColor: @Composable () -> Color = { WePLiTheme.color.white },
+        val iconColor: @Composable () -> Color = { WepliTheme.color.white },
         val offset: Dp = (-6).dp,
         val badgeVisibility: Boolean = true,
         val onClick: () -> Unit = {},
     ) : AppBarIconType
 
     data class Like(
-        val iconColor: @Composable () -> Color = { WePLiTheme.color.white },
+        val iconColor: @Composable () -> Color = { WepliTheme.color.white },
         val isLiked: Boolean,
         val onClick: () -> Unit = {},
     ) : AppBarIconType
 
     data class More(
-        val iconColor: @Composable () -> Color = { WePLiTheme.color.white },
+        val iconColor: @Composable () -> Color = { WepliTheme.color.white },
         val onClick: () -> Unit = {},
     ) : AppBarIconType
 }
@@ -100,7 +100,7 @@ fun AppBarIcon(icon: AppBarIconType) {
 private fun AppBarIcon(
     modifier: Modifier = Modifier,
     @DrawableRes iconResource: Int,
-    iconColor: Color = WePLiTheme.color.white,
+    iconColor: Color = WepliTheme.color.white,
     badgeVisible: Boolean = false,
     onClick: () -> Unit,
 ) {

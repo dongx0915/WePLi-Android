@@ -30,7 +30,7 @@ import custom.BlurBackgroundOverlay
 import extensions.compose.pagerFadeTransition
 import image.AsyncImageWithPreview
 import model.relaylist.Relaylist
-import theme.WePLiTheme
+import theme.WepliTheme
 import kotlin.math.absoluteValue
 
 @Preview
@@ -100,8 +100,8 @@ fun RelaylistBannerComponent(
             ) {
                 Text(
                     text = item.title,
-                    color = WePLiTheme.color.gray900,
-                    style = WePLiTheme.typo.title2.copy(
+                    color = WepliTheme.color.gray900,
+                    style = WepliTheme.typo.title2.copy(
                         fontWeight = FontWeight.Bold
                     ),
                 )
@@ -110,8 +110,8 @@ fun RelaylistBannerComponent(
 
                 Text(
                     text = item.description,
-                    color = WePLiTheme.color.gray800,
-                    style = WePLiTheme.typo.body3,
+                    color = WepliTheme.color.gray800,
+                    style = WepliTheme.typo.body3,
                 )
             }
         }

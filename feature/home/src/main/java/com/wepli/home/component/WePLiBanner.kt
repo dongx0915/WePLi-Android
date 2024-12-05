@@ -25,7 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.wepli.feature.home.R
-import theme.WePLiTheme
+import theme.WepliTheme
 import util.OrientationPreviews
 
 
@@ -34,8 +34,8 @@ sealed interface WePLiBannerType {
     @Composable fun subTitle(): String
     @Composable fun bannerImg(): Painter
     @Composable fun backgroundColor(): Color
-    @Composable fun titleTextStyle(): TextStyle = WePLiTheme.typo.subTitle5
-    @Composable fun subTitleTextStyle(): TextStyle = WePLiTheme.typo.subTitle7
+    @Composable fun titleTextStyle(): TextStyle = WepliTheme.typo.subTitle5
+    @Composable fun subTitleTextStyle(): TextStyle = WepliTheme.typo.subTitle7
 
     data object Twitter : WePLiBannerType {
         @Composable
@@ -98,13 +98,13 @@ fun WePLiBanner(
             Text(
                 text = bannerType.subTitle(),
                 style = bannerType.subTitleTextStyle(),
-                color = WePLiTheme.color.gray900,
+                color = WepliTheme.color.gray900,
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = bannerType.title(),
                 style = bannerType.titleTextStyle(),
-                color = WePLiTheme.color.white,
+                color = WepliTheme.color.white,
             )
         }
 

@@ -62,7 +62,7 @@ import extensions.compose.calculateCurrentOffsetForPage
 import extensions.compose.gesturesDisabled
 import model.playlist.RecommendPlaylist
 import model.relaylist.Relaylist
-import theme.WePLiTheme
+import theme.WepliTheme
 
 @Composable
 fun HomeRoute(
@@ -132,7 +132,7 @@ fun HomeScreen(
         LazyColumn(
             modifier = Modifier
                 .haze(hazeState)
-                .background(WePLiTheme.color.black)
+                .background(WepliTheme.color.black)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(24.dp),
             contentPadding = PaddingValues(bottom = bottomPadding * 3),

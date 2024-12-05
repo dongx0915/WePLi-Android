@@ -1,18 +1,14 @@
 package com.wepli.community.component
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
 import extensions.getRelativeTime
 import image.AsyncImageWithPreview
-import theme.WePLiTheme
+import theme.WepliTheme
 import java.text.NumberFormat
 import java.util.Date
 
@@ -92,14 +88,14 @@ private fun CommentHeader(
     ) {
         Text(
             text = nickname,
-            style = WePLiTheme.typo.body5,
-            color = WePLiTheme.color.white
+            style = WepliTheme.typo.body5,
+            color = WepliTheme.color.white
         )
         Spacer(modifier = Modifier.width(4.dp))
         Text(
             text = createAt.getRelativeTime(),
-            style = WePLiTheme.typo.caption2,
-            color = WePLiTheme.color.gray600
+            style = WepliTheme.typo.caption2,
+            color = WepliTheme.color.gray600
         )
     }
 }
@@ -115,14 +111,14 @@ private fun CommentBody(
         Text(
             modifier = Modifier.weight(1f),
             text = content,
-            style = WePLiTheme.typo.body5,
-            color = WePLiTheme.color.white
+            style = WepliTheme.typo.body5,
+            color = WepliTheme.color.white
         )
         Spacer(modifier = Modifier.width(4.dp))
         Icon(
             modifier = Modifier.size(24.dp),
             painter = painterResource(id = R.drawable.ic_heart),
-            tint = WePLiTheme.color.gray800,
+            tint = WepliTheme.color.gray800,
             contentDescription = null
         )
     }
@@ -135,20 +131,20 @@ private fun CommentFooter(likeCount: Int) {
     Row{
         Text(
             text = "좋아요 %s개".format(likes),
-            style = WePLiTheme.typo.body6,
-            color = WePLiTheme.color.gray500
+            style = WepliTheme.typo.body6,
+            color = WepliTheme.color.gray500
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
             text = "답글 달기",
-            style = WePLiTheme.typo.body6,
-            color = WePLiTheme.color.gray500
+            style = WepliTheme.typo.body6,
+            color = WepliTheme.color.gray500
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
             text = "삭제",
-            style = WePLiTheme.typo.body6,
-            color = WePLiTheme.color.gray600
+            style = WepliTheme.typo.body6,
+            color = WepliTheme.color.gray600
         )
     }
 }

@@ -44,7 +44,7 @@ import com.wepli.designsystem.R
 import com.wepli.mypage.component.MenuComponent
 import com.wepli.mypage.component.MenuTitleComponent
 import com.wepli.mypage.menus.mypage.viewmodel.MyPageViewModel
-import theme.WePLiTheme
+import theme.WepliTheme
 
 @Preview
 @Composable
@@ -66,7 +66,7 @@ fun MyPageScreen(
     val scrollState = rememberScrollState()
 
     Scaffold(
-        containerColor = WePLiTheme.color.black,
+        containerColor = WepliTheme.color.black,
         topBar = {
             WePLiAppBar(
                 containerColor = Color.Transparent,
@@ -105,8 +105,8 @@ fun MyPageScreen(
             Text(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 text = "Copyright ©2024 WePLi",
-                style = WePLiTheme.typo.body4,
-                color = WePLiTheme.color.gray400,
+                style = WepliTheme.typo.body4,
+                color = WepliTheme.color.gray400,
             )
             Spacer(modifier = Modifier.height(32.dp))
         }
@@ -121,7 +121,7 @@ fun ProfileImage(
     val isInPreview = LocalInspectionMode.current
     val imageModifier = modifier.border(
         width = 1.dp,
-        brush = WePLiTheme.color.linear3,
+        brush = WepliTheme.color.linear3,
         shape = CircleShape
     ).clip(CircleShape)
 
@@ -178,14 +178,14 @@ fun ProfileLayout(
         ) {
             Text(
                 text = nickname,
-                style = WePLiTheme.typo.subTitle1,
-                color = WePLiTheme.color.gray900
+                style = WepliTheme.typo.subTitle1,
+                color = WepliTheme.color.gray900
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = email,
-                style = WePLiTheme.typo.body4,
-                color = WePLiTheme.color.gray700
+                style = WepliTheme.typo.body4,
+                color = WepliTheme.color.gray700
             )
         }
     }
@@ -201,7 +201,7 @@ fun TendencyComponent(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
-            .background(WePLiTheme.color.gray000)
+            .background(WepliTheme.color.gray000)
             .padding(vertical = 16.dp, horizontal = 20.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -213,8 +213,8 @@ fun TendencyComponent(
         Spacer(modifier = Modifier.width(12.dp))
         Text(
             text = tendencyTitle,
-            style = WePLiTheme.typo.subTitle5,
-            color = WePLiTheme.color.gray700
+            style = WepliTheme.typo.subTitle5,
+            color = WepliTheme.color.gray700
         )
     }
 }

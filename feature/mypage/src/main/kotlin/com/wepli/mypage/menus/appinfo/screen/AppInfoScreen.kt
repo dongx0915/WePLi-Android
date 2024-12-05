@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import appbar.WePLiAppBar
 import com.wepli.mypage.component.MenuComponent
 import com.wepli.mypage.component.MenuTitleComponent
-import theme.WePLiTheme
+import theme.WepliTheme
 
 @Preview
 @Composable
@@ -30,7 +30,7 @@ fun AppInfoScreen(
     val scrollState = rememberScrollState()
 
     Scaffold(
-        containerColor = WePLiTheme.color.black,
+        containerColor = WepliTheme.color.black,
         topBar = {
             WePLiAppBar(
                 title = "공지 및 이용약관",

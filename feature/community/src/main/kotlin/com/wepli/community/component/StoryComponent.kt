@@ -29,7 +29,7 @@ import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.userMockData
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import image.AsyncImageWithPreview
-import theme.WePLiTheme
+import theme.WepliTheme
 
 @Preview
 @Composable
@@ -61,7 +61,7 @@ fun WePLiStoryLayout(
 
         HorizontalDivider(
             modifier = Modifier.fillMaxWidth(),
-            color = WePLiTheme.color.gray050,
+            color = WepliTheme.color.gray050,
         )
     }
 }
@@ -81,7 +81,7 @@ fun StoryItem(
             modifier = Modifier
                 .size(imageSize)
                 .clip(storyShape)
-                .border(brush = WePLiTheme.color.linear3, shape = storyShape, width = (1.5).dp),
+                .border(brush = WepliTheme.color.linear3, shape = storyShape, width = (1.5).dp),
             imageUrl = profileImgUrl,
             previewImage = painterResource(id = R.drawable.img_placeholder_chuu),
             imageOverrideSize = imageSize,
@@ -92,8 +92,8 @@ fun StoryItem(
         Text(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             text = nickname,
-            style = WePLiTheme.typo.caption2,
-            color = WePLiTheme.color.white,
+            style = WepliTheme.typo.caption2,
+            color = WepliTheme.color.white,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )

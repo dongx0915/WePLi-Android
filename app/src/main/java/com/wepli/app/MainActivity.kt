@@ -46,6 +46,7 @@ import dev.chrisbanes.haze.HazeTint
 import dev.chrisbanes.haze.haze
 import dev.chrisbanes.haze.hazeChild
 import theme.WePLiTheme
+import theme.WepliTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -101,7 +102,7 @@ fun MainApp() {
     val hazeState = remember { HazeState() }
 
     Scaffold(
-        containerColor = WePLiTheme.color.black,
+        containerColor = WepliTheme.color.black,
         bottomBar = {
             if (isBottomTabVisible) {
                 BottomNavigationBar(
@@ -134,7 +135,7 @@ fun BottomNavigationBar(
     currentRoute: String?,
     hazeState: HazeState // hazeState 매개변수 추가
 ) {
-    val bottomNavColor = WePLiTheme.color.black.copy(0.7f)
+    val bottomNavColor = WepliTheme.color.black.copy(0.7f)
     Box(
         modifier = modifier
             .hazeChild(
@@ -151,14 +152,14 @@ fun BottomNavigationBar(
             navItems.forEach { item ->
                 val isSelected = currentRoute == item.route
                 val iconRes = if (isSelected) item.bottomTabSelectedIcon else item.bottomTabIcon
-                val textTypo = WePLiTheme.typo.caption2.copy(
+                val textTypo = WepliTheme.typo.caption2.copy(
                     fontSize = 9.sp,
                     fontWeight = FontWeight.Medium,
                 )
                 val textStyle = if (isSelected) {
-                    textTypo.copy(brush = WePLiTheme.color.linear3)
+                    textTypo.copy(brush = WepliTheme.color.linear3)
                 } else {
-                    textTypo.copy(color = WePLiTheme.color.gray500)
+                    textTypo.copy(color = WepliTheme.color.gray500)
                 }
 
                 NavigationBarItem(
@@ -193,7 +194,7 @@ fun BottomNavigationBar(
                         selectedIconColor = Color.Unspecified,
                         unselectedIconColor = Color.Unspecified,
                         selectedTextColor = Color.Unspecified,
-                        unselectedTextColor = WePLiTheme.color.gray500,
+                        unselectedTextColor = WepliTheme.color.gray500,
                         indicatorColor = Color.Transparent,
                     )
                 )

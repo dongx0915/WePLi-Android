@@ -16,7 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
-import theme.WePLiTheme
+import theme.WepliTheme
 
 @Preview
 @Composable
@@ -39,15 +39,15 @@ fun OneLineTitle(
     ) {
         Text(
             text = title,
-            style = WePLiTheme.typo.subTitle2,
-            color = WePLiTheme.color.gray900,
+            style = WepliTheme.typo.subTitle2,
+            color = WepliTheme.color.gray900,
         )
         if (showIcon) {
             Spacer(modifier = Modifier.width(4.dp))
             Icon(
                 modifier = Modifier.size(16.dp),
                 painter = painterResource(id = R.drawable.ic_arrow_forward),
-                tint = WePLiTheme.color.gray600,
+                tint = WepliTheme.color.gray600,
                 contentDescription = null
             )
         }
@@ -64,16 +64,16 @@ fun TwoLineTitle(
         title?.let {
             Text(
                 text = it,
-                style = WePLiTheme.typo.subTitle2,
-                color = WePLiTheme.color.gray900,
+                style = WepliTheme.typo.subTitle2,
+                color = WepliTheme.color.gray900,
             )
         }
         Spacer(modifier = Modifier.height(4.dp))
         subscription?.let {
             Text(
                 text = it,
-                style = WePLiTheme.typo.body6,
-                color = WePLiTheme.color.gray600,
+                style = WepliTheme.typo.body6,
+                color = WepliTheme.color.gray600,
             )
         }
     }

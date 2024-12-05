@@ -37,7 +37,7 @@ import com.wepli.shared.feature.mock.userMockData
 import com.wepli.uimodel.music.SongUiData
 import custom.SongItem
 import image.AsyncImageWithPreview
-import theme.WePLiTheme
+import theme.WepliTheme
 import util.OrientationPreviews
 
 @OrientationPreviews
@@ -47,7 +47,7 @@ fun PostPreview() {
 
     Column(
         modifier = Modifier
-            .background(color = WePLiTheme.color.black)
+            .background(color = WepliTheme.color.black)
             .verticalScroll(scrollState),
     ) {
         WePLiStoryLayout(users = userMockData)
@@ -95,7 +95,7 @@ fun PostItem(
             modifier = Modifier
                 .padding(horizontal = 20.dp)
                 .padding(top = 10.dp),
-            color = WePLiTheme.color.gray050,
+            color = WepliTheme.color.gray050,
         )
     }
 }
@@ -125,17 +125,17 @@ fun PostHeader(nickname: String, profileImageUrl: String) {
             Text(
                 modifier = Modifier.alignByBaseline(),
                 text = nickname,
-                style = WePLiTheme.typo.subTitle5.copy(
+                style = WepliTheme.typo.subTitle5.copy(
                     fontWeight = FontWeight.Medium
                 ),
-                color = WePLiTheme.color.white,
+                color = WepliTheme.color.white,
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
                 modifier = Modifier.alignByBaseline(),
                 text = "팔로우",
-                style = WePLiTheme.typo.caption1.copy(
-                    brush = WePLiTheme.color.linear3
+                style = WepliTheme.typo.caption1.copy(
+                    brush = WepliTheme.color.linear3
                 )
             )
         }
@@ -148,7 +148,7 @@ fun PostHeader(nickname: String, profileImageUrl: String) {
             Icon(
                 modifier = Modifier.size(24.dp),
                 painter = painterResource(id = R.drawable.ic_more_dot),
-                tint = WePLiTheme.color.gray700,
+                tint = WepliTheme.color.gray700,
                 contentDescription = null
             )
         }
@@ -165,16 +165,16 @@ fun PostContent(title: String, content: String) {
     ) {
         Text(
             text = title,
-            style = WePLiTheme.typo.subTitle1,
-            color = WePLiTheme.color.white
+            style = WepliTheme.typo.subTitle1,
+            color = WepliTheme.color.white
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
             text = content,
-            style = WePLiTheme.typo.body4,
-            color = WePLiTheme.color.gray700
+            style = WepliTheme.typo.body4,
+            color = WepliTheme.color.gray700
         )
     }
 }
@@ -191,7 +191,7 @@ fun PostFooter(modifier: Modifier) {
         Icon(
             modifier = Modifier.size(24.dp),
             painter = painterResource(id = R.drawable.ic_bookmark),
-            tint = WePLiTheme.color.gray800,
+            tint = WepliTheme.color.gray800,
             contentDescription = null
         )
     }
@@ -230,9 +230,9 @@ fun SingleSongItem(
 ) {
     Row(
         modifier = modifier
-            .border(1.dp, WePLiTheme.color.linear3, RoundedCornerShape(50.dp))
+            .border(1.dp, WepliTheme.color.linear3, RoundedCornerShape(50.dp))
             .background(
-                brush = WePLiTheme.color.linear3,
+                brush = WepliTheme.color.linear3,
                 alpha = 0.2f,
                 shape = RoundedCornerShape(10.dp)
             )
@@ -242,8 +242,8 @@ fun SingleSongItem(
     ) {
         Text(
             text = "${song.title} - ${song.artist}",
-            style = WePLiTheme.typo.caption1,
-            color = WePLiTheme.color.white,
+            style = WepliTheme.typo.caption1,
+            color = WepliTheme.color.white,
         )
         Spacer(modifier = Modifier.width(4.dp))
         Icon(
@@ -266,16 +266,16 @@ fun LabeledIcon(
         Icon(
             modifier = Modifier.size(24.dp),
             painter = icon,
-            tint = WePLiTheme.color.gray800,
+            tint = WepliTheme.color.gray800,
             contentDescription = null
         )
         Spacer(modifier = Modifier.width(4.dp))
         Text(
             text = text,
-            style = WePLiTheme.typo.caption1.copy(
+            style = WepliTheme.typo.caption1.copy(
                 fontWeight = FontWeight.Medium,
             ),
-            color = WePLiTheme.color.gray800,
+            color = WepliTheme.color.gray800,
         )
     }
 }

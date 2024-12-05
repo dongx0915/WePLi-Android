@@ -21,7 +21,7 @@ import com.wepli.community.component.PostItem
 import com.wepli.community.component.WePLiStoryLayout
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import com.wepli.shared.feature.uimodel.community.PostUiData
-import theme.WePLiTheme
+import theme.WepliTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,7 +35,7 @@ fun CommunityScreen(
     val posts: List<PostUiData> by rememberUpdatedState(newValue = state.posts)
 
     Scaffold(
-        containerColor = WePLiTheme.color.black,
+        containerColor = WepliTheme.color.black,
         topBar = {
             WePLiAppBar(
                 showLogo = true,
