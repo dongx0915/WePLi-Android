@@ -7,6 +7,7 @@ import base.BaseViewModel
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.wepli.app.BuildConfig
+import com.wepli.shared.feature.mock.recommendPlaylistMockData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.Auth
@@ -17,7 +18,11 @@ import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.security.MessageDigest
 import java.util.UUID
@@ -35,15 +40,24 @@ sealed interface LoginEffect {
 }
 
 data class LoginState(
-    val genreItems: List<String>
+    val albumImages: List<String>
 )
 
 @HiltViewModel
 class LoginViewModel @Inject constructor() : BaseViewModel() {
 
+    private val _state: MutableStateFlow<LoginState> = MutableStateFlow(LoginState(emptyList()))
+    val state: StateFlow<LoginState> = _state.asStateFlow()
+
     // Effect를 위한 Channel
     private val _effect = Channel<LoginEffect>(Channel.BUFFERED)
     val effect = _effect.receiveAsFlow()
+
+    init {
+        _state.update {
+            it.copy(albumImages = recommendPlaylistMockData.map { it.coverImgUrl })
+        }
+    }
 
     private val supabase: SupabaseClient by lazy {
         createSupabaseClient(
