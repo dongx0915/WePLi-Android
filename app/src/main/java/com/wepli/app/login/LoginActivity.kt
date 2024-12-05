@@ -23,18 +23,17 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,7 +57,6 @@ import extensions.compose.gesturesDisabled
 import extensions.compose.toPx
 import image.AsyncImageWithPreview
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import theme.WePLiTheme
 
 @AndroidEntryPoint
@@ -69,7 +67,12 @@ class LoginActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             WePLiTheme {
-                LoginScreen {
+                val viewModel = hiltViewModel<LoginViewModel>()
+                val state: LoginState by viewModel.state.collectAsState()
+
+                LoginScreen(
+                    albumImages = state.albumImages
+                ) {
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 }
@@ -78,10 +81,10 @@ class LoginActivity : ComponentActivity() {
     }
 }
 
-@Preview
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
+    albumImages: List<String>,
     onNavigateMain: () -> Unit = {}
 ) {
     val context = LocalContext.current
@@ -110,7 +113,7 @@ fun LoginScreen(
     ) {
         LoginTitleComponent()
         WepliSpacer(vertical = 48.dp)
-        PlaylistCoverPager()
+        PlaylistCoverPager(imageList = albumImages)
 
         Spacer(modifier = Modifier.weight(1f))
         SocialLoginButton(
@@ -145,8 +148,10 @@ fun LoginTitleComponent() {
 }
 
 @Composable
-fun PlaylistCoverPager(modifier: Modifier = Modifier) {
-    val imageList = musicMockData.map { it.albumCoverUrl }
+fun PlaylistCoverPager(
+    modifier: Modifier = Modifier,
+    imageList: List<String>,
+) {
     val listState = rememberLazyListState()
     val layoutInfo = remember { derivedStateOf { listState.layoutInfo } }.value
 
@@ -247,6 +252,15 @@ fun TermsText(
             color = WePLiTheme.color.gray500,
         )
     }
+}
+
+@Preview
+@Composable
+fun LoginScreenPreview() {
+    LoginScreen(
+        viewModel = hiltViewModel(),
+        albumImages = musicMockData.map { it.albumCoverUrl }
+    )
 }
 
 @Preview
