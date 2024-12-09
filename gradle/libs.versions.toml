@@ -41,6 +41,11 @@ composeDestination = "1.10.2"
 composeNavigation = "2.8.3"
 hilt-navigation-compose = "1.2.0"
 
+# Orbit-Mvi
+orbitCore = "9.0.0"
+orbitViewModel = "9.0.0"
+orbitCompose = "9.0.0"
+
 # Firebase
 firebase-bom = "33.6.0"
 
@@ -106,6 +111,11 @@ androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-com
 # Compose Navigation
 androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
 compose-compiler-extension = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
+
+# Orbit
+orbit-core = { group = "org.orbit-mvi", name = "orbit-core", version.ref = "orbitCore" }
+orbit-viewmodel = { group = "org.orbit-mvi", name = "orbit-viewmodel", version.ref = "orbitViewModel" }
+orbit-compose = { group = "org.orbit-mvi", name = "orbit-compose", version.ref = "orbitCompose" }
 
 # Firebase
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
