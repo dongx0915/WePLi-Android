@@ -157,6 +157,12 @@ androidx-compose = [
     "androidx-compose-navigation",
 ]
 
+orvit = [
+    "orbit-core",
+    "orbit-viewmodel",
+    "orbit-compose",
+]
+
 [plugins] # 플러그인
 # Android
 android-application = { id = "com.android.application", version.ref = "agp" }
