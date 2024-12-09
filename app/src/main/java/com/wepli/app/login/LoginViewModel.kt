@@ -1,5 +1,6 @@
 package com.wepli.app.login
 
+import androidx.credentials.Credential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import androidx.lifecycle.viewModelScope
@@ -24,6 +25,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.security.MessageDigest
 import java.util.UUID
 import javax.inject.Inject
@@ -78,32 +80,12 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
     private fun requestGoogleLogin(
         getCredential: suspend (GetCredentialRequest) -> GetCredentialResponse
     ) {
-        val rawNonce = UUID.randomUUID().toString()
-        val bytes = rawNonce.toByteArray()
-        val messageDigest = MessageDigest.getInstance("SHA-256").digest(bytes)
-        val hashedNonce = messageDigest.fold("") { str, it -> str + "%02x".format(it) }
+        val hashedNonce: String = generateHashNonce(UUID.randomUUID().toString())
+        val request: GetCredentialRequest = buildGoogleLoginRequest(hashedNonce)
 
-        val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
-            .setFilterByAuthorizedAccounts(false)
-            .setServerClientId(BuildConfig.SUPABASE_CLIENT_ID)
-            .setNonce(hashedNonce)
-            .build()
-
-        val request: GetCredentialRequest = GetCredentialRequest.Builder()
-            .addCredentialOption(googleIdOption)
-            .build()
-
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             runCatching {
-                val credential = getCredential(request).credential
-                val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
-                val googleIdToken = googleIdTokenCredential.idToken
-
-                supabase.auth.signInWith(IDToken) {
-                    idToken = googleIdToken
-                    provider = Google
-                    nonce = rawNonce
-                }
+                authenticateWithGoogle(request, getCredential, hashedNonce)
             }.onSuccess {
                 /* TODO 자동 로그인 처리시 필요
                     val session = supabase.auth.currentSessionOrNull()
@@ -116,6 +98,41 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
             }.onFailure {
                 _effect.send(LoginEffect.ShowToast("로그인 실패: ${it.message}"))
             }
+        }
+    }
+
+    private fun generateHashNonce(rawNonce: String): String {
+        val bytes = rawNonce.toByteArray()
+        val messageDigest = MessageDigest.getInstance("SHA-256").digest(bytes)
+
+        return messageDigest.fold("") { str, it -> str + "%02x".format(it) }
+    }
+
+    private fun buildGoogleLoginRequest(hashedNonce: String): GetCredentialRequest {
+        val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
+            .setFilterByAuthorizedAccounts(false)
+            .setServerClientId(BuildConfig.SUPABASE_CLIENT_ID)
+            .setNonce(hashedNonce)
+            .build()
+
+        return GetCredentialRequest.Builder()
+            .addCredentialOption(googleIdOption)
+            .build()
+    }
+
+    private suspend fun authenticateWithGoogle(
+        request: GetCredentialRequest,
+        getCredential: suspend (GetCredentialRequest) -> GetCredentialResponse,
+        rawNonce: String,
+    ): Unit = withContext(Dispatchers.IO) {
+        val credential: Credential = getCredential(request).credential
+        val googleIdTokenCredential: GoogleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
+        val googleIdToken: String = googleIdTokenCredential.idToken
+
+        supabase.auth.signInWith(IDToken) {
+            idToken = googleIdToken
+            provider = Google
+            nonce = rawNonce
         }
     }
 }
