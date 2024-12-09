@@ -40,6 +40,7 @@ class AndroidFeaturePlugin : Plugin<Project> {
             IMPLEMENTATION(project(":designsystem"))
             IMPLEMENTATION(project(":domain"))
 
+            IMPLEMENTATION(libs.findBundle("orbit").get())
             IMPLEMENTATION(libs.findLibrary("coil").get())
             IMPLEMENTATION(libs.findLibrary("material").get())
             IMPLEMENTATION(libs.findLibrary("joda.time").get())
