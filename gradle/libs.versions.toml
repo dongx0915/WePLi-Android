@@ -157,7 +157,7 @@ androidx-compose = [
     "androidx-compose-navigation",
 ]
 
-orvit = [
+orbit = [
     "orbit-core",
     "orbit-viewmodel",
     "orbit-compose",
