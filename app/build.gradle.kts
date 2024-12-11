@@ -56,6 +56,9 @@ dependencies {
     implementation(projects.designsystem)
     implementation(projects.shared.feature)
 
+    // Orbit
+    implementation(libs.bundles.orbit)
+
     // Blur 라이브러리
     implementation(libs.blur.haze)
     implementation(libs.blur.haze.materials)
