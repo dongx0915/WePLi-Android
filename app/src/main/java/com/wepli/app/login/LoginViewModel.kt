@@ -26,6 +26,9 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.orbitmvi.orbit.Container
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.viewmodel.container
 import java.security.MessageDigest
 import java.util.UUID
 import javax.inject.Inject
@@ -46,7 +49,9 @@ data class LoginState(
 )
 
 @HiltViewModel
-class LoginViewModel @Inject constructor() : BaseViewModel() {
+class LoginViewModel @Inject constructor() : ContainerHost<LoginState, LoginEffect>, BaseViewModel() {
+
+    override val container: Container<LoginState, LoginEffect> = container(initialState = LoginState(emptyList()))
 
     private val _state: MutableStateFlow<LoginState> = MutableStateFlow(LoginState(emptyList()))
     val state: StateFlow<LoginState> = _state.asStateFlow()
