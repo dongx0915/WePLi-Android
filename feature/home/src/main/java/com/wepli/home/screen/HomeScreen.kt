@@ -101,6 +101,7 @@ fun HomeScreen(
     val scrollState = rememberLazyListState()
     val hazeState = remember { HazeState() }
 
+    // TODO 화면별 AppBar를 디자인시스템으로 분리해서 코드 간단화 할 수 있을 듯
     ScrollableAppBar(
         scrollState = scrollState,
         backgroundColors = Color.Transparent to Color.Black.copy(0.5f),
@@ -210,7 +211,7 @@ fun RelaylistPagerLayout(
             modifier = topPagerModifier
                 .fillMaxWidth()
                 .padding(top = 20.dp),
-            contentPadding = PaddingValues(horizontal = 20.dp),
+            contentPadding = PaddingValues(horizontal = 24.dp),
             pageSpacing = 12.dp
         ) { page ->
             val relaylist = relaylists[page]
