@@ -114,6 +114,12 @@ fun RelaylistBannerComponent(
                     style = WepliTheme.typo.body3,
                 )
             }
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = blurOverlayAlpha))
+            )
         }
     }
 }
