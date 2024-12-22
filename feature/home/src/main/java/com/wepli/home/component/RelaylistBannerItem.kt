@@ -49,15 +49,18 @@ fun RelaylistBannerComponent(
     scaleSizeRatio: Float,
     pageOffset: Float,
 ) {
+    val scaledFraction: (scale: Int) -> Float = { (pageOffset.absoluteValue * it).coerceIn(0f, 1f) }
+    val scale = lerp(1f, scaleSizeRatio, scaledFraction(1))
+    val textAlpha = 1 - scaledFraction(2)
+    val textTranslationY = lerp(start = 0f, stop = 100f, fraction = scaledFraction(1))
+    val blurOverlayAlpha = lerp(0f, 0.5f, scaledFraction(2))
+
     Box(
         modifier = Modifier
             .aspectRatio(5f / 6f)
             .graphicsLayer {
-                val fraction = pageOffset.absoluteValue.coerceIn(0f, 1f)
-                val scale = lerp(1f, scaleSizeRatio, fraction).also {
-                    scaleX = it
-                    scaleY = it
-                }
+                scaleX = scale
+                scaleY = scale
 
                 translationX = size.width * (1 - scale) / 2 * (if (pageOffset > 0) 1 else -1)
             }
@@ -90,12 +93,8 @@ fun RelaylistBannerComponent(
                     .padding(horizontal = 20.dp)
                     .padding(bottom = 20.dp)
                     .graphicsLayer {
-                        alpha = 1 - (pageOffset.absoluteValue * 2).coerceIn(0f, 1f)
-                        translationY = lerp(
-                            start = 0f,
-                            stop = 100f,
-                            fraction = pageOffset.absoluteValue.coerceIn(0f, 1f),
-                        )
+                        alpha = textAlpha
+                        translationY = textTranslationY
                     },
             ) {
                 Text(
