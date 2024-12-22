@@ -18,12 +18,6 @@ import io.github.jan.supabase.auth.providers.builtin.IDToken
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.orbitmvi.orbit.Container
@@ -53,19 +47,6 @@ class LoginViewModel @Inject constructor() : ContainerHost<LoginState, LoginEffe
 
     override val container: Container<LoginState, LoginEffect> = container(initialState = LoginState(emptyList()))
 
-    private val _state: MutableStateFlow<LoginState> = MutableStateFlow(LoginState(emptyList()))
-    val state: StateFlow<LoginState> = _state.asStateFlow()
-
-    // Effect를 위한 Channel
-    private val _effect = Channel<LoginEffect>(Channel.BUFFERED)
-    val effect = _effect.receiveAsFlow()
-
-    init {
-        _state.update {
-            it.copy(albumImages = recommendPlaylistMockData.map { it.coverImgUrl })
-        }
-    }
-
     private val supabase: SupabaseClient by lazy {
         createSupabaseClient(
             supabaseUrl = BuildConfig.SUPABASE_URL,
@@ -76,15 +57,26 @@ class LoginViewModel @Inject constructor() : ContainerHost<LoginState, LoginEffe
         }
     }
 
+    init {
+        loadAlbumImages()
+    }
+
     fun processIntent(intent: LoginIntent) {
         when (intent) {
             is LoginIntent.RequestGoogleLogin -> requestGoogleLogin(intent.getCredential)
         }
     }
 
+    private fun loadAlbumImages() = intent {
+        val albumImages = recommendPlaylistMockData.map { it.coverImgUrl }
+        reduce {
+            state.copy(albumImages = albumImages)
+        }
+    }
+
     private fun requestGoogleLogin(
         getCredential: suspend (GetCredentialRequest) -> GetCredentialResponse
-    ) {
+    ) = intent {
         val hashedNonce: String = generateHashNonce(UUID.randomUUID().toString())
         val request: GetCredentialRequest = buildGoogleLoginRequest(hashedNonce)
 
@@ -98,10 +90,9 @@ class LoginViewModel @Inject constructor() : ContainerHost<LoginState, LoginEffe
                     session?.accessToken
                     session?.refreshToken
                 */
-
-                _effect.send(LoginEffect.NavigateToMain)
+                postSideEffect(LoginEffect.NavigateToMain)
             }.onFailure {
-                _effect.send(LoginEffect.ShowToast("로그인 실패: ${it.message}"))
+                postSideEffect(LoginEffect.ShowToast("로그인 실패: ${it.message}"))
             }
         }
     }
