@@ -18,6 +18,15 @@ abstract class BaseViewModel: ViewModel() {
         throw throwable
     }
 
+    fun launch(
+        dispatcher: CoroutineDispatcher = Dispatchers.Main.immediate,
+        start: CoroutineStart = CoroutineStart.DEFAULT,
+        exceptionHandler: CoroutineExceptionHandler,
+        block: suspend CoroutineScope.() -> Unit
+    ): Job {
+        return viewModelScope.launch(dispatcher + exceptionHandler, start, block)
+    }
+
     fun launchWithHandler(
         dispatcher: CoroutineDispatcher = Dispatchers.Main.immediate,
         start: CoroutineStart = CoroutineStart.DEFAULT,
