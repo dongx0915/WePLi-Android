@@ -57,6 +57,8 @@ import extensions.compose.gesturesDisabled
 import extensions.compose.toPx
 import image.AsyncImageWithPreview
 import kotlinx.coroutines.delay
+import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 import theme.WePLiTheme
 import theme.WepliTheme
 
@@ -69,7 +71,7 @@ class LoginActivity : ComponentActivity() {
         setContent {
             WePLiTheme {
                 val viewModel = hiltViewModel<LoginViewModel>()
-                val state: LoginState by viewModel.state.collectAsState()
+                val state: LoginState by viewModel.collectAsState()
 
                 LoginScreen(
                     albumImages = state.albumImages
@@ -92,16 +94,13 @@ fun LoginScreen(
     val credentialManager = CredentialManager.create(context)
     val navBarBottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
-    // Effect 처리
-    LaunchedEffect(Unit) {
-        viewModel.effect.collect { effect ->
-            when (effect) {
-                is LoginEffect.ShowToast -> {
-                    Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
-                }
-                LoginEffect.NavigateToMain -> {
-                    onNavigateMain()
-                }
+    viewModel.collectSideEffect {
+        when (it) {
+            is LoginEffect.ShowToast -> {
+                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+            }
+            LoginEffect.NavigateToMain -> {
+                onNavigateMain()
             }
         }
     }
@@ -153,6 +152,7 @@ fun PlaylistCoverPager(
     modifier: Modifier = Modifier,
     imageList: List<String>,
 ) {
+    if (imageList.isEmpty()) return
     val listState = rememberLazyListState()
     val layoutInfo = remember { derivedStateOf { listState.layoutInfo } }.value
 
