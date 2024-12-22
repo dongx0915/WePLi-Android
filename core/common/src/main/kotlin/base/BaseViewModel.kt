@@ -19,7 +19,7 @@ abstract class BaseViewModel: ViewModel() {
     }
 
     fun launchWithHandler(
-        dispatcher: CoroutineDispatcher = Dispatchers.Main,
+        dispatcher: CoroutineDispatcher = Dispatchers.Main.immediate,
         start: CoroutineStart = CoroutineStart.DEFAULT,
         exceptionHandler: CoroutineExceptionHandler = this.exceptionHandler,
         block: suspend CoroutineScope.() -> Unit
