@@ -43,20 +43,11 @@ data class LoginState(
 )
 
 @HiltViewModel
-class LoginViewModel @Inject constructor() : ContainerHost<LoginState, LoginEffect>, BaseViewModel() {
+class LoginViewModel @Inject constructor(
+    private val supabase: SupabaseClient
+) : ContainerHost<LoginState, LoginEffect>, BaseViewModel() {
 
     override val container: Container<LoginState, LoginEffect> = container(initialState = LoginState(emptyList()))
-
-    // TODO 스플래시에서 자동 로그인 체크해야하므로 SupabaseClient는 DI로 주입해야할 것 같음 (+ 싱글턴)
-    private val supabase: SupabaseClient by lazy {
-        createSupabaseClient(
-            supabaseUrl = BuildConfig.SUPABASE_URL,
-            supabaseKey = BuildConfig.SUPABASE_KEY
-        ) {
-            install(Auth)
-            install(Postgrest)
-        }
-    }
 
     init {
         loadAlbumImages()
