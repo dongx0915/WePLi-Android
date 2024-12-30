@@ -4,7 +4,10 @@ import androidx.credentials.Credential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import androidx.lifecycle.viewModelScope
-import base.BaseViewModel
+import base.BaseMviViewModel
+import base.Intent
+import base.SideEffect
+import base.UiState
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.wepli.app.BuildConfig
@@ -17,40 +20,37 @@ import io.github.jan.supabase.auth.providers.builtin.IDToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.orbitmvi.orbit.Container
-import org.orbitmvi.orbit.ContainerHost
-import org.orbitmvi.orbit.viewmodel.container
 import java.security.MessageDigest
 import java.util.UUID
 import javax.inject.Inject
 
-sealed interface LoginIntent {
+sealed interface LoginIntent: Intent {
     data class RequestGoogleLogin(
         val getCredential: suspend (GetCredentialRequest) -> GetCredentialResponse
     ) : LoginIntent
 }
 
-sealed interface LoginEffect {
+sealed interface LoginEffect: SideEffect{
     data class ShowToast(val message: String) : LoginEffect
     data object NavigateToMain : LoginEffect
 }
 
 data class LoginState(
     val albumImages: List<String>
-)
+) : UiState
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val supabase: SupabaseClient
-) : ContainerHost<LoginState, LoginEffect>, BaseViewModel() {
-
-    override val container: Container<LoginState, LoginEffect> = container(initialState = LoginState(emptyList()))
+) : BaseMviViewModel<LoginState, LoginEffect, LoginIntent>(
+    initialState = LoginState(albumImages = emptyList())
+) {
 
     init {
         loadAlbumImages()
     }
 
-    fun processIntent(intent: LoginIntent) {
+    override fun processIntent(intent: LoginIntent) {
         when (intent) {
             is LoginIntent.RequestGoogleLogin -> requestGoogleLogin(intent.getCredential)
         }
