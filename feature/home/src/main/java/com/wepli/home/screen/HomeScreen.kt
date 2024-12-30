@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.AppBarIcon
 import appbar.AppBarIconType
+import appbar.HomeAppBar
 import appbar.ScrollableAppBar
 import appbar.WePLiAppBar
 import com.wepli.home.component.PlayListCoverItem
@@ -88,7 +89,6 @@ fun HomeRoute(
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     relaylists: List<Relaylist>,
@@ -98,41 +98,12 @@ fun HomeScreen(
     themePlaylists: List<RecommendPlaylist>,
     onNavigatePlaylist: (playlist: RecommendPlaylist) -> Unit,
 ) {
-    val scrollState = rememberLazyListState()
-    val hazeState = remember { HazeState() }
-
-    // TODO 화면별 AppBar를 디자인시스템으로 분리해서 코드 간단화 할 수 있을 듯
-    ScrollableAppBar(
-        scrollState = scrollState,
-        backgroundColors = Color.Transparent to Color.Black.copy(0.5f),
-        contentsColors = Color.White to Color.White,
-        topBarComponent = { backgroundColor, contentsColor, _, scrollFraction ->
-            WePLiAppBar(
-                modifier = Modifier
-                    .hazeChild(
-                        state = hazeState,
-                        style = HazeStyle(
-                            backgroundColor = backgroundColor,
-                            blurRadius = (scrollFraction * 24).dp,
-                            tint = HazeTint(color = backgroundColor),
-                        ),
-                    ),
-                showLogo = true,
-                showBackButton = false,
-                containerColor = backgroundColor,
-                contentsColor = contentsColor,
-                actionIcons = listOf {
-                    AppBarIcon(icon = AppBarIconType.Search())
-                    AppBarIcon(icon = AppBarIconType.Notification())
-                }
-            )
-        }
-    ) { paddingValues ->
+    HomeAppBar { scrollState, blurState, paddingValues ->
         val (topPadding, bottomPadding) = paddingValues.calculateTopPadding() to paddingValues.calculateBottomPadding()
 
         LazyColumn(
             modifier = Modifier
-                .haze(hazeState)
+                .haze(blurState)
                 .background(WepliTheme.color.black)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(24.dp),

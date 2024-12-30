@@ -10,5 +10,8 @@ android {
 dependencies {
     implementation(project(":core:common"))
     implementation(project(":shared:feature"))
+
     implementation(libs.coil)
+    implementation(libs.blur.haze)
+    implementation(libs.blur.haze.materials)
 }
