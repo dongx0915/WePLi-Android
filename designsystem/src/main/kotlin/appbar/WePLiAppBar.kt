@@ -55,7 +55,7 @@ fun WePLiAppBar(
                     contentDescription = null,
                     modifier = Modifier
                         .width(24.dp)
-                        .offset(x = 24.dp)
+                        .offset(x = 20.dp)
                 )
             }
 
@@ -72,7 +72,7 @@ fun WePLiAppBar(
             actionIcons.forEach { actionIcon ->
                 actionIcon()
             }
-            WepliSpacer(horizontal = 12.dp)
+            WepliSpacer(horizontal = 8.dp)
         },
         scrollBehavior = scrollBehavior,
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
