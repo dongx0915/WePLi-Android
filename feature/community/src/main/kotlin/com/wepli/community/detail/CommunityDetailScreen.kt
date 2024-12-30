@@ -17,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.ScrollableAppBar
-import appbar.WePLiAppBar
+import appbar.WepliAppBar
 import com.wepli.community.component.CommentItem
 import com.wepli.community.component.PostItem
 import com.wepli.shared.feature.mock.commentMockData
@@ -49,7 +49,7 @@ fun CommunityDetailScreen(
         backgroundColors = Color.Transparent to WepliTheme.color.black,
         contentsColors = Color.White to Color.White,
         topBarComponent = { backgroundColor, contentsColor, _, _ ->
-            WePLiAppBar(
+            WepliAppBar(
                 title = post.title,
                 containerColor = backgroundColor,
                 contentsColor = contentsColor,

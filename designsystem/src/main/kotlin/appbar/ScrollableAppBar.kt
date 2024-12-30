@@ -128,7 +128,7 @@ fun LazyScrollableAppBar() {
         backgroundColors = Color.Transparent to Color.Black,
         contentsColors = Color.Black to Color.White,
         topBarComponent = { backgroundColor, iconColor, _, _ ->
-            WePLiAppBar(
+            WepliAppBar(
                 containerColor = backgroundColor,
                 contentsColor = iconColor,
                 showBackButton = true,
@@ -162,7 +162,7 @@ fun ScrollableAppBar() {
         backgroundColors = Color.Transparent to Color.Black,
         contentsColors = Color.Black to Color.White,
         topBarComponent = { backgroundColor, iconColor, _ ->
-            WePLiAppBar(
+            WepliAppBar(
                 containerColor = backgroundColor,
                 contentsColor = iconColor,
                 showBackButton = true,

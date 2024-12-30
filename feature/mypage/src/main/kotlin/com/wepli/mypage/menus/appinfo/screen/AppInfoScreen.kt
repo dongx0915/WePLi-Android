@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import appbar.WePLiAppBar
+import appbar.WepliAppBar
 import com.wepli.mypage.component.MenuComponent
 import com.wepli.mypage.component.MenuTitleComponent
 import theme.WepliTheme
@@ -32,7 +32,7 @@ fun AppInfoScreen(
     Scaffold(
         containerColor = WepliTheme.color.black,
         topBar = {
-            WePLiAppBar(
+            WepliAppBar(
                 title = "공지 및 이용약관",
                 showBackButton = true,
                 onClickBack = { navOnBack() }

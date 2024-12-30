@@ -3,10 +3,7 @@ package appbar
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -26,7 +23,7 @@ import theme.WepliTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WePLiAppBar(
+fun WepliAppBar(
     modifier: Modifier = Modifier,
     title: String = "",
     containerColor: Color = Color.Black,
@@ -91,7 +88,7 @@ fun AppBarPreview() {
     Column(
         modifier = Modifier.background(Color.Transparent)
     ) {
-        WePLiAppBar(
+        WepliAppBar(
             showLogo = true,
             showBackButton = false,
             actionIcons = listOf {
@@ -109,7 +106,7 @@ fun MainAppBarPreview() {
     Column(
         modifier = Modifier.background(Color.Transparent)
     ) {
-        WePLiAppBar(
+        WepliAppBar(
             title = "타이틀",
             showBackButton = true,
         )

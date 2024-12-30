@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,15 +26,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import appbar.AppBarIcon
-import appbar.AppBarIconType
 import appbar.HomeAppBar
-import appbar.ScrollableAppBar
-import appbar.WePLiAppBar
+import appbar.WepliAppBar
 import com.wepli.home.component.PlayListCoverItem
 import com.wepli.home.component.RelaylistBackground
 import com.wepli.home.component.RelaylistBannerComponent
@@ -54,11 +49,7 @@ import custom.MusicItem
 import custom.MusicItemType
 import custom.OneLineTitle
 import custom.TwoLineTitle
-import dev.chrisbanes.haze.HazeState
-import dev.chrisbanes.haze.HazeStyle
-import dev.chrisbanes.haze.HazeTint
 import dev.chrisbanes.haze.haze
-import dev.chrisbanes.haze.hazeChild
 import extensions.compose.calculateCurrentOffsetForPage
 import extensions.compose.gesturesDisabled
 import model.playlist.RecommendPlaylist
@@ -327,7 +318,7 @@ fun HomeScreenPreview() {
 @Preview(showBackground = true)
 @Composable
 fun AppBarPreview() {
-    WePLiAppBar(
+    WepliAppBar(
         title = "타이틀",
     )
 }

@@ -6,7 +6,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -28,7 +27,7 @@ fun HomeAppBar(
         backgroundColors = Color.Transparent to Color.Black.copy(0.5f),
         contentsColors = Color.White to Color.White,
         topBarComponent = { backgroundColor, contentsColor, _, scrollFraction ->
-            WePLiAppBar(
+            WepliAppBar(
                 modifier = Modifier
                     .hazeChild(
                         state = blurState,

@@ -37,7 +37,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import appbar.WePLiAppBar
+import appbar.WepliAppBar
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.wepli.designsystem.R
@@ -68,7 +68,7 @@ fun MyPageScreen(
     Scaffold(
         containerColor = WepliTheme.color.black,
         topBar = {
-            WePLiAppBar(
+            WepliAppBar(
                 containerColor = Color.Transparent,
                 title = "마이페이지"
             )

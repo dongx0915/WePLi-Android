@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.AppBarIcon
 import appbar.AppBarIconType
-import appbar.WePLiAppBar
+import appbar.WepliAppBar
 import com.wepli.community.component.PostItem
 import com.wepli.community.component.WePLiStoryLayout
 import com.wepli.shared.feature.uimodel.user.UserUiData
@@ -37,7 +37,7 @@ fun CommunityScreen(
     Scaffold(
         containerColor = WepliTheme.color.black,
         topBar = {
-            WePLiAppBar(
+            WepliAppBar(
                 showLogo = true,
                 showBackButton = false,
                 actionIcons = listOf {

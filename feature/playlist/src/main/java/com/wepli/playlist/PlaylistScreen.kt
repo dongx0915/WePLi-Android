@@ -21,8 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.AppBarIcon
 import appbar.AppBarIconType
 import appbar.ScrollableAppBar
-import appbar.WePLiAppBar
-import com.wepli.designsystem.R
+import appbar.WepliAppBar
 import com.wepli.playlist.component.ArtistLayout
 import com.wepli.playlist.component.PlaylistBsideTrackContent
 import com.wepli.playlist.component.PlaylistHeader
@@ -49,7 +48,7 @@ fun PlaylistScreen(
         backgroundColors = Color.Transparent to Color.Black,
         contentsColors = Color.White to Color.White,
         topBarComponent = { backgroundColor, contentsColor, isFullScrolled ->
-            WePLiAppBar(
+            WepliAppBar(
                 title = if (isFullScrolled) playlist.title else "",
                 containerColor = backgroundColor,
                 contentsColor = contentsColor,
