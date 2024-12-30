@@ -18,35 +18,44 @@ import common.NotificationDot
 import theme.WepliTheme
 
 sealed interface AppBarIconType {
+    val iconResource: Int
+    val iconColor: @Composable () -> Color
+    val onClick: () -> Unit
 
     data class Back(
-        val iconColor: @Composable () -> Color = { WepliTheme.color.white },
-        val offset: Dp = (-6).dp,
-        val onClick: () -> Unit = {},
+        override val iconResource: Int = R.drawable.ic_arrow_back,
+        override val iconColor: @Composable () -> Color = { WepliTheme.color.white },
+        override val onClick: () -> Unit = {},
+        val offset: Dp = (-16).dp,
     ) : AppBarIconType
 
     data class Search(
-        val iconColor: @Composable () -> Color = { WepliTheme.color.white },
-        val offset: Dp = (-6).dp,
-        val onClick: () -> Unit = {},
+        override val iconResource: Int = R.drawable.ic_search,
+        override val iconColor: @Composable () -> Color = { WepliTheme.color.white },
+        override val onClick: () -> Unit = {},
+        val offset: Dp = (-16).dp,
     ) : AppBarIconType
 
     data class Notification(
-        val iconColor: @Composable () -> Color = { WepliTheme.color.white },
-        val offset: Dp = (-6).dp,
+        override val iconResource: Int = R.drawable.ic_alarm,
+        override val iconColor: @Composable () -> Color = { WepliTheme.color.white },
+        override val onClick: () -> Unit = {},
+        val offset: Dp = (-16).dp,
         val badgeVisibility: Boolean = true,
-        val onClick: () -> Unit = {},
     ) : AppBarIconType
 
     data class Like(
-        val iconColor: @Composable () -> Color = { WepliTheme.color.white },
+        override val iconResource: Int = R.drawable.ic_heart,
+        override val iconColor: @Composable () -> Color = { WepliTheme.color.white },
+        override val onClick: () -> Unit = {},
+        val likedIconResource: Int = R.drawable.ic_heart_filled,
         val isLiked: Boolean,
-        val onClick: () -> Unit = {},
     ) : AppBarIconType
 
     data class More(
-        val iconColor: @Composable () -> Color = { WepliTheme.color.white },
-        val onClick: () -> Unit = {},
+        override val iconResource: Int = R.drawable.ic_more_dot,
+        override val iconColor: @Composable () -> Color = { WepliTheme.color.white },
+        override val onClick: () -> Unit = {},
     ) : AppBarIconType
 }
 
@@ -55,7 +64,7 @@ fun AppBarIcon(icon: AppBarIconType) {
     when (icon) {
         is AppBarIconType.Back -> {
             AppBarIcon(
-                iconResource = R.drawable.ic_arrow_back,
+                iconResource = icon.iconResource,
                 iconColor = icon.iconColor(),
                 onClick = { icon.onClick() }
             )
@@ -63,7 +72,7 @@ fun AppBarIcon(icon: AppBarIconType) {
 
         is AppBarIconType.Search -> {
             AppBarIcon(
-                iconResource = R.drawable.ic_search,
+                iconResource = icon.iconResource,
                 iconColor = icon.iconColor(),
                 onClick = { icon.onClick() }
             )
@@ -71,7 +80,7 @@ fun AppBarIcon(icon: AppBarIconType) {
 
         is AppBarIconType.Notification -> {
             AppBarIcon(
-                iconResource = R.drawable.ic_alarm,
+                iconResource = icon.iconResource,
                 iconColor = icon.iconColor(),
                 badgeVisible = icon.badgeVisibility,
                 onClick = { icon.onClick() }
@@ -80,7 +89,7 @@ fun AppBarIcon(icon: AppBarIconType) {
 
         is AppBarIconType.More -> {
             AppBarIcon(
-                iconResource = R.drawable.ic_more_dot,
+                iconResource = icon.iconResource,
                 iconColor = icon.iconColor(),
                 onClick = { icon.onClick() }
             )
@@ -88,7 +97,7 @@ fun AppBarIcon(icon: AppBarIconType) {
 
         is AppBarIconType.Like -> {
             AppBarIcon(
-                iconResource = if (icon.isLiked) R.drawable.ic_heart_filled else R.drawable.ic_heart,
+                iconResource = if (icon.isLiked) icon.likedIconResource else icon.iconResource,
                 iconColor = if (icon.isLiked) Color.Unspecified else icon.iconColor(),
                 onClick = { icon.onClick() }
             )
