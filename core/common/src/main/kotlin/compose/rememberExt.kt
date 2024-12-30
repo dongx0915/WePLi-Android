@@ -9,6 +9,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 
 /**
  * LazyList의 현재 총 스크롤 오프셋을 기억하고 계산하는 함수
@@ -25,7 +26,11 @@ fun rememberCurrentOffset(state: LazyListState): State<Int> {
     val itemOffset = remember { derivedStateOf { state.firstVisibleItemScrollOffset } }
     val lastPosition = rememberPrevious(position.value)
     val lastItemOffset = rememberPrevious(itemOffset.value)
-    val currentOffset = remember { mutableIntStateOf(0) }
+    val currentOffset = rememberSaveable { mutableIntStateOf(0) }
+
+    if (lastPosition == null || lastItemOffset == null) {
+        return currentOffset
+    }
 
     LaunchedEffect(position.value, itemOffset.value) {
         if (lastPosition == null || position.value == 0) {
