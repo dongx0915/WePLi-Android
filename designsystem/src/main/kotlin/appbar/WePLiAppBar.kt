@@ -3,9 +3,11 @@ package appbar
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -19,6 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
+import common.WepliSpacer
 import theme.WepliTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,9 +54,8 @@ fun WePLiAppBar(
                     painter = painterResource(id = R.drawable.ic_wepli_logo_white),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(44.dp)
-                        .padding(horizontal = 10.dp)
-                        .offset(x = 6.dp)
+                        .width(24.dp)
+                        .offset(x = 24.dp)
                 )
             }
 
@@ -70,6 +72,7 @@ fun WePLiAppBar(
             actionIcons.forEach { actionIcon ->
                 actionIcon()
             }
+            WepliSpacer(horizontal = 12.dp)
         },
         scrollBehavior = scrollBehavior,
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
