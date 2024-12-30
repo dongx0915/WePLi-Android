@@ -9,4 +9,7 @@ android {
 
 dependencies {
     implementation(libs.gson)
+
+    // Orbit
+    implementation(libs.bundles.orbit)
 }
