@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <!-- TODO 필요한 권한 등 선언 -->
+    <!-- TODO 필요한 권한 등 선언  -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
