@@ -43,6 +43,7 @@ fun NavGraphBuilder.communityDetailGraph(
         ),
         enterTransition = { enterAnimation() }
     ) {
+        // TODO 해당 부분을 CommunityDetailScreenRoute()에서 수행하고, Graph 부분은 Core 모듈로 이동시켜도 될 것 같음
         val post = it.arguments?.getString("post")?.parseFromJson<PostUiData>()
         val viewModel = hiltViewModel<CommunityDetailViewModel>()
 
