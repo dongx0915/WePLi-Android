@@ -241,7 +241,7 @@ fun SingleSongItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "${song.title} - ${song.artist}",
+            text = "${song.title} - ${song.artistName}",
             style = WepliTheme.typo.caption1,
             color = WepliTheme.color.white,
         )

@@ -7,7 +7,7 @@ import com.wepli.data.applemusic.common.response.toEntity
 import kotlinx.serialization.Serializable
 import model.album.Album
 import model.artist.AppleArtist
-import model.music.AppleSong
+import model.music.Song
 
 /**
  * https://api.music.apple.com/v1/catalog/us/search?types=songs,albums,artists&term=beach+bunny
@@ -61,7 +61,7 @@ data class AppleSearchResponse(
     }
 }
 
-fun AppleSearchResponse.toMusicSearchResult(): List<AppleSong> {
+fun AppleSearchResponse.toMusicSearchResult(): List<Song> {
     return results?.songs?.data?.map { it.toEntity() }.orEmpty()
 }
 

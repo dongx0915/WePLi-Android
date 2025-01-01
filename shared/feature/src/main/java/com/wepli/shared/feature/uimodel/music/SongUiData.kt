@@ -9,26 +9,34 @@ import model.music.Song
  * 음악 정보
  *
  * @property title 제목
- * @property artist 아티스트
- * @property albumCoverImg 앨범 커버 이미지 URL
+ * @property artistName 아티스트
+ * @property coverImg 앨범 커버 이미지 URL
  */
 @Parcelize
 data class SongUiData(
+    val id: String,
     val title: String,
-    val artist: String,
-    val album: String,
-    val albumCoverImg: String,
+    val artistName: String,
+    val albumName: String,
+    val coverImg: String,
+    val href: String,
+    val genres: List<String>,
+    val durationMillis: Long,
 ) : UiModel {
 
-    constructor() : this("", "", "", "")
+    constructor() : this("", "", "", "", "", "", emptyList(), 0)
 
     companion object : UiModelMapper<Song, SongUiData> {
         override fun fromDomain(domainModel: Song): SongUiData {
             return SongUiData(
+                id = domainModel.id,
                 title = domainModel.title,
-                artist = domainModel.artist,
-                album = domainModel.album,
-                albumCoverImg = domainModel.albumCoverImg,
+                artistName = domainModel.artistName,
+                albumName = domainModel.albumName,
+                coverImg = domainModel.coverImg,
+                href = domainModel.href,
+                genres = domainModel.genres,
+                durationMillis = domainModel.durationMillis
             )
         }
     }

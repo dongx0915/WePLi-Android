@@ -3,11 +3,11 @@ package com.wepli.search.state
 import base.Intent
 import base.SideEffect
 import base.UiState
-import model.music.AppleSong
+import model.music.Song
 
 data class SearchUiState(
     val searchInput: String = "",
-    val searchMusicResult: List<AppleSong> = emptyList(),
+    val searchMusicResult: List<Song> = emptyList(),
 ) : UiState
 
 interface SearchEffect : SideEffect

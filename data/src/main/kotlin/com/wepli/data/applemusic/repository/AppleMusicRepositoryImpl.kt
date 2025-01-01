@@ -5,7 +5,7 @@ import com.wepli.data.applemusic.datasource.AppleMusicDataSource
 import com.wepli.data.network.toEntityResult
 import model.album.Album
 import model.artist.AppleArtist
-import model.music.AppleSong
+import model.music.Song
 import repository.applemusic.AppleMusicRepository
 import wepli.domain.search.toAlbumSearchResult
 import wepli.domain.search.toArtistSearchResult
@@ -16,7 +16,7 @@ class AppleMusicRepositoryImpl @Inject constructor(
     private val appleMusicDataSource: AppleMusicDataSource
 ) : AppleMusicRepository {
 
-    override fun searchMusics(query: String): FlowResult<List<AppleSong>> {
+    override fun searchMusics(query: String): FlowResult<List<Song>> {
         return appleMusicDataSource.searchForCatalogResources(
             query = query,
             searchTypes = listOf("songs")

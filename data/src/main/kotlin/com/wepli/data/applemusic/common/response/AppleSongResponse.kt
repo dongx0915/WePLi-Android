@@ -1,7 +1,7 @@
 package com.wepli.data.applemusic.common.response
 
 import kotlinx.serialization.Serializable
-import model.music.AppleSong
+import model.music.Song
 
 /**
  * @property id 노래 id
@@ -64,8 +64,8 @@ data class AppleSongResponse(
     }
 }
 
-fun AppleSongResponse.toEntity(): AppleSong {
-    return AppleSong(
+fun AppleSongResponse.toEntity(): Song {
+    return Song(
         id = this.id.orEmpty(),
         href = this.href.orEmpty(),
         title = this.attributes?.name.orEmpty(),

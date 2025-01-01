@@ -31,7 +31,7 @@ fun SongItem(song: SongUiData) {
         Box(modifier = Modifier) {
             AsyncImageWithPreview(
                 modifier = Modifier.size(92.dp).clip(RoundedCornerShape(4.dp)),
-                imageUrl = song.albumCoverImg,
+                imageUrl = song.coverImg,
                 previewImage = painterResource(id = R.drawable.img_placeholder_album_cover),
                 imageOverrideSize = 92.dp,
             )
@@ -60,7 +60,7 @@ fun SongItem(song: SongUiData) {
             overflow = TextOverflow.Ellipsis,
         )
         Text(
-            text = song.artist,
+            text = song.artistName,
             style = WepliTheme.typo.caption1,
             color = WepliTheme.color.gray500,
             maxLines = 1,
@@ -74,10 +74,14 @@ fun SongItem(song: SongUiData) {
 fun SongItemPreview() {
     SongItem(
         song = SongUiData(
+            id = "0",
             title = "비가 내리는 날에는",
-            artist = "윤하",
-            album = "A Perfect Day to Say I Love You",
-            albumCoverImg = "https://image.bugsm.co.kr/artist/images/1000/800100/80010025_100.jpg?version=332223&d=20220330143136"
+            artistName = "윤하",
+            albumName = "A Perfect Day to Say I Love You",
+            coverImg = "https://image.bugsm.co.kr/artist/images/1000/800100/80010025_100.jpg?version=332223&d=20220330143136",
+            href = "https://music.apple.com/kr/song/1",
+            genres = listOf("Ballad", "K-Pop"),
+            durationMillis = 230000L
         )
     )
 }
