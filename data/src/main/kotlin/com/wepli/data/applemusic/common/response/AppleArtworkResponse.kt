@@ -1,5 +1,7 @@
 package com.wepli.data.applemusic.common.response
 
+import kotlinx.serialization.Serializable
+
 /**
  * 이미지에 대한 정보를 담고있는 객체
  * - ex) 앨범 커버, 가수 이미지 등
@@ -13,13 +15,14 @@ package com.wepli.data.applemusic.common.response
  * @property textColor4 배경색이 표시되는 경우 최종 텍스트
  * @property url 이미지 url ({w}x{h} 부분에 width, height 대입)
  */
+@Serializable
 data class AppleArtworkResponse(
-    val bgColor: String,
-    val width: Int,
-    val height: Int,
-    val textColor1: String,
-    val textColor2: String,
-    val textColor3: String,
-    val textColor4: String,
-    val url: String,
+    val bgColor: String? = null,
+    val width: Int? = null,
+    val height: Int? = null,
+    val textColor1: String? = null,
+    val textColor2: String? = null,
+    val textColor3: String? = null,
+    val textColor4: String? = null,
+    val url: String? = null,
 )

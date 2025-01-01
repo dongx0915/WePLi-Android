@@ -6,6 +6,7 @@ import com.wepli.data.network.toEntityResult
 import model.album.Album
 import model.artist.AppleArtist
 import model.music.AppleSong
+import repository.applemusic.AppleMusicRepository
 import wepli.domain.search.toAlbumSearchResult
 import wepli.domain.search.toArtistSearchResult
 import wepli.domain.search.toMusicSearchResult

@@ -1,5 +1,6 @@
 package com.wepli.data.applemusic.common.response
 
+import kotlinx.serialization.Serializable
 import model.music.AppleSong
 
 /**
@@ -8,11 +9,12 @@ import model.music.AppleSong
  * @property href 노래 조회 url
  * @property attributes 노래 속성
  */
+@Serializable
 data class AppleSongResponse(
-    val id: String?,
-    val type: String?,
-    val href: String?,
-    val attributes: Attributes?,
+    val id: String? = null,
+    val type: String? = null,
+    val href: String? = null,
+    val attributes: Attributes? = null,
 ) {
     /**
      * @property name 노래 제목
@@ -28,33 +30,36 @@ data class AppleSongResponse(
      * @property trackNumber 앨범 내에서의 트랙 순서
      * @property artwork 노래 이미지 정보
      */
+    @Serializable
     data class Attributes(
-        val name: String?,
-        val albumName: String?,
-        val artistName: String?,
-        val hasLyrics: Boolean?,
-        val durationInMillis: Int?,
-        val genreNames: List<String>?,
-        val url: String?,
-        val playParams: PlayParams?,
-        val previews: List<Preview>?,
-        val releaseDate: String?,
-        val trackNumber: Int?,
-        val artwork: AppleArtworkResponse?,
+        val name: String? = null,
+        val albumName: String? = null,
+        val artistName: String? = null,
+        val hasLyrics: Boolean? = null,
+        val durationInMillis: Int? = null,
+        val genreNames: List<String>? = null,
+        val url: String? = null,
+        val playParams: PlayParams? = null,
+        val previews: List<Preview>? = null,
+        val releaseDate: String? = null,
+        val trackNumber: Int? = null,
+        val artwork: AppleArtworkResponse? = null,
 
         /* 필요 없을 것 같은 값들 */
-        val composerName: String?,
-        val discNumber: Int?,
-        val isAppleDigitalMaster: Boolean?,
-        val isrc: String?,
+        val composerName: String? = null,
+        val discNumber: Int? = null,
+        val isAppleDigitalMaster: Boolean? = null,
+        val isrc: String? = null,
     ) {
+        @Serializable
         data class Preview(
-            val url: String?
+            val url: String? = null
         )
 
+        @Serializable
         data class PlayParams(
-            val id: String?,
-            val kind: String?
+            val id: String? = null,
+            val kind: String? = null
         )
     }
 }

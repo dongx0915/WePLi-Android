@@ -1,5 +1,6 @@
 package com.wepli.data.applemusic.common.response
 
+import kotlinx.serialization.Serializable
 import model.album.Album
 
 /**
@@ -7,11 +8,12 @@ import model.album.Album
  * @property type 타입 (항상 albums)
  * @property href 앨범 조회 url
  */
+@Serializable
 data class AppleAlbumResponse(
-    val id: String?,
-    val type: String?,
-    val href: String?,
-    val attributes: Attributes?,
+    val id: String? = null,
+    val type: String? = null,
+    val href: String? = null,
+    val attributes: Attributes? = null,
 ) {
     /**
      * @property name 앨범 이름
@@ -25,21 +27,23 @@ data class AppleAlbumResponse(
      * @property trackCount 앨범 수록곡 수
      * @property copyright 저작권
      */
+    @Serializable
     data class Attributes(
-        val name: String?,
-        val url: String?,
-        val genreNames: List<String>?,
-        val artistName: String?,
-        val artistUrl: String?,
-        val editorialNotes: Notes?,
-        val artwork: AppleArtworkResponse?,
-        val recordLabel: String?,
-        val releaseDate: String?,
-        val trackCount: Int?,
-        val copyright: String?,
+        val name: String? = null,
+        val url: String? = null,
+        val genreNames: List<String>? = null,
+        val artistName: String? = null,
+        val artistUrl: String? = null,
+        val editorialNotes: Notes? = null,
+        val artwork: AppleArtworkResponse? = null,
+        val recordLabel: String? = null,
+        val releaseDate: String? = null,
+        val trackCount: Int? = null,
+        val copyright: String? = null,
     ) {
+        @Serializable
         data class Notes(
-            val standard: String,
+            val standard: String? = null,
         )
     }
 }
