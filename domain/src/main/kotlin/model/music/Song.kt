@@ -15,3 +15,15 @@ data class Song(
     val album: String,
     val albumCoverImg: String,
 ) : DomainModel
+
+data class AppleSong(
+    val id: String,
+    val href: String,
+    val title: String,
+    val albumName: String,
+    val artistName: String,
+    val genres: List<String>,
+    val durationMillis: Long,
+    val coverImg: String,
+    // artwork
+) : DomainModel
