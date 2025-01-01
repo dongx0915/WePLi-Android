@@ -14,17 +14,15 @@ import model.music.Song
  */
 @Parcelize
 data class SongUiData(
-    val id: String,
-    val title: String,
-    val artistName: String,
-    val albumName: String,
-    val coverImg: String,
-    val href: String,
-    val genres: List<String>,
-    val durationMillis: Long,
+    val id: String = "",
+    val title: String = "",
+    val artistName: String = "",
+    val albumName: String = "",
+    val coverImg: String = "",
+    val href: String = "",
+    val genres: List<String> = emptyList(),
+    val durationMillis: Long = 0L,
 ) : UiModel {
-
-    constructor() : this("", "", "", "", "", "", emptyList(), 0)
 
     companion object : UiModelMapper<Song, SongUiData> {
         override fun fromDomain(domainModel: Song): SongUiData {
