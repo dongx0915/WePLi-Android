@@ -1,4 +1,4 @@
-package com.wepli.search
+package com.wepli.search.screen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,6 +20,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,18 +29,32 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
+import com.wepli.search.state.SearchIntent
+import com.wepli.search.state.SearchUiState
+import com.wepli.search.viewmodel.SearchViewModel
+import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
 
 @Composable
 fun SearchScreenRoute() {
-    SearchScreen()
+    val viewModel = hiltViewModel<SearchViewModel>()
+    val state: SearchUiState by viewModel.collectAsState()
+
+    SearchScreen(
+        viewModel = viewModel,
+        searchQuery = state.searchInput,
+    )
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreen() {
+fun SearchScreen(
+    viewModel: SearchViewModel,
+    searchQuery: String,
+) {
     Scaffold(
         containerColor = WepliTheme.color.black,
         topBar = {
@@ -51,24 +67,26 @@ fun SearchScreen() {
     ) { paddingValues ->
         Column(
             modifier = Modifier
-            .padding(paddingValues)
-            .padding(horizontal = 20.dp)
+                .padding(paddingValues)
+                .padding(horizontal = 20.dp)
         ) {
             Box(modifier = Modifier.padding(vertical = 10.dp)) {
                 WepliTextField(
-                    query = "",
-                    onQueryUpdate = { },
+                    query = searchQuery,
+                    onQueryUpdate = { viewModel.processIntent(SearchIntent.OnSearchQueryChanged(it)) },
                     placeholderText = "검색어를 입력하세요.",
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                     keyboardActions = KeyboardActions(),
-                    contentPadding = PaddingValues(all = 16.dp),
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(44.dp),
                 )
             }
         }
     }
 }
 
+// TODO 공통 TextField로 추출 필요
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WepliTextField(
@@ -79,7 +97,7 @@ fun WepliTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
     keyboardActions: KeyboardActions = KeyboardActions(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    contentPadding: PaddingValues = PaddingValues(all = 16.dp),
+    contentPadding: PaddingValues = PaddingValues(all = 0.dp),
 ) {
     BasicTextField(
         modifier = modifier
@@ -133,5 +151,5 @@ fun WepliTextField(
 @Preview
 @Composable
 fun SearchScreenPreview() {
-    SearchScreen()
+    SearchScreen(hiltViewModel(), "")
 }
