@@ -1,5 +1,7 @@
 package com.wepli.data.di
 
+import com.wepli.data.applemusic.datasource.AppleMusicDataSource
+import com.wepli.data.applemusic.datasource.AppleMusicDataSourceImpl
 import com.wepli.data.artist.datasource.remote.ArtistDataSource
 import com.wepli.data.artist.datasource.remote.ArtistDataSourceImpl
 import com.wepli.data.chart.datasource.remote.ChartDataSource
@@ -31,8 +33,11 @@ interface DataSourceModule {
     @Singleton
     fun bindPlaylistDataSource(playlistDataSourceImpl: PlaylistDataSourceImpl): PlaylistDataSource
 
-
     @Binds
     @Singleton
     fun bindRelaylistDataSource(relaylistDataSourceImpl: RelaylistDataSourceImpl): RelaylistDataSource
+
+    @Binds
+    @Singleton
+    fun bindAppleMusicDataSource(appleMusicDataSourceImpl: AppleMusicDataSourceImpl): AppleMusicDataSource
 }

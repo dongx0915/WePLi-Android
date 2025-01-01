@@ -1,5 +1,6 @@
 package com.wepli.data.di
 
+import com.wepli.data.applemusic.repository.AppleMusicRepositoryImpl
 import com.wepli.data.artist.repository.ArtistRepositoryImpl
 import repository.chart.ChartRepository
 import com.wepli.data.chart.repository.ChartRepositoryImpl
@@ -9,6 +10,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import repository.applemusic.AppleMusicRepository
 import repository.artist.ArtistRepository
 import repository.playlist.PlaylistRepository
 import repository.relaylist.RelaylistRepository
@@ -33,4 +35,8 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindRelaylistRepository(relaylistRepositoryImpl: RelaylistRepositoryImpl): RelaylistRepository
+
+    @Binds
+    @Singleton
+    fun bindAppleMusicRepository(appleMusicRepositoryImpl: AppleMusicRepositoryImpl): AppleMusicRepository
 }
