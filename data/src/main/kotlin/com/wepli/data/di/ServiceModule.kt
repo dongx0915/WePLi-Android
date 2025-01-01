@@ -1,7 +1,9 @@
 package com.wepli.data.di
 
+import com.wepli.data.applemusic.AppleMusicApi
 import com.wepli.data.artist.ArtistApi
 import com.wepli.data.chart.ChartApi
+import com.wepli.data.di.qualifier.AppleMusicRetrofit
 import com.wepli.data.di.qualifier.BaseRetrofit
 import com.wepli.data.playlist.PlaylistApi
 import com.wepli.data.relaylist.RelaylistApi
@@ -32,4 +34,8 @@ object ServiceModule {
     @Provides
     @Singleton
     fun provideRelaylistService(@BaseRetrofit retrofit: Retrofit): RelaylistApi = retrofit.create(RelaylistApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideAppleMusicService(@AppleMusicRetrofit retrofit: Retrofit): AppleMusicApi = retrofit.create(AppleMusicApi::class.java)
 }
