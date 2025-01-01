@@ -74,9 +74,9 @@ fun SearchScreen(
                 WepliTextField(
                     query = searchQuery,
                     onQueryUpdate = { viewModel.processIntent(SearchIntent.OnSearchQueryChanged(it)) },
+                    onEnter = { viewModel.processIntent(SearchIntent.RequestSearch(searchQuery)) },
                     placeholderText = "검색어를 입력하세요.",
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                    keyboardActions = KeyboardActions(),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(44.dp),
@@ -93,9 +93,10 @@ fun WepliTextField(
     modifier: Modifier,
     query: String,
     onQueryUpdate: (String) -> Unit,
+    onEnter: () -> Unit,
     placeholderText: String = "",
     keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-    keyboardActions: KeyboardActions = KeyboardActions(),
+    keyboardActions: KeyboardActions = KeyboardActions(onDone = { onEnter() }),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     contentPadding: PaddingValues = PaddingValues(all = 0.dp),
 ) {
