@@ -46,6 +46,7 @@ android {
 // App 모듈에선 모든 모듈 참조 필요
 dependencies {
     implementation(projects.feature.home)
+    implementation(projects.feature.search)
     implementation(projects.feature.community)
     implementation(projects.feature.playlist)
     implementation(projects.feature.mypage)

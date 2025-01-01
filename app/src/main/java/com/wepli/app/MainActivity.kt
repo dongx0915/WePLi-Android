@@ -204,16 +204,6 @@ fun BottomNavigationBar(
 }
 
 @Composable
-fun SearchScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(text = "Search")
-    }
-}
-
-@Composable
 fun ChartScreen() {
     Box(
         modifier = Modifier.fillMaxSize(),
