@@ -1,7 +1,9 @@
 package com.wepli.data.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.wepli.data.di.qualifier.AppleMusicOkHttpClient
 import com.wepli.data.di.qualifier.AppleMusicRetrofit
+import com.wepli.data.di.qualifier.BaseOkHttpClient
 import com.wepli.data.di.qualifier.BaseRetrofit
 import com.wepli.data.network.calladapter.FlowCallAdapterFactory
 import dagger.Module
@@ -41,6 +43,7 @@ object RetrofitModule {
 
     @Provides
     @Singleton
+    @BaseOkHttpClient
     fun provideHttpClient(
         logger: HttpLoggingInterceptor,
     ): OkHttpClient {
@@ -51,8 +54,27 @@ object RetrofitModule {
 
     @Provides
     @Singleton
+    @AppleMusicOkHttpClient
+    fun provideAppleApiHttpClient(
+        logger: HttpLoggingInterceptor,
+    ): OkHttpClient {
+        return OkHttpClient().newBuilder()
+            .addInterceptor(logger)
+            .addInterceptor { chain ->
+                val request = chain.request().newBuilder()
+                    .addHeader("Authorization", "Bearer eyJraWQiOiI3QlU4R1pBNDREIiwiYWxnIjoiRVMyNTYifQ.eyJpc3MiOiI4UTRIN1gzUTU4IiwiZXhwIjoxNzQ0MzcxOTY2LCJpYXQiOjE3MzU3MzE5NjZ9.K3j7cGJvs1A6Xt_boYCjrMVrbjRRRVG0MYeStT19hHByMCX0iK2cFBlkmglWEPo4g2-Gt_kxRtnE-npCuxHEIg")
+                    .build()
+                chain.proceed(request)
+            }
+            .build()
+    }
+
+    @Provides
+    @Singleton
     @BaseRetrofit
-    fun provideRetrofit(httpClient: OkHttpClient): Retrofit {
+    fun provideRetrofit(
+        @BaseOkHttpClient httpClient: OkHttpClient
+    ): Retrofit {
         val contentType = "application/json".toMediaType()
         val converterFactory = json.asConverterFactory(contentType)
 
@@ -68,7 +90,9 @@ object RetrofitModule {
     @Provides
     @Singleton
     @AppleMusicRetrofit
-    fun provideAppleMusicRetrofit(httpClient: OkHttpClient): Retrofit {
+    fun provideAppleMusicRetrofit(
+        @AppleMusicOkHttpClient httpClient: OkHttpClient
+    ): Retrofit {
         val contentType = "application/json".toMediaType()
         val converterFactory = json.asConverterFactory(contentType)
 
