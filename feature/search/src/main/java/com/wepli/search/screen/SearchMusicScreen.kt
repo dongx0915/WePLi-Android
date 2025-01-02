@@ -213,7 +213,7 @@ fun WepliTextField(
 @Composable
 fun SongItem(
     modifier: Modifier = Modifier,
-    songUiData: SongUiData = songMockData[0],
+    songUiData: SongUiData,
 ) {
     val context = LocalContext.current
     val imageUrl = songUiData.getImageUrl(52.dp.toPx())
