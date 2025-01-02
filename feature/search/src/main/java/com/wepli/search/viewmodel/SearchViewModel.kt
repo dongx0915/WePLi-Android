@@ -1,11 +1,11 @@
 package com.wepli.search.viewmodel
 
-import android.util.Log
 import base.BaseMviViewModel
-import com.wepli.core.kotlin.collectResult
+import com.wepli.core.kotlin.suspendCollectResult
 import com.wepli.search.state.SearchEffect
 import com.wepli.search.state.SearchIntent
 import com.wepli.search.state.SearchUiState
+import com.wepli.uimodel.music.SongUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -31,19 +31,22 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun searchMusic(query: String) = launchWithHandler {
-        Log.d("SearchViewModel", "searchMusicQuery: $query")
-        withContext(Dispatchers.IO) {
-            appleMusicRepository.searchMusics(
-                query.replace(" ", "+")
+    private fun searchMusic(query: String) = intent {
+        launchWithHandler {
+            withContext(Dispatchers.IO) {
+                appleMusicRepository.searchMusics(
+                    query.replace(" ", "+")
+                )
+            }.suspendCollectResult(
+                onSuccess = { musics ->
+                    reduce {
+                        state.copy(searchMusicResult = musics.map(SongUiData::fromDomain))
+                    }
+                },
+                onFailure = {
+                    postSideEffect(SearchEffect.SearchError(it.message ?: "알 수 없는 오류가 발생하였습니다."))
+                }
             )
-        }.collectResult(
-            onSuccess = { musics ->
-                Log.d("SearchViewModel", "searchMusic: $musics")
-            },
-            onFailure = {
-                Log.d("SearchViewModel", "searchMusic: ${it.message}")
-            }
-        )
+        }
     }
 }
