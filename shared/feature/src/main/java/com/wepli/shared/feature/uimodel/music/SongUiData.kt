@@ -24,6 +24,14 @@ data class SongUiData(
     val durationMillis: Long = 0L,
 ) : UiModel {
 
+    fun getImageUrl(size: Int): String {
+        return getImageUrl(size, size)
+    }
+
+    fun getImageUrl(width: Int, height: Int): String {
+        return coverImg.replace("{w}", width.toString()).replace("{h}", height.toString())
+    }
+
     companion object : UiModelMapper<Song, SongUiData> {
         override fun fromDomain(domainModel: Song): SongUiData {
             return SongUiData(
