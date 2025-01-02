@@ -43,6 +43,8 @@ fun SearchMusicTextField(
             color = WepliTheme.color.gray900,
         ),
         cursorBrush = SolidColor(WepliTheme.color.gray900),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+        keyboardActions = KeyboardActions(onDone = { onEnter() }),
         decorationBox = @Composable { innerTextField ->
             TextFieldDefaults.DecorationBox(
                 value = query,
@@ -68,7 +70,8 @@ fun SearchMusicTextField(
                     )
                 },
                 trailingIcon = null, // 텍스트 끝에 보여줄 아이콘
-                colors = TextFieldDefaults.colors( // TextField 색상
+                colors = TextFieldDefaults.colors(
+                    // TextField 색상
                     unfocusedTextColor = WepliTheme.color.gray900,
                     focusedTextColor = WepliTheme.color.gray900,
                 ),
@@ -78,7 +81,5 @@ fun SearchMusicTextField(
                 container = {},
             )
         },
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-        keyboardActions = KeyboardActions(onDone = { onEnter() }),
     )
 }
