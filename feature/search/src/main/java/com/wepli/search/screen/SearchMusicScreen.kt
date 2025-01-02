@@ -58,6 +58,7 @@ import extensions.compose.shimmerEffect
 import extensions.compose.toPx
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
+import textfield.SearchMusicTextField
 import theme.WepliTheme
 
 @Composable
@@ -114,12 +115,11 @@ fun SearchScreen(
                 .padding(horizontal = 20.dp)
         ) {
             Box(modifier = Modifier.padding(vertical = 10.dp)) {
-                WepliTextField(
+                SearchMusicTextField(
                     query = searchQuery,
                     onQueryUpdate = { onQueryUpdate(it) },
                     onEnter = { onEnter() },
                     placeholderText = "검색어를 입력하세요.",
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(44.dp),
@@ -144,70 +144,6 @@ fun SearchScreen(
             }
         }
     }
-}
-
-// TODO 공통 TextField로 추출 필요
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun WepliTextField(
-    modifier: Modifier,
-    query: String,
-    onQueryUpdate: (String) -> Unit,
-    onEnter: () -> Unit,
-    placeholderText: String = "",
-    keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-    keyboardActions: KeyboardActions = KeyboardActions(onDone = { onEnter() }),
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    contentPadding: PaddingValues = PaddingValues(all = 0.dp),
-) {
-    BasicTextField(
-        modifier = modifier
-            .clip(RoundedCornerShape(4.dp))
-            .background(WepliTheme.color.gray000),
-        value = query,
-        onValueChange = { onQueryUpdate(it) },
-        textStyle = WepliTheme.typo.body2.copy(
-            color = WepliTheme.color.gray900,
-        ),
-        cursorBrush = SolidColor(WepliTheme.color.gray900),
-        decorationBox = @Composable { innerTextField ->
-            TextFieldDefaults.DecorationBox(
-                value = query,
-                innerTextField = innerTextField,
-                enabled = true, // TextField 활성화/비활성화
-                singleLine = true, // TextField 한 줄로 표시
-                visualTransformation = VisualTransformation.None, // 텍스트 타입 (비밀번호, 전화번호 등)
-                placeholder = {
-                    if (query.isEmpty()) {
-                        Text(
-                            text = placeholderText,
-                            style = WepliTheme.typo.body2,
-                            color = WepliTheme.color.gray500,
-                        )
-                    }
-                }, // PlaceHolder (별도 Composable로 선언)
-                leadingIcon = {
-                    Icon(
-                        modifier = Modifier.size(20.dp),
-                        painter = painterResource(id = com.wepli.designsystem.R.drawable.ic_search),
-                        tint = WepliTheme.color.gray300,
-                        contentDescription = null
-                    )
-                }, // 텍스트 앞에 보여줄 아이콘 (별도 Composable로 선언)
-                trailingIcon = null, // 텍스트 끝에 보여줄 아이콘
-                colors = TextFieldDefaults.colors(
-                    unfocusedTextColor = WepliTheme.color.gray900,
-                    focusedTextColor = WepliTheme.color.gray900,
-                ), // TextField 색상
-                interactionSource = interactionSource, // ??
-                isError = false,
-                contentPadding = contentPadding,
-                container = {},
-            )
-        },
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions,
-    )
 }
 
 @Composable
