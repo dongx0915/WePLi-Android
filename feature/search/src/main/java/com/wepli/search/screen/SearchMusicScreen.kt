@@ -41,6 +41,16 @@ import theme.WepliTheme
 fun SearchScreenRoute() {
     val viewModel = hiltViewModel<SearchViewModel>()
     val state: SearchUiState by viewModel.collectAsState()
+    val scrollState = rememberLazyListState()
+    val context = LocalContext.current
+
+    viewModel.collectSideEffect { sideEffect ->
+        when (sideEffect) {
+            is SearchEffect.SearchError -> {
+                Toast.makeText(context, sideEffect.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     SearchScreen(
         viewModel = viewModel,
