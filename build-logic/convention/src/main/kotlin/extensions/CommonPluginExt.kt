@@ -12,7 +12,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
  * Application, Feature에 적용
  */
 internal fun Project.configureKotlinAndroid(
-    commonExtension: CommonExtension<*, *, *, *, *>,
+    commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
     commonExtension.apply {
         compileSdk = libs.findVersion("compileSdk").get().toString().toInt()
