@@ -151,7 +151,6 @@ fun SongItem(
             imageUrl = imageUrl,
             contentScale = ContentScale.Crop,
             loadingContent = { SkeletonImage() },
-            previewImage = painterResource(com.wepli.designsystem.R.drawable.img_placeholder_eunbin)
         )
 
         WepliSpacer(horizontal = 12.dp)

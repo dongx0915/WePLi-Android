@@ -23,7 +23,7 @@ import extensions.compose.toPx
 fun AsyncImageWithPreview(
     modifier: Modifier = Modifier,
     imageUrl: String,
-    previewImage: Painter,
+    previewImage: Painter? = null,
     imageOverrideSize: Dp? = null,
     contentScale: ContentScale = ContentScale.Crop,
     loadingContent: @Composable (() -> Unit)? = null,
@@ -42,7 +42,7 @@ fun AsyncImageWithPreview(
         }.build()
     }
 
-    if (isInPreview) {
+    if (isInPreview && previewImage != null) {
         Image(
             modifier = modifier,
             painter = previewImage,
