@@ -37,6 +37,7 @@ fun AsyncImageWithPreview(
     val imageRequest = remember(imageUrl) {
         ImageRequest.Builder(context).apply {
             data(imageUrl)
+            crossfade(true)
             imageSizePx?.let(::size)
         }.build()
     }

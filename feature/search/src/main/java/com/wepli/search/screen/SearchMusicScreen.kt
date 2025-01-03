@@ -3,11 +3,9 @@ package com.wepli.search.screen
 import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -20,33 +18,22 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
-import coil.compose.SubcomposeAsyncImage
-import coil.request.ImageRequest
 import com.wepli.search.state.SearchEffect
 import com.wepli.search.state.SearchIntent
 import com.wepli.search.state.SearchUiState
@@ -56,6 +43,7 @@ import com.wepli.uimodel.music.SongUiData
 import common.WepliSpacer
 import extensions.compose.shimmerEffect
 import extensions.compose.toPx
+import image.AsyncImageWithPreview
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import textfield.SearchMusicTextField
@@ -133,7 +121,7 @@ fun SearchScreen(
             ) {
                 item { WepliSpacer(vertical = 12.dp) }
 
-                items(searchResult.size) { idx ->
+                items(count = searchResult.size, key = { searchResult[it].id }) { idx ->
                     SongItem(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -151,27 +139,19 @@ fun SongItem(
     modifier: Modifier = Modifier,
     songUiData: SongUiData,
 ) {
-    val context = LocalContext.current
-    val imageUrl = songUiData.getImageUrl(52.dp.toPx())
     val imageSize = 52.dp.toPx()
-    val imageRequest = remember(imageUrl) {
-        ImageRequest.Builder(context).apply {
-            data(imageUrl)
-            size(imageSize)
-            crossfade(true)
-        }.build()
-    }
+    val imageUrl = songUiData.getImageUrl(imageSize)
 
     Row(modifier = modifier) {
-        SubcomposeAsyncImage(
-            model = imageRequest,
+        AsyncImageWithPreview(
             modifier = Modifier
                 .fillMaxHeight()
                 .aspectRatio(1f)
                 .clip(RoundedCornerShape(4.dp)),
-            contentScale = ContentScale.Fit,
-            contentDescription = null,
-            loading = { SkeletonImage() },
+            imageUrl = imageUrl,
+            contentScale = ContentScale.Crop,
+            loadingContent = { SkeletonImage() },
+            previewImage = painterResource(com.wepli.designsystem.R.drawable.img_placeholder_eunbin)
         )
 
         WepliSpacer(horizontal = 12.dp)
