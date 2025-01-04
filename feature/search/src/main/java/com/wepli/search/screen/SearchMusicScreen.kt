@@ -24,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -140,7 +141,7 @@ fun SongItem(
     songUiData: SongUiData,
 ) {
     val imageSize = 52.dp.toPx()
-    val imageUrl = songUiData.getImageUrl(imageSize)
+    val imageUrl = remember { songUiData.getImageUrl(imageSize) }
 
     Row(modifier = modifier) {
         AsyncImageWithPreview(
@@ -150,6 +151,7 @@ fun SongItem(
                 .clip(RoundedCornerShape(4.dp)),
             imageUrl = imageUrl,
             contentScale = ContentScale.Crop,
+            imageOverrideSize = 52.dp,
             loadingContent = { SkeletonImage() },
         )
 
