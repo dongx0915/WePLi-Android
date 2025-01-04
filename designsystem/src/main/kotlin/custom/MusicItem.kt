@@ -40,8 +40,8 @@ sealed interface MusicItemType {
 
     data class Normal(val songUiData: SongUiData) : MusicItemType {
         override val title: String = songUiData.title
-        override val artist: String = songUiData.artist
-        override val coverImgUrl: String = songUiData.albumCoverImg
+        override val artist: String = songUiData.artistName
+        override val coverImgUrl: String = songUiData.coverImg
     }
 }
 
@@ -68,10 +68,14 @@ fun MusicItemPreview() {
         MusicItem(
             musicItemType = MusicItemType.Normal(
                 songUiData = SongUiData(
+                    id = "1",
                     title = "title",
-                    artist = "artist",
-                    album = "album",
-                    albumCoverImg = "https://via.placeholder.com/150",
+                    artistName = "artist",
+                    albumName = "album",
+                    coverImg = "https://via.placeholder.com/150",
+                    href = "href",
+                    genres = emptyList(),
+                    durationMillis = 0L
                 )
             ),
             showPlayIcon = true,

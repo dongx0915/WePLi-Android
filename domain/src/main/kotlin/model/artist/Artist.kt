@@ -11,3 +11,10 @@ data class Artist(
     val name: String,
     val profileUrl: String,
 ) : DomainModel
+
+data class AppleArtist(
+    val id: String,
+    val href: String,
+    val name: String,
+    val profileImg: String,
+) : DomainModel

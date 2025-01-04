@@ -41,9 +41,6 @@ class AndroidApplicationPlugin: Plugin<Project> {
 
     // 플러그인이 프로젝트에 적용될 때 호출
     override fun apply(target: Project) {
-        val file = File(target.rootProject.rootDir, "local.properties")
-        val localProperties = loadProperties(file.absolutePath)
-
         val appVersion = target.libs.findVersion("appVersion").get().requiredVersion
         val appVersionCode = target.libs.findVersion("versionCode").get().requiredVersion.toInt()
         val targetSdkVersion = target.libs.findVersion("targetSdk").get().requiredVersion.toInt()

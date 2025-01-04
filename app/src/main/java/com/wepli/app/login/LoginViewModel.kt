@@ -10,7 +10,7 @@ import base.SideEffect
 import base.UiState
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
-import com.wepli.app.BuildConfig
+import com.wepli.core.common.BuildConfig
 import com.wepli.shared.feature.mock.recommendPlaylistMockData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.jan.supabase.SupabaseClient

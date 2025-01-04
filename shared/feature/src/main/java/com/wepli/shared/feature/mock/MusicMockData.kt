@@ -19,99 +19,103 @@ val musicMockData = listOf(
 
 val songMockData = listOf(
     SongUiData(
+        id = "1",
         title = "비가 내리는 날에는",
-        artist = "윤하",
-        album = "A Perfect Day to Say I Love You",
-        albumCoverImg = "https://image.bugsm.co.kr/artist/images/1000/800100/80010025_100.jpg?version=332223&d=20220330143136"
+        artistName = "윤하",
+        albumName = "A Perfect Day to Say I Love You",
+        coverImg = "https://image.bugsm.co.kr/artist/images/1000/800100/80010025_100.jpg?version=332223&d=20220330143136",
+        href = "https://music.apple.com/kr/song/1",
+        genres = listOf("Ballad", "K-Pop"),
+        durationMillis = 230000L
     ),
     SongUiData(
+        id = "2",
         title = "주저하는 연인들을 위해",
-        artist = "잔나비",
-        album = "전설",
-        albumCoverImg = "https://image.bugsm.co.kr/album/images/500/202371/20237198.jpg?version=20210422183751.0"
+        artistName = "잔나비",
+        albumName = "전설",
+        coverImg = "https://image.bugsm.co.kr/album/images/500/202371/20237198.jpg?version=20210422183751.0",
+        href = "https://music.apple.com/kr/song/2",
+        genres = listOf("Indie", "K-Pop"),
+        durationMillis = 240000L
     ),
     SongUiData(
+        id = "3",
         title = "Boom Boom Bass",
-        artist = "RIIZE",
-        album = "Boom Boom Bass",
-        albumCoverImg = "https://cdnimg.melon.co.kr/cm2/album/images/114/56/179/11456179_20240617152303_500.jpg"
+        artistName = "RIIZE",
+        albumName = "Boom Boom Bass",
+        coverImg = "https://cdnimg.melon.co.kr/cm2/album/images/114/56/179/11456179_20240617152303_500.jpg",
+        href = "https://music.apple.com/kr/song/3",
+        genres = listOf("Dance", "Pop"),
+        durationMillis = 210000L
     ),
     SongUiData(
+        id = "4",
         title = "사막에서 꽃을 피우듯",
-        artist = "우디 (Woody)",
-        album = "사막에서 꽃을 피우듯",
-        albumCoverImg = "https://cdnimg.melon.co.kr/cm2/album/images/112/85/867/11285867_20230713162404_500.jpg"
+        artistName = "우디 (Woody)",
+        albumName = "사막에서 꽃을 피우듯",
+        coverImg = "https://cdnimg.melon.co.kr/cm2/album/images/112/85/867/11285867_20230713162404_500.jpg",
+        href = "https://music.apple.com/kr/song/4",
+        genres = listOf("Ballad", "Acoustic"),
+        durationMillis = 200000L
     ),
     SongUiData(
+        id = "5",
         title = "퀸카 (Queencard)",
-        artist = "(여자)아이들",
-        album = "I NEVER DIE",
-        albumCoverImg = "https://cdnimg.melon.co.kr/cm2/album/images/112/40/232/11240232_20230509151820_500.jpg"
+        artistName = "(여자)아이들",
+        albumName = "I NEVER DIE",
+        coverImg = "https://cdnimg.melon.co.kr/cm2/album/images/112/40/232/11240232_20230509151820_500.jpg",
+        href = "https://music.apple.com/kr/song/5",
+        genres = listOf("Pop", "K-Pop"),
+        durationMillis = 250000L
     ),
     SongUiData(
+        id = "6",
         title = "밤양갱",
-        artist = "비비 (BIBI)",
-        album = "BIBI",
-        albumCoverImg = "https://cdnimg.melon.co.kr/cm2/album/images/114/15/997/11415997_20240226162412_500.jpg"
+        artistName = "비비 (BIBI)",
+        albumName = "BIBI",
+        coverImg = "https://cdnimg.melon.co.kr/cm2/album/images/114/15/997/11415997_20240226162412_500.jpg",
+        href = "https://music.apple.com/kr/song/6",
+        genres = listOf("R&B", "Soul"),
+        durationMillis = 180000L
     ),
     SongUiData(
+        id = "7",
         title = "모든 날, 모든 순간 (Every day, Every Moment)",
-        artist = "폴킴",
-        album = "호텔 델루나 OST Part.3",
-        albumCoverImg = "https://cdnimg.melon.co.kr/cm/album/images/101/49/492/10149492_500.jpg"
+        artistName = "폴킴",
+        albumName = "호텔 델루나 OST Part.3",
+        coverImg = "https://cdnimg.melon.co.kr/cm/album/images/101/49/492/10149492_500.jpg",
+        href = "https://music.apple.com/kr/song/7",
+        genres = listOf("Ballad", "OST"),
+        durationMillis = 260000L
     ),
     SongUiData(
+        id = "8",
         title = "슬픈 초대장",
-        artist = "순순희 (지환)",
-        album = "슬픈 초대장",
-        albumCoverImg = "https://image.bugsm.co.kr/album/images/500/40943/4094328.jpg?version=20240125010600.0"
+        artistName = "순순희 (지환)",
+        albumName = "슬픈 초대장",
+        coverImg = "https://image.bugsm.co.kr/album/images/500/40943/4094328.jpg?version=20240125010600.0",
+        href = "https://music.apple.com/kr/song/8",
+        genres = listOf("Ballad"),
+        durationMillis = 220000L
     ),
     SongUiData(
+        id = "9",
         title = "CRAZY",
-        artist = "LE SSERAFIM (르세라핌)",
-        album = "CRAZY",
-        albumCoverImg = "https://cdnimg.melon.co.kr/cm2/album/images/115/79/884/11579884_20240830100608_500.jpg"
+        artistName = "LE SSERAFIM (르세라핌)",
+        albumName = "CRAZY",
+        coverImg = "https://cdnimg.melon.co.kr/cm2/album/images/115/79/884/11579884_20240830100608_500.jpg",
+        href = "https://music.apple.com/kr/song/9",
+        genres = listOf("Dance", "Pop"),
+        durationMillis = 230000L
     ),
     SongUiData(
-        title = "I Don't Think That I Like Her",
-        artist = "Charlie Puth",
-        album = "I Don't Think That I Like Her",
-        albumCoverImg = "https://cdnimg.melon.co.kr/cm2/album/images/108/44/485/10844485_20221006154824_500.jpg"
-    ),
-    SongUiData(
-        title = "어떻게 이별까지 사랑하겠어, 널 사랑하는 거지",
-        artist = "AKMU (악뮤)",
-        album = "항해",
-        albumCoverImg = "https://cdnimg.melon.co.kr/cm2/album/images/103/31/947/10331947_500.jpg"
-    ),
-    SongUiData(
-        title = "그녀가 웃었다",
-        artist = "DAY6 (데이식스)",
-        album = "The Book of Us : Negentropy - Chaos swallowed up in love",
-        albumCoverImg = "https://cdnimg.melon.co.kr/cm2/album/images/115/80/616/11580616_20240830171855_500.jpg"
-    ),
-    SongUiData(
+        id = "10",
         title = "After LIKE",
-        artist = "IVE (아이브)",
-        album = "LOVE DIVE",
-        albumCoverImg = "https://image.bugsm.co.kr/album/images/500/40789/4078936.jpg?version=20220824005434.0"
-    ),
-    SongUiData(
-        title = "Live My Life",
-        artist = "aespa",
-        album = "Savage",
-        albumCoverImg = "https://cdnimg.melon.co.kr/cm2/album/images/114/87/023/11487023_20240527154018_500.jpg"
-    ),
-    SongUiData(
-        title = "Love Lee",
-        artist = "AKMU (악뮤)",
-        album = "항해",
-        albumCoverImg = "https://cdnimg.melon.co.kr/cm2/album/images/113/09/190/11309190_20230818161008_500.jpg"
-    ),
-    SongUiData(
-        title = "오래된 노래",
-        artist = "허각",
-        album = "오래된 노래",
-        albumCoverImg = "https://cdnimg.melon.co.kr/cm2/album/images/115/13/169/11513169_20240614150349_500.jpg"
-    ),
+        artistName = "IVE (아이브)",
+        albumName = "LOVE DIVE",
+        coverImg = "https://image.bugsm.co.kr/album/images/500/40789/4078936.jpg?version=20220824005434.0",
+        href = "https://music.apple.com/kr/song/10",
+        genres = listOf("Pop", "K-Pop"),
+        durationMillis = 210000L
+    )
 )

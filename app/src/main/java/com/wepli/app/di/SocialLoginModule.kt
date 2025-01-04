@@ -1,6 +1,6 @@
 package com.wepli.app.di
 
-import com.wepli.app.BuildConfig
+import com.wepli.core.common.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

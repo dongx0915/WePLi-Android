@@ -1,14 +1,30 @@
 package extensions.compose
 
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.TextUnit
 import kotlin.math.absoluteValue
 
@@ -52,4 +68,32 @@ fun Modifier.pagerFadeTransition(page: Int, pagerState: PagerState): Modifier {
         // alpha 값을 적용하여 페이드 효과 추가
         alpha = 1 - pageOffset.absoluteValue
     }
+}
+
+// Skeleton 효과
+fun Modifier.shimmerEffect(radius: Dp): Modifier = composed {
+    val baseColor = Color.LightGray
+    var size by remember { mutableStateOf(IntSize.Zero) }
+    val transition = rememberInfiniteTransition(label = "")
+    val startOffsetX by transition.animateFloat(
+        initialValue = -2 * size.width.toFloat(),
+        targetValue = 2 * size.width.toFloat(),
+        animationSpec = infiniteRepeatable(
+            animation = tween(1000)
+        ),
+        label = ""
+    )
+
+    background(
+        brush = Brush.linearGradient(
+            colors = listOf(
+                baseColor.copy(alpha = 0.1f),
+                baseColor.copy(alpha = 0.6f),
+                baseColor.copy(alpha = 0.1f),
+            ),
+            start = Offset(startOffsetX, 0f),
+            end = Offset(startOffsetX + size.width.toFloat(), size.height.toFloat() / 2)
+        ),
+        shape = RoundedCornerShape(radius)
+    ).onGloballyPositioned { size = it.size }
 }

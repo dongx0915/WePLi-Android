@@ -9,7 +9,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.wepli.app.ChartScreen
-import com.wepli.app.SearchScreen
 import com.wepli.community.navigation.communityDetailGraph
 import com.wepli.community.navigation.communityMainGraph
 import com.wepli.community.navigation.navigateToCommunityDetail
@@ -20,6 +19,7 @@ import com.wepli.mypage.menus.mypage.navigation.mypageMainGraph
 import com.wepli.app.navigation.extensions.navigateToBack
 import com.wepli.playlist.navigation.navigateToPlaylistDetail
 import com.wepli.playlist.navigation.playlistDetailGraph
+import com.wepli.search.navigation.searchGraph
 
 @Composable
 fun SetUpNavGraph(
@@ -41,9 +41,9 @@ fun SetUpNavGraph(
             navOnPlaylistDetail = { playlist -> navController.navigateToPlaylistDetail(/* playlist */) }
         )
 
-        composable(BottomNavRoute.Search.route) {
-            SearchScreen()
-        }
+        // 검색 Graph
+        searchGraph()
+
         composable(BottomNavRoute.Chart.route) {
             ChartScreen()
         }

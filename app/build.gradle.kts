@@ -1,9 +1,3 @@
-import java.util.Properties
-
-val properties = Properties().apply {
-    load(rootProject.file("local.properties").inputStream())
-}
-
 plugins {
     wepli("android.application")
     wepli("android.hilt")
@@ -13,39 +7,12 @@ plugins {
 
 android {
     namespace = "com.wepli.app"
-
-    // BuildConfig 기능 활성화
-    buildFeatures {
-        buildConfig = true
-    }
-
-    buildTypes {
-        debug {
-            isDebuggable = true
-            signingConfig = signingConfigs.getByName("debug")
-
-            // local.properties 값 추가
-            properties.filter { it.key != "sdk.dir" }.forEach { (key, value) ->
-                buildConfigField("String", key.toString().uppercase(), "\"$value\"")
-            }
-        }
-
-        release {
-            isMinifyEnabled = true // 코드 난독화 여부
-            isShrinkResources = true
-            signingConfig = signingConfigs.getByName("release")
-
-            // local.properties 값 추가
-            properties.filter { it.key != "sdk.dir" }.forEach { (key, value) ->
-                buildConfigField("String", key.toString().uppercase(), "\"$value\"")
-            }
-        }
-    }
 }
 
 // App 모듈에선 모든 모듈 참조 필요
 dependencies {
     implementation(projects.feature.home)
+    implementation(projects.feature.search)
     implementation(projects.feature.community)
     implementation(projects.feature.playlist)
     implementation(projects.feature.mypage)
@@ -77,4 +44,5 @@ dependencies {
 
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.android)
+    implementation(libs.androidx.junit.ktx)
 }
