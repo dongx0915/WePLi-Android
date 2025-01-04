@@ -19,4 +19,5 @@ dependencies {
     implementation(libs.okhttp3.logging.interceptor)
     implementation(libs.kotlin.serialization.json)
     implementation(libs.kotlin.serialization.converter)
+    implementation(libs.androidx.datastore.preferences)
 }
