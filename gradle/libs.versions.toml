@@ -60,6 +60,7 @@ okhttp = "4.12.0"
 joda-time = "2.13.0"
 gson = "2.10.1"
 google-services = "4.4.2"
+junitKtx = "1.2.1"
 
 [libraries] # 라이브러리 의존성
 
@@ -138,6 +139,9 @@ joda-time = { group = "joda-time", name = "joda-time", version.ref = "joda-time"
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 blur-haze = { group = "dev.chrisbanes.haze", name = "haze", version = "1.0.1" }
 blur-haze-materials = { group = "dev.chrisbanes.haze", name = "haze-materials", version = "1.0.1" }
+
+# test
+androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
 
 [bundles] # 라이브러리를 묶어서 선언
 androidx-compose = [
