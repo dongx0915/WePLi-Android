@@ -4,6 +4,8 @@ import com.wepli.data.applemusic.repository.AppleMusicRepositoryImpl
 import com.wepli.data.artist.repository.ArtistRepositoryImpl
 import repository.chart.ChartRepository
 import com.wepli.data.chart.repository.ChartRepositoryImpl
+import com.wepli.data.datastore.DataStorePrefRepository
+import com.wepli.data.datastore.DataStorePrefRepositoryImpl
 import com.wepli.data.playlist.repository.PlaylistRepositoryImpl
 import com.wepli.data.relaylist.repository.RelaylistRepositoryImpl
 import dagger.Binds
@@ -39,4 +41,8 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindAppleMusicRepository(appleMusicRepositoryImpl: AppleMusicRepositoryImpl): AppleMusicRepository
+
+    @Binds
+    @Singleton
+    fun bindDataStoreRepository(dataStoreRepositoryImpl: DataStorePrefRepositoryImpl): DataStorePrefRepository
 }
