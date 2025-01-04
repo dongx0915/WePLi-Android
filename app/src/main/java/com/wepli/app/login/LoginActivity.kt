@@ -54,6 +54,7 @@ import com.wepli.shared.feature.mock.musicMockData
 import common.WepliSpacer
 import dagger.hilt.android.AndroidEntryPoint
 import extensions.compose.gesturesDisabled
+import extensions.compose.shimmerEffect
 import extensions.compose.toPx
 import image.AsyncImageWithPreview
 import kotlinx.coroutines.delay
@@ -198,7 +199,15 @@ fun PlaylistCoverPager(
                         .size(animatedSize.value)
                         .clip(RoundedCornerShape(animatedCornerRadius.value)),
                     imageUrl = imageList[index % imageList.size],
-                    previewImage = painterResource(id = R.drawable.img_placeholder_eunbin)
+                    previewImage = painterResource(id = R.drawable.img_placeholder_eunbin),
+                    loadingContent = {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(color = WepliTheme.color.gray500)
+                                .shimmerEffect(animatedCornerRadius.value)
+                        )
+                    }
                 )
             }
         }
