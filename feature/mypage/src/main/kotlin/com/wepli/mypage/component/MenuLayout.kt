@@ -63,9 +63,9 @@ fun MenuComponent(
 ) {
     Row(
         modifier = modifier
+            .clickable { onClickMenu() }
             .fillMaxWidth()
-            .padding(vertical = 16.dp, horizontal = 20.dp)
-            .clickable { onClickMenu() },
+            .padding(vertical = 16.dp, horizontal = 20.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
