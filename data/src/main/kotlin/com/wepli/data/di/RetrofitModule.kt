@@ -23,7 +23,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RetrofitModule {
 
-    private const val BASE_URL = "https://dfce38cf-c9ca-4eaa-867f-8c9240c4dc53.mock.pstmn.io/"
+    private const val BASE_URL = "https://31afe3a4-31e5-41dd-8de0-c5ded70b3a70.mock.pstmn.io/"
     private const val APPLE_MUSIC_BASE_URL = "https://api.music.apple.com/"
 
     private val json: Json by lazy {
