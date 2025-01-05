@@ -24,32 +24,16 @@ import androidx.compose.ui.window.DialogProperties
 import theme.WePLiTheme
 import theme.WepliTheme
 
-sealed class WepliDialogType {
-    data class TwoButton(
-        val okButtonText: String,
-        val cancelButtonText: String,
-        val okButtonClick: () -> Unit,
-        val cancelButtonClick: () -> Unit,
-    ) : WepliDialogType()
-
-    data class OneButton(
-        val okButtonText: String,
-        val okButtonClick: () -> Unit,
-    ) : WepliDialogType()
-}
-
 @Composable
 fun WepliDialog(
     title: String = "",
     subTitle: String = "",
     dialogType: WepliDialogType,
+    onDismissRequest: () -> Unit = {},
 ) {
     Dialog(
         onDismissRequest = {},
-        properties = DialogProperties(
-            dismissOnClickOutside = false,
-            dismissOnBackPress = false,
-        )
+        properties = DialogProperties(dismissOnClickOutside = false, dismissOnBackPress = false,)
     ) {
         Column(
             modifier = Modifier
