@@ -32,6 +32,14 @@ class DataStorePrefDataSourceImpl @Inject constructor(
         }
     }
 
+    override suspend fun removeInt(key: String) {
+        try {
+            dataStore.edit { preferences -> preferences.remove(intPreferencesKey(key)) }
+        } catch (e: Exception) {
+            // handle exception
+        }
+    }
+
     override suspend fun getLong(key: String, defaultValue: Long): Long {
         return try {
             dataStore.data.first()[longPreferencesKey(key)] ?: defaultValue
@@ -43,6 +51,14 @@ class DataStorePrefDataSourceImpl @Inject constructor(
     override suspend fun setLong(key: String, value: Long) {
         try {
             dataStore.edit { preferences -> preferences[longPreferencesKey(key)] = value }
+        } catch (e: Exception) {
+            // handle exception
+        }
+    }
+
+    override suspend fun removeLong(key: String) {
+        try {
+            dataStore.edit { preferences -> preferences.remove(longPreferencesKey(key)) }
         } catch (e: Exception) {
             // handle exception
         }
@@ -64,6 +80,14 @@ class DataStorePrefDataSourceImpl @Inject constructor(
         }
     }
 
+    override suspend fun removeFloat(key: String) {
+        try {
+            dataStore.edit { preferences -> preferences.remove(floatPreferencesKey(key)) }
+        } catch (e: Exception) {
+            // handle exception
+        }
+    }
+
     override suspend fun getDouble(key: String, defaultValue: Double): Double {
         return try {
             dataStore.data.first()[doublePreferencesKey(key)] ?: defaultValue
@@ -75,6 +99,14 @@ class DataStorePrefDataSourceImpl @Inject constructor(
     override suspend fun setDouble(key: String, value: Double) {
         try {
             dataStore.edit { preferences -> preferences[doublePreferencesKey(key)] = value }
+        } catch (e: Exception) {
+            // handle exception
+        }
+    }
+
+    override suspend fun removeDouble(key: String) {
+        try {
+            dataStore.edit { preferences -> preferences.remove(doublePreferencesKey(key)) }
         } catch (e: Exception) {
             // handle exception
         }
@@ -96,6 +128,14 @@ class DataStorePrefDataSourceImpl @Inject constructor(
         }
     }
 
+    override suspend fun removeBoolean(key: String) {
+        try {
+            dataStore.edit { preferences -> preferences.remove(booleanPreferencesKey(key)) }
+        } catch (e: Exception) {
+            // handle exception
+        }
+    }
+
     override suspend fun getString(key: String, defaultValue: String): String {
         return try {
             dataStore.data.first()[stringPreferencesKey(key)] ?: defaultValue
@@ -107,6 +147,14 @@ class DataStorePrefDataSourceImpl @Inject constructor(
     override suspend fun setString(key: String, value: String) {
         try {
             dataStore.edit { preferences -> preferences[stringPreferencesKey(key)] = value }
+        } catch (e: Exception) {
+            // handle exception
+        }
+    }
+
+    override suspend fun removeString(key: String) {
+        try {
+            dataStore.edit { preferences -> preferences.remove(stringPreferencesKey(key)) }
         } catch (e: Exception) {
             // handle exception
         }
