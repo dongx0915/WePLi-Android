@@ -23,6 +23,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.toJavaInstant
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.jsonPrimitive
 import model.user.User
 import repository.user.UserRepository
 import java.security.MessageDigest
@@ -143,8 +146,10 @@ class LoginViewModel @Inject constructor(
     private suspend fun saveLoginResult(session: UserSession): Boolean {
         return withContext(Dispatchers.IO) {
             val user: UserInfo = session.user ?: return@withContext false
-            val userNickname: String = user.userMetadata?.get("name")?.toString().orEmpty()
-            val userAvatarUrl: String = user.userMetadata?.get("avatar_url")?.toString().orEmpty()
+            val userMetadataJson: JsonObject = user.userMetadata ?: return@withContext false
+
+            val userNickname: String = userMetadataJson["name"]?.jsonPrimitive?.contentOrNull.orEmpty()
+            val userAvatarUrl: String = userMetadataJson["avatar_url"]?.jsonPrimitive?.contentOrNull.orEmpty()
 
             with(userRepository) {
                 saveUserSession(
