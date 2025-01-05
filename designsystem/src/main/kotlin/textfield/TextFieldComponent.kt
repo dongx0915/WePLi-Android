@@ -13,12 +13,16 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import theme.WepliTheme
@@ -33,12 +37,18 @@ fun SearchMusicTextField(
     onEnter: () -> Unit,
     placeholderText: String = "",
 ) {
+    var textFieldValueState by remember { mutableStateOf(TextFieldValue(text = query)) }
+    val interactionSource = remember { MutableInteractionSource() }
+
     BasicTextField(
         modifier = modifier
             .clip(RoundedCornerShape(4.dp))
             .background(WepliTheme.color.gray000),
-        value = query,
-        onValueChange = { onQueryUpdate(it) },
+        value = textFieldValueState,
+        onValueChange = { newQuery ->
+            textFieldValueState = newQuery
+            onQueryUpdate(newQuery.text)
+        },
         textStyle = WepliTheme.typo.body2.copy(
             color = WepliTheme.color.gray900,
         ),
@@ -75,7 +85,7 @@ fun SearchMusicTextField(
                     unfocusedTextColor = WepliTheme.color.gray900,
                     focusedTextColor = WepliTheme.color.gray900,
                 ),
-                interactionSource = remember { MutableInteractionSource() }, // ??
+                interactionSource = interactionSource, // ??
                 isError = false,
                 contentPadding = PaddingValues(all = 0.dp),
                 container = {},
