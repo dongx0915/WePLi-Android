@@ -307,7 +307,7 @@ fun FooterLayout() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 32.dp)
+            .padding(bottom = 56.dp)
     ) {
         Text(
             modifier = Modifier.align(Alignment.CenterHorizontally),
