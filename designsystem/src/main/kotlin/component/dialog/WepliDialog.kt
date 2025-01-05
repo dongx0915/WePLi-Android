@@ -134,9 +134,9 @@ private fun DialogButton(
 
     Box(
         modifier = Modifier
+            .clickable { onClick() }
             .height(44.dp)
-            .padding(horizontal = 20.dp)
-            .clickable { onClick() },
+            .padding(horizontal = 20.dp),
         contentAlignment = Alignment.Center,
     ) {
         Text(
