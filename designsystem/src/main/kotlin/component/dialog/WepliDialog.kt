@@ -37,7 +37,7 @@ fun WepliDialog(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(0.8f)
                 .clip(RoundedCornerShape(20.dp))
                 .background(color = WepliTheme.color.gray050)
                 .padding(top = 32.dp, bottom = 20.dp, start = 24.dp, end = 24.dp)
