@@ -6,6 +6,8 @@ import com.wepli.data.artist.datasource.remote.ArtistDataSource
 import com.wepli.data.artist.datasource.remote.ArtistDataSourceImpl
 import com.wepli.data.chart.datasource.remote.ChartDataSource
 import com.wepli.data.chart.datasource.remote.ChartDataSourceImpl
+import com.wepli.data.datastore.local.DataStorePrefDataSource
+import com.wepli.data.datastore.local.DataStorePrefDataSourceImpl
 import com.wepli.data.playlist.datasource.remote.PlaylistDataSource
 import com.wepli.data.playlist.datasource.remote.PlaylistDataSourceImpl
 import com.wepli.data.relaylist.datasource.remote.RelaylistDataSource
@@ -40,4 +42,8 @@ interface DataSourceModule {
     @Binds
     @Singleton
     fun bindAppleMusicDataSource(appleMusicDataSourceImpl: AppleMusicDataSourceImpl): AppleMusicDataSource
+
+    @Binds
+    @Singleton
+    fun bindDataStoreDataSource(dataStoreDataSourceImpl: DataStorePrefDataSourceImpl): DataStorePrefDataSource
 }

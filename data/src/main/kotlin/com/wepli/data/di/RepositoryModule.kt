@@ -6,6 +6,8 @@ import repository.chart.ChartRepository
 import com.wepli.data.chart.repository.ChartRepositoryImpl
 import com.wepli.data.playlist.repository.PlaylistRepositoryImpl
 import com.wepli.data.relaylist.repository.RelaylistRepositoryImpl
+import com.wepli.data.user.UserRepository
+import com.wepli.data.user.UserRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -19,6 +21,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 interface RepositoryModule {
+
+    @Binds
+    @Singleton
+    fun bindUserRepository(userRepository: UserRepositoryImpl): UserRepository
 
     @Binds
     @Singleton
