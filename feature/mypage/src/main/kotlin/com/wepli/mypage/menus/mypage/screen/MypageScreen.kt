@@ -73,7 +73,7 @@ fun MyPageScreenRoute(
     val user: UserUiData = state.user
 
     viewModel.collectSideEffect { sideEffect ->
-        when(sideEffect) {
+        when (sideEffect) {
             is MyPageEffect.SuccessLogout -> {
                 Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
                 goToLoginActivity()
@@ -304,9 +304,11 @@ fun EtcMenuLayout(onAction: (MyPageIntent) -> Unit) {
 
 @Composable
 fun FooterLayout() {
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .padding(bottom = 32.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 32.dp)
+    ) {
         Text(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             text = "Copyright ©2024 WePLi",
