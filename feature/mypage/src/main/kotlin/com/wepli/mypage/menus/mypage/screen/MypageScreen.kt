@@ -96,6 +96,7 @@ fun MyPageScreenPreview() {
 private fun handleSideEffect(
     context: Context,
     sideEffect: MyPageEffect,
+    navOnAppInfo: () -> Unit,
     goToLoginActivity: () -> Unit
 ) {
     when (sideEffect) {
@@ -103,7 +104,7 @@ private fun handleSideEffect(
             Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
             goToLoginActivity()
         }
-        MyPageEffect.NavigateOnAppInfo -> {}
+        MyPageEffect.NavigateOnAppInfo -> navOnAppInfo()
     }
 }
 
@@ -116,7 +117,7 @@ fun MyPageScreenRoute(
     val context: Context = LocalContext.current
     val state: MyPageUiState by viewModel.collectAsState()
 
-    viewModel.collectSideEffect { sideEffect -> handleSideEffect(context, sideEffect, goToLoginActivity) }
+    viewModel.collectSideEffect { sideEffect -> handleSideEffect(context, sideEffect, navOnAppInfo, goToLoginActivity) }
 
     MyPageScreen(
         user = state.user,
