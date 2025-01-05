@@ -38,7 +38,13 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun clearUserData() {
-        setUserData(User("", "", "",))
-        saveUserSession("", "", Instant.now())
+        dataStorePrefDataSource.apply {
+            with(DataStoreKey) {
+                removeString(USER)
+                removeString(ACCESS_TOKEN)
+                removeString(REFRESH_TOKEN)
+                removeLong(EXPIRED_AT)
+            }
+        }
     }
 }
