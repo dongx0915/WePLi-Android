@@ -90,6 +90,7 @@ fun MyPageScreen(
                 .padding(bottom = paddingValues.calculateBottomPadding())
                 .verticalScroll(scrollState)
                 .fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             Spacer(modifier = Modifier.height(24.dp))
             ProfileLayout(
@@ -99,13 +100,13 @@ fun MyPageScreen(
                 profileImgUrl = user.profileImgUrl,
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
-            TendencyComponent(
-                modifier = Modifier.padding(horizontal = 20.dp)
-            )
+            TendencyComponent(modifier = Modifier.padding(horizontal = 20.dp))
 
-            Spacer(modifier = Modifier.height(24.dp))
-            MyActivityMenuLayout()
+            MenuLayout(navOnAppInfo = navOnAppInfo, onAction = onAction)
+
+            FooterLayout()
+        }
+    }
             SettingMenuLayout()
             AppInfoMenuLayout(
                 navOnAppInfo = { navOnAppInfo() }
@@ -215,6 +216,22 @@ fun TendencyComponent(
 }
 
 @Composable
+fun MenuLayout(
+    navOnAppInfo: () -> Unit = {},
+    onAction: (MyPageIntent) -> Unit,
+) {
+    Column {
+        MyActivityMenuLayout()
+        SettingMenuLayout()
+        AppInfoMenuLayout(
+            navOnAppInfo = { navOnAppInfo() }
+        )
+        EtcMenuLayout(onAction = onAction)
+    }
+}
+
+
+@Composable
 fun MyActivityMenuLayout() {
     Column {
         MenuTitleComponent(title = "내 활동")
@@ -253,5 +270,19 @@ fun EtcMenuLayout(onAction: (MyPageIntent) -> Unit) {
         MenuComponent(title = "로그아웃") {
             onAction(MyPageIntent.ShowLogoutPopup(true))
         }
+    }
+}
+
+@Composable
+fun FooterLayout() {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .padding(bottom = 32.dp)) {
+        Text(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            text = "Copyright ©2024 WePLi",
+            style = WepliTheme.typo.body4,
+            color = WepliTheme.color.gray400,
+        )
     }
 }
