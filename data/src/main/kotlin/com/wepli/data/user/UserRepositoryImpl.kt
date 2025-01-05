@@ -5,6 +5,7 @@ import com.wepli.data.datastore.local.DataStorePrefDataSource
 import extensions.parseFromJson
 import extensions.toJsonString
 import model.user.User
+import repository.user.UserRepository
 import java.time.Instant
 import javax.inject.Inject
 

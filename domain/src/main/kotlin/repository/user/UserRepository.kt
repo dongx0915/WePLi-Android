@@ -1,4 +1,4 @@
-package com.wepli.data.user
+package repository.user
 
 import model.user.User
 import java.time.Instant

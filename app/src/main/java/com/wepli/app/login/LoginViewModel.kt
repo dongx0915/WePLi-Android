@@ -1,6 +1,5 @@
 package com.wepli.app.login
 
-import android.util.Log
 import androidx.credentials.Credential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
@@ -12,7 +11,6 @@ import base.UiState
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.wepli.core.common.BuildConfig
-import com.wepli.data.user.UserRepository
 import com.wepli.shared.feature.mock.recommendPlaylistMockData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.jan.supabase.SupabaseClient
@@ -26,6 +24,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.toJavaInstant
 import model.user.User
+import repository.user.UserRepository
 import java.security.MessageDigest
 import java.util.UUID
 import javax.inject.Inject
