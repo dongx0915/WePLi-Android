@@ -37,8 +37,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
 import com.wepli.designsystem.R
-import com.wepli.mypage.component.MenuComponent
-import com.wepli.mypage.component.MenuTitleComponent
+import com.wepli.mypage.common.MenuSection
+import com.wepli.mypage.component.MenuLayout
 import com.wepli.mypage.menus.mypage.viewmodel.MyPageEffect
 import com.wepli.mypage.menus.mypage.viewmodel.MyPageIntent
 import com.wepli.mypage.menus.mypage.viewmodel.MyPageUiState
@@ -57,9 +57,54 @@ import theme.WepliTheme
 fun MyPageScreenPreview() {
     MyPageScreen(
         user = userMockData.random(),
+        menuSections = listOf(
+            MenuSection(
+                title = "내 활동",
+                items = listOf(
+                    MenuSection.MenuItem("내 플레이리스트", MyPageIntent.None),
+                    MenuSection.MenuItem("참여한 릴레이리스트", MyPageIntent.None),
+                    MenuSection.MenuItem("좋아요 • 저장", MyPageIntent.None),
+                )
+            ),
+            MenuSection(
+                title = "설정",
+                items = listOf(
+                    MenuSection.MenuItem("알림 설정", MyPageIntent.None),
+                )
+            ),
+            MenuSection(
+                title = "앱 정보",
+                items = listOf(
+                    MenuSection.MenuItem("서비스 이용 가이드", MyPageIntent.None),
+                    MenuSection.MenuItem("공지 • 이용약관", MyPageIntent.NavigateOnAppInfo),
+                    MenuSection.MenuItem("앱 버전", MyPageIntent.None),
+                )
+            ),
+            MenuSection(
+                title = "기타",
+                items = listOf(
+                    MenuSection.MenuItem("로그아웃", MyPageIntent.ShowLogoutPopup(true)),
+                )
+            )
+        ),
         showLogoutPopup = false,
-        navOnAppInfo = {}
+        navOnAppInfo = {},
+        onAction = {}
     )
+}
+
+private fun handleSideEffect(
+    context: Context,
+    sideEffect: MyPageEffect,
+    goToLoginActivity: () -> Unit
+) {
+    when (sideEffect) {
+        is MyPageEffect.SuccessLogout -> {
+            Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+            goToLoginActivity()
+        }
+        MyPageEffect.NavigateOnAppInfo -> {}
+    }
 }
 
 @Composable
@@ -70,19 +115,12 @@ fun MyPageScreenRoute(
 ) {
     val context: Context = LocalContext.current
     val state: MyPageUiState by viewModel.collectAsState()
-    val user: UserUiData = state.user
 
-    viewModel.collectSideEffect { sideEffect ->
-        when (sideEffect) {
-            is MyPageEffect.SuccessLogout -> {
-                Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
-                goToLoginActivity()
-            }
-        }
-    }
+    viewModel.collectSideEffect { sideEffect -> handleSideEffect(context, sideEffect, goToLoginActivity) }
 
     MyPageScreen(
-        user = user,
+        user = state.user,
+        menuSections = state.menuSections,
         showLogoutPopup = state.showLogoutPopup,
         navOnAppInfo = navOnAppInfo,
         onAction = viewModel::processIntent
@@ -94,9 +132,10 @@ fun MyPageScreenRoute(
 @Composable
 fun MyPageScreen(
     user: UserUiData,
+    menuSections: List<MenuSection>,
     showLogoutPopup: Boolean,
     navOnAppInfo: () -> Unit,
-    onAction: (MyPageIntent) -> Unit = {},
+    onAction: (MyPageIntent) -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -126,7 +165,10 @@ fun MyPageScreen(
 
             TendencyComponent(modifier = Modifier.padding(horizontal = 20.dp))
 
-            MenuLayout(navOnAppInfo = navOnAppInfo, onAction = onAction)
+            MenuLayout(
+                sections = menuSections,
+                onAction = { (it as? MyPageIntent)?.let(onAction::invoke) }
+            )
 
             FooterLayout()
         }
@@ -241,64 +283,6 @@ fun TendencyComponent(
             style = WepliTheme.typo.subTitle5,
             color = WepliTheme.color.gray700
         )
-    }
-}
-
-@Composable
-fun MenuLayout(
-    navOnAppInfo: () -> Unit = {},
-    onAction: (MyPageIntent) -> Unit,
-) {
-    Column {
-        MyActivityMenuLayout()
-        SettingMenuLayout()
-        AppInfoMenuLayout(
-            navOnAppInfo = { navOnAppInfo() }
-        )
-        EtcMenuLayout(onAction = onAction)
-    }
-}
-
-
-@Composable
-fun MyActivityMenuLayout() {
-    Column {
-        MenuTitleComponent(title = "내 활동")
-        MenuComponent(title = "내 플레이리스트")
-        MenuComponent(title = "참여한 릴레이리스트")
-        MenuComponent(title = "좋아요 • 저장")
-    }
-}
-
-@Composable
-fun SettingMenuLayout() {
-    Column {
-        MenuTitleComponent(title = "설정")
-        MenuComponent(title = "알림 설정")
-    }
-}
-
-@Composable
-fun AppInfoMenuLayout(
-    navOnAppInfo: () -> Unit
-) {
-    Column {
-        MenuTitleComponent(title = "앱 정보")
-        MenuComponent(title = "서비스 이용 가이드")
-        MenuComponent(title = "공지 • 이용약관") {
-            navOnAppInfo()
-        }
-        MenuComponent(title = "앱 버전")
-    }
-}
-
-@Composable
-fun EtcMenuLayout(onAction: (MyPageIntent) -> Unit) {
-    Column {
-        MenuTitleComponent(title = "기타")
-        MenuComponent(title = "로그아웃") {
-            onAction(MyPageIntent.ShowLogoutPopup(true))
-        }
     }
 }
 

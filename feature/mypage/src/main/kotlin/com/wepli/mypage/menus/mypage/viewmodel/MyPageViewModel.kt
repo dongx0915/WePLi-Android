@@ -4,6 +4,7 @@ import base.BaseMviViewModel
 import base.Intent
 import base.SideEffect
 import base.UiState
+import com.wepli.mypage.common.MenuSection
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -14,16 +15,20 @@ import javax.inject.Inject
 
 data class MyPageUiState(
     val user: UserUiData,
-    val showLogoutPopup: Boolean = false
+    val showLogoutPopup: Boolean = false,
+    val menuSections: List<MenuSection> = emptyList()
 ) : UiState
 
 interface MyPageEffect : SideEffect {
     data object SuccessLogout : MyPageEffect
+    data object NavigateOnAppInfo : MyPageEffect
 }
 
 interface MyPageIntent : Intent {
+    data object None : MyPageIntent
     data class ShowLogoutPopup(val isShow: Boolean) : MyPageIntent
     data object RequestLogout : MyPageIntent
+    data object NavigateOnAppInfo : MyPageIntent
 }
 
 @HiltViewModel
@@ -35,12 +40,49 @@ class MyPageViewModel @Inject constructor(
 
     init {
         loadUser()
+        setMenuSections()
+    }
+
+    private fun setMenuSections() = intent {
+        val menuSections = listOf(
+            MenuSection(
+                title = "내 활동",
+                items = listOf(
+                    MenuSection.MenuItem("내 플레이리스트", MyPageIntent.None),
+                    MenuSection.MenuItem("참여한 릴레이리스트", MyPageIntent.None),
+                    MenuSection.MenuItem("좋아요 • 저장", MyPageIntent.None),
+                )
+            ),
+            MenuSection(
+                title = "설정",
+                items = listOf(
+                    MenuSection.MenuItem("알림 설정", MyPageIntent.None),
+                )
+            ),
+            MenuSection(
+                title = "앱 정보",
+                items = listOf(
+                    MenuSection.MenuItem("서비스 이용 가이드", MyPageIntent.None),
+                    MenuSection.MenuItem("공지 • 이용약관", MyPageIntent.NavigateOnAppInfo),
+                    MenuSection.MenuItem("앱 버전", MyPageIntent.None),
+                )
+            ),
+            MenuSection(
+                title = "기타",
+                items = listOf(
+                    MenuSection.MenuItem("로그아웃", MyPageIntent.ShowLogoutPopup(true)),
+                )
+            )
+        )
+
+        reduce { state.copy(menuSections = menuSections) }
     }
 
     override fun processIntent(intent: MyPageIntent) {
         when (intent) {
             is MyPageIntent.ShowLogoutPopup -> handleOnClickLogout(intent.isShow)
             MyPageIntent.RequestLogout -> handleRequestLogout()
+            MyPageIntent.NavigateOnAppInfo -> handleNavigateOnAppInfo()
         }
     }
 
@@ -63,5 +105,9 @@ class MyPageViewModel @Inject constructor(
         }
 
         postSideEffect(MyPageEffect.SuccessLogout)
+    }
+
+    private fun handleNavigateOnAppInfo() = intent {
+        postSideEffect(MyPageEffect.NavigateOnAppInfo)
     }
 }
