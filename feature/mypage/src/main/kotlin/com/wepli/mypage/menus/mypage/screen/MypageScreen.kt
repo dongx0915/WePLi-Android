@@ -107,21 +107,26 @@ fun MyPageScreen(
             FooterLayout()
         }
     }
-            SettingMenuLayout()
-            AppInfoMenuLayout(
-                navOnAppInfo = { navOnAppInfo() }
-            )
 
-            Spacer(modifier = Modifier.height(24.dp))
-            Text(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                text = "Copyright ©2024 WePLi",
-                style = WepliTheme.typo.body4,
-                color = WepliTheme.color.gray400,
-            )
-            Spacer(modifier = Modifier.height(32.dp))
-        }
+    if (showLogoutPopup) {
+        LogoutDialog(onAction)
     }
+}
+
+@Composable
+fun LogoutDialog(
+    onAction: (MyPageIntent) -> Unit
+) {
+    WepliDialog(
+        title = "로그아웃",
+        subTitle = "로그아웃 하시겠습니까?",
+        dialogType = WepliDialogType.TwoButton(
+            okButtonText = "확인",
+            cancelButtonText = "취소",
+            okButtonClick = { onAction(MyPageIntent.RequestLogout) },
+            cancelButtonClick = { onAction(MyPageIntent.ShowLogoutPopup(false)) }
+        ),
+    )
 }
 
 @Composable
@@ -167,7 +172,7 @@ fun ProfileLayout(
             profileImgUrl = profileImgUrl,
         )
         Spacer(modifier = Modifier.width(20.dp))
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.CenterVertically)
