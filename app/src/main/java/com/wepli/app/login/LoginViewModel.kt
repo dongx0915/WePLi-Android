@@ -1,5 +1,6 @@
 package com.wepli.app.login
 
+import android.util.Log
 import androidx.credentials.Credential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
@@ -11,15 +12,20 @@ import base.UiState
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.wepli.core.common.BuildConfig
+import com.wepli.data.user.UserRepository
 import com.wepli.shared.feature.mock.recommendPlaylistMockData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.Google
 import io.github.jan.supabase.auth.providers.builtin.IDToken
+import io.github.jan.supabase.auth.user.UserInfo
+import io.github.jan.supabase.auth.user.UserSession
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.toJavaInstant
+import model.user.User
 import java.security.MessageDigest
 import java.util.UUID
 import javax.inject.Inject
@@ -31,7 +37,8 @@ sealed interface LoginIntent: Intent {
 }
 
 sealed interface LoginEffect: SideEffect{
-    data class ShowToast(val message: String) : LoginEffect
+    data class GoogleLoginError(val message: String) : LoginEffect
+    data object GoogleSessionError : LoginEffect
     data object NavigateToMain : LoginEffect
 }
 
@@ -41,13 +48,24 @@ data class LoginState(
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val supabase: SupabaseClient
+    private val supabase: SupabaseClient,
+    private val userRepository: UserRepository,
 ) : BaseMviViewModel<LoginState, LoginEffect, LoginIntent>(
     initialState = LoginState(albumImages = emptyList())
 ) {
 
     init {
+        // TODO 자동 로그인은 추후 Splash로 이동 필요
+        checkAutoLogin()
         loadAlbumImages()
+    }
+
+    private fun checkAutoLogin() = intent {
+        viewModelScope.launch {
+            if (userRepository.isUserSessionValid()) {
+                postSideEffect(LoginEffect.NavigateToMain)
+            }
+        }
     }
 
     override fun processIntent(intent: LoginIntent) {
@@ -73,15 +91,17 @@ class LoginViewModel @Inject constructor(
             runCatching {
                 authenticateWithGoogle(request, getCredential, hashedNonce)
             }.onSuccess {
-                /* TODO 자동 로그인 처리시 필요
-                    val session = supabase.auth.currentSessionOrNull()
-                    session?.expiresAt
-                    session?.accessToken
-                    session?.refreshToken
-                */
-                postSideEffect(LoginEffect.NavigateToMain)
+                val result = supabase.auth.currentSessionOrNull()?.run {
+                    saveLoginResult(this)
+                } ?: false
+
+                if (result) {
+                    postSideEffect(LoginEffect.NavigateToMain)
+                } else {
+                    postSideEffect(LoginEffect.GoogleSessionError)
+                }
             }.onFailure {
-                postSideEffect(LoginEffect.ShowToast("로그인 실패: ${it.message}"))
+                postSideEffect(LoginEffect.GoogleLoginError(it.message.toString()))
             }
         }
     }
@@ -118,6 +138,31 @@ class LoginViewModel @Inject constructor(
             idToken = googleIdToken
             provider = Google
             nonce = rawNonce
+        }
+    }
+
+    private suspend fun saveLoginResult(session: UserSession): Boolean {
+        return withContext(Dispatchers.IO) {
+            val user: UserInfo = session.user ?: return@withContext false
+            val userNickname: String = user.userMetadata?.get("name")?.toString().orEmpty()
+            val userAvatarUrl: String = user.userMetadata?.get("avatar_url")?.toString().orEmpty()
+
+            with(userRepository) {
+                saveUserSession(
+                    accessToken = session.accessToken,
+                    refreshToken = session.refreshToken,
+                    expiredAt = session.expiresAt.toJavaInstant()
+                )
+                setUserData(
+                    User(
+                        email = user.email.orEmpty(),
+                        nickname = userNickname,
+                        profileImgUrl = userAvatarUrl
+                    )
+                )
+            }
+
+            true
         }
     }
 }
