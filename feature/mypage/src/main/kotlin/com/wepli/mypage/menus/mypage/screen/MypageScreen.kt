@@ -245,3 +245,13 @@ fun AppInfoMenuLayout(
         MenuComponent(title = "앱 버전")
     }
 }
+
+@Composable
+fun EtcMenuLayout(onAction: (MyPageIntent) -> Unit) {
+    Column {
+        MenuTitleComponent(title = "기타")
+        MenuComponent(title = "로그아웃") {
+            onAction(MyPageIntent.ShowLogoutPopup(true))
+        }
+    }
+}
