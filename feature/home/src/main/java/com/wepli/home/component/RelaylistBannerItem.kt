@@ -20,7 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
@@ -91,7 +90,7 @@ fun RelaylistBannerComponent(
             Column(
                 modifier = Modifier
                     .padding(horizontal = 20.dp)
-                    .padding(bottom = 20.dp)
+                    .padding(bottom = 28.dp)
                     .graphicsLayer {
                         alpha = textAlpha
                         translationY = textTranslationY
@@ -100,12 +99,10 @@ fun RelaylistBannerComponent(
                 Text(
                     text = item.title,
                     color = WepliTheme.color.gray900,
-                    style = WepliTheme.typo.title2.copy(
-                        fontWeight = FontWeight.Bold
-                    ),
+                    style = WepliTheme.typo.title1,
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
                     text = item.description,
