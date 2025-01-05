@@ -1,9 +1,12 @@
 package com.wepli.mypage.menus.mypage.screen
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,12 +39,17 @@ import appbar.WepliAppBar
 import com.wepli.designsystem.R
 import com.wepli.mypage.component.MenuComponent
 import com.wepli.mypage.component.MenuTitleComponent
+import com.wepli.mypage.menus.mypage.viewmodel.MyPageEffect
+import com.wepli.mypage.menus.mypage.viewmodel.MyPageIntent
 import com.wepli.mypage.menus.mypage.viewmodel.MyPageUiState
 import com.wepli.mypage.menus.mypage.viewmodel.MyPageViewModel
 import com.wepli.shared.feature.mock.userMockData
 import com.wepli.shared.feature.uimodel.user.UserUiData
+import component.dialog.WepliDialog
+import component.dialog.WepliDialogType
 import image.AsyncImageWithPreview
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 import theme.WepliTheme
 
 @Preview
@@ -48,6 +57,7 @@ import theme.WepliTheme
 fun MyPageScreenPreview() {
     MyPageScreen(
         user = userMockData.random(),
+        showLogoutPopup = false,
         navOnAppInfo = {}
     )
 }
@@ -56,13 +66,26 @@ fun MyPageScreenPreview() {
 fun MyPageScreenRoute(
     viewModel: MyPageViewModel = hiltViewModel(),
     navOnAppInfo: () -> Unit,
+    goToLoginActivity: () -> Unit,
 ) {
+    val context: Context = LocalContext.current
     val state: MyPageUiState by viewModel.collectAsState()
     val user: UserUiData = state.user
 
+    viewModel.collectSideEffect { sideEffect ->
+        when(sideEffect) {
+            is MyPageEffect.SuccessLogout -> {
+                Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+                goToLoginActivity()
+            }
+        }
+    }
+
     MyPageScreen(
         user = user,
-        navOnAppInfo = navOnAppInfo
+        showLogoutPopup = state.showLogoutPopup,
+        navOnAppInfo = navOnAppInfo,
+        onAction = viewModel::processIntent
     )
 }
 
@@ -71,7 +94,9 @@ fun MyPageScreenRoute(
 @Composable
 fun MyPageScreen(
     user: UserUiData,
+    showLogoutPopup: Boolean,
     navOnAppInfo: () -> Unit,
+    onAction: (MyPageIntent) -> Unit = {},
 ) {
     val scrollState = rememberScrollState()
 
@@ -92,7 +117,6 @@ fun MyPageScreen(
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            Spacer(modifier = Modifier.height(24.dp))
             ProfileLayout(
                 modifier = Modifier.padding(horizontal = 20.dp),
                 nickname = user.nickname,

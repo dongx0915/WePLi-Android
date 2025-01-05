@@ -13,27 +13,35 @@ import repository.user.UserRepository
 import javax.inject.Inject
 
 data class MyPageUiState(
-    val user: UserUiData
+    val user: UserUiData,
+    val showLogoutPopup: Boolean = false
 ) : UiState
 
-interface MyPageEffect : SideEffect
+interface MyPageEffect : SideEffect {
+    data object SuccessLogout : MyPageEffect
+}
 
-interface MyPageIntent : Intent
-
+interface MyPageIntent : Intent {
+    data class ShowLogoutPopup(val isShow: Boolean) : MyPageIntent
+    data object RequestLogout : MyPageIntent
+}
 
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
     private val userRepository: UserRepository,
 ) : BaseMviViewModel<MyPageUiState, MyPageEffect, MyPageIntent>(
     initialState = MyPageUiState(user = UserUiData())
-){
-
-    override fun processIntent(intent: MyPageIntent) {
-        //
-    }
+) {
 
     init {
         loadUser()
+    }
+
+    override fun processIntent(intent: MyPageIntent) {
+        when (intent) {
+            is MyPageIntent.ShowLogoutPopup -> handleOnClickLogout(intent.isShow)
+            MyPageIntent.RequestLogout -> handleRequestLogout()
+        }
     }
 
     private fun loadUser() = intent {
@@ -43,5 +51,17 @@ class MyPageViewModel @Inject constructor(
                 reduce { state.copy(user = UserUiData.fromDomain(it)) }
             }
         }
+    }
+
+    private fun handleOnClickLogout(isShow: Boolean) = intent {
+        reduce { state.copy(showLogoutPopup = isShow) }
+    }
+
+    private fun handleRequestLogout() = intent {
+        withContext(Dispatchers.IO) {
+            userRepository.clearUserData()
+        }
+
+        postSideEffect(MyPageEffect.SuccessLogout)
     }
 }
