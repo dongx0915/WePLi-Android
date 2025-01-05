@@ -1,6 +1,7 @@
 package com.wepli.app
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -37,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.wepli.app.login.LoginActivity
 import com.wepli.app.navigation.BottomNavRoute
 import com.wepli.app.navigation.SetUpNavGraph
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,7 +60,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             WePLiTheme {
-                MainApp()
+                MainApp {
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
+                }
             }
         }
     }
@@ -66,7 +71,9 @@ class MainActivity : ComponentActivity() {
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "RememberReturnType")
 @Composable
-fun MainApp() {
+fun MainApp(
+    goToLoginActivity: () -> Unit
+) {
     val navController = rememberNavController()
     val bottomNavItems = remember {
         listOf(
@@ -122,7 +129,11 @@ fun MainApp() {
                 .haze(hazeState)
                 .fillMaxSize()
         ) {
-            SetUpNavGraph(navController = navController, startDestination = BottomNavRoute.Home.route)
+            SetUpNavGraph(
+                navController = navController,
+                startDestination = BottomNavRoute.Home.route,
+                goToLoginActivity = { goToLoginActivity() }
+            )
         }
     }
 }

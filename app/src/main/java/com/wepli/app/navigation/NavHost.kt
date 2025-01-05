@@ -25,6 +25,7 @@ import com.wepli.search.navigation.searchGraph
 fun SetUpNavGraph(
     navController: NavHostController,
     startDestination: String,
+    goToLoginActivity: () -> Unit,
 ) {
     NavHost(
         navController = navController,
@@ -55,7 +56,7 @@ fun SetUpNavGraph(
         playlistGraph(navController)
 
         // 마이페이지 Graph
-        mypageGraph(navController)
+        mypageGraph(navController, goToLoginActivity)
     }
 }
 
@@ -77,9 +78,13 @@ fun NavGraphBuilder.playlistGraph(navController: NavHostController) {
 }
 
 // 마이페이지 Graph
-fun NavGraphBuilder.mypageGraph(navController: NavHostController) {
+fun NavGraphBuilder.mypageGraph(
+    navController: NavHostController,
+    goToLoginActivity: () -> Unit,
+) {
     mypageMainGraph(
-        navOnAppInfo = { navController.navigateToAppInfo() }
+        navOnAppInfo = { navController.navigateToAppInfo() },
+        goToLoginActivity = { goToLoginActivity() }
     )
     mypageAppInfoGraph(
         navOnBack = { navController.navigateToBack() }
