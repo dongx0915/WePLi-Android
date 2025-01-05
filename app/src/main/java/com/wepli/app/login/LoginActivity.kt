@@ -29,7 +29,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -74,12 +73,25 @@ class LoginActivity : ComponentActivity() {
                 val viewModel = hiltViewModel<LoginViewModel>()
                 val state: LoginState by viewModel.collectAsState()
 
-                LoginScreen(
-                    albumImages = state.albumImages
-                ) {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
+                viewModel.collectSideEffect {
+                    when (it) {
+                        is LoginEffect.GoogleLoginError -> {
+                            Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                        }
+                        LoginEffect.GoogleSessionError -> {
+                            Toast.makeText(this, "유저 정보 조회에 실패하였습니다. 잠시 후 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+                        }
+                        LoginEffect.NavigateToMain -> {
+                            startActivity(Intent(this, MainActivity::class.java))
+                            finish()
+                        }
+                    }
                 }
+
+                LoginScreen(
+                    albumImages = state.albumImages,
+                    onSendIntent = viewModel::processIntent
+                )
             }
         }
     }
@@ -87,24 +99,12 @@ class LoginActivity : ComponentActivity() {
 
 @Composable
 fun LoginScreen(
-    viewModel: LoginViewModel = hiltViewModel(),
     albumImages: List<String>,
-    onNavigateMain: () -> Unit = {}
+    onSendIntent: (LoginIntent) -> Unit
 ) {
     val context = LocalContext.current
     val credentialManager = CredentialManager.create(context)
     val navBarBottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
-
-    viewModel.collectSideEffect {
-        when (it) {
-            is LoginEffect.ShowToast -> {
-                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
-            }
-            LoginEffect.NavigateToMain -> {
-                onNavigateMain()
-            }
-        }
-    }
 
     Column(
         modifier = Modifier
@@ -122,9 +122,11 @@ fun LoginScreen(
             iconVector = ImageVector.vectorResource(id = com.wepli.app.R.drawable.ic_google_logo),
             buttonText = "Google로 시작하기",
         ) {
-            LoginIntent.RequestGoogleLogin { request ->
-                credentialManager.getCredential(request = request, context = context)
-            }.let(viewModel::processIntent)
+            onSendIntent(
+                LoginIntent.RequestGoogleLogin { request ->
+                    credentialManager.getCredential(request = request, context = context)
+                }
+            )
         }
 
         TermsText()
@@ -268,8 +270,8 @@ fun TermsText(
 @Composable
 fun LoginScreenPreview() {
     LoginScreen(
-        viewModel = hiltViewModel(),
-        albumImages = musicMockData.map { it.albumCoverUrl }
+        albumImages = musicMockData.map { it.albumCoverUrl },
+        onSendIntent = {}
     )
 }
 
