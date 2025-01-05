@@ -36,4 +36,9 @@ class UserRepositoryImpl @Inject constructor(
             return Instant.ofEpochMilli(expiredAt).isAfter(Instant.now())
         }
     }
+
+    override suspend fun clearUserData() {
+        setUserData(User("", "", "",))
+        saveUserSession("", "", Instant.now())
+    }
 }

@@ -15,4 +15,6 @@ interface UserRepository {
     )
 
     suspend fun isUserSessionValid(): Boolean
+
+    suspend fun clearUserData()
 }
