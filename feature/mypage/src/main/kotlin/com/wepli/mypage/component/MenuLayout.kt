@@ -23,7 +23,7 @@ import theme.WepliTheme
 fun MenuLayout(
     sections: List<MenuSection>,
     onAction: (Intent) -> Unit
-    ) {
+) {
     Column {
         sections.forEach { section ->
             MenuTitleComponent(title = section.title)
