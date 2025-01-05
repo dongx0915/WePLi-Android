@@ -14,8 +14,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import base.Intent
 import com.wepli.designsystem.R
+import com.wepli.mypage.common.MenuSection
 import theme.WepliTheme
+
+@Composable
+fun MenuLayout(
+    sections: List<MenuSection>,
+    onAction: (Intent) -> Unit
+) {
+    Column {
+        sections.forEach { section ->
+            MenuTitleComponent(title = section.title)
+            section.items.forEach { item ->
+                MenuComponent(title = item.title, onClickMenu = { onAction(item.intent) })
+            }
+        }
+    }
+}
 
 @Preview
 @Composable

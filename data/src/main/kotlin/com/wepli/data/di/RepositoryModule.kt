@@ -6,7 +6,6 @@ import repository.chart.ChartRepository
 import com.wepli.data.chart.repository.ChartRepositoryImpl
 import com.wepli.data.playlist.repository.PlaylistRepositoryImpl
 import com.wepli.data.relaylist.repository.RelaylistRepositoryImpl
-import com.wepli.data.user.UserRepository
 import com.wepli.data.user.UserRepositoryImpl
 import dagger.Binds
 import dagger.Module
@@ -16,6 +15,7 @@ import repository.applemusic.AppleMusicRepository
 import repository.artist.ArtistRepository
 import repository.playlist.PlaylistRepository
 import repository.relaylist.RelaylistRepository
+import repository.user.UserRepository
 import javax.inject.Singleton
 
 @Module

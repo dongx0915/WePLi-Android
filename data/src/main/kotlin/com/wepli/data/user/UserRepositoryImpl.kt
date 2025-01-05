@@ -5,6 +5,7 @@ import com.wepli.data.datastore.local.DataStorePrefDataSource
 import extensions.parseFromJson
 import extensions.toJsonString
 import model.user.User
+import repository.user.UserRepository
 import java.time.Instant
 import javax.inject.Inject
 
@@ -33,6 +34,17 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun isUserSessionValid(): Boolean {
         dataStorePrefDataSource.getLong(DataStoreKey.EXPIRED_AT, 0).let { expiredAt ->
             return Instant.ofEpochMilli(expiredAt).isAfter(Instant.now())
+        }
+    }
+
+    override suspend fun clearUserData() {
+        dataStorePrefDataSource.apply {
+            with(DataStoreKey) {
+                removeString(USER)
+                removeString(ACCESS_TOKEN)
+                removeString(REFRESH_TOKEN)
+                removeLong(EXPIRED_AT)
+            }
         }
     }
 }

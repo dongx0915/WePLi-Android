@@ -1,9 +1,12 @@
 package com.wepli.mypage.menus.mypage.screen
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,35 +25,106 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
-import coil.compose.SubcomposeAsyncImage
-import coil.request.ImageRequest
 import com.wepli.designsystem.R
-import com.wepli.mypage.component.MenuComponent
-import com.wepli.mypage.component.MenuTitleComponent
+import com.wepli.mypage.common.MenuSection
+import com.wepli.mypage.component.MenuLayout
+import com.wepli.mypage.menus.mypage.viewmodel.MyPageEffect
+import com.wepli.mypage.menus.mypage.viewmodel.MyPageIntent
+import com.wepli.mypage.menus.mypage.viewmodel.MyPageUiState
 import com.wepli.mypage.menus.mypage.viewmodel.MyPageViewModel
+import com.wepli.shared.feature.mock.userMockData
+import com.wepli.shared.feature.uimodel.user.UserUiData
+import component.dialog.WepliDialog
+import component.dialog.WepliDialogType
+import image.AsyncImageWithPreview
+import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 import theme.WepliTheme
 
 @Preview
 @Composable
 fun MyPageScreenPreview() {
     MyPageScreen(
-        navOnAppInfo = {}
+        user = userMockData.random(),
+        menuSections = listOf(
+            MenuSection(
+                title = "내 활동",
+                items = listOf(
+                    MenuSection.MenuItem("내 플레이리스트", MyPageIntent.None),
+                    MenuSection.MenuItem("참여한 릴레이리스트", MyPageIntent.None),
+                    MenuSection.MenuItem("좋아요 • 저장", MyPageIntent.None),
+                )
+            ),
+            MenuSection(
+                title = "설정",
+                items = listOf(
+                    MenuSection.MenuItem("알림 설정", MyPageIntent.None),
+                )
+            ),
+            MenuSection(
+                title = "앱 정보",
+                items = listOf(
+                    MenuSection.MenuItem("서비스 이용 가이드", MyPageIntent.None),
+                    MenuSection.MenuItem("공지 • 이용약관", MyPageIntent.NavigateOnAppInfo),
+                    MenuSection.MenuItem("앱 버전", MyPageIntent.None),
+                )
+            ),
+            MenuSection(
+                title = "기타",
+                items = listOf(
+                    MenuSection.MenuItem("로그아웃", MyPageIntent.ShowLogoutPopup(true)),
+                )
+            )
+        ),
+        showLogoutPopup = false,
+        navOnAppInfo = {},
+        onAction = {}
+    )
+}
+
+private fun handleSideEffect(
+    context: Context,
+    sideEffect: MyPageEffect,
+    navOnAppInfo: () -> Unit,
+    goToLoginActivity: () -> Unit
+) {
+    when (sideEffect) {
+        is MyPageEffect.SuccessLogout -> {
+            Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+            goToLoginActivity()
+        }
+        MyPageEffect.NavigateOnAppInfo -> navOnAppInfo()
+    }
+}
+
+@Composable
+fun MyPageScreenRoute(
+    viewModel: MyPageViewModel = hiltViewModel(),
+    navOnAppInfo: () -> Unit,
+    goToLoginActivity: () -> Unit,
+) {
+    val context: Context = LocalContext.current
+    val state: MyPageUiState by viewModel.collectAsState()
+
+    viewModel.collectSideEffect { sideEffect -> handleSideEffect(context, sideEffect, navOnAppInfo, goToLoginActivity) }
+
+    MyPageScreen(
+        user = state.user,
+        menuSections = state.menuSections,
+        showLogoutPopup = state.showLogoutPopup,
+        navOnAppInfo = navOnAppInfo,
+        onAction = viewModel::processIntent
     )
 }
 
@@ -58,11 +132,12 @@ fun MyPageScreenPreview() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyPageScreen(
-    viewModel: MyPageViewModel = hiltViewModel(),
+    user: UserUiData,
+    menuSections: List<MenuSection>,
+    showLogoutPopup: Boolean,
     navOnAppInfo: () -> Unit,
+    onAction: (MyPageIntent) -> Unit,
 ) {
-    val state by viewModel.state.collectAsState()
-    val user by rememberUpdatedState(newValue = state.user)
     val scrollState = rememberScrollState()
 
     Scaffold(
@@ -80,8 +155,8 @@ fun MyPageScreen(
                 .padding(bottom = paddingValues.calculateBottomPadding())
                 .verticalScroll(scrollState)
                 .fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            Spacer(modifier = Modifier.height(24.dp))
             ProfileLayout(
                 modifier = Modifier.padding(horizontal = 20.dp),
                 nickname = user.nickname,
@@ -89,28 +164,36 @@ fun MyPageScreen(
                 profileImgUrl = user.profileImgUrl,
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
-            TendencyComponent(
-                modifier = Modifier.padding(horizontal = 20.dp)
+            TendencyComponent(modifier = Modifier.padding(horizontal = 20.dp))
+
+            MenuLayout(
+                sections = menuSections,
+                onAction = { (it as? MyPageIntent)?.let(onAction::invoke) }
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
-            MyActivityMenuLayout()
-            SettingMenuLayout()
-            AppInfoMenuLayout(
-                navOnAppInfo = { navOnAppInfo() }
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-            Text(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                text = "Copyright ©2024 WePLi",
-                style = WepliTheme.typo.body4,
-                color = WepliTheme.color.gray400,
-            )
-            Spacer(modifier = Modifier.height(32.dp))
+            FooterLayout()
         }
     }
+
+    if (showLogoutPopup) {
+        LogoutDialog(onAction)
+    }
+}
+
+@Composable
+fun LogoutDialog(
+    onAction: (MyPageIntent) -> Unit
+) {
+    WepliDialog(
+        title = "로그아웃",
+        subTitle = "로그아웃 하시겠습니까?",
+        dialogType = WepliDialogType.TwoButton(
+            okButtonText = "확인",
+            cancelButtonText = "취소",
+            okButtonClick = { onAction(MyPageIntent.RequestLogout) },
+            cancelButtonClick = { onAction(MyPageIntent.ShowLogoutPopup(false)) }
+        ),
+    )
 }
 
 @Composable
@@ -118,35 +201,20 @@ fun ProfileImage(
     modifier: Modifier = Modifier,
     profileImgUrl: String,
 ) {
-    val isInPreview = LocalInspectionMode.current
-    val imageModifier = modifier.border(
-        width = 1.dp,
-        brush = WepliTheme.color.linear3,
-        shape = CircleShape
-    ).clip(CircleShape)
+    val imageModifier = modifier
+        .border(
+            width = 1.dp,
+            brush = WepliTheme.color.linear3,
+            shape = CircleShape
+        )
+        .clip(CircleShape)
 
     Box {
-        if (isInPreview) {
-            Image(
-                modifier = imageModifier,
-                painter = painterResource(id = R.drawable.img_placeholder_eunbin),
-                contentDescription = null
-            )
-        } else {
-            val context = LocalContext.current
-            val imageRequest = remember(profileImgUrl) {
-                ImageRequest.Builder(context).apply {
-                    data(profileImgUrl)
-                }.build()
-            }
-
-            SubcomposeAsyncImage(
-                model = imageRequest,
-                modifier = imageModifier,
-                contentScale = ContentScale.Crop,
-                contentDescription = null,
-            )
-        }
+        AsyncImageWithPreview(
+            modifier = imageModifier,
+            imageUrl = profileImgUrl,
+            previewImage = painterResource(R.drawable.img_placeholder_eunbin)
+        )
 
         Image(
             modifier = Modifier
@@ -171,7 +239,7 @@ fun ProfileLayout(
             profileImgUrl = profileImgUrl,
         )
         Spacer(modifier = Modifier.width(20.dp))
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.CenterVertically)
@@ -220,33 +288,17 @@ fun TendencyComponent(
 }
 
 @Composable
-fun MyActivityMenuLayout() {
-    Column {
-        MenuTitleComponent(title = "내 활동")
-        MenuComponent(title = "내 플레이리스트")
-        MenuComponent(title = "참여한 릴레이리스트")
-        MenuComponent(title = "좋아요 • 저장")
-    }
-}
-
-@Composable
-fun SettingMenuLayout() {
-    Column {
-        MenuTitleComponent(title = "설정")
-        MenuComponent(title = "알림 설정")
-    }
-}
-
-@Composable
-fun AppInfoMenuLayout(
-    navOnAppInfo: () -> Unit
-) {
-    Column {
-        MenuTitleComponent(title = "앱 정보")
-        MenuComponent(title = "서비스 이용 가이드")
-        MenuComponent(title = "공지 • 이용약관") {
-            navOnAppInfo()
-        }
-        MenuComponent(title = "앱 버전")
+fun FooterLayout() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 56.dp)
+    ) {
+        Text(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            text = "Copyright ©2024 WePLi",
+            style = WepliTheme.typo.body4,
+            color = WepliTheme.color.gray400,
+        )
     }
 }

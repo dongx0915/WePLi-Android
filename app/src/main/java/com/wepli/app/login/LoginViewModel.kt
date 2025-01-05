@@ -1,6 +1,5 @@
 package com.wepli.app.login
 
-import android.util.Log
 import androidx.credentials.Credential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
@@ -12,7 +11,6 @@ import base.UiState
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.wepli.core.common.BuildConfig
-import com.wepli.data.user.UserRepository
 import com.wepli.shared.feature.mock.recommendPlaylistMockData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.jan.supabase.SupabaseClient
@@ -25,7 +23,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.toJavaInstant
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.jsonPrimitive
 import model.user.User
+import repository.user.UserRepository
 import java.security.MessageDigest
 import java.util.UUID
 import javax.inject.Inject
@@ -144,8 +146,10 @@ class LoginViewModel @Inject constructor(
     private suspend fun saveLoginResult(session: UserSession): Boolean {
         return withContext(Dispatchers.IO) {
             val user: UserInfo = session.user ?: return@withContext false
-            val userNickname: String = user.userMetadata?.get("name")?.toString().orEmpty()
-            val userAvatarUrl: String = user.userMetadata?.get("avatar_url")?.toString().orEmpty()
+            val userMetadataJson: JsonObject = user.userMetadata ?: return@withContext false
+
+            val userNickname: String = userMetadataJson["name"]?.jsonPrimitive?.contentOrNull.orEmpty()
+            val userAvatarUrl: String = userMetadataJson["avatar_url"]?.jsonPrimitive?.contentOrNull.orEmpty()
 
             with(userRepository) {
                 saveUserSession(

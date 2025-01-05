@@ -1,27 +1,113 @@
 package com.wepli.mypage.menus.mypage.viewmodel
 
-import base.BaseViewModel
-import com.wepli.mypage.menus.mypage.state.MyPageState
-import com.wepli.shared.feature.mock.userMockData
+import base.BaseMviViewModel
+import base.Intent
+import base.SideEffect
+import base.UiState
+import com.wepli.mypage.common.MenuSection
+import com.wepli.shared.feature.uimodel.user.UserUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import model.user.User
+import repository.user.UserRepository
 import javax.inject.Inject
 
-@HiltViewModel
-class MyPageViewModel @Inject constructor() : BaseViewModel() {
+data class MyPageUiState(
+    val user: UserUiData,
+    val showLogoutPopup: Boolean = false,
+    val menuSections: List<MenuSection> = emptyList()
+) : UiState
 
-    private val _state: MutableStateFlow<MyPageState> = MutableStateFlow(MyPageState())
-    val state: StateFlow<MyPageState> = _state.asStateFlow()
+interface MyPageEffect : SideEffect {
+    data object SuccessLogout : MyPageEffect
+    data object NavigateOnAppInfo : MyPageEffect
+}
+
+interface MyPageIntent : Intent {
+    data object None : MyPageIntent
+    data class ShowLogoutPopup(val isShow: Boolean) : MyPageIntent
+    data object RequestLogout : MyPageIntent
+    data object NavigateOnAppInfo : MyPageIntent
+}
+
+@HiltViewModel
+class MyPageViewModel @Inject constructor(
+    private val userRepository: UserRepository,
+) : BaseMviViewModel<MyPageUiState, MyPageEffect, MyPageIntent>(
+    initialState = MyPageUiState(user = UserUiData())
+) {
 
     init {
         loadUser()
+        setMenuSections()
     }
 
-    private fun loadUser() = launchWithHandler {
-        _state.value = MyPageState(
-            user = userMockData.random()
+    private fun setMenuSections() = intent {
+        val menuSections = listOf(
+            MenuSection(
+                title = "내 활동",
+                items = listOf(
+                    MenuSection.MenuItem("내 플레이리스트", MyPageIntent.None),
+                    MenuSection.MenuItem("참여한 릴레이리스트", MyPageIntent.None),
+                    MenuSection.MenuItem("좋아요 • 저장", MyPageIntent.None),
+                )
+            ),
+            MenuSection(
+                title = "설정",
+                items = listOf(
+                    MenuSection.MenuItem("알림 설정", MyPageIntent.None),
+                )
+            ),
+            MenuSection(
+                title = "앱 정보",
+                items = listOf(
+                    MenuSection.MenuItem("서비스 이용 가이드", MyPageIntent.None),
+                    MenuSection.MenuItem("공지 • 이용약관", MyPageIntent.NavigateOnAppInfo),
+                    MenuSection.MenuItem("앱 버전", MyPageIntent.None),
+                )
+            ),
+            MenuSection(
+                title = "기타",
+                items = listOf(
+                    MenuSection.MenuItem("로그아웃", MyPageIntent.ShowLogoutPopup(true)),
+                )
+            )
         )
+
+        reduce { state.copy(menuSections = menuSections) }
+    }
+
+    override fun processIntent(intent: MyPageIntent) {
+        when (intent) {
+            is MyPageIntent.ShowLogoutPopup -> handleOnClickLogout(intent.isShow)
+            MyPageIntent.RequestLogout -> handleRequestLogout()
+            MyPageIntent.NavigateOnAppInfo -> handleNavigateOnAppInfo()
+        }
+    }
+
+    private fun loadUser() = intent {
+        launchWithHandler {
+            val user: User? = withContext(Dispatchers.IO) { userRepository.getUser() }
+            user?.let {
+                reduce { state.copy(user = UserUiData.fromDomain(it)) }
+            }
+        }
+    }
+
+    private fun handleOnClickLogout(isShow: Boolean) = intent {
+        reduce { state.copy(showLogoutPopup = isShow) }
+    }
+
+    private fun handleRequestLogout() = intent {
+        withContext(Dispatchers.IO) {
+            userRepository.clearUserData()
+        }
+
+        postSideEffect(MyPageEffect.SuccessLogout)
+    }
+
+    private fun handleNavigateOnAppInfo() = intent {
+        postSideEffect(MyPageEffect.NavigateOnAppInfo)
     }
 }
