@@ -131,7 +131,7 @@ fun RelaylistBackground(
     Box(
         modifier = modifier
             .pagerFadeTransition(page, bottomPagerState) // 전환 효과 적용
-            .blur(70.dp)
+            .blur(20.dp)
     ) {
         AsyncImageWithPreview(
             modifier = Modifier.fillMaxSize(),
