@@ -8,10 +8,13 @@ import com.wepli.data.chart.datasource.remote.ChartDataSource
 import com.wepli.data.chart.datasource.remote.ChartDataSourceImpl
 import com.wepli.data.datastore.local.DataStorePrefDataSource
 import com.wepli.data.datastore.local.DataStorePrefDataSourceImpl
+import com.wepli.data.di.qualifier.RemoteDataSource
+import com.wepli.data.di.qualifier.SupabaseDataSource
 import com.wepli.data.playlist.datasource.remote.PlaylistDataSource
 import com.wepli.data.playlist.datasource.remote.PlaylistDataSourceImpl
 import com.wepli.data.relaylist.datasource.remote.RelaylistDataSource
 import com.wepli.data.relaylist.datasource.remote.RelaylistDataSourceImpl
+import com.wepli.data.relaylist.datasource.remote.RelaylistSupabaseDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -37,6 +40,7 @@ interface DataSourceModule {
 
     @Binds
     @Singleton
+    @RemoteDataSource
     fun bindRelaylistDataSource(relaylistDataSourceImpl: RelaylistDataSourceImpl): RelaylistDataSource
 
     @Binds
@@ -46,4 +50,10 @@ interface DataSourceModule {
     @Binds
     @Singleton
     fun bindDataStoreDataSource(dataStoreDataSourceImpl: DataStorePrefDataSourceImpl): DataStorePrefDataSource
+
+    // supabase
+    @Binds
+    @Singleton
+    @SupabaseDataSource
+    fun bindRelaylistSupabaseDataSource(relaylistSupabaseDataSourceImpl: RelaylistSupabaseDataSourceImpl): RelaylistDataSource
 }
