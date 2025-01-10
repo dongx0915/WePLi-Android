@@ -6,22 +6,27 @@ import model.relaylist.Relaylist
 
 @Serializable
 data class RelaylistResponse(
+    @SerialName("id")
+    val id: Int?,
     @SerialName("title")
     val title: String?,
-    @SerialName("description")
+    @SerialName("subscription")
     val description: String?,
-    @SerialName("imageUrl")
+    @SerialName("thumbnail")
     val coverImgUrl: String?,
-    @SerialName("artwork")
-    val artwork: Artwork?
-) {
-
-    @Serializable
-    data class Artwork(
-        @SerialName("backgroundColor")
-        val backgroundColor: String?,
-    )
-}
+    @SerialName("bg_color")
+    val bgColor: String?,
+    @SerialName("song_cnt")
+    val songCount: Int,
+    @SerialName("vote_cnt")
+    val voteCount: Int,
+    @SerialName("end_date")
+    val endDate: String,
+    @SerialName("created_at")
+    val createdAt: String,
+    @SerialName("updated_at")
+    val updatedAt: String,
+)
 
 fun List<RelaylistResponse>.toEntities(): List<Relaylist> {
     return map { it.toEntity() }
@@ -32,7 +37,7 @@ fun RelaylistResponse.toEntity(): Relaylist {
         title = title.orEmpty(),
         description = description.orEmpty(),
         coverImgUrl = coverImgUrl.orEmpty(),
-        artwork = artwork?.backgroundColor?.let {
+        artwork = bgColor?.let {
             Relaylist.Artwork(backgroundColor = it.toLong(16))
         }
     )

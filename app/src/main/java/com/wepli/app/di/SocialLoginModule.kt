@@ -9,6 +9,8 @@ import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.serializer.KotlinXSerializer
+import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 
 @Module
@@ -24,6 +26,13 @@ object SocialLoginModule {
         ) {
             install(Auth)
             install(Postgrest)
+            defaultSerializer = KotlinXSerializer(
+                Json {
+                    ignoreUnknownKeys = true // 알 수 없는 키 무시
+                    prettyPrint = true // 예쁘게 출력 (옵션)
+                    encodeDefaults = true // 기본 값이 할당된 경우도 직렬화
+                }
+            )
         }
     }
 }

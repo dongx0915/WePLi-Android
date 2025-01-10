@@ -20,4 +20,8 @@ dependencies {
     implementation(libs.kotlin.serialization.json)
     implementation(libs.kotlin.serialization.converter)
     implementation(libs.androidx.datastore.preferences)
+
+    // Supabase
+    implementation(platform(libs.supabase.bom))
+    implementation(libs.supabase.postgrest.kt)
 }
