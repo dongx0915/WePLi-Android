@@ -1,5 +1,8 @@
-package com.wepli.home.state
+package com.wepli.home.mvi
 
+import base.Intent
+import base.SideEffect
+import base.UiState
 import com.wepli.uimodel.artist.ArtistUiData
 import com.wepli.uimodel.music.ChartMusicUiData
 import model.playlist.RecommendPlaylist
@@ -11,4 +14,8 @@ data class HomeUiState(
     val artistList: List<ArtistUiData> = emptyList(),
     val recommendPlaylists: List<RecommendPlaylist> = emptyList(),
     val themePlaylists: List<RecommendPlaylist> = emptyList()
-)
+) : UiState
+
+interface HomeEffect : SideEffect
+
+interface HomeIntent : Intent

@@ -20,7 +20,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
@@ -54,6 +53,7 @@ import extensions.compose.calculateCurrentOffsetForPage
 import extensions.compose.gesturesDisabled
 import model.playlist.RecommendPlaylist
 import model.relaylist.Relaylist
+import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
 
 @Composable
@@ -61,7 +61,7 @@ fun HomeRoute(
     viewModel: HomeViewModel = hiltViewModel(),
     onNavigatePlaylist: (playlist: RecommendPlaylist) -> Unit,
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.collectAsState()
 
     val relaylists by rememberUpdatedState(newValue = state.relaylists)
     val topChartList by rememberUpdatedState(newValue = state.topChartList)
