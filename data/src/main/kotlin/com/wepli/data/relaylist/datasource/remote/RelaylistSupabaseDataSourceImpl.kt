@@ -20,17 +20,15 @@ class RelaylistSupabaseDataSourceImpl @Inject constructor(
      * DB에 데이터가 있는데 빈 배열로 응답이 오는 경우
      * 테이블의 RLS(권한) 설정을 확인
      */
-    override fun getRelaylists(): FlowResult<List<RelaylistResponse>> {
-        return flow {
-            emit(
-                runCatching {
-                    supabase.postgrest[RELAYLIST_TABLE]
-                        .select {
-                            order("id", Order.ASCENDING)
-                        }
-                        .decodeList<RelaylistResponse>()
+    override fun getRelaylists(): FlowResult<List<RelaylistResponse>> = flow {
+        val result: Result<List<RelaylistResponse>> = runCatching {
+            supabase.postgrest[RELAYLIST_TABLE]
+                .select {
+                    order("id", Order.ASCENDING)
                 }
-            )
+                .decodeList<RelaylistResponse>()
         }
+
+        emit(result)
     }
 }

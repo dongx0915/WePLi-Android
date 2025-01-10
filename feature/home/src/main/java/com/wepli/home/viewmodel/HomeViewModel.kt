@@ -1,6 +1,5 @@
 package com.wepli.home.viewmodel
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import base.BaseViewModel
 import com.wepli.home.state.HomeUiState
