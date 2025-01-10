@@ -98,7 +98,7 @@ fun RelaylistBannerComponent(
             ) {
                 Text(
                     text = item.title,
-                    color = WepliTheme.color.gray900,
+                    color = WepliTheme.color.white,
                     style = WepliTheme.typo.title1,
                 )
 
@@ -106,7 +106,7 @@ fun RelaylistBannerComponent(
 
                 Text(
                     text = item.description,
-                    color = WepliTheme.color.gray800,
+                    color = WepliTheme.color.gray900,
                     style = WepliTheme.typo.body3,
                 )
             }
