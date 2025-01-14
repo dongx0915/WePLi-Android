@@ -1,10 +1,10 @@
-package com.wepli.search.viewmodel
+package com.wepli.search.detail.viewmodel
 
 import base.BaseMviViewModel
 import com.wepli.core.kotlin.suspendCollectResult
-import com.wepli.search.state.SearchEffect
-import com.wepli.search.state.SearchIntent
-import com.wepli.search.state.SearchUiState
+import com.wepli.search.detail.state.SearchEffect
+import com.wepli.search.detail.state.SearchIntent
+import com.wepli.search.detail.state.SearchUiState
 import com.wepli.uimodel.music.SongUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
