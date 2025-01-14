@@ -34,10 +34,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
-import com.wepli.search.detail.state.SearchEffect
-import com.wepli.search.detail.state.SearchIntent
-import com.wepli.search.detail.state.SearchUiState
-import com.wepli.search.detail.viewmodel.SearchViewModel
+import com.wepli.search.detail.state.SearchDetailEffect
+import com.wepli.search.detail.state.SearchDetailIntent
+import com.wepli.search.detail.state.SearchDetailUiState
+import com.wepli.search.detail.viewmodel.SearchDetailViewModel
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
 import common.WepliSpacer
@@ -51,22 +51,22 @@ import theme.WepliTheme
 
 @Composable
 fun SearchScreenRoute() {
-    val viewModel = hiltViewModel<SearchViewModel>()
-    val state: SearchUiState by viewModel.collectAsState()
+    val viewModel = hiltViewModel<SearchDetailViewModel>()
+    val state: SearchDetailUiState by viewModel.collectAsState()
     val scrollState = rememberLazyListState()
     val context = LocalContext.current
 
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
-            is SearchEffect.SearchError -> {
+            is SearchDetailEffect.SearchError -> {
                 Toast.makeText(context, sideEffect.message, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     SearchScreen(
-        onQueryUpdate = { viewModel.processIntent(SearchIntent.OnSearchQueryChanged(it)) },
-        onEnter = { viewModel.processIntent(SearchIntent.RequestSearch(state.searchInput)) },
+        onQueryUpdate = { viewModel.processIntent(SearchDetailIntent.OnSearchQueryChanged(it)) },
+        onEnter = { viewModel.processIntent(SearchDetailIntent.RequestSearch(state.searchInput)) },
         searchQuery = state.searchInput,
         searchResult = state.searchMusicResult,
         lazyListState = scrollState

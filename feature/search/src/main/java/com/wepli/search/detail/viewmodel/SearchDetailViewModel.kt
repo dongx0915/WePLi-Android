@@ -2,9 +2,9 @@ package com.wepli.search.detail.viewmodel
 
 import base.BaseMviViewModel
 import com.wepli.core.kotlin.suspendCollectResult
-import com.wepli.search.detail.state.SearchEffect
-import com.wepli.search.detail.state.SearchIntent
-import com.wepli.search.detail.state.SearchUiState
+import com.wepli.search.detail.state.SearchDetailEffect
+import com.wepli.search.detail.state.SearchDetailIntent
+import com.wepli.search.detail.state.SearchDetailUiState
 import com.wepli.uimodel.music.SongUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -13,15 +13,15 @@ import repository.applemusic.AppleMusicRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(
+class SearchDetailViewModel @Inject constructor(
     private val appleMusicRepository: AppleMusicRepository
-) : BaseMviViewModel<SearchUiState, SearchEffect, SearchIntent>(
-    initialState = SearchUiState()
+) : BaseMviViewModel<SearchDetailUiState, SearchDetailEffect, SearchDetailIntent>(
+    initialState = SearchDetailUiState()
 ) {
-    override fun processIntent(intent: SearchIntent) {
+    override fun processIntent(intent: SearchDetailIntent) {
         when (intent) {
-            is SearchIntent.OnSearchQueryChanged -> handleSearchQueryChanged(intent.query)
-            is SearchIntent.RequestSearch -> searchMusic(intent.query)
+            is SearchDetailIntent.OnSearchQueryChanged -> handleSearchQueryChanged(intent.query)
+            is SearchDetailIntent.RequestSearch -> searchMusic(intent.query)
         }
     }
 
@@ -44,7 +44,7 @@ class SearchViewModel @Inject constructor(
                     }
                 },
                 onFailure = {
-                    postSideEffect(SearchEffect.SearchError(it.message ?: "알 수 없는 오류가 발생하였습니다."))
+                    postSideEffect(SearchDetailEffect.SearchError(it.message ?: "알 수 없는 오류가 발생하였습니다."))
                 }
             )
         }
