@@ -33,6 +33,7 @@ import theme.WepliTheme
 fun SearchMusicTextField(
     modifier: Modifier,
     query: String,
+    readOnly: Boolean = false,
     onQueryUpdate: (String) -> Unit,
     onEnter: () -> Unit,
     placeholderText: String = "",
@@ -44,6 +45,7 @@ fun SearchMusicTextField(
         modifier = modifier
             .clip(RoundedCornerShape(4.dp))
             .background(WepliTheme.color.gray000),
+        readOnly = readOnly,
         value = textFieldValueState,
         onValueChange = { newQuery ->
             textFieldValueState = newQuery
