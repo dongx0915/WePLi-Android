@@ -1,13 +1,24 @@
 package com.wepli.search.navigation
 
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.wepli.navigator.feature.search.SearchRoute
-import com.wepli.search.screen.SearchScreenRoute
+import com.wepli.search.main.screen.SearchMainScreenRoute
+import com.wepli.search.detail.SearchScreenRoute
 
+// Controller - 화면 이동을 담당
+fun NavController.navigateToSearchDetail() {
+    navigate(SearchRoute.DETAIL.route)
+}
 
+// Graph - 도착 지점(화면)을 정의
 fun NavGraphBuilder.searchGraph() {
-    composable(SearchRoute.SEARCH.route) {
+    composable(SearchRoute.MAIN.route) {
+        SearchMainScreenRoute()
+    }
+
+    composable(SearchRoute.DETAIL.route) {
         SearchScreenRoute()
     }
 }
