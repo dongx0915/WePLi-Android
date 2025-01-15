@@ -19,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import appbar.WepliAppBar
@@ -30,19 +32,23 @@ import textfield.SearchMusicTextField
 import theme.WepliTheme
 
 @Composable
-fun SearchMainScreenRoute() {
+fun SearchMainScreenRoute(
+    navOnSearchDetail: () -> Unit
+) {
     val keywordMockData = keywordMockData.random()
 
     SearchMainScreen(
-        recommendKeyword = keywordMockData
+        recommendKeyword = keywordMockData,
+        navOnSearchDetail = navOnSearchDetail
     )
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableInteractionSource")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchMainScreen(
-    recommendKeyword: RecommendKeyword
+    recommendKeyword: RecommendKeyword,
+    navOnSearchDetail: () -> Unit
 ) {
     Scaffold(
         containerColor = WepliTheme.color.black,
@@ -146,4 +152,12 @@ fun KeywordComponent(
         )
     }
 }
+
+@Preview
+@Composable
+fun SearchMainScreenPreview() {
+    SearchMainScreen(
+        recommendKeyword = keywordMockData.random(),
+        navOnSearchDetail = {}
+    )
 }
