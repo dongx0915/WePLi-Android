@@ -16,7 +16,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import appbar.WepliAppBar
@@ -64,6 +66,12 @@ fun SearchMainScreen(
                     onEnter = {},
                     placeholderText = "검색어를 입력하세요.",
                     modifier = Modifier
+                        .focusRequester(FocusRequester())
+                        .onFocusChanged {
+                            if (it.isFocused) {
+                                navOnSearchDetail()
+                            }
+                        }
                         .fillMaxWidth()
                         .height(44.dp),
                 )
