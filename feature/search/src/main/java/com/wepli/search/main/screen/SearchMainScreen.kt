@@ -112,28 +112,30 @@ fun KeywordComponent(
     keyword: String,
     isHighlightTag: Boolean
 ) {
-    val backgroundModifier = with(WepliTheme.color) {
-        if (isHighlightTag) {
-            Modifier.background(brush = linear3)
-        } else {
-            Modifier.background(color = gray050)
-        }
-    }
-
-    val textColor = with(WepliTheme.color) {
-        if (isHighlightTag) gray000 else gray900
+    val textStyle = if (isHighlightTag) {
+        WepliTheme.typo.body1.copy(
+            brush = WepliTheme.color.linear3,
+            fontStyle = FontStyle.Italic,
+        )
+    } else {
+        WepliTheme.typo.body1.copy(
+            color = WepliTheme.color.gray900,
+            fontStyle = FontStyle.Normal,
+        )
     }
 
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(16.dp))
-            .then(backgroundModifier)
+            .background(
+                color = WepliTheme.color.gray050,
+                shape = RoundedCornerShape(16.dp)
+            )
             .padding(vertical = 8.dp, horizontal = 16.dp)
     ) {
         Text(
             text = keyword,
-            style = WepliTheme.typo.body1,
-            color = textColor
+            style = textStyle,
         )
     }
+}
 }
