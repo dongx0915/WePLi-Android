@@ -43,7 +43,7 @@ fun SetUpNavGraph(
         )
 
         // 검색 Graph
-        searchGraph()
+        searchGraph(navController)
 
         composable(BottomNavRoute.Chart.route) {
             ChartScreen()
