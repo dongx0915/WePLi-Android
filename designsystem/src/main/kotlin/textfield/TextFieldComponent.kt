@@ -13,6 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,6 +41,12 @@ fun SearchMusicTextField(
 ) {
     var textFieldValueState by remember { mutableStateOf(TextFieldValue(text = query)) }
     val interactionSource = remember { MutableInteractionSource() }
+
+    LaunchedEffect(query) {
+        if (textFieldValueState.text != query) {
+            textFieldValueState = TextFieldValue(text = query)
+        }
+    }
 
     BasicTextField(
         modifier = modifier
