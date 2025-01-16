@@ -1,4 +1,4 @@
-package com.wepli.search.detail
+package com.wepli.search.detail.screen
 
 import android.annotation.SuppressLint
 import android.widget.Toast

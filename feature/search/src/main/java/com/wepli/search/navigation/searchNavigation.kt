@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.wepli.navigator.feature.search.SearchRoute
 import com.wepli.search.main.screen.SearchMainScreenRoute
-import com.wepli.search.detail.SearchScreenRoute
+import com.wepli.search.detail.screen.SearchScreenRoute
 import extensions.enterAnimation
 
 // Controller - 화면 이동을 담당
