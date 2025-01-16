@@ -9,21 +9,21 @@ import com.wepli.search.detail.SearchScreenRoute
 import extensions.enterAnimation
 
 // Controller - 화면 이동을 담당
-fun NavController.navigateToSearchDetail() {
-    navigate(SearchRoute.DETAIL.route)
+fun NavController.navigateToSearchDetail(searchQuery: String) {
+    navigate("${SearchRoute.DETAIL.route}/$searchQuery")
 }
 
 // Graph - 도착 지점(화면)을 정의
 fun NavGraphBuilder.searchGraph(navController: NavController) {
-    searchMainGraph {
-        navController.navigateToSearchDetail()
+    searchMainGraph { searchQuery ->
+        navController.navigateToSearchDetail(searchQuery)
     }
 
     searchDetailGraph()
 }
 
 internal fun NavGraphBuilder.searchMainGraph(
-    navOnSearchDetail: () -> Unit
+    navOnSearchDetail: (searchQuery: String) -> Unit
 ) {
     composable(SearchRoute.MAIN.route) {
         SearchMainScreenRoute(navOnSearchDetail)
@@ -32,9 +32,11 @@ internal fun NavGraphBuilder.searchMainGraph(
 
 internal fun NavGraphBuilder.searchDetailGraph() {
     composable(
-        route = SearchRoute.DETAIL.route,
+        route = "${SearchRoute.DETAIL.route}/{searchQuery}",
         enterTransition = { enterAnimation() }
     ) {
-        SearchScreenRoute()
+        val searchQuery = it.arguments?.getString("searchQuery").orEmpty()
+
+        SearchScreenRoute(searchQuery)
     }
 }
