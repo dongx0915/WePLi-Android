@@ -3,7 +3,7 @@ package com.wepli.data.applemusic.response
 import com.wepli.data.applemusic.common.response.AppleAlbumResponse
 import com.wepli.data.applemusic.common.response.AppleArtistResponse
 import com.wepli.data.applemusic.common.response.AppleSongResponse
-import com.wepli.data.applemusic.common.response.base.AppleSearchBaseResult
+import com.wepli.data.applemusic.common.response.base.AppleSearchBaseResponse
 import com.wepli.data.applemusic.common.response.toEntity
 import kotlinx.serialization.Serializable
 import model.album.Album
@@ -20,9 +20,9 @@ data class AppleSearchResponse(
 ) {
     @Serializable
     data class Result(
-        val songs: AppleSearchBaseResult<AppleSongResponse>? = null,
-        val artists: AppleSearchBaseResult<AppleArtistResponse>? = null,
-        val albums: AppleSearchBaseResult<AppleAlbumResponse>? = null,
+        val songs: AppleSearchBaseResponse<AppleSongResponse>? = null,
+        val artists: AppleSearchBaseResponse<AppleArtistResponse>? = null,
+        val albums: AppleSearchBaseResponse<AppleAlbumResponse>? = null,
     )
 }
 
