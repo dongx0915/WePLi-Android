@@ -1,7 +1,7 @@
 package com.wepli.data.applemusic.datasource
 
 import com.wepli.core.kotlin.FlowResult
-import wepli.domain.search.AppleSearchResponse
+import com.wepli.data.applemusic.response.AppleSearchResponse
 
 interface AppleMusicDataSource {
 

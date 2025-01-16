@@ -7,9 +7,9 @@ import model.album.Album
 import model.artist.AppleArtist
 import model.music.Song
 import repository.applemusic.AppleMusicRepository
-import wepli.domain.search.toAlbumSearchResult
-import wepli.domain.search.toArtistSearchResult
-import wepli.domain.search.toMusicSearchResult
+import com.wepli.data.applemusic.response.toAlbumSearchResult
+import com.wepli.data.applemusic.response.toArtistSearchResult
+import com.wepli.data.applemusic.response.toMusicSearchResult
 import javax.inject.Inject
 
 class AppleMusicRepositoryImpl @Inject constructor(
