@@ -44,7 +44,7 @@ val keywordMockData: List<RecommendKeyword> = listOf(
         )
     ),
     RecommendKeyword(
-        subject = "도심 속에서 느끼는 **힐링**\n이런 곡은 어때요?",
+        subject = "도심 속에서 **느끼는 힐링**\n이런 곡은 어때요?",
         keywords = listOf(
             RecommendKeyword.Keyword("도심", false),
             RecommendKeyword.Keyword("힐링", true),
