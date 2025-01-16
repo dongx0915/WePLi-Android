@@ -18,4 +18,8 @@ class AppleMusicDataSourceImpl @Inject constructor(
             types = searchTypes,
         )
     }
+
+    override fun getCatalogCharts(chartTypes: List<String>): FlowResult<AppleSearchResponse> {
+        return appleMusicApi.searchForCatalogCharts(types = chartTypes)
+    }
 }

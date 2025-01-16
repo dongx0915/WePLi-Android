@@ -9,4 +9,8 @@ interface AppleMusicDataSource {
         query: String,
         searchTypes: List<String>,
     ): FlowResult<AppleSearchResponse>
+
+    fun getCatalogCharts(
+        chartTypes: List<String>,
+    ): FlowResult<AppleSearchResponse>
 }

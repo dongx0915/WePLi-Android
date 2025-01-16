@@ -42,4 +42,12 @@ class AppleMusicRepositoryImpl @Inject constructor(
             it.toArtistSearchResult()
         }
     }
+
+    override fun getPopularSongs(): FlowResult<List<Song>> {
+        return appleMusicDataSource.getCatalogCharts(
+            chartTypes = listOf("songs")
+        ).toEntityResult {
+            it.toMusicSearchResult()
+        }
+    }
 }
