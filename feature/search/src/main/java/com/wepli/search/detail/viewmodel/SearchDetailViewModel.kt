@@ -32,6 +32,8 @@ class SearchDetailViewModel @Inject constructor(
     }
 
     private fun searchMusic(query: String) = intent {
+        if (query.isEmpty()) return@intent
+
         launchWithHandler {
             withContext(Dispatchers.IO) {
                 appleMusicRepository.searchMusics(
