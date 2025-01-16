@@ -50,11 +50,19 @@ import textfield.SearchMusicTextField
 import theme.WepliTheme
 
 @Composable
-fun SearchScreenRoute() {
+fun SearchScreenRoute(searchQuery: String) {
     val viewModel = hiltViewModel<SearchDetailViewModel>()
     val state: SearchDetailUiState by viewModel.collectAsState()
     val scrollState = rememberLazyListState()
     val context = LocalContext.current
+
+    // 초기 상태 설정 및 검색 요청
+    LaunchedEffect(searchQuery) {
+        if (searchQuery.isNotEmpty()) {
+            viewModel.processIntent(SearchDetailIntent.OnSearchQueryChanged(searchQuery))
+            viewModel.processIntent(SearchDetailIntent.RequestSearch(searchQuery))
+        }
+    }
 
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {

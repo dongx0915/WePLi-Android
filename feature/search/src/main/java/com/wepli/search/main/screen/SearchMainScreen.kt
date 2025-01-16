@@ -2,6 +2,7 @@ package com.wepli.search.main.screen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,7 +34,7 @@ import theme.WepliTheme
 
 @Composable
 fun SearchMainScreenRoute(
-    navOnSearchDetail: () -> Unit
+    navOnSearchDetail: (searchQuery: String) -> Unit
 ) {
     val keywordMockData = keywordMockData.random()
 
@@ -48,7 +49,7 @@ fun SearchMainScreenRoute(
 @Composable
 fun SearchMainScreen(
     recommendKeyword: RecommendKeyword,
-    navOnSearchDetail: () -> Unit
+    navOnSearchDetail: (searchQuery: String) -> Unit
 ) {
     Scaffold(
         containerColor = WepliTheme.color.black,
@@ -75,7 +76,7 @@ fun SearchMainScreen(
                         .focusRequester(FocusRequester())
                         .onFocusChanged {
                             if (it.isFocused) {
-                                navOnSearchDetail()
+                                navOnSearchDetail("")
                             }
                         }
                         .fillMaxWidth()
@@ -85,7 +86,7 @@ fun SearchMainScreen(
 
             WepliSpacer(vertical = 36.dp)
 
-            RecommendKeywordsLayout(recommendKeyword)
+            RecommendKeywordsLayout(recommendKeyword, navOnSearchDetail)
         }
     }
 }
@@ -93,7 +94,8 @@ fun SearchMainScreen(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun RecommendKeywordsLayout(
-    recommendKeyword: RecommendKeyword
+    recommendKeyword: RecommendKeyword,
+    navOnSearchDetail: (searchQuery: String) -> Unit,
 ) {
     Column {
         HighlightedText(
@@ -114,7 +116,10 @@ fun RecommendKeywordsLayout(
             maxLines = 3,
         ) {
             recommendKeyword.keywords.forEach { keyword ->
-                KeywordComponent(keyword = keyword.text, isHighlightTag = keyword.isHighlightTag)
+                KeywordComponent(
+                    modifier = Modifier.clickable { navOnSearchDetail(keyword.text) },
+                    keyword = keyword.text, isHighlightTag = keyword.isHighlightTag
+                )
             }
         }
     }
