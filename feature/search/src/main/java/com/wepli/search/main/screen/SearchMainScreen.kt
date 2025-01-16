@@ -1,6 +1,7 @@
 package com.wepli.search.main.screen
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -8,14 +9,19 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -29,6 +35,7 @@ import com.wepli.shared.feature.mock.keywordMockData
 import common.WepliSpacer
 import compose.HighlightedText
 import model.recommend.RecommendKeyword
+import org.joda.time.LocalDate
 import textfield.SearchMusicTextField
 import theme.WepliTheme
 
@@ -51,6 +58,8 @@ fun SearchMainScreen(
     recommendKeyword: RecommendKeyword,
     navOnSearchDetail: (searchQuery: String) -> Unit
 ) {
+    val scrollState: ScrollState = rememberScrollState()
+
     Scaffold(
         containerColor = WepliTheme.color.black,
         topBar = {
@@ -60,10 +69,13 @@ fun SearchMainScreen(
             )
         }
     ) { paddingValues ->
+        val (topPadding, bottomPadding) = paddingValues.calculateTopPadding() to paddingValues.calculateBottomPadding() + 56.dp
+
         Column(
             modifier = Modifier
-                .padding(paddingValues)
+                .padding(top = topPadding, bottom = bottomPadding)
                 .padding(horizontal = 20.dp)
+                .verticalScroll(scrollState)
         ) {
             Box(modifier = Modifier.padding(vertical = 10.dp)) {
                 SearchMusicTextField(
@@ -87,6 +99,10 @@ fun SearchMainScreen(
             WepliSpacer(vertical = 36.dp)
 
             RecommendKeywordsLayout(recommendKeyword, navOnSearchDetail)
+
+            WepliSpacer(vertical = 40.dp)
+
+            HotSearchKeywordLayout()
         }
     }
 }
@@ -154,6 +170,67 @@ fun KeywordComponent(
         Text(
             text = keyword,
             style = textStyle,
+        )
+    }
+}
+
+@Composable
+fun HotSearchKeywordLayout() {
+    val today = LocalDate.now()
+
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(20.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.Bottom
+        ) {
+            Text(
+                text = "인기 검색어",
+                style = WepliTheme.typo.subTitle1,
+                color = WepliTheme.color.gray900
+            )
+
+            Text(
+                text = "$today 기준",
+                style = WepliTheme.typo.body6,
+                color = WepliTheme.color.gray700
+            )
+        }
+
+        Column(
+            modifier = Modifier.padding(bottom = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+        ) {
+            repeat(10) {
+                HotSearchKeyword(it + 1, "검색어")
+            }
+        }
+    }
+}
+
+@Composable
+fun HotSearchKeyword(
+    rank: Int,
+    keyword: String,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            modifier = Modifier.width(20.dp),
+            text = rank.toString(),
+            style = WepliTheme.typo.body2.copy(
+                brush = WepliTheme.color.linear3,
+            )
+        )
+        WepliSpacer(horizontal = 8.dp)
+        Text(
+            text = keyword,
+            style = WepliTheme.typo.body2,
+            color = WepliTheme.color.gray900
         )
     }
 }
