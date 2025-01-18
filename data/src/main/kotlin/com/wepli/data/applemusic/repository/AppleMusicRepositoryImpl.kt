@@ -10,6 +10,7 @@ import repository.applemusic.AppleMusicRepository
 import com.wepli.data.applemusic.response.toAlbumSearchResult
 import com.wepli.data.applemusic.response.toArtistSearchResult
 import com.wepli.data.applemusic.response.toMusicSearchResult
+import com.wepli.data.applemusic.response.toSongList
 import javax.inject.Inject
 
 class AppleMusicRepositoryImpl @Inject constructor(
@@ -47,7 +48,7 @@ class AppleMusicRepositoryImpl @Inject constructor(
         return appleMusicDataSource.getCatalogCharts(
             chartTypes = listOf("songs")
         ).toEntityResult {
-            it.toMusicSearchResult()
+            it.toSongList()
         }
     }
 }
