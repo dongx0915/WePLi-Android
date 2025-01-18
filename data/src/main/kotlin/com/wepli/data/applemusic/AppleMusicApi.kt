@@ -1,6 +1,7 @@
 package com.wepli.data.applemusic
 
 import com.wepli.core.kotlin.FlowResult
+import com.wepli.data.applemusic.response.AppleCatalogResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 import com.wepli.data.applemusic.response.AppleSearchResponse
@@ -22,5 +23,5 @@ interface AppleMusicApi {
         @Query("limit") limit: Int = 10, // 반환 결과 수
         @Query("offset") offset: Int? = null, // 검색 결과의 시작 위치
         @Query("types") types: List<String>, // 차트 타입 [albums, songs, playlists]
-    ): FlowResult<AppleSearchResponse>
+    ): FlowResult<AppleCatalogResponse>
 }
