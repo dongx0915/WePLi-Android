@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,6 +36,7 @@ import appbar.WepliAppBar
 import com.wepli.search.main.mvi.SearchMainUiState
 import com.wepli.search.main.viewmodel.SearchMainViewModel
 import com.wepli.shared.feature.mock.keywordMockData
+import com.wepli.shared.feature.mock.songMockData
 import common.WepliSpacer
 import compose.HighlightedText
 import model.recommend.RecommendKeyword
@@ -52,6 +54,7 @@ fun SearchMainScreenRoute(
 
     SearchMainScreen(
         recommendKeyword = state.recommendKeyword,
+        hotKeywords = state.hotKeywords,
         navOnSearchDetail = navOnSearchDetail
     )
 }
@@ -61,6 +64,7 @@ fun SearchMainScreenRoute(
 @Composable
 fun SearchMainScreen(
     recommendKeyword: RecommendKeyword?,
+    hotKeywords: List<String>,
     navOnSearchDetail: (searchQuery: String) -> Unit
 ) {
     val scrollState: ScrollState = rememberScrollState()
@@ -107,8 +111,7 @@ fun SearchMainScreen(
             }
 
             WepliSpacer(vertical = 40.dp)
-
-            HotSearchKeywordLayout()
+            HotSearchKeywordLayout(hotKeywords)
         }
     }
 }
@@ -177,7 +180,7 @@ fun KeywordComponent(
 }
 
 @Composable
-fun HotSearchKeywordLayout() {
+fun HotSearchKeywordLayout(hotKeywords: List<String>) {
     val today = LocalDate.now()
 
     Column(
@@ -206,8 +209,8 @@ fun HotSearchKeywordLayout() {
             modifier = Modifier.padding(bottom = 20.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
-            repeat(10) {
-                HotSearchKeyword(it + 1, "검색어")
+            hotKeywords.forEachIndexed { index, keyword ->
+                HotSearchKeyword(index + 1, keyword)
             }
         }
     }
@@ -232,7 +235,9 @@ fun HotSearchKeyword(
         Text(
             text = keyword,
             style = WepliTheme.typo.body2,
-            color = WepliTheme.color.gray900
+            color = WepliTheme.color.gray900,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }
@@ -242,6 +247,7 @@ fun HotSearchKeyword(
 fun SearchMainScreenPreview() {
     SearchMainScreen(
         recommendKeyword = keywordMockData.random(),
+        hotKeywords = songMockData.take(10).map { it.title },
         navOnSearchDetail = {}
     )
 }

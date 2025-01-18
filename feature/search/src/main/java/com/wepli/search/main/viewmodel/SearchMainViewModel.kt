@@ -1,6 +1,5 @@
 package com.wepli.search.main.viewmodel
 
-import android.util.Log
 import base.BaseMviViewModel
 import com.wepli.core.kotlin.suspendCollectResult
 import com.wepli.search.main.mvi.SearchMainEffect
@@ -23,6 +22,7 @@ class SearchMainViewModel @Inject constructor(
 
     init {
         getRecommendKeywords()
+        getHotKeywords()
     }
 
     override fun processIntent(intent: SearchMainIntent) {
@@ -36,6 +36,20 @@ class SearchMainViewModel @Inject constructor(
                 .suspendCollectResult(
                     onSuccess = {
                         reduce { state.copy(recommendKeyword = it.random()) }
+                    }
+                )
+        }
+    }
+
+    private fun getHotKeywords() = intent {
+        launchWithHandler {
+            appleMusicRepository.getPopularSongs()
+                .flowOn(Dispatchers.IO)
+                .suspendCollectResult(
+                    onSuccess = {
+                        reduce {
+                            state.copy(hotKeywords = it.map { song -> song.title })
+                        }
                     }
                 )
         }
