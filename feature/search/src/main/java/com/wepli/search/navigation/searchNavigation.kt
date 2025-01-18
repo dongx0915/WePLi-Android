@@ -13,16 +13,7 @@ fun NavController.navigateToSearchDetail(searchQuery: String) {
     navigate("${SearchRoute.DETAIL.route}/$searchQuery")
 }
 
-// Graph - 도착 지점(화면)을 정의
-fun NavGraphBuilder.searchGraph(navController: NavController) {
-    searchMainGraph { searchQuery ->
-        navController.navigateToSearchDetail(searchQuery)
-    }
-
-    searchDetailGraph()
-}
-
-internal fun NavGraphBuilder.searchMainGraph(
+fun NavGraphBuilder.searchMainGraph(
     navOnSearchDetail: (searchQuery: String) -> Unit
 ) {
     composable(SearchRoute.MAIN.route) {
@@ -30,13 +21,15 @@ internal fun NavGraphBuilder.searchMainGraph(
     }
 }
 
-internal fun NavGraphBuilder.searchDetailGraph() {
+fun NavGraphBuilder.searchDetailGraph(
+    navOnBack: () -> Unit
+) {
     composable(
         route = "${SearchRoute.DETAIL.route}/{searchQuery}",
         enterTransition = { enterAnimation() }
     ) {
         val searchQuery = it.arguments?.getString("searchQuery").orEmpty()
 
-        SearchScreenRoute(searchQuery)
+        SearchScreenRoute(searchQuery, navOnBack)
     }
 }

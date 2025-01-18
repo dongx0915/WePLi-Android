@@ -4,6 +4,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -19,7 +20,9 @@ import com.wepli.mypage.menus.mypage.navigation.mypageMainGraph
 import com.wepli.app.navigation.extensions.navigateToBack
 import com.wepli.playlist.navigation.navigateToPlaylistDetail
 import com.wepli.playlist.navigation.playlistDetailGraph
-import com.wepli.search.navigation.searchGraph
+import com.wepli.search.navigation.navigateToSearchDetail
+import com.wepli.search.navigation.searchDetailGraph
+import com.wepli.search.navigation.searchMainGraph
 
 @Composable
 fun SetUpNavGraph(
@@ -58,6 +61,17 @@ fun SetUpNavGraph(
         // 마이페이지 Graph
         mypageGraph(navController, goToLoginActivity)
     }
+}
+
+// 검색 Graph
+fun NavGraphBuilder.searchGraph(navController: NavController) {
+    searchMainGraph { searchQuery ->
+        navController.navigateToSearchDetail(searchQuery)
+    }
+
+    searchDetailGraph(
+        navOnBack = { navController.navigateToBack() }
+    )
 }
 
 // 커뮤니티 Graph

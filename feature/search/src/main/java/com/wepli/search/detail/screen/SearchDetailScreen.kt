@@ -50,7 +50,10 @@ import textfield.SearchMusicTextField
 import theme.WepliTheme
 
 @Composable
-fun SearchScreenRoute(searchQuery: String) {
+fun SearchScreenRoute(
+    searchQuery: String,
+    navOnBack: () -> Unit,
+) {
     val viewModel = hiltViewModel<SearchDetailViewModel>()
     val state: SearchDetailUiState by viewModel.collectAsState()
     val scrollState = rememberLazyListState()
@@ -77,7 +80,8 @@ fun SearchScreenRoute(searchQuery: String) {
         onEnter = { viewModel.processIntent(SearchDetailIntent.RequestSearch(state.searchInput)) },
         searchQuery = state.searchInput,
         searchResult = state.searchMusicResult,
-        lazyListState = scrollState
+        lazyListState = scrollState,
+        navOnBack = { navOnBack() }
     )
 }
 
@@ -90,6 +94,7 @@ fun SearchScreen(
     searchQuery: String,
     searchResult: List<SongUiData>,
     lazyListState: LazyListState,
+    navOnBack: () -> Unit,
 ) {
     LaunchedEffect(searchResult) {
         lazyListState.scrollToItem(0)
@@ -101,7 +106,8 @@ fun SearchScreen(
             WepliAppBar(
                 showLogo = false,
                 showBackButton = true,
-                title = "곡 검색"
+                title = "곡 검색",
+                onClickBack = { navOnBack() }
             )
         }
     ) { paddingValues ->
@@ -200,5 +206,5 @@ fun SkeletonImage() {
 @Preview
 @Composable
 fun SearchScreenPreview() {
-    SearchScreen({}, {}, "", songMockData, rememberLazyListState())
+    SearchScreen({}, {}, "", songMockData, rememberLazyListState(), {})
 }
