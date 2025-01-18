@@ -77,7 +77,7 @@ fun SearchMainScreen(
                 .padding(horizontal = 20.dp)
                 .verticalScroll(scrollState)
         ) {
-            Box(modifier = Modifier.padding(vertical = 10.dp)) {
+            Box(modifier = Modifier.padding(top = 10.dp)) {
                 SearchMusicTextField(
                     query = "",
                     readOnly = true,
@@ -96,7 +96,7 @@ fun SearchMainScreen(
                 )
             }
 
-            WepliSpacer(vertical = 36.dp)
+            WepliSpacer(vertical = 40.dp)
 
             RecommendKeywordsLayout(recommendKeyword, navOnSearchDetail)
 
@@ -147,16 +147,12 @@ fun KeywordComponent(
     keyword: String,
     isHighlightTag: Boolean
 ) {
-    val textStyle = if (isHighlightTag) {
-        WepliTheme.typo.body1.copy(
-            brush = WepliTheme.color.linear3,
-            fontStyle = FontStyle.Italic,
-        )
-    } else {
-        WepliTheme.typo.body1.copy(
-            color = WepliTheme.color.gray900,
-            fontStyle = FontStyle.Normal,
-        )
+    val textStyle = WepliTheme.typo.body1.run {
+        if (isHighlightTag) {
+            copy(brush = WepliTheme.color.linear3,)
+        } else {
+            copy(color = WepliTheme.color.gray900,)
+        }
     }
 
     Box(
@@ -165,7 +161,7 @@ fun KeywordComponent(
                 color = WepliTheme.color.gray050,
                 shape = RoundedCornerShape(16.dp)
             )
-            .padding(vertical = 8.dp, horizontal = 16.dp)
+            .padding(vertical = 6.dp, horizontal = 16.dp)
     ) {
         Text(
             text = keyword,
@@ -180,7 +176,7 @@ fun HotSearchKeywordLayout() {
 
     Column(
         modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(20.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
