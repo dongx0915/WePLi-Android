@@ -5,5 +5,5 @@ import model.recommend.RecommendKeyword
 
 interface KeywordRepository {
 
-    fun getRecommendKeyword(): FlowResult<RecommendKeyword>
+    fun getRecommendKeyword(): FlowResult<List<RecommendKeyword>>
 }

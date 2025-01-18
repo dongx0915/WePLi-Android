@@ -5,5 +5,5 @@ import com.wepli.data.keyword.response.RecommendKeywordResponse
 
 interface KeywordDatasource {
 
-    fun getRecommendKeyword(): FlowResult<RecommendKeywordResponse>
+    fun getRecommendKeyword(): FlowResult<List<RecommendKeywordResponse>>
 }

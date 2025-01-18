@@ -3,7 +3,7 @@ package com.wepli.data.keyword.repository
 import com.wepli.core.kotlin.FlowResult
 import com.wepli.data.di.qualifier.SupabaseDataSource
 import com.wepli.data.keyword.datasource.KeywordDatasource
-import com.wepli.data.keyword.response.toEntity
+import com.wepli.data.keyword.response.toEntityList
 import com.wepli.data.network.toEntityResult
 import model.recommend.RecommendKeyword
 import model.recommend.repository.KeywordRepository
@@ -13,9 +13,9 @@ class KeywordRepositoryImpl @Inject constructor(
     @SupabaseDataSource private val keywordDatasource: KeywordDatasource
 ) : KeywordRepository {
 
-    override fun getRecommendKeyword(): FlowResult<RecommendKeyword> {
+    override fun getRecommendKeyword(): FlowResult<List<RecommendKeyword>> {
         return keywordDatasource.getRecommendKeyword().toEntityResult {
-            it.toEntity()
+            it.toEntityList()
         }
     }
 }
