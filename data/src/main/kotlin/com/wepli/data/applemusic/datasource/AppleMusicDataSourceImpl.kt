@@ -2,7 +2,8 @@ package com.wepli.data.applemusic.datasource
 
 import com.wepli.core.kotlin.FlowResult
 import com.wepli.data.applemusic.AppleMusicApi
-import wepli.domain.search.AppleSearchResponse
+import com.wepli.data.applemusic.response.AppleCatalogResponse
+import com.wepli.data.applemusic.response.AppleSearchResponse
 import javax.inject.Inject
 
 class AppleMusicDataSourceImpl @Inject constructor(
@@ -17,5 +18,9 @@ class AppleMusicDataSourceImpl @Inject constructor(
             term = query,
             types = searchTypes,
         )
+    }
+
+    override fun getCatalogCharts(chartTypes: List<String>): FlowResult<AppleCatalogResponse> {
+        return appleMusicApi.searchForCatalogCharts(types = chartTypes)
     }
 }

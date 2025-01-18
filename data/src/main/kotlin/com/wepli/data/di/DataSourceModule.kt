@@ -10,6 +10,8 @@ import com.wepli.data.datastore.local.DataStorePrefDataSource
 import com.wepli.data.datastore.local.DataStorePrefDataSourceImpl
 import com.wepli.data.di.qualifier.RemoteDataSource
 import com.wepli.data.di.qualifier.SupabaseDataSource
+import com.wepli.data.keyword.datasource.KeywordDatasource
+import com.wepli.data.keyword.datasource.KeywordSupabaseDatasourceImpl
 import com.wepli.data.playlist.datasource.remote.PlaylistDataSource
 import com.wepli.data.playlist.datasource.remote.PlaylistDataSourceImpl
 import com.wepli.data.relaylist.datasource.remote.RelaylistDataSource
@@ -51,9 +53,16 @@ interface DataSourceModule {
     @Singleton
     fun bindDataStoreDataSource(dataStoreDataSourceImpl: DataStorePrefDataSourceImpl): DataStorePrefDataSource
 
-    // supabase
+    /**
+     * Supabase
+     */
     @Binds
     @Singleton
     @SupabaseDataSource
     fun bindRelaylistSupabaseDataSource(relaylistSupabaseDataSourceImpl: RelaylistSupabaseDataSourceImpl): RelaylistDataSource
+
+    @Binds
+    @Singleton
+    @SupabaseDataSource
+    fun bindKeywordDataSource(keywordDataSourceImpl: KeywordSupabaseDatasourceImpl): KeywordDatasource
 }

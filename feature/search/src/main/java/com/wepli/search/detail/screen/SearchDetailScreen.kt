@@ -1,4 +1,4 @@
-package com.wepli.search.screen
+package com.wepli.search.detail.screen
 
 import android.annotation.SuppressLint
 import android.widget.Toast
@@ -34,10 +34,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
-import com.wepli.search.state.SearchEffect
-import com.wepli.search.state.SearchIntent
-import com.wepli.search.state.SearchUiState
-import com.wepli.search.viewmodel.SearchViewModel
+import com.wepli.search.detail.state.SearchDetailEffect
+import com.wepli.search.detail.state.SearchDetailIntent
+import com.wepli.search.detail.state.SearchDetailUiState
+import com.wepli.search.detail.viewmodel.SearchDetailViewModel
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
 import common.WepliSpacer
@@ -50,26 +50,38 @@ import textfield.SearchMusicTextField
 import theme.WepliTheme
 
 @Composable
-fun SearchScreenRoute() {
-    val viewModel = hiltViewModel<SearchViewModel>()
-    val state: SearchUiState by viewModel.collectAsState()
+fun SearchScreenRoute(
+    searchQuery: String,
+    navOnBack: () -> Unit,
+) {
+    val viewModel = hiltViewModel<SearchDetailViewModel>()
+    val state: SearchDetailUiState by viewModel.collectAsState()
     val scrollState = rememberLazyListState()
     val context = LocalContext.current
 
+    // 초기 상태 설정 및 검색 요청
+    LaunchedEffect(searchQuery) {
+        if (searchQuery.isNotEmpty()) {
+            viewModel.processIntent(SearchDetailIntent.OnSearchQueryChanged(searchQuery))
+            viewModel.processIntent(SearchDetailIntent.RequestSearch(searchQuery))
+        }
+    }
+
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
-            is SearchEffect.SearchError -> {
+            is SearchDetailEffect.SearchError -> {
                 Toast.makeText(context, sideEffect.message, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     SearchScreen(
-        onQueryUpdate = { viewModel.processIntent(SearchIntent.OnSearchQueryChanged(it)) },
-        onEnter = { viewModel.processIntent(SearchIntent.RequestSearch(state.searchInput)) },
+        onQueryUpdate = { viewModel.processIntent(SearchDetailIntent.OnSearchQueryChanged(it)) },
+        onEnter = { viewModel.processIntent(SearchDetailIntent.RequestSearch(state.searchInput)) },
         searchQuery = state.searchInput,
         searchResult = state.searchMusicResult,
-        lazyListState = scrollState
+        lazyListState = scrollState,
+        navOnBack = { navOnBack() }
     )
 }
 
@@ -82,6 +94,7 @@ fun SearchScreen(
     searchQuery: String,
     searchResult: List<SongUiData>,
     lazyListState: LazyListState,
+    navOnBack: () -> Unit,
 ) {
     LaunchedEffect(searchResult) {
         lazyListState.scrollToItem(0)
@@ -93,7 +106,8 @@ fun SearchScreen(
             WepliAppBar(
                 showLogo = false,
                 showBackButton = true,
-                title = "곡 검색"
+                title = "곡 검색",
+                onClickBack = { navOnBack() }
             )
         }
     ) { paddingValues ->
@@ -192,5 +206,5 @@ fun SkeletonImage() {
 @Preview
 @Composable
 fun SearchScreenPreview() {
-    SearchScreen({}, {}, "", songMockData, rememberLazyListState())
+    SearchScreen({}, {}, "", songMockData, rememberLazyListState(), {})
 }

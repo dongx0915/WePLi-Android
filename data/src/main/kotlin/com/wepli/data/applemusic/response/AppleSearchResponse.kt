@@ -1,8 +1,9 @@
-package wepli.domain.search
+package com.wepli.data.applemusic.response
 
 import com.wepli.data.applemusic.common.response.AppleAlbumResponse
 import com.wepli.data.applemusic.common.response.AppleArtistResponse
 import com.wepli.data.applemusic.common.response.AppleSongResponse
+import com.wepli.data.applemusic.common.response.base.AppleSearchBaseResponse
 import com.wepli.data.applemusic.common.response.toEntity
 import kotlinx.serialization.Serializable
 import model.album.Album
@@ -19,46 +20,10 @@ data class AppleSearchResponse(
 ) {
     @Serializable
     data class Result(
-        val songs: SongsSearchResult? = null,
-        val artists: ArtistsSearchResult? = null,
-        val albums: AlbumSearchResult? = null,
-    ) {
-        /**
-         * @property data
-         * @property href
-         * @property next 다음 페이지를 가져오기 위한 커서(url) (더 많은 항목이 있는 경우)
-         */
-        @Serializable
-        data class SongsSearchResult(
-            val href: String? = null,
-            val next: String? = null,
-            val data: List<AppleSongResponse>? = null,
-        )
-
-        /**
-         * @property data
-         * @property href
-         * @property next 다음 페이지를 가져오기 위한 커서(url) (더 많은 항목이 있는 경우)
-         */
-        @Serializable
-        data class ArtistsSearchResult(
-            val href: String? = null,
-            val next: String? = null,
-            val data: List<AppleArtistResponse>? = null,
-        )
-
-        /**
-         * @property data
-         * @property href
-         * @property next 다음 페이지를 가져오기 위한 커서(url) (더 많은 항목이 있는 경우)
-         */
-        @Serializable
-        data class AlbumSearchResult(
-            val href: String? = null,
-            val next: String? = null,
-            val data: List<AppleAlbumResponse>? = null,
-        )
-    }
+        val songs: AppleSearchBaseResponse<AppleSongResponse>? = null,
+        val artists: AppleSearchBaseResponse<AppleArtistResponse>? = null,
+        val albums: AppleSearchBaseResponse<AppleAlbumResponse>? = null,
+    )
 }
 
 fun AppleSearchResponse.toMusicSearchResult(): List<Song> {

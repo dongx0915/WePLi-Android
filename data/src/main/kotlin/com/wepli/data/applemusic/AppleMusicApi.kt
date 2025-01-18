@@ -1,12 +1,14 @@
 package com.wepli.data.applemusic
 
 import com.wepli.core.kotlin.FlowResult
+import com.wepli.data.applemusic.response.AppleCatalogResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
-import wepli.domain.search.AppleSearchResponse
+import com.wepli.data.applemusic.response.AppleSearchResponse
 
 interface AppleMusicApi {
 
+    // 검색
     @GET("v1/catalog/kr/search")
     fun searchForCatalogResources(
         @Query("term") term: String, // 검색어
@@ -14,4 +16,12 @@ interface AppleMusicApi {
         @Query("offset") offset: Int? = null, // 검색 결과의 시작 위치
         @Query("types") types: List<String> // 검색 결과의 타입 [activities, albums, apple-curators, artists, curators, music-videos, playlists, record-labels, songs, stations]
     ): FlowResult<AppleSearchResponse>
+
+    // 인기 차트 조회
+    @GET("v1/catalog/kr/charts")
+    fun searchForCatalogCharts(
+        @Query("limit") limit: Int = 10, // 반환 결과 수
+        @Query("offset") offset: Int? = null, // 검색 결과의 시작 위치
+        @Query("types") types: List<String>, // 차트 타입 [albums, songs, playlists]
+    ): FlowResult<AppleCatalogResponse>
 }

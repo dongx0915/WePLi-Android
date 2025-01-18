@@ -1,7 +1,8 @@
 package com.wepli.data.applemusic.datasource
 
 import com.wepli.core.kotlin.FlowResult
-import wepli.domain.search.AppleSearchResponse
+import com.wepli.data.applemusic.response.AppleCatalogResponse
+import com.wepli.data.applemusic.response.AppleSearchResponse
 
 interface AppleMusicDataSource {
 
@@ -9,4 +10,8 @@ interface AppleMusicDataSource {
         query: String,
         searchTypes: List<String>,
     ): FlowResult<AppleSearchResponse>
+
+    fun getCatalogCharts(
+        chartTypes: List<String>,
+    ): FlowResult<AppleCatalogResponse>
 }
