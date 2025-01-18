@@ -21,21 +21,25 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
+import com.wepli.search.main.mvi.SearchMainUiState
+import com.wepli.search.main.viewmodel.SearchMainViewModel
 import com.wepli.shared.feature.mock.keywordMockData
 import common.WepliSpacer
 import compose.HighlightedText
 import model.recommend.RecommendKeyword
 import org.joda.time.LocalDate
+import org.orbitmvi.orbit.compose.collectAsState
 import textfield.SearchMusicTextField
 import theme.WepliTheme
 
@@ -43,10 +47,11 @@ import theme.WepliTheme
 fun SearchMainScreenRoute(
     navOnSearchDetail: (searchQuery: String) -> Unit
 ) {
-    val keywordMockData = keywordMockData.random()
+    val viewModel: SearchMainViewModel = hiltViewModel()
+    val state: SearchMainUiState by viewModel.collectAsState()
 
     SearchMainScreen(
-        recommendKeyword = keywordMockData,
+        recommendKeyword = state.recommendKeyword,
         navOnSearchDetail = navOnSearchDetail
     )
 }
@@ -55,7 +60,7 @@ fun SearchMainScreenRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchMainScreen(
-    recommendKeyword: RecommendKeyword,
+    recommendKeyword: RecommendKeyword?,
     navOnSearchDetail: (searchQuery: String) -> Unit
 ) {
     val scrollState: ScrollState = rememberScrollState()
@@ -96,9 +101,10 @@ fun SearchMainScreen(
                 )
             }
 
-            WepliSpacer(vertical = 40.dp)
-
-            RecommendKeywordsLayout(recommendKeyword, navOnSearchDetail)
+            if (recommendKeyword != null) {
+                WepliSpacer(vertical = 40.dp)
+                RecommendKeywordsLayout(recommendKeyword, navOnSearchDetail)
+            }
 
             WepliSpacer(vertical = 40.dp)
 
