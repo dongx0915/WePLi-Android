@@ -28,20 +28,6 @@ class PlaylistDataSourceImpl @Inject constructor(
     }
 
     override fun findPlaylistById(playlistId: Int): FlowResult<List<PlaylistResponse>> = flow {
-        val result = runCatching {
-            supabaseClient.postgrest[PLAYLIST_VIEW]
-                .select(
-                    columns = Columns.ALL,
-                    request = {
-                        filter {
-                            eq("playlist_id", playlistId)
-                        }
-                    }
-                )
-                .decodeList<PlaylistResponse>()
-                .ifEmpty { throw Exception("Playlist not found") }
-        }
-
-        emit(result)
+        // implements by supabaseDataSource
     }
 }
