@@ -11,4 +11,6 @@ data class PlaylistUiState(
 
 interface PlaylistEffect : SideEffect
 
-interface PlaylistIntent : Intent
+interface PlaylistIntent : Intent {
+    object OnClickLike : PlaylistIntent
+}

@@ -1,6 +1,5 @@
 package com.wepli.playlist
 
-import android.util.Log
 import base.BaseMviViewModel
 import com.wepli.core.kotlin.suspendCollectResult
 import com.wepli.playlist.mvi.PlaylistEffect
@@ -23,10 +22,12 @@ class PlaylistViewModel @Inject constructor(
     }
 
     override fun processIntent(intent: PlaylistIntent) {
-        // TODO Implement processIntent
+        when (intent) {
+            PlaylistIntent.OnClickLike -> toggleLiked()
+        }
     }
 
-    fun toggleLiked() = intent {
+    private fun toggleLiked() = intent {
         val likeState = state.playlist.isLiked
         reduce {
             state.copy(
