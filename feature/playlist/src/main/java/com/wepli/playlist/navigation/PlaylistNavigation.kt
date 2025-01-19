@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.wepli.navigator.feature.playlist.PlaylistRoute
 import com.wepli.playlist.PlaylistScreen
+import com.wepli.playlist.PlaylistScreenRoute
 import extensions.enterAnimation
 
 // Controller
@@ -20,7 +21,7 @@ fun NavGraphBuilder.playlistDetailGraph(
         route = PlaylistRoute.Detail.route,
         enterTransition = { enterAnimation() }
     ) {
-        PlaylistScreen(
+        PlaylistScreenRoute(
             navOnBack = { navOnBack() }
         )
     }

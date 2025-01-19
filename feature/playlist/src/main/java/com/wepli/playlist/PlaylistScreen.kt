@@ -20,53 +20,54 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.AppBarIcon
 import appbar.AppBarIconType
+import appbar.PlaylistAppBar
 import appbar.ScrollableAppBar
 import appbar.WepliAppBar
 import com.wepli.playlist.component.ArtistLayout
 import com.wepli.playlist.component.PlaylistBsideTrackContent
 import com.wepli.playlist.component.PlaylistHeader
 import com.wepli.shared.feature.mock.artistMockData
+import com.wepli.shared.feature.mock.playlistMockData
+import com.wepli.shared.feature.uimodel.playlist.PlaylistUiData
+import model.playlist.Playlist
+import org.orbitmvi.orbit.compose.collectAsState
 
 @Preview
 @Composable
 fun PlaylistScreenPreview() {
-    PlaylistScreen(viewModel = hiltViewModel()) {}
+    PlaylistScreen(
+        playlist = PlaylistUiData.fromDomain(playlistMockData.random()),
+        onClickLike = {},
+        navOnBack = {}
+    )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlaylistScreen(
-    viewModel: PlaylistViewModel = hiltViewModel(),
+fun PlaylistScreenRoute(
     navOnBack: () -> Unit,
 ) {
-    val state by viewModel.state.collectAsState()
-    val scrollState = rememberScrollState()
-    val playlist by rememberUpdatedState(state.playlist)
+    val viewModel: PlaylistViewModel = hiltViewModel()
+    val state by viewModel.collectAsState()
 
-    ScrollableAppBar(
-        scrollState = scrollState,
-        backgroundColors = Color.Transparent to Color.Black,
-        contentsColors = Color.White to Color.White,
-        topBarComponent = { backgroundColor, contentsColor, isFullScrolled ->
-            WepliAppBar(
-                title = if (isFullScrolled) playlist.title else "",
-                containerColor = backgroundColor,
-                contentsColor = contentsColor,
-                showBackButton = true,
-                actionIcons = listOf {
-                    AppBarIcon(
-                        icon = AppBarIconType.Like(
-                            isLiked = playlist.isLiked,
-                            iconColor = { contentsColor },
-                            onClick = { viewModel.toggleLiked() }
-                        )
-                    )
-                    AppBarIcon(icon = AppBarIconType.More(iconColor = { contentsColor }))
-                },
-                onClickBack = { navOnBack() }
-            )
-        }
-    ) { paddingValue ->
+    PlaylistScreen(
+        navOnBack = { navOnBack() },
+        onClickLike = { viewModel.toggleLiked() },
+        playlist = state.playlist,
+    )
+}
+
+@Composable
+fun PlaylistScreen(
+    playlist: PlaylistUiData,
+    onClickLike: () -> Unit,
+    navOnBack: () -> Unit,
+) {
+    PlaylistAppBar(
+        playlistTitle = playlist.title,
+        playlistIsLiked = playlist.isLiked,
+        onClickLike = onClickLike,
+        navOnBack = navOnBack
+    ) { scrollState, paddingValue ->
         val (topPadding, bottomPadding) = paddingValue.calculateTopPadding() to paddingValue.calculateBottomPadding()
 
         Column(
@@ -78,13 +79,15 @@ fun PlaylistScreen(
         ) {
             // 플레이리스트 정보
             PlaylistHeader(
-                state = state,
+                playlist = playlist,
                 modifier = Modifier.padding(top = topPadding)
             )
             Spacer(modifier = Modifier.height(32.dp))
 
             // 수록곡 목록
-            PlaylistBsideTrackContent()
+            PlaylistBsideTrackContent(
+                bSideTrack = playlist.bSideTrack
+            )
 
             Spacer(modifier = Modifier.height(20.dp))
 
