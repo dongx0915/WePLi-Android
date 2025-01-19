@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,11 +42,16 @@ fun PlaylistScreenPreview() {
 
 @Composable
 fun PlaylistScreenRoute(
+    playlistId: Int,
     navOnBack: () -> Unit,
 ) {
     val viewModel: PlaylistViewModel = hiltViewModel()
     val state by viewModel.collectAsState()
     val context = LocalContext.current
+
+    LaunchedEffect(playlistId) {
+        viewModel.processIntent(PlaylistIntent.RequestPlaylist(playlistId))
+    }
 
     viewModel.collectSideEffect { effect ->
         when (effect) {

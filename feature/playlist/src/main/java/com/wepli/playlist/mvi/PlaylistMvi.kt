@@ -15,4 +15,5 @@ interface PlaylistEffect : SideEffect {
 
 interface PlaylistIntent : Intent {
     object OnClickLike : PlaylistIntent
+    data class RequestPlaylist(val playlistId: Int) : PlaylistIntent
 }

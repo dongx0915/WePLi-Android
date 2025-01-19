@@ -9,8 +9,6 @@ import com.wepli.shared.feature.uimodel.playlist.PlaylistUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import repository.playlist.PlaylistRepository
 import javax.inject.Inject
-import kotlin.random.Random
-import kotlin.random.nextInt
 
 @HiltViewModel
 class PlaylistViewModel @Inject constructor(
@@ -19,13 +17,10 @@ class PlaylistViewModel @Inject constructor(
     initialState = PlaylistUiState()
 ) {
 
-    init {
-        getPlaylistById(Random.nextInt(0..9))
-    }
-
     override fun processIntent(intent: PlaylistIntent) {
         when (intent) {
             PlaylistIntent.OnClickLike -> toggleLiked()
+            is PlaylistIntent.RequestPlaylist -> getPlaylistById(intent.playlistId)
         }
     }
 
