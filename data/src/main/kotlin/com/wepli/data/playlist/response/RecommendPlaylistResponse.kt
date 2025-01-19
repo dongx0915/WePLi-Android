@@ -5,18 +5,18 @@ import kotlinx.serialization.Serializable
 import model.playlist.RecommendPlaylist
 
 @Serializable
-data class PlaylistResponse(
+data class RecommendPlaylistResponse(
     @SerialName("title")
     val title: String?,
     @SerialName("imageUrl")
     val coverImgUrl: String?,
 )
 
-fun List<PlaylistResponse>.toEntities(): List<RecommendPlaylist> {
+fun List<RecommendPlaylistResponse>.toEntities(): List<RecommendPlaylist> {
     return map { it.toEntity() }
 }
 
-fun PlaylistResponse.toEntity(): RecommendPlaylist {
+fun RecommendPlaylistResponse.toEntity(): RecommendPlaylist {
     return RecommendPlaylist(
         title = title.orEmpty(),
         coverImgUrl = coverImgUrl.orEmpty()

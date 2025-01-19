@@ -1,14 +1,14 @@
 package com.wepli.data.playlist
 
-import com.wepli.data.playlist.response.PlaylistResponse
+import com.wepli.data.playlist.response.RecommendPlaylistResponse
 import com.wepli.core.kotlin.FlowResult
 import retrofit2.http.GET
 
 interface PlaylistApi {
 
     @GET("api/playlists/recommend")
-    fun getRecommendPlaylist(): FlowResult<List<PlaylistResponse>>
+    fun getRecommendPlaylist(): FlowResult<List<RecommendPlaylistResponse>>
 
     @GET("api/playlists/theme")
-    fun getThemePlaylist(): FlowResult<List<PlaylistResponse>>
+    fun getThemePlaylist(): FlowResult<List<RecommendPlaylistResponse>>
 }
