@@ -14,6 +14,7 @@ import com.wepli.data.keyword.datasource.KeywordDatasource
 import com.wepli.data.keyword.datasource.KeywordSupabaseDatasourceImpl
 import com.wepli.data.playlist.datasource.remote.PlaylistDataSource
 import com.wepli.data.playlist.datasource.remote.PlaylistDataSourceImpl
+import com.wepli.data.playlist.datasource.remote.PlaylistSupabaseDataSourceImpl
 import com.wepli.data.relaylist.datasource.remote.RelaylistDataSource
 import com.wepli.data.relaylist.datasource.remote.RelaylistDataSourceImpl
 import com.wepli.data.relaylist.datasource.remote.RelaylistSupabaseDataSourceImpl
@@ -60,6 +61,11 @@ interface DataSourceModule {
     @Singleton
     @SupabaseDataSource
     fun bindRelaylistSupabaseDataSource(relaylistSupabaseDataSourceImpl: RelaylistSupabaseDataSourceImpl): RelaylistDataSource
+
+    @Binds
+    @Singleton
+    @SupabaseDataSource
+    fun bindPlaylistSupabaseDataSource(playlistDataSourceImpl: PlaylistSupabaseDataSourceImpl): PlaylistDataSource
 
     @Binds
     @Singleton
