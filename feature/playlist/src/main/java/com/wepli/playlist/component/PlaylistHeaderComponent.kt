@@ -18,19 +18,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
-import com.wepli.playlist.state.PlaylistState
+import com.wepli.shared.feature.uimodel.playlist.PlaylistUiData
+import image.AsyncImageWithPreview
 import org.joda.time.LocalDate
 
 @Composable
 fun PlaylistHeader(
-    state: PlaylistState,
+    playlist: PlaylistUiData,
     modifier: Modifier = Modifier
 ) {
-    val playlist = state.playlist
-
     Box {
         // 헤더 백그라운드
-        HeaderBackground(modifier = Modifier.matchParentSize())
+        HeaderBackground(
+            modifier = Modifier.matchParentSize(),
+            coverImgUrl = playlist.coverImgUrl
+        )
 
         // 헤더 콘텐츠
         Column(
@@ -40,7 +42,8 @@ fun PlaylistHeader(
         ) {
             PlaylistContentHeader(
                 title = playlist.title,
-                author = playlist.author
+                author = playlist.author,
+                coverImg = playlist.coverImgUrl
             )
             Spacer(modifier = Modifier.height(20.dp))
             PlaylistContentBody(
@@ -55,7 +58,10 @@ fun PlaylistHeader(
 }
 
 @Composable
-fun HeaderBackground(modifier: Modifier = Modifier) {
+fun HeaderBackground(
+    modifier: Modifier = Modifier,
+    coverImgUrl: String,
+) {
     val gradientBrush = remember {
         val color = Color(0xFF000000)
 
@@ -71,13 +77,12 @@ fun HeaderBackground(modifier: Modifier = Modifier) {
     }
 
     Box(modifier = modifier.fillMaxWidth()) {
-        Image(
-            modifier = Modifier
-                .fillMaxWidth()
+        AsyncImageWithPreview(
+            modifier = Modifier.fillMaxWidth()
                 .aspectRatio(1f)
                 .blur(50.dp),
-            painter = painterResource(id = R.drawable.img_placeholder_eunbin),
-            contentDescription = ""
+            imageUrl = coverImgUrl,
+            previewImage = painterResource(id = R.drawable.img_placeholder_eunbin),
         )
 
         Box(
