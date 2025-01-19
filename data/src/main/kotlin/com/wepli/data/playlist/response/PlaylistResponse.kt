@@ -13,11 +13,11 @@ data class PlaylistResponse(
     val id: Int? = null,
     @SerialName("playlist_title")
     val title: String? = null,
-    @SerialName("description")
+    @SerialName("playlist_description")
     val description: String? = null,
     @SerialName("playlist_cover")
     val coverImgUrl: String? = null,
-    @SerialName("author")
+    @SerialName("playlist_author")
     val author: String? = null,
     @SerialName("playlist_created_at")
     val createdAt: String? = null,
@@ -31,13 +31,15 @@ data class PlaylistResponse(
     val songAlbum: String? = null,
     @SerialName("song_href")
     val songHref: String? = null,
-    @SerialName("duration_millis")
+    @SerialName("song_duration")
     val songDurationMillis: Long? = null,
 )
 
 fun List<PlaylistResponse>.toPlaylist(): Playlist {
+    var durationSum = 0L
     val playlist = this.first()
     val songList = this.map { playlist ->
+        durationSum += playlist.songDurationMillis ?: 0L
         Song(
             id = playlist.songId.orEmpty(),
             title = playlist.songTitle.orEmpty(),
@@ -56,6 +58,8 @@ fun List<PlaylistResponse>.toPlaylist(): Playlist {
         description = playlist.description.orEmpty(),
         coverImgUrl = playlist.coverImgUrl.orEmpty(),
         author = playlist.author.orEmpty(),
+        songCnt = songList.size,
+        totalDuration = durationSum,
         bSideTrack = songList,
         artists = emptyList(),
         createdAt = runCatching { Date(playlist.createdAt) }.getOrElse { Date() }
