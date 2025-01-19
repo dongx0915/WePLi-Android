@@ -15,13 +15,15 @@ data class PlaylistUiData(
     val description: String,
     val coverImgUrl: String,
     val author: String,
+    val songCnt: Int,
+    val totalDuration: Long,
     val isLiked: Boolean,
     val bSideTrack: List<SongUiData>,
     val artists: List<ArtistUiData>,
     val createdAt: Date,
-): UiModel {
+) : UiModel {
 
-    constructor() : this(0, "", "", "", "", false, emptyList(), emptyList(), Date())
+    constructor() : this(0, "", "", "", "", 0, 0L, false, emptyList(), emptyList(), Date())
 
     companion object : UiModelMapper<Playlist, PlaylistUiData> {
         override fun fromDomain(domainModel: Playlist): PlaylistUiData {
@@ -31,6 +33,8 @@ data class PlaylistUiData(
                 description = domainModel.description,
                 coverImgUrl = domainModel.coverImgUrl,
                 author = domainModel.author,
+                songCnt = domainModel.songCnt,
+                totalDuration = domainModel.totalDuration,
                 isLiked = false,
                 bSideTrack = domainModel.bSideTrack.map(SongUiData::fromDomain),
                 artists = domainModel.artists.map(ArtistUiData::fromDomain),
