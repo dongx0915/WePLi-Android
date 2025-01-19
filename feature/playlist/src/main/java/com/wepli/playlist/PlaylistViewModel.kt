@@ -48,6 +48,9 @@ class PlaylistViewModel @Inject constructor(
                         reduce {
                             state.copy(playlist = PlaylistUiData.fromDomain(it))
                         }
+                    },
+                    onFailure = {
+                        postSideEffect(PlaylistEffect.PlaylistFetchError)
                     }
                 )
         }

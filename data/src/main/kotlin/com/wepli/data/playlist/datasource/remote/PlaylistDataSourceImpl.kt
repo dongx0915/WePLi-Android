@@ -39,6 +39,7 @@ class PlaylistDataSourceImpl @Inject constructor(
                     }
                 )
                 .decodeList<PlaylistResponse>()
+                .ifEmpty { throw Exception("Playlist not found") }
         }
 
         emit(result)

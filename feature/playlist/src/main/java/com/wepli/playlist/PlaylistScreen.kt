@@ -1,5 +1,6 @@
 package com.wepli.playlist
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -19,11 +21,13 @@ import appbar.PlaylistAppBar
 import com.wepli.playlist.component.ArtistLayout
 import com.wepli.playlist.component.PlaylistBsideTrackContent
 import com.wepli.playlist.component.PlaylistHeader
+import com.wepli.playlist.mvi.PlaylistEffect
 import com.wepli.playlist.mvi.PlaylistIntent
 import com.wepli.shared.feature.mock.artistMockData
 import com.wepli.shared.feature.mock.playlistMockData
 import com.wepli.shared.feature.uimodel.playlist.PlaylistUiData
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Preview
 @Composable
@@ -41,6 +45,15 @@ fun PlaylistScreenRoute(
 ) {
     val viewModel: PlaylistViewModel = hiltViewModel()
     val state by viewModel.collectAsState()
+    val context = LocalContext.current
+
+    viewModel.collectSideEffect { effect ->
+        when (effect) {
+            is PlaylistEffect.PlaylistFetchError -> {
+                Toast.makeText(context, "플레이리스트 조회에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     PlaylistScreen(
         navOnBack = { navOnBack() },

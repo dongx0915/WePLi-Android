@@ -9,7 +9,9 @@ data class PlaylistUiState(
     val playlist: PlaylistUiData = PlaylistUiData(),
 ) : UiState
 
-interface PlaylistEffect : SideEffect
+interface PlaylistEffect : SideEffect {
+    object PlaylistFetchError : PlaylistEffect
+}
 
 interface PlaylistIntent : Intent {
     object OnClickLike : PlaylistIntent
