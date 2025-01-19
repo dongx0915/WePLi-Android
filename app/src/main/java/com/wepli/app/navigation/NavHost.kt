@@ -42,7 +42,7 @@ fun SetUpNavGraph(
     ) {
         // 홈 Graph
         homeGraph(
-            navOnPlaylistDetail = { playlist -> navController.navigateToPlaylistDetail(/* playlist */) }
+            navOnPlaylistDetail = { playlistId -> navController.navigateToPlaylistDetail(playlistId) }
         )
 
         // 검색 Graph

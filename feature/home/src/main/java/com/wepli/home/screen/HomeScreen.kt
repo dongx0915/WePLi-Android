@@ -59,7 +59,7 @@ import theme.WepliTheme
 @Composable
 fun HomeRoute(
     viewModel: HomeViewModel = hiltViewModel(),
-    onNavigatePlaylist: (playlist: RecommendPlaylist) -> Unit,
+    onNavigatePlaylist: (playlistId: Int) -> Unit,
 ) {
     val state by viewModel.collectAsState()
 
@@ -75,7 +75,7 @@ fun HomeRoute(
         artistList = artistList,
         recommendPlaylists = recommendPlaylists,
         themePlaylists = themePlaylists,
-        onNavigatePlaylist = { playlist -> onNavigatePlaylist(playlist) }
+        onNavigatePlaylist = { playlistId -> onNavigatePlaylist(playlistId) }
     )
 }
 
@@ -87,7 +87,7 @@ fun HomeScreen(
     artistList: List<ArtistUiData>,
     recommendPlaylists: List<RecommendPlaylist>,
     themePlaylists: List<RecommendPlaylist>,
-    onNavigatePlaylist: (playlist: RecommendPlaylist) -> Unit,
+    onNavigatePlaylist: (playlistId: Int) -> Unit,
 ) {
     HomeAppBar { scrollState, blurState, paddingValues ->
         val (topPadding, bottomPadding) = paddingValues.calculateTopPadding() to paddingValues.calculateBottomPadding()
@@ -250,7 +250,7 @@ fun WePLiChartLayout(
 fun WePLiPlaylistLayout(
     title: String,
     playlists: List<RecommendPlaylist>,
-    onClick: (playlist: RecommendPlaylist) -> Unit = {},
+    onClick: (playlistId: Int) -> Unit = {},
 ) {
     val playlistWithMaxTitle = remember(key1 = playlists) {
         playlists.maxByOrNull { it.title.length }
@@ -271,7 +271,7 @@ fun WePLiPlaylistLayout(
             ) {
                 items(playlists) { playlist ->
                     PlayListCoverItem(
-                        modifier = Modifier.clickable { onClick(playlist) },
+                        modifier = Modifier.clickable { onClick(playlist.id) },
                         recommendPlaylist = playlist,
                     )
                 }
