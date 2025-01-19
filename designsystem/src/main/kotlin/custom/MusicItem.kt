@@ -38,10 +38,10 @@ sealed interface MusicItemType {
         override val coverImgUrl: String = chartMusic.albumCoverUrl
     }
 
-    data class Normal(val songUiData: SongUiData) : MusicItemType {
+    data class Normal(val songUiData: SongUiData, val size: Int) : MusicItemType {
         override val title: String = songUiData.title
         override val artist: String = songUiData.artistName
-        override val coverImgUrl: String = songUiData.coverImg
+        override val coverImgUrl: String = songUiData.getImageUrl(size)
     }
 }
 
@@ -76,7 +76,8 @@ fun MusicItemPreview() {
                     href = "href",
                     genres = emptyList(),
                     durationMillis = 0L
-                )
+                ),
+                200
             ),
             showPlayIcon = true,
             showMoreIcon = true
