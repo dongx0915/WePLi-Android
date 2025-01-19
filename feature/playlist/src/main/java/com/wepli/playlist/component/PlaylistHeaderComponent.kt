@@ -49,6 +49,7 @@ fun PlaylistHeader(
             PlaylistContentBody(
                 description = playlist.description,
                 bSideTrackCount = playlist.bSideTrack.size,
+                totalTime = playlist.formattedDuration,
                 createdAt = LocalDate(playlist.createdAt.time)
             )
             Spacer(modifier = Modifier.height(24.dp))

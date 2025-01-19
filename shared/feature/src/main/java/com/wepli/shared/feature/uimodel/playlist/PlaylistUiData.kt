@@ -42,4 +42,17 @@ data class PlaylistUiData(
             )
         }
     }
+
+    val formattedDuration: String
+        get() {
+            val totalMinutes = totalDuration / (1000 * 60)
+            val hours = totalMinutes / 60
+            val minutes = totalMinutes % 60
+
+            return if (hours > 0) {
+                "${hours}시간 ${minutes}분"
+            } else {
+                "${minutes}분"
+            }
+        }
 }

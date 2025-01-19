@@ -63,6 +63,7 @@ fun PlaylistContentHeader(
 fun PlaylistContentBody(
     description: String,
     bSideTrackCount: Int,
+    totalTime: String,
     createdAt: LocalDate,
 ) {
     val createData = remember { createdAt.toString("yyyy.MM.dd") }
@@ -72,7 +73,7 @@ fun PlaylistContentBody(
     )
 
     Text(
-        text = "$createData • ${bSideTrackCount}곡 • 1시간 34분",
+        text = "$createData • ${bSideTrackCount}곡 • $totalTime",
         style = WepliTheme.typo.body5,
         color = WepliTheme.color.gray600,
     )
