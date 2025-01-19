@@ -29,6 +29,8 @@ data class PlaylistResponse(
     val songArtist: String? = null,
     @SerialName("song_album")
     val songAlbum: String? = null,
+    @SerialName("song_cover")
+    val songCoverImgUrl: String? = null,
     @SerialName("song_href")
     val songHref: String? = null,
     @SerialName("song_duration")
@@ -45,7 +47,7 @@ fun List<PlaylistResponse>.toPlaylist(): Playlist {
             title = playlist.songTitle.orEmpty(),
             artistName = playlist.songArtist.orEmpty(),
             albumName = playlist.songAlbum.orEmpty(),
-            coverImg = playlist.coverImgUrl.orEmpty(),
+            coverImg = playlist.songCoverImgUrl.orEmpty(),
             href = playlist.songHref.orEmpty(),
             genres = emptyList(),
             durationMillis = playlist.songDurationMillis ?: 0L
