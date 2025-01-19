@@ -63,23 +63,21 @@ fun HeaderBackground(
     modifier: Modifier = Modifier,
     coverImgUrl: String,
 ) {
-    val gradientBrush = remember {
-        val color = Color(0xFF000000)
-
-        Brush.verticalGradient(
-            colors = listOf(
-                color.copy(alpha = 0.67f),
-                color.copy(alpha = 0.70f),
-                color.copy(alpha = 0.82f),
-                color.copy(alpha = 0.85f),
-                color.copy(alpha = 1.0f),
-            )
+    val color = Color(0xFF000000)
+    val gradientBrush = Brush.verticalGradient(
+        colors = listOf(
+            color.copy(alpha = 0.67f),
+            color.copy(alpha = 0.70f),
+            color.copy(alpha = 0.82f),
+            color.copy(alpha = 0.85f),
+            color.copy(alpha = 1.0f),
         )
-    }
+    )
 
     Box(modifier = modifier.fillMaxWidth()) {
         AsyncImageWithPreview(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .aspectRatio(1f)
                 .blur(50.dp),
             imageUrl = coverImgUrl,

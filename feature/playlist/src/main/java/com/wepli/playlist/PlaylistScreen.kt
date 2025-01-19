@@ -69,14 +69,13 @@ fun PlaylistScreen(
                 .padding(bottom = bottomPadding)
                 .verticalScroll(scrollState)
                 .background(Color.Black),
-            verticalArrangement = Arrangement.spacedBy(20.dp)
+            verticalArrangement = Arrangement.spacedBy(32.dp)
         ) {
             // 플레이리스트 정보
             PlaylistHeader(
                 playlist = playlist,
                 modifier = Modifier.padding(top = topPadding)
             )
-            Spacer(modifier = Modifier.height(12.dp))
 
             // 수록곡 목록
             PlaylistBsideTrackContent(bSideTrack = playlist.bSideTrack)
