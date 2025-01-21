@@ -1,7 +1,7 @@
 package com.wepli.shared.feature.uimodel.playlist
 
-import com.wepli.common.UiModel
-import com.wepli.common.UiModelMapper
+import com.wepli.shared.feature.common.UiModel
+import com.wepli.shared.feature.common.UiModelMapper
 import com.wepli.uimodel.artist.ArtistUiData
 import com.wepli.uimodel.music.SongUiData
 import kotlinx.parcelize.Parcelize
@@ -19,7 +19,7 @@ data class PlaylistUiData(
     val bSideTrack: List<SongUiData>,
     val artists: List<ArtistUiData>,
     val createdAt: Date,
-): UiModel {
+) : UiModel {
 
     constructor() : this(0, "", "", "", "", false, emptyList(), emptyList(), Date())
 
