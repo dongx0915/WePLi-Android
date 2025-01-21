@@ -21,10 +21,14 @@ abstract class BaseViewModel: ViewModel() {
     fun launch(
         dispatcher: CoroutineDispatcher = Dispatchers.Main.immediate,
         start: CoroutineStart = CoroutineStart.DEFAULT,
-        exceptionHandler: CoroutineExceptionHandler,
+        exceptionHandler: CoroutineExceptionHandler? = null,
         block: suspend CoroutineScope.() -> Unit
     ): Job {
-        return viewModelScope.launch(dispatcher + exceptionHandler, start, block)
+        val coroutineContext = exceptionHandler?.let {
+            dispatcher + it
+        } ?: dispatcher
+
+        return viewModelScope.launch(coroutineContext, start, block)
     }
 
     fun launchWithHandler(
