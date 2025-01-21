@@ -1,6 +1,6 @@
 package com.wepli.shared.feature.mock
 
-import com.wepli.uimodel.community.CommentUiData
+import com.wepli.shared.feature.uimodel.community.CommentUiData
 import java.util.Date
 import kotlin.random.Random
 

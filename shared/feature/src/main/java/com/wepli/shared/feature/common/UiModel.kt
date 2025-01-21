@@ -1,4 +1,4 @@
-package com.wepli.common
+package com.wepli.shared.feature.common
 
 import android.os.Parcelable
 import common.DomainModel
