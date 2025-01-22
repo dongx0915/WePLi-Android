@@ -1,11 +1,14 @@
 package com.wepli.data.playlist.datasource.remote
 
-import com.wepli.data.playlist.response.PlaylistResponse
+import com.wepli.data.playlist.response.RecommendPlaylistResponse
 import com.wepli.core.kotlin.FlowResult
+import com.wepli.data.playlist.response.PlaylistResponse
 
 interface PlaylistDataSource {
 
-    fun getRecommendPlaylist(): FlowResult<List<PlaylistResponse>>
+    fun getRecommendPlaylist(): FlowResult<List<RecommendPlaylistResponse>>
 
-    fun getThemePlaylist(): FlowResult<List<PlaylistResponse>>
+    fun getThemePlaylist(): FlowResult<List<RecommendPlaylistResponse>>
+
+    fun findPlaylistById(playlistId: Int): FlowResult<List<PlaylistResponse>>
 }

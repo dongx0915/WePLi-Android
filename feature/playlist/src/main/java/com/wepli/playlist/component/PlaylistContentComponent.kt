@@ -25,18 +25,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
 import common.ExpandableText
+import image.AsyncImageWithPreview
 import org.joda.time.LocalDate
 import theme.WepliTheme
 
 @Composable
-fun PlaylistContentHeader(title: String, author: String) {
+fun PlaylistContentHeader(
+    title: String,
+    author: String,
+    coverImg: String,
+) {
     Row {
-        Image(
-            modifier = Modifier
-                .size(120.dp)
-                .clip(RoundedCornerShape(4.dp)),
-            painter = painterResource(id = R.drawable.img_placeholder_eunbin),
-            contentDescription = ""
+        AsyncImageWithPreview(
+            modifier = Modifier.size(120.dp).clip(RoundedCornerShape(4.dp)),
+            imageUrl = coverImg,
+            previewImage = painterResource(id = R.drawable.img_placeholder_eunbin),
         )
         Spacer(modifier = Modifier.width(12.dp))
         Column {
@@ -60,6 +63,7 @@ fun PlaylistContentHeader(title: String, author: String) {
 fun PlaylistContentBody(
     description: String,
     bSideTrackCount: Int,
+    totalTime: String,
     createdAt: LocalDate,
 ) {
     val createData = remember { createdAt.toString("yyyy.MM.dd") }
@@ -69,7 +73,7 @@ fun PlaylistContentBody(
     )
 
     Text(
-        text = "$createData • ${bSideTrackCount}곡 • 1시간 34분",
+        text = "$createData • ${bSideTrackCount}곡 • $totalTime",
         style = WepliTheme.typo.body5,
         color = WepliTheme.color.gray600,
     )
