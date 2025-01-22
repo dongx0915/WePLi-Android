@@ -1,7 +1,7 @@
 package com.wepli.uimodel.artist
 
-import com.wepli.common.UiModel
-import com.wepli.common.UiModelMapper
+import com.wepli.shared.feature.common.UiModel
+import com.wepli.shared.feature.common.UiModelMapper
 import kotlinx.parcelize.Parcelize
 import model.artist.Artist
 

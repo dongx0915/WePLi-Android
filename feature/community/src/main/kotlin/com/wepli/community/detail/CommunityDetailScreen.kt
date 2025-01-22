@@ -22,7 +22,7 @@ import com.wepli.community.component.CommentItem
 import com.wepli.community.component.PostItem
 import com.wepli.shared.feature.mock.commentMockData
 import com.wepli.shared.feature.uimodel.community.PostUiData
-import com.wepli.uimodel.community.CommentUiData
+import com.wepli.shared.feature.uimodel.community.CommentUiData
 import theme.WepliTheme
 
 @Preview
