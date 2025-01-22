@@ -10,12 +10,17 @@ import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.serializer.KotlinXSerializer
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.logging.DEFAULT
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
 import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object SocialLoginModule {
+object SupabaseModule {
 
     @Provides
     @Singleton
@@ -33,6 +38,13 @@ object SocialLoginModule {
                     encodeDefaults = true // 기본 값이 할당된 경우도 직렬화
                 }
             )
+
+            HttpClient {
+                install(Logging) {
+                    logger  = Logger.DEFAULT
+                    level = LogLevel.ALL
+                }
+            }
         }
     }
 }

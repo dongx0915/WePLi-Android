@@ -9,6 +9,7 @@ import common.DomainModel
  * @property coverImgUrl 커버 이미지 URL
  */
 data class RecommendPlaylist(
+    val id: Int,
     val title: String,
     val coverImgUrl: String,
 ) : DomainModel
