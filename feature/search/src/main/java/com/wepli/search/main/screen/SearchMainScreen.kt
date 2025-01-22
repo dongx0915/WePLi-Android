@@ -111,7 +111,7 @@ fun SearchMainScreen(
             }
 
             WepliSpacer(vertical = 40.dp)
-            HotSearchKeywordLayout(hotKeywords)
+            HotSearchKeywordLayout(hotKeywords, navOnSearchDetail)
         }
     }
 }
@@ -180,7 +180,10 @@ fun KeywordComponent(
 }
 
 @Composable
-fun HotSearchKeywordLayout(hotKeywords: List<String>) {
+fun HotSearchKeywordLayout(
+    hotKeywords: List<String>,
+    navOnSearchDetail: (searchQuery: String) -> Unit,
+) {
     val today = LocalDate.now()
 
     Column(
@@ -210,7 +213,11 @@ fun HotSearchKeywordLayout(hotKeywords: List<String>) {
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
             hotKeywords.forEachIndexed { index, keyword ->
-                HotSearchKeyword(index + 1, keyword)
+                HotSearchKeyword(
+                    modifier = Modifier.clickable { navOnSearchDetail(keyword) },
+                    rank = index + 1,
+                    keyword = keyword
+                )
             }
         }
     }
@@ -218,11 +225,12 @@ fun HotSearchKeywordLayout(hotKeywords: List<String>) {
 
 @Composable
 fun HotSearchKeyword(
+    modifier: Modifier = Modifier,
     rank: Int,
     keyword: String,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
         Text(
             modifier = Modifier.width(20.dp),
@@ -231,10 +239,10 @@ fun HotSearchKeyword(
                 brush = WepliTheme.color.linear3,
             )
         )
-        WepliSpacer(horizontal = 8.dp)
+        WepliSpacer(horizontal = 4.dp)
         Text(
             text = keyword,
-            style = WepliTheme.typo.body2,
+            style = WepliTheme.typo.body4,
             color = WepliTheme.color.gray900,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
