@@ -1,6 +1,6 @@
 package com.wepli.community.detail.state
 
-import com.wepli.uimodel.community.CommentUiData
+import com.wepli.shared.feature.uimodel.community.CommentUiData
 import com.wepli.shared.feature.uimodel.community.PostUiData
 
 data class CommunityDetailState(

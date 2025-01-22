@@ -1,7 +1,7 @@
 package com.wepli.shared.feature.uimodel.community
 
-import com.wepli.common.UiModel
-import com.wepli.common.UiModelMapper
+import com.wepli.shared.feature.common.UiModel
+import com.wepli.shared.feature.common.UiModelMapper
 import com.wepli.uimodel.music.SongUiData
 import kotlinx.parcelize.Parcelize
 import model.community.Post
