@@ -61,7 +61,8 @@ fun MusicItemPreview() {
 
         MusicItem(
             musicItemType = MusicItemType.Normal(
-                songUiData = songUiMockData[0]
+                songUiData = songUiMockData[0],
+                size = 300
             ),
             showPlayIcon = true,
             showMoreIcon = true
