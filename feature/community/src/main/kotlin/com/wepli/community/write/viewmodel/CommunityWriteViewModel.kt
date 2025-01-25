@@ -11,7 +11,23 @@ import javax.inject.Inject
 class CommunityWriteViewModel @Inject constructor() : BaseMviViewModel<CommunityWriteUiState, CommunityWriteEffect, CommunityWriteIntent>(
     initialState = CommunityWriteUiState()
 ) {
-    override fun processIntent(intent: CommunityWriteIntent) {
 
+    override fun processIntent(intent: CommunityWriteIntent) {
+        when (intent) {
+            is CommunityWriteIntent.UpdateTitle -> {
+                handleUpdateTitle(intent.title)
+            }
+            is CommunityWriteIntent.UpdateContents -> {
+                handleUpdateContents(intent.contents)
+            }
+        }
+    }
+
+    private fun handleUpdateTitle(title: String) = intent {
+        reduce { state.copy(title = title) }
+    }
+
+    private fun handleUpdateContents(contents: String) = intent {
+        reduce { state.copy(contents = contents) }
     }
 }

@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
+import com.wepli.community.write.mvi.CommunityWriteIntent
 import com.wepli.community.write.mvi.CommunityWriteUiState
 import com.wepli.community.write.viewmodel.CommunityWriteViewModel
 import org.orbitmvi.orbit.compose.collectAsState
@@ -30,7 +31,8 @@ fun CommunityWriteScreenRoute() {
 
     CommunityWriteScreen(
         title = state.title,
-        contents = state.contents
+        contents = state.contents,
+        sendAction = viewModel::processIntent,
     )
 }
 
@@ -39,7 +41,8 @@ fun CommunityWriteScreenRoute() {
 @Composable
 fun CommunityWriteScreen(
     title: String,
-    contents: String
+    contents: String,
+    sendAction: (CommunityWriteIntent) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -56,9 +59,15 @@ fun CommunityWriteScreen(
                 .padding(top = 20.dp, start = 20.dp, end = 20.dp, bottom = 0.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            TitleLayout(title = "")
+            TitleLayout(
+                title = title,
+                sendAction = sendAction
+            )
 
-            ContentsLayout()
+            ContentsLayout(
+                contents = contents,
+                sendAction = sendAction
+            )
         }
     }
 }
@@ -67,6 +76,7 @@ fun CommunityWriteScreen(
 fun TitleLayout(
     title: String,
     maxLength: Int = 50,
+    sendAction: (CommunityWriteIntent) -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -89,11 +99,7 @@ fun TitleLayout(
         WepliTextField(
             value = title,
             onValueChanged = { newValue ->
-                if (newValue.length >= maxLength) {
-                    // TODO: Show error message
-                } else {
-                    // TODO: Update Title
-                }
+                sendAction(CommunityWriteIntent.UpdateTitle(newValue))
             },
             singleLine = true,
             placeholder = "제목을 작성해주세요.",
@@ -120,7 +126,10 @@ fun TitleLayout(
 }
 
 @Composable
-fun ContentsLayout() {
+fun ContentsLayout(
+    contents: String,
+    sendAction: (CommunityWriteIntent) -> Unit,
+) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -140,9 +149,9 @@ fun ContentsLayout() {
         }
 
         WepliTextField(
-            value = "",
+            value = contents,
             onValueChanged = { newValue ->
-
+                sendAction(CommunityWriteIntent.UpdateContents(newValue))
             },
             singleLine = false,
             placeholder = "내용을 작성해주세요.",
@@ -173,6 +182,7 @@ fun ContentsLayout() {
 fun CommunityWriteScreenPreview() {
     CommunityWriteScreen(
         title = "",
-        contents = ""
+        contents = "",
+        sendAction = {}
     )
 }
