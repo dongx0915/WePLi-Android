@@ -153,7 +153,7 @@ fun WepliTextField(
                     color = WepliTheme.color.gray900,
                 ),
                 cursorBrush = SolidColor(WepliTheme.color.gray900),
-                visualTransformation = VisualTransformation.None,
+                visualTransformation = VisualTransformation.None, // 텍스트 타입 (비밀번호, 전화번호 등)
                 keyboardOptions = keyboardOptions,
                 keyboardActions = keyboardActions,
                 interactionSource = interactionSource,
@@ -170,7 +170,7 @@ fun WepliTextField(
                                 color = WepliTheme.color.gray500,
                             )
                         },
-                        leadingIcon = type.leadingIcon()?.let {
+                        leadingIcon = type.leadingIcon()?.let { // 텍스트 앞에 보여줄 아이콘
                             {
                                 Icon(
                                     modifier = Modifier.size(20.dp),
@@ -180,7 +180,7 @@ fun WepliTextField(
                                 )
                             }
                         },
-                        trailingIcon = type.trailingIcon()?.let {
+                        trailingIcon = type.trailingIcon()?.let { // 텍스트 끝에 보여줄 아이콘
                             {
                                 Icon(
                                     modifier = Modifier.size(20.dp),
