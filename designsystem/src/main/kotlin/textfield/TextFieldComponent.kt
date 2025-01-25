@@ -81,6 +81,17 @@ sealed interface WepliTextFieldType {
         @Composable
         override fun trailingIcon(): Painter = painterResource(id = R.drawable.ic_search)
     }
+    
+    data object MultiLine : WepliTextFieldType {
+        @Composable
+        override fun leadingIcon(): Painter? = null
+
+        @Composable
+        override fun trailingIcon(): Painter? = null
+
+        override fun minHeight(): Dp = 250.dp
+        override fun maxHeight(): Dp = 250.dp
+    }
 }
 
 
