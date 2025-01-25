@@ -5,11 +5,15 @@ import base.SideEffect
 import base.UiState
 
 data class CommunityWriteUiState(
-    val title: String = "",
-    val contents: String = "",
-    val isTitleLengthExceeded: Boolean = false,
-    val isContentsLengthExceeded: Boolean = false,
-) : UiState
+    val title: FieldState = FieldState(),
+    val contents: FieldState = FieldState()
+) : UiState {
+
+    data class FieldState(
+        val text: String = "",
+        val isLengthExceeded: Boolean = false
+    )
+}
 
 interface CommunityWriteEffect : SideEffect
 

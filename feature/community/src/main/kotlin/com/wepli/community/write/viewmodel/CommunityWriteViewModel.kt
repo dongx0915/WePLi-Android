@@ -26,8 +26,10 @@ class CommunityWriteViewModel @Inject constructor() : BaseMviViewModel<Community
     private fun handleUpdateTitle(title: String, maxLength: Int) = intent {
         reduce {
             state.copy(
-                title = title,
-                isTitleLengthExceeded = title.length > maxLength
+                title = CommunityWriteUiState.FieldState(
+                    text = title,
+                    isLengthExceeded = title.length > maxLength
+                ),
             )
         }
     }
@@ -35,8 +37,10 @@ class CommunityWriteViewModel @Inject constructor() : BaseMviViewModel<Community
     private fun handleUpdateContents(contents: String, maxLength: Int) = intent {
         reduce {
             state.copy(
-                contents = contents,
-                isContentsLengthExceeded = contents.length > maxLength
+                contents = CommunityWriteUiState.FieldState(
+                    text = contents,
+                    isLengthExceeded = contents.length > maxLength
+                ),
             )
         }
     }
