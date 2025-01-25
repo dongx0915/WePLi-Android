@@ -31,10 +31,7 @@ fun CommunityWriteScreenRoute() {
     val state: CommunityWriteUiState by viewModel.collectAsState()
 
     CommunityWriteScreen(
-        title = state.title,
-        contents = state.contents,
-        isTitleLengthExceeded = state.isTitleLengthExceeded,
-        isContentsLengthExceeded = state.isContentsLengthExceeded,
+        state = state,
         sendAction = viewModel::processIntent,
     )
 }
@@ -43,10 +40,7 @@ fun CommunityWriteScreenRoute() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun CommunityWriteScreen(
-    title: String,
-    contents: String,
-    isTitleLengthExceeded: Boolean,
-    isContentsLengthExceeded: Boolean,
+    state: CommunityWriteUiState,
     sendAction: (CommunityWriteIntent) -> Unit,
 ) {
     Scaffold(
@@ -65,14 +59,14 @@ fun CommunityWriteScreen(
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             TitleLayout(
-                title = title,
-                isTitleLengthExceeded = isTitleLengthExceeded,
+                title = state.title.text,
+                isTitleLengthExceeded = state.title.isLengthExceeded,
                 sendAction = sendAction
             )
 
             ContentsLayout(
-                contents = contents,
-                isContentsLengthExceeded = isContentsLengthExceeded,
+                contents = state.contents.text,
+                isContentsLengthExceeded = state.contents.isLengthExceeded,
                 sendAction = sendAction
             )
         }
@@ -150,6 +144,11 @@ fun RequiredFieldLabel(text: String) {
 }
 
 @Composable
+fun NonRequiredFieldLabel(text: String) {
+
+}
+
+@Composable
 fun LimitedLengthTextField(
     value: String,
     maxLength: Int,
@@ -200,10 +199,7 @@ fun LimitedLengthTextField(
 @Composable
 fun CommunityWriteScreenPreview() {
     CommunityWriteScreen(
-        title = "",
-        contents = "",
-        isTitleLengthExceeded = false,
-        isContentsLengthExceeded = false,
+        state = CommunityWriteUiState(),
         sendAction = {}
     )
 }
