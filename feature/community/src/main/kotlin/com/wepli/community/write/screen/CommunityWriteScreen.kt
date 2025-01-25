@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,6 +33,8 @@ fun CommunityWriteScreenRoute() {
     CommunityWriteScreen(
         title = state.title,
         contents = state.contents,
+        isTitleLengthExceeded = state.isTitleLengthExceeded,
+        isContentsLengthExceeded = state.isContentsLengthExceeded,
         sendAction = viewModel::processIntent,
     )
 }
@@ -42,6 +45,8 @@ fun CommunityWriteScreenRoute() {
 fun CommunityWriteScreen(
     title: String,
     contents: String,
+    isTitleLengthExceeded: Boolean,
+    isContentsLengthExceeded: Boolean,
     sendAction: (CommunityWriteIntent) -> Unit,
 ) {
     Scaffold(
@@ -61,11 +66,13 @@ fun CommunityWriteScreen(
         ) {
             TitleLayout(
                 title = title,
+                isTitleLengthExceeded = isTitleLengthExceeded,
                 sendAction = sendAction
             )
 
             ContentsLayout(
                 contents = contents,
+                isContentsLengthExceeded = isContentsLengthExceeded,
                 sendAction = sendAction
             )
         }
@@ -75,101 +82,113 @@ fun CommunityWriteScreen(
 @Composable
 fun TitleLayout(
     title: String,
-    maxLength: Int = 50,
+    maxLength: Int = 25,
+    isTitleLengthExceeded: Boolean,
     sendAction: (CommunityWriteIntent) -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-            Text(
-                text = "제목",
-                style = WepliTheme.typo.body4,
-                color = WepliTheme.color.gray900
-            )
-            Text(
-                text = "*",
-                style = WepliTheme.typo.body4.copy(
-                    brush = WepliTheme.color.linear3
-                ),
-            )
-        }
-
-        WepliTextField(
+        RequiredFieldLabel("제목")
+        LimitedLengthTextField(
             value = title,
-            onValueChanged = { newValue ->
-                sendAction(CommunityWriteIntent.UpdateTitle(newValue))
-            },
-            singleLine = true,
+            maxLength = maxLength,
+            isLengthExceeded = isTitleLengthExceeded,
             placeholder = "제목을 작성해주세요.",
-            type = WepliTextFieldType.Normal
+            errorText = "제목은 ${maxLength}자 이내로 작성해주세요.",
+            type = WepliTextFieldType.Normal,
+            onValueChanged = { newValue, maxLength ->
+                sendAction(CommunityWriteIntent.UpdateTitle(newValue, maxLength))
+            }
         )
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = "제목은 50자 이내로 작성해주세요.",
-                style = WepliTheme.typo.body6,
-                color = WepliTheme.color.gray500
-            )
-
-            Text(
-                text = "${title.length}/$maxLength",
-                style = WepliTheme.typo.body6,
-                color = WepliTheme.color.gray500
-            )
-        }
     }
 }
 
 @Composable
 fun ContentsLayout(
     contents: String,
+    maxLength: Int = 250,
+    isContentsLengthExceeded: Boolean,
     sendAction: (CommunityWriteIntent) -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-            Text(
-                text = "내용",
-                style = WepliTheme.typo.body4,
-                color = WepliTheme.color.gray900
-            )
-            Text(
-                text = "*",
-                style = WepliTheme.typo.body4.copy(
-                    brush = WepliTheme.color.linear3
-                ),
-            )
-        }
+        RequiredFieldLabel("내용")
 
-        WepliTextField(
+        LimitedLengthTextField(
             value = contents,
-            onValueChanged = { newValue ->
-                sendAction(CommunityWriteIntent.UpdateContents(newValue))
-            },
-            singleLine = false,
+            maxLength = maxLength,
+            isLengthExceeded = isContentsLengthExceeded,
             placeholder = "내용을 작성해주세요.",
-            type = WepliTextFieldType.MultiLine
+            errorText = "내용은 ${maxLength}자 이내로 작성해주세요.",
+            type = WepliTextFieldType.MultiLine,
+            onValueChanged = { newValue, maxLength ->
+                sendAction(CommunityWriteIntent.UpdateContents(newValue, maxLength))
+            }
+        )
+    }
+}
+
+@Composable
+fun RequiredFieldLabel(text: String) {
+    Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+        Text(
+            text = text,
+            style = WepliTheme.typo.body4,
+            color = WepliTheme.color.gray900
+        )
+        Text(
+            text = "*",
+            style = WepliTheme.typo.body4.copy(
+                brush = WepliTheme.color.linear3
+            ),
+        )
+    }
+}
+
+@Composable
+fun LimitedLengthTextField(
+    value: String,
+    maxLength: Int,
+    isLengthExceeded: Boolean,
+    placeholder: String,
+    errorText: String,
+    type: WepliTextFieldType,
+    onValueChanged: (String, Int) -> Unit
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        WepliTextField(
+            value = value,
+            onValueChanged = { newValue ->
+                onValueChanged(newValue, maxLength)
+            },
+            isError = isLengthExceeded,
+            singleLine = type == WepliTextFieldType.Normal,
+            placeholder = placeholder,
+            type = type
         )
 
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(
-                text = "내용은 500자 이내로 작성해주세요.",
-                style = WepliTheme.typo.body6,
-                color = WepliTheme.color.gray500
-            )
+            if (isLengthExceeded) {
+                Text(
+                    text = errorText,
+                    style = WepliTheme.typo.body6,
+                    color = WepliTheme.color.red500
+                )
+            }
 
+            Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = "0/500",
+                text = "${value.length}/$maxLength",
                 style = WepliTheme.typo.body6,
                 color = WepliTheme.color.gray500
             )
@@ -183,6 +202,8 @@ fun CommunityWriteScreenPreview() {
     CommunityWriteScreen(
         title = "",
         contents = "",
+        isTitleLengthExceeded = false,
+        isContentsLengthExceeded = false,
         sendAction = {}
     )
 }
