@@ -23,6 +23,7 @@ internal val LocalWePLiColors = staticCompositionLocalOf { lightColors() }
 @Stable val Gray150 = Color(0xFF2A2A33)
 @Stable val Gray050 = Color(0xFF18181D)
 @Stable val Gray000 = Color(0xFF141417)
+@Stable val Red500 = Color(0xFFC53C3C)
 @Stable val Black = Color(0xFF000000)
 
 @Stable val Linear3 = Brush.linearGradient(
@@ -46,6 +47,7 @@ class Colors(
     gray150: Color,
     gray050: Color,
     gray000: Color,
+    red500: Color,
     black: Color,
     linear3: Brush,
 ) {
@@ -73,6 +75,8 @@ class Colors(
         internal set
     var gray000 by mutableStateOf(gray000, structuralEqualityPolicy())
         internal set
+    var red500 by mutableStateOf(red500, structuralEqualityPolicy())
+        internal set
     var black by mutableStateOf(black, structuralEqualityPolicy())
         internal set
     var linear3 by mutableStateOf(linear3, structuralEqualityPolicy())
@@ -91,6 +95,7 @@ fun lightColors(
     gray150: Color = Gray150,
     gray050: Color = Gray050,
     gray000: Color = Gray000,
+    red500: Color = Red500,
     black: Color = Black,
     linear3: Brush = Linear3,
 ): Colors {
@@ -108,6 +113,7 @@ fun lightColors(
         gray050 = gray050,
         gray000 = gray000,
         black = black,
+        red500 = red500,
         linear3 = linear3,
     )
 }
@@ -124,6 +130,7 @@ fun darkColors(
     gray150: Color = Gray150,
     gray050: Color = Gray050,
     gray000: Color = Gray000,
+    red500: Color = Red500,
     black: Color = Black,
     linear3: Brush = Linear3,
 ): Colors {
@@ -140,6 +147,7 @@ fun darkColors(
         gray150 = gray150,
         gray050 = gray050,
         gray000 = gray000,
+        red500 = red500,
         black = black,
         linear3 = linear3,
     )
