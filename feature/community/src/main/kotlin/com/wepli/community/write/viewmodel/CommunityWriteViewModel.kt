@@ -15,19 +15,29 @@ class CommunityWriteViewModel @Inject constructor() : BaseMviViewModel<Community
     override fun processIntent(intent: CommunityWriteIntent) {
         when (intent) {
             is CommunityWriteIntent.UpdateTitle -> {
-                handleUpdateTitle(intent.title)
+                handleUpdateTitle(intent.title, intent.maxLength)
             }
             is CommunityWriteIntent.UpdateContents -> {
-                handleUpdateContents(intent.contents)
+                handleUpdateContents(intent.contents, intent.maxLength)
             }
         }
     }
 
-    private fun handleUpdateTitle(title: String) = intent {
-        reduce { state.copy(title = title) }
+    private fun handleUpdateTitle(title: String, maxLength: Int) = intent {
+        reduce {
+            state.copy(
+                title = title,
+                isTitleLengthExceeded = title.length > maxLength
+            )
+        }
     }
 
-    private fun handleUpdateContents(contents: String) = intent {
-        reduce { state.copy(contents = contents) }
+    private fun handleUpdateContents(contents: String, maxLength: Int) = intent {
+        reduce {
+            state.copy(
+                contents = contents,
+                isContentsLengthExceeded = contents.length > maxLength
+            )
+        }
     }
 }
