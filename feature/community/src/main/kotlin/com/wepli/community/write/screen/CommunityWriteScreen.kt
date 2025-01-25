@@ -12,7 +12,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -69,6 +71,8 @@ fun CommunityWriteScreen(
                 isContentsLengthExceeded = state.contents.isLengthExceeded,
                 sendAction = sendAction
             )
+
+            AddSongLayout()
         }
     }
 }
@@ -84,7 +88,7 @@ fun TitleLayout(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        RequiredFieldLabel("제목")
+        FieldLabel("제목", "*", true)
         LimitedLengthTextField(
             value = title,
             maxLength = maxLength,
@@ -110,7 +114,7 @@ fun ContentsLayout(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        RequiredFieldLabel("내용")
+        FieldLabel("내용", "*", true)
 
         LimitedLengthTextField(
             value = contents,
@@ -127,25 +131,41 @@ fun ContentsLayout(
 }
 
 @Composable
-fun RequiredFieldLabel(text: String) {
-    Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+fun AddSongLayout() {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        FieldLabel("노래 추가하기", "선택", false)
+    }
+}
+
+@Composable
+fun FieldLabel(
+    text: String,
+    label: String,
+    isRequired: Boolean,
+) {
+    val labelStyle = with(WepliTheme.typo) {
+        if (isRequired) body4 else caption2
+    }
+
+    Row(
+        verticalAlignment = if (isRequired) Alignment.Top else Alignment.CenterVertically,
+        horizontalArrangement = if (isRequired) Arrangement.spacedBy(2.dp) else Arrangement.spacedBy(4.dp)
+    ) {
         Text(
             text = text,
             style = WepliTheme.typo.body4,
             color = WepliTheme.color.gray900
         )
         Text(
-            text = "*",
-            style = WepliTheme.typo.body4.copy(
+            text = label,
+            style = labelStyle.copy(
                 brush = WepliTheme.color.linear3
-            ),
+            )
         )
     }
-}
-
-@Composable
-fun NonRequiredFieldLabel(text: String) {
-
 }
 
 @Composable
