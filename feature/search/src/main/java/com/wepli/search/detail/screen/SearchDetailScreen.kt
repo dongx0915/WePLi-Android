@@ -47,6 +47,8 @@ import image.AsyncImageWithPreview
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import textfield.SearchMusicTextField
+import textfield.WepliTextField
+import textfield.WepliTextFieldType
 import theme.WepliTheme
 
 @Composable
@@ -117,14 +119,13 @@ fun SearchScreen(
                 .padding(horizontal = 20.dp)
         ) {
             Box(modifier = Modifier.padding(vertical = 10.dp)) {
-                SearchMusicTextField(
-                    query = searchQuery,
-                    onQueryUpdate = { onQueryUpdate(it) },
+                WepliTextField(
+                    value = searchQuery,
+                    singleLine = true,
+                    onValueChanged = { onQueryUpdate(it) },
                     onEnter = { onEnter() },
-                    placeholderText = "검색어를 입력하세요.",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(44.dp),
+                    placeholder = "검색어를 입력하세요.",
+                    type = WepliTextFieldType.Search
                 )
             }
 

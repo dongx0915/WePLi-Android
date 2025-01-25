@@ -43,6 +43,8 @@ import model.recommend.RecommendKeyword
 import org.joda.time.LocalDate
 import org.orbitmvi.orbit.compose.collectAsState
 import textfield.SearchMusicTextField
+import textfield.WepliTextField
+import textfield.WepliTextFieldType
 import theme.WepliTheme
 
 @Composable
@@ -87,21 +89,17 @@ fun SearchMainScreen(
                 .verticalScroll(scrollState)
         ) {
             Box(modifier = Modifier.padding(top = 10.dp)) {
-                SearchMusicTextField(
-                    query = "",
+                WepliTextField(
+                    value = "",
                     readOnly = true,
-                    onQueryUpdate = {},
-                    onEnter = {},
-                    placeholderText = "검색어를 입력하세요.",
-                    modifier = Modifier
-                        .focusRequester(FocusRequester())
-                        .onFocusChanged {
-                            if (it.isFocused) {
-                                navOnSearchDetail("")
-                            }
+                    singleLine = true,
+                    onFocusChanged = {
+                        if (it.isFocused) {
+                            navOnSearchDetail("")
                         }
-                        .fillMaxWidth()
-                        .height(44.dp),
+                    },
+                    placeholder = "검색어를 입력하세요.",
+                    type = WepliTextFieldType.Search
                 )
             }
 
