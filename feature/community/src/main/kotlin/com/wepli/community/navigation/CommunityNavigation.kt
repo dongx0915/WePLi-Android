@@ -11,6 +11,8 @@ import androidx.navigation.navArgument
 import com.wepli.community.detail.CommunityDetailScreen
 import com.wepli.community.detail.CommunityDetailViewModel
 import com.wepli.community.main.CommunityScreen
+import com.wepli.community.write.screen.CommunityWriteScreen
+import com.wepli.community.write.screen.CommunityWriteScreenRoute
 import com.wepli.navigator.feature.community.CommunityRoute
 import com.wepli.shared.feature.uimodel.community.PostUiData
 import extensions.enterAnimation
@@ -22,13 +24,19 @@ fun NavController.navigateToCommunityDetail(post: PostUiData) {
     navigate("${CommunityRoute.Detail.route}/${Uri.encode(post.toJsonString())}")
 }
 
+fun NavController.navigateToCommunityWrite() {
+    navigate(CommunityRoute.Write.route)
+}
+
 // Graph - 도착 지점(화면)을 정의
 fun NavGraphBuilder.communityMainGraph(
-    navOnCommunityDetail: (PostUiData) -> Unit
+    navOnCommunityDetail: (PostUiData) -> Unit,
+    navOnCommunityWrite: () -> Unit
 ) {
     composable(CommunityRoute.Home.route) {
         CommunityScreen(
-            navOnCommunityDetail = { post -> navOnCommunityDetail(post) }
+            navOnCommunityDetail = { post -> navOnCommunityDetail(post) },
+            navOnCommunityWrite = { navOnCommunityWrite() }
         )
     }
 }
@@ -52,5 +60,13 @@ fun NavGraphBuilder.communityDetailGraph(
         }
 
         CommunityDetailScreen(viewModel = viewModel, navOnBack = { navOnBack() })
+    }
+}
+
+fun NavGraphBuilder.communityWriteGraph(
+    navOnBack: () -> Unit
+) {
+    composable(CommunityRoute.Write.route) {
+        CommunityWriteScreenRoute()
     }
 }

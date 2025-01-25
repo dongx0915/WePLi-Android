@@ -35,7 +35,8 @@ import theme.WepliTheme
 @Composable
 fun CommunityScreen(
     viewModel: CommunityViewModel = hiltViewModel(),
-    navOnCommunityDetail: (PostUiData) -> Unit = {}
+    navOnCommunityDetail: (PostUiData) -> Unit = {},
+    navOnCommunityWrite: () -> Unit = {},
 ) {
     val state by viewModel.state.collectAsState()
     val storyUsers: List<UserUiData> by rememberUpdatedState(newValue = state.storyUsers)
@@ -55,7 +56,7 @@ fun CommunityScreen(
         },
         floatingActionButton = {
             PostWritingButton(
-                onClick = {}
+                onClick = { navOnCommunityWrite() },
             )
         },
     ) { paddingValues ->
