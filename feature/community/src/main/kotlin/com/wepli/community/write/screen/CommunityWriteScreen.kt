@@ -97,12 +97,7 @@ fun CommunityWriteScreen(
 
             // 노래 추가 방법 선택 바텀시트
             if (state.isShowMusicSelectBottomSheet) {
-                WepliBottomSheet(
-                    onClosed = { sendAction(CommunityWriteIntent.ShowMusicSelectBottomSheet(false)) },
-                    type = WepliBottomSheetType.Normal,
-                ) {
-                    BottomSheetContentExample()
-                }
+                MusicSourceSelectionBottomSheet(sendAction)
             }
         }
     }
@@ -196,6 +191,38 @@ fun SelectedSongLayout(
                 AddSongButton {
                     sendAction(CommunityWriteIntent.ShowMusicSelectBottomSheet(true))
                 }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MusicSourceSelectionBottomSheet(
+    sendAction: (CommunityWriteIntent) -> Unit,
+) {
+    WepliBottomSheet(
+        onClosed = { sendAction(CommunityWriteIntent.ShowMusicSelectBottomSheet(false)) },
+        type = WepliBottomSheetType.Normal(title = "노래를 어떻게 가져올까요?"),
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)
+        ) {
+            Box(modifier = Modifier.padding(vertical = 16.dp)) {
+                Text(
+                    text = "노래 검색하기",
+                    style = WepliTheme.typo.subTitle3,
+                    color = WepliTheme.color.gray600
+                )
+            }
+            Box(modifier = Modifier.padding(vertical = 16.dp)) {
+                Text(
+                    text = "플레이리스트 가져오기",
+                    style = WepliTheme.typo.subTitle3,
+                    color = WepliTheme.color.gray600
+                )
             }
         }
     }
