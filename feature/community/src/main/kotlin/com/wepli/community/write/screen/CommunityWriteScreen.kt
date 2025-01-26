@@ -2,6 +2,7 @@ package com.wepli.community.write.screen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,6 +37,9 @@ import com.wepli.community.write.mvi.CommunityWriteUiState
 import com.wepli.community.write.viewmodel.CommunityWriteViewModel
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.songMockData
+import component.bottomsheet.BottomSheetContentExample
+import component.bottomsheet.WepliBottomSheetType
+import component.bottomsheet.WepliBottomSheet
 import custom.SongItem
 import org.orbitmvi.orbit.compose.collectAsState
 import textfield.WepliTextField
@@ -89,7 +93,17 @@ fun CommunityWriteScreen(
                 modifier = Modifier.padding(horizontal = 20.dp)
             )
 
-            AddSongLayout()
+            SelectedSongLayout(sendAction = sendAction)
+
+            // 노래 추가 방법 선택 바텀시트
+            if (state.isShowMusicSelectBottomSheet) {
+                WepliBottomSheet(
+                    onClosed = { sendAction(CommunityWriteIntent.ShowMusicSelectBottomSheet(false)) },
+                    type = WepliBottomSheetType.Normal,
+                ) {
+                    BottomSheetContentExample()
+                }
+            }
         }
     }
 }
@@ -150,8 +164,9 @@ fun ContentsLayout(
 }
 
 @Composable
-fun AddSongLayout(
-    modifier: Modifier = Modifier
+fun SelectedSongLayout(
+    modifier: Modifier = Modifier,
+    sendAction: (CommunityWriteIntent) -> Unit,
 ) {
     val lazyRowState = rememberLazyListState()
 
@@ -178,7 +193,9 @@ fun AddSongLayout(
             }
 
             item {
-                AddSongButton { }
+                AddSongButton {
+                    sendAction(CommunityWriteIntent.ShowMusicSelectBottomSheet(true))
+                }
             }
         }
     }
@@ -190,6 +207,7 @@ fun AddSongButton(
 ) {
     Box(
         modifier = Modifier
+            .clickable { onClick() }
             .size(92.dp)
             .clip(RoundedCornerShape(4.dp))
             .background(WepliTheme.color.gray000),

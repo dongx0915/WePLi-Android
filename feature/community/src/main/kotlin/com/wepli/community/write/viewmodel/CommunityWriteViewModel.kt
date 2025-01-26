@@ -20,6 +20,9 @@ class CommunityWriteViewModel @Inject constructor() : BaseMviViewModel<Community
             is CommunityWriteIntent.UpdateContents -> {
                 handleUpdateContents(intent.contents, intent.maxLength)
             }
+            is CommunityWriteIntent.ShowMusicSelectBottomSheet -> {
+                handleShowMusicSelectBottomSheet(intent.isVisible)
+            }
         }
     }
 
@@ -41,6 +44,14 @@ class CommunityWriteViewModel @Inject constructor() : BaseMviViewModel<Community
                     text = contents,
                     isLengthExceeded = contents.length > maxLength
                 ),
+            )
+        }
+    }
+
+    private fun handleShowMusicSelectBottomSheet(isVisible: Boolean) = intent {
+        reduce {
+            state.copy(
+                isShowMusicSelectBottomSheet = isVisible
             )
         }
     }

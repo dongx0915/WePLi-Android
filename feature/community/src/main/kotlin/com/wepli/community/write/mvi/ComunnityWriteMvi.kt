@@ -6,7 +6,8 @@ import base.UiState
 
 data class CommunityWriteUiState(
     val title: FieldState = FieldState(),
-    val contents: FieldState = FieldState()
+    val contents: FieldState = FieldState(),
+    val isShowMusicSelectBottomSheet: Boolean = false
 ) : UiState {
 
     data class FieldState(
@@ -20,4 +21,5 @@ interface CommunityWriteEffect : SideEffect
 interface CommunityWriteIntent : Intent {
     data class UpdateTitle(val title: String, val maxLength: Int) : CommunityWriteIntent
     data class UpdateContents(val contents: String, val maxLength: Int) : CommunityWriteIntent
+    data class ShowMusicSelectBottomSheet(val isVisible: Boolean) : CommunityWriteIntent
 }
