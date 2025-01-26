@@ -10,12 +10,15 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -70,6 +73,8 @@ fun CommunityWriteScreen(
     navOnSearchDetail: () -> Unit,
     sendAction: (CommunityWriteIntent) -> Unit,
 ) {
+    val scrollState = rememberScrollState()
+
     Scaffold(
         topBar = {
             WepliAppBar(
@@ -82,8 +87,9 @@ fun CommunityWriteScreen(
     ) { paddingValues ->
         Column(
             modifier = Modifier
+                .verticalScroll(scrollState)
                 .padding(paddingValues)
-                .padding(top = 20.dp, bottom = 0.dp),
+                .padding(vertical = 20.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             TitleLayout(
@@ -104,6 +110,10 @@ fun CommunityWriteScreen(
                 selectedSongs = state.selectedSongs,
                 sendAction = sendAction
             )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            CompleteButton()
 
             // 노래 추가 방법 선택 바텀시트
             if (state.isShowMusicSelectBottomSheet) {
@@ -248,6 +258,7 @@ fun MusicSourceSelectionBottomSheet(
     }
 }
 
+/** 버튼 **/
 @Composable
 fun AddSongButton(
     onClick: () -> Unit,
@@ -268,6 +279,26 @@ fun AddSongButton(
         )
     }
 }
+
+@Composable
+fun CompleteButton() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)
+            .height(48.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .background(WepliTheme.color.gray000),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "작성 완료",
+            style = WepliTheme.typo.body1,
+            color = WepliTheme.color.gray900,
+        )
+    }
+}
+/** -- **/
 
 @Composable
 fun FieldLabel(
