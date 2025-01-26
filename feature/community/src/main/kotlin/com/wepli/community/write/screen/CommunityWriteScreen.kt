@@ -36,7 +36,7 @@ import com.wepli.community.write.mvi.CommunityWriteIntent
 import com.wepli.community.write.mvi.CommunityWriteUiState
 import com.wepli.community.write.viewmodel.CommunityWriteViewModel
 import com.wepli.designsystem.R
-import com.wepli.shared.feature.mock.songMockData
+import com.wepli.uimodel.music.SongUiData
 import component.bottomsheet.WepliBottomSheetType
 import component.bottomsheet.WepliBottomSheet
 import custom.SongItem
@@ -100,7 +100,10 @@ fun CommunityWriteScreen(
                 modifier = Modifier.padding(horizontal = 20.dp)
             )
 
-            SelectedSongLayout(sendAction = sendAction)
+            SelectedSongLayout(
+                selectedSongs = state.selectedSongs,
+                sendAction = sendAction
+            )
 
             // 노래 추가 방법 선택 바텀시트
             if (state.isShowMusicSelectBottomSheet) {
@@ -171,6 +174,7 @@ fun ContentsLayout(
 @Composable
 fun SelectedSongLayout(
     modifier: Modifier = Modifier,
+    selectedSongs: List<SongUiData>,
     sendAction: (CommunityWriteIntent) -> Unit,
 ) {
     val lazyRowState = rememberLazyListState()
@@ -193,7 +197,7 @@ fun SelectedSongLayout(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(horizontal = 20.dp)
         ) {
-            items(songMockData.take(10)) { song ->
+            items(selectedSongs) { song ->
                 SongItem(song = song)
             }
 

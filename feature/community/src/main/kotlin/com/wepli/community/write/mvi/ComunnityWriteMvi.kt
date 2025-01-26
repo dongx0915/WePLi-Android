@@ -3,10 +3,12 @@ package com.wepli.community.write.mvi
 import base.Intent
 import base.SideEffect
 import base.UiState
+import com.wepli.uimodel.music.SongUiData
 
 data class CommunityWriteUiState(
     val title: FieldState = FieldState(),
     val contents: FieldState = FieldState(),
+    val selectedSongs: List<SongUiData> = emptyList(),
     val isShowMusicSelectBottomSheet: Boolean = false
 ) : UiState {
 

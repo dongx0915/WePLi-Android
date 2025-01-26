@@ -4,6 +4,7 @@ import base.BaseMviViewModel
 import com.wepli.community.write.mvi.CommunityWriteEffect
 import com.wepli.community.write.mvi.CommunityWriteIntent
 import com.wepli.community.write.mvi.CommunityWriteUiState
+import com.wepli.shared.feature.mock.songMockData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -11,6 +12,11 @@ import javax.inject.Inject
 class CommunityWriteViewModel @Inject constructor() : BaseMviViewModel<CommunityWriteUiState, CommunityWriteEffect, CommunityWriteIntent>(
     initialState = CommunityWriteUiState()
 ) {
+    init {
+        intent {
+            reduce { state.copy(selectedSongs = songMockData.take(10)) }
+        }
+    }
 
     override fun processIntent(intent: CommunityWriteIntent) {
         when (intent) {
