@@ -64,9 +64,10 @@ fun NavGraphBuilder.communityDetailGraph(
 }
 
 fun NavGraphBuilder.communityWriteGraph(
-    navOnBack: () -> Unit
+    navOnBack: () -> Unit,
+    navOnSearchDetail: () -> Unit
 ) {
     composable(CommunityRoute.Write.route) {
-        CommunityWriteScreenRoute()
+        CommunityWriteScreenRoute(navOnBack, navOnSearchDetail)
     }
 }

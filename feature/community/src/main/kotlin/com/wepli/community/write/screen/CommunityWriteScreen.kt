@@ -37,7 +37,6 @@ import com.wepli.community.write.mvi.CommunityWriteUiState
 import com.wepli.community.write.viewmodel.CommunityWriteViewModel
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.songMockData
-import component.bottomsheet.BottomSheetContentExample
 import component.bottomsheet.WepliBottomSheetType
 import component.bottomsheet.WepliBottomSheet
 import custom.SongItem
@@ -47,12 +46,17 @@ import textfield.WepliTextFieldType
 import theme.WepliTheme
 
 @Composable
-fun CommunityWriteScreenRoute() {
+fun CommunityWriteScreenRoute(
+    navOnBack: () -> Unit,
+    navOnSearchDetail: () -> Unit
+) {
     val viewModel: CommunityWriteViewModel = hiltViewModel()
     val state: CommunityWriteUiState by viewModel.collectAsState()
 
     CommunityWriteScreen(
         state = state,
+        navOnBack = navOnBack,
+        navOnSearchDetail = navOnSearchDetail,
         sendAction = viewModel::processIntent,
     )
 }
@@ -62,13 +66,16 @@ fun CommunityWriteScreenRoute() {
 @Composable
 fun CommunityWriteScreen(
     state: CommunityWriteUiState,
+    navOnBack: () -> Unit,
+    navOnSearchDetail: () -> Unit,
     sendAction: (CommunityWriteIntent) -> Unit,
 ) {
     Scaffold(
         topBar = {
             WepliAppBar(
                 title = "게시글 작성",
-                showBackButton = true
+                showBackButton = true,
+                onClickBack = { navOnBack() }
             )
         },
         containerColor = WepliTheme.color.black
@@ -97,7 +104,10 @@ fun CommunityWriteScreen(
 
             // 노래 추가 방법 선택 바텀시트
             if (state.isShowMusicSelectBottomSheet) {
-                MusicSourceSelectionBottomSheet(sendAction)
+                MusicSourceSelectionBottomSheet(
+                    sendAction = sendAction,
+                    navOnSearchDetail = navOnSearchDetail
+                )
             }
         }
     }
@@ -200,30 +210,36 @@ fun SelectedSongLayout(
 @Composable
 fun MusicSourceSelectionBottomSheet(
     sendAction: (CommunityWriteIntent) -> Unit,
+    navOnSearchDetail: () -> Unit,
 ) {
+    @Composable
+    fun BottomSheetItem(title: String, onClick: () -> Unit) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    sendAction(CommunityWriteIntent.ShowMusicSelectBottomSheet(false))
+                    onClick()
+                }
+                .padding(vertical = 16.dp, horizontal = 20.dp)
+        ) {
+            Text(
+                text = title,
+                style = WepliTheme.typo.subTitle3,
+                color = WepliTheme.color.gray600
+            )
+        }
+    }
+
     WepliBottomSheet(
         onClosed = { sendAction(CommunityWriteIntent.ShowMusicSelectBottomSheet(false)) },
         type = WepliBottomSheetType.Normal(title = "노래를 어떻게 가져올까요?"),
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp)
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Box(modifier = Modifier.padding(vertical = 16.dp)) {
-                Text(
-                    text = "노래 검색하기",
-                    style = WepliTheme.typo.subTitle3,
-                    color = WepliTheme.color.gray600
-                )
-            }
-            Box(modifier = Modifier.padding(vertical = 16.dp)) {
-                Text(
-                    text = "플레이리스트 가져오기",
-                    style = WepliTheme.typo.subTitle3,
-                    color = WepliTheme.color.gray600
-                )
-            }
+            BottomSheetItem("노래 검색하기") { navOnSearchDetail() }
+            BottomSheetItem("플레이리스트 가져오기") { /* TODO */ }
         }
     }
 }
@@ -331,6 +347,8 @@ fun LimitedLengthTextField(
 fun CommunityWriteScreenPreview() {
     CommunityWriteScreen(
         state = CommunityWriteUiState(),
+        navOnBack = {},
+        navOnSearchDetail = {},
         sendAction = {}
     )
 }

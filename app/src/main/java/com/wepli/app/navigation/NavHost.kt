@@ -86,7 +86,8 @@ fun NavGraphBuilder.communityGraph(navController: NavHostController) {
         navOnBack = { navController.navigateToBack() }
     )
     communityWriteGraph(
-        navOnBack = { navController.navigateToBack() }
+        navOnBack = { navController.navigateToBack() },
+        navOnSearchDetail = { navController.navigateToSearchDetail("") }
     )
 }
 
