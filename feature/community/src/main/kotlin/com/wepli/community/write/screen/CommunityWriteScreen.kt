@@ -35,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
+import button.WepliBasicButton
 import com.wepli.community.write.mvi.CommunityWriteIntent
 import com.wepli.community.write.mvi.CommunityWriteUiState
 import com.wepli.community.write.viewmodel.CommunityWriteViewModel
@@ -113,7 +114,12 @@ fun CommunityWriteScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            CompleteButton()
+            WepliBasicButton(
+                title = "작성 완료",
+                isEnabled = true,
+                onClick = { /* TODO */ },
+                modifier = Modifier.padding(horizontal = 20.dp)
+            )
 
             // 노래 추가 방법 선택 바텀시트
             if (state.isShowMusicSelectBottomSheet) {
@@ -280,24 +286,6 @@ fun AddSongButton(
     }
 }
 
-@Composable
-fun CompleteButton() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp)
-            .height(48.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .background(WepliTheme.color.gray000),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "작성 완료",
-            style = WepliTheme.typo.body1,
-            color = WepliTheme.color.gray900,
-        )
-    }
-}
 /** -- **/
 
 @Composable
