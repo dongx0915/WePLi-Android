@@ -75,7 +75,7 @@ private fun BottomSheetHeader(
                 .height(44.dp)
         ) {
             Text(
-                text = "타이틀",
+                text = type.title,
                 style = WepliTheme.typo.subTitle1,
                 color = WepliTheme.color.gray900,
                 modifier = Modifier.align(Alignment.Center)
@@ -133,7 +133,7 @@ fun WepliBottomSheetPreview() {
                 .background(color = WepliTheme.color.gray050)
                 .padding(bottom = 16.dp)
         ) {
-            BottomSheetHeader(type = WepliBottomSheetType.Normal)
+            BottomSheetHeader(type = WepliBottomSheetType.Normal("타이틀"))
             BottomSheetContentExample()
         }
 
@@ -145,7 +145,7 @@ fun WepliBottomSheetPreview() {
                 .background(color = WepliTheme.color.gray050)
                 .padding(bottom = 16.dp)
         ) {
-            BottomSheetHeader(type = WepliBottomSheetType.Button("완료") { })
+            BottomSheetHeader(type = WepliBottomSheetType.Button(title = "타이틀", "완료") { })
             BottomSheetContentExample()
         }
     }
