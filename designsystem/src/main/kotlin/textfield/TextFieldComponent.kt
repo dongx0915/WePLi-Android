@@ -81,6 +81,17 @@ sealed interface WepliTextFieldType {
         @Composable
         override fun trailingIcon(): Painter = painterResource(id = R.drawable.ic_search)
     }
+    
+    data object MultiLine : WepliTextFieldType {
+        @Composable
+        override fun leadingIcon(): Painter? = null
+
+        @Composable
+        override fun trailingIcon(): Painter? = null
+
+        override fun minHeight(): Dp = 250.dp
+        override fun maxHeight(): Dp = 250.dp
+    }
 }
 
 
@@ -108,19 +119,22 @@ fun WepliTextField(
         backgroundColor = WepliTheme.color.gray300,
     )
     val textFieldColors = OutlinedTextFieldDefaults.colors(
-        // TextField 색상
+        // 배경색
         focusedContainerColor = WepliTheme.color.gray000,
         unfocusedContainerColor = WepliTheme.color.gray000,
-
+        // 테두리 색
         focusedBorderColor = WepliTheme.color.gray000,
         unfocusedBorderColor = WepliTheme.color.gray000,
-
+        // 텍스트 색상
         unfocusedTextColor = WepliTheme.color.gray900,
         focusedTextColor = WepliTheme.color.gray900,
         selectionColors = TextSelectionColors(
             handleColor = WepliTheme.color.gray900,
             backgroundColor = WepliTheme.color.gray300,
         ),
+        // 에러 색상
+        errorBorderColor = WepliTheme.color.red500,
+        errorContainerColor = WepliTheme.color.gray000,
     )
 
     LaunchedEffect(value) {
@@ -229,6 +243,17 @@ private fun WepliTextFieldPreview() {
             onValueChanged = { _ -> },
             onEnter = {},
             onFocusChanged = {},
+            singleLine = true,
+            placeholder = "Placeholder",
+            type = WepliTextFieldType.Normal,
+        )
+
+        WepliTextField(
+            value = "에러 발생",
+            onValueChanged = { _ -> },
+            onEnter = {},
+            onFocusChanged = {},
+            isError = true,
             singleLine = true,
             placeholder = "Placeholder",
             type = WepliTextFieldType.Normal,

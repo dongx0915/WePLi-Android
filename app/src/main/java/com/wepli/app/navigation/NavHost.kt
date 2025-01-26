@@ -18,6 +18,8 @@ import com.wepli.mypage.menus.appinfo.navigation.mypageAppInfoGraph
 import com.wepli.mypage.menus.appinfo.navigation.navigateToAppInfo
 import com.wepli.mypage.menus.mypage.navigation.mypageMainGraph
 import com.wepli.app.navigation.extensions.navigateToBack
+import com.wepli.community.navigation.communityWriteGraph
+import com.wepli.community.navigation.navigateToCommunityWrite
 import com.wepli.playlist.navigation.navigateToPlaylistDetail
 import com.wepli.playlist.navigation.playlistDetailGraph
 import com.wepli.search.navigation.navigateToSearchDetail
@@ -77,10 +79,15 @@ fun NavGraphBuilder.searchGraph(navController: NavController) {
 // 커뮤니티 Graph
 fun NavGraphBuilder.communityGraph(navController: NavHostController) {
     communityMainGraph(
-        navOnCommunityDetail = { post -> navController.navigateToCommunityDetail(post) }
+        navOnCommunityDetail = { post -> navController.navigateToCommunityDetail(post) },
+        navOnCommunityWrite = { navController.navigateToCommunityWrite() }
     )
     communityDetailGraph(
         navOnBack = { navController.navigateToBack() }
+    )
+    communityWriteGraph(
+        navOnBack = { navController.navigateToBack() },
+        navOnSearchDetail = { navController.navigateToSearchDetail("") }
     )
 }
 
