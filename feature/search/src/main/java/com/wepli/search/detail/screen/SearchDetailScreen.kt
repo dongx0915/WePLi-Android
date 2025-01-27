@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -89,10 +90,10 @@ fun SearchScreenRoute(
 
     SearchScreen(
         screenMode = screenMode,
+        state = state,
+        sendAction = { viewModel.processIntent(it) },
         onQueryUpdate = { viewModel.processIntent(SearchDetailIntent.OnSearchQueryChanged(it)) },
         onEnter = { viewModel.processIntent(SearchDetailIntent.RequestSearch(state.searchInput)) },
-        searchQuery = state.searchInput,
-        searchResult = state.searchMusicResult,
         lazyListState = scrollState,
         navOnBack = { navOnBack() }
     )
@@ -103,14 +104,14 @@ fun SearchScreenRoute(
 @Composable
 fun SearchScreen(
     screenMode: SearchScreenMode,
+    state: SearchDetailUiState,
+    sendAction: (SearchDetailIntent) -> Unit,
     onQueryUpdate: (String) -> Unit,
     onEnter: () -> Unit,
-    searchQuery: String,
-    searchResult: List<SongUiData>,
     lazyListState: LazyListState,
     navOnBack: () -> Unit,
 ) {
-    LaunchedEffect(searchResult) {
+    LaunchedEffect(state.searchMusicResult) {
         lazyListState.scrollToItem(0)
     }
 
@@ -125,22 +126,23 @@ fun SearchScreen(
             )
         }
     ) { paddingValues ->
-        when(screenMode) {
+        when (screenMode) {
             SearchScreenMode.NORMAL -> {
                 SearchContent(
                     paddingValues = paddingValues,
-                    searchQuery = searchQuery,
-                    searchResult = searchResult,
+                    state = state,
+                    sendAction = sendAction,
                     onQueryUpdate = onQueryUpdate,
                     onEnter = onEnter,
                     lazyListState = lazyListState,
                 )
             }
+
             SearchScreenMode.SELECTABLE -> {
                 SearchWithSelectedSheet(
                     paddingValues = paddingValues,
-                    searchQuery = searchQuery,
-                    searchResult = searchResult,
+                    state = state,
+                    sendAction = sendAction,
                     onQueryUpdate = onQueryUpdate,
                     onEnter = onEnter,
                     lazyListState = lazyListState,
@@ -153,26 +155,27 @@ fun SearchScreen(
 @Composable
 fun SearchContent(
     paddingValues: PaddingValues,
-    searchQuery: String,
-    searchResult: List<SongUiData>,
+    state: SearchDetailUiState,
+    sendAction: (SearchDetailIntent) -> Unit,
     onQueryUpdate: (String) -> Unit,
     onEnter: () -> Unit,
     lazyListState: LazyListState
 ) {
     Column(
         modifier = Modifier
-        .fillMaxSize()
-        .padding(paddingValues)
-        .padding(horizontal = 20.dp)
+            .fillMaxSize()
+            .padding(paddingValues)
+            .padding(horizontal = 20.dp)
     ) {
         SearchBar(
-            searchQuery = searchQuery,
+            searchQuery = state.searchInput,
             onQueryUpdate = onQueryUpdate,
             onEnter = onEnter
         )
 
         SearchResults(
-            searchResult = searchResult,
+            searchResult = state.searchMusicResult,
+            sendAction = sendAction,
             lazyListState = lazyListState
         )
     }
@@ -181,8 +184,8 @@ fun SearchContent(
 @Composable
 fun SearchWithSelectedSheet(
     paddingValues: PaddingValues,
-    searchQuery: String,
-    searchResult: List<SongUiData>,
+    state: SearchDetailUiState,
+    sendAction: (SearchDetailIntent) -> Unit,
     onQueryUpdate: (String) -> Unit,
     onEnter: () -> Unit,
     lazyListState: LazyListState,
@@ -190,18 +193,21 @@ fun SearchWithSelectedSheet(
     Box(modifier = Modifier.fillMaxSize()) {
         SearchContent(
             paddingValues = paddingValues,
-            searchQuery = searchQuery,
-            searchResult = searchResult,
+            state = state,
+            sendAction = sendAction,
             onQueryUpdate = onQueryUpdate,
             onEnter = onEnter,
             lazyListState = lazyListState,
         )
 
-        SelectedSheet(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .navigationBarsPadding()
-        )
+        if (state.selectedSongs.isNotEmpty()) {
+            SelectedSheet(
+                selectedSongs = state.selectedSongs.toList(),
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .navigationBarsPadding()
+            )
+        }
     }
 }
 
@@ -227,6 +233,7 @@ fun SearchBar(
 fun SearchResults(
     searchResult: List<SongUiData>,
     lazyListState: LazyListState,
+    sendAction: (SearchDetailIntent) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -235,11 +242,14 @@ fun SearchResults(
         contentPadding = PaddingValues(vertical = 24.dp)
     ) {
         items(count = searchResult.size, key = { searchResult[it].id }) { idx ->
+            val song = searchResult[idx]
+
             SongItem(
+                songUiData = song,
+                onClick = { sendAction(SearchDetailIntent.SelectSong(song)) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp),
-                songUiData = searchResult[idx]
             )
         }
     }
@@ -249,11 +259,12 @@ fun SearchResults(
 fun SongItem(
     modifier: Modifier = Modifier,
     songUiData: SongUiData,
+    onClick: () -> Unit,
 ) {
     val imageSize = 52.dp.toPx()
     val imageUrl = remember(songUiData.id) { songUiData.getImageUrl(imageSize) }
 
-    Row(modifier = modifier) {
+    Row(modifier = modifier.clickable { onClick() }) {
         AsyncImageWithPreview(
             modifier = Modifier
                 .fillMaxHeight()
@@ -289,9 +300,17 @@ fun SongItem(
     }
 }
 
-@Preview
 @Composable
-fun SelectedSheet(modifier: Modifier = Modifier) {
+fun SelectedSheet(
+    selectedSongs: List<SongUiData>,
+    modifier: Modifier = Modifier,
+) {
+    val scrollState = rememberScrollState()
+
+    LaunchedEffect(selectedSongs.size) {
+        scrollState.scrollTo(scrollState.maxValue)
+    }
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -302,17 +321,18 @@ fun SelectedSheet(modifier: Modifier = Modifier) {
     ) {
         Row(
             modifier = Modifier
-                .horizontalScroll(rememberScrollState())
+                .horizontalScroll(scrollState)
                 .padding(vertical = 12.dp, horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            repeat(10) {
-                SelectedSongItem(songMockData[it].title, songMockData[it].getImageUrl(40.dp.toPx()))
+            selectedSongs.forEach {
+                // TODO : getImageUrl 호출 시 사이즈 동일해야 캐싱 적용되니 수정 필요
+                SelectedSongItem(it.title, it.getImageUrl(52.dp.toPx()))
             }
         }
 
         WepliBasicButton(
-            title = "추가하기",
+            title = "${selectedSongs.size}곡 추가하기",
             isEnabled = true,
             onClick = { /* TODO */ },
             modifier = Modifier.padding(horizontal = 20.dp)
@@ -379,5 +399,5 @@ fun SkeletonImage() {
 @Preview
 @Composable
 fun SearchScreenPreview() {
-    SearchScreen(SearchScreenMode.NORMAL, {}, {}, "", songMockData, rememberLazyListState(), {})
+    SearchScreen(SearchScreenMode.NORMAL, SearchDetailUiState(searchMusicResult = songMockData), {}, {}, {}, rememberLazyListState(), {})
 }
