@@ -43,9 +43,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
 import button.WepliBasicButton
-import com.wepli.search.detail.state.SearchDetailEffect
-import com.wepli.search.detail.state.SearchDetailIntent
-import com.wepli.search.detail.state.SearchDetailUiState
+import com.wepli.search.detail.mvi.SearchDetailEffect
+import com.wepli.search.detail.mvi.SearchDetailIntent
+import com.wepli.search.detail.mvi.SearchDetailUiState
 import com.wepli.search.detail.viewmodel.SearchDetailViewModel
 import com.wepli.search.navigation.SearchScreenMode
 import com.wepli.shared.feature.mock.songMockData

@@ -1,4 +1,4 @@
-package com.wepli.search.detail.state
+package com.wepli.search.detail.mvi
 
 import base.Intent
 import base.SideEffect
