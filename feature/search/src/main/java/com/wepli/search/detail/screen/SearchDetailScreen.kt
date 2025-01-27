@@ -1,7 +1,6 @@
 package com.wepli.search.detail.screen
 
 import android.annotation.SuppressLint
-import android.app.appsearch.SearchResults
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
