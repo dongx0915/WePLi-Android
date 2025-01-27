@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -104,13 +103,6 @@ fun SearchScreen(
     sendAction: (SearchDetailIntent) -> Unit,
     navOnBack: () -> Unit,
 ) {
-    val onQueryUpdate: (String) -> Unit = {
-        sendAction(SearchDetailIntent.OnSearchQueryChanged(it))
-    }
-    val onEnter: () -> Unit = {
-        sendAction(SearchDetailIntent.RequestSearch(state.searchInput))
-    }
-
     Scaffold(
         containerColor = WepliTheme.color.black,
         topBar = {
@@ -125,21 +117,17 @@ fun SearchScreen(
         when (screenMode) {
             SearchScreenMode.NORMAL -> {
                 SearchContent(
-                    paddingValues = paddingValues,
                     state = state,
+                    paddingValues = paddingValues,
                     sendAction = sendAction,
-                    onQueryUpdate = onQueryUpdate,
-                    onEnter = onEnter,
                 )
             }
 
             SearchScreenMode.SELECTABLE -> {
                 SearchWithSelectedSheet(
-                    paddingValues = paddingValues,
                     state = state,
+                    paddingValues = paddingValues,
                     sendAction = sendAction,
-                    onQueryUpdate = onQueryUpdate,
-                    onEnter = onEnter,
                 )
             }
         }
@@ -148,11 +136,9 @@ fun SearchScreen(
 
 @Composable
 fun SearchContent(
-    paddingValues: PaddingValues,
     state: SearchDetailUiState,
+    paddingValues: PaddingValues,
     sendAction: (SearchDetailIntent) -> Unit,
-    onQueryUpdate: (String) -> Unit,
-    onEnter: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -162,8 +148,8 @@ fun SearchContent(
     ) {
         SearchBar(
             searchQuery = state.searchInput,
-            onQueryUpdate = onQueryUpdate,
-            onEnter = onEnter
+            onQueryUpdate = { sendAction(SearchDetailIntent.OnSearchQueryChanged(it)) },
+            onEnter = { sendAction(SearchDetailIntent.RequestSearch(state.searchInput)) }
         )
 
         SearchResults(
@@ -175,19 +161,15 @@ fun SearchContent(
 
 @Composable
 fun SearchWithSelectedSheet(
-    paddingValues: PaddingValues,
     state: SearchDetailUiState,
+    paddingValues: PaddingValues,
     sendAction: (SearchDetailIntent) -> Unit,
-    onQueryUpdate: (String) -> Unit,
-    onEnter: () -> Unit,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         SearchContent(
             paddingValues = paddingValues,
             state = state,
             sendAction = sendAction,
-            onQueryUpdate = onQueryUpdate,
-            onEnter = onEnter,
         )
 
         if (state.selectedSongs.isNotEmpty()) {
