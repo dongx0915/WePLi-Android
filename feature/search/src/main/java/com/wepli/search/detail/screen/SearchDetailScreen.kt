@@ -69,7 +69,6 @@ fun SearchScreenRoute(
 ) {
     val viewModel = hiltViewModel<SearchDetailViewModel>()
     val state: SearchDetailUiState by viewModel.collectAsState()
-    val scrollState = rememberLazyListState()
     val context = LocalContext.current
 
     // 초기 상태 설정 및 검색 요청
@@ -92,9 +91,6 @@ fun SearchScreenRoute(
         screenMode = screenMode,
         state = state,
         sendAction = { viewModel.processIntent(it) },
-        onQueryUpdate = { viewModel.processIntent(SearchDetailIntent.OnSearchQueryChanged(it)) },
-        onEnter = { viewModel.processIntent(SearchDetailIntent.RequestSearch(state.searchInput)) },
-        lazyListState = scrollState,
         navOnBack = { navOnBack() }
     )
 }
@@ -106,13 +102,13 @@ fun SearchScreen(
     screenMode: SearchScreenMode,
     state: SearchDetailUiState,
     sendAction: (SearchDetailIntent) -> Unit,
-    onQueryUpdate: (String) -> Unit,
-    onEnter: () -> Unit,
-    lazyListState: LazyListState,
     navOnBack: () -> Unit,
 ) {
-    LaunchedEffect(state.searchMusicResult) {
-        lazyListState.scrollToItem(0)
+    val onQueryUpdate: (String) -> Unit = {
+        sendAction(SearchDetailIntent.OnSearchQueryChanged(it))
+    }
+    val onEnter: () -> Unit = {
+        sendAction(SearchDetailIntent.RequestSearch(state.searchInput))
     }
 
     Scaffold(
@@ -134,7 +130,6 @@ fun SearchScreen(
                     sendAction = sendAction,
                     onQueryUpdate = onQueryUpdate,
                     onEnter = onEnter,
-                    lazyListState = lazyListState,
                 )
             }
 
@@ -145,7 +140,6 @@ fun SearchScreen(
                     sendAction = sendAction,
                     onQueryUpdate = onQueryUpdate,
                     onEnter = onEnter,
-                    lazyListState = lazyListState,
                 )
             }
         }
@@ -159,7 +153,6 @@ fun SearchContent(
     sendAction: (SearchDetailIntent) -> Unit,
     onQueryUpdate: (String) -> Unit,
     onEnter: () -> Unit,
-    lazyListState: LazyListState
 ) {
     Column(
         modifier = Modifier
@@ -176,7 +169,6 @@ fun SearchContent(
         SearchResults(
             searchResult = state.searchMusicResult,
             sendAction = sendAction,
-            lazyListState = lazyListState
         )
     }
 }
@@ -188,7 +180,6 @@ fun SearchWithSelectedSheet(
     sendAction: (SearchDetailIntent) -> Unit,
     onQueryUpdate: (String) -> Unit,
     onEnter: () -> Unit,
-    lazyListState: LazyListState,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         SearchContent(
@@ -197,7 +188,6 @@ fun SearchWithSelectedSheet(
             sendAction = sendAction,
             onQueryUpdate = onQueryUpdate,
             onEnter = onEnter,
-            lazyListState = lazyListState,
         )
 
         if (state.selectedSongs.isNotEmpty()) {
@@ -232,9 +222,13 @@ fun SearchBar(
 @Composable
 fun SearchResults(
     searchResult: List<SongUiData>,
-    lazyListState: LazyListState,
     sendAction: (SearchDetailIntent) -> Unit,
 ) {
+    val lazyListState = rememberLazyListState()
+    LaunchedEffect(searchResult) {
+        lazyListState.scrollToItem(0)
+    }
+
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         state = lazyListState,
@@ -399,5 +393,5 @@ fun SkeletonImage() {
 @Preview
 @Composable
 fun SearchScreenPreview() {
-    SearchScreen(SearchScreenMode.NORMAL, SearchDetailUiState(searchMusicResult = songMockData), {}, {}, {}, rememberLazyListState(), {})
+    SearchScreen(SearchScreenMode.NORMAL, SearchDetailUiState(searchMusicResult = songMockData), {}, {})
 }
