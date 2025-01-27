@@ -3,6 +3,7 @@ package com.wepli.data.user
 import com.wepli.core.kotlin.FlowResult
 import com.wepli.data.datastore.DataStoreKey
 import com.wepli.data.datastore.local.DataStorePrefDataSource
+import com.wepli.data.di.qualifier.SupabaseDataSource
 import com.wepli.data.network.toEntityResult
 import com.wepli.data.user.datasource.UserSupabaseDataSource
 import com.wepli.data.user.response.toUser
@@ -14,13 +15,13 @@ import java.time.Instant
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
-    private val userSupabaseDataSource: UserSupabaseDataSource,
+    @SupabaseDataSource private val userSupabaseDataSource: UserSupabaseDataSource,
     private val dataStorePrefDataSource: DataStorePrefDataSource
 ) : UserRepository {
 
-    override suspend fun getUserById(id: String): FlowResult<User?> {
+    override suspend fun getUserById(id: String): FlowResult<User> {
         return userSupabaseDataSource.getUserById(id).toEntityResult {
-            it?.toUser()
+            it.toUser()
         }
     }
 

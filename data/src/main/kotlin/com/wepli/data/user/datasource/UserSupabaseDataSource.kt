@@ -5,5 +5,5 @@ import com.wepli.data.user.response.UserResponse
 
 interface UserSupabaseDataSource {
 
-    suspend fun getUserById(id: String): FlowResult<UserResponse?>
+    suspend fun getUserById(id: String): FlowResult<UserResponse>
 }
