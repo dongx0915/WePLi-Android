@@ -18,6 +18,8 @@ import com.wepli.data.playlist.datasource.remote.PlaylistSupabaseDataSourceImpl
 import com.wepli.data.relaylist.datasource.remote.RelaylistDataSource
 import com.wepli.data.relaylist.datasource.remote.RelaylistDataSourceImpl
 import com.wepli.data.relaylist.datasource.remote.RelaylistSupabaseDataSourceImpl
+import com.wepli.data.user.datasource.UserSupabaseDataSource
+import com.wepli.data.user.datasource.UserSupabaseDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -57,6 +59,11 @@ interface DataSourceModule {
     /**
      * Supabase
      */
+    @Binds
+    @Singleton
+    @SupabaseDataSource
+    fun bindUserSupabaseDataSource(userSupabaseDataSource: UserSupabaseDataSourceImpl): UserSupabaseDataSource
+
     @Binds
     @Singleton
     @SupabaseDataSource

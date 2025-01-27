@@ -1,7 +1,12 @@
 package com.wepli.data.user
 
+import com.wepli.core.kotlin.FlowResult
 import com.wepli.data.datastore.DataStoreKey
 import com.wepli.data.datastore.local.DataStorePrefDataSource
+import com.wepli.data.di.qualifier.SupabaseDataSource
+import com.wepli.data.network.toEntityResult
+import com.wepli.data.user.datasource.UserSupabaseDataSource
+import com.wepli.data.user.response.toUser
 import extensions.parseFromJson
 import extensions.toJsonString
 import model.user.User
@@ -10,11 +15,20 @@ import java.time.Instant
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
+    @SupabaseDataSource private val userSupabaseDataSource: UserSupabaseDataSource,
     private val dataStorePrefDataSource: DataStorePrefDataSource
 ) : UserRepository {
 
+    private var user: User? = null
+
+    override suspend fun getUserById(id: String): FlowResult<User> {
+        return userSupabaseDataSource.getUserById(id).toEntityResult {
+            it.toUser()
+        }
+    }
+
     override suspend fun getUser(): User? {
-        return dataStorePrefDataSource.getString(DataStoreKey.USER, "").parseFromJson<User>()
+        return user ?: dataStorePrefDataSource.getString(DataStoreKey.USER, "").parseFromJson<User>()
     }
 
     override suspend fun setUserData(user: User) {
@@ -45,6 +59,8 @@ class UserRepositoryImpl @Inject constructor(
                 removeString(REFRESH_TOKEN)
                 removeLong(EXPIRED_AT)
             }
+        }.also {
+            user = null
         }
     }
 }
