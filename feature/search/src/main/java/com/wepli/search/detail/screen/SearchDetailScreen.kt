@@ -177,7 +177,7 @@ fun SearchWithSelectedSheet(
         )
 
         if (state.selectedSongs.isNotEmpty()) {
-            SelectedSheet(
+            SelectedSongSheet(
                 selectedSongs = state.selectedSongs.toList(),
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
@@ -224,7 +224,7 @@ fun SearchResults(
         items(count = searchResult.size, key = { searchResult[it].id }) { idx ->
             val song = searchResult[idx]
 
-            SongItem(
+            SearchResultSongItem(
                 songUiData = song,
                 onClick = { sendAction(SearchDetailIntent.SelectSong(song)) },
                 modifier = Modifier
@@ -236,7 +236,7 @@ fun SearchResults(
 }
 
 @Composable
-fun SongItem(
+fun SearchResultSongItem(
     modifier: Modifier = Modifier,
     songUiData: SongUiData,
     onClick: () -> Unit,
@@ -281,7 +281,7 @@ fun SongItem(
 }
 
 @Composable
-fun SelectedSheet(
+fun SelectedSongSheet(
     selectedSongs: List<SongUiData>,
     modifier: Modifier = Modifier,
 ) {
@@ -383,4 +383,10 @@ fun SkeletonImage() {
 @Composable
 fun SearchScreenPreview() {
     SearchScreen(SearchScreenMode.NORMAL, SearchDetailUiState(searchMusicResult = songMockData), {}, {})
+}
+
+@Preview
+@Composable
+fun SelectedSongSheetPreview() {
+    SelectedSongSheet(songMockData, Modifier.fillMaxWidth())
 }
