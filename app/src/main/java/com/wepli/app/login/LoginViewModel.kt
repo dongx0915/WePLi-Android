@@ -11,6 +11,7 @@ import base.UiState
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.wepli.core.common.BuildConfig
+import com.wepli.core.kotlin.suspendCollectResult
 import com.wepli.shared.feature.mock.recommendPlaylistMockData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.jan.supabase.SupabaseClient
@@ -20,13 +21,10 @@ import io.github.jan.supabase.auth.providers.builtin.IDToken
 import io.github.jan.supabase.auth.user.UserInfo
 import io.github.jan.supabase.auth.user.UserSession
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.toJavaInstant
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.contentOrNull
-import kotlinx.serialization.json.jsonPrimitive
-import model.user.User
 import repository.user.UserRepository
 import java.security.MessageDigest
 import java.util.UUID
@@ -146,27 +144,29 @@ class LoginViewModel @Inject constructor(
     private suspend fun saveLoginResult(session: UserSession): Boolean {
         return withContext(Dispatchers.IO) {
             val user: UserInfo = session.user ?: return@withContext false
-            val userMetadataJson: JsonObject = user.userMetadata ?: return@withContext false
+            var isSuccess = false
 
-            val userNickname: String = userMetadataJson["name"]?.jsonPrimitive?.contentOrNull.orEmpty()
-            val userAvatarUrl: String = userMetadataJson["avatar_url"]?.jsonPrimitive?.contentOrNull.orEmpty()
+            userRepository.getUserById(user.id)
+                .flowOn(Dispatchers.IO)
+                .suspendCollectResult(
+                    onSuccess = { user ->
+                        with(userRepository) {
+                            saveUserSession(
+                                accessToken = session.accessToken,
+                                refreshToken = session.refreshToken,
+                                expiredAt = session.expiresAt.toJavaInstant()
+                            )
+                            setUserData(user)
+                        }
 
-            with(userRepository) {
-                saveUserSession(
-                    accessToken = session.accessToken,
-                    refreshToken = session.refreshToken,
-                    expiredAt = session.expiresAt.toJavaInstant()
+                        isSuccess = true
+                    },
+                    onFailure = {
+                        isSuccess = false
+                    }
                 )
-                setUserData(
-                    User(
-                        email = user.email.orEmpty(),
-                        nickname = userNickname,
-                        profileImgUrl = userAvatarUrl
-                    )
-                )
-            }
 
-            true
+            return@withContext isSuccess
         }
     }
 }
