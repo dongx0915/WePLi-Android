@@ -22,6 +22,7 @@ class SearchDetailViewModel @Inject constructor(
         when (intent) {
             is SearchDetailIntent.OnSearchQueryChanged -> handleSearchQueryChanged(intent.query)
             is SearchDetailIntent.RequestSearch -> searchMusic(intent.query)
+            is SearchDetailIntent.SelectSong -> handleSongSelected(intent.song)
         }
     }
 
@@ -47,6 +48,16 @@ class SearchDetailViewModel @Inject constructor(
                 },
                 onFailure = {
                     postSideEffect(SearchDetailEffect.SearchError(it.message ?: "알 수 없는 오류가 발생하였습니다."))
+                }
+            )
+        }
+    }
+
+    private fun handleSongSelected(song: SongUiData) = intent {
+        reduce {
+            state.copy(
+                selectedSongs = LinkedHashSet(state.selectedSongs).apply {
+                    if (!add(song)) remove(song)
                 }
             )
         }
