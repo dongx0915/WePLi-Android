@@ -6,7 +6,7 @@ import java.time.Instant
 
 interface UserRepository {
 
-    suspend fun getUserById(id: String): FlowResult<User?>
+    suspend fun getUserById(id: String): FlowResult<User>
 
     suspend fun getUser(): User?
     suspend fun setUserData(user: User)
