@@ -7,16 +7,18 @@ import model.user.User
 
 @Parcelize
 data class UserUiData(
+    val id: String,
     val nickname: String,
     val email: String,
     val profileImgUrl: String,
 ) : UiModel {
 
-    constructor() : this("", "", "")
+    constructor() : this("", "", "", "")
 
     companion object : UiModelMapper<User, UserUiData> {
         override fun fromDomain(domainModel: User): UserUiData {
             return UserUiData(
+                id = domainModel.id,
                 nickname = domainModel.nickname,
                 email = domainModel.email,
                 profileImgUrl = domainModel.profileImgUrl,
