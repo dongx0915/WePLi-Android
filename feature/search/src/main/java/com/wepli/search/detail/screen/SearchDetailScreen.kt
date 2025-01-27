@@ -325,21 +325,24 @@ fun SelectedSongItem(
     title: String,
     imageUrl: String,
 ) {
+    val itemPadding = PaddingValues(top = 6.dp, bottom = 6.dp, start = 6.dp, end = 12.dp)
+    val itemBrush = WepliTheme.color.linear3
+
     Box {
         Box(
             modifier = Modifier
                 .clip(RoundedCornerShape(100.dp))
                 .matchParentSize()
                 .alpha(0.5f)
-                .border(brush = WepliTheme.color.linear3, shape = CircleShape, width = 1.dp)
-                .padding(top = 6.dp, bottom = 6.dp, start = 6.dp, end = 12.dp),
+                .border(brush = itemBrush, shape = CircleShape, width = 1.dp)
+                .padding(itemPadding),
         )
 
         Row(
             modifier = Modifier
                 .clip(RoundedCornerShape(100.dp))
-                .background(brush = WepliTheme.color.linear3, alpha = 0.1f)
-                .padding(top = 6.dp, bottom = 6.dp, start = 6.dp, end = 12.dp),
+                .background(brush = itemBrush, alpha = 0.1f)
+                .padding(itemPadding),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
@@ -347,7 +350,7 @@ fun SelectedSongItem(
                 modifier = Modifier
                     .size(20.dp)
                     .clip(CircleShape)
-                    .border(brush = WepliTheme.color.linear3, shape = CircleShape, width = 1.dp),
+                    .border(brush = itemBrush, shape = CircleShape, width = 1.dp),
                 imageUrl = imageUrl,
                 contentScale = ContentScale.Crop,
                 imageOverrideSize = 40.dp,
