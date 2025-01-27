@@ -104,6 +104,9 @@ private fun handleSideEffect(
             Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
             goToLoginActivity()
         }
+        is MyPageEffect.FailedLogout -> {
+            Toast.makeText(context, "로그아웃에 실패했습니다.", Toast.LENGTH_SHORT).show()
+        }
         MyPageEffect.NavigateOnAppInfo -> navOnAppInfo()
     }
 }

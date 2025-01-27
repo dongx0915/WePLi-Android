@@ -7,3 +7,8 @@ plugins {
 android {
     namespace = "com.wepli.feature.mypage"
 }
+
+dependencies {
+    implementation(platform(libs.supabase.bom))
+    implementation(libs.supabase.postgrest.kt)
+}

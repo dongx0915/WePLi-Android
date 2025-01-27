@@ -7,6 +7,8 @@ import base.UiState
 import com.wepli.mypage.common.MenuSection
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.auth.auth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import model.user.User
@@ -21,6 +23,7 @@ data class MyPageUiState(
 
 interface MyPageEffect : SideEffect {
     data object SuccessLogout : MyPageEffect
+    data object FailedLogout : MyPageEffect
     data object NavigateOnAppInfo : MyPageEffect
 }
 
@@ -33,6 +36,7 @@ interface MyPageIntent : Intent {
 
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
+    private val supabase: SupabaseClient,
     private val userRepository: UserRepository,
 ) : BaseMviViewModel<MyPageUiState, MyPageEffect, MyPageIntent>(
     initialState = MyPageUiState(user = UserUiData())
@@ -101,10 +105,15 @@ class MyPageViewModel @Inject constructor(
 
     private fun handleRequestLogout() = intent {
         withContext(Dispatchers.IO) {
-            userRepository.clearUserData()
+            runCatching {
+                supabase.auth.signOut()
+            }.onSuccess {
+                userRepository.clearUserData()
+                postSideEffect(MyPageEffect.SuccessLogout)
+            }.onFailure {
+                postSideEffect(MyPageEffect.FailedLogout)
+            }
         }
-
-        postSideEffect(MyPageEffect.SuccessLogout)
     }
 
     private fun handleNavigateOnAppInfo() = intent {
