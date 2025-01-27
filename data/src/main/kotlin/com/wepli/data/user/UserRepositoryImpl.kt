@@ -19,6 +19,8 @@ class UserRepositoryImpl @Inject constructor(
     private val dataStorePrefDataSource: DataStorePrefDataSource
 ) : UserRepository {
 
+    private var user: User? = null
+
     override suspend fun getUserById(id: String): FlowResult<User> {
         return userSupabaseDataSource.getUserById(id).toEntityResult {
             it.toUser()
@@ -26,7 +28,7 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getUser(): User? {
-        return dataStorePrefDataSource.getString(DataStoreKey.USER, "").parseFromJson<User>()
+        return user ?: dataStorePrefDataSource.getString(DataStoreKey.USER, "").parseFromJson<User>()
     }
 
     override suspend fun setUserData(user: User) {
@@ -57,6 +59,8 @@ class UserRepositoryImpl @Inject constructor(
                 removeString(REFRESH_TOKEN)
                 removeLong(EXPIRED_AT)
             }
+        }.also {
+            user = null
         }
     }
 }
