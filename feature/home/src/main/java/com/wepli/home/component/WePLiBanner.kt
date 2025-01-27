@@ -48,7 +48,7 @@ sealed interface WePLiBannerType {
         override fun bannerImg(): Painter = painterResource(id = R.drawable.img_banner_twitter)
 
         @Composable
-        override fun backgroundColor(): Color = Color(0xFF6398FF)
+        override fun backgroundColor(): Color = WepliTheme.color.gray000
     }
 
     data object Instagram : WePLiBannerType {
@@ -62,7 +62,7 @@ sealed interface WePLiBannerType {
         override fun bannerImg(): Painter = painterResource(id = R.drawable.img_banner_instagram)
 
         @Composable
-        override fun backgroundColor(): Color = Color(0xFFFA67D0)
+        override fun backgroundColor(): Color = WepliTheme.color.gray000
     }
 }
 
