@@ -22,6 +22,7 @@ import com.wepli.community.navigation.communityWriteGraph
 import com.wepli.community.navigation.navigateToCommunityWrite
 import com.wepli.playlist.navigation.navigateToPlaylistDetail
 import com.wepli.playlist.navigation.playlistDetailGraph
+import com.wepli.search.navigation.SearchScreenMode
 import com.wepli.search.navigation.navigateToSearchDetail
 import com.wepli.search.navigation.searchDetailGraph
 import com.wepli.search.navigation.searchMainGraph
@@ -68,7 +69,10 @@ fun SetUpNavGraph(
 // 검색 Graph
 fun NavGraphBuilder.searchGraph(navController: NavController) {
     searchMainGraph { searchQuery ->
-        navController.navigateToSearchDetail(searchQuery)
+        navController.navigateToSearchDetail(
+            screenMode = SearchScreenMode.NORMAL,
+            searchQuery = searchQuery
+        )
     }
 
     searchDetailGraph(
@@ -87,7 +91,12 @@ fun NavGraphBuilder.communityGraph(navController: NavHostController) {
     )
     communityWriteGraph(
         navOnBack = { navController.navigateToBack() },
-        navOnSearchDetail = { navController.navigateToSearchDetail("") }
+        navOnSearchDetail = {
+            navController.navigateToSearchDetail(
+                screenMode = SearchScreenMode.SELECTABLE,
+                searchQuery = ""
+            )
+        }
     )
 }
 
