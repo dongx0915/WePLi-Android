@@ -60,6 +60,8 @@ import textfield.WepliTextField
 import textfield.WepliTextFieldType
 import theme.WepliTheme
 
+private val SongItemImageSize = 52.dp
+
 @Composable
 fun SearchScreenRoute(
     screenMode: SearchScreenMode,
@@ -239,7 +241,7 @@ fun SongItem(
     songUiData: SongUiData,
     onClick: () -> Unit,
 ) {
-    val imageSize = 52.dp.toPx()
+    val imageSize = SongItemImageSize.toPx()
     val imageUrl = remember(songUiData.id) { songUiData.getImageUrl(imageSize) }
 
     Row(modifier = modifier.clickable { onClick() }) {
@@ -304,8 +306,8 @@ fun SelectedSheet(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             selectedSongs.forEach {
-                // TODO : getImageUrl 호출 시 사이즈 동일해야 캐싱 적용되니 수정 필요
-                SelectedSongItem(it.title, it.getImageUrl(52.dp.toPx()))
+                // 캐싱된 이미지를 사용하기 위해 SongItem과 같은 Size의 이미지 url 사용
+                SelectedSongItem(it.title, it.getImageUrl(SongItemImageSize.toPx()))
             }
         }
 
