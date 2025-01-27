@@ -48,5 +48,9 @@ abstract class BaseMviViewModel<S : UiState, E : SideEffect, I : Intent>(
         return viewModelScope.launch(dispatcher + exceptionHandler, start, block)
     }
 
+    fun processIntent(vararg intents: I) {
+        intents.forEach(::processIntent)
+    }
+
     abstract fun processIntent(intent: I)
 }
