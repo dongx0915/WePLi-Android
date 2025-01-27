@@ -8,7 +8,7 @@ import model.user.User
 data class UserResponse(
     @SerialName("id")
     val id: String?,
-    @SerialName("user_name")
+    @SerialName("username")
     val nickname: String?,
     @SerialName("email")
     val email: String?,
