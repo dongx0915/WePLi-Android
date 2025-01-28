@@ -229,7 +229,7 @@ fun SearchResults(
 
             SearchResultSongItem(
                 songUiData = song,
-                onClick = { sendAction(SearchDetailIntent.SelectSong(song)) },
+                onClick = { sendAction(SearchDetailIntent.OnSongSelected(song)) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp),
@@ -316,7 +316,7 @@ fun SelectedSongSheet(
                 SelectedSongItem(
                     title = it.title,
                     imageUrl = it.getImageUrl(SongItemImageSize.toPx()),
-                    onClick = { sendAction(SearchDetailIntent.SelectSong(it)) }
+                    onClick = { sendAction(SearchDetailIntent.OnSongSelected(it)) }
                 )
             }
         }

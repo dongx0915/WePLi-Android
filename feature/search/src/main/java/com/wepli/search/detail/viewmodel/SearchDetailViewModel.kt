@@ -22,7 +22,7 @@ class SearchDetailViewModel @Inject constructor(
         when (intent) {
             is SearchDetailIntent.OnSearchQueryChanged -> handleSearchQueryChanged(intent.query)
             is SearchDetailIntent.RequestSearch -> searchMusic(intent.query)
-            is SearchDetailIntent.SelectSong -> handleSongSelected(intent.song)
+            is SearchDetailIntent.OnSongSelected -> handleSongSelected(intent.song)
         }
     }
 

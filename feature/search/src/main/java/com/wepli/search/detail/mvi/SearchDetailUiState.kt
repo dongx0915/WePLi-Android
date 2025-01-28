@@ -18,5 +18,5 @@ interface SearchDetailEffect : SideEffect {
 interface SearchDetailIntent : Intent {
     data class OnSearchQueryChanged(val query: String) : SearchDetailIntent
     data class RequestSearch(val query: String) : SearchDetailIntent
-    data class SelectSong(val song: SongUiData) : SearchDetailIntent
+    data class OnSongSelected(val song: SongUiData) : SearchDetailIntent
 }
