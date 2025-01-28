@@ -318,10 +318,10 @@ fun SelectedSongSheet(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .topBorderWithRoundedCorners(brush = brush, height = 1.dp, cornerRadius = 20.dp, alpha = 0.2f)
+            .topBorderWithRoundedCorners(brush = brush, height = 1.dp, cornerRadius = 20.dp, alpha = 0.1f)
             .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
             .background(color = WepliTheme.color.black)
-            .padding(top = 12.dp, bottom = 20.dp),
+            .padding(vertical = 20.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Row(
