@@ -14,16 +14,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.TextUnit
 import kotlin.math.absoluteValue
@@ -96,4 +100,112 @@ fun Modifier.shimmerEffect(radius: Dp): Modifier = composed {
         ),
         shape = RoundedCornerShape(radius)
     ).onGloballyPositioned { size = it.size }
+}
+
+fun Modifier.topBorder(
+    brush: Brush,
+    height: Float,
+    alpha: Float = 1f,
+) = this.drawWithContent {
+    drawContent()
+    drawLine(
+        brush = brush,
+        start = Offset(0f, 0f),
+        end = Offset(size.width, 0f),
+        strokeWidth = height,
+        alpha = alpha,
+    )
+}
+
+fun Modifier.rightBorder(
+    brush: Brush,
+    width: Float,
+    alpha: Float = 1f,
+) = this.drawWithContent {
+    drawContent()
+    drawLine(
+        brush = brush,
+        start = Offset(size.width, 0f),
+        end = Offset(size.width, size.height),
+        strokeWidth = width,
+        alpha = alpha,
+    )
+}
+
+fun Modifier.bottomBorder(
+    brush: Brush,
+    height: Float,
+    alpha: Float = 1f,
+) = this.drawWithContent {
+    drawContent()
+    drawLine(
+        brush = brush,
+        start = Offset(0f, size.height),
+        end = Offset(size.width, size.height),
+        strokeWidth = height,
+        alpha = alpha,
+    )
+}
+
+fun Modifier.leftBorder(
+    brush: Brush,
+    width: Float,
+    alpha: Float = 1f,
+) = this.drawWithContent {
+    drawContent()
+    drawLine(
+        brush = brush,
+        start = Offset(0f, 0f),
+        end = Offset(0f, size.height),
+        strokeWidth = width,
+        alpha = alpha,
+    )
+}
+
+fun Modifier.topBorderWithRoundedCorners(
+    brush: Brush,
+    height: Dp,
+    cornerRadius: Dp,
+    alpha: Float = 1f,
+): Modifier = this.drawWithContent {
+    val strokeWidth = height.toPx()
+    val radius = cornerRadius.toPx()
+    val path = Path().apply {
+        // 좌측 상단 코너
+        arcTo(
+            rect = Rect(
+                left = 0f,
+                top = strokeWidth / 2,
+                right = 2 * radius,
+                bottom = strokeWidth / 2 + 2 * radius
+            ),
+            startAngleDegrees = 180f, // 호의 시작점 (0도 : 오른쪽, 90도 : 아래쪽)
+            sweepAngleDegrees = 90f, // 호가 그려지는 방향과 각도 (90f이면 시계방향으로 90도 회전하면서 그려짐)
+            forceMoveTo = false
+        )
+1
+        // Draw the top straight line (between the rounded corners)
+        lineTo(size.width - radius, strokeWidth / 2)
+
+        // 오른쪽 상단 코너
+        arcTo(
+            rect = Rect(
+                left = size.width - 2 * radius,
+                top = strokeWidth / 2,
+                right = size.width,
+                bottom = strokeWidth / 2 + 2 * radius
+            ),
+            startAngleDegrees = -90f,
+            sweepAngleDegrees = 90f,
+            forceMoveTo = false
+        )
+    }
+
+    drawContent()
+    drawPath(
+        path = path,
+        brush = brush,
+        style = Stroke(width = strokeWidth),
+        alpha = alpha
+    )
 }
