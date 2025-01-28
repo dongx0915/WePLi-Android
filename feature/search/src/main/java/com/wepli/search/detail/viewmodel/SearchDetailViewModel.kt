@@ -43,7 +43,11 @@ class SearchDetailViewModel @Inject constructor(
             }.suspendCollectResult(
                 onSuccess = { musics ->
                     reduce {
-                        state.copy(searchMusicResult = musics.map(SongUiData::fromDomain))
+                        state.copy(
+                            searchMusicResult = musics
+                                .map(SongUiData::fromDomain)
+                                .updateSelectionState(state.selectedSongs)
+                        )
                     }
                 },
                 onFailure = {
@@ -55,11 +59,24 @@ class SearchDetailViewModel @Inject constructor(
 
     private fun handleSongSelected(song: SongUiData) = intent {
         reduce {
+            val updatedSelectedSongs = LinkedHashSet(state.selectedSongs).apply {
+                if (!add(song)) remove(song)
+            }
+
+            val updatedSearchMusicResult = state.searchMusicResult.map {
+                if (it.id == song.id) it.copy(isSelected = !it.isSelected) else it
+            }
+
             state.copy(
-                selectedSongs = LinkedHashSet(state.selectedSongs).apply {
-                    if (!add(song)) remove(song)
-                }
+                selectedSongs = updatedSelectedSongs,
+                searchMusicResult = updatedSearchMusicResult
             )
+        }
+    }
+
+    private fun List<SongUiData>.updateSelectionState(selectedSongs: Set<SongUiData>): List<SongUiData> {
+        return this.map { song ->
+            song.copy(isSelected = selectedSongs.contains(song))
         }
     }
 }

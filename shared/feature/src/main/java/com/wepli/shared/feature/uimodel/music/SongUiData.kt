@@ -22,7 +22,16 @@ data class SongUiData(
     val href: String = "",
     val genres: List<String> = emptyList(),
     val durationMillis: Long = 0L,
+    val isSelected: Boolean = false,
 ) : UiModel {
+
+    override fun equals(other: Any?): Boolean {
+        return other is SongUiData && id == other.id
+    }
+
+    override fun hashCode(): Int {
+        return id.hashCode()
+    }
 
     fun getImageUrl(size: Int): String {
         return getImageUrl(size, size)
