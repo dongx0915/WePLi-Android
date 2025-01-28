@@ -125,6 +125,7 @@ fun SearchScreen(
                 SearchContent(
                     state = state,
                     paddingValues = paddingValues,
+                    onClickSongItem = { /* TODO */},
                     sendAction = sendAction,
                 )
             }
@@ -133,6 +134,7 @@ fun SearchScreen(
                 SearchWithSelectedSheet(
                     state = state,
                     paddingValues = paddingValues,
+                    onClickSongItem = { sendAction(SearchDetailIntent.OnSongSelected(it)) },
                     sendAction = sendAction,
                 )
             }
@@ -144,6 +146,7 @@ fun SearchScreen(
 fun SearchContent(
     state: SearchDetailUiState,
     paddingValues: PaddingValues,
+    onClickSongItem: (SongUiData) -> Unit,
     sendAction: (SearchDetailIntent) -> Unit,
 ) {
     Column(
@@ -159,8 +162,9 @@ fun SearchContent(
         )
 
         SearchResults(
+            key = state.searchInput,
             searchResult = state.searchMusicResult,
-            sendAction = sendAction,
+            onClickSongItem = { onClickSongItem(it) }
         )
     }
 }
@@ -169,12 +173,14 @@ fun SearchContent(
 fun SearchWithSelectedSheet(
     state: SearchDetailUiState,
     paddingValues: PaddingValues,
+    onClickSongItem: (SongUiData) -> Unit,
     sendAction: (SearchDetailIntent) -> Unit,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         SearchContent(
             paddingValues = paddingValues,
             state = state,
+            onClickSongItem = onClickSongItem,
             sendAction = sendAction,
         )
 
@@ -210,11 +216,12 @@ fun SearchBar(
 
 @Composable
 fun SearchResults(
+    key: String,
     searchResult: List<SongUiData>,
-    sendAction: (SearchDetailIntent) -> Unit,
+    onClickSongItem: (SongUiData) -> Unit,
 ) {
     val lazyListState = rememberLazyListState()
-    LaunchedEffect(searchResult) {
+    LaunchedEffect(key) {
         lazyListState.scrollToItem(0)
     }
 
@@ -229,7 +236,7 @@ fun SearchResults(
 
             SearchResultSongItem(
                 songUiData = song,
-                onClick = { sendAction(SearchDetailIntent.OnSongSelected(song)) },
+                onClick = { onClickSongItem(song) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp),
@@ -246,6 +253,13 @@ fun SearchResultSongItem(
 ) {
     val imageSize = SongItemImageSize.toPx()
     val imageUrl = remember(songUiData.id) { songUiData.getImageUrl(imageSize) }
+    val titleStyle = WepliTheme.typo.body4.run {
+        if (songUiData.isSelected) {
+            copy(brush = WepliTheme.color.linear3)
+        } else {
+            copy(color = WepliTheme.color.white)
+        }
+    }
 
     Row(modifier = modifier.clickable { onClick() }) {
         AsyncImageWithPreview(
@@ -266,8 +280,7 @@ fun SearchResultSongItem(
         ) {
             Text(
                 text = songUiData.title,
-                style = WepliTheme.typo.body4,
-                color = WepliTheme.color.white,
+                style = titleStyle,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
