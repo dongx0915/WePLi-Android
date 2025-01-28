@@ -35,6 +35,10 @@ class UserRepositoryImpl @Inject constructor(
         dataStorePrefDataSource.setString(DataStoreKey.USER, user.toJsonString())
     }
 
+    override suspend fun getRefreshToken(): String {
+        return dataStorePrefDataSource.getString(DataStoreKey.REFRESH_TOKEN, "")
+    }
+
     override suspend fun saveUserSession(accessToken: String, refreshToken: String, expiredAt: Instant) {
         dataStorePrefDataSource.apply {
             with(DataStoreKey) {
