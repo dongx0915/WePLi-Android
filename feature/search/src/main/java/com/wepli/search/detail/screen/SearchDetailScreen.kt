@@ -181,6 +181,7 @@ fun SearchWithSelectedSheet(
         if (state.selectedSongs.isNotEmpty()) {
             SelectedSongSheet(
                 selectedSongs = state.selectedSongs.toList(),
+                sendAction = sendAction,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .navigationBarsPadding()
@@ -285,6 +286,7 @@ fun SearchResultSongItem(
 @Composable
 fun SelectedSongSheet(
     selectedSongs: List<SongUiData>,
+    sendAction: (SearchDetailIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val scrollState = rememberScrollState()
@@ -311,7 +313,11 @@ fun SelectedSongSheet(
         ) {
             selectedSongs.forEach {
                 // 캐싱된 이미지를 사용하기 위해 SongItem과 같은 Size의 이미지 url 사용
-                SelectedSongItem(it.title, it.getImageUrl(SongItemImageSize.toPx()))
+                SelectedSongItem(
+                    title = it.title,
+                    imageUrl = it.getImageUrl(SongItemImageSize.toPx()),
+                    onClick = { sendAction(SearchDetailIntent.SelectSong(it)) }
+                )
             }
         }
 
@@ -328,11 +334,17 @@ fun SelectedSongSheet(
 fun SelectedSongItem(
     title: String,
     imageUrl: String,
+    onClick: () -> Unit,
 ) {
     val itemPadding = PaddingValues(top = 6.dp, bottom = 6.dp, start = 6.dp, end = 12.dp)
     val itemBrush = WepliTheme.color.linear3
 
-    Box(modifier = Modifier.widthIn(max = 200.dp)) {
+    Box(
+        modifier = Modifier
+            .clickable { onClick() }
+            .widthIn(max = 200.dp)
+    ) {
+        // 테투리 오버레이
         Box(
             modifier = Modifier
                 .clip(RoundedCornerShape(100.dp))
@@ -391,5 +403,5 @@ fun SearchScreenPreview() {
 @Preview
 @Composable
 fun SelectedSongSheetPreview() {
-    SelectedSongSheet(songMockData, Modifier.fillMaxWidth())
+    SelectedSongSheet(songMockData, {}, Modifier.fillMaxWidth())
 }
