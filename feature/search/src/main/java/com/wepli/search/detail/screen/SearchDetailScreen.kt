@@ -255,7 +255,7 @@ fun SearchResultSongItem(
                 .clip(RoundedCornerShape(4.dp)),
             imageUrl = imageUrl,
             contentScale = ContentScale.Crop,
-            imageOverrideSize = 52.dp,
+            imageOverrideSize = SongItemImageSize,
             loadingContent = { SkeletonImage() },
         )
 
@@ -388,7 +388,7 @@ fun SkeletonImage() {
     Box(
         modifier = Modifier
             .background(color = WepliTheme.color.gray500)
-            .size(52.dp)
+            .size(SongItemImageSize)
             .clip(RoundedCornerShape(4.dp))
             .shimmerEffect(4.dp)
     )
