@@ -11,6 +11,7 @@ interface UserRepository {
     suspend fun getUser(): User?
     suspend fun setUserData(user: User)
 
+    suspend fun getRefreshToken(): String
     suspend fun saveUserSession(
         accessToken: String,
         refreshToken: String,

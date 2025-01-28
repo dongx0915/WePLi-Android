@@ -63,7 +63,14 @@ class LoginViewModel @Inject constructor(
     private fun checkAutoLogin() = intent {
         viewModelScope.launch {
             if (userRepository.isUserSessionValid()) {
-                postSideEffect(LoginEffect.NavigateToMain)
+                runCatching {
+                    val refreshToken = userRepository.getRefreshToken()
+                    supabase.auth.refreshSession(refreshToken)
+                }.onSuccess {
+                    postSideEffect(LoginEffect.NavigateToMain)
+                }.onFailure {
+                    postSideEffect(LoginEffect.GoogleSessionError)
+                }
             }
         }
     }
