@@ -31,7 +31,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -304,9 +306,13 @@ fun SelectedSongSheet(
 ) {
     val scrollState = rememberScrollState()
     val brush = WepliTheme.color.linear3
+    var previousSize by remember { mutableIntStateOf(selectedSongs.size) }
 
     LaunchedEffect(selectedSongs.size) {
-        scrollState.scrollTo(scrollState.maxValue)
+        if (selectedSongs.size > previousSize) {
+            scrollState.scrollTo(scrollState.maxValue)
+        }
+        previousSize = selectedSongs.size
     }
 
     Column(
