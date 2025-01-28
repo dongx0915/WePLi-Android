@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
@@ -53,6 +54,7 @@ import com.wepli.uimodel.music.SongUiData
 import common.WepliSpacer
 import extensions.compose.shimmerEffect
 import extensions.compose.toPx
+import extensions.compose.topBorderWithRoundedCorners
 import image.AsyncImageWithPreview
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
@@ -286,6 +288,7 @@ fun SelectedSongSheet(
     modifier: Modifier = Modifier,
 ) {
     val scrollState = rememberScrollState()
+    val brush = WepliTheme.color.linear3
 
     LaunchedEffect(selectedSongs.size) {
         scrollState.scrollTo(scrollState.maxValue)
@@ -294,6 +297,7 @@ fun SelectedSongSheet(
     Column(
         modifier = modifier
             .fillMaxWidth()
+            .topBorderWithRoundedCorners(brush = brush, height = 1.dp, cornerRadius = 20.dp, alpha = 0.2f)
             .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
             .background(color = WepliTheme.color.black)
             .padding(top = 12.dp, bottom = 20.dp),
@@ -328,7 +332,7 @@ fun SelectedSongItem(
     val itemPadding = PaddingValues(top = 6.dp, bottom = 6.dp, start = 6.dp, end = 12.dp)
     val itemBrush = WepliTheme.color.linear3
 
-    Box {
+    Box(modifier = Modifier.widthIn(max = 200.dp)) {
         Box(
             modifier = Modifier
                 .clip(RoundedCornerShape(100.dp))
@@ -349,8 +353,7 @@ fun SelectedSongItem(
             AsyncImageWithPreview(
                 modifier = Modifier
                     .size(20.dp)
-                    .clip(CircleShape)
-                    .border(brush = itemBrush, shape = CircleShape, width = 1.dp),
+                    .clip(CircleShape),
                 imageUrl = imageUrl,
                 contentScale = ContentScale.Crop,
                 imageOverrideSize = 40.dp,
