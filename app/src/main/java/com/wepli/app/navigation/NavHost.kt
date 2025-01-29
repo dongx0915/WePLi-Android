@@ -23,6 +23,7 @@ import com.wepli.community.navigation.navigateToCommunityWrite
 import com.wepli.playlist.navigation.navigateToPlaylistDetail
 import com.wepli.playlist.navigation.playlistDetailGraph
 import com.wepli.search.navigation.SearchScreenMode
+import com.wepli.search.navigation.navigateBackWithSelectedSongs
 import com.wepli.search.navigation.navigateToSearchDetail
 import com.wepli.search.navigation.searchDetailGraph
 import com.wepli.search.navigation.searchMainGraph
@@ -76,7 +77,10 @@ fun NavGraphBuilder.searchGraph(navController: NavController) {
     }
 
     searchDetailGraph(
-        navOnBack = { navController.navigateToBack() }
+        navOnBack = { navController.navigateToBack() },
+        navigateBackWithSelectedSongs = { selectedSongs ->
+            navController.navigateBackWithSelectedSongs(selectedSongs)
+        }
     )
 }
 
