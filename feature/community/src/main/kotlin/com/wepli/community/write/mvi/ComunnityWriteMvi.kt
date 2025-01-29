@@ -24,4 +24,5 @@ interface CommunityWriteIntent : Intent {
     data class UpdateTitle(val title: String, val maxLength: Int) : CommunityWriteIntent
     data class UpdateContents(val contents: String, val maxLength: Int) : CommunityWriteIntent
     data class ShowMusicSelectBottomSheet(val isVisible: Boolean) : CommunityWriteIntent
+    data class UpdateSelectedSongs(val selectedSongs: List<SongUiData>) : CommunityWriteIntent
 }
