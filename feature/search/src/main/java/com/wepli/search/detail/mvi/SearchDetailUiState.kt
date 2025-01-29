@@ -13,10 +13,12 @@ data class SearchDetailUiState(
 
 interface SearchDetailEffect : SideEffect {
     data class SearchError(val message: String) : SearchDetailEffect
+    data class NavigateBackWithResult(val selectedSongs: List<SongUiData>) : SearchDetailEffect
 }
 
 interface SearchDetailIntent : Intent {
     data class OnSearchQueryChanged(val query: String) : SearchDetailIntent
     data class RequestSearch(val query: String) : SearchDetailIntent
     data class OnSongSelected(val song: SongUiData) : SearchDetailIntent
+    data object OnCompleteSongSelect : SearchDetailIntent
 }

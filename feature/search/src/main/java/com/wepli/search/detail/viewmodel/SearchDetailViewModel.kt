@@ -23,6 +23,7 @@ class SearchDetailViewModel @Inject constructor(
             is SearchDetailIntent.OnSearchQueryChanged -> handleSearchQueryChanged(intent.query)
             is SearchDetailIntent.RequestSearch -> searchMusic(intent.query)
             is SearchDetailIntent.OnSongSelected -> handleSongSelected(intent.song)
+            is SearchDetailIntent.OnCompleteSongSelect -> handleCompleteSongSelect()
         }
     }
 
@@ -78,5 +79,9 @@ class SearchDetailViewModel @Inject constructor(
         return this.map { song ->
             song.copy(isSelected = selectedSongs.contains(song))
         }
+    }
+
+    private fun handleCompleteSongSelect() = intent {
+        postSideEffect(SearchDetailEffect.NavigateBackWithResult(state.selectedSongs.toList()))
     }
 }

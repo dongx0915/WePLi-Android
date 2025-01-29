@@ -71,6 +71,7 @@ fun SearchScreenRoute(
     screenMode: SearchScreenMode,
     searchQuery: String,
     navOnBack: () -> Unit,
+    navigateBackWithSelectedSongs: (List<SongUiData>) -> Unit,
 ) {
     val viewModel = hiltViewModel<SearchDetailViewModel>()
     val state: SearchDetailUiState by viewModel.collectAsState()
@@ -91,6 +92,9 @@ fun SearchScreenRoute(
             is SearchDetailEffect.SearchError -> {
                 Toast.makeText(context, sideEffect.message, Toast.LENGTH_SHORT).show()
             }
+            is SearchDetailEffect.NavigateBackWithResult -> {
+                navigateBackWithSelectedSongs(sideEffect.selectedSongs)
+            }
         }
     }
 
@@ -98,7 +102,7 @@ fun SearchScreenRoute(
         screenMode = screenMode,
         state = state,
         sendAction = { viewModel.processIntent(it) },
-        navOnBack = { navOnBack() }
+        navOnBack = { navOnBack() },
     )
 }
 
@@ -343,7 +347,7 @@ fun SelectedSongSheet(
         WepliBasicButton(
             title = "${selectedSongs.size}곡 추가하기",
             isEnabled = true,
-            onClick = { /* TODO */ },
+            onClick = { sendAction(SearchDetailIntent.OnCompleteSongSelect) },
             modifier = Modifier.padding(horizontal = 20.dp)
         )
     }
