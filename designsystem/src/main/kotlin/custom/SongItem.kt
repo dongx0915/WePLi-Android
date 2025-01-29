@@ -21,11 +21,14 @@ import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.songUiMockData
 import com.wepli.uimodel.music.SongUiData
+import extensions.compose.toPx
 import image.AsyncImageWithPreview
 import theme.WepliTheme
 
 @Composable
 fun SongItem(song: SongUiData) {
+    val imagePixel = 92.dp.toPx()
+
     Column(
         modifier = Modifier.width(92.dp)
     ) {
@@ -34,7 +37,7 @@ fun SongItem(song: SongUiData) {
                 modifier = Modifier
                     .size(92.dp)
                     .clip(RoundedCornerShape(4.dp)),
-                imageUrl = song.coverImg,
+                imageUrl = song.getImageUrl(imagePixel),
                 previewImage = painterResource(id = R.drawable.img_placeholder_album_cover),
                 imageOverrideSize = 92.dp,
             )
