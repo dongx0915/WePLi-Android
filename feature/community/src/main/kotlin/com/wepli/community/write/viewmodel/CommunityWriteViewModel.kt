@@ -27,6 +27,9 @@ class CommunityWriteViewModel @Inject constructor() : BaseMviViewModel<Community
             is CommunityWriteIntent.UpdateSelectedSongs -> {
                 handleUpdateSelectedSongs(intent.selectedSongs)
             }
+            is CommunityWriteIntent.RemoveSelectedSongs -> {
+                handleRemoveSelectedSongs(intent.song)
+            }
         }
     }
 
@@ -66,5 +69,7 @@ class CommunityWriteViewModel @Inject constructor() : BaseMviViewModel<Community
                 selectedSongs = (state.selectedSongs + newSelectedSongs).distinct()
             )
         }
+    private fun handleRemoveSelectedSongs(song: SongUiData) {
+        updateState { copy(selectedSongs = selectedSongs - song) }
     }
 }

@@ -222,7 +222,10 @@ fun SelectedSongLayout(
             contentPadding = PaddingValues(horizontal = 20.dp)
         ) {
             items(selectedSongs) { song ->
-                SongItem(song = song)
+                SongItem(
+                    song = song,
+                    onClick = { sendAction(CommunityWriteIntent.RemoveSelectedSongs(song)) }
+                )
             }
 
             item {
