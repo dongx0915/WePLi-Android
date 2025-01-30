@@ -1,14 +1,13 @@
 package com.wepli.data.post.datasource
 
-import android.util.Log
 import com.wepli.core.kotlin.FlowResult
 import com.wepli.data.SupabaseTable
 import com.wepli.data.common.supabase.response.IdResponse
 import com.wepli.data.di.qualifier.SupabaseDataSource
 import com.wepli.data.post.request.PostBsideTrackRequestBody
 import com.wepli.data.post.request.PostRequestBody
-import com.wepli.data.post.request.toPostRequestBody
-import com.wepli.data.post.request.toSongRequestBody
+import com.wepli.data.post.request.toPostRequest
+import com.wepli.data.post.request.mapToSongRequest
 import com.wepli.data.song.datasource.SongDataSource
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.postgrest
@@ -31,8 +30,8 @@ class PostSupabaseDataSourceImpl @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun addPost(post: Post): FlowResult<Unit> {
-        val postRequestBody = post.toPostRequestBody()
-        val songRequestBody = post.toSongRequestBody()
+        val postRequestBody = post.toPostRequest()
+        val songRequestBody = post.mapToSongRequest()
 
         val postFlow = insertPost(postRequestBody)
         val songsFlow = songDataSource.upsertSongs(songRequestBody)

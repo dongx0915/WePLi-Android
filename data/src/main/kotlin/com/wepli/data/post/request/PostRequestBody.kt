@@ -20,7 +20,7 @@ data class PostBsideTrackRequestBody(
     val songId: Int,
 )
 
-fun Post.toPostRequestBody(): PostRequestBody {
+fun Post.toPostRequest(): PostRequestBody {
     return PostRequestBody(
         title = title,
         contents = content,
@@ -28,7 +28,7 @@ fun Post.toPostRequestBody(): PostRequestBody {
     )
 }
 
-fun Post.toSongRequestBody(): List<SongRequestBody> {
+fun Post.mapToSongRequest(): List<SongRequestBody> {
     return songList.map {
         SongRequestBody(
             songId = it.id,
