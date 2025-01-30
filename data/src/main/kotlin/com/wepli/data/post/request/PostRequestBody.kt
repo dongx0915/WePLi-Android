@@ -1,7 +1,6 @@
 package com.wepli.data.post.request
 
 import com.wepli.data.song.request.SongRequestBody
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import model.community.Post
 
@@ -10,14 +9,6 @@ data class PostRequestBody(
     val title: String,
     val contents: String,
     val author: String,
-)
-
-@Serializable
-data class PostBsideTrackRequestBody(
-    @SerialName("post_id")
-    val postId: Int,
-    @SerialName("song_id")
-    val songId: Int,
 )
 
 fun Post.toPostRequest(): PostRequestBody {
