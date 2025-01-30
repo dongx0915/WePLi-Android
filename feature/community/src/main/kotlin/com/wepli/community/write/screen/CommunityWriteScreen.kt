@@ -24,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,9 +41,11 @@ import com.wepli.community.write.mvi.CommunityWriteIntent
 import com.wepli.community.write.mvi.CommunityWriteUiState
 import com.wepli.community.write.viewmodel.CommunityWriteViewModel
 import com.wepli.designsystem.R
+import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
 import component.bottomsheet.WepliBottomSheetType
 import component.bottomsheet.WepliBottomSheet
+import compose.MeasuredHeightContainer
 import custom.SongItem
 import org.orbitmvi.orbit.compose.collectAsState
 import textfield.WepliTextField
@@ -51,11 +54,18 @@ import theme.WepliTheme
 
 @Composable
 fun CommunityWriteScreenRoute(
+    selectedSongs: List<SongUiData>?,
     navOnBack: () -> Unit,
     navOnSearchDetail: () -> Unit
 ) {
     val viewModel: CommunityWriteViewModel = hiltViewModel()
     val state: CommunityWriteUiState by viewModel.collectAsState()
+
+    selectedSongs?.let {
+        LaunchedEffect(it) {
+            viewModel.processIntent(CommunityWriteIntent.UpdateSelectedSongs(selectedSongs))
+        }
+    }
 
     CommunityWriteScreen(
         state = state,
@@ -206,20 +216,27 @@ fun SelectedSongLayout(
             modifier = Modifier.padding(horizontal = 20.dp)
         )
 
-        LazyRow(
-            state = lazyRowState,
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(horizontal = 20.dp)
+        MeasuredHeightContainer(
+            measured = { SongItem(songMockData[0]) }
         ) {
-            items(selectedSongs) { song ->
-                SongItem(song = song)
-            }
+            LazyRow(
+                state = lazyRowState,
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                contentPadding = PaddingValues(horizontal = 20.dp)
+            ) {
+                items(selectedSongs) { song ->
+                    SongItem(
+                        song = song,
+                        onClick = { sendAction(CommunityWriteIntent.RemoveSelectedSongs(song)) }
+                    )
+                }
 
-            item {
-                AddSongButton {
-                    sendAction(CommunityWriteIntent.ShowMusicSelectBottomSheet(true))
+                item {
+                    AddSongButton {
+                        sendAction(CommunityWriteIntent.ShowMusicSelectBottomSheet(true))
+                    }
                 }
             }
         }

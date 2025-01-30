@@ -1,5 +1,6 @@
 package custom
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,20 +22,28 @@ import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.songUiMockData
 import com.wepli.uimodel.music.SongUiData
+import extensions.compose.toPx
 import image.AsyncImageWithPreview
 import theme.WepliTheme
 
 @Composable
-fun SongItem(song: SongUiData) {
+fun SongItem(
+    song: SongUiData,
+    onClick: () -> Unit = {},
+) {
+    val imagePixel = 92.dp.toPx()
+
     Column(
-        modifier = Modifier.width(92.dp)
+        modifier = Modifier
+            .clickable { onClick() }
+            .width(92.dp)
     ) {
         Box(modifier = Modifier) {
             AsyncImageWithPreview(
                 modifier = Modifier
                     .size(92.dp)
                     .clip(RoundedCornerShape(4.dp)),
-                imageUrl = song.coverImg,
+                imageUrl = song.getImageUrl(imagePixel),
                 previewImage = painterResource(id = R.drawable.img_placeholder_album_cover),
                 imageOverrideSize = 92.dp,
             )

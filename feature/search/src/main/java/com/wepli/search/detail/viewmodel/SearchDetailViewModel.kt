@@ -2,9 +2,9 @@ package com.wepli.search.detail.viewmodel
 
 import base.BaseMviViewModel
 import com.wepli.core.kotlin.suspendCollectResult
-import com.wepli.search.detail.state.SearchDetailEffect
-import com.wepli.search.detail.state.SearchDetailIntent
-import com.wepli.search.detail.state.SearchDetailUiState
+import com.wepli.search.detail.mvi.SearchDetailEffect
+import com.wepli.search.detail.mvi.SearchDetailIntent
+import com.wepli.search.detail.mvi.SearchDetailUiState
 import com.wepli.uimodel.music.SongUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -22,6 +22,8 @@ class SearchDetailViewModel @Inject constructor(
         when (intent) {
             is SearchDetailIntent.OnSearchQueryChanged -> handleSearchQueryChanged(intent.query)
             is SearchDetailIntent.RequestSearch -> searchMusic(intent.query)
+            is SearchDetailIntent.OnSongSelected -> handleSongSelected(intent.song)
+            is SearchDetailIntent.OnCompleteSongSelect -> handleCompleteSongSelect()
         }
     }
 
@@ -42,7 +44,11 @@ class SearchDetailViewModel @Inject constructor(
             }.suspendCollectResult(
                 onSuccess = { musics ->
                     reduce {
-                        state.copy(searchMusicResult = musics.map(SongUiData::fromDomain))
+                        state.copy(
+                            searchMusicResult = musics
+                                .map(SongUiData::fromDomain)
+                                .updateSelectionState(state.selectedSongs)
+                        )
                     }
                 },
                 onFailure = {
@@ -50,5 +56,32 @@ class SearchDetailViewModel @Inject constructor(
                 }
             )
         }
+    }
+
+    private fun handleSongSelected(song: SongUiData) = intent {
+        reduce {
+            val updatedSelectedSongs = LinkedHashSet(state.selectedSongs).apply {
+                if (!add(song)) remove(song)
+            }
+
+            val updatedSearchMusicResult = state.searchMusicResult.map {
+                if (it.id == song.id) it.copy(isSelected = !it.isSelected) else it
+            }
+
+            state.copy(
+                selectedSongs = updatedSelectedSongs,
+                searchMusicResult = updatedSearchMusicResult
+            )
+        }
+    }
+
+    private fun List<SongUiData>.updateSelectionState(selectedSongs: Set<SongUiData>): List<SongUiData> {
+        return this.map { song ->
+            song.copy(isSelected = selectedSongs.contains(song))
+        }
+    }
+
+    private fun handleCompleteSongSelect() = intent {
+        postSideEffect(SearchDetailEffect.NavigateBackWithResult(state.selectedSongs.toList()))
     }
 }

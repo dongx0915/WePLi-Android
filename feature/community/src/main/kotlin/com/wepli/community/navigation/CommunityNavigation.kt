@@ -11,10 +11,11 @@ import androidx.navigation.navArgument
 import com.wepli.community.detail.CommunityDetailScreen
 import com.wepli.community.detail.CommunityDetailViewModel
 import com.wepli.community.main.CommunityScreen
-import com.wepli.community.write.screen.CommunityWriteScreen
 import com.wepli.community.write.screen.CommunityWriteScreenRoute
+import com.wepli.navigator.extras.Extras
 import com.wepli.navigator.feature.community.CommunityRoute
 import com.wepli.shared.feature.uimodel.community.PostUiData
+import com.wepli.uimodel.music.SongUiData
 import extensions.enterAnimation
 import extensions.parseFromJson
 import extensions.toJsonString
@@ -68,6 +69,8 @@ fun NavGraphBuilder.communityWriteGraph(
     navOnSearchDetail: () -> Unit
 ) {
     composable(CommunityRoute.Write.route) {
-        CommunityWriteScreenRoute(navOnBack, navOnSearchDetail)
+        val selectedSongs: List<SongUiData>? = it.savedStateHandle.remove<List<SongUiData>>(Extras.SELECTED_SONGS)
+
+        CommunityWriteScreenRoute(selectedSongs, navOnBack, navOnSearchDetail)
     }
 }
