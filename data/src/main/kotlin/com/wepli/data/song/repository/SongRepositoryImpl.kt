@@ -2,8 +2,8 @@ package com.wepli.data.song.repository
 
 import com.wepli.core.kotlin.FlowResult
 import com.wepli.data.network.toEntityResult
-import com.wepli.data.post.request.SongRequestBody
 import com.wepli.data.song.datasource.SongDataSource
+import com.wepli.data.song.request.SongRequestBody
 import javax.inject.Inject
 
 class SongRepositoryImpl @Inject constructor(
