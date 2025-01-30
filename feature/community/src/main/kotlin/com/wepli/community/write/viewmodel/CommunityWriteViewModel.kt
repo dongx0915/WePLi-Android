@@ -33,42 +33,34 @@ class CommunityWriteViewModel @Inject constructor() : BaseMviViewModel<Community
         }
     }
 
-    private fun handleUpdateTitle(title: String, maxLength: Int) = intent {
-        reduce {
-            state.copy(
-                title = CommunityWriteUiState.FieldState(
-                    text = title,
-                    isLengthExceeded = title.length > maxLength
-                ),
-            )
+    private fun handleUpdateTitle(title: String, maxLength: Int) {
+        val updatedFiledState = CommunityWriteUiState.FieldState(
+            text = title,
+            isLengthExceeded = title.length > maxLength
+        )
+        updateState { copy(title = updatedFiledState) }
+    }
+
+    private fun handleUpdateContents(contents: String, maxLength: Int) {
+        val updatedFiledState = CommunityWriteUiState.FieldState(
+            text = contents,
+            isLengthExceeded = contents.length > maxLength
+        )
+
+        updateState { copy(contents = updatedFiledState) }
+    }
+
+    private fun handleShowMusicSelectBottomSheet(isVisible: Boolean) {
+        updateState { copy(isShowMusicSelectBottomSheet = isVisible) }
+    }
+
+    private fun handleUpdateSelectedSongs(newSelectedSongs: List<SongUiData>) {
+        updateState {
+            val updatedSelectSongs: List<SongUiData> = (selectedSongs + newSelectedSongs).distinct()
+            copy(selectedSongs = updatedSelectSongs)
         }
     }
 
-    private fun handleUpdateContents(contents: String, maxLength: Int) = intent {
-        reduce {
-            state.copy(
-                contents = CommunityWriteUiState.FieldState(
-                    text = contents,
-                    isLengthExceeded = contents.length > maxLength
-                ),
-            )
-        }
-    }
-
-    private fun handleShowMusicSelectBottomSheet(isVisible: Boolean) = intent {
-        reduce {
-            state.copy(
-                isShowMusicSelectBottomSheet = isVisible
-            )
-        }
-    }
-
-    private fun handleUpdateSelectedSongs(newSelectedSongs: List<SongUiData>) = intent {
-        reduce {
-            state.copy(
-                selectedSongs = (state.selectedSongs + newSelectedSongs).distinct()
-            )
-        }
     private fun handleRemoveSelectedSongs(song: SongUiData) {
         updateState { copy(selectedSongs = selectedSongs - song) }
     }

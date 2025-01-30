@@ -26,6 +26,14 @@ abstract class BaseMviViewModel<S : UiState, E : SideEffect, I : Intent>(
         throw throwable
     }
 
+    protected inline fun <STATE : Any> ContainerHost<STATE, *>.updateState(
+        crossinline reducer: STATE.() -> STATE
+    ) {
+        intent {
+            reduce { state.reducer() }
+        }
+    }
+
     fun launch(
         dispatcher: CoroutineDispatcher = Dispatchers.Main.immediate,
         start: CoroutineStart = CoroutineStart.DEFAULT,
