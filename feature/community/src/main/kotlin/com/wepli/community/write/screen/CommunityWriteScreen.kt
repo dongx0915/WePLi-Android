@@ -218,7 +218,7 @@ fun SelectedSongLayout(
             state = lazyRowState,
             modifier = Modifier
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
             contentPadding = PaddingValues(horizontal = 20.dp)
         ) {
             items(selectedSongs) { song ->
