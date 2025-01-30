@@ -30,8 +30,8 @@ data class PostUiData(
             return PostUiData(
                 title = domainModel.title,
                 content = domainModel.content,
-                author = domainModel.author,
-                profileImg = domainModel.profileImg,
+                author = domainModel.author.nickname,
+                profileImg = domainModel.author.profileImgUrl,
                 songList = domainModel.songList.map { SongUiData.fromDomain(it) }
             )
         }
