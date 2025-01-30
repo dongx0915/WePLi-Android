@@ -1,15 +1,24 @@
 package com.wepli.community.write.viewmodel
 
+import android.util.Log
 import base.BaseMviViewModel
 import com.wepli.community.write.mvi.CommunityWriteEffect
 import com.wepli.community.write.mvi.CommunityWriteIntent
 import com.wepli.community.write.mvi.CommunityWriteUiState
+import com.wepli.core.kotlin.suspendCollectResult
 import com.wepli.uimodel.music.SongUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import model.community.Post
+import model.music.Song
+import repository.post.PostRepository
+import repository.user.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class CommunityWriteViewModel @Inject constructor() : BaseMviViewModel<CommunityWriteUiState, CommunityWriteEffect, CommunityWriteIntent>(
+class CommunityWriteViewModel @Inject constructor(
+    private val userRepository: UserRepository,
+    private val postRepository: PostRepository,
+) : BaseMviViewModel<CommunityWriteUiState, CommunityWriteEffect, CommunityWriteIntent>(
     initialState = CommunityWriteUiState()
 ) {
 
@@ -30,7 +39,41 @@ class CommunityWriteViewModel @Inject constructor() : BaseMviViewModel<Community
             is CommunityWriteIntent.RemoveSelectedSongs -> {
                 handleRemoveSelectedSongs(intent.song)
             }
+            is CommunityWriteIntent.AddPost -> {
+                handleAddPost()
+            }
         }
+    }
+
+    private fun handleAddPost() = intent {
+        val user = userRepository.getUser() ?: return@intent
+
+        Post(
+            title = state.title.text,
+            content = state.contents.text,
+            author = user,
+            songList = state.selectedSongs.map {
+                Song(
+                    id = it.id,
+                    title = it.title,
+                    artistName = it.artistName,
+                    albumName = it.albumName,
+                    coverImg = it.coverImg,
+                    href = it.href,
+                    durationMillis = it.durationMillis,
+                    genres = emptyList()
+                )
+            },
+        ).let {
+            postRepository.addPost(it)
+        }.suspendCollectResult(
+            onSuccess = {
+                Log.d("CommunityWriteViewModel", "handleAddPost: $it")
+            },
+            onFailure = {
+                Log.e("CommunityWriteViewModel", "handleAddPost: $it")
+            }
+        )
     }
 
     private fun handleUpdateTitle(title: String, maxLength: Int) {

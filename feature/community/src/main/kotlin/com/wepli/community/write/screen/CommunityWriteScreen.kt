@@ -127,7 +127,7 @@ fun CommunityWriteScreen(
             WepliBasicButton(
                 title = "작성 완료",
                 isEnabled = true,
-                onClick = { /* TODO */ },
+                onClick = { sendAction(CommunityWriteIntent.AddPost) },
                 modifier = Modifier.padding(horizontal = 20.dp)
             )
 

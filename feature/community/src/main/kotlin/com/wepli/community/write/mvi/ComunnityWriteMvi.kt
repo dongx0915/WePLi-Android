@@ -26,4 +26,5 @@ interface CommunityWriteIntent : Intent {
     data class ShowMusicSelectBottomSheet(val isVisible: Boolean) : CommunityWriteIntent
     data class UpdateSelectedSongs(val selectedSongs: List<SongUiData>) : CommunityWriteIntent
     data class RemoveSelectedSongs(val song: SongUiData) : CommunityWriteIntent
+    data object AddPost : CommunityWriteIntent
 }
