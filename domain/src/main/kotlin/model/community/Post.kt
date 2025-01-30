@@ -2,6 +2,7 @@ package model.community
 
 import common.DomainModel
 import model.music.Song
+import model.user.User
 
 /**
  * 게시글 정보
@@ -14,7 +15,6 @@ import model.music.Song
 data class Post(
     val title: String,
     val content: String,
-    val author: String,
-    val profileImg: String,
+    val author: User,
     val songList: List<Song>
 ) : DomainModel
