@@ -15,9 +15,13 @@ import com.wepli.data.keyword.datasource.KeywordSupabaseDatasourceImpl
 import com.wepli.data.playlist.datasource.remote.PlaylistDataSource
 import com.wepli.data.playlist.datasource.remote.PlaylistDataSourceImpl
 import com.wepli.data.playlist.datasource.remote.PlaylistSupabaseDataSourceImpl
+import com.wepli.data.post.datasource.PostDataSource
+import com.wepli.data.post.datasource.PostSupabaseDataSourceImpl
 import com.wepli.data.relaylist.datasource.remote.RelaylistDataSource
 import com.wepli.data.relaylist.datasource.remote.RelaylistDataSourceImpl
 import com.wepli.data.relaylist.datasource.remote.RelaylistSupabaseDataSourceImpl
+import com.wepli.data.song.datasource.SongDataSource
+import com.wepli.data.song.datasource.SongSupabaseDataSourceImpl
 import com.wepli.data.user.datasource.UserSupabaseDataSource
 import com.wepli.data.user.datasource.UserSupabaseDataSourceImpl
 import dagger.Binds
@@ -63,6 +67,16 @@ interface DataSourceModule {
     @Singleton
     @SupabaseDataSource
     fun bindUserSupabaseDataSource(userSupabaseDataSource: UserSupabaseDataSourceImpl): UserSupabaseDataSource
+
+    @Binds
+    @Singleton
+    @SupabaseDataSource
+    fun bindPostSupabaseDataSource(postSupabaseDataSourceImpl: PostSupabaseDataSourceImpl): PostDataSource
+
+    @Binds
+    @Singleton
+    @SupabaseDataSource
+    fun bindSongSupabaseDataSource(songSupabaseDataSourceImpl: SongSupabaseDataSourceImpl): SongDataSource
 
     @Binds
     @Singleton
