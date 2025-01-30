@@ -41,9 +41,11 @@ import com.wepli.community.write.mvi.CommunityWriteIntent
 import com.wepli.community.write.mvi.CommunityWriteUiState
 import com.wepli.community.write.viewmodel.CommunityWriteViewModel
 import com.wepli.designsystem.R
+import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
 import component.bottomsheet.WepliBottomSheetType
 import component.bottomsheet.WepliBottomSheet
+import compose.MeasuredHeightContainer
 import custom.SongItem
 import org.orbitmvi.orbit.compose.collectAsState
 import textfield.WepliTextField
@@ -214,23 +216,27 @@ fun SelectedSongLayout(
             modifier = Modifier.padding(horizontal = 20.dp)
         )
 
-        LazyRow(
-            state = lazyRowState,
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = PaddingValues(horizontal = 20.dp)
+        MeasuredHeightContainer(
+            measured = { SongItem(songMockData[0]) }
         ) {
-            items(selectedSongs) { song ->
-                SongItem(
-                    song = song,
-                    onClick = { sendAction(CommunityWriteIntent.RemoveSelectedSongs(song)) }
-                )
-            }
+            LazyRow(
+                state = lazyRowState,
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                contentPadding = PaddingValues(horizontal = 20.dp)
+            ) {
+                items(selectedSongs) { song ->
+                    SongItem(
+                        song = song,
+                        onClick = { sendAction(CommunityWriteIntent.RemoveSelectedSongs(song)) }
+                    )
+                }
 
-            item {
-                AddSongButton {
-                    sendAction(CommunityWriteIntent.ShowMusicSelectBottomSheet(true))
+                item {
+                    AddSongButton {
+                        sendAction(CommunityWriteIntent.ShowMusicSelectBottomSheet(true))
+                    }
                 }
             }
         }
