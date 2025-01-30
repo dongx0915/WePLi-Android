@@ -68,10 +68,10 @@ class CommunityWriteViewModel @Inject constructor(
             postRepository.addPost(it)
         }.suspendCollectResult(
             onSuccess = {
-                Log.d("CommunityWriteViewModel", "handleAddPost: $it")
+                postSideEffect(CommunityWriteEffect.SuccessAddPost)
             },
             onFailure = {
-                Log.e("CommunityWriteViewModel", "handleAddPost: $it")
+                postSideEffect(CommunityWriteEffect.FailedAddPost)
             }
         )
     }

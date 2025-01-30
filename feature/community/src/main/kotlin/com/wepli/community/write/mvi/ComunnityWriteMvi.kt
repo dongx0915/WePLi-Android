@@ -18,7 +18,10 @@ data class CommunityWriteUiState(
     )
 }
 
-interface CommunityWriteEffect : SideEffect
+interface CommunityWriteEffect : SideEffect {
+    data object SuccessAddPost : CommunityWriteEffect
+    data object FailedAddPost : CommunityWriteEffect
+}
 
 interface CommunityWriteIntent : Intent {
     data class UpdateTitle(val title: String, val maxLength: Int) : CommunityWriteIntent

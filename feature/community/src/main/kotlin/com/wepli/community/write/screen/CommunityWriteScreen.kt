@@ -1,6 +1,7 @@
 package com.wepli.community.write.screen
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,12 +32,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
 import button.WepliBasicButton
+import com.wepli.community.write.mvi.CommunityWriteEffect
 import com.wepli.community.write.mvi.CommunityWriteIntent
 import com.wepli.community.write.mvi.CommunityWriteUiState
 import com.wepli.community.write.viewmodel.CommunityWriteViewModel
@@ -48,6 +51,7 @@ import component.bottomsheet.WepliBottomSheet
 import compose.MeasuredHeightContainer
 import custom.SongItem
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 import textfield.WepliTextField
 import textfield.WepliTextFieldType
 import theme.WepliTheme
@@ -60,6 +64,19 @@ fun CommunityWriteScreenRoute(
 ) {
     val viewModel: CommunityWriteViewModel = hiltViewModel()
     val state: CommunityWriteUiState by viewModel.collectAsState()
+    val context = LocalContext.current
+
+    viewModel.collectSideEffect {
+        when (it) {
+            is CommunityWriteEffect.SuccessAddPost -> {
+                Toast.makeText(context, "게시글 작성을 완료했습니다.", Toast.LENGTH_SHORT).show()
+                navOnBack()
+            }
+            is CommunityWriteEffect.FailedAddPost -> {
+                Toast.makeText(context, "게시글 작성에 실패했습니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     selectedSongs?.let {
         LaunchedEffect(it) {
