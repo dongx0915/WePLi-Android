@@ -6,6 +6,7 @@ import com.wepli.data.artist.datasource.remote.ArtistDataSource
 import com.wepli.data.artist.datasource.remote.ArtistDataSourceImpl
 import com.wepli.data.chart.datasource.remote.ChartDataSource
 import com.wepli.data.chart.datasource.remote.ChartDataSourceImpl
+import com.wepli.data.chart.datasource.remote.ChartSupabaseDataSourceImpl
 import com.wepli.data.datastore.local.DataStorePrefDataSource
 import com.wepli.data.datastore.local.DataStorePrefDataSourceImpl
 import com.wepli.data.di.qualifier.RemoteDataSource
@@ -33,6 +34,7 @@ interface DataSourceModule {
 
     @Binds
     @Singleton
+    @RemoteDataSource
     fun bindChartDataSource(chartDataSourceImpl: ChartDataSourceImpl): ChartDataSource
 
     @Binds
@@ -77,5 +79,10 @@ interface DataSourceModule {
     @Binds
     @Singleton
     @SupabaseDataSource
-    fun bindKeywordDataSource(keywordDataSourceImpl: KeywordSupabaseDatasourceImpl): KeywordDatasource
+    fun bindKeywordSupabaseDataSource(keywordDataSourceImpl: KeywordSupabaseDatasourceImpl): KeywordDatasource
+
+    @Binds
+    @Singleton
+    @SupabaseDataSource
+    fun bindChartSupabaseDataSource(chartDataSourceImpl: ChartSupabaseDataSourceImpl): ChartDataSource
 }
