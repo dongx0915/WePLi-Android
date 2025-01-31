@@ -3,7 +3,7 @@ package com.wepli.home.mvi
 import base.Intent
 import base.SideEffect
 import base.UiState
-import com.wepli.uimodel.artist.ArtistUiData
+import com.wepli.shared.feature.uimodel.artist.ArtistUiData
 import com.wepli.uimodel.music.ChartMusicUiData
 import model.playlist.RecommendPlaylist
 import model.relaylist.Relaylist

@@ -1,6 +1,6 @@
 package com.wepli.shared.feature.mock
 
-import com.wepli.uimodel.artist.ArtistUiData
+import com.wepli.shared.feature.uimodel.artist.ArtistUiData
 
 val artistMockData = listOf(
     ArtistUiData("윤하(Younha/ユンナ)", "https://image.bugsm.co.kr/artist/images/1000/800100/80010025_100.jpg?version=332223&d=20220330143136"),

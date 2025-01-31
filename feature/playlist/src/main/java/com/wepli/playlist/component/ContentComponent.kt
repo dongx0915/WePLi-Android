@@ -17,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.shared.feature.mock.artistMockData
 import com.wepli.shared.feature.mock.songMockData
-import com.wepli.uimodel.artist.ArtistUiData
+import com.wepli.shared.feature.uimodel.artist.ArtistUiData
 import com.wepli.uimodel.music.SongUiData
 import custom.ArtistProfileListItem
 import custom.MusicItem

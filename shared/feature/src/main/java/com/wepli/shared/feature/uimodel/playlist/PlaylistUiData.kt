@@ -2,7 +2,7 @@ package com.wepli.shared.feature.uimodel.playlist
 
 import com.wepli.shared.feature.common.UiModel
 import com.wepli.shared.feature.common.UiModelMapper
-import com.wepli.uimodel.artist.ArtistUiData
+import com.wepli.shared.feature.uimodel.artist.ArtistUiData
 import com.wepli.uimodel.music.SongUiData
 import kotlinx.parcelize.Parcelize
 import model.playlist.Playlist
