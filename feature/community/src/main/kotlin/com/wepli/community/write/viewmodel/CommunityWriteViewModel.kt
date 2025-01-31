@@ -1,6 +1,5 @@
 package com.wepli.community.write.viewmodel
 
-import android.util.Log
 import base.BaseMviViewModel
 import com.wepli.community.write.mvi.CommunityWriteEffect
 import com.wepli.community.write.mvi.CommunityWriteIntent
@@ -8,6 +7,8 @@ import com.wepli.community.write.mvi.CommunityWriteUiState
 import com.wepli.core.kotlin.suspendCollectResult
 import com.wepli.uimodel.music.SongUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
 import model.community.Post
 import model.music.Song
 import repository.post.PostRepository
@@ -47,8 +48,7 @@ class CommunityWriteViewModel @Inject constructor(
 
     private fun handleAddPost() = intent {
         val user = userRepository.getUser() ?: return@intent
-
-        Post(
+        val postData = Post(
             title = state.title.text,
             content = state.contents.text,
             author = user,
@@ -63,17 +63,21 @@ class CommunityWriteViewModel @Inject constructor(
                     durationMillis = it.durationMillis,
                     genres = emptyList()
                 )
-            },
-        ).let {
-            postRepository.addPost(it)
-        }.suspendCollectResult(
-            onSuccess = {
-                postSideEffect(CommunityWriteEffect.SuccessAddPost)
-            },
-            onFailure = {
-                postSideEffect(CommunityWriteEffect.FailedAddPost)
             }
         )
+
+        launchWithHandler {
+            postRepository.addPost(postData)
+                .flowOn(Dispatchers.IO)
+                .suspendCollectResult(
+                    onSuccess = {
+                        postSideEffect(CommunityWriteEffect.SuccessAddPost)
+                    },
+                    onFailure = {
+                        postSideEffect(CommunityWriteEffect.FailedAddPost)
+                    }
+                )
+        }
     }
 
     private fun handleUpdateTitle(title: String, maxLength: Int) {
