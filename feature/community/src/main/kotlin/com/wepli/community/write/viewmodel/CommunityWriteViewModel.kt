@@ -48,9 +48,14 @@ class CommunityWriteViewModel @Inject constructor(
 
     private fun handleAddPost() = intent {
         val user = userRepository.getUser() ?: return@intent
-        val isPostDataValid = checkPostValidity(state = state) { postSideEffect(it) }
+        val (isPostDataValid: Boolean, errorEffect: CommunityWriteEffect?) = checkPostValidity(state = state)
 
-        if (!isPostDataValid) return@intent
+        if (!isPostDataValid) {
+            errorEffect?.let {
+                postSideEffect(it)
+            }
+            return@intent
+        }
 
         val postData = Post(
             title = state.title.text,
@@ -73,19 +78,19 @@ class CommunityWriteViewModel @Inject constructor(
         }
     }
 
-    private suspend fun checkPostValidity(
-        state: CommunityWriteUiState,
-        postSideEffect: suspend (CommunityWriteEffect) -> Unit
-    ): Boolean {
-        val isPostEmpty = state.isPostEmpty()
-        val hasPostError = state.isPostHasError()
+    private fun checkPostValidity(
+        state: CommunityWriteUiState
+    ): Pair<Boolean, CommunityWriteEffect?> {
+        with(state) {
+            val isPostValid = (isPostEmpty() || isPostHasError()).not()
+            val errorEffect = when {
+                isPostEmpty() -> CommunityWriteEffect.ErrorPostIsEmpty
+                isPostHasError() -> CommunityWriteEffect.ErrorPostHasError
+                else -> null
+            }
 
-        when {
-            isPostEmpty -> postSideEffect(CommunityWriteEffect.ErrorPostIsEmpty)
-            hasPostError -> postSideEffect(CommunityWriteEffect.ErrorPostHasError)
+            return isPostValid to errorEffect
         }
-
-        return (isPostEmpty || hasPostError).not()
     }
 
     private fun handleUpdateTitle(title: String, maxLength: Int) {
