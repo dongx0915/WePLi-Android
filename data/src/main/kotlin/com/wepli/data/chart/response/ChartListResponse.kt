@@ -1,5 +1,6 @@
 package com.wepli.data.chart.response
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import model.music.ChartMusic
 
@@ -9,10 +10,15 @@ data class ChartListResponse(
 ) {
     @Serializable
     data class ChartResponse(
+        @SerialName("rank")
         val rank: Int,
+        @SerialName("title")
         val title: String,
+        @SerialName("artist")
         val artist: String,
+        @SerialName("album")
         val album: String,
+        @SerialName("album_cover_url")
         val albumCoverUrl: String
     )
 }
