@@ -5,7 +5,7 @@ import com.wepli.core.kotlin.suspendCollectResult
 import com.wepli.home.mvi.HomeEffect
 import com.wepli.home.mvi.HomeIntent
 import com.wepli.home.mvi.HomeUiState
-import com.wepli.uimodel.artist.ArtistUiData
+import com.wepli.shared.feature.uimodel.artist.ArtistUiData
 import com.wepli.uimodel.music.ChartMusicUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

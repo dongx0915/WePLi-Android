@@ -40,7 +40,7 @@ import com.wepli.shared.feature.mock.artistMockData
 import com.wepli.shared.feature.mock.musicMockData
 import com.wepli.shared.feature.mock.recommendPlaylistMockData
 import com.wepli.shared.feature.mock.relaylistMockData
-import com.wepli.uimodel.artist.ArtistUiData
+import com.wepli.shared.feature.uimodel.artist.ArtistUiData
 import com.wepli.uimodel.music.ChartMusicUiData
 import compose.MeasuredHeightContainer
 import custom.ArtistProfileListItem

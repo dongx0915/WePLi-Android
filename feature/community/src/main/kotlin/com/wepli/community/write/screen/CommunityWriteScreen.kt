@@ -1,6 +1,7 @@
 package com.wepli.community.write.screen
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,23 +32,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
 import button.WepliBasicButton
+import com.wepli.community.write.mvi.CommunityWriteEffect
 import com.wepli.community.write.mvi.CommunityWriteIntent
 import com.wepli.community.write.mvi.CommunityWriteUiState
 import com.wepli.community.write.viewmodel.CommunityWriteViewModel
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
+import common.ShimmerSkeleton
 import component.bottomsheet.WepliBottomSheetType
 import component.bottomsheet.WepliBottomSheet
 import compose.MeasuredHeightContainer
 import custom.SongItem
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 import textfield.WepliTextField
 import textfield.WepliTextFieldType
 import theme.WepliTheme
@@ -60,6 +65,25 @@ fun CommunityWriteScreenRoute(
 ) {
     val viewModel: CommunityWriteViewModel = hiltViewModel()
     val state: CommunityWriteUiState by viewModel.collectAsState()
+    val context = LocalContext.current
+
+    viewModel.collectSideEffect {
+        when (it) {
+            is CommunityWriteEffect.SuccessAddPost -> {
+                Toast.makeText(context, "게시글 작성을 완료했습니다.", Toast.LENGTH_SHORT).show()
+                navOnBack()
+            }
+            is CommunityWriteEffect.FailedAddPost -> {
+                Toast.makeText(context, "게시글 작성에 실패했습니다.", Toast.LENGTH_SHORT).show()
+            }
+            is CommunityWriteEffect.ErrorPostIsEmpty -> {
+                Toast.makeText(context, "게시글 내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
+            }
+            is CommunityWriteEffect.ErrorPostHasError -> {
+                Toast.makeText(context, "입력 값을 확인해주세요.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     selectedSongs?.let {
         LaunchedEffect(it) {
@@ -127,7 +151,7 @@ fun CommunityWriteScreen(
             WepliBasicButton(
                 title = "작성 완료",
                 isEnabled = true,
-                onClick = { /* TODO */ },
+                onClick = { sendAction(CommunityWriteIntent.AddPost) },
                 modifier = Modifier.padding(horizontal = 20.dp)
             )
 
@@ -229,7 +253,14 @@ fun SelectedSongLayout(
                 items(selectedSongs) { song ->
                     SongItem(
                         song = song,
-                        onClick = { sendAction(CommunityWriteIntent.RemoveSelectedSongs(song)) }
+                        onClick = { sendAction(CommunityWriteIntent.RemoveSelectedSongs(song)) },
+                        loadingContent = {
+                            ShimmerSkeleton(
+                                modifier = Modifier
+                                    .size(92.dp)
+                                    .clip(RoundedCornerShape(4.dp)),
+                            )
+                        }
                     )
                 }
 

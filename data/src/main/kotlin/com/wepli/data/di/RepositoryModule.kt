@@ -6,7 +6,10 @@ import repository.chart.ChartRepository
 import com.wepli.data.chart.repository.ChartRepositoryImpl
 import com.wepli.data.keyword.repository.KeywordRepositoryImpl
 import com.wepli.data.playlist.repository.PlaylistRepositoryImpl
+import com.wepli.data.post.repository.PostRepositoryImpl
 import com.wepli.data.relaylist.repository.RelaylistRepositoryImpl
+import com.wepli.data.song.repository.SongRepository
+import com.wepli.data.song.repository.SongRepositoryImpl
 import com.wepli.data.user.UserRepositoryImpl
 import dagger.Binds
 import dagger.Module
@@ -16,6 +19,7 @@ import model.recommend.repository.KeywordRepository
 import repository.applemusic.AppleMusicRepository
 import repository.artist.ArtistRepository
 import repository.playlist.PlaylistRepository
+import repository.post.PostRepository
 import repository.relaylist.RelaylistRepository
 import repository.user.UserRepository
 import javax.inject.Singleton
@@ -27,6 +31,14 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindUserRepository(userRepository: UserRepositoryImpl): UserRepository
+
+    @Binds
+    @Singleton
+    fun bindPostRepository(postRepositoryImpl: PostRepositoryImpl): PostRepository
+
+    @Binds
+    @Singleton
+    fun bindSongRepository(songRepositoryImpl: SongRepositoryImpl): SongRepository
 
     @Binds
     @Singleton

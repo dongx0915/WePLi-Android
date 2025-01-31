@@ -30,6 +30,7 @@ import theme.WepliTheme
 fun SongItem(
     song: SongUiData,
     onClick: () -> Unit = {},
+    loadingContent: @Composable () -> Unit = {},
 ) {
     val imagePixel = 92.dp.toPx()
 
@@ -46,6 +47,7 @@ fun SongItem(
                 imageUrl = song.getImageUrl(imagePixel),
                 previewImage = painterResource(id = R.drawable.img_placeholder_album_cover),
                 imageOverrideSize = 92.dp,
+                loadingContent = loadingContent,
             )
 
             Box(

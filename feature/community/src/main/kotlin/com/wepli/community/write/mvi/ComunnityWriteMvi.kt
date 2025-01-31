@@ -16,9 +16,23 @@ data class CommunityWriteUiState(
         val text: String = "",
         val isLengthExceeded: Boolean = false
     )
+
+    fun isPostEmpty(): Boolean {
+        return title.text.isEmpty() || contents.text.isEmpty()
+    }
+
+    fun isPostHasError(): Boolean {
+        return title.isLengthExceeded || contents.isLengthExceeded
+    }
+
 }
 
-interface CommunityWriteEffect : SideEffect
+interface CommunityWriteEffect : SideEffect {
+    data object SuccessAddPost : CommunityWriteEffect
+    data object FailedAddPost : CommunityWriteEffect
+    data object ErrorPostIsEmpty : CommunityWriteEffect
+    data object ErrorPostHasError : CommunityWriteEffect
+}
 
 interface CommunityWriteIntent : Intent {
     data class UpdateTitle(val title: String, val maxLength: Int) : CommunityWriteIntent
@@ -26,4 +40,5 @@ interface CommunityWriteIntent : Intent {
     data class ShowMusicSelectBottomSheet(val isVisible: Boolean) : CommunityWriteIntent
     data class UpdateSelectedSongs(val selectedSongs: List<SongUiData>) : CommunityWriteIntent
     data class RemoveSelectedSongs(val song: SongUiData) : CommunityWriteIntent
+    data object AddPost : CommunityWriteIntent
 }

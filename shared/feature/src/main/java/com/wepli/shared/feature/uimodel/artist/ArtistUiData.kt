@@ -1,4 +1,4 @@
-package com.wepli.uimodel.artist
+package com.wepli.shared.feature.uimodel.artist
 
 import com.wepli.shared.feature.common.UiModel
 import com.wepli.shared.feature.common.UiModelMapper

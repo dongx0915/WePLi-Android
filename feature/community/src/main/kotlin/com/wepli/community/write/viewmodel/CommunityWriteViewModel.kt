@@ -4,12 +4,22 @@ import base.BaseMviViewModel
 import com.wepli.community.write.mvi.CommunityWriteEffect
 import com.wepli.community.write.mvi.CommunityWriteIntent
 import com.wepli.community.write.mvi.CommunityWriteUiState
+import com.wepli.core.kotlin.suspendCollectResult
 import com.wepli.uimodel.music.SongUiData
+import com.wepli.uimodel.music.toDomain
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
+import model.community.Post
+import repository.post.PostRepository
+import repository.user.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class CommunityWriteViewModel @Inject constructor() : BaseMviViewModel<CommunityWriteUiState, CommunityWriteEffect, CommunityWriteIntent>(
+class CommunityWriteViewModel @Inject constructor(
+    private val userRepository: UserRepository,
+    private val postRepository: PostRepository,
+) : BaseMviViewModel<CommunityWriteUiState, CommunityWriteEffect, CommunityWriteIntent>(
     initialState = CommunityWriteUiState()
 ) {
 
@@ -30,6 +40,56 @@ class CommunityWriteViewModel @Inject constructor() : BaseMviViewModel<Community
             is CommunityWriteIntent.RemoveSelectedSongs -> {
                 handleRemoveSelectedSongs(intent.song)
             }
+            is CommunityWriteIntent.AddPost -> {
+                handleAddPost()
+            }
+        }
+    }
+
+    private fun handleAddPost() = intent {
+        val user = userRepository.getUser() ?: return@intent
+        val (isPostDataValid: Boolean, errorEffect: CommunityWriteEffect?) = checkPostValidity(state = state)
+
+        if (!isPostDataValid) {
+            errorEffect?.let {
+                postSideEffect(it)
+            }
+            return@intent
+        }
+
+        val postData = Post(
+            title = state.title.text,
+            content = state.contents.text,
+            author = user,
+            songList = state.selectedSongs.map { it.toDomain() }
+        )
+
+        launchWithHandler {
+            postRepository.addPost(postData)
+                .flowOn(Dispatchers.IO)
+                .suspendCollectResult(
+                    onSuccess = {
+                        postSideEffect(CommunityWriteEffect.SuccessAddPost)
+                    },
+                    onFailure = {
+                        postSideEffect(CommunityWriteEffect.FailedAddPost)
+                    }
+                )
+        }
+    }
+
+    private fun checkPostValidity(
+        state: CommunityWriteUiState
+    ): Pair<Boolean, CommunityWriteEffect?> {
+        with(state) {
+            val isPostValid = (isPostEmpty() || isPostHasError()).not()
+            val errorEffect = when {
+                isPostEmpty() -> CommunityWriteEffect.ErrorPostIsEmpty
+                isPostHasError() -> CommunityWriteEffect.ErrorPostHasError
+                else -> null
+            }
+
+            return isPostValid to errorEffect
         }
     }
 
