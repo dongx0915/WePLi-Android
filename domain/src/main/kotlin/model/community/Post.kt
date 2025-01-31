@@ -13,6 +13,7 @@ import model.user.User
  * @property songList 게시글에 포함된 음악 리스트
  */
 data class Post(
+    val id: Int = -1,
     val title: String,
     val content: String,
     val author: User,

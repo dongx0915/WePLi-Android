@@ -16,6 +16,7 @@ import model.community.Post
  */
 @Parcelize
 data class PostUiData(
+    val id: Int,
     val title: String,
     val content: String,
     val author: String,
@@ -23,11 +24,12 @@ data class PostUiData(
     val songList: List<SongUiData>
 ) : UiModel {
 
-    constructor() : this("", "", "", "", emptyList())
+    constructor() : this(-1, "", "", "", "", emptyList())
 
     companion object : UiModelMapper<Post, PostUiData> {
         override fun fromDomain(domainModel: Post): PostUiData {
             return PostUiData(
+                id = domainModel.id,
                 title = domainModel.title,
                 content = domainModel.content,
                 author = domainModel.author.nickname,
