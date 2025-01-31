@@ -53,6 +53,7 @@ import com.wepli.search.detail.viewmodel.SearchDetailViewModel
 import com.wepli.search.navigation.SearchScreenMode
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
+import common.ShimmerSkeleton
 import common.WepliSpacer
 import extensions.compose.shimmerEffect
 import extensions.compose.toPx
@@ -276,7 +277,13 @@ fun SearchResultSongItem(
             imageUrl = imageUrl,
             contentScale = ContentScale.Crop,
             imageOverrideSize = SongItemImageSize,
-            loadingContent = { SkeletonImage() },
+            loadingContent = {
+                ShimmerSkeleton(
+                    modifier = Modifier
+                        .size(SongItemImageSize)
+                        .clip(RoundedCornerShape(4.dp))
+                )
+            },
         )
 
         WepliSpacer(horizontal = 12.dp)
@@ -385,14 +392,18 @@ fun SelectedSongItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
+            val selectedSongImageModifier = Modifier
+                .size(20.dp)
+                .clip(CircleShape)
+
             AsyncImageWithPreview(
-                modifier = Modifier
-                    .size(20.dp)
-                    .clip(CircleShape),
+                modifier = selectedSongImageModifier,
                 imageUrl = imageUrl,
                 contentScale = ContentScale.Crop,
                 imageOverrideSize = 40.dp,
-                loadingContent = { SkeletonImage() },
+                loadingContent = {
+                    ShimmerSkeleton(modifier = selectedSongImageModifier)
+                },
             )
 
             Text(
@@ -404,17 +415,6 @@ fun SelectedSongItem(
             )
         }
     }
-}
-
-@Composable
-fun SkeletonImage() {
-    Box(
-        modifier = Modifier
-            .background(color = WepliTheme.color.gray500)
-            .size(SongItemImageSize)
-            .clip(RoundedCornerShape(4.dp))
-            .shimmerEffect(4.dp)
-    )
 }
 
 @Preview
