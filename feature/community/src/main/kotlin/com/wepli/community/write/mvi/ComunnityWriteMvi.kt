@@ -12,6 +12,14 @@ data class CommunityWriteUiState(
     val isShowMusicSelectBottomSheet: Boolean = false
 ) : UiState {
 
+    fun isPostEmpty(): Boolean {
+        return title.text.isEmpty() || contents.text.isEmpty()
+    }
+
+    fun isPostHasError(): Boolean {
+        return title.isLengthExceeded || contents.isLengthExceeded
+    }
+
     data class FieldState(
         val text: String = "",
         val isLengthExceeded: Boolean = false
@@ -21,6 +29,8 @@ data class CommunityWriteUiState(
 interface CommunityWriteEffect : SideEffect {
     data object SuccessAddPost : CommunityWriteEffect
     data object FailedAddPost : CommunityWriteEffect
+    data object ErrorPostIsEmpty : CommunityWriteEffect
+    data object ErrorPostHasError : CommunityWriteEffect
 }
 
 interface CommunityWriteIntent : Intent {
