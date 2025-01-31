@@ -56,3 +56,16 @@ data class SongUiData(
         }
     }
 }
+
+fun SongUiData.toDomain(): Song {
+    return Song(
+        id = id,
+        title = title,
+        artistName = artistName,
+        albumName = albumName,
+        coverImg = coverImg,
+        href = href,
+        genres = genres,
+        durationMillis = durationMillis
+    )
+}
