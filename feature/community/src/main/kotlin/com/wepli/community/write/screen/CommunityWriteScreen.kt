@@ -46,6 +46,7 @@ import com.wepli.community.write.viewmodel.CommunityWriteViewModel
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
+import common.ShimmerSkeleton
 import component.bottomsheet.WepliBottomSheetType
 import component.bottomsheet.WepliBottomSheet
 import compose.MeasuredHeightContainer
@@ -252,7 +253,14 @@ fun SelectedSongLayout(
                 items(selectedSongs) { song ->
                     SongItem(
                         song = song,
-                        onClick = { sendAction(CommunityWriteIntent.RemoveSelectedSongs(song)) }
+                        onClick = { sendAction(CommunityWriteIntent.RemoveSelectedSongs(song)) },
+                        loadingContent = {
+                            ShimmerSkeleton(
+                                modifier = Modifier
+                                    .size(92.dp)
+                                    .clip(RoundedCornerShape(4.dp)),
+                            )
+                        }
                     )
                 }
 
