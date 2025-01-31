@@ -6,11 +6,11 @@ import com.wepli.community.write.mvi.CommunityWriteIntent
 import com.wepli.community.write.mvi.CommunityWriteUiState
 import com.wepli.core.kotlin.suspendCollectResult
 import com.wepli.uimodel.music.SongUiData
+import com.wepli.uimodel.music.toDomain
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import model.community.Post
-import model.music.Song
 import repository.post.PostRepository
 import repository.user.UserRepository
 import javax.inject.Inject
@@ -48,22 +48,15 @@ class CommunityWriteViewModel @Inject constructor(
 
     private fun handleAddPost() = intent {
         val user = userRepository.getUser() ?: return@intent
+        val isPostDataValid = checkPostValidity(state = state) { postSideEffect(it) }
+
+        if (!isPostDataValid) return@intent
+
         val postData = Post(
             title = state.title.text,
             content = state.contents.text,
             author = user,
-            songList = state.selectedSongs.map {
-                Song(
-                    id = it.id,
-                    title = it.title,
-                    artistName = it.artistName,
-                    albumName = it.albumName,
-                    coverImg = it.coverImg,
-                    href = it.href,
-                    durationMillis = it.durationMillis,
-                    genres = emptyList()
-                )
-            }
+            songList = state.selectedSongs.map { it.toDomain() }
         )
 
         launchWithHandler {
@@ -78,6 +71,21 @@ class CommunityWriteViewModel @Inject constructor(
                     }
                 )
         }
+    }
+
+    private suspend fun checkPostValidity(
+        state: CommunityWriteUiState,
+        postSideEffect: suspend (CommunityWriteEffect) -> Unit
+    ): Boolean {
+        val isPostEmpty = state.isPostEmpty()
+        val hasPostError = state.isPostHasError()
+
+        when {
+            isPostEmpty -> postSideEffect(CommunityWriteEffect.ErrorPostIsEmpty)
+            hasPostError -> postSideEffect(CommunityWriteEffect.ErrorPostHasError)
+        }
+
+        return (isPostEmpty || hasPostError).not()
     }
 
     private fun handleUpdateTitle(title: String, maxLength: Int) {

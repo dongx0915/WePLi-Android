@@ -75,6 +75,12 @@ fun CommunityWriteScreenRoute(
             is CommunityWriteEffect.FailedAddPost -> {
                 Toast.makeText(context, "게시글 작성에 실패했습니다.", Toast.LENGTH_SHORT).show()
             }
+            is CommunityWriteEffect.ErrorPostIsEmpty -> {
+                Toast.makeText(context, "게시글 내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
+            }
+            is CommunityWriteEffect.ErrorPostHasError -> {
+                Toast.makeText(context, "입력 값을 확인해주세요.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
