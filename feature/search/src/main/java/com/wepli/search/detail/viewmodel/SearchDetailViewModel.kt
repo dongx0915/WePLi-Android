@@ -38,9 +38,7 @@ class SearchDetailViewModel @Inject constructor(
 
         launchWithHandler {
             withContext(Dispatchers.IO) {
-                appleMusicRepository.searchMusics(
-                    query.replace(" ", "+")
-                )
+                appleMusicRepository.searchMusics(query)
             }.suspendCollectResult(
                 onSuccess = { musics ->
                     reduce {
