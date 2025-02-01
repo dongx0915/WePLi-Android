@@ -11,6 +11,8 @@ data class CommunityMainUiState(
     val posts: List<PostUiData> = emptyList(),
 ) : UiState
 
-interface CommunityMainEffect : SideEffect
+interface CommunityMainEffect : SideEffect {
+    data object ErrorLoadPosts : CommunityMainEffect
+}
 
 interface CommunityMainIntent : Intent

@@ -46,6 +46,7 @@ class CommunityViewModel @Inject constructor(
                 },
                 onFailure = {
                     Log.e("CommunityViewModel", "loadPosts: $it")
+                    postSideEffect { CommunityMainEffect.ErrorLoadPosts }
                 }
             )
     }

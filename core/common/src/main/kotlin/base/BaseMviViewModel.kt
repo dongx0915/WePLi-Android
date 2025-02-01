@@ -13,6 +13,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.annotation.OrbitDsl
 import org.orbitmvi.orbit.viewmodel.container
 
 abstract class BaseMviViewModel<S : UiState, E : SideEffect, I : Intent>(
@@ -26,11 +27,19 @@ abstract class BaseMviViewModel<S : UiState, E : SideEffect, I : Intent>(
         throw throwable
     }
 
+    @OrbitDsl
     protected inline fun <STATE : Any> ContainerHost<STATE, *>.updateState(
         crossinline reducer: STATE.() -> STATE
     ) {
         intent {
             reduce { state.reducer() }
+        }
+    }
+
+    @OrbitDsl
+    protected inline fun postSideEffect(crossinline sideEffect: () -> E) {
+        intent {
+            postSideEffect(sideEffect())
         }
     }
 
