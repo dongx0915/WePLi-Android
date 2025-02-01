@@ -41,13 +41,11 @@ class CommunityViewModel @Inject constructor(
             .flowOn(Dispatchers.IO)
             .suspendCollectResult(
                 onSuccess = { posts ->
-                    Log.d("CommunityViewModel", "loadPosts: $posts")
                     updateState {
                         copy(posts = posts.map { PostUiData.fromDomain(it) })
                     }
                 },
                 onFailure = {
-                    Log.e("CommunityViewModel", "loadPosts: $it")
                     postSideEffect { CommunityMainEffect.ErrorLoadPosts }
                 }
             )
