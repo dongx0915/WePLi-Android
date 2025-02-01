@@ -254,13 +254,6 @@ fun SelectedSongLayout(
                     SongItem(
                         song = song,
                         onClick = { sendAction(CommunityWriteIntent.RemoveSelectedSongs(song)) },
-                        loadingContent = {
-                            ShimmerSkeleton(
-                                modifier = Modifier
-                                    .size(92.dp)
-                                    .clip(RoundedCornerShape(4.dp)),
-                            )
-                        }
                     )
                 }
 
