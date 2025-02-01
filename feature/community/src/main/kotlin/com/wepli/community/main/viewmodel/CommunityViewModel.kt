@@ -2,9 +2,9 @@ package com.wepli.community.main.viewmodel
 
 import android.util.Log
 import base.BaseMviViewModel
+import com.wepli.community.main.mvi.CommunityMainEffect
+import com.wepli.community.main.mvi.CommunityMainIntent
 import com.wepli.community.main.mvi.CommunityMainUiState
-import com.wepli.community.write.mvi.CommunityWriteEffect
-import com.wepli.community.write.mvi.CommunityWriteIntent
 import com.wepli.core.kotlin.suspendCollectResult
 import com.wepli.shared.feature.mock.userMockData
 import com.wepli.shared.feature.uimodel.community.PostUiData
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CommunityViewModel @Inject constructor(
     private val postRepository: PostRepository,
-) : BaseMviViewModel<CommunityMainUiState, CommunityWriteEffect, CommunityWriteIntent>(
+) : BaseMviViewModel<CommunityMainUiState, CommunityMainEffect, CommunityMainIntent>(
     initialState = CommunityMainUiState()
 ) {
 
@@ -26,7 +26,7 @@ class CommunityViewModel @Inject constructor(
         loadPosts()
     }
 
-    override fun processIntent(intent: CommunityWriteIntent) {
+    override fun processIntent(intent: CommunityMainIntent) {
         // TODO("Not yet implemented")
     }
 
