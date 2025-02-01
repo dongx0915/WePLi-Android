@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
@@ -28,6 +27,7 @@ import com.wepli.designsystem.R
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import com.wepli.shared.feature.uimodel.community.PostUiData
 import common.WepliSpacer
+import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -38,7 +38,7 @@ fun CommunityScreen(
     navOnCommunityDetail: (PostUiData) -> Unit = {},
     navOnCommunityWrite: () -> Unit = {},
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.collectAsState()
     val storyUsers: List<UserUiData> by rememberUpdatedState(newValue = state.storyUsers)
     val posts: List<PostUiData> by rememberUpdatedState(newValue = state.posts)
 
