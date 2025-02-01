@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.wepli.community.detail.CommunityDetailScreen
 import com.wepli.community.detail.CommunityDetailViewModel
+import com.wepli.community.main.screen.CommunityMainScreenRoute
 import com.wepli.community.main.screen.CommunityScreen
 import com.wepli.community.write.screen.CommunityWriteScreenRoute
 import com.wepli.navigator.extras.Extras
@@ -35,7 +36,7 @@ fun NavGraphBuilder.communityMainGraph(
     navOnCommunityWrite: () -> Unit
 ) {
     composable(CommunityRoute.Home.route) {
-        CommunityScreen(
+        CommunityMainScreenRoute(
             navOnCommunityDetail = { post -> navOnCommunityDetail(post) },
             navOnCommunityWrite = { navOnCommunityWrite() }
         )

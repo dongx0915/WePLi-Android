@@ -23,23 +23,40 @@ import appbar.AppBarIconType
 import appbar.WepliAppBar
 import com.wepli.community.component.PostItem
 import com.wepli.community.component.WePLiStoryLayout
+import com.wepli.community.main.mvi.CommunityMainUiState
 import com.wepli.community.main.viewmodel.CommunityViewModel
 import com.wepli.designsystem.R
+import com.wepli.shared.feature.mock.postMockData
+import com.wepli.shared.feature.mock.userMockData
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import com.wepli.shared.feature.uimodel.community.PostUiData
 import common.WepliSpacer
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
 
+@Composable
+fun CommunityMainScreenRoute(
+    navOnCommunityDetail: (PostUiData) -> Unit,
+    navOnCommunityWrite: () -> Unit,
+) {
+    val viewModel: CommunityViewModel = hiltViewModel()
+    val state: CommunityMainUiState by viewModel.collectAsState()
+
+    CommunityScreen(
+        state = state,
+        navOnCommunityDetail = navOnCommunityDetail,
+        navOnCommunityWrite = navOnCommunityWrite,
+    )
+}
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommunityScreen(
-    viewModel: CommunityViewModel = hiltViewModel(),
+    state: CommunityMainUiState,
     navOnCommunityDetail: (PostUiData) -> Unit = {},
     navOnCommunityWrite: () -> Unit = {},
 ) {
-    val state by viewModel.collectAsState()
     val storyUsers: List<UserUiData> by rememberUpdatedState(newValue = state.storyUsers)
     val posts: List<PostUiData> by rememberUpdatedState(newValue = state.posts)
 
@@ -102,5 +119,10 @@ fun PostWritingButton(
 @Preview
 @Composable
 fun CommunityScreenPreview() {
-    CommunityScreen()
+    CommunityScreen(
+        state = CommunityMainUiState(
+            storyUsers = userMockData,
+            posts = postMockData,
+        ),
+    )
 }
