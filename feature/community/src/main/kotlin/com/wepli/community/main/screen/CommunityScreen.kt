@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,6 +14,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -91,8 +93,11 @@ fun CommunityScreen(
             )
         },
     ) { paddingValues ->
+        val bottomPadding = remember { paddingValues.calculateBottomPadding() * 2 }
+
         LazyColumn(
             modifier = Modifier.padding(paddingValues),
+            contentPadding = PaddingValues(bottom = bottomPadding),
         ) {
             item { WePLiStoryLayout(users = storyUsers) }
 
