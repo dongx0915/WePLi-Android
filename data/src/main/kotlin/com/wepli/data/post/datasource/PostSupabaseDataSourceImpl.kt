@@ -8,6 +8,7 @@ import com.wepli.data.post.request.PostBsideTrackRequestBody
 import com.wepli.data.post.request.PostRequestBody
 import com.wepli.data.post.request.toPostRequest
 import com.wepli.data.post.request.mapToSongRequest
+import com.wepli.data.post.response.PostResponse
 import com.wepli.data.song.datasource.SongDataSource
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.postgrest
@@ -27,6 +28,14 @@ class PostSupabaseDataSourceImpl @Inject constructor(
     private val supabase: SupabaseClient,
     @SupabaseDataSource private val songDataSource: SongDataSource,
 ) : PostDataSource {
+
+    override fun getPosts(): FlowResult<List<PostResponse>> = flow {
+        val result = runCatching {
+            supabase.postgrest[SupabaseTable.POST_VIEW].select().decodeList<PostResponse>()
+        }
+
+        emit(result)
+    }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun addPost(post: Post): FlowResult<Unit> {
