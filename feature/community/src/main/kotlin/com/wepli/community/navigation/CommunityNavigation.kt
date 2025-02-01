@@ -10,7 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.wepli.community.detail.CommunityDetailScreen
 import com.wepli.community.detail.CommunityDetailViewModel
-import com.wepli.community.main.CommunityScreen
+import com.wepli.community.main.screen.CommunityScreen
 import com.wepli.community.write.screen.CommunityWriteScreenRoute
 import com.wepli.navigator.extras.Extras
 import com.wepli.navigator.feature.community.CommunityRoute

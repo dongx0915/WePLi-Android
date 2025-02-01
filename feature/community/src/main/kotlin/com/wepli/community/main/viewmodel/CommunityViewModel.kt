@@ -1,4 +1,4 @@
-package com.wepli.community.main
+package com.wepli.community.main.viewmodel
 
 import android.util.Log
 import base.BaseMviViewModel
