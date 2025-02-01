@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
@@ -28,6 +29,7 @@ import appbar.WepliAppBar
 import com.wepli.community.component.PostItem
 import com.wepli.community.component.WePLiStoryLayout
 import com.wepli.community.main.mvi.CommunityMainEffect
+import com.wepli.community.main.mvi.CommunityMainIntent
 import com.wepli.community.main.mvi.CommunityMainUiState
 import com.wepli.community.main.viewmodel.CommunityViewModel
 import com.wepli.designsystem.R
@@ -42,6 +44,7 @@ import theme.WepliTheme
 
 @Composable
 fun CommunityMainScreenRoute(
+    needRefresh: Boolean,
     navOnCommunityDetail: (PostUiData) -> Unit,
     navOnCommunityWrite: () -> Unit,
 ) {
@@ -54,6 +57,12 @@ fun CommunityMainScreenRoute(
             is CommunityMainEffect.ErrorLoadPosts -> {
                 Toast.makeText(context, "게시글 조회에 실패했습니다.", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    LaunchedEffect(needRefresh) {
+        if (needRefresh) {
+            viewModel.processIntent(CommunityMainIntent.LoadPosts)
         }
     }
 

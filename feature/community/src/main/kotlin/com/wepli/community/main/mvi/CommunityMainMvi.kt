@@ -15,4 +15,6 @@ interface CommunityMainEffect : SideEffect {
     data object ErrorLoadPosts : CommunityMainEffect
 }
 
-interface CommunityMainIntent : Intent
+interface CommunityMainIntent : Intent {
+    object LoadPosts : CommunityMainIntent
+}

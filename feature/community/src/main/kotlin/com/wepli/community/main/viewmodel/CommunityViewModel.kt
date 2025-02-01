@@ -27,7 +27,9 @@ class CommunityViewModel @Inject constructor(
     }
 
     override fun processIntent(intent: CommunityMainIntent) {
-        // TODO("Not yet implemented")
+        when (intent) {
+            is CommunityMainIntent.LoadPosts -> loadPosts()
+        }
     }
 
     private fun loadStoryUsers() {

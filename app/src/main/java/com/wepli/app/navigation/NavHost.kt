@@ -19,6 +19,7 @@ import com.wepli.mypage.menus.appinfo.navigation.navigateToAppInfo
 import com.wepli.mypage.menus.mypage.navigation.mypageMainGraph
 import com.wepli.app.navigation.extensions.navigateToBack
 import com.wepli.community.navigation.communityWriteGraph
+import com.wepli.community.navigation.navigateToBackAndPostRefresh
 import com.wepli.community.navigation.navigateToCommunityWrite
 import com.wepli.playlist.navigation.navigateToPlaylistDetail
 import com.wepli.playlist.navigation.playlistDetailGraph
@@ -95,6 +96,7 @@ fun NavGraphBuilder.communityGraph(navController: NavHostController) {
     )
     communityWriteGraph(
         navOnBack = { navController.navigateToBack() },
+        navOnBackAndPostRefresh = { navController.navigateToBackAndPostRefresh() },
         navOnSearchDetail = {
             navController.navigateToSearchDetail(
                 screenMode = SearchScreenMode.SELECTABLE,
