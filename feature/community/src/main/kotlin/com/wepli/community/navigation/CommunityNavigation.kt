@@ -10,7 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.wepli.community.detail.CommunityDetailScreen
 import com.wepli.community.detail.CommunityDetailViewModel
-import com.wepli.community.main.CommunityScreen
+import com.wepli.community.main.screen.CommunityMainScreenRoute
 import com.wepli.community.write.screen.CommunityWriteScreenRoute
 import com.wepli.navigator.extras.Extras
 import com.wepli.navigator.feature.community.CommunityRoute
@@ -29,13 +29,21 @@ fun NavController.navigateToCommunityWrite() {
     navigate(CommunityRoute.Write.route)
 }
 
+fun NavController.navigateToBackAndPostRefresh() {
+    previousBackStackEntry?.savedStateHandle?.set(Extras.COMMUNITY_NEED_REFRESH_POST, true)
+    navigateUp()
+}
+
 // Graph - 도착 지점(화면)을 정의
 fun NavGraphBuilder.communityMainGraph(
     navOnCommunityDetail: (PostUiData) -> Unit,
     navOnCommunityWrite: () -> Unit
 ) {
     composable(CommunityRoute.Home.route) {
-        CommunityScreen(
+        val needRefresh = it.savedStateHandle.remove<Boolean>(Extras.COMMUNITY_NEED_REFRESH_POST) ?: false
+
+        CommunityMainScreenRoute(
+            needRefresh = needRefresh,
             navOnCommunityDetail = { post -> navOnCommunityDetail(post) },
             navOnCommunityWrite = { navOnCommunityWrite() }
         )
@@ -66,11 +74,12 @@ fun NavGraphBuilder.communityDetailGraph(
 
 fun NavGraphBuilder.communityWriteGraph(
     navOnBack: () -> Unit,
-    navOnSearchDetail: () -> Unit
+    navOnBackAndPostRefresh: () -> Unit,
+    navOnSearchDetail: () -> Unit,
 ) {
     composable(CommunityRoute.Write.route) {
         val selectedSongs: List<SongUiData>? = it.savedStateHandle.remove<List<SongUiData>>(Extras.SELECTED_SONGS)
 
-        CommunityWriteScreenRoute(selectedSongs, navOnBack, navOnSearchDetail)
+        CommunityWriteScreenRoute(selectedSongs, navOnBack, navOnBackAndPostRefresh, navOnSearchDetail)
     }
 }

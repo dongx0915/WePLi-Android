@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.songUiMockData
 import com.wepli.uimodel.music.SongUiData
+import common.ShimmerSkeleton
 import extensions.compose.toPx
 import image.AsyncImageWithPreview
 import theme.WepliTheme
@@ -30,24 +32,32 @@ import theme.WepliTheme
 fun SongItem(
     song: SongUiData,
     onClick: () -> Unit = {},
-    loadingContent: @Composable () -> Unit = {},
+    loadingContent: @Composable (() -> Unit)? = null,
 ) {
-    val imagePixel = 92.dp.toPx()
+    val imageSize = 92.dp
+    val imagePixel = imageSize.toPx()
+    val shape = remember { RoundedCornerShape(4.dp) }
 
     Column(
         modifier = Modifier
             .clickable { onClick() }
-            .width(92.dp)
+            .width(imageSize)
     ) {
         Box(modifier = Modifier) {
             AsyncImageWithPreview(
                 modifier = Modifier
-                    .size(92.dp)
-                    .clip(RoundedCornerShape(4.dp)),
+                    .size(imageSize)
+                    .clip(shape),
                 imageUrl = song.getImageUrl(imagePixel),
                 previewImage = painterResource(id = R.drawable.img_placeholder_album_cover),
-                imageOverrideSize = 92.dp,
-                loadingContent = loadingContent,
+                imageOverrideSize = imageSize,
+                loadingContent = {
+                    loadingContent?.invoke() ?: ShimmerSkeleton(
+                        modifier = Modifier
+                            .size(imageSize)
+                            .clip(shape)
+                    )
+                },
             )
 
             Box(

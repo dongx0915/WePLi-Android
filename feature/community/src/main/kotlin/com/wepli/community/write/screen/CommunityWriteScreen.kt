@@ -46,7 +46,6 @@ import com.wepli.community.write.viewmodel.CommunityWriteViewModel
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
-import common.ShimmerSkeleton
 import component.bottomsheet.WepliBottomSheetType
 import component.bottomsheet.WepliBottomSheet
 import compose.MeasuredHeightContainer
@@ -61,6 +60,7 @@ import theme.WepliTheme
 fun CommunityWriteScreenRoute(
     selectedSongs: List<SongUiData>?,
     navOnBack: () -> Unit,
+    navOnBackAndPostRefresh: () -> Unit,
     navOnSearchDetail: () -> Unit
 ) {
     val viewModel: CommunityWriteViewModel = hiltViewModel()
@@ -71,7 +71,7 @@ fun CommunityWriteScreenRoute(
         when (it) {
             is CommunityWriteEffect.SuccessAddPost -> {
                 Toast.makeText(context, "게시글 작성을 완료했습니다.", Toast.LENGTH_SHORT).show()
-                navOnBack()
+                navOnBackAndPostRefresh()
             }
             is CommunityWriteEffect.FailedAddPost -> {
                 Toast.makeText(context, "게시글 작성에 실패했습니다.", Toast.LENGTH_SHORT).show()
@@ -254,13 +254,6 @@ fun SelectedSongLayout(
                     SongItem(
                         song = song,
                         onClick = { sendAction(CommunityWriteIntent.RemoveSelectedSongs(song)) },
-                        loadingContent = {
-                            ShimmerSkeleton(
-                                modifier = Modifier
-                                    .size(92.dp)
-                                    .clip(RoundedCornerShape(4.dp)),
-                            )
-                        }
                     )
                 }
 
