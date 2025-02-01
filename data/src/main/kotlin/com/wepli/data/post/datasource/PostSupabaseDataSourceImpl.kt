@@ -31,7 +31,6 @@ class PostSupabaseDataSourceImpl @Inject constructor(
 
     override fun getPosts(): FlowResult<List<PostResponse>> = flow {
         val result = runCatching {
-            throw Exception("Not implemented")
             supabase.postgrest[SupabaseTable.POST_VIEW].select().decodeList<PostResponse>()
         }
 
