@@ -1,6 +1,7 @@
 package com.wepli.community.main.screen
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,6 +25,7 @@ import appbar.AppBarIconType
 import appbar.WepliAppBar
 import com.wepli.community.component.PostItem
 import com.wepli.community.component.WePLiStoryLayout
+import com.wepli.community.main.mvi.CommunityMainEffect
 import com.wepli.community.main.mvi.CommunityMainUiState
 import com.wepli.community.main.viewmodel.CommunityViewModel
 import com.wepli.designsystem.R
@@ -32,6 +35,7 @@ import com.wepli.shared.feature.uimodel.user.UserUiData
 import com.wepli.shared.feature.uimodel.community.PostUiData
 import common.WepliSpacer
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 import theme.WepliTheme
 
 @Composable
@@ -41,6 +45,15 @@ fun CommunityMainScreenRoute(
 ) {
     val viewModel: CommunityViewModel = hiltViewModel()
     val state: CommunityMainUiState by viewModel.collectAsState()
+    val context = LocalContext.current
+
+    viewModel.collectSideEffect {
+        when (it) {
+            is CommunityMainEffect.ErrorLoadPosts -> {
+                Toast.makeText(context, "게시글 조회에 실패했습니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     CommunityScreen(
         state = state,
