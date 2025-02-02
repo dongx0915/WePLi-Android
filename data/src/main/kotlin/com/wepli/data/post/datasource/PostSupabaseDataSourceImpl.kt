@@ -65,6 +65,11 @@ class PostSupabaseDataSourceImpl @Inject constructor(
             }
     }
 
+    /**
+     * addPost 내에서 insertPost, insertPostBsideTracks를 같이 수행하고 있음
+     * 원래의 경우라면 Repository에서 여러 DataSource를 조합하는게 맞지만, 현재는 서버 대용이라 앱에서 해당 로직을 구현하고 있어 DataSource에 통합
+     * 추후 서버로 마이그레이션 시 addPost만 사용하게 되기 때문
+     */
     private fun insertPost(post: PostRequestBody) = flow {
         val result = runCatching {
             with(supabase.postgrest[SupabaseTable.POST_TABLE]) {
