@@ -1,5 +1,8 @@
 package com.wepli.app.navigation
 
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -29,42 +32,46 @@ import com.wepli.search.navigation.navigateToSearchDetail
 import com.wepli.search.navigation.searchDetailGraph
 import com.wepli.search.navigation.searchMainGraph
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun SetUpNavGraph(
     navController: NavHostController,
     startDestination: String,
     goToLoginActivity: () -> Unit,
 ) {
-    NavHost(
-        navController = navController,
-        startDestination = startDestination,
-        enterTransition = {
-            fadeIn(animationSpec = tween(500))
-        },
-        exitTransition = {
-            fadeOut(animationSpec = tween(500))
+    SharedTransitionLayout {
+        NavHost(
+            navController = navController,
+            startDestination = startDestination,
+            enterTransition = {
+                fadeIn(animationSpec = tween(500))
+            },
+            exitTransition = {
+                fadeOut(animationSpec = tween(500))
+            }
+        ) {
+            // 홈 Graph
+            homeGraph(
+                navOnPlaylistDetail = { playlistId -> navController.navigateToPlaylistDetail(playlistId) },
+                sharedTransitionScope = this@SharedTransitionLayout,
+            )
+
+            // 검색 Graph
+            searchGraph(navController)
+
+            composable(BottomNavRoute.Chart.route) {
+                ChartScreen()
+            }
+
+            // 커뮤니티 Graph
+            communityGraph(navController)
+
+            // 플레이리스트 Graph
+            playlistGraph(navController, this@SharedTransitionLayout)
+
+            // 마이페이지 Graph
+            mypageGraph(navController, goToLoginActivity)
         }
-    ) {
-        // 홈 Graph
-        homeGraph(
-            navOnPlaylistDetail = { playlistId -> navController.navigateToPlaylistDetail(playlistId) }
-        )
-
-        // 검색 Graph
-        searchGraph(navController)
-
-        composable(BottomNavRoute.Chart.route) {
-            ChartScreen()
-        }
-
-        // 커뮤니티 Graph
-        communityGraph(navController)
-
-        // 플레이리스트 Graph
-        playlistGraph(navController)
-
-        // 마이페이지 Graph
-        mypageGraph(navController, goToLoginActivity)
     }
 }
 
@@ -107,9 +114,14 @@ fun NavGraphBuilder.communityGraph(navController: NavHostController) {
 }
 
 // 플레이리스트 Graph
-fun NavGraphBuilder.playlistGraph(navController: NavHostController) {
+@OptIn(ExperimentalSharedTransitionApi::class)
+fun NavGraphBuilder.playlistGraph(
+    navController: NavHostController,
+    sharedTransitionScope: SharedTransitionScope
+) {
     playlistDetailGraph(
-        navOnBack = { navController.navigateToBack() }
+        navOnBack = { navController.navigateToBack() },
+        sharedTransitionScope = sharedTransitionScope
     )
 }
 

@@ -21,11 +21,12 @@ import extensions.compose.toPx
 
 @Composable
 fun AsyncImageWithPreview(
-    modifier: Modifier = Modifier,
     imageUrl: String,
+    modifier: Modifier = Modifier,
     previewImage: Painter? = null,
     imageOverrideSize: Dp? = null,
     contentScale: ContentScale = ContentScale.Crop,
+    sharedTransitionKey: String? = null,
     loadingContent: @Composable (() -> Unit)? = null,
     errorContent: @Composable (SubcomposeAsyncImageScope.(AsyncImagePainter.State.Error) -> Unit)? = null,
     successContent: @Composable (SubcomposeAsyncImageScope.(AsyncImagePainter.State.Success) -> Unit)? = null,
@@ -38,6 +39,10 @@ fun AsyncImageWithPreview(
         ImageRequest.Builder(context).apply {
             data(imageUrl)
             crossfade(true)
+            sharedTransitionKey?.let {
+                placeholderMemoryCacheKey(it)
+                memoryCacheKey(it)
+            }
             imageSizePx?.let(::size)
         }.build()
     }

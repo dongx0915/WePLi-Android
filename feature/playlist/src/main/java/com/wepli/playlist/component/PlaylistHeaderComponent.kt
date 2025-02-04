@@ -43,7 +43,9 @@ fun PlaylistHeader(
             PlaylistContentHeader(
                 title = playlist.title,
                 author = playlist.author,
-                coverImg = playlist.coverImgUrl
+                coverImg = playlist.coverImgUrl,
+                needSharedTransition = true,
+                sharedTransitionKey = "image-${playlist.id}",
             )
             Spacer(modifier = Modifier.height(20.dp))
             PlaylistContentBody(

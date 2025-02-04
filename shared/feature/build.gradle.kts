@@ -1,6 +1,7 @@
 plugins {
     wepli("android.library")
     wepli("android.hilt")
+    wepli("android.compose")
     id("kotlin-parcelize")
 }
 

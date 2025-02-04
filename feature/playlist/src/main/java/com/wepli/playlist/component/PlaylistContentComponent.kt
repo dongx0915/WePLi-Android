@@ -1,6 +1,9 @@
 package com.wepli.playlist.component
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.core.ExperimentalAnimationSpecApi
+import androidx.compose.animation.core.keyframes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,22 +27,47 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
+import com.wepli.shared.feature.common.LocalAnimatedContentScope
+import com.wepli.shared.feature.common.LocalSharedTransitionScope
 import common.ExpandableText
 import image.AsyncImageWithPreview
 import org.joda.time.LocalDate
 import theme.WepliTheme
 
+@OptIn(ExperimentalSharedTransitionApi::class, ExperimentalAnimationSpecApi::class)
 @Composable
 fun PlaylistContentHeader(
     title: String,
     author: String,
     coverImg: String,
+    needSharedTransition: Boolean,
+    sharedTransitionKey: String? = null,
 ) {
+    val sharedTransitionScope = LocalSharedTransitionScope.current
+    val animatedContentScope = LocalAnimatedContentScope.current
+
+    val transitionModifier = if (needSharedTransition) {
+        sharedTransitionScope.run {
+            Modifier.sharedElement(
+                state = this.rememberSharedContentState(sharedTransitionKey ?: ""),
+                animatedVisibilityScope = animatedContentScope,
+                boundsTransform = { _, _ ->
+                    keyframes {
+                        durationMillis = 250
+                    }
+                }
+            )
+        }
+    } else Modifier
+
     Row {
         AsyncImageWithPreview(
-            modifier = Modifier.size(120.dp).clip(RoundedCornerShape(4.dp)),
+            modifier = transitionModifier
+                .size(120.dp)
+                .clip(RoundedCornerShape(4.dp)),
             imageUrl = coverImg,
             previewImage = painterResource(id = R.drawable.img_placeholder_eunbin),
+            sharedTransitionKey = sharedTransitionKey,
         )
         Spacer(modifier = Modifier.width(12.dp))
         Column {

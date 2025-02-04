@@ -262,7 +262,7 @@ fun WePLiPlaylistLayout(
         MeasuredHeightContainer(
             modifier = Modifier,
             measured = {
-                PlayListCoverItem(recommendPlaylist = playlistWithMaxTitle)
+                PlayListCoverItem(recommendPlaylist = playlistWithMaxTitle, needSharedTransition = false)
             },
         ) {
             LazyRow(
@@ -273,6 +273,8 @@ fun WePLiPlaylistLayout(
                     PlayListCoverItem(
                         modifier = Modifier.clickable { onClick(playlist.id) },
                         recommendPlaylist = playlist,
+                        needSharedTransition = true,
+                        sharedTransitionKey = "image-${playlist.id}",
                     )
                 }
             }

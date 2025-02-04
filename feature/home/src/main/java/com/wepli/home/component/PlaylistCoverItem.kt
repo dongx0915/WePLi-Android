@@ -1,5 +1,6 @@
 package com.wepli.home.component
 
+import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -15,19 +16,36 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
+import com.wepli.shared.feature.common.LocalAnimatedContentScope
+import com.wepli.shared.feature.common.LocalSharedTransitionScope
 import com.wepli.shared.feature.mock.recommendPlaylistMockData
 import image.AsyncImageWithPreview
 import model.playlist.RecommendPlaylist
 import theme.WepliTheme
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun PlayListCoverItem(
     modifier: Modifier = Modifier,
     recommendPlaylist: RecommendPlaylist,
+    needSharedTransition: Boolean,
+    sharedTransitionKey: String? = null,
 ) {
+    val transitionModifier = if (needSharedTransition) {
+        val sharedTransitionScope = LocalSharedTransitionScope.current
+        val animatedContentScope = LocalAnimatedContentScope.current
+
+        sharedTransitionScope.run {
+            Modifier.sharedElement(
+                state = this.rememberSharedContentState(sharedTransitionKey ?: ""),
+                animatedVisibilityScope = animatedContentScope,
+            )
+        }
+    } else Modifier
+
     Column(modifier = modifier.width(136.dp)) {
         AsyncImageWithPreview(
-            modifier = Modifier
+            modifier = transitionModifier
                 .aspectRatio(1f)
                 .clip(RoundedCornerShape(4.dp)),
             imageUrl = recommendPlaylist.coverImgUrl,
@@ -51,6 +69,7 @@ fun PlaylistCoverPreview() {
     PlayListCoverItem(
         recommendPlaylist = recommendPlaylistMockData[0].copy(
             title = "끈적달달한 체리위스키를 머금은 힙합 R&B 두 줄 넘어가면"
-        )
+        ),
+        needSharedTransition = false,
     )
 }
