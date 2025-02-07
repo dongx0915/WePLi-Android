@@ -1,6 +1,8 @@
 package plugin
 
 import com.android.build.gradle.BaseExtension
+import extensions.implementation
+import extensions.ksp
 import extensions.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -21,9 +23,9 @@ class AndroidComposePlugin : Plugin<Project> {
             }
 
             dependencies {
-                "implementation"(platform(libs.findLibrary("androidx-compose-bom").get()))
-                "implementation"(libs.findBundle("androidx-compose").get())
-                "ksp"(libs.findLibrary("androidx-compose-destination-compiler").get())
+                implementation(platform(libs.findLibrary("androidx-compose-bom").get()))
+                implementation(libs.findBundle("androidx-compose").get())
+                ksp(libs.findLibrary("androidx-compose-destination-compiler").get())
             }
         }
     }

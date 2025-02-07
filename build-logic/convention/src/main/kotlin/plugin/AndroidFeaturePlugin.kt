@@ -2,6 +2,7 @@ package plugin
 
 import com.android.build.gradle.LibraryExtension
 import extensions.configureKotlinAndroid
+import extensions.implementation
 import extensions.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -13,10 +14,6 @@ import org.gradle.kotlin.dsl.getByType
  * Feature 모듈에서 공통으로 사용될 라이브러리들을 선언
  */
 class AndroidFeaturePlugin : Plugin<Project> {
-
-    companion object {
-        private const val IMPLEMENTATION = "implementation"
-    }
 
     override fun apply(target: Project) = with(target) {
         with(pluginManager) {
@@ -33,19 +30,19 @@ class AndroidFeaturePlugin : Plugin<Project> {
 
         dependencies {
             // TODO Feature 모듈에서 공통으로 참조하는 모듈을 선언
-            IMPLEMENTATION(project(":core:common"))
-            IMPLEMENTATION(project(":core:kotlin"))
-            IMPLEMENTATION(project(":core:navigator"))
-            IMPLEMENTATION(project(":shared:feature"))
-            IMPLEMENTATION(project(":designsystem"))
-            IMPLEMENTATION(project(":domain"))
+            implementation(project(":core:common"))
+            implementation(project(":core:kotlin"))
+            implementation(project(":core:navigator"))
+            implementation(project(":shared:feature"))
+            implementation(project(":designsystem"))
+            implementation(project(":domain"))
 
-            IMPLEMENTATION(libs.findBundle("orbit").get())
-            IMPLEMENTATION(libs.findLibrary("coil").get())
-            IMPLEMENTATION(libs.findLibrary("material").get())
-            IMPLEMENTATION(libs.findLibrary("joda.time").get())
-            IMPLEMENTATION(libs.findLibrary("blur.haze").get())
-            IMPLEMENTATION(libs.findLibrary("blur.haze.materials").get())
+            implementation(libs.findBundle("orbit").get())
+            implementation(libs.findLibrary("coil").get())
+            implementation(libs.findLibrary("material").get())
+            implementation(libs.findLibrary("joda.time").get())
+            implementation(libs.findLibrary("blur.haze").get())
+            implementation(libs.findLibrary("blur.haze.materials").get())
         }
     }
 }

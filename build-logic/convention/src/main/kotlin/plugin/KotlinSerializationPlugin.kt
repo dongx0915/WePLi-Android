@@ -1,17 +1,12 @@
 package plugin
 
+import extensions.implementation
 import extensions.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
 
 class KotlinSerializationPlugin : Plugin<Project> {
-
-    companion object {
-        const val IMPLEMENTATION = "implementation"
-    }
 
     override fun apply(target: Project) = with(target) {
         with(plugins) {
@@ -19,7 +14,7 @@ class KotlinSerializationPlugin : Plugin<Project> {
         }
 
         dependencies {
-            IMPLEMENTATION(libs.findLibrary("kotlin.serialization.json").get())
+            implementation(libs.findLibrary("kotlin.serialization.json").get())
         }
     }
 }

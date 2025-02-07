@@ -1,5 +1,7 @@
 package plugin
 
+import extensions.implementation
+import extensions.ksp
 import extensions.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -27,11 +29,6 @@ import org.gradle.kotlin.dsl.dependencies
  */
 class AndroidHiltPlugin : Plugin<Project> {
 
-    companion object {
-        const val IMPLEMENTATION = "implementation"
-        const val KSP = "ksp"
-    }
-
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
@@ -40,8 +37,8 @@ class AndroidHiltPlugin : Plugin<Project> {
             }
 
             dependencies {
-                IMPLEMENTATION(libs.findLibrary("hilt-android").get())
-                KSP(libs.findLibrary("hilt-compiler").get())
+                implementation(libs.findLibrary("hilt-android").get())
+                ksp(libs.findLibrary("hilt-compiler").get())
             }
         }
     }
