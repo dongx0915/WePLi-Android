@@ -130,7 +130,7 @@ fun WepliBottomSheetPreview() {
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp))
-                .background(color = WepliTheme.color.gray050)
+                .background(color = WepliTheme.color.gray000)
                 .padding(bottom = 16.dp)
         ) {
             BottomSheetHeader(type = WepliBottomSheetType.Normal("타이틀"))
@@ -142,7 +142,7 @@ fun WepliBottomSheetPreview() {
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp))
-                .background(color = WepliTheme.color.gray050)
+                .background(color = WepliTheme.color.gray000)
                 .padding(bottom = 16.dp)
         ) {
             BottomSheetHeader(type = WepliBottomSheetType.Button(title = "타이틀", "완료") { })
