@@ -66,10 +66,16 @@ fun HeaderBackground(
     val color = Color(0xFF000000)
     val gradientBrush = Brush.verticalGradient(
         colors = listOf(
-            color.copy(alpha = 0.67f),
+            color.copy(alpha = 0.50f),
+            color.copy(alpha = 0.55f),
+            color.copy(alpha = 0.60f),
+            color.copy(alpha = 0.65f),
             color.copy(alpha = 0.70f),
+            color.copy(alpha = 0.75f),
             color.copy(alpha = 0.82f),
             color.copy(alpha = 0.85f),
+            color.copy(alpha = 0.90f),
+            color.copy(alpha = 0.95f),
             color.copy(alpha = 1.0f),
         )
     )
