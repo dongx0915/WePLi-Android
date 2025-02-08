@@ -40,7 +40,7 @@ fun WepliBottomSheet(
         onDismissRequest = { onClosed() },
         sheetState = sheetState,
         shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
-        containerColor = WepliTheme.color.gray050,
+        containerColor = WepliTheme.color.gray000,
         dragHandle = null,
         modifier = Modifier.navigationBarsPadding(),
     ) {
