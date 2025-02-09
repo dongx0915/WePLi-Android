@@ -129,7 +129,7 @@ fun SearchScreen(
         }
     ) { paddingValues ->
         when (screenMode) {
-            SearchScreenMode.NORMAL -> {
+            SearchScreenMode.Normal -> {
                 SearchContent(
                     state = state,
                     paddingValues = paddingValues,
@@ -138,7 +138,7 @@ fun SearchScreen(
                 )
             }
 
-            SearchScreenMode.SELECTABLE -> {
+            is SearchScreenMode.Selectable -> {
                 SearchWithSelectedSheet(
                     state = state,
                     paddingValues = paddingValues,
@@ -422,7 +422,7 @@ fun SelectedSongItem(
 @Preview
 @Composable
 fun SearchScreenPreview() {
-    SearchScreen(SearchScreenMode.NORMAL, SearchDetailUiState(searchMusicResult = songMockData), {}, {})
+    SearchScreen(SearchScreenMode.Normal, SearchDetailUiState(searchMusicResult = songMockData), {}, {})
 }
 
 @Preview

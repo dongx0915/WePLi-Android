@@ -1,14 +1,16 @@
 package com.wepli.search.navigation
 
-enum class SearchScreenMode {
-    NORMAL,
-    SELECTABLE;
+sealed class SearchScreenMode {
+    data object Normal : SearchScreenMode()
+    data class Selectable(val maxCount: Int? = null) : SearchScreenMode()
 
     companion object {
-        fun fromString(value: String): SearchScreenMode {
-            return when (value.uppercase()) {
-                "SELECTABLE" -> SELECTABLE
-                else -> NORMAL
+        private const val DEFAULT_MAX_COUNT = Int.MAX_VALUE
+
+        fun fromString(value: String, maxCount: Int? = null): SearchScreenMode {
+            return when {
+                value.contains("selectable", ignoreCase = true) -> Selectable(maxCount ?: DEFAULT_MAX_COUNT)
+                else -> Normal
             }
         }
     }

@@ -79,7 +79,7 @@ fun SetUpNavGraph(
 fun NavGraphBuilder.searchGraph(navController: NavController) {
     searchMainGraph { searchQuery ->
         navController.navigateToSearchDetail(
-            screenMode = SearchScreenMode.NORMAL,
+            screenMode = SearchScreenMode.Normal,
             searchQuery = searchQuery
         )
     }
@@ -106,7 +106,7 @@ fun NavGraphBuilder.communityGraph(navController: NavHostController) {
         navOnBackAndPostRefresh = { navController.navigateToBackAndPostRefresh() },
         navOnSearchDetail = {
             navController.navigateToSearchDetail(
-                screenMode = SearchScreenMode.SELECTABLE,
+                screenMode = SearchScreenMode.Selectable(),
                 searchQuery = ""
             )
         }
@@ -143,7 +143,7 @@ fun NavGraphBuilder.nameCardGraph(navController: NavController) {
     nameCardDetailGraph(
         navOnBack = { navController.popBackStack() },
         navOnSongSearchScreen = { navController.navigateToSearchDetail(
-            screenMode = SearchScreenMode.SELECTABLE,
+            screenMode = SearchScreenMode.Selectable(1),
             searchQuery = ""
         ) }
     )
