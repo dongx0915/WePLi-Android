@@ -1,6 +1,6 @@
 package com.wepli.navigator.feature.search
 
 enum class SearchRoute(val route: String) {
-    MAIN("main"),
-    DETAIL("detail")
+    MAIN("search_main"),
+    DETAIL("search_detail")
 }
