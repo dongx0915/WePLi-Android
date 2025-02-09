@@ -50,7 +50,6 @@ import custom.OneLineTitle
 import custom.TwoLineTitle
 import dev.chrisbanes.haze.haze
 import extensions.compose.calculateCurrentOffsetForPage
-import extensions.compose.gesturesDisabled
 import model.playlist.RecommendPlaylist
 import model.relaylist.Relaylist
 import org.orbitmvi.orbit.compose.collectAsState

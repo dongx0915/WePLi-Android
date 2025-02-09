@@ -52,7 +52,6 @@ import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.musicMockData
 import common.WepliSpacer
 import dagger.hilt.android.AndroidEntryPoint
-import extensions.compose.gesturesDisabled
 import extensions.compose.shimmerEffect
 import extensions.compose.toPx
 import image.AsyncImageWithPreview
