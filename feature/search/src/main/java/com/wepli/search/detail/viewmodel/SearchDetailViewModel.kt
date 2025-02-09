@@ -24,6 +24,7 @@ class SearchDetailViewModel @Inject constructor(
             is SearchDetailIntent.RequestSearch -> searchMusic(intent.query)
             is SearchDetailIntent.OnSongSelected -> handleSongSelected(intent.song)
             is SearchDetailIntent.OnCompleteSongSelect -> handleCompleteSongSelect()
+            is SearchDetailIntent.SetMaxSelectCount -> handleSetMaxSelectCount(intent.count)
         }
     }
 
@@ -66,6 +67,11 @@ class SearchDetailViewModel @Inject constructor(
                 if (it.id == song.id) it.copy(isSelected = !it.isSelected) else it
             }
 
+            if (state.maxSelectCount < updatedSelectedSongs.size) {
+                postSideEffect { SearchDetailEffect.SelectedLimitExceeded(state.maxSelectCount) }
+                return@reduce state
+            }
+
             state.copy(
                 selectedSongs = updatedSelectedSongs,
                 searchMusicResult = updatedSearchMusicResult
@@ -81,5 +87,9 @@ class SearchDetailViewModel @Inject constructor(
 
     private fun handleCompleteSongSelect() = intent {
         postSideEffect(SearchDetailEffect.NavigateBackWithResult(state.selectedSongs.toList()))
+    }
+
+    private fun handleSetMaxSelectCount(count: Int) {
+        updateState { copy(maxSelectCount = count) }
     }
 }

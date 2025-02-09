@@ -2,7 +2,9 @@ package com.wepli.search.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.wepli.navigator.extras.Extras
 import com.wepli.navigator.feature.search.SearchRoute
 import com.wepli.search.main.screen.SearchMainScreenRoute
@@ -12,7 +14,12 @@ import extensions.enterAnimation
 
 // Controller - 화면 이동을 담당
 fun NavController.navigateToSearchDetail(screenMode: SearchScreenMode, searchQuery: String) {
-    navigate("${SearchRoute.DETAIL.route}/$screenMode/$searchQuery")
+    val maxCount = when (screenMode) {
+        is SearchScreenMode.Selectable -> screenMode.maxCount
+        SearchScreenMode.Normal -> Int.MAX_VALUE
+    }
+
+    navigate("${SearchRoute.DETAIL.route}/$screenMode/$maxCount/$searchQuery")
 }
 
 fun NavController.navigateBackWithSelectedSongs(selectedSongs: List<SongUiData>) {
@@ -33,11 +40,16 @@ fun NavGraphBuilder.searchDetailGraph(
     navigateBackWithSelectedSongs: (List<SongUiData>) -> Unit
 ) {
     composable(
-        route = "${SearchRoute.DETAIL.route}/{screenMode}/{searchQuery}",
+        route = "${SearchRoute.DETAIL.route}/{screenMode}/{maxCount}/{searchQuery}",
+        arguments = listOf(
+            navArgument("maxCount") { type = NavType.IntType }
+        ),
         enterTransition = { enterAnimation() }
     ) {
+        val maxCount = it.arguments?.getInt("maxCount") ?: Int.MAX_VALUE
         val screenMode = SearchScreenMode.fromString(
-            it.arguments?.getString("screenMode").orEmpty()
+            value = it.arguments?.getString("screenMode").orEmpty(),
+            maxCount = maxCount
         )
         val searchQuery = it.arguments?.getString("searchQuery").orEmpty()
 

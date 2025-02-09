@@ -56,7 +56,6 @@ import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
 import common.ShimmerSkeleton
 import common.WepliSpacer
-import extensions.compose.shimmerEffect
 import extensions.compose.toPx
 import extensions.compose.topBorderWithRoundedCorners
 import image.AsyncImageWithPreview
@@ -93,6 +92,9 @@ fun SearchScreenRoute(
         when (sideEffect) {
             is SearchDetailEffect.SearchError -> {
                 Toast.makeText(context, sideEffect.message, Toast.LENGTH_SHORT).show()
+            }
+            is SearchDetailEffect.SelectedLimitExceeded -> {
+                Toast.makeText(context, "최대 ${sideEffect.limit}곡까지 선택 가능합니다.", Toast.LENGTH_SHORT).show()
             }
             is SearchDetailEffect.NavigateBackWithResult -> {
                 navigateBackWithSelectedSongs(sideEffect.selectedSongs)
@@ -139,6 +141,10 @@ fun SearchScreen(
             }
 
             is SearchScreenMode.Selectable -> {
+                LaunchedEffect(screenMode.maxCount) {
+                    sendAction(SearchDetailIntent.SetMaxSelectCount(screenMode.maxCount))
+                }
+
                 SearchWithSelectedSheet(
                     state = state,
                     paddingValues = paddingValues,

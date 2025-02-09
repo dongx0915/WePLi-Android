@@ -2,7 +2,7 @@ package com.wepli.search.navigation
 
 sealed class SearchScreenMode {
     data object Normal : SearchScreenMode()
-    data class Selectable(val maxCount: Int? = null) : SearchScreenMode()
+    data class Selectable(val maxCount: Int = Int.MAX_VALUE) : SearchScreenMode()
 
     companion object {
         private const val DEFAULT_MAX_COUNT = Int.MAX_VALUE

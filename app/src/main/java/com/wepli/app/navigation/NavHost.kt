@@ -106,7 +106,7 @@ fun NavGraphBuilder.communityGraph(navController: NavHostController) {
         navOnBackAndPostRefresh = { navController.navigateToBackAndPostRefresh() },
         navOnSearchDetail = {
             navController.navigateToSearchDetail(
-                screenMode = SearchScreenMode.Selectable(),
+                screenMode = SearchScreenMode.Selectable(5),
                 searchQuery = ""
             )
         }
