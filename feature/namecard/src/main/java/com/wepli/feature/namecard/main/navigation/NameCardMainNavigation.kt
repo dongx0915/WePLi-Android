@@ -13,17 +13,17 @@ fun NavController.navigateToNameCardMain() {
 }
 
 // Graph
-fun NavGraphBuilder.nameCardGraph(navController: NavController) {
-    nameCardMainGraph(navController::popBackStack)
-}
-
 fun NavGraphBuilder.nameCardMainGraph(
-    navOnBack: () -> Unit
+    navOnBack: () -> Unit,
+    navOnNameCardDetail: () -> Unit,
 ) {
     composable(
         route = NameCardRoute.MAIN.route,
         enterTransition = { enterAnimation() }
     ) {
-        NameCardScreenRoute()
+        NameCardScreenRoute(
+            navOnBack = { navOnBack() },
+            navOnNameCardDetail = { navOnNameCardDetail() }
+        )
     }
 }

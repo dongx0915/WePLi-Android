@@ -21,8 +21,8 @@ import com.wepli.app.navigation.extensions.navigateToBack
 import com.wepli.community.navigation.communityWriteGraph
 import com.wepli.community.navigation.navigateToBackAndPostRefresh
 import com.wepli.community.navigation.navigateToCommunityWrite
-import com.wepli.feature.namecard.main.navigation.nameCardGraph
 import com.wepli.feature.namecard.main.navigation.navigateToNameCardMain
+import com.wepli.feature.namecard.navigation.nameCardGraph
 import com.wepli.playlist.navigation.navigateToPlaylistDetail
 import com.wepli.playlist.navigation.playlistDetailGraph
 import com.wepli.search.navigation.SearchScreenMode
