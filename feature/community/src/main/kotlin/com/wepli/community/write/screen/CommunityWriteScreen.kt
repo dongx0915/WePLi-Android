@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
 import button.WepliBasicButton
+import button.WepliButtonStyle
 import com.wepli.community.write.mvi.CommunityWriteEffect
 import com.wepli.community.write.mvi.CommunityWriteIntent
 import com.wepli.community.write.mvi.CommunityWriteUiState
@@ -153,7 +154,8 @@ fun CommunityWriteScreen(
                 title = "작성 완료",
                 isEnabled = true,
                 onClick = { sendAction(CommunityWriteIntent.AddPost) },
-                modifier = Modifier.padding(horizontal = 20.dp)
+                modifier = Modifier.padding(horizontal = 20.dp),
+                buttonStyle = WepliButtonStyle.Basic,
             )
 
             // 노래 추가 방법 선택 바텀시트

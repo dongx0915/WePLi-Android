@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import button.WepliBasicButton
+import button.WepliButtonStyle
 import textfield.LimitedLengthTextField
 import textfield.WepliTextFieldType
 import theme.WepliTheme
@@ -65,7 +66,8 @@ fun NameCardChapterTwoScreen(modifier: Modifier = Modifier) {
             onClick = { },
             modifier = Modifier
                 .padding(bottom = 20.dp)
-                .align(Alignment.CenterHorizontally)
+                .align(Alignment.CenterHorizontally),
+            buttonStyle = WepliButtonStyle.Basic,
         )
     }
 }

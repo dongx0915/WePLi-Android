@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import appbar.WepliAppBar
 import button.WepliBasicButton
+import button.WepliButtonStyle
 import theme.WepliTheme
 
 @Composable
@@ -86,7 +87,8 @@ fun NameCardScreen(
                 onClick = { navOnNameCardDetail() },
                 modifier = Modifier
                     .padding(bottom = 20.dp)
-                    .align(Alignment.CenterHorizontally)
+                    .align(Alignment.CenterHorizontally),
+                buttonStyle = WepliButtonStyle.Basic,
             )
         }
     }

@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
 import button.WepliBasicButton
+import button.WepliButtonStyle
 import com.wepli.search.detail.mvi.SearchDetailEffect
 import com.wepli.search.detail.mvi.SearchDetailIntent
 import com.wepli.search.detail.mvi.SearchDetailUiState
@@ -355,7 +356,8 @@ fun SelectedSongSheet(
             title = "${selectedSongs.size}곡 추가하기",
             isEnabled = true,
             onClick = { sendAction(SearchDetailIntent.OnCompleteSongSelect) },
-            modifier = Modifier.padding(horizontal = 20.dp)
+            modifier = Modifier.padding(horizontal = 20.dp),
+            buttonStyle = WepliButtonStyle.Basic,
         )
     }
 }

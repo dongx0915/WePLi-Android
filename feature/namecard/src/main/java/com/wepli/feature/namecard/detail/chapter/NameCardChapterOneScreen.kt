@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import button.WepliBasicButton
+import button.WepliButtonStyle
 import com.wepli.designsystem.R
 import theme.WepliTheme
 
@@ -52,7 +53,8 @@ fun NameCardChapterOneScreen(modifier: Modifier = Modifier) {
             onClick = { },
             modifier = Modifier
                 .padding(bottom = 20.dp)
-                .align(Alignment.CenterHorizontally)
+                .align(Alignment.CenterHorizontally),
+            buttonStyle = WepliButtonStyle.Basic,
         )
     }
 }

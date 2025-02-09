@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import button.WepliBasicButton
+import button.WepliButtonStyle
 import textfield.LimitedLengthTextField
 import textfield.WepliTextField
 import textfield.WepliTextFieldType
@@ -63,17 +64,18 @@ fun NameCardChapterThreeScreen(modifier: Modifier = Modifier) {
             isEnabled = true,
             onClick = { },
             modifier = Modifier
-                .padding(bottom = 20.dp)
-                .align(Alignment.CenterHorizontally)
+                .align(Alignment.CenterHorizontally),
+            buttonStyle = WepliButtonStyle.Basic,
         )
-
+        Spacer(modifier = Modifier.height(8.dp))
         WepliBasicButton(
             title = "건너뛰기",
             isEnabled = true,
             onClick = { },
             modifier = Modifier
                 .padding(bottom = 20.dp)
-                .align(Alignment.CenterHorizontally)
+                .align(Alignment.CenterHorizontally),
+            buttonStyle = WepliButtonStyle.Transparent,
         )
     }
 }
