@@ -154,9 +154,8 @@ fun RelaylistPagerLayout(
     Box(modifier = modifier) {
         HorizontalPager(
             state = bottomPagerState, // 상단 Pager와 동기화
-            modifier = Modifier
-                .matchParentSize()
-                .gesturesDisabled(disabled = true)
+            userScrollEnabled = false,
+            modifier = Modifier.matchParentSize()
         ) { page ->
             val relaylist = relaylists[page]
 
