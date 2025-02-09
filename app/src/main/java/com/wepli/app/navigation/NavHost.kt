@@ -21,6 +21,8 @@ import com.wepli.app.navigation.extensions.navigateToBack
 import com.wepli.community.navigation.communityWriteGraph
 import com.wepli.community.navigation.navigateToBackAndPostRefresh
 import com.wepli.community.navigation.navigateToCommunityWrite
+import com.wepli.feature.namecard.navigation.nameCardGraph
+import com.wepli.feature.namecard.navigation.navigateToNameCardMain
 import com.wepli.playlist.navigation.navigateToPlaylistDetail
 import com.wepli.playlist.navigation.playlistDetailGraph
 import com.wepli.search.navigation.SearchScreenMode
@@ -65,6 +67,9 @@ fun SetUpNavGraph(
 
         // 마이페이지 Graph
         mypageGraph(navController, goToLoginActivity)
+
+        // 명함 Graph
+        nameCardGraph(navController)
     }
 }
 
@@ -120,6 +125,7 @@ fun NavGraphBuilder.mypageGraph(
 ) {
     mypageMainGraph(
         navOnAppInfo = { navController.navigateToAppInfo() },
+        navOnNameCard = { navController.navigateToNameCardMain() },
         goToLoginActivity = { goToLoginActivity() }
     )
     mypageAppInfoGraph(
