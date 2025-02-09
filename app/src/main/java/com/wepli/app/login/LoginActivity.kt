@@ -172,9 +172,9 @@ fun PlaylistCoverPager(
 
     LazyRow(
         state = listState,
+        userScrollEnabled = false,
         modifier = modifier
-            .fillMaxWidth()
-            .gesturesDisabled(disabled = true),
+            .fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(Int.MAX_VALUE) { index ->
