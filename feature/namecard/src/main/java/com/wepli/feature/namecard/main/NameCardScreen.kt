@@ -24,15 +24,23 @@ import button.WepliBasicButton
 import theme.WepliTheme
 
 @Composable
-fun NameCardScreenRoute() {
-    NameCardScreen()
+fun NameCardScreenRoute(
+    navOnBack: () -> Unit,
+    navOnNameCardDetail: () -> Unit,
+) {
+    NameCardScreen(
+        navOnBack = navOnBack,
+        navOnNameCardDetail = navOnNameCardDetail
+    )
 }
 
-@Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun NameCardScreen() {
+fun NameCardScreen(
+    navOnBack: () -> Unit,
+    navOnNameCardDetail: () -> Unit,
+) {
     Scaffold(
         topBar = {
             WepliAppBar(
@@ -75,12 +83,20 @@ fun NameCardScreen() {
             WepliBasicButton(
                 title = "시작하기",
                 isEnabled = true,
-                onClick = { },
+                onClick = { navOnNameCardDetail() },
                 modifier = Modifier
                     .padding(bottom = 20.dp)
                     .align(Alignment.CenterHorizontally)
             )
         }
-
     }
+}
+
+@Preview
+@Composable
+fun NameCardMainScreenPreview() {
+    NameCardScreen(
+        navOnBack = { },
+        navOnNameCardDetail = { }
+    )
 }
