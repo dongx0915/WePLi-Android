@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -226,6 +228,53 @@ fun WepliTextField(
                         },
                     )
                 }
+            )
+        }
+    }
+}
+
+@Composable
+fun LimitedLengthTextField(
+    value: String,
+    maxLength: Int,
+    isLengthExceeded: Boolean,
+    placeholder: String,
+    errorText: String,
+    type: WepliTextFieldType,
+    onValueChanged: (String, Int) -> Unit
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        WepliTextField(
+            value = value,
+            onValueChanged = { newValue ->
+                onValueChanged(newValue, maxLength)
+            },
+            isError = isLengthExceeded,
+            singleLine = type == WepliTextFieldType.Normal,
+            placeholder = placeholder,
+            type = type
+        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            if (isLengthExceeded) {
+                Text(
+                    text = errorText,
+                    style = WepliTheme.typo.body6,
+                    color = WepliTheme.color.red500
+                )
+            }
+
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = "${value.length}/$maxLength",
+                style = WepliTheme.typo.body6,
+                color = WepliTheme.color.gray500
             )
         }
     }
