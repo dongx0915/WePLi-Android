@@ -1,4 +1,4 @@
-package com.wepli.feature.namecard
+package com.wepli.feature.namecard.main
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
