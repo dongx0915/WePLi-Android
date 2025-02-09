@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import button.WepliBasicButton
 import button.WepliButtonStyle
+import com.wepli.feature.namecard.detail.mvi.NameCardDetailUiState
 import textfield.LimitedLengthTextField
 import textfield.WepliTextField
 import textfield.WepliTextFieldType
@@ -25,6 +26,7 @@ import theme.WepliTheme
 @Composable
 fun NameCardChapterThreeScreenPreview() {
     NameCardChapterThreeScreen(
+        state = NameCardDetailUiState(),
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 24.dp)
@@ -33,7 +35,10 @@ fun NameCardChapterThreeScreenPreview() {
 }
 
 @Composable
-fun NameCardChapterThreeScreen(modifier: Modifier = Modifier) {
+fun NameCardChapterThreeScreen(
+    state: NameCardDetailUiState,
+    modifier: Modifier = Modifier
+) {
     Column(modifier = modifier) {
         Text(
             text = "Instagram 계정을\n입력해주세요",

@@ -17,15 +17,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import button.WepliBasicButton
 import button.WepliButtonStyle
 import com.wepli.designsystem.R
+import com.wepli.feature.namecard.detail.mvi.NameCardDetailUiState
+import common.ShimmerSkeleton
+import extensions.compose.toPx
+import image.AsyncImageWithPreview
 import theme.WepliTheme
 
 @Composable
 fun NameCardChapterOneScreen(
+    state: NameCardDetailUiState,
     modifier: Modifier = Modifier,
     navOnSongSearchScreen: () -> Unit,
 ) {
@@ -47,6 +53,7 @@ fun NameCardChapterOneScreen(
         Spacer(modifier = Modifier.weight(1f))
 
         SelectedSongComponent(
+            state = state,
             onClick = { navOnSongSearchScreen() },
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
@@ -54,7 +61,7 @@ fun NameCardChapterOneScreen(
         Spacer(modifier = Modifier.weight(2f))
         WepliBasicButton(
             title = "선택완료",
-            isEnabled = true,
+            isEnabled = state.selectedFavoriteSong != null,
             onClick = { },
             modifier = Modifier
                 .padding(bottom = 20.dp)
@@ -66,39 +73,60 @@ fun NameCardChapterOneScreen(
 
 @Composable
 fun SelectedSongComponent(
+    state: NameCardDetailUiState,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
+    val selectedSong = state.selectedFavoriteSong
+    val imageSize = 150.dp
+    val selectedSongModifier = Modifier
+        .clickable { onClick() }
+        .clip(RoundedCornerShape(4.dp))
+        .background(WepliTheme.color.gray150)
+        .size(imageSize)
+
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
             .background(WepliTheme.color.gray000)
             .padding(12.dp)
     ) {
-        Box(
-            modifier = Modifier
-                .clickable { onClick() }
-                .clip(RoundedCornerShape(4.dp))
-                .background(WepliTheme.color.gray150)
-                .size(150.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                modifier = Modifier.size(24.dp),
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_plus_gradient),
-                tint = Color.Unspecified,
-                contentDescription = null
+        if (selectedSong == null) {
+            Box(
+                modifier = selectedSongModifier,
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    modifier = Modifier.size(24.dp),
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_plus_gradient),
+                    tint = Color.Unspecified,
+                    contentDescription = null
+                )
+            }
+        } else {
+            AsyncImageWithPreview(
+                imageUrl = selectedSong.getImageUrl(imageSize.toPx()),
+                previewImage = painterResource(id = R.drawable.img_placeholder_eunbin),
+                modifier = selectedSongModifier,
+                loadingContent = {
+                    ShimmerSkeleton(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(4.dp))
+                            .size(imageSize),
+                    )
+                }
             )
         }
+
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "노래를 선택해주세요",
+            text = selectedSong?.title ?: "노래를 선택해주세요",
             style = WepliTheme.typo.subTitle5,
             color = WepliTheme.color.gray900
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = "선택하면 화면에 표시됩니다",
+            text = selectedSong?.artistName ?: "선택하면 화면에 표시됩니다",
             style = WepliTheme.typo.body6,
             color = WepliTheme.color.gray500
         )

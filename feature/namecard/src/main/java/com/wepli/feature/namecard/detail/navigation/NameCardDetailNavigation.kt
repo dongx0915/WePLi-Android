@@ -4,7 +4,9 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.wepli.feature.namecard.detail.NameCardDetailScreenRoute
+import com.wepli.navigator.extras.Extras
 import com.wepli.navigator.feature.namecard.NameCardRoute
+import com.wepli.uimodel.music.SongUiData
 import extensions.enterAnimation
 
 // Controller
@@ -21,6 +23,8 @@ fun NavGraphBuilder.nameCardDetailGraph(
         route = NameCardRoute.DETAIL.route,
         enterTransition = { enterAnimation() }
     ) {
-        NameCardDetailScreenRoute(navOnBack, navOnSongSearchScreen)
+        val selectedSong: SongUiData? = it.savedStateHandle.remove<List<SongUiData>>(Extras.SELECTED_SONGS)?.first()
+
+        NameCardDetailScreenRoute(selectedSong, navOnBack, navOnSongSearchScreen)
     }
 }

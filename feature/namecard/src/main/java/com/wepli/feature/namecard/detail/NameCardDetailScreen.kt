@@ -14,43 +14,62 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
 import com.wepli.feature.namecard.detail.chapter.NameCardChapterOneScreen
 import com.wepli.feature.namecard.detail.chapter.NameCardChapterThreeScreen
 import com.wepli.feature.namecard.detail.chapter.NameCardChapterTwoScreen
+import com.wepli.feature.namecard.detail.mvi.NameCardDetailIntent
+import com.wepli.feature.namecard.detail.mvi.NameCardDetailUiState
+import com.wepli.feature.namecard.detail.viewmodel.NameCardDetailViewModel
+import com.wepli.uimodel.music.SongUiData
+import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
 
 @Preview
 @Composable
 fun NameCardDetailScreenPreview() {
-    NameCardDetailScreen({}, {})
+    NameCardDetailScreen(state = NameCardDetailUiState(), {}, {})
 }
 
 @Composable
 fun NameCardDetailScreenRoute(
+    selectedSong: SongUiData?,
     navOnBack: () -> Unit,
     navOnSongSearchScreen: () -> Unit,
 ) {
-    NameCardDetailScreen(navOnBack, navOnSongSearchScreen)
+    val viewModel: NameCardDetailViewModel = hiltViewModel()
+    val state: NameCardDetailUiState by viewModel.collectAsState()
+
+    selectedSong?.let {
+        LaunchedEffect(selectedSong) {
+            viewModel.processIntent(NameCardDetailIntent.OnFavoriteSongSelected(it))
+        }
+    }
+    
+    NameCardDetailScreen(state, navOnBack, navOnSongSearchScreen)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun NameCardDetailScreen(
+    state: NameCardDetailUiState,
     navOnBack: () -> Unit,
     navOnSongSearchScreen: () -> Unit,
 ) {
-    val pageList: List<@Composable () -> Unit> = remember {
+    val pageList: List<@Composable () -> Unit> = remember(state) {
         listOf(
-            { NameCardChapterOneScreen(navOnSongSearchScreen = navOnSongSearchScreen) },
-            { NameCardChapterTwoScreen() },
-            { NameCardChapterThreeScreen() },
+            { NameCardChapterOneScreen(state = state, navOnSongSearchScreen = navOnSongSearchScreen) },
+            { NameCardChapterTwoScreen(state = state) },
+            { NameCardChapterThreeScreen(state = state) },
         )
     }
     val pagerState = rememberPagerState { pageList.size }

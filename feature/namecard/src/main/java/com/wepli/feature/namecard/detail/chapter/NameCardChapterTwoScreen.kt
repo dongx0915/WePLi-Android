@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import button.WepliBasicButton
 import button.WepliButtonStyle
+import com.wepli.feature.namecard.detail.mvi.NameCardDetailUiState
 import textfield.LimitedLengthTextField
 import textfield.WepliTextFieldType
 import theme.WepliTheme
@@ -24,6 +25,7 @@ import theme.WepliTheme
 @Composable
 fun NameCardChapterTwoScreenPreview() {
     NameCardChapterTwoScreen(
+        state = NameCardDetailUiState(),
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 24.dp)
@@ -32,7 +34,10 @@ fun NameCardChapterTwoScreenPreview() {
 }
 
 @Composable
-fun NameCardChapterTwoScreen(modifier: Modifier = Modifier) {
+fun NameCardChapterTwoScreen(
+    state: NameCardDetailUiState,
+    modifier: Modifier = Modifier
+) {
     Column(modifier = modifier) {
         Text(
             text = "한 줄 소개를 입력해주세요",
