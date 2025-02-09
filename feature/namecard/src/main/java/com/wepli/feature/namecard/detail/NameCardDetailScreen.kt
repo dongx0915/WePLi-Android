@@ -25,21 +25,30 @@ import com.wepli.feature.namecard.detail.chapter.NameCardChapterThreeScreen
 import com.wepli.feature.namecard.detail.chapter.NameCardChapterTwoScreen
 import theme.WepliTheme
 
+@Preview
 @Composable
-fun NameCardDetailScreenRoute(
-    navOnBack: () -> Unit
-) {
-    NameCardDetailScreen()
+fun NameCardDetailScreenPreview() {
+    NameCardDetailScreen({}, {})
 }
 
-@Preview
+@Composable
+fun NameCardDetailScreenRoute(
+    navOnBack: () -> Unit,
+    navOnSongSearchScreen: () -> Unit,
+) {
+    NameCardDetailScreen(navOnBack, navOnSongSearchScreen)
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun NameCardDetailScreen() {
+fun NameCardDetailScreen(
+    navOnBack: () -> Unit,
+    navOnSongSearchScreen: () -> Unit,
+) {
     val pageList: List<@Composable () -> Unit> = remember {
         listOf(
-            { NameCardChapterOneScreen() },
+            { NameCardChapterOneScreen(navOnSongSearchScreen = navOnSongSearchScreen) },
             { NameCardChapterTwoScreen() },
             { NameCardChapterThreeScreen() },
         )

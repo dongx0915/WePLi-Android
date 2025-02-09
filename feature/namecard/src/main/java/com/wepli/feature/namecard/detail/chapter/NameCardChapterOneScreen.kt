@@ -1,6 +1,7 @@
 package com.wepli.feature.namecard.detail.chapter
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,7 +25,10 @@ import com.wepli.designsystem.R
 import theme.WepliTheme
 
 @Composable
-fun NameCardChapterOneScreen(modifier: Modifier = Modifier) {
+fun NameCardChapterOneScreen(
+    modifier: Modifier = Modifier,
+    navOnSongSearchScreen: () -> Unit,
+) {
     Column(
         modifier = modifier.padding(horizontal = 24.dp)
     ) {
@@ -43,6 +47,7 @@ fun NameCardChapterOneScreen(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.weight(1f))
 
         SelectedSongComponent(
+            onClick = { navOnSongSearchScreen() },
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
 
@@ -60,7 +65,10 @@ fun NameCardChapterOneScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SelectedSongComponent(modifier: Modifier = Modifier) {
+fun SelectedSongComponent(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
@@ -69,6 +77,7 @@ fun SelectedSongComponent(modifier: Modifier = Modifier) {
     ) {
         Box(
             modifier = Modifier
+                .clickable { onClick() }
                 .clip(RoundedCornerShape(4.dp))
                 .background(WepliTheme.color.gray150)
                 .size(150.dp),

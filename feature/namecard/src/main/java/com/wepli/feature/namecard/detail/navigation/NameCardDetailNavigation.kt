@@ -14,12 +14,13 @@ fun NavController.navigateToNameCardDetail() {
 
 // Graph
 fun NavGraphBuilder.nameCardDetailGraph(
-    navOnBack: () -> Unit
+    navOnBack: () -> Unit,
+    navOnSongSearchScreen: () -> Unit,
 ) {
     composable(
         route = NameCardRoute.DETAIL.route,
         enterTransition = { enterAnimation() }
     ) {
-        NameCardDetailScreenRoute(navOnBack)
+        NameCardDetailScreenRoute(navOnBack, navOnSongSearchScreen)
     }
 }
