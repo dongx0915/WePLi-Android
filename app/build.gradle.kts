@@ -16,6 +16,7 @@ dependencies {
     implementation(projects.feature.community)
     implementation(projects.feature.playlist)
     implementation(projects.feature.mypage)
+    implementation(projects.feature.namecard)
     implementation(projects.data)
     implementation(projects.domain)
     implementation(projects.core.common)
