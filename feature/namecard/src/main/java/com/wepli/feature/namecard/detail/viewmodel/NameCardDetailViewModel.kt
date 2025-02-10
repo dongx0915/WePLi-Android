@@ -39,8 +39,12 @@ class NameCardDetailViewModel @Inject constructor() : BaseMviViewModel<NameCardD
         updateState { copy(selectedFavoriteSong = song) }
     }
 
-    private fun handleNextPage() {
-        updateState { setNextPage() }
+    private fun handleNextPage() = intent {
+        if (state.isLastPage) {
+            postSideEffect { NameCardDetailEffect.OnCompleteChapter }
+        } else {
+            updateState { setNextPage() }
+        }
     }
 
     private fun handlePreviousPage() {

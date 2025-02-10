@@ -27,11 +27,13 @@ import appbar.WepliAppBar
 import com.wepli.feature.namecard.detail.chapter.NameCardChapterOneScreen
 import com.wepli.feature.namecard.detail.chapter.NameCardChapterThreeScreen
 import com.wepli.feature.namecard.detail.chapter.NameCardChapterTwoScreen
+import com.wepli.feature.namecard.detail.mvi.NameCardDetailEffect
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailIntent
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailUiState
 import com.wepli.feature.namecard.detail.viewmodel.NameCardDetailViewModel
 import com.wepli.uimodel.music.SongUiData
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 import theme.WepliTheme
 
 @Preview
@@ -48,6 +50,14 @@ fun NameCardDetailScreenRoute(
 ) {
     val viewModel: NameCardDetailViewModel = hiltViewModel()
     val state: NameCardDetailUiState by viewModel.collectAsState()
+
+    viewModel.collectSideEffect {
+        when (it) {
+            is NameCardDetailEffect.OnCompleteChapter -> {
+                // 챕터 완료
+            }
+        }
+    }
 
     selectedSong?.let {
         LaunchedEffect(selectedSong) {

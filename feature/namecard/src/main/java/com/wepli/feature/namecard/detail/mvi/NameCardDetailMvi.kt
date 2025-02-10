@@ -25,6 +25,9 @@ data class NameCardDetailUiState(
     val currentPage: Int
         get() = _currentPage
 
+    val isLastPage: Boolean
+        get() = currentPage == totalPage - 1
+
     fun setNextPage(): NameCardDetailUiState {
         return copy(_currentPage = (currentPage + 1).coerceIn(0, totalPage))
     }
@@ -35,7 +38,7 @@ data class NameCardDetailUiState(
 }
 
 interface NameCardDetailEffect : SideEffect {
-
+    data object OnCompleteChapter : NameCardDetailEffect
 }
 
 // TODO 페이지 별로 Intent 주석으로 정리하기
@@ -45,5 +48,4 @@ interface NameCardDetailIntent : Intent {
     data class OnFavoriteSongSelected(val song: SongUiData) : NameCardDetailIntent
     data object OnNextPage : NameCardDetailIntent
     data object OnPreviousPage : NameCardDetailIntent
-    data object OnCompleteChapter : NameCardDetailIntent
 }

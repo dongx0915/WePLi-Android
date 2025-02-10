@@ -67,7 +67,7 @@ fun NameCardChapterThreeScreen(
         WepliBasicButton(
             title = "입력완료",
             isEnabled = true,
-            onClick = { },
+            onClick = { navOnNextPage() },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally),
             buttonStyle = WepliButtonStyle.Basic,
