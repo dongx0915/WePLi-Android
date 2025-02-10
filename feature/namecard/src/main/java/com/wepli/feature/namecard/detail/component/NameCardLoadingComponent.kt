@@ -47,7 +47,7 @@ fun NameCardLoadingComponent(
             .clickable {  }
             .fillMaxSize()
             .background(
-                color = WepliTheme.color.black.copy(alpha = 0.7f)
+                color = WepliTheme.color.black.copy(alpha = 0.5f)
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center

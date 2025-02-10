@@ -101,7 +101,7 @@ fun NameCardDetailScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
             modifier = Modifier.blur( // 로딩 중일 때는 화면을 블러처리
-                if(state.isLoading) 8.dp else 0.dp
+                if(state.isLoading) 16.dp else 0.dp
             ),
             topBar = {
                 Column {
