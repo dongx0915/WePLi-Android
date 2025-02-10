@@ -42,6 +42,8 @@ fun NameCardChapterTwoScreen(
     navOnNextPage: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val oneLineIntro = state.oneLineIntro
+
     Column(modifier = modifier.padding(horizontal = 24.dp)) {
         Text(
             text = "한 줄 소개를 입력해주세요",
@@ -57,14 +59,14 @@ fun NameCardChapterTwoScreen(
 
         Spacer(modifier = Modifier.height(32.dp))
         LimitedLengthTextField(
-            value = state.oneLineIntro.text,
+            value = oneLineIntro.text,
             onValueChanged = { newValue, _ ->
                 sendAction(NameCardDetailIntent.OnChangedOneLineIntro(newValue))
             },
             placeholder = "문구를 작성해주세요",
-            errorText = "",
-            maxLength = state.oneLineIntro.maxLength,
-            isLengthExceeded = state.oneLineIntro.isLengthExceed,
+            errorText = "최대 ${oneLineIntro.maxLength}자까지 입력 가능합니다",
+            maxLength = oneLineIntro.maxLength,
+            isLengthExceeded = oneLineIntro.isLengthExceed,
             type = WepliTextFieldType.Normal,
         )
 
