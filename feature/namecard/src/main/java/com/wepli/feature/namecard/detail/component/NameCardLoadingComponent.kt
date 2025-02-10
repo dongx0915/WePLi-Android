@@ -50,8 +50,8 @@ fun NameCardLoadingComponent(
                 color = WepliTheme.color.black.copy(alpha = 0.5f)
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
     ) {
+        Spacer(modifier = Modifier.weight(3f))
         Text(
             text = "명함을 생성 중입니다",
             style = WepliTheme.typo.title1,
@@ -81,5 +81,6 @@ fun NameCardLoadingComponent(
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 12.dp)
         )
+        Spacer(modifier = Modifier.weight(4f))
     }
 }
