@@ -31,5 +31,4 @@ interface NameCardDetailIntent : Intent {
     data object OnNextPage : NameCardDetailIntent
     data object OnPreviousPage : NameCardDetailIntent
     data object OnCompleteChapter : NameCardDetailIntent
-    data object NavigateToBack : NameCardDetailIntent
 }
