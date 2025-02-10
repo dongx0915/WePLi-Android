@@ -7,7 +7,7 @@ import com.wepli.uimodel.music.SongUiData
 
 data class NameCardDetailUiState(
     private val _currentPage: Int = 0,
-    val totalPage: Int = 4,
+    val totalPage: Int = 3,
     val selectedFavoriteSong: SongUiData? = null
 ) : UiState {
     val currentPage: Int
