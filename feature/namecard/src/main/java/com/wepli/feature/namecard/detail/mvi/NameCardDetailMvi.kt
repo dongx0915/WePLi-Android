@@ -5,6 +5,7 @@ import base.SideEffect
 import base.UiState
 import com.wepli.uimodel.music.SongUiData
 
+// TODO Page 별로 별도의 State를 갖는게 나을지
 data class NameCardDetailUiState(
     private val _currentPage: Int = 0,
     val totalPage: Int = 0,
@@ -37,6 +38,7 @@ interface NameCardDetailEffect : SideEffect {
 
 }
 
+// TODO 페이지 별로 Intent 주석으로 정리하기
 interface NameCardDetailIntent : Intent {
     data class Initialize(val totalPage: Int, val oneLineIntroMaxLength: Int) : NameCardDetailIntent
     data class OnChangedOneLineIntro(val text: String) : NameCardDetailIntent
