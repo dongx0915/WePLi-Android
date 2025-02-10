@@ -1,6 +1,7 @@
 package com.wepli.feature.namecard.detail
 
 import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -107,6 +108,10 @@ fun NameCardDetailScreen(
                 pageList[it]()
             }
         }
+    }
+
+    BackHandler(state.currentPage != 0) {
+        sendAction(NameCardDetailIntent.OnPreviousPage)
     }
 }
 
