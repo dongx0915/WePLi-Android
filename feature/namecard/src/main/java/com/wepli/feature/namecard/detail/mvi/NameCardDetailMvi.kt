@@ -16,7 +16,7 @@ data class NameCardDetailUiState(
 
     data class FieldState(
         val text: String = "",
-        val maxLength: Int = 0
+        val maxLength: Int = Int.MAX_VALUE
     ) {
         val isLengthExceed: Boolean
             get() = text.length > maxLength
@@ -45,6 +45,7 @@ interface NameCardDetailEffect : SideEffect {
 interface NameCardDetailIntent : Intent {
     data class Initialize(val totalPage: Int, val oneLineIntroMaxLength: Int) : NameCardDetailIntent
     data class OnChangedOneLineIntro(val text: String) : NameCardDetailIntent
+    data class OnChangedInstagramId(val text: String) : NameCardDetailIntent
     data class OnFavoriteSongSelected(val song: SongUiData) : NameCardDetailIntent
     data object OnNextPage : NameCardDetailIntent
     data object OnPreviousPage : NameCardDetailIntent

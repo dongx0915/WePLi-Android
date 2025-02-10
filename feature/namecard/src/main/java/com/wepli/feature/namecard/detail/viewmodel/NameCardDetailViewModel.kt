@@ -16,6 +16,7 @@ class NameCardDetailViewModel @Inject constructor() : BaseMviViewModel<NameCardD
         when(intent) {
             is NameCardDetailIntent.Initialize -> handleInitialize(intent.totalPage, intent.oneLineIntroMaxLength)
             is NameCardDetailIntent.OnChangedOneLineIntro -> handleChangedOneLineIntro(intent.text)
+            is NameCardDetailIntent.OnChangedInstagramId -> handleChangedInstagramId(intent.text)
             is NameCardDetailIntent.OnFavoriteSongSelected -> handleFavoriteSongSelected(intent.song)
             is NameCardDetailIntent.OnNextPage -> handleNextPage()
             is NameCardDetailIntent.OnPreviousPage -> handlePreviousPage()
@@ -33,6 +34,10 @@ class NameCardDetailViewModel @Inject constructor() : BaseMviViewModel<NameCardD
 
     private fun handleChangedOneLineIntro(text: String) {
         updateState { copy(oneLineIntro = oneLineIntro.copy(text = text)) }
+    }
+
+    private fun handleChangedInstagramId(text: String) {
+        updateState { copy(instagramId = instagramId.copy(text = text)) }
     }
 
     private fun handleFavoriteSongSelected(song: SongUiData) {

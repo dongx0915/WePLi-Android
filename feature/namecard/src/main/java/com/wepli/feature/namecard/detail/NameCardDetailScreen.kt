@@ -83,7 +83,7 @@ fun NameCardDetailScreen(
         listOf(
             { NameCardChapterOneScreen(state = state, navOnNextPage = navOnNextPage, navOnSongSearchScreen = navOnSongSearchScreen) },
             { NameCardChapterTwoScreen(state = state, sendAction = sendAction, navOnNextPage = navOnNextPage) },
-            { NameCardChapterThreeScreen(state = state, navOnNextPage = navOnNextPage) },
+            { NameCardChapterThreeScreen(state = state, sendAction = sendAction, navOnNextPage = navOnNextPage) },
         )
     }
     val pagerState = rememberPagerState { pageList.size }
