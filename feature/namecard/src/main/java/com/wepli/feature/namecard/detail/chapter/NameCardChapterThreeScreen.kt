@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import button.WepliBasicButton
 import button.WepliButtonStyle
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailUiState
-import textfield.LimitedLengthTextField
 import textfield.WepliTextField
 import textfield.WepliTextFieldType
 import theme.WepliTheme
