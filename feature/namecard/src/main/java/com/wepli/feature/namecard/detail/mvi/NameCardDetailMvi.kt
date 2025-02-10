@@ -11,7 +11,8 @@ data class NameCardDetailUiState(
     val totalPage: Int = 0,
     val oneLineIntro: FieldState = FieldState(),
     val instagramId: FieldState = FieldState(),
-    val selectedFavoriteSong: SongUiData? = null
+    val selectedFavoriteSong: SongUiData? = null,
+    val isLoading: Boolean = false,
 ) : UiState {
 
     data class FieldState(

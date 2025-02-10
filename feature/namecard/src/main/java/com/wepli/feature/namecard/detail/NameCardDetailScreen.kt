@@ -19,6 +19,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,6 +28,7 @@ import appbar.WepliAppBar
 import com.wepli.feature.namecard.detail.chapter.NameCardChapterOneScreen
 import com.wepli.feature.namecard.detail.chapter.NameCardChapterThreeScreen
 import com.wepli.feature.namecard.detail.chapter.NameCardChapterTwoScreen
+import com.wepli.feature.namecard.detail.component.NameCardLoadingComponent
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailEffect
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailIntent
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailUiState
@@ -64,7 +66,7 @@ fun NameCardDetailScreenRoute(
             viewModel.processIntent(NameCardDetailIntent.OnFavoriteSongSelected(it))
         }
     }
-    
+
     NameCardDetailScreen(state, viewModel::processIntent, navOnBack, navOnSongSearchScreen)
 }
 
@@ -96,31 +98,40 @@ fun NameCardDetailScreen(
         pagerState.animateScrollToPage(state.currentPage)
     }
 
-    Scaffold(
-        topBar = {
-            Column {
-                WepliAppBar(
-                    title = "",
-                    showBackButton = true,
-                    onClickBack = { navOnPreviousPage() }
-                )
-                NameCardProgressBar(currentPage = pagerState.currentPage, totalPage = pageList.size)
+    Box(modifier = Modifier.fillMaxSize()) {
+        Scaffold(
+            modifier = Modifier.blur( // 로딩 중일 때는 화면을 블러처리
+                if(state.isLoading) 8.dp else 0.dp
+            ),
+            topBar = {
+                Column {
+                    WepliAppBar(
+                        title = "",
+                        showBackButton = true,
+                        onClickBack = { navOnPreviousPage() }
+                    )
+                    NameCardProgressBar(currentPage = pagerState.currentPage, totalPage = pageList.size)
+                }
+            }
+        ) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = WepliTheme.color.black)
+                    .padding(paddingValues)
+                    .padding(top = 56.dp, bottom = 20.dp)
+            ) {
+                HorizontalPager(
+                    state = pagerState,
+                    userScrollEnabled = false
+                ) {
+                    pageList[it]()
+                }
             }
         }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = WepliTheme.color.black)
-                .padding(paddingValues)
-                .padding(top = 56.dp, bottom = 20.dp)
-        ) {
-            HorizontalPager(
-                state = pagerState,
-                userScrollEnabled = false
-            ) {
-                pageList[it]()
-            }
+
+        if (state.isLoading) {
+            NameCardLoadingComponent()
         }
     }
 
