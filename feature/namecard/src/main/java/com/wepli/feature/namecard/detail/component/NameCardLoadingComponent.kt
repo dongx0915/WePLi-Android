@@ -4,6 +4,7 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -43,6 +44,7 @@ fun NameCardLoadingComponent(
 
     Column(
         modifier = modifier
+            .clickable {  }
             .fillMaxSize()
             .background(
                 color = WepliTheme.color.black.copy(alpha = 0.7f)
