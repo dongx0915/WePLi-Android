@@ -7,9 +7,20 @@ import com.wepli.uimodel.music.SongUiData
 
 data class NameCardDetailUiState(
     private val _currentPage: Int = 0,
-    val totalPage: Int = 3,
+    val totalPage: Int = 0,
+    val oneLineIntro: FieldState = FieldState(),
+    val instagramId: FieldState = FieldState(),
     val selectedFavoriteSong: SongUiData? = null
 ) : UiState {
+
+    data class FieldState(
+        val text: String = "",
+        val maxLength: Int = 0
+    ) {
+        val isLengthExceed: Boolean
+            get() = text.length > maxLength
+    }
+
     val currentPage: Int
         get() = _currentPage
 
@@ -27,6 +38,7 @@ interface NameCardDetailEffect : SideEffect {
 }
 
 interface NameCardDetailIntent : Intent {
+    data class Initialize(val totalPage: Int, val oneLineIntroMaxLength: Int) : NameCardDetailIntent
     data class OnFavoriteSongSelected(val song: SongUiData) : NameCardDetailIntent
     data object OnNextPage : NameCardDetailIntent
     data object OnPreviousPage : NameCardDetailIntent

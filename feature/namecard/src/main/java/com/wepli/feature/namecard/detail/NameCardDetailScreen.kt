@@ -72,11 +72,15 @@ fun NameCardDetailScreen(
     val pageList: List<@Composable () -> Unit> = remember(state) {
         listOf(
             { NameCardChapterOneScreen(state = state, navOnNextPage = navOnNextPage, navOnSongSearchScreen = navOnSongSearchScreen) },
-            { NameCardChapterTwoScreen(state = state, navOnNextPage = navOnNextPage) },
+            { NameCardChapterTwoScreen(state = state, sendAction = sendAction, navOnNextPage = navOnNextPage) },
             { NameCardChapterThreeScreen(state = state, navOnNextPage = navOnNextPage) },
         )
     }
     val pagerState = rememberPagerState { pageList.size }
+
+    LaunchedEffect(Unit) {
+        sendAction(NameCardDetailIntent.Initialize(totalPage = pageList.size, oneLineIntroMaxLength = 20))
+    }
 
     LaunchedEffect(state.currentPage) {
         pagerState.animateScrollToPage(state.currentPage)
