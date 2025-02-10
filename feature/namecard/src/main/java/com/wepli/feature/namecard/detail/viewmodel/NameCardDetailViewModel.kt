@@ -1,12 +1,17 @@
 package com.wepli.feature.namecard.detail.viewmodel
 
+import androidx.lifecycle.viewModelScope
 import base.BaseMviViewModel
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailEffect
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailIntent
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailUiState
 import com.wepli.uimodel.music.SongUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.random.Random
+import kotlin.random.nextLong
 
 @HiltViewModel
 class NameCardDetailViewModel @Inject constructor() : BaseMviViewModel<NameCardDetailUiState, NameCardDetailEffect, NameCardDetailIntent>(
@@ -46,7 +51,7 @@ class NameCardDetailViewModel @Inject constructor() : BaseMviViewModel<NameCardD
 
     private fun handleNextPage() = intent {
         if (state.isLastPage) {
-            postSideEffect { NameCardDetailEffect.OnCompleteChapter }
+            makeNameCard()
         } else {
             updateState { setNextPage() }
         }
@@ -54,5 +59,21 @@ class NameCardDetailViewModel @Inject constructor() : BaseMviViewModel<NameCardD
 
     private fun handlePreviousPage() {
         updateState { setPreviousPage() }
+    }
+
+    private fun makeNameCard() = intent {
+        viewModelScope.launch {
+            reduce { state.copy(isLoading = true) }
+            while (state.makeCardProgress <= 0.99f) {
+                reduce {
+                    val progress = state.makeCardProgress + Random.nextDouble(0.05, 0.3).toFloat()
+                    state.updateProgress(progress)
+                }
+
+                delay(Random.nextLong(250L .. 750))
+            }
+
+            reduce { state.copy(isLoading = false) }
+        }
     }
 }

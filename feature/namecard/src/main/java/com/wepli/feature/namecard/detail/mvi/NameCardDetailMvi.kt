@@ -12,6 +12,7 @@ data class NameCardDetailUiState(
     val oneLineIntro: FieldState = FieldState(),
     val instagramId: FieldState = FieldState(),
     val selectedFavoriteSong: SongUiData? = null,
+    val makeCardProgress: Float = 0f,
     val isLoading: Boolean = false,
 ) : UiState {
 
@@ -35,6 +36,10 @@ data class NameCardDetailUiState(
 
     fun setPreviousPage(): NameCardDetailUiState {
         return copy(_currentPage = (currentPage - 1).coerceIn(0, totalPage))
+    }
+
+    fun updateProgress(progress: Float): NameCardDetailUiState {
+        return copy(makeCardProgress = progress.coerceIn(0f, 1f))
     }
 }
 

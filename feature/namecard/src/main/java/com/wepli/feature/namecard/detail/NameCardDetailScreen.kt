@@ -131,7 +131,7 @@ fun NameCardDetailScreen(
         }
 
         if (state.isLoading) {
-            NameCardLoadingComponent()
+            NameCardLoadingComponent(state)
         }
     }
 

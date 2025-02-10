@@ -1,5 +1,8 @@
 package com.wepli.feature.namecard.detail.component
 
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,18 +13,34 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.wepli.feature.namecard.detail.mvi.NameCardDetailUiState
 import progress.GradientLinearProgressBar
 import theme.WepliTheme
 
 
 @Preview
 @Composable
-fun NameCardLoadingComponent(modifier: Modifier = Modifier) {
+fun NameCardLoadingComponentPreview() {
+    NameCardLoadingComponent(state = NameCardDetailUiState())
+}
+
+@Composable
+fun NameCardLoadingComponent(
+    state: NameCardDetailUiState,
+    modifier: Modifier = Modifier
+) {
+    val animatedProgress by animateFloatAsState(
+        targetValue = state.makeCardProgress,
+        animationSpec = tween(durationMillis = 250, easing = LinearOutSlowInEasing),
+        label = "Animated Progress"
+    )
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -50,11 +69,11 @@ fun NameCardLoadingComponent(modifier: Modifier = Modifier) {
                 .fillMaxWidth()
                 .padding(horizontal = 40.dp),
             height = 1.5.dp,
-            progress = 0.3f
+            progress = animatedProgress
         )
 
         Text(
-            text = "30%",
+            text = "${(animatedProgress * 100).toInt()}%",
             style = WepliTheme.typo.body4,
             color = WepliTheme.color.gray500,
             textAlign = TextAlign.Center,
