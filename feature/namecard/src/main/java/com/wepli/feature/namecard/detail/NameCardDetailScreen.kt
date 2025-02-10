@@ -36,7 +36,7 @@ import theme.WepliTheme
 @Preview
 @Composable
 fun NameCardDetailScreenPreview() {
-    NameCardDetailScreen(state = NameCardDetailUiState(), {}, {})
+    NameCardDetailScreen(state = NameCardDetailUiState(), {}, {}, {})
 }
 
 @Composable
@@ -54,7 +54,7 @@ fun NameCardDetailScreenRoute(
         }
     }
     
-    NameCardDetailScreen(state, navOnBack, navOnSongSearchScreen)
+    NameCardDetailScreen(state, viewModel::processIntent, navOnBack, navOnSongSearchScreen)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,24 +62,32 @@ fun NameCardDetailScreenRoute(
 @Composable
 fun NameCardDetailScreen(
     state: NameCardDetailUiState,
+    sendAction: (NameCardDetailIntent) -> Unit,
     navOnBack: () -> Unit,
     navOnSongSearchScreen: () -> Unit,
 ) {
+    val navOnNextPage: () -> Unit = { sendAction(NameCardDetailIntent.OnNextPage) }
+    val navOnPreviousPage: () -> Unit = { sendAction(NameCardDetailIntent.OnPreviousPage) }
     val pageList: List<@Composable () -> Unit> = remember(state) {
         listOf(
-            { NameCardChapterOneScreen(state = state, navOnSongSearchScreen = navOnSongSearchScreen) },
-            { NameCardChapterTwoScreen(state = state) },
-            { NameCardChapterThreeScreen(state = state) },
+            { NameCardChapterOneScreen(state = state, navOnNextPage = navOnNextPage, navOnSongSearchScreen = navOnSongSearchScreen) },
+            { NameCardChapterTwoScreen(state = state, navOnNextPage = navOnNextPage) },
+            { NameCardChapterThreeScreen(state = state, navOnNextPage = navOnNextPage) },
         )
     }
     val pagerState = rememberPagerState { pageList.size }
+
+    LaunchedEffect(state.currentPage) {
+        pagerState.animateScrollToPage(state.currentPage)
+    }
 
     Scaffold(
         topBar = {
             Column {
                 WepliAppBar(
                     title = "",
-                    showBackButton = true
+                    showBackButton = true,
+                    onClickBack = { navOnPreviousPage() }
                 )
                 NameCardProgressBar(currentPage = pagerState.currentPage, totalPage = pageList.size)
             }

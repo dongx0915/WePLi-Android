@@ -26,9 +26,9 @@ import theme.WepliTheme
 fun NameCardChapterTwoScreenPreview() {
     NameCardChapterTwoScreen(
         state = NameCardDetailUiState(),
+        navOnNextPage = {},
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 24.dp)
             .padding(top = 56.dp, bottom = 20.dp)
     )
 }
@@ -36,9 +36,10 @@ fun NameCardChapterTwoScreenPreview() {
 @Composable
 fun NameCardChapterTwoScreen(
     state: NameCardDetailUiState,
+    navOnNextPage: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.padding(horizontal = 24.dp)) {
         Text(
             text = "한 줄 소개를 입력해주세요",
             style = WepliTheme.typo.title1,
@@ -68,7 +69,7 @@ fun NameCardChapterTwoScreen(
         WepliBasicButton(
             title = "입력완료",
             isEnabled = true,
-            onClick = { },
+            onClick = { navOnNextPage() },
             modifier = Modifier
                 .padding(bottom = 20.dp)
                 .align(Alignment.CenterHorizontally),

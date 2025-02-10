@@ -15,10 +15,20 @@ class NameCardDetailViewModel @Inject constructor() : BaseMviViewModel<NameCardD
     override fun processIntent(intent: NameCardDetailIntent) {
         when(intent) {
             is NameCardDetailIntent.OnFavoriteSongSelected -> handleFavoriteSongSelected(intent.song)
+            is NameCardDetailIntent.OnNextPage -> handleNextPage()
+            is NameCardDetailIntent.OnPreviousPage -> handlePreviousPage()
         }
     }
 
     private fun handleFavoriteSongSelected(song: SongUiData) {
         updateState { copy(selectedFavoriteSong = song) }
+    }
+
+    private fun handleNextPage() {
+        updateState { setNextPage() }
+    }
+
+    private fun handlePreviousPage() {
+        updateState { setPreviousPage() }
     }
 }

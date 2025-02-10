@@ -27,9 +27,9 @@ import theme.WepliTheme
 fun NameCardChapterThreeScreenPreview() {
     NameCardChapterThreeScreen(
         state = NameCardDetailUiState(),
+        navOnNextPage = {},
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 24.dp)
             .padding(top = 56.dp, bottom = 20.dp)
     )
 }
@@ -37,9 +37,10 @@ fun NameCardChapterThreeScreenPreview() {
 @Composable
 fun NameCardChapterThreeScreen(
     state: NameCardDetailUiState,
+    navOnNextPage: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.padding(horizontal = 24.dp)) {
         Text(
             text = "Instagram 계정을\n입력해주세요",
             style = WepliTheme.typo.title1,
@@ -76,7 +77,7 @@ fun NameCardChapterThreeScreen(
         WepliBasicButton(
             title = "건너뛰기",
             isEnabled = true,
-            onClick = { },
+            onClick = { navOnNextPage() },
             modifier = Modifier
                 .padding(bottom = 20.dp)
                 .align(Alignment.CenterHorizontally),

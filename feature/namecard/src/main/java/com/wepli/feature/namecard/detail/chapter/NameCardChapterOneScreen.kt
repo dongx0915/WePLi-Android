@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -19,7 +20,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import button.WepliBasicButton
 import button.WepliButtonStyle
 import com.wepli.designsystem.R
@@ -33,6 +36,7 @@ import theme.WepliTheme
 fun NameCardChapterOneScreen(
     state: NameCardDetailUiState,
     modifier: Modifier = Modifier,
+    navOnNextPage: () -> Unit,
     navOnSongSearchScreen: () -> Unit,
 ) {
     Column(
@@ -62,7 +66,7 @@ fun NameCardChapterOneScreen(
         WepliBasicButton(
             title = "선택완료",
             isEnabled = state.selectedFavoriteSong != null,
-            onClick = { },
+            onClick = { navOnNextPage() },
             modifier = Modifier
                 .padding(bottom = 20.dp)
                 .align(Alignment.CenterHorizontally),
@@ -87,6 +91,7 @@ fun SelectedSongComponent(
 
     Column(
         modifier = modifier
+            .widthIn(max = 174.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(WepliTheme.color.gray000)
             .padding(12.dp)
