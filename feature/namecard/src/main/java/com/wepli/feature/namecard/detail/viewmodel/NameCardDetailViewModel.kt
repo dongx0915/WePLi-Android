@@ -7,8 +7,10 @@ import com.wepli.feature.namecard.detail.mvi.NameCardDetailIntent
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailUiState
 import com.wepli.uimodel.music.SongUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.random.Random
 import kotlin.random.nextLong
@@ -62,18 +64,21 @@ class NameCardDetailViewModel @Inject constructor() : BaseMviViewModel<NameCardD
     }
 
     private fun makeNameCard() = intent {
-        viewModelScope.launch {
-            reduce { state.copy(isLoading = true) }
-            while (state.makeCardProgress <= 0.99f) {
+        reduce { state.copy(isLoading = true) }
+
+        withContext(Dispatchers.Default) {
+            while (state.makeCardProgress < 1.0f) {
                 reduce {
-                    val progress = state.makeCardProgress + Random.nextDouble(0.05, 0.3).toFloat()
+                    val randomIncrement = Random.nextDouble(0.05, 0.3).toFloat()
+                    val progress = state.makeCardProgress + randomIncrement
+
                     state.updateProgress(progress)
                 }
 
                 delay(Random.nextLong(250L .. 750))
             }
-
-            reduce { state.copy(isLoading = false) }
         }
+
+        reduce { state.copy(isLoading = false, makeCardProgress = 0f) }
     }
 }
