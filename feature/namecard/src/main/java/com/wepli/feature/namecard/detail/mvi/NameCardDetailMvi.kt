@@ -39,6 +39,7 @@ interface NameCardDetailEffect : SideEffect {
 
 interface NameCardDetailIntent : Intent {
     data class Initialize(val totalPage: Int, val oneLineIntroMaxLength: Int) : NameCardDetailIntent
+    data class OnChangedOneLineIntro(val text: String) : NameCardDetailIntent
     data class OnFavoriteSongSelected(val song: SongUiData) : NameCardDetailIntent
     data object OnNextPage : NameCardDetailIntent
     data object OnPreviousPage : NameCardDetailIntent

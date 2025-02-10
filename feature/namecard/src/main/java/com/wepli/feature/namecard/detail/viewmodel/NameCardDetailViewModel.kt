@@ -15,6 +15,7 @@ class NameCardDetailViewModel @Inject constructor() : BaseMviViewModel<NameCardD
     override fun processIntent(intent: NameCardDetailIntent) {
         when(intent) {
             is NameCardDetailIntent.Initialize -> handleInitialize(intent.totalPage, intent.oneLineIntroMaxLength)
+            is NameCardDetailIntent.OnChangedOneLineIntro -> handleChangedOneLineIntro(intent.text)
             is NameCardDetailIntent.OnFavoriteSongSelected -> handleFavoriteSongSelected(intent.song)
             is NameCardDetailIntent.OnNextPage -> handleNextPage()
             is NameCardDetailIntent.OnPreviousPage -> handlePreviousPage()
@@ -28,6 +29,10 @@ class NameCardDetailViewModel @Inject constructor() : BaseMviViewModel<NameCardD
                 oneLineIntro = NameCardDetailUiState.FieldState(maxLength = oneLineIntroMaxLength)
             )
         }
+    }
+
+    private fun handleChangedOneLineIntro(text: String) {
+        updateState { copy(oneLineIntro = oneLineIntro.copy(text = text)) }
     }
 
     private fun handleFavoriteSongSelected(song: SongUiData) {

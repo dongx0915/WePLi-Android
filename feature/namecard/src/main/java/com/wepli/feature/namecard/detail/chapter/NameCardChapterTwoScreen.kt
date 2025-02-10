@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import button.WepliBasicButton
 import button.WepliButtonStyle
+import com.wepli.feature.namecard.detail.mvi.NameCardDetailIntent
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailUiState
 import textfield.LimitedLengthTextField
 import textfield.WepliTextFieldType
@@ -26,6 +27,7 @@ import theme.WepliTheme
 fun NameCardChapterTwoScreenPreview() {
     NameCardChapterTwoScreen(
         state = NameCardDetailUiState(),
+        sendAction = {},
         navOnNextPage = {},
         modifier = Modifier
             .fillMaxSize()
@@ -36,6 +38,7 @@ fun NameCardChapterTwoScreenPreview() {
 @Composable
 fun NameCardChapterTwoScreen(
     state: NameCardDetailUiState,
+    sendAction: (NameCardDetailIntent) -> Unit,
     navOnNextPage: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -54,14 +57,14 @@ fun NameCardChapterTwoScreen(
 
         Spacer(modifier = Modifier.height(32.dp))
         LimitedLengthTextField(
-            value = "",
-            onValueChanged = { newValue, maxLength ->
-
+            value = state.oneLineIntro.text,
+            onValueChanged = { newValue, _ ->
+                sendAction(NameCardDetailIntent.OnChangedOneLineIntro(newValue))
             },
             placeholder = "문구를 작성해주세요",
             errorText = "",
-            maxLength = 20,
-            isLengthExceeded = false,
+            maxLength = state.oneLineIntro.maxLength,
+            isLengthExceeded = state.oneLineIntro.isLengthExceed,
             type = WepliTextFieldType.Normal,
         )
 
