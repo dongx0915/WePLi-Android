@@ -70,7 +70,7 @@ fun NameCardLoadingComponent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 40.dp),
-            height = 1.5.dp,
+            height = 2.dp,
             progress = animatedProgress
         )
 
