@@ -1,6 +1,5 @@
 package com.wepli.feature.namecard.detail.viewmodel
 
-import androidx.lifecycle.viewModelScope
 import base.BaseMviViewModel
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailEffect
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailIntent
@@ -9,7 +8,6 @@ import com.wepli.uimodel.music.SongUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.random.Random
