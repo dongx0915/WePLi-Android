@@ -11,7 +11,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.random.Random
-import kotlin.random.nextLong
 
 @HiltViewModel
 class NameCardDetailViewModel @Inject constructor() : BaseMviViewModel<NameCardDetailUiState, NameCardDetailEffect, NameCardDetailIntent>(
@@ -65,15 +64,27 @@ class NameCardDetailViewModel @Inject constructor() : BaseMviViewModel<NameCardD
         reduce { state.copy(isLoading = true) }
 
         withContext(Dispatchers.Default) {
+            val startTime = System.currentTimeMillis()
             while (state.makeCardProgress < 1.0f) {
+                val elapsedTime = System.currentTimeMillis() - startTime
+
                 reduce {
-                    val randomIncrement = Random.nextDouble(0.05, 0.3).toFloat()
-                    val progress = state.makeCardProgress + randomIncrement
+                    // 3초 이후에는 최소 증가량을 높여 더 빠르게 진행
+                    val minIncrement = if (elapsedTime >= 3000L) 0.15 else 0.05
+                    val randomIncrement = Random.nextDouble(minIncrement, 0.25).toFloat()
+                    val progress = (state.makeCardProgress + randomIncrement)
 
                     state.updateProgress(progress)
                 }
 
-                delay(Random.nextLong(250L .. 750))
+                // 3초 이후에는 딜레이를 줄여서 빠르게 마무리
+                val delayTime = if (elapsedTime >= 3000L) {
+                    Random.nextLong(100L, 200L) // 3초 이후에는 짧은 딜레이 적용
+                } else {
+                    Random.nextLong(250L, 750L) // 3초 이전까지는 기존 딜레이 유지
+                }
+
+                delay(delayTime)
             }
         }
 
