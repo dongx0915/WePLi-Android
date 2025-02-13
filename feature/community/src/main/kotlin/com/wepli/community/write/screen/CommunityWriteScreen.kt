@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -122,6 +123,7 @@ fun CommunityWriteScreen(
     ) { paddingValues ->
         Column(
             modifier = Modifier
+                .fillMaxSize()
                 .verticalScroll(scrollState)
                 .padding(paddingValues)
                 .padding(vertical = 20.dp),
@@ -146,8 +148,7 @@ fun CommunityWriteScreen(
                 sendAction = sendAction
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
-
+            Spacer(modifier = Modifier.weight(1f))
             WepliBasicButton(
                 title = "작성 완료",
                 isEnabled = true,
