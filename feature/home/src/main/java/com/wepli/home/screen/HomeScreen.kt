@@ -96,9 +96,10 @@ fun HomeScreen(
             modifier = Modifier
                 .haze(blurState)
                 .background(WepliTheme.color.black)
+                .padding(bottom = bottomPadding)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(24.dp),
-            contentPadding = PaddingValues(bottom = bottomPadding * 3),
+            contentPadding = PaddingValues(bottom = 100.dp),
             state = scrollState
         ) {
             item {
