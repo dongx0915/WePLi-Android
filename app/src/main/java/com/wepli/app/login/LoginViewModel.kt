@@ -3,6 +3,7 @@ package com.wepli.app.login
 import androidx.credentials.Credential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
+import androidx.credentials.exceptions.NoCredentialException
 import androidx.lifecycle.viewModelScope
 import base.BaseMviViewModel
 import base.Intent
@@ -40,6 +41,7 @@ sealed interface LoginEffect: SideEffect{
     data class GoogleLoginError(val message: String) : LoginEffect
     data object GoogleSessionError : LoginEffect
     data object NavigateToMain : LoginEffect
+    data object PromptAddGoogleAccount : LoginEffect // 계정 추가 유도
 }
 
 data class LoginState(
@@ -108,7 +110,12 @@ class LoginViewModel @Inject constructor(
                     postSideEffect(LoginEffect.GoogleSessionError)
                 }
             }.onFailure {
-                postSideEffect(LoginEffect.GoogleLoginError(it.message.toString()))
+                val errorEffect = when (it) {
+                    is NoCredentialException -> LoginEffect.PromptAddGoogleAccount
+                    else -> LoginEffect.GoogleLoginError(it.message.toString())
+                }
+
+                postSideEffect { errorEffect }
             }
         }
     }

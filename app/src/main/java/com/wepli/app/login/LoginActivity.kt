@@ -2,6 +2,7 @@ package com.wepli.app.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -77,6 +78,12 @@ class LoginActivity : ComponentActivity() {
                     when (it) {
                         is LoginEffect.GoogleLoginError -> {
                             Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                        }
+                        is LoginEffect.PromptAddGoogleAccount -> {
+                            val intent = Intent(Settings.ACTION_ADD_ACCOUNT).apply {
+                                putExtra(Settings.EXTRA_ACCOUNT_TYPES, arrayOf("com.google"))
+                            }
+                            startActivity(intent)
                         }
                         LoginEffect.GoogleSessionError -> {
                             Toast.makeText(this, "유저 정보 조회에 실패하였습니다. 잠시 후 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
