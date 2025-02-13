@@ -2,6 +2,7 @@ package com.wepli.app.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -51,6 +52,8 @@ import com.wepli.app.MainActivity
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.musicMockData
 import common.WepliSpacer
+import component.dialog.WepliDialog
+import component.dialog.WepliDialogType
 import dagger.hilt.android.AndroidEntryPoint
 import extensions.compose.shimmerEffect
 import extensions.compose.toPx
@@ -77,6 +80,12 @@ class LoginActivity : ComponentActivity() {
                         is LoginEffect.GoogleLoginError -> {
                             Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                         }
+                        is LoginEffect.PromptAddGoogleAccount -> {
+                            val intent = Intent(Settings.ACTION_ADD_ACCOUNT).apply {
+                                putExtra(Settings.EXTRA_ACCOUNT_TYPES, arrayOf("com.google"))
+                            }
+                            startActivity(intent)
+                        }
                         LoginEffect.GoogleSessionError -> {
                             Toast.makeText(this, "유저 정보 조회에 실패하였습니다. 잠시 후 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
                         }
@@ -89,6 +98,7 @@ class LoginActivity : ComponentActivity() {
 
                 LoginScreen(
                     albumImages = state.albumImages,
+                    isAddAccountDialogVisible = state.isAddAccountDialogVisible,
                     onSendIntent = viewModel::processIntent
                 )
             }
@@ -99,6 +109,7 @@ class LoginActivity : ComponentActivity() {
 @Composable
 fun LoginScreen(
     albumImages: List<String>,
+    isAddAccountDialogVisible: Boolean,
     onSendIntent: (LoginIntent) -> Unit
 ) {
     val context = LocalContext.current
@@ -129,6 +140,10 @@ fun LoginScreen(
         }
 
         TermsText()
+
+        if (isAddAccountDialogVisible) {
+            AddGoogleAccountDialog(sendAction = onSendIntent)
+        }
     }
 }
 
@@ -265,11 +280,28 @@ fun TermsText(
     }
 }
 
+@Composable
+fun AddGoogleAccountDialog(
+    sendAction: (LoginIntent) -> Unit
+) {
+    WepliDialog(
+        title = "계정 등록 안내",
+        subTitle = "기기에 등록된 Google 계정이 없어요. 지금 계정을 추가하시겠어요?",
+        dialogType = WepliDialogType.TwoButton(
+            okButtonText = "추가",
+            cancelButtonText = "취소",
+            okButtonClick = { sendAction(LoginIntent.RequestAddAccountPage) },
+            cancelButtonClick = { sendAction(LoginIntent.DismissAddAccountDialog) }
+        ),
+    )
+}
+
 @Preview
 @Composable
 fun LoginScreenPreview() {
     LoginScreen(
         albumImages = musicMockData.map { it.albumCoverUrl },
+        isAddAccountDialogVisible = false,
         onSendIntent = {}
     )
 }
