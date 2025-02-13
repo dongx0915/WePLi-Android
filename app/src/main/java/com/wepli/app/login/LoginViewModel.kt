@@ -31,7 +31,9 @@ import java.security.MessageDigest
 import java.util.UUID
 import javax.inject.Inject
 
-sealed interface LoginIntent: Intent {
+sealed interface LoginIntent : Intent {
+    data object RequestAddAccountPage : LoginIntent
+    data object DismissAddAccountDialog : LoginIntent
     data class RequestGoogleLogin(
         val getCredential: suspend (GetCredentialRequest) -> GetCredentialResponse
     ) : LoginIntent
@@ -45,7 +47,8 @@ sealed interface LoginEffect: SideEffect{
 }
 
 data class LoginState(
-    val albumImages: List<String>
+    val albumImages: List<String>,
+    val isAddAccountDialogVisible: Boolean = false
 ) : UiState
 
 @HiltViewModel
@@ -79,6 +82,8 @@ class LoginViewModel @Inject constructor(
 
     override fun processIntent(intent: LoginIntent) {
         when (intent) {
+            is LoginIntent.RequestAddAccountPage -> handleRequestAddAccountPage()
+            is LoginIntent.DismissAddAccountDialog -> handleDismissAddAccountDialog()
             is LoginIntent.RequestGoogleLogin -> requestGoogleLogin(intent.getCredential)
         }
     }
@@ -110,12 +115,10 @@ class LoginViewModel @Inject constructor(
                     postSideEffect(LoginEffect.GoogleSessionError)
                 }
             }.onFailure {
-                val errorEffect = when (it) {
-                    is NoCredentialException -> LoginEffect.PromptAddGoogleAccount
-                    else -> LoginEffect.GoogleLoginError(it.message.toString())
+                when (it) {
+                    is NoCredentialException -> updateState { copy(isAddAccountDialogVisible = true) }
+                    else -> postSideEffect { LoginEffect.GoogleLoginError(it.message.toString()) }
                 }
-
-                postSideEffect { errorEffect }
             }
         }
     }
@@ -182,5 +185,14 @@ class LoginViewModel @Inject constructor(
 
             return@withContext isSuccess
         }
+    }
+
+    private fun handleDismissAddAccountDialog() {
+        updateState { copy(isAddAccountDialogVisible = false) }
+    }
+
+    private fun handleRequestAddAccountPage() {
+        updateState { copy(isAddAccountDialogVisible = false) }
+        postSideEffect { LoginEffect.PromptAddGoogleAccount }
     }
 }
