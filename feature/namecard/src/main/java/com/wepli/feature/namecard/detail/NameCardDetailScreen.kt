@@ -49,15 +49,14 @@ fun NameCardDetailScreenRoute(
     selectedSong: SongUiData?,
     navOnBack: () -> Unit,
     navOnSongSearchScreen: () -> Unit,
+    navOnResultScreen: () -> Unit,
 ) {
     val viewModel: NameCardDetailViewModel = hiltViewModel()
     val state: NameCardDetailUiState by viewModel.collectAsState()
 
     viewModel.collectSideEffect {
         when (it) {
-            is NameCardDetailEffect.OnCompleteChapter -> {
-                // 챕터 완료
-            }
+            is NameCardDetailEffect.OnCompleteChapter -> navOnResultScreen()
         }
     }
 

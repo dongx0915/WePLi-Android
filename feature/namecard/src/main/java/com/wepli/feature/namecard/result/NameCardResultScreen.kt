@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -29,7 +31,7 @@ import theme.WepliTheme
 
 @Composable
 fun NameCardResultScreenRoute(navOnBack: () -> Unit) {
-
+    NameCardResultScreen()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,6 +39,8 @@ fun NameCardResultScreenRoute(navOnBack: () -> Unit) {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun NameCardResultScreen() {
+    val scrollState = rememberScrollState()
+
     Scaffold(
         topBar = {
             WepliAppBar(
@@ -52,6 +56,7 @@ fun NameCardResultScreen() {
             modifier = Modifier
                 .background(color = WepliTheme.color.black)
                 .fillMaxSize()
+                .verticalScroll(scrollState)
                 .padding(paddingValues)
                 .padding(top = 56.dp, start = 24.dp, end = 24.dp, bottom = 40.dp),
             horizontalAlignment = Alignment.CenterHorizontally

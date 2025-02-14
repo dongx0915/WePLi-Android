@@ -18,6 +18,7 @@ fun NavController.navigateToNameCardDetail() {
 fun NavGraphBuilder.nameCardDetailGraph(
     navOnBack: () -> Unit,
     navOnSongSearchScreen: () -> Unit,
+    navOnNameCardResultScreen: ()-> Unit,
 ) {
     composable(
         route = NameCardRoute.DETAIL.route,
@@ -25,6 +26,6 @@ fun NavGraphBuilder.nameCardDetailGraph(
     ) {
         val selectedSong: SongUiData? = it.savedStateHandle.remove<List<SongUiData>>(Extras.SELECTED_SONGS)?.first()
 
-        NameCardDetailScreenRoute(selectedSong, navOnBack, navOnSongSearchScreen)
+        NameCardDetailScreenRoute(selectedSong, navOnBack, navOnSongSearchScreen, navOnNameCardResultScreen)
     }
 }
