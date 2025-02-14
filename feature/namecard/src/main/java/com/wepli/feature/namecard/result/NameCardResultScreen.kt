@@ -28,7 +28,7 @@ import button.WepliButtonStyle
 import theme.WepliTheme
 
 @Composable
-fun NameCardResultScreenRoute() {
+fun NameCardResultScreenRoute(navOnBack: () -> Unit) {
 
 }
 

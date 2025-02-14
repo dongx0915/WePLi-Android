@@ -25,6 +25,7 @@ import com.wepli.feature.namecard.detail.navigation.nameCardDetailGraph
 import com.wepli.feature.namecard.detail.navigation.navigateToNameCardDetail
 import com.wepli.feature.namecard.main.navigation.nameCardMainGraph
 import com.wepli.feature.namecard.main.navigation.navigateToNameCardMain
+import com.wepli.feature.namecard.result.navigation.nameCardResultGraph
 import com.wepli.playlist.navigation.navigateToPlaylistDetail
 import com.wepli.playlist.navigation.playlistDetailGraph
 import com.wepli.search.navigation.SearchScreenMode
@@ -142,9 +143,14 @@ fun NavGraphBuilder.nameCardGraph(navController: NavController) {
     )
     nameCardDetailGraph(
         navOnBack = { navController.popBackStack() },
-        navOnSongSearchScreen = { navController.navigateToSearchDetail(
-            screenMode = SearchScreenMode.Selectable(1),
-            searchQuery = ""
-        ) }
+        navOnSongSearchScreen = {
+            navController.navigateToSearchDetail(
+                screenMode = SearchScreenMode.Selectable(1),
+                searchQuery = ""
+            )
+        }
+    )
+    nameCardResultGraph(
+        navOnBack = { navController.popBackStack() }
     )
 }
