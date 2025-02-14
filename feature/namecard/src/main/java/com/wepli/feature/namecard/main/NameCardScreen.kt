@@ -4,10 +4,13 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -75,8 +78,9 @@ fun NameCardScreen(
             Card(
                 modifier = Modifier
                     .clip(RoundedCornerShape(12.dp))
-                    .width(247.dp)
-                    .height(354.dp)
+                    .widthIn(max = 247.dp)
+                    .heightIn(max = 354.dp)
+                    .aspectRatio(247f / 354f)
                     .align(Alignment.CenterHorizontally)
             ) { }
 
