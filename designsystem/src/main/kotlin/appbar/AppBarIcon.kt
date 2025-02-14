@@ -57,27 +57,17 @@ sealed interface AppBarIconType {
         override val iconColor: @Composable () -> Color = { WepliTheme.color.white },
         override val onClick: () -> Unit = {},
     ) : AppBarIconType
+
+    data class Save(
+        override val iconResource: Int = R.drawable.ic_download,
+        override val iconColor: @Composable () -> Color = { WepliTheme.color.white },
+        override val onClick: () -> Unit = {},
+    ) : AppBarIconType
 }
 
 @Composable
 fun AppBarIcon(icon: AppBarIconType) {
     when (icon) {
-        is AppBarIconType.Back -> {
-            AppBarIcon(
-                iconResource = icon.iconResource,
-                iconColor = icon.iconColor(),
-                onClick = { icon.onClick() }
-            )
-        }
-
-        is AppBarIconType.Search -> {
-            AppBarIcon(
-                iconResource = icon.iconResource,
-                iconColor = icon.iconColor(),
-                onClick = { icon.onClick() }
-            )
-        }
-
         is AppBarIconType.Notification -> {
             AppBarIcon(
                 iconResource = icon.iconResource,
@@ -87,18 +77,18 @@ fun AppBarIcon(icon: AppBarIconType) {
             )
         }
 
-        is AppBarIconType.More -> {
-            AppBarIcon(
-                iconResource = icon.iconResource,
-                iconColor = icon.iconColor(),
-                onClick = { icon.onClick() }
-            )
-        }
-
         is AppBarIconType.Like -> {
             AppBarIcon(
                 iconResource = if (icon.isLiked) icon.likedIconResource else icon.iconResource,
                 iconColor = if (icon.isLiked) Color.Unspecified else icon.iconColor(),
+                onClick = { icon.onClick() }
+            )
+        }
+
+        else -> {
+            AppBarIcon(
+                iconResource = icon.iconResource,
+                iconColor = icon.iconColor(),
                 onClick = { icon.onClick() }
             )
         }
