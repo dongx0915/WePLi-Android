@@ -4,10 +4,13 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -22,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import appbar.AppBarIcon
 import appbar.AppBarIconType
 import appbar.WepliAppBar
@@ -78,8 +82,9 @@ fun NameCardResultScreen() {
             Card(
                 modifier = Modifier
                     .clip(RoundedCornerShape(12.dp))
-                    .width(247.dp)
-                    .height(354.dp)
+                    .widthIn(max = 247.dp)
+                    .heightIn(max = 354.dp)
+                    .aspectRatio(247f / 354f)
                     .align(Alignment.CenterHorizontally)
             ) { }
 
