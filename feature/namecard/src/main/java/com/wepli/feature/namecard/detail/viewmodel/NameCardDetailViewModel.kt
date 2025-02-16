@@ -88,7 +88,6 @@ class NameCardDetailViewModel @Inject constructor() : BaseMviViewModel<NameCardD
             }
         }
 
-        reduce { state.copy(isLoading = false, makeCardProgress = 0f) }
         postSideEffect { NameCardDetailEffect.OnCompleteChapter }
     }
 }

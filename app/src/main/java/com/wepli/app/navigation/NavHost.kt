@@ -150,7 +150,9 @@ fun NavGraphBuilder.nameCardGraph(navController: NavController) {
                 searchQuery = ""
             )
         },
-        navOnNameCardResultScreen = { navController.navigateToNameCardResult() }
+        navOnNameCardResultScreen = {
+            navController.navigateToNameCardResult()
+        }
     )
     nameCardResultGraph(
         navOnBack = { navController.popBackStack() }

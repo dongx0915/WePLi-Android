@@ -8,7 +8,10 @@ import com.wepli.navigator.feature.namecard.NameCardRoute
 
 // Controller
 fun NavController.navigateToNameCardResult() {
-    navigate(NameCardRoute.RESULT.route)
+    navigate(NameCardRoute.RESULT.route) {
+        // Main 화면 이후 스택을 모두 제거하고 이동
+        popUpTo(NameCardRoute.MAIN.route) { inclusive = true }
+    }
 }
 
 // Graph
