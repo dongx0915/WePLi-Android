@@ -19,10 +19,10 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,11 +31,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
 import button.WepliBasicButton
 import button.WepliButtonStyle
 import com.wepli.designsystem.R
+import com.wepli.feature.namecard.main.mvi.NameCardMainUiState
+import com.wepli.feature.namecard.main.viewmodel.NameCardMainViewModel
 import image.AsyncImageWithPreview
+import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
 
 @Composable
@@ -43,7 +47,11 @@ fun NameCardScreenRoute(
     navOnBack: () -> Unit,
     navOnNameCardDetail: () -> Unit,
 ) {
+    val viewModel: NameCardMainViewModel = hiltViewModel()
+    val state by viewModel.collectAsState()
+
     NameCardScreen(
+        state = state,
         navOnBack = navOnBack,
         navOnNameCardDetail = navOnNameCardDetail
     )
@@ -53,6 +61,7 @@ fun NameCardScreenRoute(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun NameCardScreen(
+    state: NameCardMainUiState,
     navOnBack: () -> Unit,
     navOnNameCardDetail: () -> Unit,
 ) {
@@ -80,7 +89,7 @@ fun NameCardScreen(
             )
             Spacer(modifier = Modifier.padding(top = 12.dp))
             Text(
-                text = "oo님의 취향이 드러나는 명함을 만들어드려요",
+                text = "${state.user.nickname}님의 취향이 드러나는 명함을 만들어드려요",
                 style = WepliTheme.typo.body4,
                 color = WepliTheme.color.gray500
             )
@@ -187,6 +196,7 @@ fun NameCardComponent(modifier: Modifier = Modifier) {
 @Composable
 fun NameCardMainScreenPreview() {
     NameCardScreen(
+        state = NameCardMainUiState(),
         navOnBack = { },
         navOnNameCardDetail = { }
     )
