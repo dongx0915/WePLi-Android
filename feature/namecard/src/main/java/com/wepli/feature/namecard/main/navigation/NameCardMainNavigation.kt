@@ -19,7 +19,6 @@ fun NavGraphBuilder.nameCardMainGraph(
 ) {
     composable(
         route = NameCardRoute.MAIN.route,
-        enterTransition = { enterAnimation() }
     ) {
         NameCardScreenRoute(
             navOnBack = { navOnBack() },
