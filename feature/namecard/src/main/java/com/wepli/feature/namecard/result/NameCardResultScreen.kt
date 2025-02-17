@@ -18,29 +18,37 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.AppBarIcon
 import appbar.AppBarIconType
 import appbar.WepliAppBar
 import button.WepliBasicButton
 import button.WepliButtonStyle
+import com.wepli.feature.namecard.result.mvi.NameCardResultUiState
+import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
 
 @Composable
 fun NameCardResultScreenRoute(navOnBack: () -> Unit) {
-    NameCardResultScreen()
+    val viewModel: NameCardResultViewModel = hiltViewModel()
+    val state by viewModel.collectAsState()
+
+    NameCardResultScreen(state)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun NameCardResultScreen() {
+fun NameCardResultScreen(
+    state: NameCardResultUiState,
+) {
     val scrollState = rememberScrollState()
 
     Scaffold(
@@ -71,7 +79,7 @@ fun NameCardResultScreen() {
 
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = "oo님만의 명함이 완성 되었어요!\n친구들에게 공유해볼까요?",
+                text = "${state.user.nickname}님만의 명함이 완성 되었어요!\n친구들에게 공유해볼까요?",
                 style = WepliTheme.typo.body4,
                 color = WepliTheme.color.gray500,
                 textAlign = TextAlign.Center,
@@ -106,4 +114,10 @@ fun NameCardResultScreen() {
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun NameCardResultScreenPreview() {
+    NameCardResultScreen(NameCardResultUiState())
 }
