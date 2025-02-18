@@ -116,15 +116,14 @@ fun NameCardComponent(
                 Spacer(Modifier.height(4.dp))
                 Text(
                     text = nameCardInfo.favoriteSong.title,
-                    style = WepliTheme.typo.body4.copy(
+                    style = WepliTheme.typo.body6.copy(
                         fontWeight = FontWeight.SemiBold,
-                        fontSize = 12.sp
+                        lineHeight = 14.sp
                     ),
                     color = WepliTheme.color.gray900,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 2,
                 )
-                Spacer(Modifier.height(2.dp))
                 Text(
                     text = nameCardInfo.favoriteSong.artistName,
                     style = WepliTheme.typo.caption1,
