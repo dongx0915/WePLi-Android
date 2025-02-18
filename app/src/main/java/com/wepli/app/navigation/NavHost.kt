@@ -151,7 +151,7 @@ fun NavGraphBuilder.nameCardGraph(navController: NavController) {
             )
         },
         navOnNameCardResultScreen = {
-            navController.navigateToNameCardResult()
+            navController.navigateToNameCardResult(it)
         }
     )
     nameCardResultGraph(

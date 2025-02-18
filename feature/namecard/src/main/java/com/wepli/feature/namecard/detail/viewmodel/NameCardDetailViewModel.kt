@@ -4,16 +4,20 @@ import base.BaseMviViewModel
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailEffect
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailIntent
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailUiState
+import com.wepli.shared.feature.uimodel.namecard.NameCardUiData
 import com.wepli.uimodel.music.SongUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import repository.user.UserRepository
 import javax.inject.Inject
 import kotlin.random.Random
 
 @HiltViewModel
-class NameCardDetailViewModel @Inject constructor() : BaseMviViewModel<NameCardDetailUiState, NameCardDetailEffect, NameCardDetailIntent>(
+class NameCardDetailViewModel @Inject constructor(
+    private val userRepository: UserRepository
+) : BaseMviViewModel<NameCardDetailUiState, NameCardDetailEffect, NameCardDetailIntent>(
     initialState = NameCardDetailUiState()
 ) {
     override fun processIntent(intent: NameCardDetailIntent) {
@@ -88,6 +92,20 @@ class NameCardDetailViewModel @Inject constructor() : BaseMviViewModel<NameCardD
             }
         }
 
-        postSideEffect { NameCardDetailEffect.OnCompleteChapter }
+        val nameCardResult = makeNameCardResult(state)
+        postSideEffect { NameCardDetailEffect.OnCompleteChapter(nameCardResult) }
+    }
+
+    private suspend fun makeNameCardResult(
+        state: NameCardDetailUiState
+    ) = withContext(Dispatchers.IO) {
+        val user = userRepository.getUser()
+        NameCardUiData(
+            nickname = user?.nickname ?: "",
+            userTendency = "Melody Memories",
+            oneLineIntro = state.oneLineIntro.text,
+            instagramId = state.instagramId.text,
+            favoriteSong = state.selectedFavoriteSong ?: SongUiData()
+        )
     }
 }

@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import com.wepli.feature.namecard.detail.NameCardDetailScreenRoute
 import com.wepli.navigator.extras.Extras
 import com.wepli.navigator.feature.namecard.NameCardRoute
+import com.wepli.shared.feature.uimodel.namecard.NameCardUiData
 import com.wepli.uimodel.music.SongUiData
 import extensions.enterAnimation
 
@@ -18,7 +19,7 @@ fun NavController.navigateToNameCardDetail() {
 fun NavGraphBuilder.nameCardDetailGraph(
     navOnBack: () -> Unit,
     navOnSongSearchScreen: () -> Unit,
-    navOnNameCardResultScreen: ()-> Unit,
+    navOnNameCardResultScreen: (nameCardInfo: NameCardUiData)-> Unit,
 ) {
     composable(
         route = NameCardRoute.DETAIL.route,

@@ -20,11 +20,14 @@ class NameCardResultViewModel @Inject constructor(
 
     init {
         setUserInfo()
-        setNameCardInfo()
     }
 
     override fun processIntent(intent: NameCardResultIntent) {
-        TODO("Not yet implemented")
+        when(intent) {
+            is NameCardResultIntent.Initialize -> {
+                updateState { copy(nameCardInfo = intent.nameCardInfo) }
+            }
+        }
     }
 
 

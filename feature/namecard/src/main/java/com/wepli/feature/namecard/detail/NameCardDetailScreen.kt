@@ -33,6 +33,7 @@ import com.wepli.feature.namecard.detail.mvi.NameCardDetailEffect
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailIntent
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailUiState
 import com.wepli.feature.namecard.detail.viewmodel.NameCardDetailViewModel
+import com.wepli.shared.feature.uimodel.namecard.NameCardUiData
 import com.wepli.uimodel.music.SongUiData
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
@@ -49,14 +50,14 @@ fun NameCardDetailScreenRoute(
     selectedSong: SongUiData?,
     navOnBack: () -> Unit,
     navOnSongSearchScreen: () -> Unit,
-    navOnResultScreen: () -> Unit,
+    navOnResultScreen: (nameCardInfo: NameCardUiData) -> Unit,
 ) {
     val viewModel: NameCardDetailViewModel = hiltViewModel()
     val state: NameCardDetailUiState by viewModel.collectAsState()
 
     viewModel.collectSideEffect {
         when (it) {
-            is NameCardDetailEffect.OnCompleteChapter -> navOnResultScreen()
+            is NameCardDetailEffect.OnCompleteChapter -> navOnResultScreen(it.nameCardResult)
         }
     }
 

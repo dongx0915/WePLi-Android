@@ -13,4 +13,6 @@ data class NameCardResultUiState(
 
 interface NameCardResultEffect : SideEffect
 
-interface NameCardResultIntent : Intent
+interface NameCardResultIntent : Intent {
+    data class Initialize(val nameCardInfo: NameCardUiData) : NameCardResultIntent
+}

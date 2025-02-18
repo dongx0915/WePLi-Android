@@ -13,6 +13,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,14 +27,24 @@ import appbar.WepliAppBar
 import button.WepliBasicButton
 import button.WepliButtonStyle
 import com.wepli.feature.namecard.component.NameCardComponent
+import com.wepli.feature.namecard.result.mvi.NameCardResultIntent
 import com.wepli.feature.namecard.result.mvi.NameCardResultUiState
+import com.wepli.shared.feature.uimodel.namecard.NameCardUiData
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
 
 @Composable
-fun NameCardResultScreenRoute(navOnBack: () -> Unit) {
+fun NameCardResultScreenRoute(
+    nameCardInfo: NameCardUiData?,
+    navOnBack: () -> Unit
+) {
     val viewModel: NameCardResultViewModel = hiltViewModel()
     val state by viewModel.collectAsState()
+    nameCardInfo?.let {
+        LaunchedEffect(nameCardInfo) {
+            viewModel.processIntent(NameCardResultIntent.Initialize(nameCardInfo))
+        }
+    }
 
     NameCardResultScreen(state)
 }
