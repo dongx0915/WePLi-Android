@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.uimodel.namecard.NameCardUiData
+import common.ShimmerSkeleton
 import extensions.compose.toPx
 import image.AsyncImageWithPreview
 import theme.WepliTheme
@@ -36,6 +37,8 @@ fun NameCardComponent(
     nameCardInfo: NameCardUiData,
     modifier: Modifier = Modifier
 ) {
+    val imageSize = 146.dp
+
     Column(
         modifier
             .border(
@@ -88,10 +91,15 @@ fun NameCardComponent(
 
             AsyncImageWithPreview(
                 modifier = Modifier
-                    .size(146.dp)
+                    .size(imageSize)
                     .clip(CircleShape),
-                imageUrl = nameCardInfo.favoriteSong.getImageUrl(146.dp.toPx()),
+                imageUrl = nameCardInfo.favoriteSong.getImageUrl(imageSize.toPx()),
                 previewImage = painterResource(R.drawable.img_placeholder_chuu),
+                loadingContent = {
+                    ShimmerSkeleton(
+                        modifier = Modifier.size(imageSize).clip(CircleShape),
+                    )
+                }
             )
         }
 
