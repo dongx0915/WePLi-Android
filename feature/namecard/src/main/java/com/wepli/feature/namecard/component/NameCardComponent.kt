@@ -52,7 +52,7 @@ fun NameCardComponent(
             .background(color = WepliTheme.color.black)
             .widthIn(max = nameCardWidth.dp)
             .heightIn(max = nameCardHeight.dp)
-            .aspectRatio(nameCardHeight / nameCardHeight)
+            .aspectRatio(nameCardWidth / nameCardHeight)
             .padding(top = 36.dp, bottom = 20.dp, start = 20.dp),
     ) {
         Text(
