@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
@@ -21,12 +23,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.uimodel.namecard.NameCardUiData
@@ -94,15 +97,48 @@ fun NameCardComponent(
         )
 
         Spacer(Modifier.weight(1f))
-        FavoriteSongComponent(
-            imageSize = imageSize,
-            imageUrl = nameCardInfo.favoriteSong.getImageUrl(imageSize.toPx()),
-            modifier = Modifier
-                .align(Alignment.End)
-                .graphicsLayer {
-                    translationX = 30.dp.toPx()
-                },
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy((-30).dp)
+        ) {
+            Column(
+                modifier = Modifier.weight(1f),
+            ){
+                Text(
+                    text = "BEST PICK",
+                    style = WepliTheme.typo.caption2.copy(
+                        fontSize = 8.sp,
+                        brush = WepliTheme.color.linear3,
+                    ),
+                    color = WepliTheme.color.gray800
+                )
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    text = nameCardInfo.favoriteSong.title,
+                    style = WepliTheme.typo.body4.copy(
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 12.sp
+                    ),
+                    color = WepliTheme.color.gray900,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 2,
+                )
+                Spacer(Modifier.height(2.dp))
+                Text(
+                    text = nameCardInfo.favoriteSong.artistName,
+                    style = WepliTheme.typo.caption1,
+                    color = WepliTheme.color.gray800
+                )
+            }
+
+            FavoriteSongComponent(
+                imageSize = imageSize,
+                imageUrl = nameCardInfo.favoriteSong.getImageUrl(imageSize.toPx()),
+                modifier = Modifier.offset(x = 30.dp)
+            )
+        }
+
         Spacer(Modifier.weight(1f))
 
         Row(
