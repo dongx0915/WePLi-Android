@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.songMockData
@@ -93,35 +94,17 @@ fun NameCardComponent(
         )
 
         Spacer(Modifier.weight(1f))
-        Box(
+        FavoriteSongComponent(
+            imageSize = imageSize,
+            imageUrl = nameCardInfo.favoriteSong.getImageUrl(imageSize.toPx()),
             modifier = Modifier
                 .align(Alignment.End)
                 .graphicsLayer {
                     translationX = 30.dp.toPx()
                 },
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                modifier = Modifier.size(150.dp),
-                painter = painterResource(R.drawable.img_cd_background),
-                contentDescription = null,
-            )
-
-            AsyncImageWithPreview(
-                modifier = Modifier
-                    .size(imageSize)
-                    .clip(CircleShape),
-                imageUrl = nameCardInfo.favoriteSong.getImageUrl(imageSize.toPx()),
-                previewImage = painterResource(R.drawable.img_placeholder_chuu),
-                loadingContent = {
-                    ShimmerSkeleton(
-                        modifier = Modifier.size(imageSize).clip(CircleShape),
-                    )
-                }
-            )
-        }
-
+        )
         Spacer(Modifier.weight(1f))
+
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(4.dp)
@@ -137,5 +120,34 @@ fun NameCardComponent(
                 color = WepliTheme.color.gray800
             )
         }
+    }
+}
+
+@Composable
+private fun FavoriteSongComponent(imageSize: Dp, imageUrl: String, modifier: Modifier) {
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            modifier = Modifier.size(150.dp),
+            painter = painterResource(R.drawable.img_cd_background),
+            contentDescription = null,
+        )
+
+        AsyncImageWithPreview(
+            modifier = Modifier
+                .size(imageSize)
+                .clip(CircleShape),
+            imageUrl = imageUrl,
+            previewImage = painterResource(R.drawable.img_placeholder_chuu),
+            loadingContent = {
+                ShimmerSkeleton(
+                    modifier = Modifier
+                        .size(imageSize)
+                        .clip(CircleShape),
+                )
+            }
+        )
     }
 }
