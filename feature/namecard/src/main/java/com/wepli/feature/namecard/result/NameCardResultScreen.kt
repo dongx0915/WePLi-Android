@@ -31,6 +31,7 @@ import appbar.AppBarIconType
 import appbar.WepliAppBar
 import button.WepliBasicButton
 import button.WepliButtonStyle
+import com.wepli.feature.namecard.component.NameCardComponent
 import com.wepli.feature.namecard.result.mvi.NameCardResultUiState
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
@@ -85,14 +86,14 @@ fun NameCardResultScreen(
                 textAlign = TextAlign.Center,
             )
             Spacer(modifier = Modifier.weight(4f))
-            Card(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(12.dp))
-                    .widthIn(max = 247.dp)
-                    .heightIn(max = 354.dp)
-                    .aspectRatio(247f / 354f)
-                    .align(Alignment.CenterHorizontally)
-            ) { }
+            NameCardComponent(
+                nickname = "테스트 닉네임",
+                userTendency = "Melody Memories",
+                oneLineIntro = "테스트 문구입니다. 자신의 취향을 소개하는 문구를 작성해보세요.",
+                instagramId = "dongx._.2",
+                songImageUrl = "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/75/54/38/75543853-92c7-064c-fe26-2cbf5eecc6d8/cover_KM0019655_1.jpg/1000x1000bb.jpg",
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
 
             Spacer(modifier = Modifier.weight(3f))
             WepliBasicButton(
