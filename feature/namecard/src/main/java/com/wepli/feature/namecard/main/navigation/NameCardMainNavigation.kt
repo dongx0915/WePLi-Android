@@ -5,7 +5,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.wepli.feature.namecard.main.NameCardScreenRoute
 import com.wepli.navigator.feature.namecard.NameCardRoute
-import extensions.enterAnimation
 
 // Controller
 fun NavController.navigateToNameCardMain() {
