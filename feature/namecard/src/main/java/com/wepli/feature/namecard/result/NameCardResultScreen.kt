@@ -46,7 +46,7 @@ fun NameCardResultScreenRoute(
         }
     }
 
-    NameCardResultScreen(state)
+    NameCardResultScreen(state, navOnBack)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,6 +54,7 @@ fun NameCardResultScreenRoute(
 @Composable
 fun NameCardResultScreen(
     state: NameCardResultUiState,
+    navOnBack: () -> Unit
 ) {
     val scrollState = rememberScrollState()
 
@@ -62,6 +63,7 @@ fun NameCardResultScreen(
             WepliAppBar(
                 title = "",
                 showBackButton = true,
+                onClickBack = navOnBack,
                 actionIcons = listOf {
                     AppBarIcon(icon = AppBarIconType.Save())
                 }
@@ -121,5 +123,5 @@ fun NameCardResultScreen(
 @Preview
 @Composable
 fun NameCardResultScreenPreview() {
-    NameCardResultScreen(NameCardResultUiState())
+    NameCardResultScreen(NameCardResultUiState()) {}
 }
