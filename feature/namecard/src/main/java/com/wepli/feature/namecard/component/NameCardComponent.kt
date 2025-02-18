@@ -24,13 +24,29 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
+import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.uimodel.namecard.NameCardUiData
 import common.ShimmerSkeleton
 import extensions.compose.toPx
 import image.AsyncImageWithPreview
 import theme.WepliTheme
+
+@Preview
+@Composable
+fun NameCardComponentPreview() {
+    NameCardComponent(
+        nameCardInfo = NameCardUiData(
+            nickname = "Chuu",
+            userTendency = "INTP",
+            oneLineIntro = "I'm a singer",
+            favoriteSong = songMockData.first(),
+            instagramId = "chuu_loona"
+        )
+    )
+}
 
 @Composable
 fun NameCardComponent(
@@ -121,6 +137,5 @@ fun NameCardComponent(
                 color = WepliTheme.color.gray800
             )
         }
-
     }
 }
