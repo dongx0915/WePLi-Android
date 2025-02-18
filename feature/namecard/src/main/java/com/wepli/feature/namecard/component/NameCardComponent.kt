@@ -38,6 +38,8 @@ fun NameCardComponent(
     modifier: Modifier = Modifier
 ) {
     val imageSize = 146.dp
+    val nameCardWidth = 247f
+    val nameCardHeight = 354f
 
     Column(
         modifier
@@ -48,9 +50,9 @@ fun NameCardComponent(
             )
             .clip(RoundedCornerShape(12.dp))
             .background(color = WepliTheme.color.black)
-            .widthIn(max = 247.dp)
-            .heightIn(max = 354.dp)
-            .aspectRatio(247f / 354f)
+            .widthIn(max = nameCardWidth.dp)
+            .heightIn(max = nameCardHeight.dp)
+            .aspectRatio(nameCardHeight / nameCardHeight)
             .padding(top = 36.dp, bottom = 20.dp, start = 20.dp),
     ) {
         Text(
