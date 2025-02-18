@@ -26,16 +26,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
+import com.wepli.shared.feature.uimodel.namecard.NameCardUiData
+import extensions.compose.toPx
 import image.AsyncImageWithPreview
 import theme.WepliTheme
 
 @Composable
 fun NameCardComponent(
-    nickname: String,
-    userTendency: String,
-    oneLineIntro: String,
-    instagramId: String,
-    songImageUrl: String,
+    nameCardInfo: NameCardUiData,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -53,12 +51,12 @@ fun NameCardComponent(
             .padding(top = 36.dp, bottom = 20.dp, start = 20.dp),
     ) {
         Text(
-            text = nickname,
+            text = nameCardInfo.nickname,
             style = WepliTheme.typo.title2,
             color = WepliTheme.color.white,
         )
         Text(
-            text = userTendency,
+            text = nameCardInfo.userTendency,
             style = WepliTheme.typo.caption2.copy(
                 fontWeight = FontWeight.Light,
             ),
@@ -68,7 +66,7 @@ fun NameCardComponent(
         Spacer(Modifier.height(24.dp))
         Text(
             modifier = Modifier.padding(end = 20.dp),
-            text = oneLineIntro,
+            text = nameCardInfo.oneLineIntro,
             style = WepliTheme.typo.body5,
             color = WepliTheme.color.gray600,
         )
@@ -92,7 +90,7 @@ fun NameCardComponent(
                 modifier = Modifier
                     .size(146.dp)
                     .clip(CircleShape),
-                imageUrl = songImageUrl,
+                imageUrl = nameCardInfo.favoriteSong.getImageUrl(146.dp.toPx()),
                 previewImage = painterResource(R.drawable.img_placeholder_chuu),
             )
         }
@@ -108,7 +106,7 @@ fun NameCardComponent(
             )
 
             Text(
-                text = instagramId,
+                text = nameCardInfo.instagramId,
                 style = WepliTheme.typo.body6,
                 color = WepliTheme.color.gray800
             )
