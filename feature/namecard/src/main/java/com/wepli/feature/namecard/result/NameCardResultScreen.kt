@@ -29,6 +29,8 @@ import button.WepliButtonStyle
 import com.wepli.feature.namecard.component.NameCardComponent
 import com.wepli.feature.namecard.result.mvi.NameCardResultIntent
 import com.wepli.feature.namecard.result.mvi.NameCardResultUiState
+import com.wepli.shared.feature.mock.songMockData
+import com.wepli.shared.feature.mock.userMockData
 import com.wepli.shared.feature.uimodel.namecard.NameCardUiData
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
@@ -123,5 +125,13 @@ fun NameCardResultScreen(
 @Preview
 @Composable
 fun NameCardResultScreenPreview() {
-    NameCardResultScreen(NameCardResultUiState()) {}
+    NameCardResultScreen(NameCardResultUiState(
+        nameCardInfo = NameCardUiData(
+            nickname = userMockData.random().nickname,
+            userTendency = "Melody Memories",
+            oneLineIntro = "안녕하세요! 저는 음악을 좋아하는 사람입니다.",
+            instagramId = "wepli",
+            favoriteSong = songMockData.random()
+        )
+    )) {}
 }
