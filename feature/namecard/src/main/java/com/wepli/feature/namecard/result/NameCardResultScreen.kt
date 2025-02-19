@@ -178,13 +178,6 @@ fun NameCardShareBottomSheet() {
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(
-                text = "명함을 공유할 수 있는 방법을 선택해주세요",
-                style = WepliTheme.typo.body4,
-                color = WepliTheme.color.gray500,
-                modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp)
-            )
-
             BottomSheetItem(
                 iconRes = R.drawable.ic_instagram_vector,
                 text = "인스타그램으로 공유하기",
@@ -218,13 +211,6 @@ fun BottomSheetContent() {
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
-        Text(
-            text = "명함을 공유할 수 있는 방법을 선택해주세요",
-            style = WepliTheme.typo.body4,
-            color = WepliTheme.color.gray500,
-            modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp)
-        )
-
         BottomSheetItem(
             iconRes = R.drawable.ic_instagram_vector,
             text = "인스타그램으로 공유하기",
