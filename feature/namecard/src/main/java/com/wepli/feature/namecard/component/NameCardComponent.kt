@@ -176,6 +176,7 @@ private fun FavoriteSongComponent(imageSize: Dp, imageUrl: String, modifier: Mod
                 .clip(CircleShape),
             imageUrl = imageUrl,
             previewImage = painterResource(R.drawable.img_placeholder_chuu),
+            allowHardware = false, // 하드웨어 가속이 켜져있으면 비트맵으로 저장 불가
             loadingContent = {
                 ShimmerSkeleton(
                     modifier = Modifier
