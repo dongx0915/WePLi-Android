@@ -7,15 +7,22 @@ import android.graphics.Bitmap
 import android.os.Environment
 import android.provider.MediaStore
 import android.widget.Toast
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,7 +31,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -34,12 +43,15 @@ import appbar.AppBarIconType
 import appbar.WepliAppBar
 import button.WepliBasicButton
 import button.WepliButtonStyle
+import com.wepli.designsystem.R
 import com.wepli.feature.namecard.component.NameCardComponent
 import com.wepli.feature.namecard.result.mvi.NameCardResultIntent
 import com.wepli.feature.namecard.result.mvi.NameCardResultUiState
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.mock.userMockData
 import com.wepli.shared.feature.uimodel.namecard.NameCardUiData
+import component.bottomsheet.WepliBottomSheet
+import component.bottomsheet.WepliBottomSheetType
 import compose.convertToBitmap
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.compose.collectAsState
@@ -153,6 +165,118 @@ fun NameCardResultScreen(
                 buttonStyle = WepliButtonStyle.Transparent,
             )
         }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NameCardShareBottomSheet() {
+    WepliBottomSheet(
+        onClosed = { /* sendAction(CommunityWriteIntent.ShowMusicSelectBottomSheet(false))*/ },
+        type = WepliBottomSheetType.Normal(title = "명함 공유하기"),
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = "명함을 공유할 수 있는 방법을 선택해주세요",
+                style = WepliTheme.typo.body4,
+                color = WepliTheme.color.gray500,
+                modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp)
+            )
+
+            BottomSheetItem(
+                iconRes = R.drawable.ic_instagram_vector,
+                text = "인스타그램으로 공유하기",
+                onClick = { }
+            )
+
+            BottomSheetItem(
+                iconRes = R.drawable.ic_kakao_vector,
+                text = "카카오톡으로 공유하기",
+                onClick = { }
+            )
+
+            BottomSheetItem(
+                iconRes = R.drawable.ic_link_vector,
+                text = "링크로 공유하기",
+                onClick = { }
+            )
+
+            BottomSheetItem(
+                iconRes = R.drawable.ic_download_vector,
+                text = "스크린샷으로 저장하기",
+                onClick = { }
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun BottomSheetContent() {
+    Column(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = "명함을 공유할 수 있는 방법을 선택해주세요",
+            style = WepliTheme.typo.body4,
+            color = WepliTheme.color.gray500,
+            modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp)
+        )
+
+        BottomSheetItem(
+            iconRes = R.drawable.ic_instagram_vector,
+            text = "인스타그램으로 공유하기",
+            onClick = { }
+        )
+
+        BottomSheetItem(
+            iconRes = R.drawable.ic_kakao_vector,
+            text = "카카오톡으로 공유하기",
+            onClick = { }
+        )
+
+        BottomSheetItem(
+            iconRes = R.drawable.ic_link_vector,
+            text = "링크로 공유하기",
+            onClick = { }
+        )
+
+        BottomSheetItem(
+            iconRes = R.drawable.ic_download_vector,
+            text = "스크린샷으로 저장하기",
+            onClick = { }
+        )
+    }
+}
+
+@Composable
+fun BottomSheetItem(
+    @DrawableRes iconRes: Int,
+    text: String,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .clickable { onClick() }
+            .fillMaxWidth()
+            .padding(vertical = 14.dp, horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Icon(
+            modifier = Modifier.size(24.dp),
+            imageVector = ImageVector.vectorResource(iconRes),
+            contentDescription = null,
+            tint = WepliTheme.color.gray900
+        )
+
+        Text(
+            text = text,
+            style = WepliTheme.typo.body4,
+            color = WepliTheme.color.gray900,
+        )
     }
 }
 
