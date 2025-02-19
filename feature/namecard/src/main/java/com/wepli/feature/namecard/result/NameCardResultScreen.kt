@@ -198,7 +198,7 @@ fun saveBitmapToFile(
     // 생성된 Uri에 출력 스트림을 열어 Bitmap을 저장
     resolver.openOutputStream(uri)?.use { outputStream ->
         val success = bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-        onSuccess.takeIf { success } ?: onFailure()
+        if (success) onSuccess() else onFailure()
     } ?: {
         onFailure()
     }
