@@ -70,7 +70,7 @@ fun NameCardResultScreenRoute(
         }
     }
 
-    NameCardResultScreen(state, navOnBack)
+    NameCardResultScreen(state, viewModel::processIntent, navOnBack)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -78,6 +78,7 @@ fun NameCardResultScreenRoute(
 @Composable
 fun NameCardResultScreen(
     state: NameCardResultUiState,
+    sendAction: (NameCardResultIntent) -> Unit,
     navOnBack: () -> Unit
 ) {
     val scrollState = rememberScrollState()
@@ -150,9 +151,8 @@ fun NameCardResultScreen(
             WepliBasicButton(
                 title = "공유하기",
                 isEnabled = true,
-                onClick = { },
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally),
+                onClick = { sendAction(NameCardResultIntent.ShowShareBottomSheet(true)) },
+                modifier = Modifier.align(Alignment.CenterHorizontally),
                 buttonStyle = WepliButtonStyle.Basic,
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -164,15 +164,21 @@ fun NameCardResultScreen(
                     .align(Alignment.CenterHorizontally),
                 buttonStyle = WepliButtonStyle.Transparent,
             )
+
+            if (state.isShownShareBottomSheet) {
+                NameCardShareBottomSheet(sendAction = sendAction)
+            }
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NameCardShareBottomSheet() {
+fun NameCardShareBottomSheet(
+    sendAction: (NameCardResultIntent) -> Unit
+) {
     WepliBottomSheet(
-        onClosed = { /* sendAction(CommunityWriteIntent.ShowMusicSelectBottomSheet(false))*/ },
+        onClosed = { sendAction(NameCardResultIntent.ShowShareBottomSheet(false)) },
         type = WepliBottomSheetType.Normal(title = "명함 공유하기"),
     ) {
         Column(
@@ -269,15 +275,19 @@ fun BottomSheetItem(
 @Preview
 @Composable
 fun NameCardResultScreenPreview() {
-    NameCardResultScreen(NameCardResultUiState(
-        nameCardInfo = NameCardUiData(
-            nickname = userMockData.random().nickname,
-            userTendency = "Melody Memories",
-            oneLineIntro = "안녕하세요! 저는 음악을 좋아하는 사람입니다.",
-            instagramId = "wepli",
-            favoriteSong = songMockData.random()
-        )
-    )) {}
+    NameCardResultScreen(
+        NameCardResultUiState(
+            nameCardInfo = NameCardUiData(
+                nickname = userMockData.random().nickname,
+                userTendency = "Melody Memories",
+                oneLineIntro = "안녕하세요! 저는 음악을 좋아하는 사람입니다.",
+                instagramId = "wepli",
+                favoriteSong = songMockData.random()
+            )
+        ),
+        {},
+        {}
+    )
 }
 
 fun saveBitmapToFile(

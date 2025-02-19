@@ -25,6 +25,9 @@ class NameCardResultViewModel @Inject constructor(
             is NameCardResultIntent.Initialize -> {
                 updateState { copy(nameCardInfo = intent.nameCardInfo) }
             }
+            is NameCardResultIntent.ShowShareBottomSheet -> {
+                updateState { copy(isShownShareBottomSheet = intent.isShown) }
+            }
         }
     }
 

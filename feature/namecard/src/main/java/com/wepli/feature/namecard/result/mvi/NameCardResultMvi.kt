@@ -9,10 +9,12 @@ import com.wepli.shared.feature.uimodel.user.UserUiData
 data class NameCardResultUiState(
     val user: UserUiData = UserUiData(),
     val nameCardInfo: NameCardUiData = NameCardUiData(),
+    val isShownShareBottomSheet: Boolean = false
 ) : UiState
 
 interface NameCardResultEffect : SideEffect
 
 interface NameCardResultIntent : Intent {
     data class Initialize(val nameCardInfo: NameCardUiData) : NameCardResultIntent
+    data class ShowShareBottomSheet(val isShown: Boolean) : NameCardResultIntent
 }
