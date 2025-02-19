@@ -26,6 +26,7 @@ fun AsyncImageWithPreview(
     previewImage: Painter? = null,
     imageOverrideSize: Dp? = null,
     contentScale: ContentScale = ContentScale.Crop,
+    allowHardware: Boolean = true,
     loadingContent: @Composable (() -> Unit)? = null,
     errorContent: @Composable (SubcomposeAsyncImageScope.(AsyncImagePainter.State.Error) -> Unit)? = null,
     successContent: @Composable (SubcomposeAsyncImageScope.(AsyncImagePainter.State.Success) -> Unit)? = null,
@@ -39,6 +40,7 @@ fun AsyncImageWithPreview(
             data(imageUrl)
             crossfade(true)
             imageSizePx?.let(::size)
+            allowHardware(allowHardware)
         }.build()
     }
 
