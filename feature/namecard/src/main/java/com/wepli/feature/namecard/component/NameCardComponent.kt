@@ -100,7 +100,7 @@ fun NameCardComponent(
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy((-30).dp)
+            horizontalArrangement = Arrangement.spacedBy((-28).dp)
         ) {
             Column(
                 modifier = Modifier.weight(1f),
