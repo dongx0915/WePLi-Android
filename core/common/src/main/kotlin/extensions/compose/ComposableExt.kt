@@ -74,8 +74,7 @@ fun Modifier.pagerFadeTransition(page: Int, pagerState: PagerState): Modifier {
     }
 }
 
-// Skeleton 효과
-fun Modifier.shimmerEffect(radius: Dp): Modifier = composed {
+fun Modifier.shimmerEffect(radius: Dp, duration: Int, delay: Int): Modifier = composed {
     val baseColor = Color.LightGray
     var size by remember { mutableStateOf(IntSize.Zero) }
     val transition = rememberInfiniteTransition(label = "")
@@ -83,7 +82,7 @@ fun Modifier.shimmerEffect(radius: Dp): Modifier = composed {
         initialValue = -2 * size.width.toFloat(),
         targetValue = 2 * size.width.toFloat(),
         animationSpec = infiniteRepeatable(
-            animation = tween(1000)
+            animation = tween(duration, delay),
         ),
         label = ""
     )
@@ -101,6 +100,9 @@ fun Modifier.shimmerEffect(radius: Dp): Modifier = composed {
         shape = RoundedCornerShape(radius)
     ).onGloballyPositioned { size = it.size }
 }
+
+// Skeleton 효과
+fun Modifier.shimmerEffect(radius: Dp): Modifier = shimmerEffect(radius, 1000, 0)
 
 fun Modifier.topBorder(
     brush: Brush,
