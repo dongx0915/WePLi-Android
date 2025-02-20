@@ -11,11 +11,17 @@ import androidx.core.view.drawToBitmap
 @Composable
 fun convertToBitmap(
     targetContent: @Composable () -> Unit
-) : () -> Bitmap {
+) : () -> Bitmap? {
     val context = LocalContext.current
     val composeView = remember { ComposeView(context) }
 
-    fun captureBitmap(): Bitmap = composeView.drawToBitmap()
+    fun captureBitmap(): Bitmap? {
+        return if (composeView.isLaidOut) {
+            composeView.drawToBitmap()
+        } else {
+            null
+        }
+    }
 
     AndroidView(
         factory = {
