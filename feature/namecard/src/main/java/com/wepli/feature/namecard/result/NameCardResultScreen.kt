@@ -45,6 +45,7 @@ import button.WepliBasicButton
 import button.WepliButtonStyle
 import com.wepli.designsystem.R
 import com.wepli.feature.namecard.component.NameCardComponent
+import com.wepli.feature.namecard.component.NameCardComponent2
 import com.wepli.feature.namecard.result.mvi.NameCardResultIntent
 import com.wepli.feature.namecard.result.mvi.NameCardResultUiState
 import com.wepli.shared.feature.mock.songMockData
@@ -89,7 +90,7 @@ fun NameCardResultScreen(
 
     // NameCardComponent를 View로 변환할 ComposeView
     val nameCardBitmap = convertToBitmap {
-        NameCardComponent(nameCardInfo = state.nameCardInfo)
+        NameCardComponent2(nameCardInfo = state.nameCardInfo)
     }
 
     Scaffold(
@@ -132,7 +133,7 @@ fun NameCardResultScreen(
             )
             Spacer(modifier = Modifier.weight(4f))
 
-            NameCardComponent(
+            NameCardComponent2(
                 nameCardInfo = state.nameCardInfo,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
