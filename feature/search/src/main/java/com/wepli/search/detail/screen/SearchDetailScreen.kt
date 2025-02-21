@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
 import button.WepliBasicButton
+import button.WepliButtonStyle
 import com.wepli.search.detail.mvi.SearchDetailEffect
 import com.wepli.search.detail.mvi.SearchDetailIntent
 import com.wepli.search.detail.mvi.SearchDetailUiState
@@ -55,7 +56,6 @@ import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
 import common.ShimmerSkeleton
 import common.WepliSpacer
-import extensions.compose.shimmerEffect
 import extensions.compose.toPx
 import extensions.compose.topBorderWithRoundedCorners
 import image.AsyncImageWithPreview
@@ -93,6 +93,9 @@ fun SearchScreenRoute(
             is SearchDetailEffect.SearchError -> {
                 Toast.makeText(context, sideEffect.message, Toast.LENGTH_SHORT).show()
             }
+            is SearchDetailEffect.SelectedLimitExceeded -> {
+                Toast.makeText(context, "최대 ${sideEffect.limit}곡까지 선택 가능합니다.", Toast.LENGTH_SHORT).show()
+            }
             is SearchDetailEffect.NavigateBackWithResult -> {
                 navigateBackWithSelectedSongs(sideEffect.selectedSongs)
             }
@@ -128,7 +131,7 @@ fun SearchScreen(
         }
     ) { paddingValues ->
         when (screenMode) {
-            SearchScreenMode.NORMAL -> {
+            SearchScreenMode.Normal -> {
                 SearchContent(
                     state = state,
                     paddingValues = paddingValues,
@@ -137,7 +140,11 @@ fun SearchScreen(
                 )
             }
 
-            SearchScreenMode.SELECTABLE -> {
+            is SearchScreenMode.Selectable -> {
+                LaunchedEffect(screenMode.maxCount) {
+                    sendAction(SearchDetailIntent.SetMaxSelectCount(screenMode.maxCount))
+                }
+
                 SearchWithSelectedSheet(
                     state = state,
                     paddingValues = paddingValues,
@@ -355,7 +362,8 @@ fun SelectedSongSheet(
             title = "${selectedSongs.size}곡 추가하기",
             isEnabled = true,
             onClick = { sendAction(SearchDetailIntent.OnCompleteSongSelect) },
-            modifier = Modifier.padding(horizontal = 20.dp)
+            modifier = Modifier.padding(horizontal = 20.dp),
+            buttonStyle = WepliButtonStyle.Basic,
         )
     }
 }
@@ -420,7 +428,7 @@ fun SelectedSongItem(
 @Preview
 @Composable
 fun SearchScreenPreview() {
-    SearchScreen(SearchScreenMode.NORMAL, SearchDetailUiState(searchMusicResult = songMockData), {}, {})
+    SearchScreen(SearchScreenMode.Normal, SearchDetailUiState(searchMusicResult = songMockData), {}, {})
 }
 
 @Preview

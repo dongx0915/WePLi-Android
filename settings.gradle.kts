@@ -19,7 +19,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "WePLi"
 // app 모듈에는 다른 모듈 include만 추가
-include(":app")
 
 /**
  *  아래와 같이 선언하면 서브 모듈이 되는 것이므로
@@ -28,16 +27,20 @@ include(":app")
  *  include(":build-logic:convention") // remove
  */
 // App 모듈에도 모든 모듈에 대해 참조 설정 해주어야함
-include(":feature:home")
-include(":feature:search")
-include(":feature:community")
-include(":feature:playlist")
-include(":feature:mypage")
-include(":shared:feature")
-include(":core")
-include(":core:common")
-include(":core:navigator")
-include(":core:kotlin")
-include(":designsystem")
-include(":domain")
-include(":data")
+include(
+    ":feature:home",
+    ":feature:search",
+    ":feature:community",
+    ":feature:playlist",
+    ":feature:mypage",
+    ":feature:namecard",
+    ":shared:feature",
+    ":core",
+    ":core:common",
+    ":core:navigator",
+    ":core:kotlin",
+    ":designsystem",
+    ":domain",
+    ":data",
+    ":app"
+)

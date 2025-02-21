@@ -50,7 +50,6 @@ import custom.OneLineTitle
 import custom.TwoLineTitle
 import dev.chrisbanes.haze.haze
 import extensions.compose.calculateCurrentOffsetForPage
-import extensions.compose.gesturesDisabled
 import model.playlist.RecommendPlaylist
 import model.relaylist.Relaylist
 import org.orbitmvi.orbit.compose.collectAsState
@@ -155,9 +154,8 @@ fun RelaylistPagerLayout(
     Box(modifier = modifier) {
         HorizontalPager(
             state = bottomPagerState, // 상단 Pager와 동기화
-            modifier = Modifier
-                .matchParentSize()
-                .gesturesDisabled(disabled = true)
+            userScrollEnabled = false,
+            modifier = Modifier.matchParentSize()
         ) { page ->
             val relaylist = relaylists[page]
 

@@ -21,6 +21,12 @@ import com.wepli.app.navigation.extensions.navigateToBack
 import com.wepli.community.navigation.communityWriteGraph
 import com.wepli.community.navigation.navigateToBackAndPostRefresh
 import com.wepli.community.navigation.navigateToCommunityWrite
+import com.wepli.feature.namecard.detail.navigation.nameCardDetailGraph
+import com.wepli.feature.namecard.detail.navigation.navigateToNameCardDetail
+import com.wepli.feature.namecard.main.navigation.nameCardMainGraph
+import com.wepli.feature.namecard.main.navigation.navigateToNameCardMain
+import com.wepli.feature.namecard.result.navigation.nameCardResultGraph
+import com.wepli.feature.namecard.result.navigation.navigateToNameCardResult
 import com.wepli.playlist.navigation.navigateToPlaylistDetail
 import com.wepli.playlist.navigation.playlistDetailGraph
 import com.wepli.search.navigation.SearchScreenMode
@@ -65,6 +71,9 @@ fun SetUpNavGraph(
 
         // 마이페이지 Graph
         mypageGraph(navController, goToLoginActivity)
+
+        // 명함 Graph
+        nameCardGraph(navController)
     }
 }
 
@@ -72,7 +81,7 @@ fun SetUpNavGraph(
 fun NavGraphBuilder.searchGraph(navController: NavController) {
     searchMainGraph { searchQuery ->
         navController.navigateToSearchDetail(
-            screenMode = SearchScreenMode.NORMAL,
+            screenMode = SearchScreenMode.Normal,
             searchQuery = searchQuery
         )
     }
@@ -99,7 +108,7 @@ fun NavGraphBuilder.communityGraph(navController: NavHostController) {
         navOnBackAndPostRefresh = { navController.navigateToBackAndPostRefresh() },
         navOnSearchDetail = {
             navController.navigateToSearchDetail(
-                screenMode = SearchScreenMode.SELECTABLE,
+                screenMode = SearchScreenMode.Selectable(),
                 searchQuery = ""
             )
         }
@@ -120,9 +129,32 @@ fun NavGraphBuilder.mypageGraph(
 ) {
     mypageMainGraph(
         navOnAppInfo = { navController.navigateToAppInfo() },
+        navOnNameCard = { navController.navigateToNameCardMain() },
         goToLoginActivity = { goToLoginActivity() }
     )
     mypageAppInfoGraph(
         navOnBack = { navController.navigateToBack() }
+    )
+}
+
+fun NavGraphBuilder.nameCardGraph(navController: NavController) {
+    nameCardMainGraph(
+        navOnBack = { navController.popBackStack() },
+        navOnNameCardDetail = { navController.navigateToNameCardDetail() }
+    )
+    nameCardDetailGraph(
+        navOnBack = { navController.popBackStack() },
+        navOnSongSearchScreen = {
+            navController.navigateToSearchDetail(
+                screenMode = SearchScreenMode.Selectable(1),
+                searchQuery = ""
+            )
+        },
+        navOnNameCardResultScreen = {
+            navController.navigateToNameCardResult(it)
+        }
+    )
+    nameCardResultGraph(
+        navOnBack = { navController.popBackStack() }
     )
 }

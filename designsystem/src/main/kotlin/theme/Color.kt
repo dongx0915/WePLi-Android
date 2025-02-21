@@ -21,6 +21,7 @@ internal val LocalWePLiColors = staticCompositionLocalOf { lightColors() }
 @Stable val Gray300 = Color(0xFF3C3D47)
 @Stable val Gray200 = Color(0xFF2F2F38)
 @Stable val Gray150 = Color(0xFF2A2A33)
+@Stable val Gray100 = Color(0xFF212129)
 @Stable val Gray050 = Color(0xFF18181D)
 @Stable val Gray000 = Color(0xFF141417)
 @Stable val Red500 = Color(0xFFC53C3C)
@@ -45,6 +46,7 @@ class Colors(
     gray300: Color,
     gray200: Color,
     gray150: Color,
+    gray100: Color,
     gray050: Color,
     gray000: Color,
     red500: Color,
@@ -73,6 +75,8 @@ class Colors(
         internal set
     var gray050 by mutableStateOf(gray050, structuralEqualityPolicy())
         internal set
+    var gray100 by mutableStateOf(gray100, structuralEqualityPolicy())
+        internal set
     var gray000 by mutableStateOf(gray000, structuralEqualityPolicy())
         internal set
     var red500 by mutableStateOf(red500, structuralEqualityPolicy())
@@ -93,6 +97,7 @@ fun lightColors(
     gray300: Color = Gray300,
     gray200: Color = Gray200,
     gray150: Color = Gray150,
+    gray100: Color = Gray100,
     gray050: Color = Gray050,
     gray000: Color = Gray000,
     red500: Color = Red500,
@@ -110,6 +115,7 @@ fun lightColors(
         gray300 = gray300,
         gray200 = gray200,
         gray150 = gray150,
+        gray100 = gray100,
         gray050 = gray050,
         gray000 = gray000,
         black = black,
@@ -128,6 +134,7 @@ fun darkColors(
     gray300: Color = Gray300,
     gray200: Color = Gray200,
     gray150: Color = Gray150,
+    gray100: Color = Gray100,
     gray050: Color = Gray050,
     gray000: Color = Gray000,
     red500: Color = Red500,
@@ -144,6 +151,7 @@ fun darkColors(
         gray400 = gray400,
         gray300 = gray300,
         gray200 = gray200,
+        gray100 = gray100,
         gray150 = gray150,
         gray050 = gray050,
         gray000 = gray000,

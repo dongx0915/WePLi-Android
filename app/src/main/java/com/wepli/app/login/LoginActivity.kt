@@ -55,7 +55,6 @@ import common.WepliSpacer
 import component.dialog.WepliDialog
 import component.dialog.WepliDialogType
 import dagger.hilt.android.AndroidEntryPoint
-import extensions.compose.gesturesDisabled
 import extensions.compose.shimmerEffect
 import extensions.compose.toPx
 import image.AsyncImageWithPreview
@@ -187,9 +186,9 @@ fun PlaylistCoverPager(
 
     LazyRow(
         state = listState,
+        userScrollEnabled = false,
         modifier = modifier
-            .fillMaxWidth()
-            .gesturesDisabled(disabled = true),
+            .fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(Int.MAX_VALUE) { index ->

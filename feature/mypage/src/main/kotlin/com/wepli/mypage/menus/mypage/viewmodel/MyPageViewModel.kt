@@ -25,6 +25,7 @@ interface MyPageEffect : SideEffect {
     data object SuccessLogout : MyPageEffect
     data object FailedLogout : MyPageEffect
     data object NavigateOnAppInfo : MyPageEffect
+    data object NavigateOnNameCard : MyPageEffect
 }
 
 interface MyPageIntent : Intent {
@@ -32,6 +33,7 @@ interface MyPageIntent : Intent {
     data class ShowLogoutPopup(val isShow: Boolean) : MyPageIntent
     data object RequestLogout : MyPageIntent
     data object NavigateOnAppInfo : MyPageIntent
+    data object OnClickNameCardMenu : MyPageIntent
 }
 
 @HiltViewModel
@@ -55,6 +57,7 @@ class MyPageViewModel @Inject constructor(
                     MenuSection.MenuItem("내 플레이리스트", MyPageIntent.None),
                     MenuSection.MenuItem("참여한 릴레이리스트", MyPageIntent.None),
                     MenuSection.MenuItem("좋아요 • 저장", MyPageIntent.None),
+                    MenuSection.MenuItem("내 명함 만들기", MyPageIntent.OnClickNameCardMenu),
                 )
             ),
             MenuSection(
@@ -87,6 +90,7 @@ class MyPageViewModel @Inject constructor(
             is MyPageIntent.ShowLogoutPopup -> handleOnClickLogout(intent.isShow)
             MyPageIntent.RequestLogout -> handleRequestLogout()
             MyPageIntent.NavigateOnAppInfo -> handleNavigateOnAppInfo()
+            MyPageIntent.OnClickNameCardMenu -> handleNavigateOnNameCard()
         }
     }
 
@@ -118,5 +122,9 @@ class MyPageViewModel @Inject constructor(
 
     private fun handleNavigateOnAppInfo() = intent {
         postSideEffect(MyPageEffect.NavigateOnAppInfo)
+    }
+
+    private fun handleNavigateOnNameCard() = intent {
+        postSideEffect(MyPageEffect.NavigateOnNameCard)
     }
 }

@@ -97,6 +97,7 @@ private fun handleSideEffect(
     context: Context,
     sideEffect: MyPageEffect,
     navOnAppInfo: () -> Unit,
+    navOnNameCard: () -> Unit,
     goToLoginActivity: () -> Unit
 ) {
     when (sideEffect) {
@@ -108,6 +109,7 @@ private fun handleSideEffect(
             Toast.makeText(context, "로그아웃에 실패했습니다.", Toast.LENGTH_SHORT).show()
         }
         MyPageEffect.NavigateOnAppInfo -> navOnAppInfo()
+        MyPageEffect.NavigateOnNameCard -> navOnNameCard()
     }
 }
 
@@ -115,12 +117,13 @@ private fun handleSideEffect(
 fun MyPageScreenRoute(
     viewModel: MyPageViewModel = hiltViewModel(),
     navOnAppInfo: () -> Unit,
+    navOnNameCard: () -> Unit,
     goToLoginActivity: () -> Unit,
 ) {
     val context: Context = LocalContext.current
     val state: MyPageUiState by viewModel.collectAsState()
 
-    viewModel.collectSideEffect { sideEffect -> handleSideEffect(context, sideEffect, navOnAppInfo, goToLoginActivity) }
+    viewModel.collectSideEffect { sideEffect -> handleSideEffect(context, sideEffect, navOnAppInfo, navOnNameCard, goToLoginActivity) }
 
     MyPageScreen(
         user = state.user,
