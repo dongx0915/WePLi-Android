@@ -33,7 +33,7 @@ data class SongUiData(
         return id.hashCode()
     }
 
-    fun getImageUrl(size: Int): String {
+    fun getImageUrl(size: Int = 500): String {
         return getImageUrl(size, size)
     }
 
