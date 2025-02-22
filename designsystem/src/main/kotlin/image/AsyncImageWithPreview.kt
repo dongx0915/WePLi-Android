@@ -13,7 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImagePainter
+import coil.compose.AsyncImagePainter.State
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageScope
 import coil.request.ImageRequest
@@ -27,9 +27,11 @@ fun AsyncImageWithPreview(
     imageOverrideSize: Dp? = null,
     contentScale: ContentScale = ContentScale.Crop,
     allowHardware: Boolean = true,
+    onError: ((State.Error) -> Unit)? = null,
+    onSuccess: ((State.Success) -> Unit)? = null,
     loadingContent: @Composable (() -> Unit)? = null,
-    errorContent: @Composable (SubcomposeAsyncImageScope.(AsyncImagePainter.State.Error) -> Unit)? = null,
-    successContent: @Composable (SubcomposeAsyncImageScope.(AsyncImagePainter.State.Success) -> Unit)? = null,
+    errorContent: @Composable (SubcomposeAsyncImageScope.(State.Error) -> Unit)? = null,
+    successContent: @Composable (SubcomposeAsyncImageScope.(State.Success) -> Unit)? = null,
 ) {
     val isInPreview = LocalInspectionMode.current
     val context = LocalContext.current
@@ -64,8 +66,10 @@ fun AsyncImageWithPreview(
                     strokeWidth = 2.dp
                 )
             },
+            success = successContent,
             error = errorContent,
-            success = successContent
+            onSuccess = onSuccess,
+            onError = onError,
         )
     }
 }
