@@ -49,10 +49,12 @@ import custom.MusicItemType
 import custom.OneLineTitle
 import custom.TwoLineTitle
 import dev.chrisbanes.haze.haze
+import dev.chrisbanes.haze.hazeSource
 import extensions.compose.calculateCurrentOffsetForPage
 import model.playlist.RecommendPlaylist
 import model.relaylist.Relaylist
 import org.orbitmvi.orbit.compose.collectAsState
+import theme.LocalHazeState
 import theme.WepliTheme
 
 @Composable
@@ -88,12 +90,13 @@ fun HomeScreen(
     themePlaylists: List<RecommendPlaylist>,
     onNavigatePlaylist: (playlistId: Int) -> Unit,
 ) {
-    HomeAppBar { scrollState, blurState, paddingValues ->
+    val hazeState = LocalHazeState.current
+    HomeAppBar { scrollState, paddingValues ->
         val (topPadding, bottomPadding) = paddingValues.calculateTopPadding() to paddingValues.calculateBottomPadding()
 
         LazyColumn(
             modifier = Modifier
-                .haze(blurState)
+                .hazeSource(hazeState)
                 .background(WepliTheme.color.black)
                 .padding(bottom = bottomPadding)
                 .fillMaxSize(),

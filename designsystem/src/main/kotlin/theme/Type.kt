@@ -1,5 +1,6 @@
 package theme
 
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -8,8 +9,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.wepli.designsystem.R
-
-internal val LocalWePLiTypography = staticCompositionLocalOf { WePLiTypography() }
+import dev.chrisbanes.haze.HazeState
 
 val pretendard = FontFamily(
     Font(R.font.pretendard_thin, FontWeight.Thin, FontStyle.Normal),
