@@ -79,6 +79,7 @@ fun NameCardComponent2(
                     .blur(8.dp),
                 imageUrl = nameCardInfo.favoriteSong.getImageUrl(),
                 previewImage = painterResource(R.drawable.img_placeholder_eunbin),
+                allowHardware = false,
                 contentScale = ContentScale.Crop
             )
 
