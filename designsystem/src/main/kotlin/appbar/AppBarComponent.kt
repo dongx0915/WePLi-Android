@@ -7,22 +7,21 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.HazeStyle
 import dev.chrisbanes.haze.HazeTint
-import dev.chrisbanes.haze.hazeChild
+import dev.chrisbanes.haze.hazeEffect
+import theme.LocalHazeState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeAppBar(
-    content: @Composable (scrollState: LazyListState, blurState: HazeState, paddingValues: PaddingValues) -> Unit
+    content: @Composable (scrollState: LazyListState, paddingValues: PaddingValues) -> Unit
 ) {
     val scrollState = rememberLazyListState()
-    val blurState = remember { HazeState() }
+    val blurState = LocalHazeState.current
 
     ScrollableAppBar(
         scrollState = scrollState,
@@ -31,7 +30,7 @@ fun HomeAppBar(
         topBarComponent = { backgroundColor, contentsColor, _, scrollFraction ->
             WepliAppBar(
                 modifier = Modifier
-                    .hazeChild(
+                    .hazeEffect(
                         state = blurState,
                         style = HazeStyle(
                             backgroundColor = backgroundColor,
@@ -50,7 +49,7 @@ fun HomeAppBar(
             )
         }
     ) { paddingValues ->
-        content(scrollState, blurState, paddingValues)
+        content(scrollState, paddingValues)
     }
 }
 

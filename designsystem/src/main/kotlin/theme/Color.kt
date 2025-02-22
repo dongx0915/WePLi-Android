@@ -9,8 +9,6 @@ import androidx.compose.runtime.structuralEqualityPolicy
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
-internal val LocalWePLiColors = staticCompositionLocalOf { lightColors() }
-
 @Stable val White = Color(0xFFFFFFFF)
 @Stable val Gray900 = Color(0xFFF0F0F0)
 @Stable val Gray800 = Color(0xFFDCDCDC)
