@@ -102,6 +102,7 @@ class NameCardDetailViewModel @Inject constructor(
         val user = userRepository.getUser()
         NameCardUiData(
             nickname = user?.nickname ?: "",
+            profileImg = user?.profileImgUrl ?: "",
             userTendency = "Melody Memories",
             oneLineIntro = state.oneLineIntro.text,
             instagramId = state.instagramId.text,
