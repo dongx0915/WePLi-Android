@@ -5,6 +5,27 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.os.Environment
 import android.provider.MediaStore
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.toPixelMap
+
+fun ImageBitmap.toAndroidBitmap(): Bitmap {
+    // 1. Compose의 PixelMap 가져오기
+    val pixelMap = this.toPixelMap()
+
+    // 2. PixelMap 크기에 맞는 빈 Bitmap 생성
+    val bitmap = Bitmap.createBitmap(pixelMap.width, pixelMap.height, Bitmap.Config.ARGB_8888)
+
+    // 3. PixelMap을 순회하며 Bitmap에 픽셀 쓰기
+    for (y in 0 until pixelMap.height) {
+        for (x in 0 until pixelMap.width) {
+            val color: Color = pixelMap[x, y]
+            bitmap.setPixel(x, y, color.toArgb())
+        }
+    }
+    return bitmap
+}
 
 fun Bitmap.saveBitmapToFile(
     context: Context,
