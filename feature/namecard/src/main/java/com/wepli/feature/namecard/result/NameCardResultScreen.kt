@@ -1,6 +1,7 @@
 package com.wepli.feature.namecard.result
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
@@ -32,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.layer.GraphicsLayer
 import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.rememberGraphicsLayer
@@ -58,6 +60,7 @@ import component.bottomsheet.WepliBottomSheet
 import component.bottomsheet.WepliBottomSheetType
 import extensions.saveBitmapToFile
 import extensions.toAndroidBitmap
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -93,37 +96,18 @@ fun NameCardResultScreen(
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val graphicsLayer = rememberGraphicsLayer()
-    var sharedImageBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
-    val convertToBitmapJob = suspend {
-        withContext(Dispatchers.Default) {
-            graphicsLayer.toImageBitmap()
-        }
-    }
-    val onClickSaveBtn = remember {
-        coroutineScope.launch(start = CoroutineStart.LAZY) {
-            val bitmap = convertToBitmapJob().toAndroidBitmap()
-            bitmap.saveBitmapToFile(
-                context = context,
-                fileName = "wepli_namecard_${System.currentTimeMillis()}",
-                onSuccess = {
-                    Toast.makeText(context, "명함이 저장 되었어요. 갤러리에서 확인해보세요!", Toast.LENGTH_SHORT).show()
-                },
-                onFailure = {
-                    Toast.makeText(context, "명함 저장에 실패했어요", Toast.LENGTH_SHORT).show()
-                }
-            )
-        }
-    }
+    var nameCardBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
 
     Scaffold(
         topBar = {
             WepliAppBar(
-                title = "",
                 showBackButton = true,
                 onClickBack = navOnBack,
                 actionIcons = listOf {
                     AppBarIcon(
-                        icon = AppBarIconType.Save { onClickSaveBtn.start() }
+                        icon = AppBarIconType.Save {
+                            onClickSaveBtn(context, coroutineScope, graphicsLayer)
+                        }
                     )
                 }
             )
@@ -173,7 +157,7 @@ fun NameCardResultScreen(
                 onClick = {
                     coroutineScope.launch {
                         // 클릭한 시점의 비트맵을 가져오기 위해 클릭 시점에 변환
-                        sharedImageBitmap = convertToBitmapJob()
+                        nameCardBitmap = captureNameCard(graphicsLayer)
                         sendAction(NameCardResultIntent.ShowShareBottomSheet(true))
                     }
                 },
@@ -190,8 +174,10 @@ fun NameCardResultScreen(
                 buttonStyle = WepliButtonStyle.Transparent,
             )
 
-            if (state.isShownShareBottomSheet && sharedImageBitmap != null) {
-                NameCardShareBottomSheet(nameCardBitmap = sharedImageBitmap!!, sendAction = sendAction)
+            if (state.isShownShareBottomSheet) {
+                nameCardBitmap?.let {
+                    NameCardShareBottomSheet(nameCardBitmap = it, sendAction = sendAction)
+                }
             }
         }
     }
@@ -246,38 +232,6 @@ fun NameCardShareBottomSheet(
     }
 }
 
-@Preview
-@Composable
-fun BottomSheetContent() {
-    Column(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        BottomSheetItem(
-            iconRes = R.drawable.ic_instagram_vector,
-            text = "인스타그램으로 공유하기",
-            onClick = { }
-        )
-
-        BottomSheetItem(
-            iconRes = R.drawable.ic_kakao_vector,
-            text = "카카오톡으로 공유하기",
-            onClick = { }
-        )
-
-        BottomSheetItem(
-            iconRes = R.drawable.ic_link_vector,
-            text = "링크로 공유하기",
-            onClick = { }
-        )
-
-        BottomSheetItem(
-            iconRes = R.drawable.ic_download_vector,
-            text = "스크린샷으로 저장하기",
-            onClick = { }
-        )
-    }
-}
-
 @Composable
 fun BottomSheetItem(
     @DrawableRes iconRes: Int,
@@ -323,4 +277,24 @@ fun NameCardResultScreenPreview() {
         {},
         {}
     )
+}
+
+private suspend fun captureNameCard(graphicsLayer: GraphicsLayer): ImageBitmap = withContext(Dispatchers.Default) {
+    graphicsLayer.toImageBitmap()
+}
+
+private fun onClickSaveBtn(context: Context, scope: CoroutineScope, graphicsLayer: GraphicsLayer) {
+    scope.launch(start = CoroutineStart.LAZY) {
+        val bitmap = captureNameCard(graphicsLayer).toAndroidBitmap()
+        bitmap.saveBitmapToFile(
+            context = context,
+            fileName = "wepli_namecard_${System.currentTimeMillis()}",
+            onSuccess = {
+                Toast.makeText(context, "명함이 저장 되었어요. 갤러리에서 확인해보세요!", Toast.LENGTH_SHORT).show()
+            },
+            onFailure = {
+                Toast.makeText(context, "명함 저장에 실패했어요", Toast.LENGTH_SHORT).show()
+            }
+        )
+    }
 }
