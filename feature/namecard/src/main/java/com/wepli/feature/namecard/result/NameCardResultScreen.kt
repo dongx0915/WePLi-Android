@@ -1,8 +1,6 @@
 package com.wepli.feature.namecard.result
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.graphics.Bitmap
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
@@ -26,11 +24,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.painter.BitmapPainter
+import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
@@ -44,8 +48,7 @@ import appbar.WepliAppBar
 import button.WepliBasicButton
 import button.WepliButtonStyle
 import com.wepli.designsystem.R
-import com.wepli.feature.namecard.component.NameCardComponent
-import com.wepli.feature.namecard.component.NameCardComponent2
+import com.wepli.feature.namecard.component.NameCardComponent3
 import com.wepli.feature.namecard.result.mvi.NameCardResultIntent
 import com.wepli.feature.namecard.result.mvi.NameCardResultUiState
 import com.wepli.shared.feature.mock.songMockData
@@ -53,10 +56,12 @@ import com.wepli.shared.feature.mock.userMockData
 import com.wepli.shared.feature.uimodel.namecard.NameCardUiData
 import component.bottomsheet.WepliBottomSheet
 import component.bottomsheet.WepliBottomSheetType
-import compose.convertToBitmap
 import extensions.saveBitmapToFile
-import kotlinx.coroutines.CoroutineScope
+import extensions.toAndroidBitmap
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
 
@@ -87,10 +92,27 @@ fun NameCardResultScreen(
     val scrollState = rememberScrollState()
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
-
-    // NameCardComponent를 View로 변환할 ComposeView
-    val nameCardBitmap = convertToBitmap {
-        NameCardComponent2(nameCardInfo = state.nameCardInfo)
+    val graphicsLayer = rememberGraphicsLayer()
+    var sharedImageBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
+    val convertToBitmapJob = suspend {
+        withContext(Dispatchers.Default) {
+            graphicsLayer.toImageBitmap()
+        }
+    }
+    val onClickSaveBtn = remember {
+        coroutineScope.launch(start = CoroutineStart.LAZY) {
+            val bitmap = convertToBitmapJob().toAndroidBitmap()
+            bitmap.saveBitmapToFile(
+                context = context,
+                fileName = "wepli_namecard_${System.currentTimeMillis()}",
+                onSuccess = {
+                    Toast.makeText(context, "명함이 저장 되었어요. 갤러리에서 확인해보세요!", Toast.LENGTH_SHORT).show()
+                },
+                onFailure = {
+                    Toast.makeText(context, "명함 저장에 실패했어요", Toast.LENGTH_SHORT).show()
+                }
+            )
+        }
     }
 
     Scaffold(
@@ -101,9 +123,7 @@ fun NameCardResultScreen(
                 onClickBack = navOnBack,
                 actionIcons = listOf {
                     AppBarIcon(
-                        icon = AppBarIconType.Save {
-                            onClickSaveButton(coroutineScope, context, nameCardBitmap.invoke())
-                        }
+                        icon = AppBarIconType.Save { onClickSaveBtn.start() }
                     )
                 }
             )
@@ -133,16 +153,30 @@ fun NameCardResultScreen(
             )
             Spacer(modifier = Modifier.weight(4f))
 
-            NameCardComponent2(
+            NameCardComponent3(
                 nameCardInfo = state.nameCardInfo,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .drawWithContent {
+                        graphicsLayer.record {
+                            this@drawWithContent.drawContent()
+                        }
+
+                        drawLayer(graphicsLayer)
+                    }
             )
 
             Spacer(modifier = Modifier.weight(3f))
             WepliBasicButton(
                 title = "공유하기",
                 isEnabled = true,
-                onClick = { sendAction(NameCardResultIntent.ShowShareBottomSheet(true)) },
+                onClick = {
+                    coroutineScope.launch {
+                        // 클릭한 시점의 비트맵을 가져오기 위해 클릭 시점에 변환
+                        sharedImageBitmap = convertToBitmapJob()
+                        sendAction(NameCardResultIntent.ShowShareBottomSheet(true))
+                    }
+                },
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 buttonStyle = WepliButtonStyle.Basic,
             )
@@ -156,8 +190,8 @@ fun NameCardResultScreen(
                 buttonStyle = WepliButtonStyle.Transparent,
             )
 
-            if (state.isShownShareBottomSheet) {
-                NameCardShareBottomSheet(nameCardBitmap = nameCardBitmap.invoke(), sendAction = sendAction)
+            if (state.isShownShareBottomSheet && sharedImageBitmap != null) {
+                NameCardShareBottomSheet(nameCardBitmap = sharedImageBitmap!!, sendAction = sendAction)
             }
         }
     }
@@ -166,7 +200,7 @@ fun NameCardResultScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NameCardShareBottomSheet(
-    nameCardBitmap: Bitmap?,
+    nameCardBitmap: ImageBitmap,
     sendAction: (NameCardResultIntent) -> Unit,
 ) {
     WepliBottomSheet(
@@ -176,15 +210,13 @@ fun NameCardShareBottomSheet(
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
-            if (nameCardBitmap != null) {
-                Image(
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .height(180.dp),
-                    painter = BitmapPainter(nameCardBitmap.asImageBitmap()),
-                    contentDescription = null
-                )
-            }
+            Image(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .height(180.dp),
+                painter = BitmapPainter(nameCardBitmap),
+                contentDescription = null
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
             BottomSheetItem(
@@ -291,24 +323,4 @@ fun NameCardResultScreenPreview() {
         {},
         {}
     )
-}
-
-private fun onClickSaveButton(coroutineScope: CoroutineScope, context: Context, nameCardBitmap: Bitmap?) {
-    coroutineScope.launch {
-        val bitmap = nameCardBitmap ?: run {
-            Toast.makeText(context, "오류가 발생했어요. 잠시 후 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
-            return@launch
-        }
-
-        bitmap.saveBitmapToFile(
-            context = context,
-            fileName = "wepli_namecard_${System.currentTimeMillis()}",
-            onSuccess = {
-                Toast.makeText(context, "명함이 저장 되었어요. 갤러리에서 확인해보세요!", Toast.LENGTH_SHORT).show()
-            },
-            onFailure = {
-                Toast.makeText(context, "명함 저장에 실패했어요", Toast.LENGTH_SHORT).show()
-            }
-        )
-    }
 }
