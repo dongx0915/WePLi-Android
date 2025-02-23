@@ -25,8 +25,8 @@ import com.wepli.feature.namecard.detail.navigation.photoCardDetailGraph
 import com.wepli.feature.namecard.detail.navigation.navigateToPhotoCardDetail
 import com.wepli.feature.namecard.main.navigation.photoCardMainGraph
 import com.wepli.feature.namecard.main.navigation.navigateToPhotoCardMain
-import com.wepli.feature.namecard.result.navigation.nameCardResultGraph
-import com.wepli.feature.namecard.result.navigation.navigateToNameCardResult
+import com.wepli.feature.namecard.result.navigation.photoCardResultGraph
+import com.wepli.feature.namecard.result.navigation.navigateToPhotoCardResult
 import com.wepli.playlist.navigation.navigateToPlaylistDetail
 import com.wepli.playlist.navigation.playlistDetailGraph
 import com.wepli.search.navigation.SearchScreenMode
@@ -151,10 +151,10 @@ fun NavGraphBuilder.photoCardGraph(navController: NavController) {
             )
         },
         navOnNameCardResultScreen = {
-            navController.navigateToNameCardResult(it)
+            navController.navigateToPhotoCardResult(it)
         }
     )
-    nameCardResultGraph(
+    photoCardResultGraph(
         navOnBack = { navController.popBackStack() }
     )
 }

@@ -13,24 +13,24 @@ import extensions.parseFromJson
 import extensions.toJsonString
 
 // Controller
-fun NavController.navigateToNameCardResult(nameCardInfo: PhotoCardUiData) {
-    navigate("${NameCardRoute.RESULT.route}/${Uri.encode(nameCardInfo.toJsonString())}") {
+fun NavController.navigateToPhotoCardResult(photoCardInfo: PhotoCardUiData) {
+    navigate("${NameCardRoute.RESULT.route}/${Uri.encode(photoCardInfo.toJsonString())}") {
         // Main 화면 이후 스택을 모두 제거하고 이동
         popUpTo(NameCardRoute.MAIN.route) { inclusive = true }
     }
 }
 
 // Graph
-fun NavGraphBuilder.nameCardResultGraph(
+fun NavGraphBuilder.photoCardResultGraph(
     navOnBack: () -> Unit,
 ) {
     composable(
-        route = "${NameCardRoute.RESULT.route}/{nameCardInfo}",
+        route = "${NameCardRoute.RESULT.route}/{photoCardInfo}",
         arguments = listOf(
-            navArgument("nameCardInfo") { type = NavType.StringType }
+            navArgument("photoCardInfo") { type = NavType.StringType }
         )
     ) {
-        val nameCardInfo = it.arguments?.getString("nameCardInfo")?.parseFromJson<PhotoCardUiData>()
+        val nameCardInfo = it.arguments?.getString("photoCardInfo")?.parseFromJson<PhotoCardUiData>()
 
         NameCardResultScreenRoute(nameCardInfo, navOnBack)
     }
