@@ -68,25 +68,25 @@ import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
 
 @Composable
-fun NameCardResultScreenRoute(
-    nameCardInfo: PhotoCardUiData?,
+fun PhotoCardResultScreenRoute(
+    photoCardInfo: PhotoCardUiData?,
     navOnBack: () -> Unit
 ) {
     val viewModel: NameCardResultViewModel = hiltViewModel()
     val state by viewModel.collectAsState()
-    nameCardInfo?.let {
-        LaunchedEffect(nameCardInfo) {
-            viewModel.processIntent(PhotoCardResultIntent.Initialize(nameCardInfo))
+    photoCardInfo?.let {
+        LaunchedEffect(photoCardInfo) {
+            viewModel.processIntent(PhotoCardResultIntent.Initialize(photoCardInfo))
         }
     }
 
-    NameCardResultScreen(state, viewModel::processIntent, navOnBack)
+    PhotoCardResultScreen(state, viewModel::processIntent, navOnBack)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "RememberReturnType")
 @Composable
-fun NameCardResultScreen(
+fun PhotoCardResultScreen(
     state: PhotoCardResultUiState,
     sendAction: (PhotoCardResultIntent) -> Unit,
     navOnBack: () -> Unit
@@ -95,7 +95,7 @@ fun NameCardResultScreen(
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val graphicsLayer = rememberGraphicsLayer()
-    var nameCardBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
+    var photoCardBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
 
     Scaffold(
         topBar = {
@@ -157,7 +157,7 @@ fun NameCardResultScreen(
                 onClick = {
                     coroutineScope.launch {
                         // 클릭한 시점의 비트맵을 가져오기 위해 클릭 시점에 변환
-                        nameCardBitmap = captureNameCard(graphicsLayer)
+                        photoCardBitmap = capturePhotoCard(graphicsLayer)
                         sendAction(PhotoCardResultIntent.ShowShareBottomSheet(true))
                     }
                 },
@@ -175,8 +175,8 @@ fun NameCardResultScreen(
             )
 
             if (state.isShownShareBottomSheet) {
-                nameCardBitmap?.let {
-                    NameCardShareBottomSheet(nameCardBitmap = it, sendAction = sendAction)
+                photoCardBitmap?.let {
+                    PhotoCardShareBottomSheet(photoCardBitmap = it, sendAction = sendAction)
                 }
             }
         }
@@ -185,8 +185,8 @@ fun NameCardResultScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NameCardShareBottomSheet(
-    nameCardBitmap: ImageBitmap,
+fun PhotoCardShareBottomSheet(
+    photoCardBitmap: ImageBitmap,
     sendAction: (PhotoCardResultIntent) -> Unit,
 ) {
     WepliBottomSheet(
@@ -200,7 +200,7 @@ fun NameCardShareBottomSheet(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .height(180.dp),
-                painter = BitmapPainter(nameCardBitmap),
+                painter = BitmapPainter(photoCardBitmap),
                 contentDescription = null
             )
 
@@ -263,8 +263,8 @@ fun BottomSheetItem(
 
 @Preview
 @Composable
-fun NameCardResultScreenPreview() {
-    NameCardResultScreen(
+fun PhotoCardResultScreenPreview() {
+    PhotoCardResultScreen(
         PhotoCardResultUiState(
             photoCardInfo = PhotoCardUiData(
                 nickname = userMockData.random().nickname,
@@ -279,16 +279,16 @@ fun NameCardResultScreenPreview() {
     )
 }
 
-private suspend fun captureNameCard(graphicsLayer: GraphicsLayer): ImageBitmap = withContext(Dispatchers.Default) {
+private suspend fun capturePhotoCard(graphicsLayer: GraphicsLayer): ImageBitmap = withContext(Dispatchers.Default) {
     graphicsLayer.toImageBitmap()
 }
 
 private fun onClickSaveBtn(context: Context, scope: CoroutineScope, graphicsLayer: GraphicsLayer) {
     scope.launch {
-        val bitmap = captureNameCard(graphicsLayer).toAndroidBitmap()
+        val bitmap = capturePhotoCard(graphicsLayer).toAndroidBitmap()
         bitmap.saveBitmapToFile(
             context = context,
-            fileName = "wepli_namecard_${System.currentTimeMillis()}",
+            fileName = "wepli_photocard_${System.currentTimeMillis()}",
             onSuccess = {
                 Toast.makeText(context, "명함이 저장 되었어요. 갤러리에서 확인해보세요!", Toast.LENGTH_SHORT).show()
             },

@@ -6,7 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.wepli.feature.photocard.result.NameCardResultScreenRoute
+import com.wepli.feature.photocard.result.PhotoCardResultScreenRoute
 import com.wepli.navigator.feature.namecard.PhotoCardRoute
 import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
 import extensions.parseFromJson
@@ -32,6 +32,6 @@ fun NavGraphBuilder.photoCardResultGraph(
     ) {
         val photoCardInfo = it.arguments?.getString("photoCardInfo")?.parseFromJson<PhotoCardUiData>()
 
-        NameCardResultScreenRoute(photoCardInfo, navOnBack)
+        PhotoCardResultScreenRoute(photoCardInfo, navOnBack)
     }
 }
