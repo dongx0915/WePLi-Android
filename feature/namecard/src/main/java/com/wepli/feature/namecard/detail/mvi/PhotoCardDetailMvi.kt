@@ -7,7 +7,7 @@ import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
 import com.wepli.uimodel.music.SongUiData
 
 // TODO Page 별로 별도의 State를 갖는게 나을지
-data class NameCardDetailUiState(
+data class PhotoCardDetailUiState(
     val currentPage: Int = 0,
     val totalPage: Int = 0,
     val oneLineIntro: FieldState = FieldState(),
@@ -28,15 +28,15 @@ data class NameCardDetailUiState(
     val isLastPage: Boolean
         get() = currentPage == totalPage - 1
 
-    fun setNextPage(): NameCardDetailUiState {
+    fun setNextPage(): PhotoCardDetailUiState {
         return copy(currentPage = (currentPage + 1).coerceIn(0, totalPage))
     }
 
-    fun setPreviousPage(): NameCardDetailUiState {
+    fun setPreviousPage(): PhotoCardDetailUiState {
         return copy(currentPage = (currentPage - 1).coerceIn(0, totalPage))
     }
 
-    fun updateProgress(progress: Float): NameCardDetailUiState {
+    fun updateProgress(progress: Float): PhotoCardDetailUiState {
         return copy(makeCardProgress = progress.coerceIn(0f, 1f))
     }
 }

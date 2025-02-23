@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.wepli.feature.namecard.detail.mvi.NameCardDetailUiState
+import com.wepli.feature.namecard.detail.mvi.PhotoCardDetailUiState
 import progress.GradientLinearProgressBar
 import theme.WepliTheme
 
@@ -27,12 +27,12 @@ import theme.WepliTheme
 @Preview
 @Composable
 fun NameCardLoadingComponentPreview() {
-    PhotoCardLoadingComponent(state = NameCardDetailUiState())
+    PhotoCardLoadingComponent(state = PhotoCardDetailUiState())
 }
 
 @Composable
 fun PhotoCardLoadingComponent(
-    state: NameCardDetailUiState,
+    state: PhotoCardDetailUiState,
     modifier: Modifier = Modifier
 ) {
     val animatedProgress by animateFloatAsState(

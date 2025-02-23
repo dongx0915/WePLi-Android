@@ -3,7 +3,7 @@ package com.wepli.feature.namecard.detail.viewmodel
 import base.BaseMviViewModel
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailEffect
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailIntent
-import com.wepli.feature.namecard.detail.mvi.NameCardDetailUiState
+import com.wepli.feature.namecard.detail.mvi.PhotoCardDetailUiState
 import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
 import com.wepli.uimodel.music.SongUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,8 +17,8 @@ import kotlin.random.Random
 @HiltViewModel
 class NameCardDetailViewModel @Inject constructor(
     private val userRepository: UserRepository
-) : BaseMviViewModel<NameCardDetailUiState, NameCardDetailEffect, NameCardDetailIntent>(
-    initialState = NameCardDetailUiState()
+) : BaseMviViewModel<PhotoCardDetailUiState, NameCardDetailEffect, NameCardDetailIntent>(
+    initialState = PhotoCardDetailUiState()
 ) {
     override fun processIntent(intent: NameCardDetailIntent) {
         when(intent) {
@@ -35,7 +35,7 @@ class NameCardDetailViewModel @Inject constructor(
         updateState {
             copy(
                 totalPage = totalPage,
-                oneLineIntro = NameCardDetailUiState.FieldState(maxLength = oneLineIntroMaxLength)
+                oneLineIntro = PhotoCardDetailUiState.FieldState(maxLength = oneLineIntroMaxLength)
             )
         }
     }
@@ -101,7 +101,7 @@ class NameCardDetailViewModel @Inject constructor(
     }
 
     private suspend fun makeNameCardResult(
-        state: NameCardDetailUiState
+        state: PhotoCardDetailUiState
     ) = withContext(Dispatchers.IO) {
         val user = userRepository.getUser()
         PhotoCardUiData(

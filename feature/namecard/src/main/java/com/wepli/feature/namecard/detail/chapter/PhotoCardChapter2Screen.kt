@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import button.WepliBasicButton
 import button.WepliButtonStyle
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailIntent
-import com.wepli.feature.namecard.detail.mvi.NameCardDetailUiState
+import com.wepli.feature.namecard.detail.mvi.PhotoCardDetailUiState
 import textfield.LimitedLengthTextField
 import textfield.WepliTextFieldType
 import theme.WepliTheme
@@ -29,7 +29,7 @@ import theme.WepliTheme
 @Composable
 fun PhotoCardChapter2ScreenPreview() {
     PhotoCardChapter2Screen(
-        state = NameCardDetailUiState(),
+        state = PhotoCardDetailUiState(),
         sendAction = {},
         navOnNextPage = {},
         modifier = Modifier
@@ -40,7 +40,7 @@ fun PhotoCardChapter2ScreenPreview() {
 
 @Composable
 fun PhotoCardChapter2Screen(
-    state: NameCardDetailUiState,
+    state: PhotoCardDetailUiState,
     sendAction: (NameCardDetailIntent) -> Unit,
     navOnNextPage: () -> Unit,
     modifier: Modifier = Modifier

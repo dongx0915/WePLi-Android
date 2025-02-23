@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import button.WepliBasicButton
 import button.WepliButtonStyle
 import com.wepli.designsystem.R
-import com.wepli.feature.namecard.detail.mvi.NameCardDetailUiState
+import com.wepli.feature.namecard.detail.mvi.PhotoCardDetailUiState
 import common.ShimmerSkeleton
 import extensions.compose.toPx
 import image.AsyncImageWithPreview
@@ -32,7 +32,7 @@ import theme.WepliTheme
 
 @Composable
 fun PhotoCardChapter1Screen(
-    state: NameCardDetailUiState,
+    state: PhotoCardDetailUiState,
     modifier: Modifier = Modifier,
     navOnNextPage: () -> Unit,
     navOnSongSearchScreen: () -> Unit,
@@ -75,7 +75,7 @@ fun PhotoCardChapter1Screen(
 
 @Composable
 fun SelectedSongComponent(
-    state: NameCardDetailUiState,
+    state: PhotoCardDetailUiState,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {

@@ -31,7 +31,7 @@ import com.wepli.feature.namecard.detail.chapter.PhotoCardChapter2Screen
 import com.wepli.feature.namecard.detail.component.PhotoCardLoadingComponent
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailEffect
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailIntent
-import com.wepli.feature.namecard.detail.mvi.NameCardDetailUiState
+import com.wepli.feature.namecard.detail.mvi.PhotoCardDetailUiState
 import com.wepli.feature.namecard.detail.viewmodel.NameCardDetailViewModel
 import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
 import com.wepli.uimodel.music.SongUiData
@@ -42,7 +42,7 @@ import theme.WepliTheme
 @Preview
 @Composable
 fun NameCardDetailScreenPreview() {
-    NameCardDetailScreen(state = NameCardDetailUiState(), {}, {}, {})
+    NameCardDetailScreen(state = PhotoCardDetailUiState(), {}, {}, {})
 }
 
 @Composable
@@ -53,7 +53,7 @@ fun NameCardDetailScreenRoute(
     navOnResultScreen: (nameCardInfo: PhotoCardUiData) -> Unit,
 ) {
     val viewModel: NameCardDetailViewModel = hiltViewModel()
-    val state: NameCardDetailUiState by viewModel.collectAsState()
+    val state: PhotoCardDetailUiState by viewModel.collectAsState()
 
     viewModel.collectSideEffect {
         when (it) {
@@ -75,7 +75,7 @@ fun NameCardDetailScreenRoute(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun NameCardDetailScreen(
-    state: NameCardDetailUiState,
+    state: PhotoCardDetailUiState,
     sendAction: (NameCardDetailIntent) -> Unit,
     navOnBack: () -> Unit,
     navOnSongSearchScreen: () -> Unit,
