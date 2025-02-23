@@ -28,7 +28,7 @@ import appbar.WepliAppBar
 import com.wepli.feature.namecard.detail.chapter.PhotoCardChapter1Screen
 import com.wepli.feature.namecard.detail.chapter.PhotoCardChapter3Screen
 import com.wepli.feature.namecard.detail.chapter.PhotoCardChapter2Screen
-import com.wepli.feature.namecard.detail.component.NameCardLoadingComponent
+import com.wepli.feature.namecard.detail.component.PhotoCardLoadingComponent
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailEffect
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailIntent
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailUiState
@@ -132,7 +132,7 @@ fun NameCardDetailScreen(
         }
 
         if (state.isLoading) {
-            NameCardLoadingComponent(state)
+            PhotoCardLoadingComponent(state)
         }
     }
 

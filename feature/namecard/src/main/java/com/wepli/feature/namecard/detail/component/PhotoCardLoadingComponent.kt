@@ -27,11 +27,11 @@ import theme.WepliTheme
 @Preview
 @Composable
 fun NameCardLoadingComponentPreview() {
-    NameCardLoadingComponent(state = NameCardDetailUiState())
+    PhotoCardLoadingComponent(state = NameCardDetailUiState())
 }
 
 @Composable
-fun NameCardLoadingComponent(
+fun PhotoCardLoadingComponent(
     state: NameCardDetailUiState,
     modifier: Modifier = Modifier
 ) {
