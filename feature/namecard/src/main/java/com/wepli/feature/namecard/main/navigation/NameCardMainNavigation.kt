@@ -7,21 +7,21 @@ import com.wepli.feature.namecard.main.NameCardScreenRoute
 import com.wepli.navigator.feature.namecard.NameCardRoute
 
 // Controller
-fun NavController.navigateToNameCardMain() {
+fun NavController.navigateToPhotoCardMain() {
     navigate(NameCardRoute.MAIN.route)
 }
 
 // Graph
-fun NavGraphBuilder.nameCardMainGraph(
+fun NavGraphBuilder.photoCardMainGraph(
     navOnBack: () -> Unit,
-    navOnNameCardDetail: () -> Unit,
+    navOnPhotoCardDetail: () -> Unit,
 ) {
     composable(
         route = NameCardRoute.MAIN.route,
     ) {
         NameCardScreenRoute(
             navOnBack = { navOnBack() },
-            navOnNameCardDetail = { navOnNameCardDetail() }
+            navOnNameCardDetail = { navOnPhotoCardDetail() }
         )
     }
 }

@@ -23,8 +23,8 @@ import com.wepli.community.navigation.navigateToBackAndPostRefresh
 import com.wepli.community.navigation.navigateToCommunityWrite
 import com.wepli.feature.namecard.detail.navigation.photoCardDetailGraph
 import com.wepli.feature.namecard.detail.navigation.navigateToPhotoCardDetail
-import com.wepli.feature.namecard.main.navigation.nameCardMainGraph
-import com.wepli.feature.namecard.main.navigation.navigateToNameCardMain
+import com.wepli.feature.namecard.main.navigation.photoCardMainGraph
+import com.wepli.feature.namecard.main.navigation.navigateToPhotoCardMain
 import com.wepli.feature.namecard.result.navigation.nameCardResultGraph
 import com.wepli.feature.namecard.result.navigation.navigateToNameCardResult
 import com.wepli.playlist.navigation.navigateToPlaylistDetail
@@ -73,7 +73,7 @@ fun SetUpNavGraph(
         mypageGraph(navController, goToLoginActivity)
 
         // 명함 Graph
-        nameCardGraph(navController)
+        photoCardGraph(navController)
     }
 }
 
@@ -129,7 +129,7 @@ fun NavGraphBuilder.mypageGraph(
 ) {
     mypageMainGraph(
         navOnAppInfo = { navController.navigateToAppInfo() },
-        navOnNameCard = { navController.navigateToNameCardMain() },
+        navOnNameCard = { navController.navigateToPhotoCardMain() },
         goToLoginActivity = { goToLoginActivity() }
     )
     mypageAppInfoGraph(
@@ -137,10 +137,10 @@ fun NavGraphBuilder.mypageGraph(
     )
 }
 
-fun NavGraphBuilder.nameCardGraph(navController: NavController) {
-    nameCardMainGraph(
+fun NavGraphBuilder.photoCardGraph(navController: NavController) {
+    photoCardMainGraph(
         navOnBack = { navController.popBackStack() },
-        navOnNameCardDetail = { navController.navigateToPhotoCardDetail() }
+        navOnPhotoCardDetail = { navController.navigateToPhotoCardDetail() }
     )
     photoCardDetailGraph(
         navOnBack = { navController.popBackStack() },
