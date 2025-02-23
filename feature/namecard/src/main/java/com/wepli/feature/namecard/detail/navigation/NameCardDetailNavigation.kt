@@ -11,15 +11,15 @@ import com.wepli.uimodel.music.SongUiData
 import extensions.enterAnimation
 
 // Controller
-fun NavController.navigateToNameCardDetail() {
+fun NavController.navigateToPhotoCardDetail() {
     navigate(NameCardRoute.DETAIL.route)
 }
 
 // Graph
-fun NavGraphBuilder.nameCardDetailGraph(
+fun NavGraphBuilder.photoCardDetailGraph(
     navOnBack: () -> Unit,
     navOnSongSearchScreen: () -> Unit,
-    navOnNameCardResultScreen: (nameCardInfo: PhotoCardUiData)-> Unit,
+    navOnNameCardResultScreen: (photoCardInfo: PhotoCardUiData)-> Unit,
 ) {
     composable(
         route = NameCardRoute.DETAIL.route,

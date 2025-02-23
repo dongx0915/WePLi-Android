@@ -21,8 +21,8 @@ import com.wepli.app.navigation.extensions.navigateToBack
 import com.wepli.community.navigation.communityWriteGraph
 import com.wepli.community.navigation.navigateToBackAndPostRefresh
 import com.wepli.community.navigation.navigateToCommunityWrite
-import com.wepli.feature.namecard.detail.navigation.nameCardDetailGraph
-import com.wepli.feature.namecard.detail.navigation.navigateToNameCardDetail
+import com.wepli.feature.namecard.detail.navigation.photoCardDetailGraph
+import com.wepli.feature.namecard.detail.navigation.navigateToPhotoCardDetail
 import com.wepli.feature.namecard.main.navigation.nameCardMainGraph
 import com.wepli.feature.namecard.main.navigation.navigateToNameCardMain
 import com.wepli.feature.namecard.result.navigation.nameCardResultGraph
@@ -140,9 +140,9 @@ fun NavGraphBuilder.mypageGraph(
 fun NavGraphBuilder.nameCardGraph(navController: NavController) {
     nameCardMainGraph(
         navOnBack = { navController.popBackStack() },
-        navOnNameCardDetail = { navController.navigateToNameCardDetail() }
+        navOnNameCardDetail = { navController.navigateToPhotoCardDetail() }
     )
-    nameCardDetailGraph(
+    photoCardDetailGraph(
         navOnBack = { navController.popBackStack() },
         navOnSongSearchScreen = {
             navController.navigateToSearchDetail(
