@@ -46,27 +46,27 @@ import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
 
 @Composable
-fun NameCardScreenRoute(
+fun PhotoCardScreenRoute(
     navOnBack: () -> Unit,
-    navOnNameCardDetail: () -> Unit,
+    navOnPhotoCardDetail: () -> Unit,
 ) {
     val viewModel: PhotoCardMainViewModel = hiltViewModel()
     val state by viewModel.collectAsState()
 
-    NameCardScreen(
+    PhotoCardScreen(
         state = state,
         navOnBack = navOnBack,
-        navOnNameCardDetail = navOnNameCardDetail
+        navOnPhotoCardDetail = navOnPhotoCardDetail
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun NameCardScreen(
+fun PhotoCardScreen(
     state: PhotoCardMainUiState,
     navOnBack: () -> Unit,
-    navOnNameCardDetail: () -> Unit,
+    navOnPhotoCardDetail: () -> Unit,
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "")
     val offsetY by infiniteTransition.animateFloat(
@@ -154,7 +154,7 @@ fun NameCardScreen(
                 WepliBasicButton(
                     title = "시작하기",
                     isEnabled = true,
-                    onClick = { navOnNameCardDetail() },
+                    onClick = { navOnPhotoCardDetail() },
                     modifier = Modifier
                         .padding(bottom = 20.dp)
                         .align(Alignment.CenterHorizontally),
@@ -183,10 +183,10 @@ private fun AnimatedContent(isVisible: Boolean, modifier: Modifier = Modifier, c
 
 @Preview
 @Composable
-fun NameCardMainScreenPreview() {
-    NameCardScreen(
+fun PhotoCardMainScreenPreview() {
+    PhotoCardScreen(
         state = PhotoCardMainUiState(),
         navOnBack = { },
-        navOnNameCardDetail = { }
+        navOnPhotoCardDetail = { }
     )
 }
