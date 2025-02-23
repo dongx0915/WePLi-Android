@@ -1,7 +1,5 @@
 package theme
 
-import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -9,7 +7,6 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.wepli.designsystem.R
-import dev.chrisbanes.haze.HazeState
 
 val pretendard = FontFamily(
     Font(R.font.pretendard_thin, FontWeight.Thin, FontStyle.Normal),
@@ -28,6 +25,7 @@ val pretendard = FontFamily(
  * - 참고) Theme > fontScale = 1f
  */
 class WePLiTypography internal constructor(
+    val default: TextStyle, // 선언된 Typo에서 속성을 바꿔야하는 경우 사용할 타입
     val title1: TextStyle,
     val title2: TextStyle,
     val title3: TextStyle,
@@ -53,6 +51,7 @@ class WePLiTypography internal constructor(
 ) {
     constructor(
         defaultFontFamily: FontFamily = pretendard,
+        default: TextStyle = TextStyle.Default,
         title1: TextStyle = TextStyle(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.SemiBold,
@@ -168,6 +167,7 @@ class WePLiTypography internal constructor(
             lineHeight = 16.sp
         ),
     ) : this(
+        default = default,
         title1 = title1,
         title2 = title2,
         title3 = title3,
