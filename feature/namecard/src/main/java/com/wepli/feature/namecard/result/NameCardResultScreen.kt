@@ -50,7 +50,7 @@ import appbar.WepliAppBar
 import button.WepliBasicButton
 import button.WepliButtonStyle
 import com.wepli.designsystem.R
-import com.wepli.feature.namecard.component.NameCardComponent3
+import com.wepli.feature.namecard.component.NameCardComponent4
 import com.wepli.feature.namecard.result.mvi.NameCardResultIntent
 import com.wepli.feature.namecard.result.mvi.NameCardResultUiState
 import com.wepli.shared.feature.mock.songMockData
@@ -61,7 +61,6 @@ import component.bottomsheet.WepliBottomSheetType
 import extensions.saveBitmapToFile
 import extensions.toAndroidBitmap
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -137,7 +136,7 @@ fun NameCardResultScreen(
             )
             Spacer(modifier = Modifier.weight(4f))
 
-            NameCardComponent3(
+            NameCardComponent4(
                 nameCardInfo = state.nameCardInfo,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -284,7 +283,7 @@ private suspend fun captureNameCard(graphicsLayer: GraphicsLayer): ImageBitmap =
 }
 
 private fun onClickSaveBtn(context: Context, scope: CoroutineScope, graphicsLayer: GraphicsLayer) {
-    scope.launch(start = CoroutineStart.LAZY) {
+    scope.launch {
         val bitmap = captureNameCard(graphicsLayer).toAndroidBitmap()
         bitmap.saveBitmapToFile(
             context = context,
