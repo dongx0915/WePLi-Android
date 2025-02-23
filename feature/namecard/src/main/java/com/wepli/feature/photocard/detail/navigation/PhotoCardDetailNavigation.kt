@@ -6,7 +6,7 @@ import androidx.navigation.compose.composable
 import com.wepli.feature.photocard.detail.PhotoCardDetailScreenRoute
 import com.wepli.navigator.extras.Extras
 import com.wepli.navigator.feature.namecard.PhotoCardRoute
-import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
+import com.wepli.shared.feature.uimodel.photocard.PhotoCardUiData
 import com.wepli.uimodel.music.SongUiData
 import extensions.enterAnimation
 

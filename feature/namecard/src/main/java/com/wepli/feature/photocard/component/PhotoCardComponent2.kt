@@ -30,7 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.songMockData
-import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
+import com.wepli.shared.feature.uimodel.photocard.PhotoCardUiData
 import com.wepli.uimodel.music.SongUiData
 import extensions.compose.shimmerEffect
 import image.AsyncImageWithPreview

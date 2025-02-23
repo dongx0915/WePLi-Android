@@ -6,7 +6,7 @@ import com.wepli.feature.photocard.main.mvi.PhotoCardMainIntent
 import com.wepli.feature.photocard.main.mvi.PhotoCardMainUiState
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.mock.userMockData
-import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
+import com.wepli.shared.feature.uimodel.photocard.PhotoCardUiData
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import repository.user.UserRepository

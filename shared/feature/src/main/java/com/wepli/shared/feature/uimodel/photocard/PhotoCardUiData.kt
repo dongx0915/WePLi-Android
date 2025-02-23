@@ -1,4 +1,4 @@
-package com.wepli.shared.feature.uimodel.namecard
+package com.wepli.shared.feature.uimodel.photocard
 
 import android.os.Parcelable
 import com.wepli.uimodel.music.SongUiData

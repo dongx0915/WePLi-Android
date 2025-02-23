@@ -33,7 +33,7 @@ import com.wepli.feature.photocard.detail.mvi.PhotoCardDetailEffect
 import com.wepli.feature.photocard.detail.mvi.PhotoCardDetailIntent
 import com.wepli.feature.photocard.detail.mvi.PhotoCardDetailUiState
 import com.wepli.feature.photocard.detail.viewmodel.PhotoCardDetailViewModel
-import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
+import com.wepli.shared.feature.uimodel.photocard.PhotoCardUiData
 import com.wepli.uimodel.music.SongUiData
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect

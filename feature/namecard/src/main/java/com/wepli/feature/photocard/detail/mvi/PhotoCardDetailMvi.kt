@@ -3,7 +3,7 @@ package com.wepli.feature.photocard.detail.mvi
 import base.Intent
 import base.SideEffect
 import base.UiState
-import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
+import com.wepli.shared.feature.uimodel.photocard.PhotoCardUiData
 import com.wepli.uimodel.music.SongUiData
 
 // TODO Page 별로 별도의 State를 갖는게 나을지

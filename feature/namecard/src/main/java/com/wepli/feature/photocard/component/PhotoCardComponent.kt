@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.songMockData
-import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
+import com.wepli.shared.feature.uimodel.photocard.PhotoCardUiData
 import common.ShimmerSkeleton
 import extensions.compose.toPx
 import image.AsyncImageWithPreview

@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.songMockData
-import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
+import com.wepli.shared.feature.uimodel.photocard.PhotoCardUiData
 import com.wepli.uimodel.music.SongUiData
 import extensions.compose.shimmerEffect
 import extensions.toEnglishMonthName

@@ -55,7 +55,7 @@ import com.wepli.feature.photocard.result.mvi.PhotoCardResultIntent
 import com.wepli.feature.photocard.result.mvi.PhotoCardResultUiState
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.mock.userMockData
-import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
+import com.wepli.shared.feature.uimodel.photocard.PhotoCardUiData
 import component.bottomsheet.WepliBottomSheet
 import component.bottomsheet.WepliBottomSheetType
 import extensions.saveBitmapToFile
