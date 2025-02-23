@@ -30,8 +30,8 @@ fun NavGraphBuilder.photoCardResultGraph(
             navArgument("photoCardInfo") { type = NavType.StringType }
         )
     ) {
-        val nameCardInfo = it.arguments?.getString("photoCardInfo")?.parseFromJson<PhotoCardUiData>()
+        val photoCardInfo = it.arguments?.getString("photoCardInfo")?.parseFromJson<PhotoCardUiData>()
 
-        NameCardResultScreenRoute(nameCardInfo, navOnBack)
+        NameCardResultScreenRoute(photoCardInfo, navOnBack)
     }
 }
