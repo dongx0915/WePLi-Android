@@ -27,7 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
 import button.WepliBasicButton
 import button.WepliButtonStyle
-import com.wepli.feature.namecard.component.NameCardComponent2
+import com.wepli.feature.namecard.component.NameCardComponent4
 import com.wepli.feature.namecard.main.mvi.NameCardMainUiState
 import com.wepli.feature.namecard.main.viewmodel.NameCardMainViewModel
 import com.wepli.shared.feature.mock.songMockData
@@ -113,7 +113,7 @@ fun NameCardScreen(
                     }
                     .scale(0.9f)
             ) {
-                NameCardComponent2(
+                NameCardComponent4(
                     nameCardInfo = state.nameCardInfo.copy(
                         favoriteSong = songMockData.random()
                     ),
