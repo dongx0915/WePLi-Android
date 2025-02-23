@@ -26,7 +26,7 @@ import theme.WepliTheme
 
 @Preview
 @Composable
-fun NameCardLoadingComponentPreview() {
+fun PhotoCardLoadingComponentPreview() {
     PhotoCardLoadingComponent(state = PhotoCardDetailUiState())
 }
 

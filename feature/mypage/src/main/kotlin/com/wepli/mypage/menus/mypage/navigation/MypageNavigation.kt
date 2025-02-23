@@ -16,7 +16,7 @@ fun NavGraphBuilder.mypageMainGraph(
     ) {
         MyPageScreenRoute(
             navOnAppInfo = { navOnAppInfo() },
-            navOnNameCard = { navOnPhotoCard() },
+            navOnPhotoCard = { navOnPhotoCard() },
             goToLoginActivity = { goToLoginActivity() }
         )
     }

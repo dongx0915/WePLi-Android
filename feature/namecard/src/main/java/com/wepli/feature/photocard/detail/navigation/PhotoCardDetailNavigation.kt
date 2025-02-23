@@ -3,7 +3,7 @@ package com.wepli.feature.photocard.detail.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.wepli.feature.photocard.detail.NameCardDetailScreenRoute
+import com.wepli.feature.photocard.detail.PhotoCardDetailScreenRoute
 import com.wepli.navigator.extras.Extras
 import com.wepli.navigator.feature.namecard.PhotoCardRoute
 import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
@@ -27,6 +27,6 @@ fun NavGraphBuilder.photoCardDetailGraph(
     ) {
         val selectedSong: SongUiData? = it.savedStateHandle.remove<List<SongUiData>>(Extras.SELECTED_SONGS)?.first()
 
-        NameCardDetailScreenRoute(selectedSong, navOnBack, navOnSongSearchScreen, navOnPhotoCardResultScreen)
+        PhotoCardDetailScreenRoute(selectedSong, navOnBack, navOnSongSearchScreen, navOnPhotoCardResultScreen)
     }
 }

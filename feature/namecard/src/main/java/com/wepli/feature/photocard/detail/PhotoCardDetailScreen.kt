@@ -41,16 +41,16 @@ import theme.WepliTheme
 
 @Preview
 @Composable
-fun NameCardDetailScreenPreview() {
-    NameCardDetailScreen(state = PhotoCardDetailUiState(), {}, {}, {})
+fun PhotoCardDetailScreenPreview() {
+    PhotoCardDetailScreen(state = PhotoCardDetailUiState(), {}, {}, {})
 }
 
 @Composable
-fun NameCardDetailScreenRoute(
+fun PhotoCardDetailScreenRoute(
     selectedSong: SongUiData?,
     navOnBack: () -> Unit,
     navOnSongSearchScreen: () -> Unit,
-    navOnResultScreen: (nameCardInfo: PhotoCardUiData) -> Unit,
+    navOnResultScreen: (photoCardInfo: PhotoCardUiData) -> Unit,
 ) {
     val viewModel: PhotoCardDetailViewModel = hiltViewModel()
     val state: PhotoCardDetailUiState by viewModel.collectAsState()
@@ -68,13 +68,13 @@ fun NameCardDetailScreenRoute(
         }
     }
 
-    NameCardDetailScreen(state, viewModel::processIntent, navOnBack, navOnSongSearchScreen)
+    PhotoCardDetailScreen(state, viewModel::processIntent, navOnBack, navOnSongSearchScreen)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun NameCardDetailScreen(
+fun PhotoCardDetailScreen(
     state: PhotoCardDetailUiState,
     sendAction: (PhotoCardDetailIntent) -> Unit,
     navOnBack: () -> Unit,
@@ -111,7 +111,7 @@ fun NameCardDetailScreen(
                         showBackButton = true,
                         onClickBack = { navOnPreviousPage() }
                     )
-                    NameCardProgressBar(currentPage = pagerState.currentPage, totalPage = pageList.size)
+                    PhotoCardProgressBar(currentPage = pagerState.currentPage, totalPage = pageList.size)
                 }
             }
         ) { paddingValues ->
@@ -142,7 +142,7 @@ fun NameCardDetailScreen(
 }
 
 @Composable
-fun NameCardProgressBar(currentPage: Int, totalPage: Int) {
+fun PhotoCardProgressBar(currentPage: Int, totalPage: Int) {
     val configuration = LocalConfiguration.current
     val progressStepWidth = remember {
         val screenWidth = configuration.screenWidthDp.dp
