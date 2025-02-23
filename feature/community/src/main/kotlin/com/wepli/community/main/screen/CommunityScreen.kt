@@ -38,8 +38,10 @@ import com.wepli.shared.feature.mock.userMockData
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import com.wepli.shared.feature.uimodel.community.PostUiData
 import common.WepliSpacer
+import dev.chrisbanes.haze.hazeSource
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
+import theme.LocalHazeState
 import theme.WepliTheme
 
 @Composable
@@ -83,6 +85,7 @@ fun CommunityScreen(
 ) {
     val storyUsers: List<UserUiData> by rememberUpdatedState(newValue = state.storyUsers)
     val posts: List<PostUiData> by rememberUpdatedState(newValue = state.posts)
+    val blurState = LocalHazeState.current
 
     Scaffold(
         containerColor = WepliTheme.color.black,
@@ -105,7 +108,7 @@ fun CommunityScreen(
         val bottomPadding = remember { paddingValues.calculateBottomPadding() * 2 }
 
         LazyColumn(
-            modifier = Modifier.padding(paddingValues),
+            modifier = Modifier.padding(paddingValues).hazeSource(blurState),
             contentPadding = PaddingValues(bottom = bottomPadding),
         ) {
             item { WePLiStoryLayout(users = storyUsers) }
