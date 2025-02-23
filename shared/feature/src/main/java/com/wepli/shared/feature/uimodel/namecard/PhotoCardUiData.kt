@@ -5,7 +5,7 @@ import com.wepli.uimodel.music.SongUiData
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class NameCardUiData(
+data class PhotoCardUiData(
     val nickname: String = "",
     val profileImg: String = "",
     val userTendency: String = "",
