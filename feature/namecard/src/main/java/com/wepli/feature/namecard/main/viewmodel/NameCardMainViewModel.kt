@@ -5,6 +5,7 @@ import com.wepli.feature.namecard.main.mvi.NameCardMainEffect
 import com.wepli.feature.namecard.main.mvi.NameCardMainIntent
 import com.wepli.feature.namecard.main.mvi.NameCardMainUiState
 import com.wepli.shared.feature.mock.songMockData
+import com.wepli.shared.feature.mock.userMockData
 import com.wepli.shared.feature.uimodel.namecard.NameCardUiData
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,9 +34,11 @@ class NameCardMainViewModel @Inject constructor(
     }
 
     private fun setNameCardInfo() {
+        val user = userMockData.random()
         val nameCardInfo = NameCardUiData(
-            nickname = "WePLi",
+            nickname = user.nickname,
             userTendency = "Melody Memories",
+            profileImg = user.profileImgUrl,
             oneLineIntro = "내 취향을 다른 사람들에게 소개해보세요.",
             instagramId = "my_account",
             favoriteSong = songMockData.random()
