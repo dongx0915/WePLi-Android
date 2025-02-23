@@ -129,7 +129,7 @@ fun NavGraphBuilder.mypageGraph(
 ) {
     mypageMainGraph(
         navOnAppInfo = { navController.navigateToAppInfo() },
-        navOnNameCard = { navController.navigateToPhotoCardMain() },
+        navOnPhotoCard = { navController.navigateToPhotoCardMain() },
         goToLoginActivity = { goToLoginActivity() }
     )
     mypageAppInfoGraph(
@@ -150,7 +150,7 @@ fun NavGraphBuilder.photoCardGraph(navController: NavController) {
                 searchQuery = ""
             )
         },
-        navOnNameCardResultScreen = {
+        navOnPhotoCardResultScreen = {
             navController.navigateToPhotoCardResult(it)
         }
     )

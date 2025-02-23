@@ -4,11 +4,11 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.wepli.feature.namecard.main.NameCardScreenRoute
-import com.wepli.navigator.feature.namecard.NameCardRoute
+import com.wepli.navigator.feature.namecard.PhotoCardRoute
 
 // Controller
 fun NavController.navigateToPhotoCardMain() {
-    navigate(NameCardRoute.MAIN.route)
+    navigate(PhotoCardRoute.MAIN.route)
 }
 
 // Graph
@@ -17,7 +17,7 @@ fun NavGraphBuilder.photoCardMainGraph(
     navOnPhotoCardDetail: () -> Unit,
 ) {
     composable(
-        route = NameCardRoute.MAIN.route,
+        route = PhotoCardRoute.MAIN.route,
     ) {
         NameCardScreenRoute(
             navOnBack = { navOnBack() },
