@@ -1,4 +1,4 @@
-package com.wepli.navigator.feature.namecard
+package com.wepli.navigator.feature.photocard
 
 enum class PhotoCardRoute(val route: String) {
     MAIN("photocard_main"),

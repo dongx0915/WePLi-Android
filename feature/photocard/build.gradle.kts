@@ -5,5 +5,5 @@ plugins {
 }
 
 android {
-    namespace = "com.wepli.feature.namecard"
+    namespace = "com.wepli.feature.photocard"
 }

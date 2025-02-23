@@ -7,7 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.wepli.feature.photocard.result.PhotoCardResultScreenRoute
-import com.wepli.navigator.feature.namecard.PhotoCardRoute
+import com.wepli.navigator.feature.photocard.PhotoCardRoute
 import com.wepli.shared.feature.uimodel.photocard.PhotoCardUiData
 import extensions.parseFromJson
 import extensions.toJsonString

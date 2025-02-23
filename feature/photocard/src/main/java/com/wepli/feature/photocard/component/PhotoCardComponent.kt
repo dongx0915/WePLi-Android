@@ -42,7 +42,7 @@ import theme.WepliTheme
 @Composable
 fun PhotoCardComponentPreview() {
     PhotoCardComponent(
-        nameCardInfo = PhotoCardUiData(
+        photoCardInfo = PhotoCardUiData(
             nickname = "Chuu",
             userTendency = "INTP",
             oneLineIntro = "I'm a singer",
@@ -54,12 +54,12 @@ fun PhotoCardComponentPreview() {
 
 @Composable
 fun PhotoCardComponent(
-    nameCardInfo: PhotoCardUiData,
+    photoCardInfo: PhotoCardUiData,
     modifier: Modifier = Modifier
 ) {
     val imageSize = 146.dp
-    val nameCardWidth = 247f
-    val nameCardHeight = 354f
+    val cardWidth = 247f
+    val cardHeight = 354f
 
     Column(
         modifier
@@ -70,18 +70,18 @@ fun PhotoCardComponent(
             )
             .clip(RoundedCornerShape(12.dp))
             .background(color = WepliTheme.color.black)
-            .widthIn(max = nameCardWidth.dp)
-            .heightIn(max = nameCardHeight.dp)
-            .aspectRatio(nameCardWidth / nameCardHeight)
+            .widthIn(max = cardWidth.dp)
+            .heightIn(max = cardHeight.dp)
+            .aspectRatio(cardWidth / cardHeight)
             .padding(top = 36.dp, bottom = 20.dp, start = 20.dp),
     ) {
         Text(
-            text = nameCardInfo.nickname,
+            text = photoCardInfo.nickname,
             style = WepliTheme.typo.title2,
             color = WepliTheme.color.white,
         )
         Text(
-            text = nameCardInfo.userTendency,
+            text = photoCardInfo.userTendency,
             style = WepliTheme.typo.caption2.copy(
                 fontWeight = FontWeight.Light,
             ),
@@ -91,7 +91,7 @@ fun PhotoCardComponent(
         Spacer(Modifier.height(24.dp))
         Text(
             modifier = Modifier.padding(end = 20.dp),
-            text = nameCardInfo.oneLineIntro,
+            text = photoCardInfo.oneLineIntro,
             style = WepliTheme.typo.body5,
             color = WepliTheme.color.gray600,
         )
@@ -115,7 +115,7 @@ fun PhotoCardComponent(
                 )
                 Spacer(Modifier.height(4.dp))
                 Text(
-                    text = nameCardInfo.favoriteSong.title,
+                    text = photoCardInfo.favoriteSong.title,
                     style = WepliTheme.typo.body6.copy(
                         fontWeight = FontWeight.SemiBold,
                         lineHeight = 14.sp
@@ -125,7 +125,7 @@ fun PhotoCardComponent(
                     maxLines = 2,
                 )
                 Text(
-                    text = nameCardInfo.favoriteSong.artistName,
+                    text = photoCardInfo.favoriteSong.artistName,
                     style = WepliTheme.typo.caption1,
                     color = WepliTheme.color.gray800
                 )
@@ -133,7 +133,7 @@ fun PhotoCardComponent(
 
             FavoriteSongComponent(
                 imageSize = imageSize,
-                imageUrl = nameCardInfo.favoriteSong.getImageUrl(imageSize.toPx()),
+                imageUrl = photoCardInfo.favoriteSong.getImageUrl(imageSize.toPx()),
                 modifier = Modifier.offset(x = 30.dp)
             )
         }
@@ -150,7 +150,7 @@ fun PhotoCardComponent(
             )
 
             Text(
-                text = nameCardInfo.instagramId,
+                text = photoCardInfo.instagramId,
                 style = WepliTheme.typo.body6,
                 color = WepliTheme.color.gray800
             )
