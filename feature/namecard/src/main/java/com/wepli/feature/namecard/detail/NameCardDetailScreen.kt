@@ -29,7 +29,7 @@ import com.wepli.feature.namecard.detail.chapter.PhotoCardChapter1Screen
 import com.wepli.feature.namecard.detail.chapter.PhotoCardChapter3Screen
 import com.wepli.feature.namecard.detail.chapter.PhotoCardChapter2Screen
 import com.wepli.feature.namecard.detail.component.PhotoCardLoadingComponent
-import com.wepli.feature.namecard.detail.mvi.NameCardDetailEffect
+import com.wepli.feature.namecard.detail.mvi.PhotoCardDetailEffect
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailIntent
 import com.wepli.feature.namecard.detail.mvi.PhotoCardDetailUiState
 import com.wepli.feature.namecard.detail.viewmodel.NameCardDetailViewModel
@@ -57,8 +57,8 @@ fun NameCardDetailScreenRoute(
 
     viewModel.collectSideEffect {
         when (it) {
-            NameCardDetailEffect.NavigateBack -> navOnBack()
-            is NameCardDetailEffect.OnCompleteChapter -> navOnResultScreen(it.nameCardResult)
+            PhotoCardDetailEffect.NavigateBack -> navOnBack()
+            is PhotoCardDetailEffect.OnCompleteChapter -> navOnResultScreen(it.photoCardResult)
         }
     }
 

@@ -41,9 +41,9 @@ data class PhotoCardDetailUiState(
     }
 }
 
-interface NameCardDetailEffect : SideEffect {
-    data object NavigateBack : NameCardDetailEffect
-    data class OnCompleteChapter(val nameCardResult: PhotoCardUiData) : NameCardDetailEffect
+interface PhotoCardDetailEffect : SideEffect {
+    data object NavigateBack : PhotoCardDetailEffect
+    data class OnCompleteChapter(val photoCardResult: PhotoCardUiData) : PhotoCardDetailEffect
 }
 
 // TODO 페이지 별로 Intent 주석으로 정리하기

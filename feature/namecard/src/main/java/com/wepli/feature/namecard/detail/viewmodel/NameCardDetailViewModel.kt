@@ -1,7 +1,7 @@
 package com.wepli.feature.namecard.detail.viewmodel
 
 import base.BaseMviViewModel
-import com.wepli.feature.namecard.detail.mvi.NameCardDetailEffect
+import com.wepli.feature.namecard.detail.mvi.PhotoCardDetailEffect
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailIntent
 import com.wepli.feature.namecard.detail.mvi.PhotoCardDetailUiState
 import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
@@ -17,7 +17,7 @@ import kotlin.random.Random
 @HiltViewModel
 class NameCardDetailViewModel @Inject constructor(
     private val userRepository: UserRepository
-) : BaseMviViewModel<PhotoCardDetailUiState, NameCardDetailEffect, NameCardDetailIntent>(
+) : BaseMviViewModel<PhotoCardDetailUiState, PhotoCardDetailEffect, NameCardDetailIntent>(
     initialState = PhotoCardDetailUiState()
 ) {
     override fun processIntent(intent: NameCardDetailIntent) {
@@ -62,7 +62,7 @@ class NameCardDetailViewModel @Inject constructor(
 
     private fun handlePreviousPage() = intent {
         if (state.currentPage <= 0) {
-            postSideEffect(NameCardDetailEffect.NavigateBack)
+            postSideEffect(PhotoCardDetailEffect.NavigateBack)
         } else {
             reduce { state.setPreviousPage() }
         }
@@ -97,7 +97,7 @@ class NameCardDetailViewModel @Inject constructor(
         }
 
         val nameCardResult = makeNameCardResult(state)
-        postSideEffect { NameCardDetailEffect.OnCompleteChapter(nameCardResult) }
+        postSideEffect { PhotoCardDetailEffect.OnCompleteChapter(nameCardResult) }
     }
 
     private suspend fun makeNameCardResult(
