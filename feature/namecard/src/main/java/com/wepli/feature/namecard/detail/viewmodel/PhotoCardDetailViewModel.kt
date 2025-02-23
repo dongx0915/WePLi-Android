@@ -15,7 +15,7 @@ import javax.inject.Inject
 import kotlin.random.Random
 
 @HiltViewModel
-class NameCardDetailViewModel @Inject constructor(
+class PhotoCardDetailViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : BaseMviViewModel<PhotoCardDetailUiState, PhotoCardDetailEffect, PhotoCardDetailIntent>(
     initialState = PhotoCardDetailUiState()
@@ -54,7 +54,7 @@ class NameCardDetailViewModel @Inject constructor(
 
     private fun handleNextPage() = intent {
         if (state.isLastPage) {
-            makeNameCard()
+            makePhotoCard()
         } else {
             updateState { setNextPage() }
         }
@@ -68,7 +68,7 @@ class NameCardDetailViewModel @Inject constructor(
         }
     }
 
-    private fun makeNameCard() = intent {
+    private fun makePhotoCard() = intent {
         reduce { state.copy(isLoading = true) }
 
         withContext(Dispatchers.Default) {
@@ -96,11 +96,11 @@ class NameCardDetailViewModel @Inject constructor(
             }
         }
 
-        val nameCardResult = makeNameCardResult(state)
-        postSideEffect { PhotoCardDetailEffect.OnCompleteChapter(nameCardResult) }
+        val photoCardResult = makePhotoCardResult(state)
+        postSideEffect { PhotoCardDetailEffect.OnCompleteChapter(photoCardResult) }
     }
 
-    private suspend fun makeNameCardResult(
+    private suspend fun makePhotoCardResult(
         state: PhotoCardDetailUiState
     ) = withContext(Dispatchers.IO) {
         val user = userRepository.getUser()

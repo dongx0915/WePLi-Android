@@ -32,7 +32,7 @@ import com.wepli.feature.namecard.detail.component.PhotoCardLoadingComponent
 import com.wepli.feature.namecard.detail.mvi.PhotoCardDetailEffect
 import com.wepli.feature.namecard.detail.mvi.PhotoCardDetailIntent
 import com.wepli.feature.namecard.detail.mvi.PhotoCardDetailUiState
-import com.wepli.feature.namecard.detail.viewmodel.NameCardDetailViewModel
+import com.wepli.feature.namecard.detail.viewmodel.PhotoCardDetailViewModel
 import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
 import com.wepli.uimodel.music.SongUiData
 import org.orbitmvi.orbit.compose.collectAsState
@@ -52,7 +52,7 @@ fun NameCardDetailScreenRoute(
     navOnSongSearchScreen: () -> Unit,
     navOnResultScreen: (nameCardInfo: PhotoCardUiData) -> Unit,
 ) {
-    val viewModel: NameCardDetailViewModel = hiltViewModel()
+    val viewModel: PhotoCardDetailViewModel = hiltViewModel()
     val state: PhotoCardDetailUiState by viewModel.collectAsState()
 
     viewModel.collectSideEffect {
