@@ -72,7 +72,7 @@ fun PhotoCardResultScreenRoute(
     photoCardInfo: PhotoCardUiData?,
     navOnBack: () -> Unit
 ) {
-    val viewModel: NameCardResultViewModel = hiltViewModel()
+    val viewModel: PhotoCardResultViewModel = hiltViewModel()
     val state by viewModel.collectAsState()
     photoCardInfo?.let {
         LaunchedEffect(photoCardInfo) {

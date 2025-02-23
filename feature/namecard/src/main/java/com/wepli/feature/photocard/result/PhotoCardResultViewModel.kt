@@ -10,7 +10,7 @@ import repository.user.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class NameCardResultViewModel @Inject constructor(
+class PhotoCardResultViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : BaseMviViewModel<PhotoCardResultUiState, PhotoCardResultEffect, PhotoCardResultIntent>(
     initialState = PhotoCardResultUiState()
