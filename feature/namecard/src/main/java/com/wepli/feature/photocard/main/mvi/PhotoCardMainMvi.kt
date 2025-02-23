@@ -11,10 +11,10 @@ data class PhotoCardMainUiState(
     val photoCardInfo: PhotoCardUiData = PhotoCardUiData(),
 ) : UiState
 
-interface NameCardMainEffect : SideEffect {
+interface PhotoCardMainEffect : SideEffect {
 
 }
 
-interface NameCardMainIntent : Intent {
+interface PhotoCardMainIntent : Intent {
 
 }

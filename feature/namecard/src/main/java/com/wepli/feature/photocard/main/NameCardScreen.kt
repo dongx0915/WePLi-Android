@@ -39,7 +39,7 @@ import button.WepliBasicButton
 import button.WepliButtonStyle
 import com.wepli.feature.photocard.component.PhotoCardComponent4
 import com.wepli.feature.photocard.main.mvi.PhotoCardMainUiState
-import com.wepli.feature.photocard.main.viewmodel.NameCardMainViewModel
+import com.wepli.feature.photocard.main.viewmodel.PhotoCardMainViewModel
 import extensions.compose.shimmerEffect
 import kotlinx.coroutines.delay
 import org.orbitmvi.orbit.compose.collectAsState
@@ -50,7 +50,7 @@ fun NameCardScreenRoute(
     navOnBack: () -> Unit,
     navOnNameCardDetail: () -> Unit,
 ) {
-    val viewModel: NameCardMainViewModel = hiltViewModel()
+    val viewModel: PhotoCardMainViewModel = hiltViewModel()
     val state by viewModel.collectAsState()
 
     NameCardScreen(

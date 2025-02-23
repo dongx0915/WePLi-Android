@@ -1,8 +1,8 @@
 package com.wepli.feature.photocard.main.viewmodel
 
 import base.BaseMviViewModel
-import com.wepli.feature.photocard.main.mvi.NameCardMainEffect
-import com.wepli.feature.photocard.main.mvi.NameCardMainIntent
+import com.wepli.feature.photocard.main.mvi.PhotoCardMainEffect
+import com.wepli.feature.photocard.main.mvi.PhotoCardMainIntent
 import com.wepli.feature.photocard.main.mvi.PhotoCardMainUiState
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.mock.userMockData
@@ -13,17 +13,17 @@ import repository.user.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class NameCardMainViewModel @Inject constructor(
+class PhotoCardMainViewModel @Inject constructor(
     private val userRepository: UserRepository
-) : BaseMviViewModel<PhotoCardMainUiState, NameCardMainEffect, NameCardMainIntent>(
+) : BaseMviViewModel<PhotoCardMainUiState, PhotoCardMainEffect, PhotoCardMainIntent>(
     initialState = PhotoCardMainUiState(),
 ) {
     init {
         getUser()
-        setNameCardInfo()
+        setPhotoCardInfo()
     }
 
-    override fun processIntent(intent: NameCardMainIntent) {
+    override fun processIntent(intent: PhotoCardMainIntent) {
 
     }
 
@@ -33,9 +33,9 @@ class NameCardMainViewModel @Inject constructor(
         }
     }
 
-    private fun setNameCardInfo() {
+    private fun setPhotoCardInfo() {
         val user = userMockData.random()
-        val nameCardInfo = PhotoCardUiData(
+        val photoCardInfo = PhotoCardUiData(
             nickname = user.nickname,
             userTendency = "Melody Memories",
             profileImg = user.profileImgUrl,
@@ -44,6 +44,6 @@ class NameCardMainViewModel @Inject constructor(
             favoriteSong = songMockData.random()
         )
 
-        updateState { copy(photoCardInfo = nameCardInfo) }
+        updateState { copy(photoCardInfo = photoCardInfo) }
     }
 }
