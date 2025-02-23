@@ -42,6 +42,7 @@ data class NameCardDetailUiState(
 }
 
 interface NameCardDetailEffect : SideEffect {
+    data object NavigateBack : NameCardDetailEffect
     data class OnCompleteChapter(val nameCardResult: NameCardUiData) : NameCardDetailEffect
 }
 

@@ -57,6 +57,7 @@ fun NameCardDetailScreenRoute(
 
     viewModel.collectSideEffect {
         when (it) {
+            NameCardDetailEffect.NavigateBack -> navOnBack()
             is NameCardDetailEffect.OnCompleteChapter -> navOnResultScreen(it.nameCardResult)
         }
     }

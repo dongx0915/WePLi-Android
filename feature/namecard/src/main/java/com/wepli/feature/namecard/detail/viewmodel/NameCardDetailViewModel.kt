@@ -60,8 +60,12 @@ class NameCardDetailViewModel @Inject constructor(
         }
     }
 
-    private fun handlePreviousPage() {
-        updateState { setPreviousPage() }
+    private fun handlePreviousPage() = intent {
+        if (state.currentPage <= 0) {
+            postSideEffect(NameCardDetailEffect.NavigateBack)
+        } else {
+            reduce { state.setPreviousPage() }
+        }
     }
 
     private fun makeNameCard() = intent {

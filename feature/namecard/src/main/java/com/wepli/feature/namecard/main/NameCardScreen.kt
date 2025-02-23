@@ -52,7 +52,8 @@ fun NameCardScreen(
         topBar = {
             WepliAppBar(
                 title = "",
-                showBackButton = true
+                showBackButton = true,
+                onClickBack = { navOnBack() }
             )
         }
     ) { paddingValues ->
