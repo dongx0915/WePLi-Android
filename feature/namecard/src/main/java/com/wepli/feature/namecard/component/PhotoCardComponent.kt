@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.songMockData
-import com.wepli.shared.feature.uimodel.namecard.NameCardUiData
+import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
 import common.ShimmerSkeleton
 import extensions.compose.toPx
 import image.AsyncImageWithPreview
@@ -40,9 +40,9 @@ import theme.WepliTheme
 
 @Preview
 @Composable
-fun NameCardComponentPreview() {
-    NameCardComponent(
-        nameCardInfo = NameCardUiData(
+fun PhotoCardComponentPreview() {
+    PhotoCardComponent(
+        nameCardInfo = PhotoCardUiData(
             nickname = "Chuu",
             userTendency = "INTP",
             oneLineIntro = "I'm a singer",
@@ -53,8 +53,8 @@ fun NameCardComponentPreview() {
 }
 
 @Composable
-fun NameCardComponent(
-    nameCardInfo: NameCardUiData,
+fun PhotoCardComponent(
+    nameCardInfo: PhotoCardUiData,
     modifier: Modifier = Modifier
 ) {
     val imageSize = 146.dp

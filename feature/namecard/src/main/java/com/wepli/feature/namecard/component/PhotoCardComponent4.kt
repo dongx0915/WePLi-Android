@@ -2,6 +2,7 @@ package com.wepli.feature.namecard.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,33 +17,38 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.songMockData
-import com.wepli.shared.feature.uimodel.namecard.NameCardUiData
+import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
 import com.wepli.uimodel.music.SongUiData
-import common.ShimmerSkeleton
 import extensions.compose.shimmerEffect
+import extensions.toEnglishMonthName
 import image.AsyncImageWithPreview
 import theme.WepliTheme
+import java.util.Calendar
+import java.util.Date
 
 @Preview
 @Composable
-fun NameCardComponent3Preview() {
-    NameCardComponent3(
-        nameCardInfo = NameCardUiData(
+fun PhotoCardComponent4Preview() {
+    PhotoCardComponent4(
+        photoCardInfo = PhotoCardUiData(
             nickname = "Chuu",
             profileImg = "https://scontent-gmp1-1.cdninstagram.com/v/t51.29350-15/405770843_694891179472237_6454586683999531682_n.webp?stp=dst-jpg_e35_p1080x1080_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDQweDE3OTkuc2RyLmYyOTM1MC5kZWZhdWx0X2ltYWdlIn0&_nc_ht=scontent-gmp1-1.cdninstagram.com&_nc_cat=101&_nc_oc=Q6cZ2AHAUprNmOpWYKGholr7o1017cub4YZVUiCmK_jW_avZwV7eBK161QTXm7wWdW9mtyM&_nc_ohc=lGBWYYgag1YQ7kNvgHebxbs&_nc_gid=c8be5b7b91d04decb1d328ed91fa4c8e&edm=AP4sbd4BAAAA&ccb=7-5&ig_cache_key=MzI0ODEyNDg1NTI5MDA2NDU1MA%3D%3D.3-ccb7-5&oh=00_AYDUTq2I7qV-IZQYVtDA8Mdos2cqzBEcHDR87sD1AsP2Fw&oe=67BF6F69&_nc_sid=7a9f4b",
             userTendency = "INTP",
@@ -55,13 +61,14 @@ fun NameCardComponent3Preview() {
 }
 
 @Composable
-fun NameCardComponent3(
-    nameCardInfo: NameCardUiData,
+fun PhotoCardComponent4(
+    photoCardInfo: PhotoCardUiData,
     isEnabledShimmer: Boolean,
     modifier: Modifier = Modifier
 ) {
-    val nameCardWidth = 247f
-    val nameCardHeight = 354f
+    val today = remember { Date() }
+    val cardWidth = 247f
+    val cardHeight = 354f
 
     Box(
         modifier
@@ -72,9 +79,9 @@ fun NameCardComponent3(
             )
             .clip(RoundedCornerShape(12.dp))
             .background(color = WepliTheme.color.black)
-            .widthIn(max = nameCardWidth.dp)
-            .heightIn(max = nameCardHeight.dp)
-            .aspectRatio(nameCardWidth / nameCardHeight)
+            .widthIn(max = cardWidth.dp)
+            .heightIn(max = cardHeight.dp)
+            .aspectRatio(cardWidth / cardHeight)
     ) {
         // 배경으로 이미지가 들어가야하니 미리 캐싱이 필요함
         // 곡 선택 페이지에서 큰 사이즈의 이미지를 로딩해서 미리 캐싱하도록 함
@@ -83,7 +90,7 @@ fun NameCardComponent3(
                 modifier = Modifier
                     .fillMaxSize()
                     .blur(8.dp),
-                imageUrl = nameCardInfo.favoriteSong.getImageUrl(),
+                imageUrl = photoCardInfo.favoriteSong.getImageUrl(),
                 previewImage = painterResource(R.drawable.img_placeholder_eunbin),
                 allowHardware = false,
                 contentScale = ContentScale.Crop,
@@ -102,33 +109,39 @@ fun NameCardComponent3(
                 .fillMaxSize()
                 .padding(top = 32.dp, start = 20.dp, end = 12.dp, bottom = 20.dp)
         ) {
-            Text(
-                text = nameCardInfo.instagramId,
-                style = WepliTheme.typo.caption1,
-                color = WepliTheme.color.gray800,
-            )
-            Text(
-                text = nameCardInfo.nickname,
-                style = WepliTheme.typo.title3,
-                color = WepliTheme.color.gray900,
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            Text(
-                text = nameCardInfo.oneLineIntro,
-                style = WepliTheme.typo.body5,
-                color = WepliTheme.color.gray800,
-            )
+            Row {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Text(
+                        text = Calendar.getInstance().get(Calendar.DAY_OF_MONTH).toString(),
+                        style = WepliTheme.typo.default.copy(
+                            fontWeight = FontWeight.ExtraLight,
+                            fontSize = 48.sp,
+                        ),
+                        color = WepliTheme.color.gray800,
+                    )
+                    Text(
+                        text = today.toEnglishMonthName(),
+                        style = WepliTheme.typo.default.copy(
+                            fontWeight = FontWeight.Light,
+                            fontSize = 20.sp,
+                        ),
+                        color = WepliTheme.color.gray900,
+                    )
+                }
 
-            ProfilePhoto(
-                profileImageUrl = nameCardInfo.favoriteSong.getImageUrl(),
-                modifier = Modifier
-                    .weight(1f)
-                    .align(Alignment.End)
-                    .padding(vertical = 24.dp)
-                    .padding(end = 20.dp)
-            )
+                Spacer(modifier = Modifier.weight(1f))
+                UserProfile(
+                    nickname = photoCardInfo.nickname,
+                    profileImg = photoCardInfo.profileImg,
+                    tendency = photoCardInfo.userTendency
+                )
+            }
 
-            FavoriteSongComponent(favoriteSong = nameCardInfo.favoriteSong, modifier = Modifier.weight(1f))
+
+            Spacer(modifier = Modifier.weight(1f))
+            FavoriteSongComponent(favoriteSong = photoCardInfo.favoriteSong, modifier = Modifier.weight(1f))
         }
 
         if (isEnabledShimmer) {
@@ -136,6 +149,51 @@ fun NameCardComponent3(
                 modifier = Modifier
                     .matchParentSize()
                     .shimmerEffect(radius = 12.dp, duration = 2000, delay = 1500)
+            )
+        }
+    }
+}
+
+@Composable
+private fun UserProfile(
+    nickname: String,
+    profileImg: String,
+    tendency: String,
+) {
+    Row(
+        modifier = Modifier
+            .clip(CircleShape)
+            .background(
+                WepliTheme.color.white.copy(alpha = 0.2f)
+            )
+            .padding(vertical = 6.dp)
+            .padding(start = 6.dp, end = 12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+        AsyncImageWithPreview(
+            imageUrl = profileImg,
+            previewImage = painterResource(R.drawable.img_placeholder_eunbin),
+            modifier = Modifier
+                .size(28.dp)
+                .clip(CircleShape)
+        )
+        
+        Column { 
+            Text(
+                text = nickname,
+                style = WepliTheme.typo.body6.copy(
+                    fontWeight = FontWeight.Medium,
+                ),
+                color = WepliTheme.color.gray900,
+            )
+
+            Text(
+                text = tendency,
+                style = WepliTheme.typo.overline.copy(
+                    fontWeight = FontWeight.Light,
+                ),
+                color = WepliTheme.color.gray700,
             )
         }
     }
@@ -190,53 +248,6 @@ private fun FavoriteSongComponent(favoriteSong: SongUiData, modifier: Modifier =
             modifier = Modifier
                 .size(24.dp)
                 .align(Alignment.Bottom)
-        )
-    }
-}
-
-@Composable
-private fun ProfilePhoto(
-    profileImageUrl: String,
-    modifier: Modifier = Modifier
-) {
-    Box(modifier = modifier) {
-        PolaroidPhoto(
-            imageUrl = profileImageUrl,
-            modifier = Modifier.graphicsLayer {
-            rotationZ = -10f
-        })
-        PolaroidPhoto(
-            imageUrl = profileImageUrl,
-            modifier = Modifier
-        )
-    }
-}
-
-@Composable
-private fun PolaroidPhoto(
-    imageUrl: String,
-    modifier: Modifier = Modifier
-) {
-    val polaroidWidth = 100.dp
-    val polaroidHeight = 122.dp
-    val photoWidth = 90.dp
-    val photoHeight = 93.dp
-
-    Box(
-        modifier = modifier
-            .background(color = WepliTheme.color.gray900)
-            .aspectRatio(polaroidWidth / polaroidHeight)
-            .padding(top = 6.dp, start = 6.dp, end = 6.dp)
-    ) {
-        AsyncImageWithPreview(
-            imageUrl = imageUrl,
-            previewImage = painterResource(id = R.drawable.img_placeholder_eunbin),
-            allowHardware = false,
-            loadingContent = {
-                ShimmerSkeleton()
-            },
-            modifier = Modifier
-                .aspectRatio(photoWidth / photoHeight)
         )
     }
 }

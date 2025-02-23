@@ -37,7 +37,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
 import button.WepliBasicButton
 import button.WepliButtonStyle
-import com.wepli.feature.namecard.component.NameCardComponent4
+import com.wepli.feature.namecard.component.PhotoCardComponent4
 import com.wepli.feature.namecard.main.mvi.NameCardMainUiState
 import com.wepli.feature.namecard.main.viewmodel.NameCardMainViewModel
 import extensions.compose.shimmerEffect
@@ -140,8 +140,8 @@ fun NameCardScreen(
                         .scale(0.9f)
                         .align(Alignment.CenterHorizontally)
                 ) {
-                    NameCardComponent4(
-                        nameCardInfo = state.nameCardInfo,
+                    PhotoCardComponent4(
+                        photoCardInfo = state.nameCardInfo,
                         isEnabledShimmer = true
                     )
 

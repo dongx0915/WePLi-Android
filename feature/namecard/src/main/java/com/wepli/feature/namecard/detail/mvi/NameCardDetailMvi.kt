@@ -3,7 +3,7 @@ package com.wepli.feature.namecard.detail.mvi
 import base.Intent
 import base.SideEffect
 import base.UiState
-import com.wepli.shared.feature.uimodel.namecard.NameCardUiData
+import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
 import com.wepli.uimodel.music.SongUiData
 
 // TODO Page 별로 별도의 State를 갖는게 나을지
@@ -43,7 +43,7 @@ data class NameCardDetailUiState(
 
 interface NameCardDetailEffect : SideEffect {
     data object NavigateBack : NameCardDetailEffect
-    data class OnCompleteChapter(val nameCardResult: NameCardUiData) : NameCardDetailEffect
+    data class OnCompleteChapter(val nameCardResult: PhotoCardUiData) : NameCardDetailEffect
 }
 
 // TODO 페이지 별로 Intent 주석으로 정리하기

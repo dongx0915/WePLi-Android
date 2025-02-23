@@ -27,8 +27,8 @@ import theme.WepliTheme
     backgroundColor = 0xFF000000
 )
 @Composable
-fun NameCardChapter2ScreenPreview() {
-    NameCardChapter2Screen(
+fun PhotoCardChapter2ScreenPreview() {
+    PhotoCardChapter2Screen(
         state = NameCardDetailUiState(),
         sendAction = {},
         navOnNextPage = {},
@@ -39,7 +39,7 @@ fun NameCardChapter2ScreenPreview() {
 }
 
 @Composable
-fun NameCardChapter2Screen(
+fun PhotoCardChapter2Screen(
     state: NameCardDetailUiState,
     sendAction: (NameCardDetailIntent) -> Unit,
     navOnNextPage: () -> Unit,

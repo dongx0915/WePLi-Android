@@ -25,15 +25,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
-import com.wepli.feature.namecard.detail.chapter.NameCardChapter1Screen
-import com.wepli.feature.namecard.detail.chapter.NameCardChapter3Screen
-import com.wepli.feature.namecard.detail.chapter.NameCardChapter2Screen
+import com.wepli.feature.namecard.detail.chapter.PhotoCardChapter1Screen
+import com.wepli.feature.namecard.detail.chapter.PhotoCardChapter3Screen
+import com.wepli.feature.namecard.detail.chapter.PhotoCardChapter2Screen
 import com.wepli.feature.namecard.detail.component.NameCardLoadingComponent
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailEffect
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailIntent
 import com.wepli.feature.namecard.detail.mvi.NameCardDetailUiState
 import com.wepli.feature.namecard.detail.viewmodel.NameCardDetailViewModel
-import com.wepli.shared.feature.uimodel.namecard.NameCardUiData
+import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
 import com.wepli.uimodel.music.SongUiData
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
@@ -50,7 +50,7 @@ fun NameCardDetailScreenRoute(
     selectedSong: SongUiData?,
     navOnBack: () -> Unit,
     navOnSongSearchScreen: () -> Unit,
-    navOnResultScreen: (nameCardInfo: NameCardUiData) -> Unit,
+    navOnResultScreen: (nameCardInfo: PhotoCardUiData) -> Unit,
 ) {
     val viewModel: NameCardDetailViewModel = hiltViewModel()
     val state: NameCardDetailUiState by viewModel.collectAsState()
@@ -84,9 +84,9 @@ fun NameCardDetailScreen(
     val navOnPreviousPage: () -> Unit = { sendAction(NameCardDetailIntent.OnPreviousPage) }
     val pageList: List<@Composable () -> Unit> = remember(state) {
         listOf(
-            { NameCardChapter1Screen(state = state, navOnNextPage = navOnNextPage, navOnSongSearchScreen = navOnSongSearchScreen) },
-            { NameCardChapter2Screen(state = state, sendAction = sendAction, navOnNextPage = navOnNextPage) },
-            { NameCardChapter3Screen(state = state, sendAction = sendAction, navOnNextPage = navOnNextPage) },
+            { PhotoCardChapter1Screen(state = state, navOnNextPage = navOnNextPage, navOnSongSearchScreen = navOnSongSearchScreen) },
+            { PhotoCardChapter2Screen(state = state, sendAction = sendAction, navOnNextPage = navOnNextPage) },
+            { PhotoCardChapter3Screen(state = state, sendAction = sendAction, navOnNextPage = navOnNextPage) },
         )
     }
     val pagerState = rememberPagerState { pageList.size }

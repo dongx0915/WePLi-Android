@@ -30,7 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.songMockData
-import com.wepli.shared.feature.uimodel.namecard.NameCardUiData
+import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
 import com.wepli.uimodel.music.SongUiData
 import extensions.compose.shimmerEffect
 import image.AsyncImageWithPreview
@@ -38,9 +38,9 @@ import theme.WepliTheme
 
 @Preview
 @Composable
-fun NameCardComponent2Preview() {
-    NameCardComponent2(
-        nameCardInfo = NameCardUiData(
+fun PhotoCardComponent2Preview() {
+    PhotoCardComponent2(
+        photoCardInfo = PhotoCardUiData(
             nickname = "Chuu",
             userTendency = "INTP",
             oneLineIntro = "I'm a singer",
@@ -52,13 +52,13 @@ fun NameCardComponent2Preview() {
 }
 
 @Composable
-fun NameCardComponent2(
-    nameCardInfo: NameCardUiData,
+fun PhotoCardComponent2(
+    photoCardInfo: PhotoCardUiData,
     isEnabledShimmer: Boolean,
     modifier: Modifier = Modifier
 ) {
-    val nameCardWidth = 247f
-    val nameCardHeight = 354f
+    val cardWidth = 247f
+    val cardHeight = 354f
 
     Box(
         modifier
@@ -69,9 +69,9 @@ fun NameCardComponent2(
             )
             .clip(RoundedCornerShape(12.dp))
             .background(color = WepliTheme.color.black)
-            .widthIn(max = nameCardWidth.dp)
-            .heightIn(max = nameCardHeight.dp)
-            .aspectRatio(nameCardWidth / nameCardHeight)
+            .widthIn(max = cardWidth.dp)
+            .heightIn(max = cardHeight.dp)
+            .aspectRatio(cardWidth / cardHeight)
     ) {
         // 배경으로 이미지가 들어가야하니 미리 캐싱이 필요함
         // 곡 선택 페이지에서 큰 사이즈의 이미지를 로딩해서 미리 캐싱하도록 함
@@ -80,7 +80,7 @@ fun NameCardComponent2(
                 modifier = Modifier
                     .fillMaxSize()
                     .blur(8.dp),
-                imageUrl = nameCardInfo.favoriteSong.getImageUrl(),
+                imageUrl = photoCardInfo.favoriteSong.getImageUrl(),
                 previewImage = painterResource(R.drawable.img_placeholder_eunbin),
                 allowHardware = false,
                 contentScale = ContentScale.Crop
@@ -99,24 +99,24 @@ fun NameCardComponent2(
                 .padding(top = 32.dp, start = 20.dp, end = 12.dp, bottom = 20.dp)
         ) {
             Text(
-                text = nameCardInfo.instagramId,
+                text = photoCardInfo.instagramId,
                 style = WepliTheme.typo.caption1,
                 color = WepliTheme.color.gray800,
             )
             Text(
-                text = nameCardInfo.nickname,
+                text = photoCardInfo.nickname,
                 style = WepliTheme.typo.title3,
                 color = WepliTheme.color.gray900,
             )
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = nameCardInfo.oneLineIntro,
+                text = photoCardInfo.oneLineIntro,
                 style = WepliTheme.typo.body5,
                 color = WepliTheme.color.gray800,
             )
             
             Spacer(modifier = Modifier.weight(1f))
-            FavoriteSongComponent(favoriteSong = nameCardInfo.favoriteSong)
+            FavoriteSongComponent(favoriteSong = photoCardInfo.favoriteSong)
         }
 
         if (isEnabledShimmer) {

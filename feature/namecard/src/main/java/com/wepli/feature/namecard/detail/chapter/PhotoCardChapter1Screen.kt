@@ -31,7 +31,7 @@ import image.AsyncImageWithPreview
 import theme.WepliTheme
 
 @Composable
-fun NameCardChapter1Screen(
+fun PhotoCardChapter1Screen(
     state: NameCardDetailUiState,
     modifier: Modifier = Modifier,
     navOnNextPage: () -> Unit,

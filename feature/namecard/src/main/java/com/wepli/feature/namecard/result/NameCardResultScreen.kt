@@ -50,12 +50,12 @@ import appbar.WepliAppBar
 import button.WepliBasicButton
 import button.WepliButtonStyle
 import com.wepli.designsystem.R
-import com.wepli.feature.namecard.component.NameCardComponent4
+import com.wepli.feature.namecard.component.PhotoCardComponent4
 import com.wepli.feature.namecard.result.mvi.NameCardResultIntent
 import com.wepli.feature.namecard.result.mvi.NameCardResultUiState
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.mock.userMockData
-import com.wepli.shared.feature.uimodel.namecard.NameCardUiData
+import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
 import component.bottomsheet.WepliBottomSheet
 import component.bottomsheet.WepliBottomSheetType
 import extensions.saveBitmapToFile
@@ -69,7 +69,7 @@ import theme.WepliTheme
 
 @Composable
 fun NameCardResultScreenRoute(
-    nameCardInfo: NameCardUiData?,
+    nameCardInfo: PhotoCardUiData?,
     navOnBack: () -> Unit
 ) {
     val viewModel: NameCardResultViewModel = hiltViewModel()
@@ -136,8 +136,8 @@ fun NameCardResultScreen(
             )
             Spacer(modifier = Modifier.weight(4f))
 
-            NameCardComponent4(
-                nameCardInfo = state.nameCardInfo,
+            PhotoCardComponent4(
+                photoCardInfo = state.nameCardInfo,
                 isEnabledShimmer = false,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -266,7 +266,7 @@ fun BottomSheetItem(
 fun NameCardResultScreenPreview() {
     NameCardResultScreen(
         NameCardResultUiState(
-            nameCardInfo = NameCardUiData(
+            nameCardInfo = PhotoCardUiData(
                 nickname = userMockData.random().nickname,
                 userTendency = "Melody Memories",
                 oneLineIntro = "안녕하세요! 저는 음악을 좋아하는 사람입니다.",
