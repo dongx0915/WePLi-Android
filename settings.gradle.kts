@@ -33,7 +33,7 @@ include(
     ":feature:community",
     ":feature:playlist",
     ":feature:mypage",
-    ":feature:namecard",
+    ":feature:photocard",
     ":shared:feature",
     ":core",
     ":core:common",
