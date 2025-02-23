@@ -3,7 +3,7 @@ package com.wepli.feature.photocard.main.viewmodel
 import base.BaseMviViewModel
 import com.wepli.feature.photocard.main.mvi.NameCardMainEffect
 import com.wepli.feature.photocard.main.mvi.NameCardMainIntent
-import com.wepli.feature.photocard.main.mvi.NameCardMainUiState
+import com.wepli.feature.photocard.main.mvi.PhotoCardMainUiState
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.mock.userMockData
 import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
@@ -15,8 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class NameCardMainViewModel @Inject constructor(
     private val userRepository: UserRepository
-) : BaseMviViewModel<NameCardMainUiState, NameCardMainEffect, NameCardMainIntent>(
-    initialState = NameCardMainUiState(),
+) : BaseMviViewModel<PhotoCardMainUiState, NameCardMainEffect, NameCardMainIntent>(
+    initialState = PhotoCardMainUiState(),
 ) {
     init {
         getUser()
@@ -44,6 +44,6 @@ class NameCardMainViewModel @Inject constructor(
             favoriteSong = songMockData.random()
         )
 
-        updateState { copy(nameCardInfo = nameCardInfo) }
+        updateState { copy(photoCardInfo = nameCardInfo) }
     }
 }

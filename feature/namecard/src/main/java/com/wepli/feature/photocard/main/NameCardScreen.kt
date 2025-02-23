@@ -38,7 +38,7 @@ import appbar.WepliAppBar
 import button.WepliBasicButton
 import button.WepliButtonStyle
 import com.wepli.feature.photocard.component.PhotoCardComponent4
-import com.wepli.feature.photocard.main.mvi.NameCardMainUiState
+import com.wepli.feature.photocard.main.mvi.PhotoCardMainUiState
 import com.wepli.feature.photocard.main.viewmodel.NameCardMainViewModel
 import extensions.compose.shimmerEffect
 import kotlinx.coroutines.delay
@@ -64,7 +64,7 @@ fun NameCardScreenRoute(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun NameCardScreen(
-    state: NameCardMainUiState,
+    state: PhotoCardMainUiState,
     navOnBack: () -> Unit,
     navOnNameCardDetail: () -> Unit,
 ) {
@@ -141,7 +141,7 @@ fun NameCardScreen(
                         .align(Alignment.CenterHorizontally)
                 ) {
                     PhotoCardComponent4(
-                        photoCardInfo = state.nameCardInfo,
+                        photoCardInfo = state.photoCardInfo,
                         isEnabledShimmer = true
                     )
 
@@ -185,7 +185,7 @@ private fun AnimatedContent(isVisible: Boolean, modifier: Modifier = Modifier, c
 @Composable
 fun NameCardMainScreenPreview() {
     NameCardScreen(
-        state = NameCardMainUiState(),
+        state = PhotoCardMainUiState(),
         navOnBack = { },
         navOnNameCardDetail = { }
     )

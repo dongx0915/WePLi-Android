@@ -6,9 +6,9 @@ import base.UiState
 import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
 import com.wepli.shared.feature.uimodel.user.UserUiData
 
-data class NameCardMainUiState(
+data class PhotoCardMainUiState(
     val user: UserUiData = UserUiData(),
-    val nameCardInfo: PhotoCardUiData = PhotoCardUiData(),
+    val photoCardInfo: PhotoCardUiData = PhotoCardUiData(),
 ) : UiState
 
 interface NameCardMainEffect : SideEffect {
