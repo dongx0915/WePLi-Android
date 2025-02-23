@@ -51,8 +51,8 @@ import button.WepliBasicButton
 import button.WepliButtonStyle
 import com.wepli.designsystem.R
 import com.wepli.feature.photocard.component.PhotoCardComponent4
-import com.wepli.feature.photocard.result.mvi.NameCardResultIntent
-import com.wepli.feature.photocard.result.mvi.NameCardResultUiState
+import com.wepli.feature.photocard.result.mvi.PhotoCardResultIntent
+import com.wepli.feature.photocard.result.mvi.PhotoCardResultUiState
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.mock.userMockData
 import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
@@ -76,7 +76,7 @@ fun NameCardResultScreenRoute(
     val state by viewModel.collectAsState()
     nameCardInfo?.let {
         LaunchedEffect(nameCardInfo) {
-            viewModel.processIntent(NameCardResultIntent.Initialize(nameCardInfo))
+            viewModel.processIntent(PhotoCardResultIntent.Initialize(nameCardInfo))
         }
     }
 
@@ -87,8 +87,8 @@ fun NameCardResultScreenRoute(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "RememberReturnType")
 @Composable
 fun NameCardResultScreen(
-    state: NameCardResultUiState,
-    sendAction: (NameCardResultIntent) -> Unit,
+    state: PhotoCardResultUiState,
+    sendAction: (PhotoCardResultIntent) -> Unit,
     navOnBack: () -> Unit
 ) {
     val scrollState = rememberScrollState()
@@ -137,7 +137,7 @@ fun NameCardResultScreen(
             Spacer(modifier = Modifier.weight(4f))
 
             PhotoCardComponent4(
-                photoCardInfo = state.nameCardInfo,
+                photoCardInfo = state.photoCardInfo,
                 isEnabledShimmer = false,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -158,7 +158,7 @@ fun NameCardResultScreen(
                     coroutineScope.launch {
                         // 클릭한 시점의 비트맵을 가져오기 위해 클릭 시점에 변환
                         nameCardBitmap = captureNameCard(graphicsLayer)
-                        sendAction(NameCardResultIntent.ShowShareBottomSheet(true))
+                        sendAction(PhotoCardResultIntent.ShowShareBottomSheet(true))
                     }
                 },
                 modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -187,10 +187,10 @@ fun NameCardResultScreen(
 @Composable
 fun NameCardShareBottomSheet(
     nameCardBitmap: ImageBitmap,
-    sendAction: (NameCardResultIntent) -> Unit,
+    sendAction: (PhotoCardResultIntent) -> Unit,
 ) {
     WepliBottomSheet(
-        onClosed = { sendAction(NameCardResultIntent.ShowShareBottomSheet(false)) },
+        onClosed = { sendAction(PhotoCardResultIntent.ShowShareBottomSheet(false)) },
         type = WepliBottomSheetType.Normal(title = "명함 공유하기"),
     ) {
         Column(
@@ -265,8 +265,8 @@ fun BottomSheetItem(
 @Composable
 fun NameCardResultScreenPreview() {
     NameCardResultScreen(
-        NameCardResultUiState(
-            nameCardInfo = PhotoCardUiData(
+        PhotoCardResultUiState(
+            photoCardInfo = PhotoCardUiData(
                 nickname = userMockData.random().nickname,
                 userTendency = "Melody Memories",
                 oneLineIntro = "안녕하세요! 저는 음악을 좋아하는 사람입니다.",
