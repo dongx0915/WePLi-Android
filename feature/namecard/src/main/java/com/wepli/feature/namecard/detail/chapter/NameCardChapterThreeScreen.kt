@@ -7,6 +7,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,6 +45,11 @@ fun NameCardChapterThreeScreen(
     navOnNextPage: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val instagramIdState = state.instagramId
+    val isEnabled by remember(instagramIdState.text) {
+        derivedStateOf { instagramIdState.text.isNotEmpty() && instagramIdState.isLengthExceed.not() }
+    }
+
     Column(modifier = modifier.padding(horizontal = 24.dp)) {
         Text(
             text = "Instagram 계정을\n입력해주세요",
@@ -69,7 +77,7 @@ fun NameCardChapterThreeScreen(
         Spacer(modifier = Modifier.weight(1f))
         WepliBasicButton(
             title = "입력완료",
-            isEnabled = true,
+            isEnabled = isEnabled,
             onClick = { navOnNextPage() },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally),

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,7 +46,7 @@ fun NameCardChapterTwoScreen(
     modifier: Modifier = Modifier
 ) {
     val oneLineIntro = state.oneLineIntro
-    val isEnabled = remember(oneLineIntro.text) {
+    val isEnabled by remember(oneLineIntro.text) {
         derivedStateOf { oneLineIntro.text.isNotEmpty() && oneLineIntro.isLengthExceed.not() }
     }
 
@@ -78,7 +79,7 @@ fun NameCardChapterTwoScreen(
         Spacer(modifier = Modifier.weight(1f))
         WepliBasicButton(
             title = "입력완료",
-            isEnabled = isEnabled.value,
+            isEnabled = isEnabled,
             onClick = { navOnNextPage() },
             modifier = Modifier
                 .padding(bottom = 20.dp)
