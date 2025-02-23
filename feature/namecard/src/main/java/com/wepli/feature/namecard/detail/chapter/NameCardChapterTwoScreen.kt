@@ -46,7 +46,7 @@ fun NameCardChapterTwoScreen(
 ) {
     val oneLineIntro = state.oneLineIntro
     val isEnabled = remember(oneLineIntro.text) {
-        derivedStateOf { oneLineIntro.text.isNotEmpty() }
+        derivedStateOf { oneLineIntro.text.isNotEmpty() && oneLineIntro.isLengthExceed.not() }
     }
 
     Column(modifier = modifier.padding(horizontal = 24.dp)) {
