@@ -138,6 +138,7 @@ fun NameCardResultScreen(
 
             NameCardComponent4(
                 nameCardInfo = state.nameCardInfo,
+                isEnabledShimmer = false,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .drawWithContent {

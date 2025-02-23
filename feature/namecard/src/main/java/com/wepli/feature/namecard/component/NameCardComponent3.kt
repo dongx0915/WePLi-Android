@@ -34,6 +34,7 @@ import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.uimodel.namecard.NameCardUiData
 import com.wepli.uimodel.music.SongUiData
 import common.ShimmerSkeleton
+import extensions.compose.shimmerEffect
 import image.AsyncImageWithPreview
 import theme.WepliTheme
 
@@ -49,12 +50,14 @@ fun NameCardComponent3Preview() {
             favoriteSong = songMockData.first(),
             instagramId = "chuu_loona"
         ),
+        isEnabledShimmer = false,
     )
 }
 
 @Composable
 fun NameCardComponent3(
     nameCardInfo: NameCardUiData,
+    isEnabledShimmer: Boolean,
     modifier: Modifier = Modifier
 ) {
     val nameCardWidth = 247f
@@ -126,6 +129,14 @@ fun NameCardComponent3(
             )
 
             FavoriteSongComponent(favoriteSong = nameCardInfo.favoriteSong, modifier = Modifier.weight(1f))
+        }
+
+        if (isEnabledShimmer) {
+            Box(
+                modifier = Modifier
+                    .matchParentSize()
+                    .shimmerEffect(radius = 12.dp, duration = 2000, delay = 1500)
+            )
         }
     }
 }

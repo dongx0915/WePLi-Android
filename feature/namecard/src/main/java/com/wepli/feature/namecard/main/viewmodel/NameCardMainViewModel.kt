@@ -34,10 +34,10 @@ class NameCardMainViewModel @Inject constructor(
 
     private fun setNameCardInfo() {
         val nameCardInfo = NameCardUiData(
-            nickname = "테스트 닉네임",
+            nickname = "WePLi",
             userTendency = "Melody Memories",
-            oneLineIntro = "테스트 문구입니다. 자신의 취향을 소개하는 문구를 작성해보세요.",
-            instagramId = "dongx._.2",
+            oneLineIntro = "내 취향을 다른 사람들에게 소개해보세요.",
+            instagramId = "my_account",
             favoriteSong = songMockData.random()
         )
 

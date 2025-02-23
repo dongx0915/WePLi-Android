@@ -1,7 +1,13 @@
 package com.wepli.feature.namecard.main
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,15 +19,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
 import button.WepliBasicButton
 import button.WepliButtonStyle
-import com.wepli.feature.namecard.component.NameCardComponent
+import com.wepli.feature.namecard.component.NameCardComponent2
 import com.wepli.feature.namecard.main.mvi.NameCardMainUiState
 import com.wepli.feature.namecard.main.viewmodel.NameCardMainViewModel
+import com.wepli.shared.feature.mock.songMockData
+import extensions.compose.shimmerEffect
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
 
@@ -48,6 +58,22 @@ fun NameCardScreen(
     navOnBack: () -> Unit,
     navOnNameCardDetail: () -> Unit,
 ) {
+    // 1. 무한 반복 애니메이션 정의
+    val infiniteTransition = rememberInfiniteTransition(label = "")
+
+    // 2. translationY를 위아래로 움직이는 값
+    val offsetY by infiniteTransition.animateFloat(
+        initialValue = 0f,            // 시작 오프셋
+        targetValue = 25f,           // 이동할 최대 오프셋 (아래 예시는 15f만큼 이동)
+        animationSpec = infiniteRepeatable(
+            tween(
+                durationMillis = 2000, // 위아래 왕복에 걸리는 시간
+            ),
+            repeatMode = RepeatMode.Reverse // 왕복 애니메이션
+        ),
+        label = "FloatUpDown"
+    )
+
     Scaffold(
         topBar = {
             WepliAppBar(
@@ -79,10 +105,25 @@ fun NameCardScreen(
             )
 
             Spacer(modifier = Modifier.weight(1f))
-            NameCardComponent(
-                nameCardInfo = state.nameCardInfo,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
+            Box(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .graphicsLayer {
+                        translationY = offsetY
+                    }
+                    .scale(0.9f)
+            ) {
+                NameCardComponent2(
+                    nameCardInfo = state.nameCardInfo.copy(
+                        favoriteSong = songMockData.random()
+                    ),
+                    isEnabledShimmer = true
+                )
+
+                Box(
+                    modifier = Modifier.shimmerEffect(12.dp, 2000, 1500)
+                )
+            }
 
             Spacer(modifier = Modifier.weight(1f))
             WepliBasicButton(
