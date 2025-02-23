@@ -47,11 +47,11 @@ interface PhotoCardDetailEffect : SideEffect {
 }
 
 // TODO 페이지 별로 Intent 주석으로 정리하기
-interface NameCardDetailIntent : Intent {
-    data class Initialize(val totalPage: Int, val oneLineIntroMaxLength: Int) : NameCardDetailIntent
-    data class OnChangedOneLineIntro(val text: String) : NameCardDetailIntent
-    data class OnChangedInstagramId(val text: String) : NameCardDetailIntent
-    data class OnFavoriteSongSelected(val song: SongUiData) : NameCardDetailIntent
-    data object OnNextPage : NameCardDetailIntent
-    data object OnPreviousPage : NameCardDetailIntent
+interface PhotoCardDetailIntent : Intent {
+    data class Initialize(val totalPage: Int, val oneLineIntroMaxLength: Int) : PhotoCardDetailIntent
+    data class OnChangedOneLineIntro(val text: String) : PhotoCardDetailIntent
+    data class OnChangedInstagramId(val text: String) : PhotoCardDetailIntent
+    data class OnFavoriteSongSelected(val song: SongUiData) : PhotoCardDetailIntent
+    data object OnNextPage : PhotoCardDetailIntent
+    data object OnPreviousPage : PhotoCardDetailIntent
 }

@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import button.WepliBasicButton
 import button.WepliButtonStyle
-import com.wepli.feature.namecard.detail.mvi.NameCardDetailIntent
+import com.wepli.feature.namecard.detail.mvi.PhotoCardDetailIntent
 import com.wepli.feature.namecard.detail.mvi.PhotoCardDetailUiState
 import textfield.WepliTextField
 import textfield.WepliTextFieldType
@@ -41,7 +41,7 @@ fun PhotoCardChapter3ScreenPreview() {
 @Composable
 fun PhotoCardChapter3Screen(
     state: PhotoCardDetailUiState,
-    sendAction: (NameCardDetailIntent) -> Unit,
+    sendAction: (PhotoCardDetailIntent) -> Unit,
     navOnNextPage: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -67,7 +67,7 @@ fun PhotoCardChapter3Screen(
         WepliTextField(
             value = "",
             onValueChanged = { newValue ->
-                sendAction(NameCardDetailIntent.OnChangedInstagramId(newValue))
+                sendAction(PhotoCardDetailIntent.OnChangedInstagramId(newValue))
             },
             singleLine = true,
             placeholder = "계정을 입력해주세요",

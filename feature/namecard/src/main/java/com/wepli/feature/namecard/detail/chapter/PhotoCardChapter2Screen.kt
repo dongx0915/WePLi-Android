@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import button.WepliBasicButton
 import button.WepliButtonStyle
-import com.wepli.feature.namecard.detail.mvi.NameCardDetailIntent
+import com.wepli.feature.namecard.detail.mvi.PhotoCardDetailIntent
 import com.wepli.feature.namecard.detail.mvi.PhotoCardDetailUiState
 import textfield.LimitedLengthTextField
 import textfield.WepliTextFieldType
@@ -41,7 +41,7 @@ fun PhotoCardChapter2ScreenPreview() {
 @Composable
 fun PhotoCardChapter2Screen(
     state: PhotoCardDetailUiState,
-    sendAction: (NameCardDetailIntent) -> Unit,
+    sendAction: (PhotoCardDetailIntent) -> Unit,
     navOnNextPage: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -67,7 +67,7 @@ fun PhotoCardChapter2Screen(
         LimitedLengthTextField(
             value = oneLineIntro.text,
             onValueChanged = { newValue, _ ->
-                sendAction(NameCardDetailIntent.OnChangedOneLineIntro(newValue))
+                sendAction(PhotoCardDetailIntent.OnChangedOneLineIntro(newValue))
             },
             placeholder = "문구를 작성해주세요",
             errorText = "최대 ${oneLineIntro.maxLength}자까지 입력 가능합니다",

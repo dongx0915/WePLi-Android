@@ -2,7 +2,7 @@ package com.wepli.feature.namecard.detail.viewmodel
 
 import base.BaseMviViewModel
 import com.wepli.feature.namecard.detail.mvi.PhotoCardDetailEffect
-import com.wepli.feature.namecard.detail.mvi.NameCardDetailIntent
+import com.wepli.feature.namecard.detail.mvi.PhotoCardDetailIntent
 import com.wepli.feature.namecard.detail.mvi.PhotoCardDetailUiState
 import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
 import com.wepli.uimodel.music.SongUiData
@@ -17,17 +17,17 @@ import kotlin.random.Random
 @HiltViewModel
 class NameCardDetailViewModel @Inject constructor(
     private val userRepository: UserRepository
-) : BaseMviViewModel<PhotoCardDetailUiState, PhotoCardDetailEffect, NameCardDetailIntent>(
+) : BaseMviViewModel<PhotoCardDetailUiState, PhotoCardDetailEffect, PhotoCardDetailIntent>(
     initialState = PhotoCardDetailUiState()
 ) {
-    override fun processIntent(intent: NameCardDetailIntent) {
+    override fun processIntent(intent: PhotoCardDetailIntent) {
         when(intent) {
-            is NameCardDetailIntent.Initialize -> handleInitialize(intent.totalPage, intent.oneLineIntroMaxLength)
-            is NameCardDetailIntent.OnChangedOneLineIntro -> handleChangedOneLineIntro(intent.text)
-            is NameCardDetailIntent.OnChangedInstagramId -> handleChangedInstagramId(intent.text)
-            is NameCardDetailIntent.OnFavoriteSongSelected -> handleFavoriteSongSelected(intent.song)
-            is NameCardDetailIntent.OnNextPage -> handleNextPage()
-            is NameCardDetailIntent.OnPreviousPage -> handlePreviousPage()
+            is PhotoCardDetailIntent.Initialize -> handleInitialize(intent.totalPage, intent.oneLineIntroMaxLength)
+            is PhotoCardDetailIntent.OnChangedOneLineIntro -> handleChangedOneLineIntro(intent.text)
+            is PhotoCardDetailIntent.OnChangedInstagramId -> handleChangedInstagramId(intent.text)
+            is PhotoCardDetailIntent.OnFavoriteSongSelected -> handleFavoriteSongSelected(intent.song)
+            is PhotoCardDetailIntent.OnNextPage -> handleNextPage()
+            is PhotoCardDetailIntent.OnPreviousPage -> handlePreviousPage()
         }
     }
 

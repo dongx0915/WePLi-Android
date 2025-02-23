@@ -30,7 +30,7 @@ import com.wepli.feature.namecard.detail.chapter.PhotoCardChapter3Screen
 import com.wepli.feature.namecard.detail.chapter.PhotoCardChapter2Screen
 import com.wepli.feature.namecard.detail.component.PhotoCardLoadingComponent
 import com.wepli.feature.namecard.detail.mvi.PhotoCardDetailEffect
-import com.wepli.feature.namecard.detail.mvi.NameCardDetailIntent
+import com.wepli.feature.namecard.detail.mvi.PhotoCardDetailIntent
 import com.wepli.feature.namecard.detail.mvi.PhotoCardDetailUiState
 import com.wepli.feature.namecard.detail.viewmodel.NameCardDetailViewModel
 import com.wepli.shared.feature.uimodel.namecard.PhotoCardUiData
@@ -64,7 +64,7 @@ fun NameCardDetailScreenRoute(
 
     selectedSong?.let {
         LaunchedEffect(selectedSong) {
-            viewModel.processIntent(NameCardDetailIntent.OnFavoriteSongSelected(it))
+            viewModel.processIntent(PhotoCardDetailIntent.OnFavoriteSongSelected(it))
         }
     }
 
@@ -76,12 +76,12 @@ fun NameCardDetailScreenRoute(
 @Composable
 fun NameCardDetailScreen(
     state: PhotoCardDetailUiState,
-    sendAction: (NameCardDetailIntent) -> Unit,
+    sendAction: (PhotoCardDetailIntent) -> Unit,
     navOnBack: () -> Unit,
     navOnSongSearchScreen: () -> Unit,
 ) {
-    val navOnNextPage: () -> Unit = { sendAction(NameCardDetailIntent.OnNextPage) }
-    val navOnPreviousPage: () -> Unit = { sendAction(NameCardDetailIntent.OnPreviousPage) }
+    val navOnNextPage: () -> Unit = { sendAction(PhotoCardDetailIntent.OnNextPage) }
+    val navOnPreviousPage: () -> Unit = { sendAction(PhotoCardDetailIntent.OnPreviousPage) }
     val pageList: List<@Composable () -> Unit> = remember(state) {
         listOf(
             { PhotoCardChapter1Screen(state = state, navOnNextPage = navOnNextPage, navOnSongSearchScreen = navOnSongSearchScreen) },
@@ -92,7 +92,7 @@ fun NameCardDetailScreen(
     val pagerState = rememberPagerState { pageList.size }
 
     LaunchedEffect(Unit) {
-        sendAction(NameCardDetailIntent.Initialize(totalPage = pageList.size, oneLineIntroMaxLength = 20))
+        sendAction(PhotoCardDetailIntent.Initialize(totalPage = pageList.size, oneLineIntroMaxLength = 20))
     }
 
     LaunchedEffect(state.currentPage) {
@@ -137,7 +137,7 @@ fun NameCardDetailScreen(
     }
 
     BackHandler(state.currentPage != 0) {
-        sendAction(NameCardDetailIntent.OnPreviousPage)
+        sendAction(PhotoCardDetailIntent.OnPreviousPage)
     }
 }
 
