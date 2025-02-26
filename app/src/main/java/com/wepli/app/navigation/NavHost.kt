@@ -72,7 +72,7 @@ fun SetUpNavGraph(
         // 마이페이지 Graph
         mypageGraph(navController, goToLoginActivity)
 
-        // 명함 Graph
+        // 포토카드 Graph
         photoCardGraph(navController)
     }
 }

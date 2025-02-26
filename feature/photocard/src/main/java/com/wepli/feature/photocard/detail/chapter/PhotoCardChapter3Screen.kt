@@ -58,7 +58,7 @@ fun PhotoCardChapter3Screen(
         )
         Spacer(modifier = Modifier.padding(top = 12.dp))
         Text(
-            text = "명함에 표시될 SNS 계정을 입력해주세요\n계정 입력을 원하지 않으면 건너뛸 수 있어요",
+            text = "포토카드에 표시될 SNS 계정을 입력해주세요\n계정 입력을 원하지 않으면 건너뛸 수 있어요",
             style = WepliTheme.typo.body4,
             color = WepliTheme.color.gray500
         )

@@ -52,13 +52,13 @@ fun PhotoCardLoadingComponent(
     ) {
         Spacer(modifier = Modifier.weight(3f))
         Text(
-            text = "명함을 생성 중입니다",
+            text = "포토카드를 생성 중입니다",
             style = WepliTheme.typo.title1,
             color = WepliTheme.color.white
         )
         Spacer(modifier = Modifier.height(12.dp))
         Text(
-            text = "위플리가 명함을 만드는 중이에요\n조금만 기다리면 근사한 명함을 만들어드릴게요!",
+            text = "위플리가 포토카드를 만드는 중이에요\n조금만 기다리면 근사한 포토카드를 만들어드릴게요!",
             style = WepliTheme.typo.body4,
             color = WepliTheme.color.gray500,
             textAlign = TextAlign.Center

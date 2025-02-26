@@ -122,14 +122,14 @@ fun PhotoCardResultScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "명함이 완성되었어요!",
+                text = "포토카드가 완성되었어요!",
                 style = WepliTheme.typo.title1,
                 color = WepliTheme.color.gray900
             )
 
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = "${state.user.nickname}님만의 명함이 완성 되었어요!\n친구들에게 공유해볼까요?",
+                text = "${state.user.nickname}님만의 포토카드가 완성 되었어요!\n친구들에게 공유해볼까요?",
                 style = WepliTheme.typo.body4,
                 color = WepliTheme.color.gray500,
                 textAlign = TextAlign.Center,
@@ -191,7 +191,7 @@ fun PhotoCardShareBottomSheet(
 ) {
     WepliBottomSheet(
         onClosed = { sendAction(PhotoCardResultIntent.ShowShareBottomSheet(false)) },
-        type = WepliBottomSheetType.Normal(title = "명함 공유하기"),
+        type = WepliBottomSheetType.Normal(title = "포토카드 공유하기"),
     ) {
         Column(
             modifier = Modifier.fillMaxWidth()
@@ -290,10 +290,10 @@ private fun onClickSaveBtn(context: Context, scope: CoroutineScope, graphicsLaye
             context = context,
             fileName = "wepli_photocard_${System.currentTimeMillis()}",
             onSuccess = {
-                Toast.makeText(context, "명함이 저장 되었어요. 갤러리에서 확인해보세요!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "포토카드가 저장 되었어요. 갤러리에서 확인해보세요!", Toast.LENGTH_SHORT).show()
             },
             onFailure = {
-                Toast.makeText(context, "명함 저장에 실패했어요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "포토카드 저장에 실패했어요", Toast.LENGTH_SHORT).show()
             }
         )
     }

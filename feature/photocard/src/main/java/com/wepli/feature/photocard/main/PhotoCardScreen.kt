@@ -114,13 +114,13 @@ fun PhotoCardScreen(
             // Section 1
             AnimatedContent(section1Visible) {
                 Text(
-                    text = "내 취향 명함 만들기",
+                    text = "나만의 포토카드 만들기",
                     style = WepliTheme.typo.title1,
                     color = WepliTheme.color.gray900
                 )
                 Spacer(modifier = Modifier.padding(top = 12.dp))
                 Text(
-                    text = "${state.user.nickname}님의 취향이 드러나는 명함을 만들어드려요",
+                    text = "${state.user.nickname}님의 취향이 드러나는 포토카드를 만들어보세요",
                     style = WepliTheme.typo.body4,
                     color = WepliTheme.color.gray500
                 )

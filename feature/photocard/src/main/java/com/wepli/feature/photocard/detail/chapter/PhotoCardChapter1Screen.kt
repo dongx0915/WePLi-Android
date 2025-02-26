@@ -47,7 +47,7 @@ fun PhotoCardChapter1Screen(
         )
         Spacer(modifier = Modifier.padding(top = 12.dp))
         Text(
-            text = "선택한 노래는 명함에 추가되어 다른 사람들에게 보여질거예요",
+            text = "선택한 노래는 포토카드에 추가되어 다른 사람들에게 보여질거예요",
             style = WepliTheme.typo.body4,
             color = WepliTheme.color.gray500
         )

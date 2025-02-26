@@ -57,7 +57,7 @@ class MyPageViewModel @Inject constructor(
                     MenuSection.MenuItem("내 플레이리스트", MyPageIntent.None),
                     MenuSection.MenuItem("참여한 릴레이리스트", MyPageIntent.None),
                     MenuSection.MenuItem("좋아요 • 저장", MyPageIntent.None),
-                    MenuSection.MenuItem("포토 카드 만들기", MyPageIntent.OnClickPhotoCardMenu),
+                    MenuSection.MenuItem("포토카드 만들기", MyPageIntent.OnClickPhotoCardMenu),
                 )
             ),
             MenuSection(
