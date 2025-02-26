@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -16,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -82,13 +85,19 @@ fun MusicItem(
     showMoreIcon: Boolean = false,
 ) {
     Row(
-        modifier = modifier.height(52.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .height(52.dp),
     ) {
         AsyncImageWithPreview(
-            modifier = imageModifier.clip(RoundedCornerShape(3.dp)),
+            modifier = imageModifier
+                .aspectRatio(1f)
+                .clip(RoundedCornerShape(3.dp))
+                .fillMaxHeight(),
             imageUrl = musicItemType.coverImgUrl,
             previewImage = painterResource(id = R.drawable.img_placeholder_album_cover),
             imageOverrideSize = 52.dp,
+            contentScale = ContentScale.Crop
         )
 
         when (musicItemType) {
