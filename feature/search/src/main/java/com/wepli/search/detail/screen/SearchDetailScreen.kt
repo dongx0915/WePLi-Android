@@ -38,8 +38,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -216,14 +219,27 @@ fun SearchBar(
     onQueryUpdate: (String) -> Unit,
     onEnter: () -> Unit,
 ) {
+    val focusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    // 화면 진입 시 자동 포커스 요청
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+        keyboardController?.show()
+    }
+
     Box(modifier = Modifier.padding(vertical = 10.dp)) {
         WepliTextField(
             value = searchQuery,
             singleLine = true,
             onValueChanged = { onQueryUpdate(it) },
-            onEnter = { onEnter() },
+            onEnter = {
+                onEnter()
+                keyboardController?.hide()
+            },
             placeholder = "검색어를 입력하세요.",
-            type = WepliTextFieldType.Search
+            type = WepliTextFieldType.Search,
+            modifier = Modifier.focusRequester(focusRequester)
         )
     }
 }
