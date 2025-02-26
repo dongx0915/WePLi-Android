@@ -48,9 +48,9 @@ fun CommunityDetailScreen(
         scrollState = scrollState,
         backgroundColors = Color.Transparent to WepliTheme.color.black,
         contentsColors = Color.White to Color.White,
-        topBarComponent = { backgroundColor, contentsColor, _, _ ->
+        topBarComponent = { backgroundColor, contentsColor, isFullScrolled, _ ->
             WepliAppBar(
-                title = post.title,
+                title = if (isFullScrolled) post.title else "",
                 containerColor = backgroundColor,
                 contentsColor = contentsColor,
                 showBackButton = true,
