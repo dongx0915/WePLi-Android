@@ -2,14 +2,13 @@ package com.wepli.mypage.menus.mypage.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.wepli.mypage.menus.mypage.screen.MyPageScreen
 import com.wepli.mypage.menus.mypage.screen.MyPageScreenRoute
 import com.wepli.navigator.feature.mypage.MyPageRoute
 
 
 fun NavGraphBuilder.mypageMainGraph(
     navOnAppInfo: () -> Unit,
-    navOnNameCard: () -> Unit,
+    navOnPhotoCard: () -> Unit,
     goToLoginActivity: () -> Unit,
 ) {
     composable(
@@ -17,7 +16,7 @@ fun NavGraphBuilder.mypageMainGraph(
     ) {
         MyPageScreenRoute(
             navOnAppInfo = { navOnAppInfo() },
-            navOnNameCard = { navOnNameCard() },
+            navOnPhotoCard = { navOnPhotoCard() },
             goToLoginActivity = { goToLoginActivity() }
         )
     }

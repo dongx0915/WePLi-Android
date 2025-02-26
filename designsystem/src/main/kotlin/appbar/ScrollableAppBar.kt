@@ -37,7 +37,7 @@ import kotlin.math.min
  * @param contentsColors 콘텐츠 색상
  * @param content 재사용 가능한 콘텐츠
  */
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState", "ContextCastToActivity")
 @Composable
 fun ScrollableAppBar(
     modifier: Modifier = Modifier,
@@ -81,7 +81,7 @@ fun ScrollableAppBar(
  * @param contentsColors 콘텐츠 색상
  * @param content 재사용 가능한 콘텐츠
  */
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState", "ContextCastToActivity")
 @Composable
 fun ScrollableAppBar(
     scrollState: ScrollState,
