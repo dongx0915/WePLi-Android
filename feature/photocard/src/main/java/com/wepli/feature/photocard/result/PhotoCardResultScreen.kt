@@ -122,7 +122,7 @@ fun PhotoCardResultScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "포토카드가 완성되었어요!",
+                text = "포토카드가 완성됐어요!",
                 style = WepliTheme.typo.title1,
                 color = WepliTheme.color.gray900
             )
