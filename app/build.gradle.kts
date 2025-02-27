@@ -15,6 +15,7 @@ dependencies {
     implementation(projects.feature.search)
     implementation(projects.feature.community)
     implementation(projects.feature.playlist)
+    implementation(projects.feature.relaylist)
     implementation(projects.feature.mypage)
     implementation(projects.feature.photocard)
     implementation(projects.data)

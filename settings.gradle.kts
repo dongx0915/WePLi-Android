@@ -31,6 +31,7 @@ include(
     ":feature:home",
     ":feature:search",
     ":feature:community",
+    ":feature:relaylist",
     ":feature:playlist",
     ":feature:mypage",
     ":feature:photocard",
