@@ -54,7 +54,7 @@ fun ScrollableAppBar(
     // 배경색과 아이콘 색상 보간
     val backgroundColor = lerp(backgroundColors.first, backgroundColors.second, scrollFraction)
     val contentsColor = lerp(contentsColors.first, contentsColors.second, scrollFraction)
-    val isFullScrolled = derivedStateOf { scrollFraction >= 1f }
+    val isFullScrolled = derivedStateOf { scrollFraction >= 0.99f }
     val window = (LocalContext.current as? Activity)?.window
     val view = LocalView.current
 
