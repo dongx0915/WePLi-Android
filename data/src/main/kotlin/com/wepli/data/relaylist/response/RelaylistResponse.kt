@@ -34,9 +34,14 @@ fun List<RelaylistResponse>.toEntities(): List<Relaylist> {
 
 fun RelaylistResponse.toEntity(): Relaylist {
     return Relaylist(
+        id = id ?: -1,
         title = title.orEmpty(),
         description = description.orEmpty(),
         coverImgUrl = coverImgUrl.orEmpty(),
+        bSideTrack = emptyList(),
+        songCount = songCount,
+        voteCount = voteCount,
+        endDate = endDate,
         artwork = bgColor?.let {
             Relaylist.Artwork(backgroundColor = it.toLong(16))
         }
