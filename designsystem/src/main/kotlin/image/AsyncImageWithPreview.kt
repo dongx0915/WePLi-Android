@@ -50,6 +50,7 @@ fun AsyncImageWithPreview(
         Image(
             modifier = modifier,
             painter = previewImage,
+            contentScale = contentScale,
             contentDescription = null,
         )
     } else {
