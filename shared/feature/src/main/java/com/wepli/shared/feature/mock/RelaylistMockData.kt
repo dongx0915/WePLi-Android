@@ -3,8 +3,10 @@ package com.wepli.shared.feature.mock
 import android.annotation.SuppressLint
 import com.wepli.shared.feature.uimodel.relaylist.RelaylistUiData
 import model.relaylist.Relaylist
-import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+
+private val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
 
 val relaylistMockData = listOf(
     Relaylist(
@@ -15,8 +17,8 @@ val relaylistMockData = listOf(
         bSideTrack = emptyList(),
         songCount = 10,
         voteCount = 100,
-        endDate = LocalDate.parse("2025.12.31"),
-        createdAt = LocalDate.parse("2025.01.01"),
+        endDate = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
+        createdAt = LocalDate.parse("2025.01.01", formatter).atTime(23, 59, 59),
         artwork = Relaylist.Artwork(backgroundColor = 0xFF9B9BA5),
     ),
     Relaylist(
@@ -27,8 +29,8 @@ val relaylistMockData = listOf(
         bSideTrack = emptyList(),
         songCount = 10,
         voteCount = 100,
-        endDate = LocalDate.parse("2025.12.31"),
-        createdAt = LocalDate.parse("2025.01.01"),
+        endDate = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
+        createdAt = LocalDate.parse("2025.01.01", formatter).atTime(23, 59, 59),
         artwork = Relaylist.Artwork(backgroundColor = 0xFFA1A1AA),
     ),
     Relaylist(
@@ -39,8 +41,8 @@ val relaylistMockData = listOf(
         bSideTrack = emptyList(),
         songCount = 10,
         voteCount = 100,
-        endDate = LocalDate.parse("2025.12.31"),
-        createdAt = LocalDate.parse("2025.01.01"),
+        endDate = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
+        createdAt = LocalDate.parse("2025.01.01", formatter).atTime(23, 59, 59),
         artwork = Relaylist.Artwork(backgroundColor = 0xFF595758),
     ),
     Relaylist(
@@ -51,8 +53,8 @@ val relaylistMockData = listOf(
         bSideTrack = emptyList(),
         songCount = 10,
         voteCount = 100,
-        endDate = LocalDate.parse("2025.12.31"),
-        createdAt = LocalDate.parse("2025.01.01"),
+        endDate = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
+        createdAt = LocalDate.parse("2025.01.01", formatter).atTime(23, 59, 59),
         artwork = Relaylist.Artwork(backgroundColor = 0xFFB27F53),
     ),
 )
@@ -67,8 +69,8 @@ val relaylistUiMockData = listOf(
         bSideTrack = emptyList(),
         songCnt = 10,
         isLiked = false,
-        endDate = LocalDate.parse("2025.12.31"),
-        createdAt = LocalDate.parse("2025.12.31"),
+        endDate = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
+        createdAt = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
     ),
     RelaylistUiData(
         id = 1,
@@ -78,8 +80,8 @@ val relaylistUiMockData = listOf(
         bSideTrack = emptyList(),
         songCnt = 10,
         isLiked = false,
-        endDate = LocalDate.parse("2025.12.31"),
-        createdAt = LocalDate.parse("2025.12.31"),
+        endDate = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
+        createdAt = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
     ),
     RelaylistUiData(
         id = 2,
@@ -89,8 +91,8 @@ val relaylistUiMockData = listOf(
         bSideTrack = emptyList(),
         songCnt = 10,
         isLiked = false,
-        endDate = LocalDate.parse("2025.12.31"),
-        createdAt = LocalDate.parse("2025.12.31"),
+        endDate = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
+        createdAt = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
     ),
     RelaylistUiData(
         id = 3,
@@ -100,8 +102,8 @@ val relaylistUiMockData = listOf(
         bSideTrack = emptyList(),
         songCnt = 10,
         isLiked = false,
-        endDate = LocalDate.parse("2025.12.31"),
-        createdAt = LocalDate.parse("2025.12.31"),
+        endDate = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
+        createdAt = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
     ),
     RelaylistUiData(
         id = 4,
@@ -111,8 +113,8 @@ val relaylistUiMockData = listOf(
         bSideTrack = emptyList(),
         songCnt = 12,
         isLiked = false,
-        endDate = LocalDate.parse("2025.12.31"),
-        createdAt = LocalDate.parse("2025.12.31"),
+        endDate = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
+        createdAt = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
     ),
     RelaylistUiData(
         id = 5,
@@ -122,8 +124,8 @@ val relaylistUiMockData = listOf(
         bSideTrack = emptyList(),
         songCnt = 9,
         isLiked = false,
-        endDate = LocalDate.parse("2025.12.31"),
-        createdAt = LocalDate.parse("2025.12.31"),
+        endDate = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
+        createdAt = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
     ),
     RelaylistUiData(
         id = 6,
@@ -133,8 +135,8 @@ val relaylistUiMockData = listOf(
         bSideTrack = emptyList(),
         songCnt = 15,
         isLiked = false,
-        endDate = LocalDate.parse("2025.12.31"),
-        createdAt = LocalDate.parse("2025.12.31"),
+        endDate = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
+        createdAt = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
     ),
     RelaylistUiData(
         id = 7,
@@ -144,8 +146,8 @@ val relaylistUiMockData = listOf(
         bSideTrack = emptyList(),
         songCnt = 13,
         isLiked = false,
-        endDate = LocalDate.parse("2025.12.31"),
-        createdAt = LocalDate.parse("2025.12.31"),
+        endDate = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
+        createdAt = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
     ),
     RelaylistUiData(
         id = 8,
@@ -155,8 +157,8 @@ val relaylistUiMockData = listOf(
         bSideTrack = emptyList(),
         songCnt = 11,
         isLiked = false,
-        endDate = LocalDate.parse("2025.12.31"),
-        createdAt = LocalDate.parse("2025.12.31"),
+        endDate = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
+        createdAt = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
     ),
     RelaylistUiData(
         id = 9,
@@ -166,8 +168,8 @@ val relaylistUiMockData = listOf(
         bSideTrack = emptyList(),
         songCnt = 14,
         isLiked = false,
-        endDate = LocalDate.parse("2025.12.31"),
-        createdAt = LocalDate.parse("2025.12.31"),
+        endDate = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
+        createdAt = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
     ),
     RelaylistUiData(
         id = 10,
@@ -177,7 +179,7 @@ val relaylistUiMockData = listOf(
         bSideTrack = emptyList(),
         songCnt = 10,
         isLiked = false,
-        endDate = LocalDate.parse("2025.12.31"),
-        createdAt = LocalDate.parse("2025.12.31"),
+        endDate = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
+        createdAt = LocalDate.parse("2025.12.31", formatter).atTime(23, 59, 59),
     )
 )
