@@ -2,6 +2,7 @@ package model.relaylist
 
 import common.DomainModel
 import model.music.Song
+import java.time.LocalDate
 
 /**
  * 릴레이리스트
@@ -22,7 +23,8 @@ data class Relaylist(
     val bSideTrack: List<Song>,
     val songCount: Int,
     val voteCount: Int,
-    val endDate: String,
+    val endDate: LocalDate,
+    val createdAt: LocalDate,
     val artwork: Artwork? = null
 ) : DomainModel {
 

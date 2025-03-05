@@ -1,12 +1,11 @@
 package com.wepli.shared.feature.uimodel.relaylist
 
-import android.icu.text.DateFormat
 import com.wepli.shared.feature.common.UiModel
 import com.wepli.shared.feature.common.UiModelMapper
 import com.wepli.uimodel.music.SongUiData
 import kotlinx.parcelize.Parcelize
 import model.relaylist.Relaylist
-import java.util.Date
+import java.time.LocalDate
 
 
 /**
@@ -24,8 +23,9 @@ data class RelaylistUiData(
     val coverImgUrl: String,
     val bSideTrack: List<SongUiData>,
     val songCnt: Int,
-    val endDate: Date,
     val isLiked: Boolean,
+    val endDate: LocalDate,
+    val createdAt: LocalDate,
 ) : UiModel {
 
     companion object : UiModelMapper<Relaylist, RelaylistUiData> {
@@ -37,8 +37,9 @@ data class RelaylistUiData(
                 coverImgUrl = domainModel.coverImgUrl,
                 bSideTrack = domainModel.bSideTrack.map(SongUiData::fromDomain),
                 songCnt = domainModel.songCount,
-                endDate = DateFormat.getInstance().parse(domainModel.endDate),
                 isLiked = false,
+                endDate = domainModel.endDate,
+                createdAt = domainModel.createdAt,
             )
         }
     }

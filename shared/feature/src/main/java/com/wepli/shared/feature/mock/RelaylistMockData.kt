@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import com.wepli.shared.feature.uimodel.relaylist.RelaylistUiData
 import model.relaylist.Relaylist
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 
 val relaylistMockData = listOf(
     Relaylist(
@@ -14,7 +15,8 @@ val relaylistMockData = listOf(
         bSideTrack = emptyList(),
         songCount = 10,
         voteCount = 100,
-        endDate = "2025-12-31",
+        endDate = LocalDate.parse("2025.12.31"),
+        createdAt = LocalDate.parse("2025.01.01"),
         artwork = Relaylist.Artwork(backgroundColor = 0xFF9B9BA5),
     ),
     Relaylist(
@@ -25,7 +27,8 @@ val relaylistMockData = listOf(
         bSideTrack = emptyList(),
         songCount = 10,
         voteCount = 100,
-        endDate = "2025-12-31",
+        endDate = LocalDate.parse("2025.12.31"),
+        createdAt = LocalDate.parse("2025.01.01"),
         artwork = Relaylist.Artwork(backgroundColor = 0xFFA1A1AA),
     ),
     Relaylist(
@@ -36,7 +39,8 @@ val relaylistMockData = listOf(
         bSideTrack = emptyList(),
         songCount = 10,
         voteCount = 100,
-        endDate = "2025-12-31",
+        endDate = LocalDate.parse("2025.12.31"),
+        createdAt = LocalDate.parse("2025.01.01"),
         artwork = Relaylist.Artwork(backgroundColor = 0xFF595758),
     ),
     Relaylist(
@@ -47,7 +51,8 @@ val relaylistMockData = listOf(
         bSideTrack = emptyList(),
         songCount = 10,
         voteCount = 100,
-        endDate = "2025-12-31",
+        endDate = LocalDate.parse("2025.12.31"),
+        createdAt = LocalDate.parse("2025.01.01"),
         artwork = Relaylist.Artwork(backgroundColor = 0xFFB27F53),
     ),
 )
@@ -61,8 +66,9 @@ val relaylistUiMockData = listOf(
         coverImgUrl = "https://img.29cm.co.kr/cms/202411/11efa2f103b3aea1afbcaff1c242f37c.jpg?width=2000&q=75",
         bSideTrack = emptyList(),
         songCnt = 10,
-        endDate = SimpleDateFormat("yyyy-MM-dd").parse("2025-12-31")!!,
-        isLiked = false
+        isLiked = false,
+        endDate = LocalDate.parse("2025.12.31"),
+        createdAt = LocalDate.parse("2025.12.31"),
     ),
     RelaylistUiData(
         id = 1,
@@ -71,8 +77,9 @@ val relaylistUiMockData = listOf(
         coverImgUrl = "https://img.29cm.co.kr/cms/202411/11efa330c272ddb9afbc0dbc604d203e.jpg?q=75",
         bSideTrack = emptyList(),
         songCnt = 10,
-        endDate = SimpleDateFormat("yyyy-MM-dd").parse("2025-12-31")!!,
-        isLiked = false
+        isLiked = false,
+        endDate = LocalDate.parse("2025.12.31"),
+        createdAt = LocalDate.parse("2025.12.31"),
     ),
     RelaylistUiData(
         id = 2,
@@ -81,8 +88,9 @@ val relaylistUiMockData = listOf(
         coverImgUrl = "https://img.29cm.co.kr/cms/202411/11efa32fd888d0eb86c37fb1ce8c821c.JPG?q=75",
         bSideTrack = emptyList(),
         songCnt = 10,
-        endDate = SimpleDateFormat("yyyy-MM-dd").parse("2025-12-31")!!,
-        isLiked = false
+        isLiked = false,
+        endDate = LocalDate.parse("2025.12.31"),
+        createdAt = LocalDate.parse("2025.12.31"),
     ),
     RelaylistUiData(
         id = 3,
@@ -91,8 +99,9 @@ val relaylistUiMockData = listOf(
         coverImgUrl = "https://img.29cm.co.kr/cms/202411/11ef9ff687cc9f379876cf8486967618.jpg?q=75",
         bSideTrack = emptyList(),
         songCnt = 10,
-        endDate = SimpleDateFormat("yyyy-MM-dd").parse("2025-12-31")!!,
-        isLiked = false
+        isLiked = false,
+        endDate = LocalDate.parse("2025.12.31"),
+        createdAt = LocalDate.parse("2025.12.31"),
     ),
     RelaylistUiData(
         id = 4,
@@ -101,8 +110,9 @@ val relaylistUiMockData = listOf(
         coverImgUrl = "https://scontent-gmp1-1.cdninstagram.com/v/t51.29350-15/448331859_434537996049323_1124978719672539766_n.jpg?stp=dst-jpg_e35_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDQweDE4MDAuc2RyLmYyOTM1MC5kZWZhdWx0X2ltYWdlIn0&_nc_ht=scontent-gmp1-1.cdninstagram.com&_nc_cat=111&_nc_oc=Q6cZ2AHxnIDRyAdkaGiytbOQ-OQ5w0U7ylNBD1p_jYaa1HdWfrMGdg1JC2Ds5VhywMI4jFM&_nc_ohc=pvd2pxuuPwIQ7kNvgFBonfc&_nc_gid=5c8b572c99204591a447c40834a91ac9&edm=APoiHPcBAAAA&ccb=7-5&ig_cache_key=MzM5MDAwNzIwNDIzNjM2NDM0MA%3D%3D.3-ccb7-5&oh=00_AYCKi7ZCv-xqjJKcdqo6tWkm1ZLgJyXkj0O9zBMtKegXrg&oe=67CCE770&_nc_sid=22de04",
         bSideTrack = emptyList(),
         songCnt = 12,
-        endDate = SimpleDateFormat("yyyy-MM-dd").parse("2025-10-15")!!,
-        isLiked = false
+        isLiked = false,
+        endDate = LocalDate.parse("2025.12.31"),
+        createdAt = LocalDate.parse("2025.12.31"),
     ),
     RelaylistUiData(
         id = 5,
@@ -111,8 +121,9 @@ val relaylistUiMockData = listOf(
         coverImgUrl = "https://scontent-gmp1-1.cdninstagram.com/v/t51.29350-15/441243629_2122983471405542_3110392085430040352_n.jpg?stp=dst-jpg_e35_p1080x1080_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDQweDE3OTkuc2RyLmYyOTM1MC5kZWZhdWx0X2ltYWdlIn0&_nc_ht=scontent-gmp1-1.cdninstagram.com&_nc_cat=102&_nc_oc=Q6cZ2AGjfdPmz26diJlg9lOjNNNtqTHixA2KI6nM16eePvEazDceM4wmgsdNawsnlTo_Vp8&_nc_ohc=b-aiEBoHq2MQ7kNvgHg8fiS&_nc_gid=e20f65775ea34aa0985f38bb2ad704a3&edm=APoiHPcBAAAA&ccb=7-5&ig_cache_key=MzM1OTY5NDM1MDQ3ODgxODgyMg%3D%3D.3-ccb7-5&oh=00_AYA3_gvy0jf3I3COhVmNgMC-j4rlY4ZTtggFb15j5V3fGA&oe=67CCCAD5&_nc_sid=22de04",
         bSideTrack = emptyList(),
         songCnt = 9,
-        endDate = SimpleDateFormat("yyyy-MM-dd").parse("2025-08-20")!!,
-        isLiked = false
+        isLiked = false,
+        endDate = LocalDate.parse("2025.12.31"),
+        createdAt = LocalDate.parse("2025.12.31"),
     ),
     RelaylistUiData(
         id = 6,
@@ -121,8 +132,9 @@ val relaylistUiMockData = listOf(
         coverImgUrl = "https://image.bugsm.co.kr/album/images/original/41121/4112182.jpg?version=undefined",
         bSideTrack = emptyList(),
         songCnt = 15,
-        endDate = SimpleDateFormat("yyyy-MM-dd").parse("2025-11-05")!!,
-        isLiked = false
+        isLiked = false,
+        endDate = LocalDate.parse("2025.12.31"),
+        createdAt = LocalDate.parse("2025.12.31"),
     ),
     RelaylistUiData(
         id = 7,
@@ -131,8 +143,9 @@ val relaylistUiMockData = listOf(
         coverImgUrl = "https://image.bugsm.co.kr/album/images/original/206961/20696174.jpg?version=undefined",
         bSideTrack = emptyList(),
         songCnt = 13,
-        endDate = SimpleDateFormat("yyyy-MM-dd").parse("2025-07-14")!!,
-        isLiked = false
+        isLiked = false,
+        endDate = LocalDate.parse("2025.12.31"),
+        createdAt = LocalDate.parse("2025.12.31"),
     ),
     RelaylistUiData(
         id = 8,
@@ -141,8 +154,9 @@ val relaylistUiMockData = listOf(
         coverImgUrl = "https://image.bugsm.co.kr/album/images/original/41140/4114046.jpg?version=undefined",
         bSideTrack = emptyList(),
         songCnt = 11,
-        endDate = SimpleDateFormat("yyyy-MM-dd").parse("2025-09-01")!!,
-        isLiked = false
+        isLiked = false,
+        endDate = LocalDate.parse("2025.12.31"),
+        createdAt = LocalDate.parse("2025.12.31"),
     ),
     RelaylistUiData(
         id = 9,
@@ -151,8 +165,9 @@ val relaylistUiMockData = listOf(
         coverImgUrl = "https://image.bugsm.co.kr/album/images/original/370026/37002635.jpg?version=undefined",
         bSideTrack = emptyList(),
         songCnt = 14,
-        endDate = SimpleDateFormat("yyyy-MM-dd").parse("2025-06-30")!!,
-        isLiked = false
+        isLiked = false,
+        endDate = LocalDate.parse("2025.12.31"),
+        createdAt = LocalDate.parse("2025.12.31"),
     ),
     RelaylistUiData(
         id = 10,
@@ -161,7 +176,8 @@ val relaylistUiMockData = listOf(
         coverImgUrl = "https://image.bugsm.co.kr/album/images/original/41144/4114400.jpg?version=undefined",
         bSideTrack = emptyList(),
         songCnt = 10,
-        endDate = SimpleDateFormat("yyyy-MM-dd").parse("2025-12-01")!!,
-        isLiked = false
+        isLiked = false,
+        endDate = LocalDate.parse("2025.12.31"),
+        createdAt = LocalDate.parse("2025.12.31"),
     )
 )

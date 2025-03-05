@@ -3,6 +3,7 @@ package com.wepli.data.relaylist.response
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import model.relaylist.Relaylist
+import java.time.LocalDate
 
 @Serializable
 data class RelaylistResponse(
@@ -41,7 +42,8 @@ fun RelaylistResponse.toEntity(): Relaylist {
         bSideTrack = emptyList(),
         songCount = songCount,
         voteCount = voteCount,
-        endDate = endDate,
+        endDate = LocalDate.parse(endDate),
+        createdAt = LocalDate.parse(createdAt),
         artwork = bgColor?.let {
             Relaylist.Artwork(backgroundColor = it.toLong(16))
         }
