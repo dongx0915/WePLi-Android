@@ -62,6 +62,7 @@ import theme.WepliTheme
 fun HomeRoute(
     viewModel: HomeViewModel = hiltViewModel(),
     onNavigatePlaylist: (playlistId: Int) -> Unit,
+    onNavigateRelaylist: (relaylistId: Int) -> Unit,
 ) {
     val state by viewModel.collectAsState()
 
@@ -77,7 +78,8 @@ fun HomeRoute(
         artistList = artistList,
         recommendPlaylists = recommendPlaylists,
         themePlaylists = themePlaylists,
-        onNavigatePlaylist = { playlistId -> onNavigatePlaylist(playlistId) }
+        onNavigatePlaylist = { playlistId -> onNavigatePlaylist(playlistId) },
+        onNavigateRelaylist = { relaylistId -> onNavigateRelaylist(relaylistId) }
     )
 }
 
@@ -90,6 +92,7 @@ fun HomeScreen(
     recommendPlaylists: List<RecommendPlaylist>,
     themePlaylists: List<RecommendPlaylist>,
     onNavigatePlaylist: (playlistId: Int) -> Unit,
+    onNavigateRelaylist: (relaylistId: Int) -> Unit,
 ) {
     val hazeState = LocalHazeState.current
     HomeAppBar { scrollState, paddingValues ->
@@ -108,7 +111,8 @@ fun HomeScreen(
             item {
                 RelaylistPagerLayout(
                     topPagerModifier = Modifier.padding(top = topPadding),
-                    relaylists = relaylists
+                    relaylists = relaylists,
+                    onNavigateRelaylist = onNavigateRelaylist
                 )
             }
 
@@ -136,6 +140,7 @@ fun RelaylistPagerLayout(
     modifier: Modifier = Modifier,
     topPagerModifier: Modifier = Modifier,
     relaylists: List<Relaylist>,
+    onNavigateRelaylist: (relaylistId: Int) -> Unit,
 ) {
     val topPagerState = rememberPagerState(
         pageCount = { relaylists.size }
@@ -182,7 +187,7 @@ fun RelaylistPagerLayout(
             val relaylist = relaylists[page]
             val pageOffset = topPagerState.calculateCurrentOffsetForPage(page)
 
-            RelaylistBannerComponent(item = relaylist, scaleSizeRatio = scaleSizeRatio, pageOffset = pageOffset)
+            RelaylistBannerComponent(item = relaylist, scaleSizeRatio = scaleSizeRatio, pageOffset = pageOffset, modifier = Modifier.clickable { onNavigateRelaylist(relaylist.id) })
         }
     }
 }
@@ -315,7 +320,8 @@ fun HomeScreenPreview() {
         artistList = artistMockData,
         recommendPlaylists = recommendPlaylistMockData,
         themePlaylists = recommendPlaylistMockData,
-        onNavigatePlaylist = {}
+        onNavigatePlaylist = {},
+        onNavigateRelaylist = {}
     )
 }
 

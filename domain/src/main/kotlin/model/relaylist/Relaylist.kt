@@ -2,6 +2,7 @@ package model.relaylist
 
 import common.DomainModel
 import model.music.Song
+import org.joda.time.DateTime
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -24,8 +25,8 @@ data class Relaylist(
     val bSideTrack: List<Song>,
     val songCount: Int,
     val voteCount: Int,
-    val endDate: LocalDateTime,
-    val createdAt: LocalDateTime,
+    val endDate: DateTime,
+    val createdAt: DateTime,
     val artwork: Artwork? = null
 ) : DomainModel {
 

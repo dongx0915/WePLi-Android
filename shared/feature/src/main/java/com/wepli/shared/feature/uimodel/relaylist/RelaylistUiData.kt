@@ -5,6 +5,7 @@ import com.wepli.shared.feature.common.UiModelMapper
 import com.wepli.uimodel.music.SongUiData
 import kotlinx.parcelize.Parcelize
 import model.relaylist.Relaylist
+import org.joda.time.DateTime
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -27,16 +28,15 @@ data class RelaylistUiData(
     val bSideTrack: List<SongUiData>,
     val songCnt: Int,
     val isLiked: Boolean,
-    val endDate: LocalDateTime,
-    val createdAt: LocalDateTime,
+    val endDate: DateTime,
+    val createdAt: DateTime,
 ) : UiModel {
 
     val remainingTime: Long
         get() {
-            val now = LocalDateTime.now()
-            val duration = Duration.between(now, endDate)
+            val now = DateTime.now()
 
-            return duration.toMillis()
+            return endDate.minus(now.millis).millis
         }
 
     fun formatMilliseconds(ms: Long = remainingTime): String {

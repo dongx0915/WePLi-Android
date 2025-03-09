@@ -35,7 +35,9 @@ import image.AsyncImageWithPreview
 import theme.WepliTheme
 
 @Composable
-fun RelaylistDetailScreenRoute() {
+fun RelaylistDetailScreenRoute(
+    navOnBack: () -> Unit
+) {
     RelaylistDetailScreen()
 }
 

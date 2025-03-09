@@ -48,6 +48,7 @@ fun RelaylistBannerComponent(
     item: Relaylist,
     scaleSizeRatio: Float,
     pageOffset: Float,
+    modifier: Modifier = Modifier,
 ) {
     val scaledFraction: (scale: Int) -> Float = { (pageOffset.absoluteValue * it).coerceIn(0f, 1f) }
     val scale = lerp(1f, scaleSizeRatio, scaledFraction(1))
@@ -56,7 +57,7 @@ fun RelaylistBannerComponent(
     val blurOverlayAlpha = lerp(0f, 0.5f, scaledFraction(2))
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .aspectRatio(5f / 6f)
             .graphicsLayer {
                 scaleX = scale
