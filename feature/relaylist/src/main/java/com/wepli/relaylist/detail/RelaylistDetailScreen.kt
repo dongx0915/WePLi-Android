@@ -78,11 +78,12 @@ fun RelaylistDetailScreen(
             // 백그라운드
             AsyncImageWithPreview(
                 imageUrl = relaylist.coverImgUrl,
+                imageOverrideSize = 1.dp, // 성능을 위해 다운샘플링
                 contentScale = ContentScale.Crop,
                 previewImage = painterResource(id = R.drawable.img_placeholder_chuu_3),
                 modifier = Modifier
                     .fillMaxSize()
-                    .blur(20.dp),
+                    .blur(24.dp),
             )
 
             // 릴레이리스트 콘텐츠
