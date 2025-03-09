@@ -1,6 +1,7 @@
 package com.wepli.relaylist
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +28,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import appbar.RelaylistAppBar
+import button.WepliBasicButton
+import button.WepliButtonStyle
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.relaylistUiMockData
 import com.wepli.shared.feature.mock.songMockData
@@ -52,10 +55,7 @@ fun RelaylistDetailScreen() {
     RelaylistAppBar(
         onClickBack = {}
     ) { scrollState, paddingValue ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
+        Box(modifier = Modifier.fillMaxSize()) {
             // 백그라운드
             AsyncImageWithPreview(
                 imageUrl = relaylist.coverImgUrl,
@@ -120,6 +120,17 @@ fun RelaylistDetailScreen() {
                 SongRankingLayout(
                     modifier = Modifier.padding(top = 36.dp)
                 )
+
+                Spacer(modifier = Modifier.weight(1f))
+                WepliBasicButton(
+                    title = "노래 투표하기",
+                    isEnabled = true,
+                    onClick = {  },
+                    modifier = Modifier
+                        .padding(top = 60.dp, bottom = 20.dp)
+                        .align(Alignment.CenterHorizontally),
+                    buttonStyle = WepliButtonStyle.Transparent(alpha = 0.1f),
+                )
             }
         }
     }
@@ -172,9 +183,48 @@ private fun SongRankingLayout(modifier: Modifier = Modifier) {
             )
         }
 
-        RelaylistBsideTrackContent(
-            modifier = Modifier.padding(top = 24.dp),
-            bSideTrack = songMockData.take(2)
+        if (true) {
+            EmptySongLayout()
+        } else {
+            RelaylistBsideTrackContent(
+                modifier = Modifier.padding(top = 24.dp),
+                bSideTrack = songMockData.shuffled()
+            )
+        }
+    }
+}
+
+@Composable
+private fun EmptySongLayout(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 100.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "아직 등록된 곡이 없어요.",
+            style = WepliTheme.typo.subTitle2,
+            color = WepliTheme.color.gray900,
+        )
+
+        Text(
+            text = "주제에 맞는 명곡을 다른 사람들에게 추천해주세요!",
+            style = WepliTheme.typo.body5,
+            color = WepliTheme.color.gray600,
+        )
+
+        Text(
+            text = "노래 추천하기",
+            style = WepliTheme.typo.subTitle5,
+            color = WepliTheme.color.gray600,
+            modifier = Modifier
+                .clickable {  }
+                .padding(top = 20.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(WepliTheme.color.white.copy(alpha = 0.1f))
+                .padding(vertical = 8.dp, horizontal = 12.dp)
         )
     }
 }
@@ -190,12 +240,12 @@ private fun RelaylistBsideTrackContent(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        bSideTrack.forEach { song ->
+        bSideTrack.forEachIndexed { index, song ->
             MusicItem(
                 imageModifier = Modifier
                     .size(imageSize)
                     .clip(RoundedCornerShape(3.dp)),
-                musicItemType = MusicItemType.Normal(song, imageSize.toPx()),
+                musicItemType = MusicItemType.Normal(song, imageSize.toPx(), index + 1),
                 showMoreIcon = true
             )
         }

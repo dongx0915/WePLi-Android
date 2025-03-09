@@ -91,7 +91,7 @@ fun PhotoCardChapter3Screen(
             modifier = Modifier
                 .padding(bottom = 20.dp)
                 .align(Alignment.CenterHorizontally),
-            buttonStyle = WepliButtonStyle.Transparent,
+            buttonStyle = WepliButtonStyle.Transparent(),
         )
     }
 }

@@ -171,7 +171,7 @@ fun PhotoCardResultScreen(
                 onClick = { navOnBack() },
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally),
-                buttonStyle = WepliButtonStyle.Transparent,
+                buttonStyle = WepliButtonStyle.Transparent(),
             )
 
             if (state.isShownShareBottomSheet) {
