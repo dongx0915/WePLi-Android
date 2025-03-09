@@ -4,6 +4,7 @@ import com.wepli.core.kotlin.FlowResult
 import com.wepli.data.relaylist.response.RelaylistResponse
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.postgrest
+import io.github.jan.supabase.postgrest.query.Columns
 import io.github.jan.supabase.postgrest.query.Order
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -14,6 +15,20 @@ class RelaylistSupabaseDataSourceImpl @Inject constructor(
 
     companion object {
         const val RELAYLIST_TABLE = "relaylist"
+    }
+
+    override fun getRelaylistById(id: Int): FlowResult<RelaylistResponse> = flow {
+        val result: Result<RelaylistResponse> = runCatching {
+            supabase.postgrest[RELAYLIST_TABLE]
+                .select {
+                    filter {
+                        eq("id", id)
+                    }
+                }
+                .decodeAs<RelaylistResponse>()
+        }
+
+        emit(result)
     }
 
     /**

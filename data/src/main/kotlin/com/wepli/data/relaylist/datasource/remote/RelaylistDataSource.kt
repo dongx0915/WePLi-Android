@@ -5,5 +5,6 @@ import com.wepli.data.relaylist.response.RelaylistResponse
 
 interface RelaylistDataSource {
 
+    fun getRelaylistById(id: Int): FlowResult<RelaylistResponse>
     fun getRelaylists(): FlowResult<List<RelaylistResponse>>
 }
