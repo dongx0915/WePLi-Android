@@ -4,7 +4,7 @@ import base.BaseMviViewModel
 import com.wepli.community.write.mvi.CommunityWriteEffect
 import com.wepli.community.write.mvi.CommunityWriteIntent
 import com.wepli.community.write.mvi.CommunityWriteUiState
-import com.wepli.core.kotlin.suspendCollectResult
+import com.wepli.core.kotlin.flow.suspendCollectResult
 import com.wepli.uimodel.music.SongUiData
 import com.wepli.uimodel.music.toDomain
 import dagger.hilt.android.lifecycle.HiltViewModel

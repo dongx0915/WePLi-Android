@@ -1,7 +1,7 @@
 package com.wepli.playlist
 
 import base.BaseMviViewModel
-import com.wepli.core.kotlin.suspendCollectResult
+import com.wepli.core.kotlin.flow.suspendCollectResult
 import com.wepli.playlist.mvi.PlaylistEffect
 import com.wepli.playlist.mvi.PlaylistIntent
 import com.wepli.playlist.mvi.PlaylistUiState

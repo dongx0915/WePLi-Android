@@ -1,6 +1,6 @@
 package com.wepli.data.post.repository
 
-import com.wepli.core.kotlin.FlowResult
+import com.wepli.core.kotlin.flow.FlowResult
 import com.wepli.data.di.qualifier.SupabaseDataSource
 import com.wepli.data.network.toEntityResult
 import com.wepli.data.post.datasource.PostDataSource

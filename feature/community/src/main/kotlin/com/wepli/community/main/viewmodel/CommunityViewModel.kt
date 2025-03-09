@@ -1,11 +1,10 @@
 package com.wepli.community.main.viewmodel
 
-import android.util.Log
 import base.BaseMviViewModel
 import com.wepli.community.main.mvi.CommunityMainEffect
 import com.wepli.community.main.mvi.CommunityMainIntent
 import com.wepli.community.main.mvi.CommunityMainUiState
-import com.wepli.core.kotlin.suspendCollectResult
+import com.wepli.core.kotlin.flow.suspendCollectResult
 import com.wepli.shared.feature.mock.userMockData
 import com.wepli.shared.feature.uimodel.community.PostUiData
 import dagger.hilt.android.lifecycle.HiltViewModel

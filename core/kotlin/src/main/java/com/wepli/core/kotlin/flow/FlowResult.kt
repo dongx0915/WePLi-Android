@@ -1,4 +1,4 @@
-package com.wepli.core.kotlin
+package com.wepli.core.kotlin.flow
 
 import kotlinx.coroutines.flow.Flow
 

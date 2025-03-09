@@ -1,6 +1,6 @@
 package com.wepli.data.network
 
-import com.wepli.core.kotlin.FlowResult
+import com.wepli.core.kotlin.flow.FlowResult
 import common.WePLiException
 import kotlinx.coroutines.flow.map
 

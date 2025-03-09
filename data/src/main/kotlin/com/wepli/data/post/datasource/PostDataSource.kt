@@ -1,6 +1,6 @@
 package com.wepli.data.post.datasource
 
-import com.wepli.core.kotlin.FlowResult
+import com.wepli.core.kotlin.flow.FlowResult
 import com.wepli.data.post.response.PostResponse
 import model.community.Post
 

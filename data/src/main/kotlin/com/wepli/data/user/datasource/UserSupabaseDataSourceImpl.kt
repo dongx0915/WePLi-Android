@@ -1,6 +1,6 @@
 package com.wepli.data.user.datasource
 
-import com.wepli.core.kotlin.FlowResult
+import com.wepli.core.kotlin.flow.FlowResult
 import com.wepli.data.SupabaseTable
 import com.wepli.data.user.response.UserResponse
 import io.github.jan.supabase.SupabaseClient

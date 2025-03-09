@@ -24,6 +24,6 @@ fun NavGraphBuilder.relaylistDetailGraph(
     ) {
         val relaylistId: Int = it.arguments?.getInt("relaylistId") ?: -1
 
-        RelaylistDetailScreenRoute(navOnBack)
+        RelaylistDetailScreenRoute(relaylistId, navOnBack)
     }
 }

@@ -1,6 +1,6 @@
 package com.wepli.data.keyword.repository
 
-import com.wepli.core.kotlin.FlowResult
+import com.wepli.core.kotlin.flow.FlowResult
 import com.wepli.data.di.qualifier.SupabaseDataSource
 import com.wepli.data.keyword.datasource.KeywordDatasource
 import com.wepli.data.keyword.response.toEntityList

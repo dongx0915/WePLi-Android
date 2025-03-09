@@ -43,15 +43,6 @@ data class RelaylistUiData(
             return endDate.minus(now.millis).millis
         }
 
-    fun formatMilliseconds(ms: Long = remainingTime): String {
-        val days = TimeUnit.MILLISECONDS.toDays(ms)
-        val hours = TimeUnit.MILLISECONDS.toHours(ms) % 24
-        val minutes = TimeUnit.MILLISECONDS.toMinutes(ms) % 60
-        val seconds = TimeUnit.MILLISECONDS.toSeconds(ms) % 60
-
-        return "${days}일 ${hours}시간 ${minutes}분 ${seconds}초"
-    }
-
     companion object : UiModelMapper<Relaylist, RelaylistUiData> {
         override fun fromDomain(domainModel: Relaylist): RelaylistUiData {
             return RelaylistUiData(
