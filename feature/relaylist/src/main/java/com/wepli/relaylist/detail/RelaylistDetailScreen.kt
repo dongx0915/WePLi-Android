@@ -27,7 +27,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.RelaylistAppBar
@@ -37,7 +36,6 @@ import com.wepli.core.kotlin.time.formatAsRemainingTime
 import com.wepli.designsystem.R
 import com.wepli.relaylist.detail.mvi.RelaylistDetailIntent
 import com.wepli.relaylist.detail.mvi.RelaylistDetailUiState
-import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
 import custom.MusicItem
 import custom.MusicItemType
@@ -136,6 +134,7 @@ fun RelaylistDetailScreen(
                 RelaylistTimerComponent(state.remainingTime)
 
                 SongRankingLayout(
+                    bSideTrack = state.relaylist.bSideTrack,
                     modifier = Modifier.padding(top = 36.dp)
                 )
 
@@ -188,9 +187,11 @@ private fun RelaylistTimerComponent(remainingTime: Long) {
     }
 }
 
-@Preview
 @Composable
-private fun SongRankingLayout(modifier: Modifier = Modifier) {
+private fun SongRankingLayout(
+    bSideTrack: List<SongUiData>,
+    modifier: Modifier = Modifier
+) {
     Column(modifier = modifier.fillMaxWidth()) {
         Row(
             verticalAlignment = Alignment.Bottom,
@@ -209,12 +210,12 @@ private fun SongRankingLayout(modifier: Modifier = Modifier) {
             )
         }
 
-        if (true) {
+        if (bSideTrack.isEmpty()) {
             EmptySongLayout()
         } else {
             RelaylistBsideTrackContent(
                 modifier = Modifier.padding(top = 24.dp),
-                bSideTrack = songMockData.shuffled()
+                bSideTrack = bSideTrack
             )
         }
     }
