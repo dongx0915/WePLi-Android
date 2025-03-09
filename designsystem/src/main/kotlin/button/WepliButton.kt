@@ -34,13 +34,13 @@ sealed interface WepliButtonStyle {
         }
     }
 
-    data object Transparent : WepliButtonStyle {
+    data class Transparent(val alpha: Float = 0.0f) : WepliButtonStyle {
         @Composable
         override fun colors(): ButtonColors {
             return ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent,
+                containerColor = Color.White.copy(alpha = alpha),
                 contentColor = WepliTheme.color.gray900,
-                disabledContainerColor = Color.Transparent,
+                disabledContainerColor = Color.White.copy(alpha = alpha),
                 disabledContentColor = WepliTheme.color.gray400,
             )
         }
@@ -98,14 +98,14 @@ fun WepliBasicButtonPreview() {
             title = "작성 완료",
             isEnabled = true,
             onClick = {},
-            buttonStyle = WepliButtonStyle.Transparent,
+            buttonStyle = WepliButtonStyle.Transparent(),
         )
 
         WepliBasicButton(
             title = "작성 완료",
             isEnabled = false,
             onClick = {},
-            buttonStyle = WepliButtonStyle.Transparent,
+            buttonStyle = WepliButtonStyle.Transparent(),
         )
     }
 }
