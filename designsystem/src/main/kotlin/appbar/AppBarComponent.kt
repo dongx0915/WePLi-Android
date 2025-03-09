@@ -16,6 +16,7 @@ import dev.chrisbanes.haze.HazeStyle
 import dev.chrisbanes.haze.HazeTint
 import dev.chrisbanes.haze.hazeEffect
 import theme.LocalHazeState
+import theme.WepliTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -104,7 +105,7 @@ fun RelaylistAppBar(
 
     ScrollableAppBar(
         scrollState = scrollState,
-        backgroundColors = Color.Transparent to Color.Black.copy(alpha = 0.5f),
+        backgroundColors = Color.Transparent to WepliTheme.color.gray400.copy(alpha = 0.1f),
         contentsColors = Color.White to Color.White,
         topBarComponent = { backgroundColor, contentsColor, _, _ ->
             WepliAppBar(

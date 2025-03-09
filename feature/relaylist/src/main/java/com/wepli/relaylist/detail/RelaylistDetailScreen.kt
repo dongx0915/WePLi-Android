@@ -1,4 +1,4 @@
-package com.wepli.relaylist
+package com.wepli.relaylist.detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
@@ -27,10 +28,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.RelaylistAppBar
 import button.WepliBasicButton
 import button.WepliButtonStyle
 import com.wepli.designsystem.R
+import com.wepli.relaylist.detail.mvi.RelaylistDetailUiState
 import com.wepli.shared.feature.mock.relaylistUiMockData
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
@@ -38,22 +41,31 @@ import custom.MusicItem
 import custom.MusicItemType
 import extensions.compose.toPx
 import image.AsyncImageWithPreview
+import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
 
 @Composable
 fun RelaylistDetailScreenRoute(
     navOnBack: () -> Unit
 ) {
-    RelaylistDetailScreen()
+    val viewModel: RelaylistDetailViewModel = hiltViewModel()
+    val state by viewModel.collectAsState()
+
+    RelaylistDetailScreen(
+        state = state,
+        navOnBack = { navOnBack() }
+    )
 }
 
-@Preview
 @Composable
-fun RelaylistDetailScreen() {
-    val relaylist = relaylistUiMockData.random()
+fun RelaylistDetailScreen(
+    state: RelaylistDetailUiState,
+    navOnBack: () -> Unit,
+) {
+    val relaylist = state.relaylist
 
     RelaylistAppBar(
-        onClickBack = {}
+        onClickBack = navOnBack,
     ) { scrollState, paddingValue ->
         Box(modifier = Modifier.fillMaxSize()) {
             // 백그라운드
@@ -220,7 +232,7 @@ private fun EmptySongLayout(modifier: Modifier = Modifier) {
             style = WepliTheme.typo.subTitle5,
             color = WepliTheme.color.gray600,
             modifier = Modifier
-                .clickable {  }
+                .clickable { }
                 .padding(top = 20.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .background(WepliTheme.color.white.copy(alpha = 0.1f))

@@ -32,6 +32,8 @@ data class RelaylistUiData(
     val createdAt: DateTime,
 ) : UiModel {
 
+    constructor() : this(0, "", "", "", emptyList(), 0, false, DateTime.now(), DateTime.now())
+
     val formattedCreatedAt: String = createdAt.toString("yyyy.MM.dd")
 
     val remainingTime: Long

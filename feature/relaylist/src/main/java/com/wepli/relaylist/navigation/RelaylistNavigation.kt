@@ -6,7 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.wepli.navigator.feature.relaylist.RelaylistRoute
-import com.wepli.relaylist.RelaylistDetailScreenRoute
+import com.wepli.relaylist.detail.RelaylistDetailScreenRoute
 import extensions.enterAnimation
 
 
