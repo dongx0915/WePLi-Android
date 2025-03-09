@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,9 +33,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.RelaylistAppBar
 import button.WepliBasicButton
 import button.WepliButtonStyle
+import com.wepli.core.kotlin.time.formatAsRemainingTime
 import com.wepli.designsystem.R
+import com.wepli.relaylist.detail.mvi.RelaylistDetailIntent
 import com.wepli.relaylist.detail.mvi.RelaylistDetailUiState
-import com.wepli.shared.feature.mock.relaylistUiMockData
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
 import custom.MusicItem
@@ -46,10 +48,15 @@ import theme.WepliTheme
 
 @Composable
 fun RelaylistDetailScreenRoute(
+    relaylistId: Int,
     navOnBack: () -> Unit
 ) {
     val viewModel: RelaylistDetailViewModel = hiltViewModel()
     val state by viewModel.collectAsState()
+
+    LaunchedEffect(relaylistId) {
+        viewModel.processIntent(RelaylistDetailIntent.LoadRelaylist(relaylistId))
+    }
 
     RelaylistDetailScreen(
         state = state,
@@ -116,9 +123,7 @@ fun RelaylistDetailScreen(
                 )
 
                 Text(
-                    text = "첫 사랑의 달콤하고 아련한 추억을 되살리는 노래들로 가득한 플레이리스트입니다." +
-                            "\n\n" +
-                            "이 멜로디와 함께 잊혀진 감정의 페이지를 넘겨보세요.",
+                    text = relaylist.description,
                     textAlign = TextAlign.Center,
                     style = WepliTheme.typo.body4,
                     color = WepliTheme.color.gray700,
@@ -127,7 +132,7 @@ fun RelaylistDetailScreen(
                         .padding(top = 24.dp)
                 )
 
-                RelaylistTimerComponent(relaylist.formatMilliseconds())
+                RelaylistTimerComponent(state.remainingTime)
 
                 SongRankingLayout(
                     modifier = Modifier.padding(top = 36.dp)
@@ -149,7 +154,7 @@ fun RelaylistDetailScreen(
 }
 
 @Composable
-private fun RelaylistTimerComponent(remainingTime: String) {
+private fun RelaylistTimerComponent(remainingTime: Long) {
     Row(
         modifier = Modifier
             .padding(top = 32.dp)
@@ -160,17 +165,25 @@ private fun RelaylistTimerComponent(remainingTime: String) {
             .padding(vertical = 16.dp, horizontal = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
-            text = "완성까지 남은 시간",
-            style = WepliTheme.typo.subTitle2,
-            color = WepliTheme.color.gray900,
-        )
-        Spacer(modifier = Modifier.weight(1f))
-        Text(
-            text = remainingTime,
-            style = WepliTheme.typo.body4,
-            color = WepliTheme.color.gray700,
-        )
+        if (remainingTime <= 0L) {
+            Text(
+                text = "릴레이리스트가 완성되었어요 🎉",
+                style = WepliTheme.typo.subTitle2,
+                color = WepliTheme.color.gray900,
+            )
+        } else {
+            Text(
+                text = "플리 완성까지",
+                style = WepliTheme.typo.subTitle2,
+                color = WepliTheme.color.gray900,
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = remainingTime.formatAsRemainingTime(),
+                style = WepliTheme.typo.body4,
+                color = WepliTheme.color.gray700,
+            )
+        }
     }
 }
 
