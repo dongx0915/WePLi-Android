@@ -1,10 +1,9 @@
 package com.wepli.data.relaylist.datasource.remote
 
-import com.wepli.core.kotlin.FlowResult
+import com.wepli.core.kotlin.flow.FlowResult
 import com.wepli.data.relaylist.response.RelaylistResponse
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.postgrest
-import io.github.jan.supabase.postgrest.query.Columns
 import io.github.jan.supabase.postgrest.query.Order
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -25,7 +24,7 @@ class RelaylistSupabaseDataSourceImpl @Inject constructor(
                         eq("id", id)
                     }
                 }
-                .decodeAs<RelaylistResponse>()
+                .decodeSingle<RelaylistResponse>()
         }
 
         emit(result)
