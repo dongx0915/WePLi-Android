@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.RelaylistAppBar
@@ -36,6 +37,7 @@ import com.wepli.core.kotlin.time.formatAsRemainingTime
 import com.wepli.designsystem.R
 import com.wepli.relaylist.detail.mvi.RelaylistDetailIntent
 import com.wepli.relaylist.detail.mvi.RelaylistDetailUiState
+import com.wepli.shared.feature.mock.relaylistUiMockData
 import com.wepli.uimodel.music.SongUiData
 import custom.MusicItem
 import custom.MusicItemType
@@ -277,4 +279,16 @@ private fun RelaylistBsideTrackContent(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun RelaylistDetailScreenPreview() {
+    RelaylistDetailScreen(
+        state = RelaylistDetailUiState(
+            relaylist = relaylistUiMockData.random(),
+            remainingTime = 1600000L
+        ),
+        navOnBack = { }
+    )
 }
