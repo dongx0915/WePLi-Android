@@ -160,6 +160,7 @@ private fun RelaylistTimerComponent(remainingTime: Long) {
     Row(
         modifier = Modifier
             .padding(top = 32.dp)
+            .fillMaxWidth()
             .background(
                 color = WepliTheme.color.white.copy(alpha = 0.1f),
                 shape = RoundedCornerShape(12.dp)
@@ -170,8 +171,10 @@ private fun RelaylistTimerComponent(remainingTime: Long) {
         if (remainingTime <= 0L) {
             Text(
                 text = "릴레이리스트가 완성되었어요 🎉",
+                textAlign = TextAlign.Center,
                 style = WepliTheme.typo.subTitle2,
                 color = WepliTheme.color.gray900,
+                modifier = Modifier.fillMaxWidth()
             )
         } else {
             Text(
