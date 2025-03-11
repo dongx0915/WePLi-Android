@@ -83,14 +83,14 @@ fun RelaylistDetailScreen(
                 previewImage = painterResource(id = R.drawable.img_placeholder_chuu_3),
                 modifier = Modifier
                     .fillMaxSize()
-                    .blur(24.dp),
+                    .blur(48.dp),
             )
 
             // 릴레이리스트 콘텐츠
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(WepliTheme.color.black.copy(alpha = 0.8f))
+                    .background(WepliTheme.color.black.copy(alpha = 0.6f))
                     .verticalScroll(scrollState)
                     .padding(paddingValue)
                     .padding(horizontal = 20.dp),
