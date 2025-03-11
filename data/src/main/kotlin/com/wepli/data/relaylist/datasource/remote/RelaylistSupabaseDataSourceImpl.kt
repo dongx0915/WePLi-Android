@@ -14,11 +14,12 @@ class RelaylistSupabaseDataSourceImpl @Inject constructor(
 
     companion object {
         const val RELAYLIST_TABLE = "relaylist"
+        const val RELAYLIST_VIEW = "relaylist_view"
     }
 
     override fun getRelaylistById(id: Int): FlowResult<RelaylistResponse> = flow {
         val result: Result<RelaylistResponse> = runCatching {
-            supabase.postgrest[RELAYLIST_TABLE]
+            supabase.postgrest[RELAYLIST_VIEW]
                 .select {
                     filter {
                         eq("id", id)
