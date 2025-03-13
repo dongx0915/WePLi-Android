@@ -98,6 +98,7 @@ fun PlaylistAppBar(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RelaylistAppBar(
+    relaylistTitle: String,
     onClickBack: () -> Unit,
     content: @Composable (scrollState: ScrollState, paddingValues: PaddingValues) -> Unit
 ) {
@@ -105,11 +106,11 @@ fun RelaylistAppBar(
 
     ScrollableAppBar(
         scrollState = scrollState,
-        backgroundColors = Color.Transparent to WepliTheme.color.gray400.copy(alpha = 0.1f),
+        backgroundColors = Color.Transparent to Color.Transparent,
         contentsColors = Color.White to Color.White,
-        topBarComponent = { backgroundColor, contentsColor, _, _ ->
+        topBarComponent = { backgroundColor, contentsColor, _, scrollFraction ->
             WepliAppBar(
-                title = "",
+                title = if (scrollFraction >= 0.1f) relaylistTitle else "",
                 containerColor = backgroundColor,
                 contentsColor = contentsColor,
                 showBackButton = true,

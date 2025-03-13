@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -72,6 +73,7 @@ fun RelaylistDetailScreen(
     val relaylist = state.relaylist
 
     RelaylistAppBar(
+        relaylistTitle = relaylist.title,
         onClickBack = navOnBack,
     ) { scrollState, paddingValue ->
         Box(modifier = Modifier.fillMaxSize()) {
@@ -91,8 +93,8 @@ fun RelaylistDetailScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(WepliTheme.color.black.copy(alpha = 0.6f))
-                    .verticalScroll(scrollState)
                     .padding(paddingValue)
+                    .verticalScroll(scrollState)
                     .padding(horizontal = 20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
