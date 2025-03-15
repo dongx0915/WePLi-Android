@@ -1,13 +1,18 @@
 package com.wepli.data.relaylist.datasource.remote
 
-import com.wepli.core.kotlin.FlowResult
+import com.wepli.core.kotlin.flow.FlowResult
 import com.wepli.data.relaylist.RelaylistApi
 import com.wepli.data.relaylist.response.RelaylistResponse
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class RelaylistDataSourceImpl @Inject constructor(
     private val relaylistApi: RelaylistApi,
 ): RelaylistDataSource {
+
+    override fun getRelaylistById(id: Int): FlowResult<RelaylistResponse> {
+        return flow {  }
+    }
 
     override fun getRelaylists(): FlowResult<List<RelaylistResponse>> {
         return relaylistApi.getRelaylists()

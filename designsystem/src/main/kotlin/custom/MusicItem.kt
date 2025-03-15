@@ -43,10 +43,14 @@ sealed interface MusicItemType {
         override val coverImgUrl: String = chartMusic.albumCoverUrl
     }
 
-    data class Normal(val songUiData: SongUiData, val size: Int) : MusicItemType {
+    data class Normal(
+        val songUiData: SongUiData,
+        val imageSize: Int,
+        val rank: Int? = null
+    ) : MusicItemType {
         override val title: String = songUiData.title
         override val artist: String = songUiData.artistName
-        override val coverImgUrl: String = songUiData.getImageUrl(size)
+        override val coverImgUrl: String = songUiData.getImageUrl(imageSize)
     }
 }
 
@@ -67,7 +71,7 @@ fun MusicItemPreview() {
         MusicItem(
             musicItemType = MusicItemType.Normal(
                 songUiData = songUiMockData[0],
-                size = 300
+                imageSize = 300
             ),
             showPlayIcon = true,
             showMoreIcon = true
@@ -100,22 +104,23 @@ fun MusicItem(
             contentScale = ContentScale.Crop
         )
 
-        when (musicItemType) {
-            is MusicItemType.Chart -> {
-                Text(
-                    modifier = Modifier
-                        .padding(top = 9.dp)
-                        .width(32.dp),
-                    text = musicItemType.chartMusic.rank.toString(),
-                    style = WepliTheme.typo.caption1,
-                    color = WepliTheme.color.gray700,
-                    textAlign = TextAlign.Center
-                )
-            }
+        val rankText = when (musicItemType) {
+            is MusicItemType.Chart -> musicItemType.chartMusic.rank.toString()
+            is MusicItemType.Normal -> musicItemType.rank?.toString() ?: "" // rank가 null이면 표시하지 않음
+        }
 
-            is MusicItemType.Normal -> {
-                Spacer(modifier = Modifier.width(14.dp))
-            }
+        if (rankText.isNotEmpty()) {
+            Text(
+                modifier = Modifier
+                    .padding(top = 9.dp)
+                    .width(32.dp),
+                text = rankText,
+                style = WepliTheme.typo.caption1,
+                color = WepliTheme.color.gray700,
+                textAlign = TextAlign.Center
+            )
+        } else {
+            Spacer(modifier = Modifier.width(14.dp))
         }
 
         Column(

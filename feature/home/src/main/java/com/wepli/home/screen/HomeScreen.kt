@@ -1,6 +1,7 @@
 package com.wepli.home.screen
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -36,6 +38,8 @@ import com.wepli.home.component.RelaylistBackground
 import com.wepli.home.component.RelaylistBannerComponent
 import com.wepli.home.component.WePLiBanner
 import com.wepli.home.component.WePLiBannerType
+import com.wepli.home.mvi.HomeEffect
+import com.wepli.home.mvi.HomeIntent
 import com.wepli.home.viewmodel.HomeViewModel
 import com.wepli.shared.feature.mock.artistMockData
 import com.wepli.shared.feature.mock.musicMockData
@@ -49,12 +53,12 @@ import custom.MusicItem
 import custom.MusicItemType
 import custom.OneLineTitle
 import custom.TwoLineTitle
-import dev.chrisbanes.haze.haze
 import dev.chrisbanes.haze.hazeSource
 import extensions.compose.calculateCurrentOffsetForPage
 import model.playlist.RecommendPlaylist
 import model.relaylist.Relaylist
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 import theme.LocalHazeState
 import theme.WepliTheme
 
@@ -62,14 +66,26 @@ import theme.WepliTheme
 fun HomeRoute(
     viewModel: HomeViewModel = hiltViewModel(),
     onNavigatePlaylist: (playlistId: Int) -> Unit,
+    onNavigateRelaylist: (relaylistId: Int) -> Unit,
 ) {
     val state by viewModel.collectAsState()
-
+    val context = LocalContext.current
     val relaylists by rememberUpdatedState(newValue = state.relaylists)
     val topChartList by rememberUpdatedState(newValue = state.topChartList)
     val artistList by rememberUpdatedState(newValue = state.artistList)
     val recommendPlaylists by rememberUpdatedState(newValue = state.recommendPlaylists)
     val themePlaylists by rememberUpdatedState(newValue = state.themePlaylists)
+
+    viewModel.collectSideEffect {
+        when (it) {
+            is HomeEffect.RelaylistLoadSuccess -> {
+                onNavigateRelaylist(it.relaylistId)
+            }
+            HomeEffect.RelaylistLoadFailed -> {
+                Toast.makeText(context, "릴레이리스트 조회에 실패했어요.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     HomeScreen(
         relaylists = relaylists,
@@ -77,7 +93,9 @@ fun HomeRoute(
         artistList = artistList,
         recommendPlaylists = recommendPlaylists,
         themePlaylists = themePlaylists,
-        onNavigatePlaylist = { playlistId -> onNavigatePlaylist(playlistId) }
+        sendAction = viewModel::processIntent,
+        onNavigatePlaylist = { playlistId -> onNavigatePlaylist(playlistId) },
+        onNavigateRelaylist = { relaylistId -> onNavigateRelaylist(relaylistId) }
     )
 }
 
@@ -89,7 +107,9 @@ fun HomeScreen(
     artistList: List<ArtistUiData>,
     recommendPlaylists: List<RecommendPlaylist>,
     themePlaylists: List<RecommendPlaylist>,
+    sendAction: (HomeIntent) -> Unit,
     onNavigatePlaylist: (playlistId: Int) -> Unit,
+    onNavigateRelaylist: (relaylistId: Int) -> Unit,
 ) {
     val hazeState = LocalHazeState.current
     HomeAppBar { scrollState, paddingValues ->
@@ -108,7 +128,8 @@ fun HomeScreen(
             item {
                 RelaylistPagerLayout(
                     topPagerModifier = Modifier.padding(top = topPadding),
-                    relaylists = relaylists
+                    relaylists = relaylists,
+                    onClick = { relaylistId -> sendAction(HomeIntent.LoadRelaylist(relaylistId)) }
                 )
             }
 
@@ -136,6 +157,7 @@ fun RelaylistPagerLayout(
     modifier: Modifier = Modifier,
     topPagerModifier: Modifier = Modifier,
     relaylists: List<Relaylist>,
+    onClick: (relaylistId: Int) -> Unit,
 ) {
     val topPagerState = rememberPagerState(
         pageCount = { relaylists.size }
@@ -182,7 +204,7 @@ fun RelaylistPagerLayout(
             val relaylist = relaylists[page]
             val pageOffset = topPagerState.calculateCurrentOffsetForPage(page)
 
-            RelaylistBannerComponent(item = relaylist, scaleSizeRatio = scaleSizeRatio, pageOffset = pageOffset)
+            RelaylistBannerComponent(item = relaylist, scaleSizeRatio = scaleSizeRatio, pageOffset = pageOffset, modifier = Modifier.clickable { onClick(relaylist.id) })
         }
     }
 }
@@ -315,7 +337,9 @@ fun HomeScreenPreview() {
         artistList = artistMockData,
         recommendPlaylists = recommendPlaylistMockData,
         themePlaylists = recommendPlaylistMockData,
-        onNavigatePlaylist = {}
+        sendAction = {},
+        onNavigatePlaylist = {},
+        onNavigateRelaylist = {}
     )
 }
 

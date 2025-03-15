@@ -8,12 +8,15 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.wepli.shared.feature.mock.relaylistUiMockData
 import dev.chrisbanes.haze.HazeStyle
 import dev.chrisbanes.haze.HazeTint
 import dev.chrisbanes.haze.hazeEffect
 import theme.LocalHazeState
+import theme.WepliTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -68,7 +71,7 @@ fun PlaylistAppBar(
         scrollState = scrollState,
         backgroundColors = Color.Transparent to Color.Black,
         contentsColors = Color.White to Color.White,
-        topBarComponent = { backgroundColor, contentsColor, isFullScrolled ->
+        topBarComponent = { backgroundColor, contentsColor, isFullScrolled, _ ->
             WepliAppBar(
                 title = if (isFullScrolled) playlistTitle else "",
                 containerColor = backgroundColor,
@@ -85,6 +88,33 @@ fun PlaylistAppBar(
                     AppBarIcon(icon = AppBarIconType.More(iconColor = { contentsColor }))
                 },
                 onClickBack = { navOnBack() }
+            )
+        }
+    ) { paddingValues ->
+        content(scrollState, paddingValues)
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RelaylistAppBar(
+    relaylistTitle: String,
+    onClickBack: () -> Unit,
+    content: @Composable (scrollState: ScrollState, paddingValues: PaddingValues) -> Unit
+) {
+    val scrollState = rememberScrollState()
+
+    ScrollableAppBar(
+        scrollState = scrollState,
+        backgroundColors = Color.Transparent to Color.Transparent,
+        contentsColors = Color.White to Color.White,
+        topBarComponent = { backgroundColor, contentsColor, _, scrollFraction ->
+            WepliAppBar(
+                title = if (scrollFraction >= 0.1f) relaylistTitle else "",
+                containerColor = backgroundColor,
+                contentsColor = contentsColor,
+                showBackButton = true,
+                onClickBack = { onClickBack() },
             )
         }
     ) { paddingValues ->

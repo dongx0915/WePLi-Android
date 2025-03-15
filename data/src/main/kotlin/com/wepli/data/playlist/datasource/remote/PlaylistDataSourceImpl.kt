@@ -2,11 +2,9 @@ package com.wepli.data.playlist.datasource.remote
 
 import com.wepli.data.playlist.PlaylistApi
 import com.wepli.data.playlist.response.RecommendPlaylistResponse
-import com.wepli.core.kotlin.FlowResult
+import com.wepli.core.kotlin.flow.FlowResult
 import com.wepli.data.playlist.response.PlaylistResponse
 import io.github.jan.supabase.SupabaseClient
-import io.github.jan.supabase.postgrest.postgrest
-import io.github.jan.supabase.postgrest.query.Columns
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 

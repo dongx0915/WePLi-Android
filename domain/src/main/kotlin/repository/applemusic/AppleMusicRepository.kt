@@ -1,6 +1,6 @@
 package repository.applemusic
 
-import com.wepli.core.kotlin.FlowResult
+import com.wepli.core.kotlin.flow.FlowResult
 import model.album.Album
 import model.artist.AppleArtist
 import model.music.Song

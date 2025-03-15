@@ -1,6 +1,6 @@
 package com.wepli.data.user
 
-import com.wepli.core.kotlin.FlowResult
+import com.wepli.core.kotlin.flow.FlowResult
 import com.wepli.data.datastore.DataStoreKey
 import com.wepli.data.datastore.local.DataStorePrefDataSource
 import com.wepli.data.di.qualifier.SupabaseDataSource

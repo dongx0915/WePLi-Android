@@ -1,7 +1,7 @@
 package com.wepli.data.playlist.datasource.remote
 
 import com.wepli.data.playlist.response.RecommendPlaylistResponse
-import com.wepli.core.kotlin.FlowResult
+import com.wepli.core.kotlin.flow.FlowResult
 import com.wepli.data.playlist.response.PlaylistResponse
 
 interface PlaylistDataSource {

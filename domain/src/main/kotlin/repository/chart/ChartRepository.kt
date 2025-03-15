@@ -1,6 +1,6 @@
 package repository.chart
 
-import com.wepli.core.kotlin.FlowResult
+import com.wepli.core.kotlin.flow.FlowResult
 import model.music.ChartMusic
 
 

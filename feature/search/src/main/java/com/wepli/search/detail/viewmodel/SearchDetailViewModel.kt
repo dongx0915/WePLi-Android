@@ -1,7 +1,7 @@
 package com.wepli.search.detail.viewmodel
 
 import base.BaseMviViewModel
-import com.wepli.core.kotlin.suspendCollectResult
+import com.wepli.core.kotlin.flow.suspendCollectResult
 import com.wepli.search.detail.mvi.SearchDetailEffect
 import com.wepli.search.detail.mvi.SearchDetailIntent
 import com.wepli.search.detail.mvi.SearchDetailUiState

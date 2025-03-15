@@ -54,7 +54,7 @@ fun ScrollableAppBar(
     // 배경색과 아이콘 색상 보간
     val backgroundColor = lerp(backgroundColors.first, backgroundColors.second, scrollFraction)
     val contentsColor = lerp(contentsColors.first, contentsColors.second, scrollFraction)
-    val isFullScrolled = derivedStateOf { scrollFraction >= 1f }
+    val isFullScrolled = derivedStateOf { scrollFraction >= 0.99f }
     val window = (LocalContext.current as? Activity)?.window
     val view = LocalView.current
 
@@ -84,11 +84,12 @@ fun ScrollableAppBar(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState", "ContextCastToActivity")
 @Composable
 fun ScrollableAppBar(
+    modifier: Modifier = Modifier,
     scrollState: ScrollState,
     scrollThreshold: Float = 1000f,
     backgroundColors: Pair<Color, Color> = Color.Transparent to Color.Black,
     contentsColors: Pair<Color, Color> = Color.Black to Color.White,
-    topBarComponent: @Composable (backgroundColor: Color, contentsColor: Color, isFullScrolled: Boolean) -> Unit,
+    topBarComponent: @Composable (backgroundColor: Color, contentsColor: Color, isFullScrolled: Boolean, scrollFaction: Float) -> Unit,
     content: @Composable (appbarPadding: PaddingValues) -> Unit,
 ) {
     // 스크롤의 진행 비율을 0에서 1 사이로 계산 (외부에서 받은 scrollThreshold 값 사용)
@@ -113,7 +114,7 @@ fun ScrollableAppBar(
 
     // Scaffold는 Jetpack Compose의 레이아웃을 구성하는 기본 구조로, topBar와 content를 설정
     Scaffold(
-        topBar = { topBarComponent(backgroundColor, contentsColor, isFullScrolled.value) },
+        topBar = { topBarComponent(backgroundColor, contentsColor, isFullScrolled.value, scrollFraction) },
         content = { paddingValue -> content(paddingValue) }
     )
 }
@@ -161,7 +162,7 @@ fun ScrollableAppBar() {
         scrollState = scrollState,
         backgroundColors = Color.Transparent to Color.Black,
         contentsColors = Color.Black to Color.White,
-        topBarComponent = { backgroundColor, iconColor, _ ->
+        topBarComponent = { backgroundColor, iconColor, _, _ ->
             WepliAppBar(
                 containerColor = backgroundColor,
                 contentsColor = iconColor,

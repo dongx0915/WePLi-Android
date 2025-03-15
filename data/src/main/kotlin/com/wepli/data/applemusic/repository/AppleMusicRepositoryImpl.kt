@@ -1,6 +1,6 @@
 package com.wepli.data.applemusic.repository
 
-import com.wepli.core.kotlin.FlowResult
+import com.wepli.core.kotlin.flow.FlowResult
 import com.wepli.data.applemusic.datasource.AppleMusicDataSource
 import com.wepli.data.network.toEntityResult
 import model.album.Album

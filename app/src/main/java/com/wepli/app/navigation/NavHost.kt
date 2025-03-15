@@ -29,6 +29,8 @@ import com.wepli.feature.photocard.result.navigation.photoCardResultGraph
 import com.wepli.feature.photocard.result.navigation.navigateToPhotoCardResult
 import com.wepli.playlist.navigation.navigateToPlaylistDetail
 import com.wepli.playlist.navigation.playlistDetailGraph
+import com.wepli.relaylist.navigation.navigateToRelaylistDetail
+import com.wepli.relaylist.navigation.relaylistDetailGraph
 import com.wepli.search.navigation.SearchScreenMode
 import com.wepli.search.navigation.navigateBackWithSelectedSongs
 import com.wepli.search.navigation.navigateToSearchDetail
@@ -53,7 +55,8 @@ fun SetUpNavGraph(
     ) {
         // 홈 Graph
         homeGraph(
-            navOnPlaylistDetail = { playlistId -> navController.navigateToPlaylistDetail(playlistId) }
+            navOnPlaylistDetail = { playlistId -> navController.navigateToPlaylistDetail(playlistId) },
+            navOnRelaylistDetail = { relaylistId -> navController.navigateToRelaylistDetail(relaylistId) }
         )
 
         // 검색 Graph
@@ -68,6 +71,9 @@ fun SetUpNavGraph(
 
         // 플레이리스트 Graph
         playlistGraph(navController)
+
+        // 릴레이리스트 Graph
+        relaylistGraph(navController)
 
         // 마이페이지 Graph
         mypageGraph(navController, goToLoginActivity)
@@ -120,6 +126,11 @@ fun NavGraphBuilder.playlistGraph(navController: NavHostController) {
     playlistDetailGraph(
         navOnBack = { navController.navigateToBack() }
     )
+}
+
+// 릴레이리스트 Graph
+fun NavGraphBuilder.relaylistGraph(navController: NavController) {
+    relaylistDetailGraph { navController.popBackStack() }
 }
 
 // 마이페이지 Graph

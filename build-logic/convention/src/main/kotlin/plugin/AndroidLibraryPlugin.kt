@@ -2,9 +2,12 @@ package plugin
 
 import com.android.build.gradle.LibraryExtension
 import extensions.configureKotlinAndroid
+import extensions.implementation
+import extensions.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
 
 class AndroidLibraryPlugin : Plugin<Project> {
 
@@ -24,6 +27,10 @@ class AndroidLibraryPlugin : Plugin<Project> {
                         excludes += "/META-INF/LICENSE*"
                     }
                 }
+            }
+
+            dependencies {
+                implementation(libs.findLibrary("joda.time").get())
             }
         }
     }

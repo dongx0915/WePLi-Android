@@ -1,6 +1,6 @@
 package com.wepli.data.applemusic
 
-import com.wepli.core.kotlin.FlowResult
+import com.wepli.core.kotlin.flow.FlowResult
 import com.wepli.data.applemusic.response.AppleCatalogResponse
 import retrofit2.http.GET
 import retrofit2.http.Query

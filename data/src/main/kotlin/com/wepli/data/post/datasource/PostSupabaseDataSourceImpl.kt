@@ -1,6 +1,6 @@
 package com.wepli.data.post.datasource
 
-import com.wepli.core.kotlin.FlowResult
+import com.wepli.core.kotlin.flow.FlowResult
 import com.wepli.data.SupabaseTable
 import com.wepli.data.common.supabase.response.IdResponse
 import com.wepli.data.di.qualifier.SupabaseDataSource

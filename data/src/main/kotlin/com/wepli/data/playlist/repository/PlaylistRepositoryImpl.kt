@@ -3,7 +3,7 @@ package com.wepli.data.playlist.repository
 import com.wepli.data.network.toEntityResult
 import com.wepli.data.playlist.datasource.remote.PlaylistDataSource
 import com.wepli.data.playlist.response.toEntities
-import com.wepli.core.kotlin.FlowResult
+import com.wepli.core.kotlin.flow.FlowResult
 import com.wepli.data.di.qualifier.SupabaseDataSource
 import com.wepli.data.playlist.response.toPlaylist
 import model.playlist.Playlist

@@ -1,6 +1,6 @@
 package com.wepli.data.applemusic.datasource
 
-import com.wepli.core.kotlin.FlowResult
+import com.wepli.core.kotlin.flow.FlowResult
 import com.wepli.data.applemusic.response.AppleCatalogResponse
 import com.wepli.data.applemusic.response.AppleSearchResponse
 

@@ -1,7 +1,7 @@
 package com.wepli.data.chart.datasource.remote
 
 import com.wepli.data.chart.response.ChartListResponse
-import com.wepli.core.kotlin.FlowResult
+import com.wepli.core.kotlin.flow.FlowResult
 import com.wepli.data.SupabaseTable
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.postgrest
