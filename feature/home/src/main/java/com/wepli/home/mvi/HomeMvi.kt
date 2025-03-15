@@ -16,6 +16,11 @@ data class HomeUiState(
     val themePlaylists: List<RecommendPlaylist> = emptyList()
 ) : UiState
 
-interface HomeEffect : SideEffect
+sealed interface HomeEffect : SideEffect {
+    data class RelaylistLoadSuccess(val relaylistId: Int) : HomeEffect
+    data object RelaylistLoadFailed : HomeEffect
+}
 
-interface HomeIntent : Intent
+sealed interface HomeIntent : Intent {
+    data class LoadRelaylist(val relaylistId: Int) : HomeIntent
+}

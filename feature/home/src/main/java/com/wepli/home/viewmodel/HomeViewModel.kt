@@ -35,7 +35,9 @@ class HomeViewModel @Inject constructor(
     }
 
     override fun processIntent(intent: HomeIntent) {
-        // TODO: Implement
+        when (intent) {
+            is HomeIntent.LoadRelaylist -> loadRelaylistById(intent.relaylistId)
+        }
     }
 
     private fun getRelaylists() = intent {
@@ -97,6 +99,21 @@ class HomeViewModel @Inject constructor(
                 .suspendCollectResult(
                     onSuccess = { playlists ->
                         reduce { state.copy(themePlaylists = playlists) }
+                    }
+                )
+        }
+    }
+
+    private fun loadRelaylistById(id: Int) {
+        launch {
+            relaylistRepository.getRelaylistById(id)
+                .flowOn(Dispatchers.IO)
+                .suspendCollectResult(
+                    onSuccess = {
+                        postSideEffect { HomeEffect.RelaylistLoadSuccess(it.id) }
+                    },
+                    onFailure = {
+                        postSideEffect { HomeEffect.RelaylistLoadFailed }
                     }
                 )
         }
