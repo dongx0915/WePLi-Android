@@ -113,7 +113,7 @@ fun SongInfoBottomSheetContent(song: SongUiData) {
         )
 
         BottomSheetItem(
-            iconRes = R.drawable.ic_lylics_vector,
+            iconRes = R.drawable.ic_lyrics_vector,
             text = "가사 보기",
             onClick = { }
         )
