@@ -56,6 +56,7 @@ import com.wepli.feature.photocard.result.mvi.PhotoCardResultUiState
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.mock.userMockData
 import com.wepli.shared.feature.uimodel.photocard.PhotoCardUiData
+import component.bottomsheet.BottomSheetItem
 import component.bottomsheet.WepliBottomSheet
 import component.bottomsheet.WepliBottomSheetType
 import extensions.saveBitmapToFile
@@ -232,34 +233,6 @@ fun PhotoCardShareBottomSheet(
     }
 }
 
-@Composable
-fun BottomSheetItem(
-    @DrawableRes iconRes: Int,
-    text: String,
-    onClick: () -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .clickable { onClick() }
-            .fillMaxWidth()
-            .padding(vertical = 14.dp, horizontal = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        Icon(
-            modifier = Modifier.size(24.dp),
-            imageVector = ImageVector.vectorResource(iconRes),
-            contentDescription = null,
-            tint = WepliTheme.color.gray900
-        )
-
-        Text(
-            text = text,
-            style = WepliTheme.typo.body4,
-            color = WepliTheme.color.gray900,
-        )
-    }
-}
 
 @Preview
 @Composable
