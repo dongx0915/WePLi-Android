@@ -26,6 +26,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,6 +44,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,6 +52,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
 import button.WepliBasicButton
 import button.WepliButtonStyle
+import com.wepli.designsystem.R
 import com.wepli.search.detail.mvi.SearchDetailEffect
 import com.wepli.search.detail.mvi.SearchDetailIntent
 import com.wepli.search.detail.mvi.SearchDetailUiState
@@ -59,6 +62,8 @@ import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
 import common.ShimmerSkeleton
 import common.WepliSpacer
+import custom.MusicItem
+import custom.MusicItemType
 import extensions.compose.toPx
 import extensions.compose.topBorderWithRoundedCorners
 import image.AsyncImageWithPreview
@@ -311,7 +316,7 @@ fun SearchResultSongItem(
 
         WepliSpacer(horizontal = 12.dp)
         Column(
-            modifier = Modifier.fillMaxHeight(),
+            modifier = Modifier.fillMaxHeight().weight(1f),
             verticalArrangement = Arrangement.Center
         ) {
             Text(
@@ -329,6 +334,16 @@ fun SearchResultSongItem(
                 overflow = TextOverflow.Ellipsis
             )
         }
+
+        Icon(
+            modifier = Modifier
+                .padding(start = 4.dp)
+                .align(Alignment.CenterVertically)
+                .size(24.dp),
+            tint = WepliTheme.color.gray800,
+            painter = painterResource(id = R.drawable.ic_more_dot),
+            contentDescription = null
+        )
     }
 }
 
