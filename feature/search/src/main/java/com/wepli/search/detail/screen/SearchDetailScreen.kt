@@ -53,6 +53,8 @@ import appbar.WepliAppBar
 import button.WepliBasicButton
 import button.WepliButtonStyle
 import com.wepli.designsystem.R
+import com.wepli.search.component.SongInfoBottomSheet
+import com.wepli.search.component.SongInfoBottomSheetContent
 import com.wepli.search.detail.mvi.SearchDetailEffect
 import com.wepli.search.detail.mvi.SearchDetailIntent
 import com.wepli.search.detail.mvi.SearchDetailUiState
@@ -62,8 +64,6 @@ import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
 import common.ShimmerSkeleton
 import common.WepliSpacer
-import custom.MusicItem
-import custom.MusicItemType
 import extensions.compose.toPx
 import extensions.compose.topBorderWithRoundedCorners
 import image.AsyncImageWithPreview
@@ -162,6 +162,20 @@ fun SearchScreen(
             }
         }
     }
+
+    if (state.songInfo != null) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(WepliTheme.color.black.copy(0.8f))
+        ) {
+            SongInfoBottomSheet(
+                onClosed = { sendAction(SearchDetailIntent.ShowSongInfoBottomSheet(null)) },
+            ) {
+                SongInfoBottomSheetContent(state.songInfo)
+            }
+        }
+    }
 }
 
 @Composable
@@ -186,6 +200,7 @@ fun SearchContent(
         SearchResults(
             key = state.searchInput,
             searchResult = state.searchMusicResult,
+            sendAction = sendAction,
             onClickSongItem = { onClickSongItem(it) }
         )
     }
@@ -253,6 +268,7 @@ fun SearchBar(
 fun SearchResults(
     key: String,
     searchResult: List<SongUiData>,
+    sendAction: (SearchDetailIntent) -> Unit,
     onClickSongItem: (SongUiData) -> Unit,
 ) {
     val lazyListState = rememberLazyListState()
@@ -272,6 +288,7 @@ fun SearchResults(
             SearchResultSongItem(
                 songUiData = song,
                 onClick = { onClickSongItem(song) },
+                onClickMore = { sendAction(SearchDetailIntent.ShowSongInfoBottomSheet(song)) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp),
@@ -285,6 +302,7 @@ fun SearchResultSongItem(
     modifier: Modifier = Modifier,
     songUiData: SongUiData,
     onClick: () -> Unit,
+    onClickMore: () -> Unit,
 ) {
     val imageSize = SongItemImageSize.toPx()
     val imageUrl = remember(songUiData.id) { songUiData.getImageUrl(imageSize) }
@@ -316,7 +334,9 @@ fun SearchResultSongItem(
 
         WepliSpacer(horizontal = 12.dp)
         Column(
-            modifier = Modifier.fillMaxHeight().weight(1f),
+            modifier = Modifier
+                .fillMaxHeight()
+                .weight(1f),
             verticalArrangement = Arrangement.Center
         ) {
             Text(
@@ -337,6 +357,7 @@ fun SearchResultSongItem(
 
         Icon(
             modifier = Modifier
+                .clickable { onClickMore() }
                 .padding(start = 4.dp)
                 .align(Alignment.CenterVertically)
                 .size(24.dp),

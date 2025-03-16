@@ -25,6 +25,7 @@ class SearchDetailViewModel @Inject constructor(
             is SearchDetailIntent.OnSongSelected -> handleSongSelected(intent.song)
             is SearchDetailIntent.OnCompleteSongSelect -> handleCompleteSongSelect()
             is SearchDetailIntent.SetMaxSelectCount -> handleSetMaxSelectCount(intent.count)
+            is SearchDetailIntent.ShowSongInfoBottomSheet -> handleShowSongInfoBottomSheet(intent.selectedSong)
         }
     }
 
@@ -91,5 +92,9 @@ class SearchDetailViewModel @Inject constructor(
 
     private fun handleSetMaxSelectCount(count: Int) {
         updateState { copy(maxSelectCount = count) }
+    }
+
+    private fun handleShowSongInfoBottomSheet(selectedSong: SongUiData?) {
+        updateState { copy(songInfo = selectedSong) }
     }
 }
