@@ -27,6 +27,7 @@ import com.wepli.feature.photocard.main.navigation.photoCardMainGraph
 import com.wepli.feature.photocard.main.navigation.navigateToPhotoCardMain
 import com.wepli.feature.photocard.result.navigation.photoCardResultGraph
 import com.wepli.feature.photocard.result.navigation.navigateToPhotoCardResult
+import com.wepli.feature.song.info.navigation.songInfoGraph
 import com.wepli.playlist.navigation.navigateToPlaylistDetail
 import com.wepli.playlist.navigation.playlistDetailGraph
 import com.wepli.relaylist.navigation.navigateToRelaylistDetail
@@ -80,6 +81,9 @@ fun SetUpNavGraph(
 
         // 포토카드 Graph
         photoCardGraph(navController)
+
+        // 노래 Graph
+        songInfoGraph { navController.navigateToBack() }
     }
 }
 

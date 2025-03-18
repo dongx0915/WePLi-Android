@@ -18,6 +18,7 @@ dependencies {
     implementation(projects.feature.relaylist)
     implementation(projects.feature.mypage)
     implementation(projects.feature.photocard)
+    implementation(projects.feature.song)
     implementation(projects.data)
     implementation(projects.domain)
     implementation(projects.core.common)

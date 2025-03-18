@@ -39,16 +39,22 @@ import custom.OneLineTitle
 import image.AsyncImageWithPreview
 import theme.WepliTheme
 
+@Preview
+@Composable
+fun SongInfoScreenPreview() {
+    SongInfoScreen(navOnBack = {})
+}
 
 @Composable
-fun SongInfoScreenRoute() {
-
+fun SongInfoScreenRoute(navOnBack: () -> Unit) {
+    SongInfoScreen(navOnBack)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
-fun SongInfoScreen() {
+fun SongInfoScreen(
+    navOnBack: () -> Unit
+) {
     val scrollState = rememberScrollState()
 
     ScrollableAppBar(
