@@ -37,7 +37,8 @@ fun NavGraphBuilder.searchMainGraph(
 
 fun NavGraphBuilder.searchDetailGraph(
     navOnBack: () -> Unit,
-    navigateBackWithSelectedSongs: (List<SongUiData>) -> Unit
+    navigateBackWithSelectedSongs: (List<SongUiData>) -> Unit,
+    navigateSongInfo: (SongUiData) -> Unit,
 ) {
     composable(
         route = "${SearchRoute.DETAIL.route}/{screenMode}/{maxCount}/{searchQuery}",
@@ -53,6 +54,6 @@ fun NavGraphBuilder.searchDetailGraph(
         )
         val searchQuery = it.arguments?.getString("searchQuery").orEmpty()
 
-        SearchScreenRoute(screenMode, searchQuery, navOnBack, navigateBackWithSelectedSongs)
+        SearchScreenRoute(screenMode, searchQuery, navOnBack, navigateBackWithSelectedSongs,navigateSongInfo)
     }
 }

@@ -28,6 +28,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
+import com.wepli.search.detail.mvi.SearchDetailIntent
 import com.wepli.shared.feature.mock.songUiMockData
 import com.wepli.uimodel.music.SongUiData
 import component.bottomsheet.BottomSheetItem
@@ -59,7 +60,7 @@ fun SongInfoBottomSheet(
 }
 
 @Composable
-fun SongInfoBottomSheetContent(song: SongUiData) {
+fun SongInfoBottomSheetContent(song: SongUiData, sendAction: (SearchDetailIntent) -> Unit) {
     val imageSize = 64.dp
 
     Column(modifier = Modifier.fillMaxHeight().padding(top = 62.dp)) {
@@ -163,7 +164,7 @@ fun SongInfoBottomSheetContent(song: SongUiData) {
         BottomSheetItem(
             iconRes = R.drawable.ic_info_vector,
             text = "곡 정보",
-            onClick = { }
+            onClick = { sendAction(SearchDetailIntent.LoadSongInfo) }
         )
 
         Spacer(modifier = Modifier.weight(2f))
@@ -174,5 +175,5 @@ fun SongInfoBottomSheetContent(song: SongUiData) {
 @Preview
 @Composable
 fun SongInfoBottomSheetContentPreview() {
-    SongInfoBottomSheetContent(song = songUiMockData.random())
+    SongInfoBottomSheetContent(song = songUiMockData.random(), sendAction = {})
 }

@@ -77,7 +77,7 @@ fun SongInfoScreen(
                 .verticalScroll(scrollState)
                 .background(WepliTheme.color.black)
                 .padding(paddingValues)
-                .padding(horizontal = 24.dp)
+                .padding(24.dp)
         ) {
             Text(
                 text = "YOU AGAINST YOURSELF",
@@ -113,7 +113,7 @@ fun SongInfoScreen(
             Spacer(modifier = Modifier.height(20.dp))
 
             AsyncImageWithPreview(
-                imageUrl = "https://cdnimg.melon.co.kr/cm2/album/images/106/06/222/10606222_20210319163607_500.jpg/melon/resize/120/quality/80/optimize",
+                imageUrl = "https://scontent-gmp1-1.cdninstagram.com/v/t51.29350-15/436566126_970600574719300_8214831817826727154_n.jpg?stp=dst-jpg_e35_p1080x1080_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDQweDE3OTguc2RyLmYyOTM1MC5kZWZhdWx0X2ltYWdlIn0&_nc_ht=scontent-gmp1-1.cdninstagram.com&_nc_cat=104&_nc_oc=Q6cZ2AEdlxAIatzhBDVZh7hjbCV1lCLCdGIw0oylUZ3tmwTcDUKQTjvApB3FrfFEE7gjOiM&_nc_ohc=9aC04bT8HA0Q7kNvgEDSYSZ&_nc_gid=eAvkE9yWLv6pQeEe-NewRw&edm=APoiHPcBAAAA&ccb=7-5&ig_cache_key=MzM2NDAwNTg1NjUxMTAzODc2MQ%3D%3D.3-ccb7-5&oh=00_AYECITbD1Ve4OSeEHkySb6s_0sh6vunCm1cXuTIAQ5zHmg&oe=67DF5768&_nc_sid=22de04",
                 previewImage = painterResource(id = R.drawable.img_placeholder_chuu_2),
                 imageOverrideSize = 200.dp,
                 modifier = Modifier
@@ -174,8 +174,13 @@ private fun ComposerInfo() {
 
     Column(
         modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(20.dp)
+        verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
+        OneLineTitle(
+            title = "작곡자 정보",
+            showIcon = true,
+            modifier = Modifier.padding(vertical = 12.dp)
+        )
         TagList("작곡", composers)
         TagList("장르", genres)
     }
@@ -205,7 +210,7 @@ private fun AlbumInfo() {
     }
 
     Column(
-        verticalArrangement = Arrangement.spacedBy(10.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         OneLineTitle(
             title = "앨범 정보",

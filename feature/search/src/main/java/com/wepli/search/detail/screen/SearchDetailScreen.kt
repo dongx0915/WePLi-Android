@@ -81,6 +81,7 @@ fun SearchScreenRoute(
     searchQuery: String,
     navOnBack: () -> Unit,
     navigateBackWithSelectedSongs: (List<SongUiData>) -> Unit,
+    navigateSongInfo: (SongUiData) -> Unit,
 ) {
     val viewModel = hiltViewModel<SearchDetailViewModel>()
     val state: SearchDetailUiState by viewModel.collectAsState()
@@ -106,6 +107,10 @@ fun SearchScreenRoute(
             }
             is SearchDetailEffect.NavigateBackWithResult -> {
                 navigateBackWithSelectedSongs(sideEffect.selectedSongs)
+            }
+
+            is SearchDetailEffect.NavigateToSongInfo -> {
+                state.songInfo?.let { navigateSongInfo(it) }
             }
         }
     }
@@ -161,18 +166,17 @@ fun SearchScreen(
                 )
             }
         }
-    }
-
-    if (state.songInfo != null) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(WepliTheme.color.black.copy(0.8f))
-        ) {
-            SongInfoBottomSheet(
-                onClosed = { sendAction(SearchDetailIntent.ShowSongInfoBottomSheet(null)) },
+        if (state.songInfo != null) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(WepliTheme.color.black.copy(0.8f))
             ) {
-                SongInfoBottomSheetContent(state.songInfo)
+                SongInfoBottomSheet(
+                    onClosed = { sendAction(SearchDetailIntent.ShowSongInfoBottomSheet(null)) },
+                ) {
+                    SongInfoBottomSheetContent(state.songInfo, sendAction)
+                }
             }
         }
     }

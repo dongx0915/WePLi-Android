@@ -27,6 +27,7 @@ import com.wepli.feature.photocard.main.navigation.photoCardMainGraph
 import com.wepli.feature.photocard.main.navigation.navigateToPhotoCardMain
 import com.wepli.feature.photocard.result.navigation.photoCardResultGraph
 import com.wepli.feature.photocard.result.navigation.navigateToPhotoCardResult
+import com.wepli.feature.song.info.navigation.navigateToSongInfo
 import com.wepli.feature.song.info.navigation.songInfoGraph
 import com.wepli.playlist.navigation.navigateToPlaylistDetail
 import com.wepli.playlist.navigation.playlistDetailGraph
@@ -100,6 +101,9 @@ fun NavGraphBuilder.searchGraph(navController: NavController) {
         navOnBack = { navController.navigateToBack() },
         navigateBackWithSelectedSongs = { selectedSongs ->
             navController.navigateBackWithSelectedSongs(selectedSongs)
+        },
+        navigateSongInfo = { song ->
+            navController.navigateToSongInfo(song)
         }
     )
 }

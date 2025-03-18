@@ -5,9 +5,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.wepli.feature.song.info.SongInfoScreenRoute
 import com.wepli.navigator.feature.song.SongRoute
+import com.wepli.uimodel.music.SongUiData
 
 
-fun NavController.navigateToSongInfo() {
+fun NavController.navigateToSongInfo(song: SongUiData) {
     navigate(SongRoute.INFO.route)
 }
 

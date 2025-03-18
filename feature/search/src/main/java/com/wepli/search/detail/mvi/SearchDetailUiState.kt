@@ -17,6 +17,7 @@ sealed interface SearchDetailEffect : SideEffect {
     data class SearchError(val message: String) : SearchDetailEffect
     data class SelectedLimitExceeded(val limit: Int) : SearchDetailEffect
     data class NavigateBackWithResult(val selectedSongs: List<SongUiData>) : SearchDetailEffect
+    data object NavigateToSongInfo : SearchDetailEffect
 }
 
 sealed interface SearchDetailIntent : Intent {
@@ -26,4 +27,5 @@ sealed interface SearchDetailIntent : Intent {
     data class SetMaxSelectCount(val count: Int) : SearchDetailIntent
     data object OnCompleteSongSelect : SearchDetailIntent
     data class ShowSongInfoBottomSheet(val selectedSong: SongUiData?) : SearchDetailIntent
+    data object LoadSongInfo : SearchDetailIntent
 }

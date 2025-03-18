@@ -26,6 +26,7 @@ class SearchDetailViewModel @Inject constructor(
             is SearchDetailIntent.OnCompleteSongSelect -> handleCompleteSongSelect()
             is SearchDetailIntent.SetMaxSelectCount -> handleSetMaxSelectCount(intent.count)
             is SearchDetailIntent.ShowSongInfoBottomSheet -> handleShowSongInfoBottomSheet(intent.selectedSong)
+            SearchDetailIntent.LoadSongInfo -> postSideEffect { SearchDetailEffect.NavigateToSongInfo }
         }
     }
 
