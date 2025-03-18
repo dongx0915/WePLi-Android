@@ -32,9 +32,10 @@ fun TitleItemPreview() {
 fun OneLineTitle(
     title: String,
     showIcon: Boolean = true,
+    modifier: Modifier = Modifier.padding(vertical = 12.dp, horizontal = 20.dp),
 ) {
     Row(
-        modifier = Modifier.padding(vertical = 12.dp, horizontal = 20.dp),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
