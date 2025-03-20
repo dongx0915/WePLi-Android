@@ -59,7 +59,7 @@ fun SongInfoScreen(
 
     ScrollableAppBar(
         scrollState = scrollState,
-        backgroundColors = Color.Transparent to Color.Transparent,
+        backgroundColors = Color.Black to Color.Black,
         contentsColors = Color.White to Color.White,
         topBarComponent = { backgroundColor, contentsColor, _, scrollFraction ->
             WepliAppBar(
