@@ -137,7 +137,7 @@ private fun ComposerInfo() {
     @Composable
     fun TagList(title:String, items: List<String>, modifier: Modifier = Modifier) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             Text(
@@ -174,15 +174,14 @@ private fun ComposerInfo() {
 
     Column(
         modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         OneLineTitle(
             title = "작곡자 정보",
             showIcon = true,
             modifier = Modifier.padding(vertical = 12.dp)
         )
-        TagList("작곡", composers)
-        TagList("장르", genres)
+        TagList("작곡", composers, Modifier.padding(top = 8.dp))
+        TagList("장르", genres, Modifier.padding(top = 20.dp))
     }
 }
 
