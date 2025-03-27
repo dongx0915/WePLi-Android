@@ -98,7 +98,9 @@ fun SongInfoBottomSheetContent(song: SongUiData, sendAction: (SearchDetailIntent
             }
 
             Icon(
-                modifier = Modifier.size(24.dp).align(Alignment.CenterVertically),
+                modifier = Modifier
+                    .size(24.dp)
+                    .align(Alignment.CenterVertically),
                 imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_forward_vector),
                 contentDescription = null,
                 tint = WepliTheme.color.gray900
