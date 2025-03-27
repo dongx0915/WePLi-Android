@@ -3,6 +3,7 @@ package com.wepli.shared.feature.mock
 import model.music.Song
 import model.playlist.Playlist
 import model.playlist.RecommendPlaylist
+import org.joda.time.LocalDate
 import java.util.Date
 
 val recommendPlaylistMockData = listOf(
@@ -37,6 +38,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1186360818",
                 genres = listOf("얼터너티브", "음악"),
                 durationMillis = 322219,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1697335814",
@@ -47,6 +56,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1697335814",
                 genres = listOf("얼터너티브", "음악"),
                 durationMillis = 137773,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1681086601",
@@ -57,6 +74,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1681086601",
                 genres = listOf("얼터너티브", "음악"),
                 durationMillis = 185106,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1658650059",
@@ -67,6 +92,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1658650059",
                 genres = listOf("얼터너티브", "음악"),
                 durationMillis = 246720,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1721004332",
@@ -77,6 +110,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1721004332",
                 genres = listOf("얼터너티브", "음악"),
                 durationMillis = 192144,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
         ),
         artists = emptyList(),
@@ -99,7 +140,15 @@ val playlistMockData = listOf(
                 coverImg = "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/1d/f7/c1/1df7c1d7-c106-5160-9e8e-6b8ba01671cc/075679797070.jpg/{w}x{h}bb.jpg",
                 href = "/v1/catalog/kr/songs/1540157580",
                 genres = listOf("힙합/랩", "음악"),
-                durationMillis = 213520
+                durationMillis = 213520,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1105302354",
@@ -109,7 +158,15 @@ val playlistMockData = listOf(
                 coverImg = "https://is1-ssl.mzstatic.com/image/thumb/Music18/v4/90/9e/75/909e75a9-a26f-59a5-a182-70706df63679/859717124819_cover.jpg/{w}x{h}bb.jpg",
                 href = "/v1/catalog/kr/songs/1105302354",
                 genres = listOf("힙합/랩", "음악"),
-                durationMillis = 160929
+                durationMillis = 160929,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1617749670",
@@ -119,7 +176,15 @@ val playlistMockData = listOf(
                 coverImg = "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/ec/3a/18/ec3a180c-64aa-251b-a366-2e0f1f0bc515/8809484113914_Cover.jpg/{w}x{h}bb.jpg",
                 href = "/v1/catalog/kr/songs/1617749670",
                 genres = listOf("K-Pop", "음악", "팝"),
-                durationMillis = 217040
+                durationMillis = 217040,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1773218828",
@@ -129,7 +194,15 @@ val playlistMockData = listOf(
                 coverImg = "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b5/f7/17/b5f7170a-c9fa-35e3-d2a0-94e4cdeb145e/888272141344_Cover.jpg/{w}x{h}bb.jpg",
                 href = "/v1/catalog/kr/songs/1773218828",
                 genres = listOf("R&B/소울", "음악"),
-                durationMillis = 223040
+                durationMillis = 223040,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1570375886",
@@ -139,7 +212,15 @@ val playlistMockData = listOf(
                 coverImg = "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/db/5f/31/db5f31dc-09bf-663f-508a-0f846e64f4ce/8809603540140_Cover.jpg/{w}x{h}bb.jpg",
                 href = "/v1/catalog/kr/songs/1570375886",
                 genres = listOf("K-Pop", "음악", "팝"),
-                durationMillis = 248836
+                durationMillis = 248836,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1744776167",
@@ -149,7 +230,15 @@ val playlistMockData = listOf(
                 coverImg = "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d0/ef/b6/d0efb685-73be-fdee-58c9-be655f4cd4fd/24UMGIM51924.rgb.jpg/{w}x{h}bb.jpg",
                 href = "/v1/catalog/kr/songs/1744776167",
                 genres = listOf("힙합/랩", "음악"),
-                durationMillis = 274192
+                durationMillis = 274192,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             )
         ),
         artists = emptyList(),
@@ -172,7 +261,15 @@ val playlistMockData = listOf(
                 coverImg = "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/8b/2e/0b/8b2e0b9d-6a29-9771-4590-1632c20c2f5a/00602537320349.rgb.jpg/{w}x{h}bb.jpg",
                 href = "/v1/catalog/kr/songs/1440861432",
                 genres = listOf("얼터너티브", "음악", "록", "어덜트 얼터너티브", "일렉트로닉", "다운템포"),
-                durationMillis = 224682
+                durationMillis = 224682,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1776748883",
@@ -182,7 +279,15 @@ val playlistMockData = listOf(
                 coverImg = "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d0/2a/43/d02a433a-3ab8-9a94-b07d-1dc599b64966/93624864387.jpg/{w}x{h}bb.jpg",
                 href = "/v1/catalog/kr/songs/1776748883",
                 genres = listOf("팝", "음악"),
-                durationMillis = 233453
+                durationMillis = 233453,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1438904353",
@@ -192,7 +297,15 @@ val playlistMockData = listOf(
                 coverImg = "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/5d/ad/d1/5dadd13d-567b-17b4-36df-6422b8efbb49/886447357392.jpg/{w}x{h}bb.jpg",
                 href = "/v1/catalog/kr/songs/1438904353",
                 genres = listOf("R&B/소울", "음악"),
-                durationMillis = 229319
+                durationMillis = 229319,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1487502476",
@@ -202,7 +315,15 @@ val playlistMockData = listOf(
                 coverImg = "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/c5/6c/b1/c56cb16a-52c3-33b5-5189-6c65028001fb/19UM1IM00404.rgb.jpg/{w}x{h}bb.jpg",
                 href = "/v1/catalog/kr/songs/1487502476",
                 genres = listOf("얼터너티브", "음악"),
-                durationMillis = 245426
+                durationMillis = 245426,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "882945393",
@@ -212,7 +333,15 @@ val playlistMockData = listOf(
                 coverImg = "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/00/bf/72/00bf72a2-3e50-e5e7-ae78-dc35bbf9bcda/886444578219.jpg/{w}x{h}bb.jpg",
                 href = "/v1/catalog/kr/songs/882945393",
                 genres = listOf("팝", "음악"),
-                durationMillis = 257200
+                durationMillis = 257200,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1052243617",
@@ -222,7 +351,15 @@ val playlistMockData = listOf(
                 coverImg = "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/2f/93/f3/2f93f3b2-1274-05ed-b60b-0931c8d86bbc/859715817294_cover.jpg/{w}x{h}bb.jpg",
                 href = "/v1/catalog/kr/songs/1052243617",
                 genres = listOf("R&B/소울", "음악"),
-                durationMillis = 246972
+                durationMillis = 246972,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             )
         ),
         artists = emptyList(),
@@ -246,6 +383,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1611522170",
                 genres = listOf("힙합", "음악", "힙합/랩"),
                 durationMillis = 152922,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1604557055",
@@ -256,6 +401,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1604557055",
                 genres = listOf("힙합", "음악", "힙합/랩"),
                 durationMillis = 269813,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1483193714",
@@ -266,6 +419,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1483193714",
                 genres = listOf("K-Pop", "음악", "팝", "힙합/랩"),
                 durationMillis = 195391,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1580386186",
@@ -276,6 +437,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1580386186",
                 genres = listOf("힙합", "음악", "힙합/랩"),
                 durationMillis = 221142,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1670278534",
@@ -286,6 +455,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1670278534",
                 genres = listOf("힙합/랩", "음악"),
                 durationMillis = 184586,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1585116011",
@@ -296,6 +473,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1585116011",
                 genres = listOf("힙합", "음악", "힙합/랩"),
                 durationMillis = 220844,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             )
         ),
         artists = emptyList(),
@@ -319,6 +504,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1696074375",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 258147,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1524262362",
@@ -329,6 +522,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1524262362",
                 genres = listOf("OST", "음악", "팝", "K-Pop"),
                 durationMillis = 227987,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1620807860",
@@ -339,6 +540,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1620807860",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 187733,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1662102874",
@@ -349,6 +558,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1662102874",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 249987,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1695867997",
@@ -359,6 +576,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1695867997",
                 genres = listOf("R&B/소울", "음악", "얼터너티브", "한국 인디"),
                 durationMillis = 213084,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             )
         ),
         artists = emptyList(),
@@ -382,6 +607,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1639369024",
                 genres = listOf("얼터너티브", "음악"),
                 durationMillis = 197576,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1548272780",
@@ -392,6 +625,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1548272780",
                 genres = listOf("얼터너티브", "음악"),
                 durationMillis = 209493,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1660487909",
@@ -402,6 +643,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1660487909",
                 genres = listOf("R&B/소울", "음악"),
                 durationMillis = 208066,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1599316771",
@@ -412,6 +661,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1599316771",
                 genres = listOf("팝", "음악"),
                 durationMillis = 196560,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "563923516",
@@ -422,6 +679,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/563923516",
                 genres = listOf("댄스", "음악", "하우스", "일렉트로닉"),
                 durationMillis = 212560,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
         ),
         artists = emptyList(),
@@ -445,6 +710,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1288487937",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 218885,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1338689927",
@@ -455,6 +728,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1338689927",
                 genres = listOf("K-Pop", "음악", "팝", "댄스"),
                 durationMillis = 210733,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "450789302",
@@ -465,6 +746,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/450789302",
                 genres = listOf("K-Pop", "음악", "팝", "록"),
                 durationMillis = 217893,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1343103406",
@@ -475,6 +764,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1343103406",
                 genres = listOf("K-Pop", "음악", "팝", "댄스"),
                 durationMillis = 234587,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1296748271",
@@ -485,6 +782,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1296748271",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 236829,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1333032325",
@@ -495,6 +800,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1333032325",
                 genres = listOf("K-Pop", "음악", "팝", "힙합/랩"),
                 durationMillis = 231787,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1457816521",
@@ -505,6 +818,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1457816521",
                 genres = listOf("K-Pop", "음악", "팝", "댄스"),
                 durationMillis = 208773,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             )
         ),
         artists = emptyList(),
@@ -528,6 +849,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1656645318",
                 genres = listOf("힙합/랩", "음악"),
                 durationMillis = 195080,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1446837997",
@@ -538,6 +867,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1446837997",
                 genres = listOf("싱어송라이터", "음악", "팝", "K-Pop"),
                 durationMillis = 169478,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1702810042",
@@ -548,6 +885,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1702810042",
                 genres = listOf("댄스", "음악", "팝", "K-Pop"),
                 durationMillis = 179683,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1696860542",
@@ -558,6 +903,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1696860542",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 259133,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1577703911",
@@ -568,6 +921,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1577703911",
                 genres = listOf("힙합/랩", "음악", "팝", "K-Pop"),
                 durationMillis = 211640,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1706809108",
@@ -578,6 +939,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1706809108",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 235051,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
         ),
         artists = emptyList(),
@@ -601,6 +970,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1610403350",
                 genres = listOf("팝", "음악"),
                 durationMillis = 162550,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1723820204",
@@ -611,6 +988,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1723820204",
                 genres = listOf("팝", "음악"),
                 durationMillis = 175397,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1560275424",
@@ -621,6 +1006,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1560275424",
                 genres = listOf("팝", "음악"),
                 durationMillis = 154329,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1533824514",
@@ -631,6 +1024,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1533824514",
                 genres = listOf("팝", "음악", "R&B/소울"),
                 durationMillis = 175806,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1727024908",
@@ -641,6 +1042,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1727024908",
                 genres = listOf("팝", "음악"),
                 durationMillis = 229332,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             )
         ),
         artists = emptyList(),
@@ -664,6 +1073,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1542338992",
                 genres = listOf("팝", "음악"),
                 durationMillis = 191150,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1537740099",
@@ -674,6 +1091,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1537740099",
                 genres = listOf("팝", "음악"),
                 durationMillis = 140000,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1700640987",
@@ -684,6 +1109,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1700640987",
                 genres = listOf("팝", "음악"),
                 durationMillis = 142003,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1460831680",
@@ -694,6 +1127,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1460831680",
                 genres = listOf("팝", "음악"),
                 durationMillis = 185077,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1712415094",
@@ -704,6 +1145,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1712415094",
                 genres = listOf("팝", "음악"),
                 durationMillis = 276917,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1553091465",
@@ -714,6 +1163,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1553091465",
                 genres = listOf("팝", "음악"),
                 durationMillis = 132689,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
         ),
         artists = emptyList(),
@@ -738,6 +1195,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1772639286",
                 genres = listOf("재즈", "음악"),
                 durationMillis = 373228,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1766013918",
@@ -748,6 +1213,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1766013918",
                 genres = listOf("재즈", "음악"),
                 durationMillis = 310894,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1617996163",
@@ -758,6 +1231,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1617996163",
                 genres = listOf("재즈", "음악"),
                 durationMillis = 269173,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1753226955",
@@ -768,6 +1249,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1753226955",
                 genres = listOf("재즈", "음악"),
                 durationMillis = 284500,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1458580013",
@@ -778,6 +1267,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1458580013",
                 genres = listOf("재즈", "음악"),
                 durationMillis = 331907,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "826910244",
@@ -788,6 +1285,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/826910244",
                 genres = listOf("컨트리", "음악", "컨템포러리 컨트리", "홍키 통크"),
                 durationMillis = 186253,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1057802890",
@@ -798,6 +1303,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1057802890",
                 genres = listOf("얼터너티브", "음악"),
                 durationMillis = 229613,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1606064876",
@@ -808,6 +1321,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1606064876",
                 genres = listOf("R&B/소울", "음악", "재즈", "스무드 재즈"),
                 durationMillis = 286493,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "321975002",
@@ -818,6 +1339,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/321975002",
                 genres = listOf("재즈", "음악", "컨템포러리 재즈", "크로스오버 재즈", "R&B/소울", "콰이어트 스톰"),
                 durationMillis = 443773,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1624173757",
@@ -828,6 +1357,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1624173757",
                 genres = listOf("팝", "음악", "어덜트 컨템포러리", "재즈", "보컬 재즈", "싱어송라이터"),
                 durationMillis = 186251,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1503803863",
@@ -838,6 +1375,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1503803863",
                 genres = listOf("힙합", "음악", "힙합/랩"),
                 durationMillis = 260160,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             )
         ),
         artists = emptyList(),
@@ -861,6 +1406,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1780757446",
                 genres = listOf("K-Pop", "음악", "팝", "힙합/랩", "한국 힙합"),
                 durationMillis = 211331,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1772644601",
@@ -871,6 +1424,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1772644601",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 183227,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1771934526",
@@ -881,6 +1442,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1771934526",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 157149,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1780617008",
@@ -891,6 +1460,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1780617008",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 192467,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1773262055",
@@ -901,6 +1478,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1773262055",
                 genres = listOf("댄스", "음악", "팝", "K-Pop"),
                 durationMillis = 180846,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1779444220",
@@ -911,6 +1496,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1779444220",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 156040,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1785777920",
@@ -921,6 +1514,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1785777920",
                 genres = listOf("댄스", "음악"),
                 durationMillis = 194533,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1777776431",
@@ -931,6 +1532,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1777776431",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 199505,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             )
         ),
         artists = emptyList(),
@@ -954,6 +1563,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/409076758",
                 genres = listOf("K-Pop", "음악", "팝", "록", "댄스", "전체", "J-Pop", "아시아", "J-Pop"),
                 durationMillis = 268175,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1449538002",
@@ -964,6 +1581,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1449538002",
                 genres = listOf("TV OST", "음악", "OST", "팝", "K-Pop"),
                 durationMillis = 339837,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1598537212",
@@ -974,6 +1599,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1598537212",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 232027,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1605102995",
@@ -984,6 +1617,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1605102995",
                 genres = listOf("K-Pop", "음악", "팝", "힙합/랩", "한국 힙합"),
                 durationMillis = 240800,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1463138177",
@@ -994,6 +1635,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1463138177",
                 genres = listOf("싱어송라이터", "음악", "팝", "K-Pop"),
                 durationMillis = 278674,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1606687151",
@@ -1004,6 +1653,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1606687151",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 205523,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "984339217",
@@ -1014,6 +1671,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/984339217",
                 genres = listOf("K-Pop", "음악", "팝", "힙합/랩"),
                 durationMillis = 249813,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1659586504",
@@ -1024,6 +1689,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1659586504",
                 genres = listOf("팝/록", "음악", "팝"),
                 durationMillis = 191613,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1490826313",
@@ -1034,6 +1707,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1490826313",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 240853,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             )
         ),
         artists = emptyList(),
@@ -1057,6 +1738,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1780617018",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 175787,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1783455099",
@@ -1067,6 +1756,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1783455099",
                 genres = listOf("R&B/소울", "음악"),
                 durationMillis = 251707,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1782546511",
@@ -1077,6 +1774,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1782546511",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 208373,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1781809071",
@@ -1087,6 +1792,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1781809071",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 174360,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1480780467",
@@ -1097,6 +1810,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1480780467",
                 genres = listOf("크리스마스: 팝", "음악", "홀리데이"),
                 durationMillis = 155493,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1784669014",
@@ -1107,6 +1828,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1784669014",
                 genres = listOf("R&B/소울", "음악", "팝", "K-Pop"),
                 durationMillis = 190909,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1772351326",
@@ -1117,6 +1846,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1772351326",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 151647,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1778178732",
@@ -1127,6 +1864,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1778178732",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 196427,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             )
         ),
         artists = emptyList(),
@@ -1150,6 +1895,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1753217475",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 176240,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1762365714",
@@ -1160,6 +1913,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1762365714",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 174253,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1706470350",
@@ -1170,6 +1931,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1706470350",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 188253,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1711740156",
@@ -1180,6 +1949,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1711740156",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 161133,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1762532773",
@@ -1190,6 +1967,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1762532773",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 209334,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1467846642",
@@ -1200,6 +1985,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1467846642",
                 genres = listOf("K-Pop", "음악", "팝", "댄스"),
                 durationMillis = 185796,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1745285492",
@@ -1210,6 +2003,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1745285492",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 195787,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1577500277",
@@ -1220,6 +2021,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1577500277",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 167853,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1649792476",
@@ -1230,6 +2039,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1649792476",
                 genres = listOf("K-Pop", "음악", "팝"),
                 durationMillis = 223373,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
         ),
         artists = emptyList(),
@@ -1253,6 +2070,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1564308444",
                 genres = listOf("팝", "음악"),
                 durationMillis = 178636,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1712415094",
@@ -1263,6 +2088,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1712415094",
                 genres = listOf("팝", "음악"),
                 durationMillis = 276917,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1460831680",
@@ -1273,6 +2106,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1460831680",
                 genres = listOf("팝", "음악"),
                 durationMillis = 185077,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1512213528",
@@ -1281,8 +2122,16 @@ val playlistMockData = listOf(
                 albumName = "Can’t Take My Eyes off You - Single",
                 coverImg = "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/56/3e/96/563e967f-6d81-cbb6-f0ea-1bd59589fc4a/859739206104_cover.jpg/{w}x{h}bb.jpg",
                 href = "/v1/catalog/kr/songs/1512213528",
-                genres = listOf("팝", "음악"),
-                durationMillis = 192094,
+                genres = listOf("얼터너티브", "음악"),
+                durationMillis = 322219,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1771702170",
@@ -1291,8 +2140,16 @@ val playlistMockData = listOf(
                 albumName = "I met you when I was 18. (the playlist)",
                 coverImg = "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5c/3d/e5/5c3de510-1123-0da6-9531-318d9597159c/5056167107347_Cover.jpg/{w}x{h}bb.jpg",
                 href = "/v1/catalog/kr/songs/1771702170",
-                genres = listOf("팝", "음악"),
-                durationMillis = 204712,
+                genres = listOf("얼터너티브", "음악"),
+                durationMillis = 322219,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1703988028",
@@ -1301,8 +2158,16 @@ val playlistMockData = listOf(
                 albumName = "Sunday Morning - Single",
                 coverImg = "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/84/bd/cf/84bdcf36-bbd3-fa63-b6b0-9c4b5e7f8a8e/196922607196_Cover.jpg/{w}x{h}bb.jpg",
                 href = "/v1/catalog/kr/songs/1703988028",
-                genres = listOf("팝", "음악"),
-                durationMillis = 224000,
+                genres = listOf("얼터너티브", "음악"),
+                durationMillis = 322219,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                ),
             ),
             Song(
                 id = "1652588615",
@@ -1313,6 +2178,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1652588615",
                 genres = listOf("팝", "음악"),
                 durationMillis = 198720,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
             Song(
                 id = "1508153350",
@@ -1323,6 +2196,14 @@ val playlistMockData = listOf(
                 href = "/v1/catalog/kr/songs/1508153350",
                 genres = listOf("싱어송라이터", "음악"),
                 durationMillis = 182000,
+                url = "https://music.apple.com/kr/song/dreaming-of-you/1186360818",
+                previewMusicUrl = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8c/82/8e/8c828ec7-7f91-41e5-5198-09f14b1a56e1/mzaf_11016212767405094754.plus.aac.p.m4a",
+                releaseDate = LocalDate.parse("2012-12-12"),
+                composers = listOf("Greg Gonzalez"),
+                playParams = Song.PlayParams(
+                    id = "1186360818",
+                    kind = "song",
+                )
             ),
         ),
         artists = emptyList(),
