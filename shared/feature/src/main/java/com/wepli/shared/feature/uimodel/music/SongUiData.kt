@@ -1,9 +1,12 @@
 package com.wepli.uimodel.music
 
+import android.os.Parcelable
 import com.wepli.shared.feature.common.UiModel
 import com.wepli.shared.feature.common.UiModelMapper
 import kotlinx.parcelize.Parcelize
 import model.music.Song
+import model.music.Song.PlayParams
+import org.joda.time.LocalDate
 
 /**
  * 음악 정보
@@ -19,11 +22,22 @@ data class SongUiData(
     val artistName: String = "",
     val albumName: String = "",
     val coverImg: String = "",
-    val href: String = "",
+    val composers: List<String> = emptyList(),
     val genres: List<String> = emptyList(),
+    val url: String = "",
+    val previewMusicUrl: String = "",
+    val releaseDate: LocalDate = LocalDate.now(),
     val durationMillis: Long = 0L,
+    val playParams: PlayParamsUiData = PlayParamsUiData(),
+    val href: String = "",
     val isSelected: Boolean = false,
 ) : UiModel {
+
+    @Parcelize
+    data class PlayParamsUiData(
+        val id: String = "",
+        val kind: String = "",
+    ) : UiModel
 
     override fun equals(other: Any?): Boolean {
         return other is SongUiData && id == other.id
@@ -51,7 +65,15 @@ data class SongUiData(
                 coverImg = domainModel.coverImg,
                 href = domainModel.href,
                 genres = domainModel.genres,
-                durationMillis = domainModel.durationMillis
+                durationMillis = domainModel.durationMillis,
+                composers = domainModel.composers,
+                url = domainModel.url,
+                previewMusicUrl = domainModel.previewMusicUrl,
+                releaseDate = domainModel.releaseDate,
+                playParams = PlayParamsUiData(
+                    id = domainModel.playParams.id,
+                    kind = domainModel.playParams.kind
+                )
             )
         }
     }
@@ -66,6 +88,14 @@ fun SongUiData.toDomain(): Song {
         coverImg = coverImg,
         href = href,
         genres = genres,
-        durationMillis = durationMillis
+        durationMillis = durationMillis,
+        composers = composers,
+        url = url,
+        previewMusicUrl = previewMusicUrl,
+        releaseDate = releaseDate,
+        playParams = PlayParams(
+            id = playParams.id,
+            kind = playParams.kind
+        )
     )
 }
