@@ -2,6 +2,7 @@ package com.wepli.data.applemusic.common.response
 
 import kotlinx.serialization.Serializable
 import model.music.Song
+import org.joda.time.LocalDate
 
 /**
  * @property id 노래 id
@@ -67,12 +68,20 @@ data class AppleSongResponse(
 fun AppleSongResponse.toEntity(): Song {
     return Song(
         id = this.id.orEmpty(),
-        href = this.href.orEmpty(),
         title = this.attributes?.name.orEmpty(),
-        albumName = this.attributes?.albumName.orEmpty(),
         artistName = this.attributes?.artistName.orEmpty(),
-        genres = this.attributes?.genreNames.orEmpty(),
-        durationMillis = this.attributes?.durationInMillis?.toLong() ?: 0L,
+        albumName = this.attributes?.albumName.orEmpty(),
         coverImg = this.attributes?.artwork?.url.orEmpty(),
+        composers = this.attributes?.composerName.orEmpty().split(",").map { it.trim() },
+        genres = this.attributes?.genreNames.orEmpty(),
+        url = this.attributes?.url.orEmpty(),
+        previewMusicUrl = this.attributes?.previews?.firstOrNull()?.url.orEmpty(),
+        releaseDate = this.attributes?.releaseDate?.let { LocalDate(it) } ?: LocalDate.now(),
+        durationMillis = this.attributes?.durationInMillis?.toLong() ?: 0L,
+        playParams = Song.PlayParams(
+            id = this.attributes?.playParams?.id.orEmpty(),
+            kind = this.attributes?.playParams?.kind.orEmpty(),
+        ),
+        href = this.href.orEmpty(),
     )
 }
