@@ -17,7 +17,6 @@ import com.wepli.home.navigation.homeGraph
 import com.wepli.mypage.menus.appinfo.navigation.mypageAppInfoGraph
 import com.wepli.mypage.menus.appinfo.navigation.navigateToAppInfo
 import com.wepli.mypage.menus.mypage.navigation.mypageMainGraph
-import com.wepli.app.navigation.extensions.navigateToBack
 import com.wepli.community.navigation.communityWriteGraph
 import com.wepli.community.navigation.navigateToBackAndPostRefresh
 import com.wepli.community.navigation.navigateToCommunityWrite
@@ -84,7 +83,7 @@ fun SetUpNavGraph(
         photoCardGraph(navController)
 
         // 노래 Graph
-        songInfoGraph { navController.navigateToBack() }
+        songInfoGraph { navController.navigateUp() }
     }
 }
 
@@ -98,7 +97,7 @@ fun NavGraphBuilder.searchGraph(navController: NavController) {
     }
 
     searchDetailGraph(
-        navOnBack = { navController.navigateToBack() },
+        navOnBack = { navController.navigateUp() },
         navigateBackWithSelectedSongs = { selectedSongs ->
             navController.navigateBackWithSelectedSongs(selectedSongs)
         },
@@ -115,10 +114,10 @@ fun NavGraphBuilder.communityGraph(navController: NavHostController) {
         navOnCommunityWrite = { navController.navigateToCommunityWrite() }
     )
     communityDetailGraph(
-        navOnBack = { navController.navigateToBack() }
+        navOnBack = { navController.navigateUp() }
     )
     communityWriteGraph(
-        navOnBack = { navController.navigateToBack() },
+        navOnBack = { navController.navigateUp() },
         navOnBackAndPostRefresh = { navController.navigateToBackAndPostRefresh() },
         navOnSearchDetail = {
             navController.navigateToSearchDetail(
@@ -132,7 +131,7 @@ fun NavGraphBuilder.communityGraph(navController: NavHostController) {
 // 플레이리스트 Graph
 fun NavGraphBuilder.playlistGraph(navController: NavHostController) {
     playlistDetailGraph(
-        navOnBack = { navController.navigateToBack() }
+        navOnBack = { navController.navigateUp() }
     )
 }
 
@@ -152,7 +151,7 @@ fun NavGraphBuilder.mypageGraph(
         goToLoginActivity = { goToLoginActivity() }
     )
     mypageAppInfoGraph(
-        navOnBack = { navController.navigateToBack() }
+        navOnBack = { navController.navigateUp() }
     )
 }
 
