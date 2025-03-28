@@ -205,8 +205,19 @@ private fun ComposerInfo(
             showIcon = true,
             modifier = Modifier.padding(vertical = 12.dp)
         )
-        TagList("작곡", composers, Modifier.padding(top = 8.dp))
-        TagList("장르", genres, Modifier.padding(top = 20.dp))
+
+        Column(
+            modifier = Modifier.padding(top = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+        ) {
+            if (composers.isNotEmpty()) {
+                TagList("작곡", composers)
+            }
+
+            if (genres.isNotEmpty()) {
+                TagList("장르", genres)
+            }
+        }
     }
 }
 
