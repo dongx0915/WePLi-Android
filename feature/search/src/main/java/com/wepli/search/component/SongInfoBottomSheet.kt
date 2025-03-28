@@ -75,9 +75,8 @@ fun SongInfoBottomSheet(
                     sheetState.requireOffset()
                 }.getOrDefault(0f)
 
-                // offset 계산 (scrim 투명도 0 ~ 0.7)
                 val totalHeight = size.height
-                scrimAlpha = ((totalHeight - offset) / totalHeight).coerceIn(0f, 1f) * 0.7f
+                scrimAlpha = ((totalHeight - offset) / totalHeight).coerceIn(0f, 1f) * 0.8f
             }
     ) {
         // Scrim 표시
