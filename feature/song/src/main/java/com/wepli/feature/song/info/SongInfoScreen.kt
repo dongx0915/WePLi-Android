@@ -182,7 +182,6 @@ private fun ComposerInfo(
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = modifier
             ) {
                 items.forEach {
                     Text(
