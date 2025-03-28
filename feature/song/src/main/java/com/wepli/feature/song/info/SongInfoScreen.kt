@@ -22,6 +22,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,30 +33,44 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.ScrollableAppBar
 import appbar.WepliAppBar
 import com.wepli.designsystem.R
+import com.wepli.feature.song.info.mvi.SongInfoIntent
+import com.wepli.feature.song.info.mvi.SongInfoUiState
+import com.wepli.shared.feature.mock.songMockData
+import com.wepli.uimodel.music.SongUiData
 import custom.OneLineTitle
 import image.AsyncImageWithPreview
+import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
 
 @Preview
 @Composable
 fun SongInfoScreenPreview() {
-    SongInfoScreen(navOnBack = {})
+    SongInfoScreen(state = SongInfoUiState(song = songMockData.random()), navOnBack = {})
 }
 
 @Composable
 fun SongInfoScreenRoute(navOnBack: () -> Unit) {
-    SongInfoScreen(navOnBack)
+    val viewModel: SongInfoViewModel = hiltViewModel()
+    val state: SongInfoUiState by viewModel.collectAsState()
+
+    SongInfoScreen(
+        state = state,
+        navOnBack = navOnBack
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SongInfoScreen(
+    state: SongInfoUiState,
     navOnBack: () -> Unit
 ) {
     val scrollState = rememberScrollState()
+    val song = state.song
 
     ScrollableAppBar(
         scrollState = scrollState,
@@ -80,7 +95,7 @@ fun SongInfoScreen(
                 .padding(24.dp)
         ) {
             Text(
-                text = "YOU AGAINST YOURSELF",
+                text = song.title,
                 style = WepliTheme.typo.title2.copy(
                     fontWeight = FontWeight.Normal
                 ),
@@ -88,14 +103,14 @@ fun SongInfoScreen(
             )
 
             Text(
-                text = "Ruel(루엘)",
+                text = song.artistName,
                 style = WepliTheme.typo.body4,
                 color = WepliTheme.color.gray700,
                 modifier = Modifier.padding(top = 12.dp)
             )
 
             Text(
-                text = "YOU AGAINST YOURSELF Album",
+                text = song.albumName,
                 style = WepliTheme.typo.body3,
                 color = WepliTheme.color.gray700,
                 modifier = Modifier.padding(top = 12.dp)
@@ -113,7 +128,7 @@ fun SongInfoScreen(
             Spacer(modifier = Modifier.height(20.dp))
 
             AsyncImageWithPreview(
-                imageUrl = "https://scontent-gmp1-1.cdninstagram.com/v/t51.29350-15/436566126_970600574719300_8214831817826727154_n.jpg?stp=dst-jpg_e35_p1080x1080_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDQweDE3OTguc2RyLmYyOTM1MC5kZWZhdWx0X2ltYWdlIn0&_nc_ht=scontent-gmp1-1.cdninstagram.com&_nc_cat=104&_nc_oc=Q6cZ2AEdlxAIatzhBDVZh7hjbCV1lCLCdGIw0oylUZ3tmwTcDUKQTjvApB3FrfFEE7gjOiM&_nc_ohc=9aC04bT8HA0Q7kNvgEDSYSZ&_nc_gid=eAvkE9yWLv6pQeEe-NewRw&edm=APoiHPcBAAAA&ccb=7-5&ig_cache_key=MzM2NDAwNTg1NjUxMTAzODc2MQ%3D%3D.3-ccb7-5&oh=00_AYECITbD1Ve4OSeEHkySb6s_0sh6vunCm1cXuTIAQ5zHmg&oe=67DF5768&_nc_sid=22de04",
+                imageUrl = song.getImageUrl(),
                 previewImage = painterResource(id = R.drawable.img_placeholder_chuu_2),
                 imageOverrideSize = 200.dp,
                 modifier = Modifier
