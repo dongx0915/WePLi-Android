@@ -11,4 +11,6 @@ data class SongInfoUiState(
 
 interface SongInfoEffect : SideEffect
 
-interface SongInfoIntent : Intent
+interface SongInfoIntent : Intent {
+    data class Init(val song: SongUiData) : SongInfoIntent
+}

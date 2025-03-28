@@ -22,6 +22,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,9 +54,16 @@ fun SongInfoScreenPreview() {
 }
 
 @Composable
-fun SongInfoScreenRoute(navOnBack: () -> Unit) {
+fun SongInfoScreenRoute(
+    song: SongUiData,
+    navOnBack: () -> Unit
+) {
     val viewModel: SongInfoViewModel = hiltViewModel()
     val state: SongInfoUiState by viewModel.collectAsState()
+
+    LaunchedEffect(song) {
+        viewModel.processIntent(SongInfoIntent.Init(song))
+    }
 
     SongInfoScreen(
         state = state,

@@ -13,6 +13,10 @@ class SongInfoViewModel @Inject constructor() : BaseMviViewModel<SongInfoUiState
 ) {
 
     override fun processIntent(intent: SongInfoIntent) {
-
+        when (intent) {
+            is SongInfoIntent.Init -> {
+                updateState { copy(song = intent.song) }
+            }
+        }
     }
 }
