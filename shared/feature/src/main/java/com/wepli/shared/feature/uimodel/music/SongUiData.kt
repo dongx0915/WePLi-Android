@@ -25,7 +25,7 @@ data class SongUiData(
     val composers: List<String> = emptyList(),
     val genres: List<String> = emptyList(),
     val url: String = "",
-    val previewMusicUrl: String = "",
+    val previewMusicUrl: List<String> = emptyList(),
     val releaseDate: LocalDate = LocalDate.now(),
     val durationMillis: Long = 0L,
     val playParams: PlayParamsUiData = PlayParamsUiData(),

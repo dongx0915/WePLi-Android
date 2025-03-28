@@ -5,6 +5,11 @@ import kotlinx.serialization.Serializable
 import model.music.Song
 import model.playlist.Playlist
 import model.playlist.RecommendPlaylist
+import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
+import java.text.SimpleDateFormat
 import java.util.Date
 
 @Serializable
@@ -38,6 +43,7 @@ data class PlaylistResponse(
 )
 
 fun List<PlaylistResponse>.toPlaylist(): Playlist {
+    val formatter: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ssZ")
     var durationSum = 0L
     val playlist = this.first()
     val songList = this.map { playlist ->
@@ -50,7 +56,15 @@ fun List<PlaylistResponse>.toPlaylist(): Playlist {
             coverImg = playlist.songCoverImgUrl.orEmpty(),
             href = playlist.songHref.orEmpty(),
             genres = emptyList(),
-            durationMillis = playlist.songDurationMillis ?: 0L
+            url = "",
+            previewMusicUrl = emptyList(),
+            composers = emptyList(),
+            releaseDate = LocalDate.parse(playlist.createdAt, formatter),
+            durationMillis = playlist.songDurationMillis ?: 0L,
+            playParams = Song.PlayParams(
+                id = "",
+                kind = ""
+            ),
         )
     }
 

@@ -8,67 +8,67 @@ import org.joda.time.LocalDate
 @Serializable
 data class SongResponse(
     @SerialName("id")
-    val id: Int,
+    val id: Int?,
     @SerialName("song_id")
-    val songId: String, // Apple Music Song Id
+    val songId: String?, // Apple Music Song Id
     @SerialName("title")
-    val title: String,
+    val title: String?,
     @SerialName("artist_name")
-    val artist: String,
+    val artist: String?,
     @SerialName("album")
-    val album: String,
+    val album: String?,
     @SerialName("cover_img")
-    val coverImg: String,
+    val coverImg: String?,
     @SerialName("composerName")
-    val composers: String,
+    val composers: String?,
     @SerialName("genreNames")
-    val genres: List<String>,
+    val genres: List<String>?,
     @SerialName("url")
-    val url: String,
+    val url: String?,
     @SerialName("previews")
-    val previewMusicUrl: List<PreviewResponse>,
+    val previewMusicUrl: List<PreviewResponse>?,
     @SerialName("releaseDate")
-    val releaseDate: String,
+    val releaseDate: String?,
     @SerialName("duration_millis")
-    val duration: Int,
+    val duration: Int?,
     @SerialName("playParams")
-    val playParams: PlayParamResponse,
+    val playParams: PlayParamResponse?,
     @SerialName("href")
-    val href: String,
+    val href: String?,
 ) {
     @Serializable
     data class PreviewResponse(
-        val url: String
+        val url: String?
     )
 
     @Serializable
     data class PlayParamResponse(
-        val id: String,
-        val kind: String,
+        val id: String?,
+        val kind: String?,
     )
 }
 
 fun SongResponse.toSong(): Song {
     return Song(
-        id = songId,
-        title = title,
-        artistName = artist,
-        albumName = album,
-        coverImg = coverImg,
-        composers = composers.split(",").map { it.trim() },
-        genres = genres,
-        url = url,
-        previewMusicUrl = previewMusicUrl.first().url,
+        id = songId.orEmpty(),
+        title = title.orEmpty(),
+        artistName = artist.orEmpty(),
+        albumName = album.orEmpty(),
+        coverImg = coverImg.orEmpty(),
+        composers = composers?.split(",")?.map { it.trim() }.orEmpty(),
+        genres = genres.orEmpty(),
+        url = url.orEmpty(),
+        previewMusicUrl = previewMusicUrl?.map { it.url.orEmpty() }.orEmpty(),
         releaseDate = LocalDate(releaseDate),
-        durationMillis = duration.toLong(),
-        playParams = playParams.toPlayParams(),
-        href = href,
+        durationMillis = duration?.toLong() ?: 0L,
+        playParams = playParams?.toPlayParams() ?: Song.PlayParams("", ""),
+        href = href.orEmpty(),
     )
 }
 
 fun SongResponse.PlayParamResponse.toPlayParams(): Song.PlayParams {
     return Song.PlayParams(
-        id = id,
-        kind = kind,
+        id = id.orEmpty(),
+        kind = kind.orEmpty(),
     )
 }

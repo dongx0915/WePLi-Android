@@ -1,5 +1,6 @@
 package com.wepli.community.main.viewmodel
 
+import android.util.Log
 import base.BaseMviViewModel
 import com.wepli.community.main.mvi.CommunityMainEffect
 import com.wepli.community.main.mvi.CommunityMainIntent
@@ -46,6 +47,7 @@ class CommunityViewModel @Inject constructor(
                 },
                 onFailure = {
                     postSideEffect { CommunityMainEffect.ErrorLoadPosts }
+                    Log.e("CommunityViewModel", "loadPosts: $it")
                 }
             )
     }

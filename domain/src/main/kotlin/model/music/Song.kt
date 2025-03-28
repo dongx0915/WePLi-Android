@@ -23,7 +23,7 @@ data class Song(
     val composers: List<String>,
     val genres: List<String>,
     val url: String,
-    val previewMusicUrl: String,
+    val previewMusicUrl: List<String>,
     val releaseDate: LocalDate,
     val durationMillis: Long,
     val playParams: PlayParams,

@@ -75,7 +75,7 @@ fun AppleSongResponse.toEntity(): Song {
         composers = this.attributes?.composerName.orEmpty().split(",").map { it.trim() },
         genres = this.attributes?.genreNames.orEmpty(),
         url = this.attributes?.url.orEmpty(),
-        previewMusicUrl = this.attributes?.previews?.firstOrNull()?.url.orEmpty(),
+        previewMusicUrl = this.attributes?.previews?.map { it.url.orEmpty() }.orEmpty(),
         releaseDate = this.attributes?.releaseDate?.let { LocalDate(it) } ?: LocalDate.now(),
         durationMillis = this.attributes?.durationInMillis?.toLong() ?: 0L,
         playParams = Song.PlayParams(
