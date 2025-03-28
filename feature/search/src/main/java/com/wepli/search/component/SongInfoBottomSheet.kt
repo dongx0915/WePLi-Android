@@ -1,7 +1,5 @@
 package com.wepli.search.component
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,7 +24,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,7 +42,6 @@ import com.wepli.uimodel.music.SongUiData
 import component.bottomsheet.BottomSheetItem
 import extensions.compose.toPx
 import image.AsyncImageWithPreview
-import kotlinx.coroutines.launch
 import theme.WepliTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,8 +53,6 @@ fun SongInfoBottomSheet(
     onClosed: () -> Unit,
     content: @Composable ColumnScope.() -> Unit,
 ) {
-    val coroutineScope = rememberCoroutineScope()
-
     // 바텀시트 offset 추적을 위한 alpha 상태
     var scrimAlpha by remember { mutableFloatStateOf(0f) }
 
