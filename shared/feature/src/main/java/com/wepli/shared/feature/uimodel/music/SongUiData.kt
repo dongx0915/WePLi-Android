@@ -29,6 +29,7 @@ data class SongUiData(
     val releaseDate: LocalDate = LocalDate.now(),
     val durationMillis: Long = 0L,
     val playParams: PlayParamsUiData = PlayParamsUiData(),
+    val isrc: String = "",
     val href: String = "",
     val isSelected: Boolean = false,
 ) : UiModel {
@@ -93,6 +94,7 @@ fun SongUiData.toDomain(): Song {
         url = url,
         previewMusicUrl = previewMusicUrl,
         releaseDate = releaseDate,
+        isrc = isrc,
         playParams = PlayParams(
             id = playParams.id,
             kind = playParams.kind

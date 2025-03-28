@@ -31,6 +31,8 @@ data class SongResponse(
     val releaseDate: String? = null,
     @SerialName("duration_millis")
     val duration: Int? = null,
+    @SerialName("isrc")
+    val isrc: String? = null,
     @SerialName("playParams")
     val playParams: PlayParamResponse? = null,
     @SerialName("href")
@@ -62,6 +64,7 @@ fun SongResponse.toSong(): Song {
         releaseDate = LocalDate(releaseDate),
         durationMillis = duration?.toLong() ?: 0L,
         playParams = playParams?.toPlayParams() ?: Song.PlayParams("", ""),
+        isrc = isrc.orEmpty(),
         href = href.orEmpty(),
     )
 }

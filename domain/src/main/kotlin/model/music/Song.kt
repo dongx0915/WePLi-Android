@@ -25,6 +25,7 @@ data class Song(
     val url: String,
     val previewMusicUrl: List<String>,
     val releaseDate: LocalDate,
+    val isrc: String,
     val durationMillis: Long,
     val playParams: PlayParams,
     val href: String,

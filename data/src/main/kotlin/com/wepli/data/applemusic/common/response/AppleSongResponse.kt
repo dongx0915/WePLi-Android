@@ -82,6 +82,7 @@ fun AppleSongResponse.toEntity(): Song {
             id = this.attributes?.playParams?.id.orEmpty(),
             kind = this.attributes?.playParams?.kind.orEmpty(),
         ),
+        isrc = this.attributes?.isrc.orEmpty(),
         href = this.href.orEmpty(),
     )
 }

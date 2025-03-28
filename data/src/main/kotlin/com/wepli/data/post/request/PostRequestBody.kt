@@ -28,6 +28,12 @@ fun Post.mapToSongRequest(): List<SongRequestBody> {
             album = it.albumName,
             coverImg = it.coverImg,
             href = it.href,
+            composers = it.composers,
+            genres = it.genres,
+            url = it.url,
+            previewMusicUrl = it.previewMusicUrl.first(),
+            releaseDate = it.releaseDate.toString(),
+            isrc = it.isrc,
             duration = it.durationMillis.toInt(),
         )
     }
