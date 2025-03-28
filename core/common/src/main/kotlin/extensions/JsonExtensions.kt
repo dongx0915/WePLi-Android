@@ -25,6 +25,8 @@ inline fun <reified T> T.toJsonString(): String {
         GsonProvider.gson.toJson(this).orEmpty().also { json ->
             Log.i("${T::class.java.simpleName}ToJson", json)
         }
+    }.onFailure {
+        Log.e("${T::class.java.simpleName}ToJson", it.message.orEmpty())
     }.getOrDefault("")
 }
 
@@ -50,5 +52,7 @@ inline fun <reified T> String.parseFromJson(default: T): T {
         GsonProvider.gson.fromJson(this, T::class.java).also { parsedObject ->
             Log.i("ParseFromJson", parsedObject.toString())
         }
+    }.onFailure {
+        Log.e("ParseFromJson", it.message.orEmpty())
     }.getOrDefault(default)
 }
