@@ -8,43 +8,43 @@ import org.joda.time.LocalDate
 @Serializable
 data class SongResponse(
     @SerialName("id")
-    val id: Int?,
+    val id: Int? = null,
     @SerialName("song_id")
-    val songId: String?, // Apple Music Song Id
+    val songId: String? = null, // Apple Music Song Id
     @SerialName("title")
-    val title: String?,
+    val title: String? = null,
     @SerialName("artist_name")
-    val artist: String?,
+    val artist: String? = null,
     @SerialName("album")
-    val album: String?,
+    val album: String? = null,
     @SerialName("cover_img")
-    val coverImg: String?,
+    val coverImg: String? = null,
     @SerialName("composerName")
-    val composers: String?,
+    val composers: String? = null,
     @SerialName("genreNames")
-    val genres: List<String>?,
+    val genres: List<String>? = null,
     @SerialName("url")
-    val url: String?,
+    val url: String? = null,
     @SerialName("previews")
-    val previewMusicUrl: List<PreviewResponse>?,
+    val previewMusicUrl: List<PreviewResponse>? = null,
     @SerialName("releaseDate")
-    val releaseDate: String?,
+    val releaseDate: String? = null,
     @SerialName("duration_millis")
-    val duration: Int?,
+    val duration: Int? = null,
     @SerialName("playParams")
-    val playParams: PlayParamResponse?,
+    val playParams: PlayParamResponse? = null,
     @SerialName("href")
-    val href: String?,
+    val href: String? = null,
 ) {
     @Serializable
     data class PreviewResponse(
-        val url: String?
+        val url: String? = null
     )
 
     @Serializable
     data class PlayParamResponse(
-        val id: String?,
-        val kind: String?,
+        val id: String? = null,
+        val kind: String? = null,
     )
 }
 
