@@ -145,7 +145,10 @@ fun SongInfoScreen(
             )
 
             Spacer(modifier = Modifier.height(68.dp))
-            ComposerInfo()
+            ComposerInfo(
+                composers = song.composers,
+                genres = song.genres
+            )
 
             Spacer(modifier = Modifier.height(68.dp))
             AlbumInfo()
@@ -156,7 +159,10 @@ fun SongInfoScreen(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun ComposerInfo() {
+private fun ComposerInfo(
+    composers: List<String>,
+    genres: List<String>
+) {
     @Composable
     fun TagList(title:String, items: List<String>, modifier: Modifier = Modifier) {
         Row(
@@ -191,9 +197,6 @@ private fun ComposerInfo() {
             }
         }
     }
-
-    val composers = listOf("Ruel(루엘)", "Ruel Vincent Van Dijk", "Sammy Witte", "Emma Rosen")
-    val genres = listOf("K-POP", "POP", "R&B")
 
     Column(
         modifier = Modifier.fillMaxWidth(),
