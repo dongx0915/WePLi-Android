@@ -167,16 +167,10 @@ fun SearchScreen(
             }
         }
         if (state.songInfo != null) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(WepliTheme.color.black.copy(0.8f))
+            SongInfoBottomSheet(
+                onClosed = { sendAction(SearchDetailIntent.ShowSongInfoBottomSheet(null)) },
             ) {
-                SongInfoBottomSheet(
-                    onClosed = { sendAction(SearchDetailIntent.ShowSongInfoBottomSheet(null)) },
-                ) {
-                    SongInfoBottomSheetContent(state.songInfo, sendAction)
-                }
+                SongInfoBottomSheetContent(state.songInfo, sendAction)
             }
         }
     }

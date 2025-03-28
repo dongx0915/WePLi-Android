@@ -1,11 +1,15 @@
 package com.wepli.search.component
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -18,9 +22,16 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
@@ -34,6 +45,7 @@ import com.wepli.uimodel.music.SongUiData
 import component.bottomsheet.BottomSheetItem
 import extensions.compose.toPx
 import image.AsyncImageWithPreview
+import kotlinx.coroutines.launch
 import theme.WepliTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,16 +57,64 @@ fun SongInfoBottomSheet(
     onClosed: () -> Unit,
     content: @Composable ColumnScope.() -> Unit,
 ) {
-    ModalBottomSheet(
-        onDismissRequest = { onClosed() },
-        sheetState = sheetState,
-        shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
-        containerColor = Color.Transparent,
-        dragHandle = null,
-        modifier = Modifier.navigationBarsPadding(),
+    val coroutineScope = rememberCoroutineScope()
+
+    // 바텀시트 offset 추적을 위한 alpha 상태
+    var scrimAlpha by remember { mutableFloatStateOf(0f) }
+
+    // scrim 표시 여부
+    val isScrimVisible by remember {
+        derivedStateOf { scrimAlpha > 0f }
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .drawBehind {
+                val offset = runCatching {
+                    sheetState.requireOffset()
+                }.getOrDefault(0f)
+
+                // offset 계산 (scrim 투명도 0 ~ 0.7)
+                val totalHeight = size.height
+                scrimAlpha = ((totalHeight - offset) / totalHeight).coerceIn(0f, 1f) * 0.7f
+            }
     ) {
-        Column(modifier = Modifier.padding(bottom = 16.dp)) {
-            content()
+        // Scrim 표시
+        if (isScrimVisible) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .drawBehind {
+                        drawRect(Color.Black.copy(alpha = scrimAlpha))
+                    }
+                    .clickable(
+                        indication = null,
+                        interactionSource = remember { MutableInteractionSource() }
+                    ) {
+                        coroutineScope.launch {
+                            sheetState.hide()
+                            onClosed()
+                        }
+                    }
+            )
+        }
+
+        // BottomSheet 표시
+        ModalBottomSheet(
+            onDismissRequest = {
+                onClosed()
+            },
+            sheetState = sheetState,
+            shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
+            containerColor = Color.Transparent,
+            dragHandle = null,
+            modifier = Modifier
+                .navigationBarsPadding()
+        ) {
+            Column(modifier = Modifier.padding(bottom = 16.dp)) {
+                content()
+            }
         }
     }
 }
