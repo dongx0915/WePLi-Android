@@ -87,15 +87,6 @@ fun SongInfoBottomSheet(
                     .drawBehind {
                         drawRect(Color.Black.copy(alpha = scrimAlpha))
                     }
-                    .clickable(
-                        indication = null,
-                        interactionSource = remember { MutableInteractionSource() }
-                    ) {
-                        coroutineScope.launch {
-                            sheetState.hide()
-                            onClosed()
-                        }
-                    }
             )
         }
 
@@ -108,8 +99,7 @@ fun SongInfoBottomSheet(
             shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
             containerColor = Color.Transparent,
             dragHandle = null,
-            modifier = Modifier
-                .navigationBarsPadding()
+            modifier = Modifier.navigationBarsPadding()
         ) {
             Column(modifier = Modifier.padding(bottom = 16.dp)) {
                 content()
@@ -122,7 +112,9 @@ fun SongInfoBottomSheet(
 fun SongInfoBottomSheetContent(song: SongUiData, sendAction: (SearchDetailIntent) -> Unit) {
     val imageSize = 64.dp
 
-    Column(modifier = Modifier.fillMaxHeight().padding(top = 62.dp)) {
+    Column(modifier = Modifier
+        .fillMaxHeight()
+        .padding(top = 62.dp)) {
         Spacer(modifier = Modifier.weight(1f))
         Row(modifier = Modifier.padding(vertical = 12.dp, horizontal = 20.dp)) {
             AsyncImageWithPreview(
