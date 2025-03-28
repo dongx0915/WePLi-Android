@@ -1,5 +1,6 @@
 package com.wepli.data.di
 
+import android.util.Log
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.wepli.core.common.BuildConfig
 import com.wepli.data.di.qualifier.AppleMusicOkHttpClient
@@ -16,7 +17,6 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -34,10 +34,26 @@ object RetrofitModule {
         }
     }
 
+    private val prettyApiLogger = HttpLoggingInterceptor.Logger { message: String ->
+        val logName = "Wepli Retrofit"
+
+        if (message.startsWith("{") || message.startsWith("[")) {
+            try {
+                val jsonElement = json.parseToJsonElement(message)
+                val prettyPrintJson = json.encodeToString(jsonElement)
+                Log.v(logName, prettyPrintJson)
+            } catch (e: Exception) {
+                Log.e(logName, message)
+            }
+        } else {
+            Log.v(logName, message)
+        }
+    }
+
     @Provides
     @Singleton
     fun provideHttpLogger(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor().apply {
+        return HttpLoggingInterceptor(prettyApiLogger).apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
     }
