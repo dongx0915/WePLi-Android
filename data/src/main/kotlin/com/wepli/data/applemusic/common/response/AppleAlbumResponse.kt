@@ -22,11 +22,14 @@ data class AppleAlbumResponse(
      * @property genreNames 장르
      * @property artistName
      * @property artistUrl
+     * @property audioVariants 오디오 변형 (dolby-atmos, dolby-audio, hi-res-lossless, lossless, lossy-stereo)
      * @property artwork
      * @property recordLabel
-     * @property releaseDate
+     * @property releaseDate 발매일
      * @property trackCount 앨범 수록곡 수
      * @property copyright 저작권
+     * @property isSingle 싱글 여부
+     * @property upc 앨범 제품 코드
      */
     @Serializable
     data class Attributes(
@@ -35,12 +38,15 @@ data class AppleAlbumResponse(
         val genreNames: List<String>? = null,
         val artistName: String? = null,
         val artistUrl: String? = null,
+        val audioVariants: List<String>? = null,
         val editorialNotes: Notes? = null,
         val artwork: AppleArtworkResponse? = null,
         val recordLabel: String? = null,
         val releaseDate: String? = null,
         val trackCount: Int? = null,
         val copyright: String? = null,
+        val isSingle: Boolean? = null,
+        val upc: String? = null,
     ) {
         @Serializable
         data class Notes(
