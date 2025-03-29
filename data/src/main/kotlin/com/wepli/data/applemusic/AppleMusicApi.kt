@@ -3,6 +3,7 @@ package com.wepli.data.applemusic
 import com.wepli.core.kotlin.flow.FlowResult
 import com.wepli.data.applemusic.common.response.AppleAlbumResponse
 import com.wepli.data.applemusic.common.response.AppleSongResponse
+import com.wepli.data.applemusic.common.response.base.AppleDataWrapper
 import com.wepli.data.applemusic.response.AppleCatalogResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -30,9 +31,9 @@ interface AppleMusicApi {
 
     // 노래
     @GET("v1/catalog/kr/songs/{songId}")
-    fun getCatalogSong(@Path("songId") songId: String): FlowResult<AppleSongResponse>
+    fun getCatalogSong(@Path("songId") songId: String): FlowResult<AppleDataWrapper<AppleSongResponse>>
 
     // 앨범
     @GET("v1/catalog/kr/albums/{albumId}")
-    fun getCatalogAlbum(@Path("albumId") albumId: String): FlowResult<AppleAlbumResponse>
+    fun getCatalogAlbum(@Path("albumId") albumId: String): FlowResult<AppleDataWrapper<AppleAlbumResponse>>
 }
