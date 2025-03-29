@@ -1,6 +1,7 @@
 package com.wepli.data.applemusic.common.response
 
 import com.wepli.data.applemusic.common.response.base.AppleArtworkResponse
+import com.wepli.data.applemusic.common.response.base.AppleRelationshipsResponse
 import kotlinx.serialization.Serializable
 import model.music.Song
 import org.joda.time.LocalDate

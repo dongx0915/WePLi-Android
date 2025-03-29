@@ -1,5 +1,6 @@
-package com.wepli.data.applemusic.common.response
+package com.wepli.data.applemusic.common.response.base
 
+import com.wepli.data.applemusic.common.response.AppleSongResponse
 import kotlinx.serialization.Serializable
 
 @Serializable
