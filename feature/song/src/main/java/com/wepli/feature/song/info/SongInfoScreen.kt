@@ -262,7 +262,7 @@ private fun AlbumInfo(
             InfoText("앨범명", album.name)
             InfoText("발매", album.releaseDate)
             InfoText("유형", if (album.isSingle) "싱글" else "정규 앨범")
-            InfoText("기획사", "SM Entertainment")
+            InfoText("저작권", album.copyright)
         }
     }
 }
