@@ -1,6 +1,7 @@
 package com.wepli.data.applemusic.repository
 
 import com.wepli.core.kotlin.flow.FlowResult
+import com.wepli.data.applemusic.common.response.toEntity
 import com.wepli.data.applemusic.datasource.AppleMusicDataSource
 import com.wepli.data.network.toEntityResult
 import model.album.Album
@@ -49,6 +50,12 @@ class AppleMusicRepositoryImpl @Inject constructor(
             chartTypes = listOf("songs")
         ).toEntityResult {
             it.toSongList()
+        }
+    }
+
+    override fun getSongById(songId: String): FlowResult<Song> {
+        return appleMusicDataSource.getCatalogSong(songId).toEntityResult {
+            it.toEntity()
         }
     }
 }

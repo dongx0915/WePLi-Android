@@ -12,4 +12,5 @@ interface AppleMusicRepository {
     fun searchArtists(query: String): FlowResult<List<AppleArtist>>
 
     fun getPopularSongs(): FlowResult<List<Song>>
+    fun getSongById(songId: String): FlowResult<Song>
 }
