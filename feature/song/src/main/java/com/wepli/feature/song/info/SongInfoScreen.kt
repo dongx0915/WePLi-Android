@@ -146,13 +146,13 @@ fun SongInfoScreen(
             )
 
             Spacer(modifier = Modifier.height(68.dp))
-            SongDetailInfo(
+            SongDetailInfoLayout(
                 composers = song.composers,
                 genres = song.genres
             )
 
             Spacer(modifier = Modifier.height(68.dp))
-            AlbumInfo(album = state.album)
+            AlbumInfoLayout(album = state.album)
         }
     }
 }
@@ -160,7 +160,7 @@ fun SongInfoScreen(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun SongDetailInfo(
+private fun SongDetailInfoLayout(
     composers: List<String>,
     genres: List<String>
 ) {
@@ -223,7 +223,7 @@ private fun SongDetailInfo(
 }
 
 @Composable
-private fun AlbumInfo(
+private fun AlbumInfoLayout(
     album: AlbumUiData
 ) {
     @Composable
