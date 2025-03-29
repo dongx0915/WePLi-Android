@@ -7,11 +7,11 @@ import kotlinx.serialization.Serializable
 data class AppleRelationshipsResponse(
     val albums: Relationship<Data>? = null,
     val artists: Relationship<Data>? = null,
-    val tracks: Relationship<SongData>? = null,
+    val tracks: Relationship<AppleSongResponse>? = null,
 ) {
 
     @Serializable
-    data class Relationship<T : Data>(
+    data class Relationship<T>(
         val href: String? = null,
         val data: List<T>? = null,
     )
@@ -22,9 +22,4 @@ data class AppleRelationshipsResponse(
         val type: String? = null,
         val href: String? = null,
     )
-
-    @Serializable
-    data class SongData(
-        val attributes: AppleSongResponse.Attributes? = null,
-    ) : Data()
 }

@@ -55,15 +55,23 @@ data class AppleAlbumResponse(
 }
 
 fun AppleAlbumResponse.toEntity(): Album {
+    val attr = this.attributes
+    val artist = this.relationship?.artists?.data?.firstOrNull()
+    val tracks = this.relationship?.tracks?.data
+
     return Album(
         id = this.id.orEmpty(),
         href = this.href.orEmpty(),
-        name = this.attributes?.name.orEmpty(),
-        artistName = this.attributes?.artistName.orEmpty(),
-        genres = this.attributes?.genreNames.orEmpty(),
-        releaseDate = this.attributes?.releaseDate.orEmpty(),
-        coverImg = this.attributes?.artwork?.url.orEmpty(),
-        trackCount = this.attributes?.trackCount ?: 0,
-        description = this.attributes?.editorialNotes?.standard.orEmpty(),
+        name = attr?.name.orEmpty(),
+        description = attr?.editorialNotes?.standard.orEmpty(),
+        coverImg = attr?.artwork?.url.orEmpty(),
+        albumUrl = attr?.url.orEmpty(),
+        isSingle = attr?.isSingle ?: false,
+        artistId = artist?.id.orEmpty(),
+        artistName = attr?.artistName.orEmpty(),
+        releaseDate = attr?.releaseDate.orEmpty(),
+        genres = attr?.genreNames.orEmpty(),
+        trackCount = attr?.trackCount ?: 0,
+        tracks = tracks?.map { it.toEntity() }.orEmpty(),
     )
 }
