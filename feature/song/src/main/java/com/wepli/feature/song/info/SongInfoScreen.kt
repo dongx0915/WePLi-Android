@@ -97,8 +97,8 @@ fun SongInfoScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(scrollState)
                 .background(WepliTheme.color.black)
+                .verticalScroll(scrollState)
                 .padding(paddingValues)
                 .padding(24.dp)
         ) {
@@ -254,7 +254,7 @@ private fun AlbumInfo() {
         )
 
         Column(
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             InfoText("앨범명", "The Chase - Single")
             InfoText("발매", "25.02.24")
