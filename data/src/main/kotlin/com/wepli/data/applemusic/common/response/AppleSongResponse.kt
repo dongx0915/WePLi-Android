@@ -45,6 +45,7 @@ data class AppleSongResponse(
         val releaseDate: String? = null,
         val trackNumber: Int? = null,
         val artwork: AppleArtworkResponse? = null,
+        val relationship: AppleRelationshipsResponse? = null,
 
         /* 필요 없을 것 같은 값들 */
         val composerName: String? = null,
@@ -66,26 +67,33 @@ data class AppleSongResponse(
 }
 
 fun AppleSongResponse.toEntity(): Song {
+    val attr: AppleSongResponse.Attributes? = this.attributes
+    val relationship: AppleRelationshipsResponse? = this.attributes?.relationship
+    val album = relationship?.albums?.data?.firstOrNull()
+    val artist = relationship?.artists?.data?.firstOrNull()
+
     return Song(
         id = this.id.orEmpty(),
-        title = this.attributes?.name.orEmpty(),
-        artistName = this.attributes?.artistName.orEmpty(),
-        albumName = this.attributes?.albumName.orEmpty(),
-        coverImg = this.attributes?.artwork?.url.orEmpty(),
-        composers = this.attributes?.composerName
+        title = attr?.name.orEmpty(),
+        artistName = attr?.artistName.orEmpty(),
+        artistId = artist?.id.orEmpty(),
+        albumName = attr?.albumName.orEmpty(),
+        albumId = album?.id.orEmpty(),
+        coverImg = attr?.artwork?.url.orEmpty(),
+        composers = attr?.composerName
             ?.takeIf { it.isNotBlank() }
             ?.split(", ")
             .orEmpty(),
-        genres = this.attributes?.genreNames.orEmpty(),
-        url = this.attributes?.url.orEmpty(),
-        previewMusicUrl = this.attributes?.previews?.map { it.url.orEmpty() }.orEmpty(),
-        releaseDate = this.attributes?.releaseDate?.let { LocalDate(it) } ?: LocalDate.now(),
-        durationMillis = this.attributes?.durationInMillis?.toLong() ?: 0L,
+        genres = attr?.genreNames.orEmpty(),
+        url = attr?.url.orEmpty(),
+        previewMusicUrl = attr?.previews?.map { it.url.orEmpty() }.orEmpty(),
+        releaseDate = attr?.releaseDate?.let { LocalDate(it) } ?: LocalDate.now(),
+        durationMillis = attr?.durationInMillis?.toLong() ?: 0L,
         playParams = Song.PlayParams(
-            id = this.attributes?.playParams?.id.orEmpty(),
-            kind = this.attributes?.playParams?.kind.orEmpty(),
+            id = attr?.playParams?.id.orEmpty(),
+            kind = attr?.playParams?.kind.orEmpty(),
         ),
-        isrc = this.attributes?.isrc.orEmpty(),
+        isrc = attr?.isrc.orEmpty(),
         href = this.href.orEmpty(),
     )
 }

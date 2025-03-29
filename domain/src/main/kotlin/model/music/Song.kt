@@ -8,6 +8,9 @@ import org.joda.time.LocalDate
  *
  * @property title 제목
  * @property artistName 아티스트
+ * @property artistId 아티스트 ID (Optional)
+ * @property albumName 앨범 이름
+ * @property albumId 앨범 ID (Optional)
  * @property coverImg 앨범 커버 이미지 URL
  * @property composers 작곡가
  * @property genres 장르
@@ -18,7 +21,9 @@ data class Song(
     val id: String,
     val title: String,
     val artistName: String,
+    val artistId: String? = null,
     val albumName: String,
+    val albumId: String? = null,
     val coverImg: String,
     val composers: List<String>,
     val genres: List<String>,
