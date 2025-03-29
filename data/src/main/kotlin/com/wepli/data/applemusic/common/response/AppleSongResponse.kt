@@ -72,7 +72,10 @@ fun AppleSongResponse.toEntity(): Song {
         artistName = this.attributes?.artistName.orEmpty(),
         albumName = this.attributes?.albumName.orEmpty(),
         coverImg = this.attributes?.artwork?.url.orEmpty(),
-        composers = this.attributes?.composerName.orEmpty().split(",").map { it.trim() },
+        composers = this.attributes?.composerName
+            ?.takeIf { it.isNotBlank() }
+            ?.split(", ")
+            .orEmpty(),
         genres = this.attributes?.genreNames.orEmpty(),
         url = this.attributes?.url.orEmpty(),
         previewMusicUrl = this.attributes?.previews?.map { it.url.orEmpty() }.orEmpty(),
