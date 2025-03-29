@@ -1,5 +1,6 @@
 package com.wepli.data.applemusic.common.response
 
+import com.wepli.data.applemusic.common.response.base.AppleArtworkResponse
 import kotlinx.serialization.Serializable
 import model.album.Album
 
