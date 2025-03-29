@@ -44,12 +44,18 @@ class SongInfoViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getAlbumById(albumId: String) {
+    private suspend fun getAlbumById(albumId: String) = intent {
         appleMusicRepository.getAlbumById(albumId)
             .flowOn(Dispatchers.IO)
             .collectResult(
                 onSuccess = {
-                    updateState { copy(album = AlbumUiData.fromDomain(it)) }
+                    val currentSongId = state.song.id
+                    val albumUiData = AlbumUiData.fromDomain(it)
+                    val filteredTracks = albumUiData.tracks.filter { it.id != currentSongId }
+
+                    updateState {
+                        copy(album = albumUiData.copy(tracks = filteredTracks))
+                    }
                 },
                 onFailure = {
                     Log.e("SongInfoViewModel", it.message ?: "Error")

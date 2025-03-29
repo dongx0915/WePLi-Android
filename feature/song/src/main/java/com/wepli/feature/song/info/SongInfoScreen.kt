@@ -43,7 +43,10 @@ import com.wepli.feature.song.info.mvi.SongInfoUiState
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.uimodel.album.AlbumUiData
 import com.wepli.uimodel.music.SongUiData
+import custom.MusicItem
+import custom.MusicItemType
 import custom.OneLineTitle
+import extensions.compose.toPx
 import image.AsyncImageWithPreview
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
@@ -145,14 +148,17 @@ fun SongInfoScreen(
                     .clip(RoundedCornerShape(4.dp))
             )
 
-            Spacer(modifier = Modifier.height(68.dp))
+            Spacer(modifier = Modifier.height(64.dp))
             SongDetailInfoLayout(
                 composers = song.composers,
                 genres = song.genres
             )
 
-            Spacer(modifier = Modifier.height(68.dp))
+            Spacer(modifier = Modifier.height(64.dp))
             AlbumInfoLayout(album = state.album)
+
+            Spacer(modifier = Modifier.height(64.dp))
+            OtherSongsLayout(tracks = state.album.tracks)
         }
     }
 }
@@ -263,6 +269,32 @@ private fun AlbumInfoLayout(
             InfoText("발매", album.releaseDate)
             InfoText("유형", if (album.isSingle) "싱글" else "정규 앨범")
             InfoText("저작권", album.copyright)
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun OtherSongsLayout(tracks: List<SongUiData> = songMockData) {
+    if (tracks.isEmpty()) return
+    val imageSize = 52.dp
+
+    Column(modifier = Modifier.fillMaxWidth()) {
+        OneLineTitle(
+            title = "같은 앨범의 수록 곡",
+            showIcon = true,
+            modifier = Modifier.padding(vertical = 12.dp)
+        )
+
+        tracks.forEach {
+            MusicItem(
+                modifier = Modifier.padding(top = 12.dp),
+                imageModifier = Modifier
+                    .size(imageSize)
+                    .clip(RoundedCornerShape(3.dp)),
+                musicItemType = MusicItemType.Normal(it, imageSize.toPx()),
+                showMoreIcon = true
+            )
         }
     }
 }
