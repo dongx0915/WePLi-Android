@@ -158,7 +158,7 @@ fun SongInfoScreen(
             AlbumInfoLayout(album = state.album)
 
             Spacer(modifier = Modifier.height(64.dp))
-            OtherSongsLayout(tracks = state.album.tracks)
+            SimilarSongsLayout(similarSongs = state.similarSongs)
         }
     }
 }
@@ -273,20 +273,19 @@ private fun AlbumInfoLayout(
     }
 }
 
-@Preview
 @Composable
-private fun OtherSongsLayout(tracks: List<SongUiData> = songMockData) {
-    if (tracks.isEmpty()) return
+private fun SimilarSongsLayout(similarSongs: List<SongUiData>) {
+    if (similarSongs.isEmpty()) return
     val imageSize = 52.dp
 
     Column(modifier = Modifier.fillMaxWidth()) {
         OneLineTitle(
-            title = "같은 앨범의 수록 곡",
+            title = "함께 들으면 좋은 곡",
             showIcon = true,
             modifier = Modifier.padding(vertical = 12.dp)
         )
 
-        tracks.forEach {
+        similarSongs.forEach {
             MusicItem(
                 modifier = Modifier.padding(top = 12.dp),
                 imageModifier = Modifier

@@ -9,7 +9,8 @@ import model.album.Album
 
 data class SongInfoUiState(
     val song: SongUiData = SongUiData(),
-    val album: AlbumUiData = AlbumUiData()
+    val album: AlbumUiData = AlbumUiData(),
+    val similarSongs: List<SongUiData> = emptyList()
 ) : UiState
 
 interface SongInfoEffect : SideEffect
