@@ -58,4 +58,10 @@ class AppleMusicRepositoryImpl @Inject constructor(
             it.toEntity()
         }
     }
+
+    override fun getAlbumById(albumId: String): FlowResult<Album> {
+        return appleMusicDataSource.getCatalogAlbum(albumId).toEntityResult {
+            it.toEntity()
+        }
+    }
 }

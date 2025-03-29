@@ -2,6 +2,7 @@ package com.wepli.data.applemusic.datasource
 
 import com.wepli.core.kotlin.flow.FlowResult
 import com.wepli.data.applemusic.AppleMusicApi
+import com.wepli.data.applemusic.common.response.AppleAlbumResponse
 import com.wepli.data.applemusic.common.response.AppleSongResponse
 import com.wepli.data.applemusic.response.AppleCatalogResponse
 import com.wepli.data.applemusic.response.AppleSearchResponse
@@ -27,5 +28,9 @@ class AppleMusicDataSourceImpl @Inject constructor(
 
     override fun getCatalogSong(songId: String): FlowResult<AppleSongResponse> {
         return appleMusicApi.getCatalogSong(songId)
+    }
+
+    override fun getCatalogAlbum(albumId: String): FlowResult<AppleAlbumResponse> {
+        return appleMusicApi.getCatalogAlbum(albumId)
     }
 }
