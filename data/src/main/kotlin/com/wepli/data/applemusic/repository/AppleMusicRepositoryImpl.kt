@@ -18,28 +18,31 @@ class AppleMusicRepositoryImpl @Inject constructor(
     private val appleMusicDataSource: AppleMusicDataSource
 ) : AppleMusicRepository {
 
-    override fun searchMusics(query: String): FlowResult<List<Song>> {
+    override fun searchMusics(query: String, limit: Int): FlowResult<List<Song>> {
         return appleMusicDataSource.searchForCatalogResources(
             query = query,
-            searchTypes = listOf("songs")
+            searchTypes = listOf("songs"),
+            limit = limit
         ).toEntityResult {
             it.toMusicSearchResult()
         }
     }
 
-    override fun searchAlbums(query: String): FlowResult<List<Album>> {
+    override fun searchAlbums(query: String, limit: Int): FlowResult<List<Album>> {
         return appleMusicDataSource.searchForCatalogResources(
             query = query,
-            searchTypes = listOf("albums")
+            searchTypes = listOf("albums"),
+            limit = limit,
         ).toEntityResult {
             it.toAlbumSearchResult()
         }
     }
 
-    override fun searchArtists(query: String): FlowResult<List<AppleArtist>> {
+    override fun searchArtists(query: String, limit: Int): FlowResult<List<AppleArtist>> {
         return appleMusicDataSource.searchForCatalogResources(
             query = query,
-            searchTypes = listOf("artists")
+            searchTypes = listOf("artists"),
+            limit = limit,
         ).toEntityResult {
             it.toArtistSearchResult()
         }

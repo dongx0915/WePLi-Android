@@ -11,6 +11,7 @@ interface AppleMusicDataSource {
     fun searchForCatalogResources(
         query: String,
         searchTypes: List<String>,
+        limit: Int,
     ): FlowResult<AppleSearchResponse>
 
     fun getCatalogCharts(

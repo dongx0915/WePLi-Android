@@ -21,10 +21,12 @@ class AppleMusicDataSourceImpl @Inject constructor(
     override fun searchForCatalogResources(
         query: String,
         searchTypes: List<String>,
+        limit: Int,
     ): FlowResult<AppleSearchResponse> {
         return appleMusicApi.searchForCatalogResources(
             term = query,
             types = searchTypes,
+            limit = limit
         )
     }
 
