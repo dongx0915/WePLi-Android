@@ -41,6 +41,7 @@ import com.wepli.designsystem.R
 import com.wepli.feature.song.info.mvi.SongInfoIntent
 import com.wepli.feature.song.info.mvi.SongInfoUiState
 import com.wepli.shared.feature.mock.songMockData
+import com.wepli.shared.feature.uimodel.album.AlbumUiData
 import com.wepli.uimodel.music.SongUiData
 import custom.OneLineTitle
 import image.AsyncImageWithPreview
@@ -145,13 +146,13 @@ fun SongInfoScreen(
             )
 
             Spacer(modifier = Modifier.height(68.dp))
-            ComposerInfo(
+            SongDetailInfo(
                 composers = song.composers,
                 genres = song.genres
             )
 
             Spacer(modifier = Modifier.height(68.dp))
-            AlbumInfo()
+            AlbumInfo(album = state.album)
         }
     }
 }
@@ -159,7 +160,7 @@ fun SongInfoScreen(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun ComposerInfo(
+private fun SongDetailInfo(
     composers: List<String>,
     genres: List<String>
 ) {
@@ -201,7 +202,7 @@ private fun ComposerInfo(
         modifier = Modifier.fillMaxWidth(),
     ) {
         OneLineTitle(
-            title = "작곡자 정보",
+            title = "곡 정보",
             showIcon = true,
             modifier = Modifier.padding(vertical = 12.dp)
         )
@@ -222,7 +223,9 @@ private fun ComposerInfo(
 }
 
 @Composable
-private fun AlbumInfo() {
+private fun AlbumInfo(
+    album: AlbumUiData
+) {
     @Composable
     fun InfoText(title: String, content: String) {
         Row(
@@ -256,9 +259,9 @@ private fun AlbumInfo() {
         Column(
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            InfoText("앨범명", "The Chase - Single")
-            InfoText("발매", "25.02.24")
-            InfoText("유형", "싱글")
+            InfoText("앨범명", album.name)
+            InfoText("발매", album.releaseDate)
+            InfoText("유형", if (album.isSingle) "싱글" else "정규 앨범")
             InfoText("기획사", "SM Entertainment")
         }
     }
