@@ -1,6 +1,7 @@
 package com.wepli.data.applemusic.common.response
 
 import com.wepli.data.applemusic.common.response.base.AppleArtworkResponse
+import com.wepli.data.applemusic.common.response.base.AppleEditorialNotes
 import com.wepli.data.applemusic.common.response.base.AppleRelationshipsResponse
 import kotlinx.serialization.Serializable
 import model.album.Album
@@ -41,20 +42,16 @@ data class AppleAlbumResponse(
         val artistName: String? = null,
         val artistUrl: String? = null,
         val audioVariants: List<String>? = null,
-        val editorialNotes: Notes? = null,
-        val artwork: AppleArtworkResponse? = null,
         val recordLabel: String? = null,
         val releaseDate: String? = null,
         val trackCount: Int? = null,
         val copyright: String? = null,
         val isSingle: Boolean? = null,
         val upc: String? = null,
-    ) {
-        @Serializable
-        data class Notes(
-            val standard: String? = null,
-        )
-    }
+        val editorialNotes: AppleEditorialNotes? = null,
+        val artwork: AppleArtworkResponse? = null,
+        val relationship: AppleRelationshipsResponse? = null,
+    )
 }
 
 fun AppleAlbumResponse.toEntity(): Album {
