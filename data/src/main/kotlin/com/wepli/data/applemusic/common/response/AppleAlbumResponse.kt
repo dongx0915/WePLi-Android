@@ -14,6 +14,7 @@ data class AppleAlbumResponse(
     val type: String? = null,
     val href: String? = null,
     val attributes: Attributes? = null,
+    val relationship: AppleRelationshipsResponse? = null,
 ) {
     /**
      * @property name 앨범 이름
