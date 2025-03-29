@@ -17,7 +17,7 @@ data class AppleAlbumResponse(
     val type: String? = null,
     val href: String? = null,
     val attributes: Attributes? = null,
-    val relationship: AppleRelationshipsResponse? = null,
+    val relationships: AppleRelationshipsResponse? = null,
 ) {
     /**
      * @property name 앨범 이름
@@ -50,14 +50,14 @@ data class AppleAlbumResponse(
         val upc: String? = null,
         val editorialNotes: AppleEditorialNotes? = null,
         val artwork: AppleArtworkResponse? = null,
-        val relationship: AppleRelationshipsResponse? = null,
+        val relationships: AppleRelationshipsResponse? = null,
     )
 }
 
 fun AppleAlbumResponse.toEntity(): Album {
     val attr = this.attributes
-    val artist = this.relationship?.artists?.data?.firstOrNull()
-    val tracks = this.relationship?.tracks?.data
+    val artist = this.relationships?.artists?.data?.firstOrNull()
+    val tracks = this.relationships?.tracks?.data
 
     return Album(
         id = this.id.orEmpty(),

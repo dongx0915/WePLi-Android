@@ -18,6 +18,7 @@ data class AppleSongResponse(
     val type: String? = null,
     val href: String? = null,
     val attributes: Attributes? = null,
+    val relationships: AppleRelationshipsResponse? = null,
 ) {
     /**
      * @property name 노래 제목
@@ -47,7 +48,6 @@ data class AppleSongResponse(
         val releaseDate: String? = null,
         val trackNumber: Int? = null,
         val artwork: AppleArtworkResponse? = null,
-        val relationship: AppleRelationshipsResponse? = null,
 
         /* 필요 없을 것 같은 값들 */
         val composerName: String? = null,
@@ -70,7 +70,7 @@ data class AppleSongResponse(
 
 fun AppleSongResponse.toEntity(): Song {
     val attr: AppleSongResponse.Attributes? = this.attributes
-    val relationship: AppleRelationshipsResponse? = this.attributes?.relationship
+    val relationship: AppleRelationshipsResponse? = this.relationships
     val album = relationship?.albums?.data?.firstOrNull()
     val artist = relationship?.artists?.data?.firstOrNull()
 
