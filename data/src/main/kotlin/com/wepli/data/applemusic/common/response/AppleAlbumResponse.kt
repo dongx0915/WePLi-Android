@@ -70,6 +70,7 @@ fun AppleAlbumResponse.toEntity(): Album {
         artistId = artist?.id.orEmpty(),
         artistName = attr?.artistName.orEmpty(),
         releaseDate = attr?.releaseDate.orEmpty(),
+        copyright = attr?.copyright.orEmpty(),
         genres = attr?.genreNames.orEmpty(),
         trackCount = attr?.trackCount ?: 0,
         tracks = tracks?.map { it.toEntity() }.orEmpty(),

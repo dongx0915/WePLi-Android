@@ -14,6 +14,7 @@ data class Album(
     val artistId: String,
     val artistName: String,
     val releaseDate: String,
+    val copyright: String,
     val trackCount: Int,
     val tracks: List<Song>,
     val genres: List<String>,
