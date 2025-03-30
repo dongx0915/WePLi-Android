@@ -235,7 +235,7 @@ private fun AlbumInfoLayout(
     @Composable
     fun InfoText(title: String, content: String) {
         Row(
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.spacedBy(24.dp),
         ) {
             Text(
