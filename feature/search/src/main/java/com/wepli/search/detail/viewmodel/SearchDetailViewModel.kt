@@ -26,7 +26,13 @@ class SearchDetailViewModel @Inject constructor(
             is SearchDetailIntent.OnCompleteSongSelect -> handleCompleteSongSelect()
             is SearchDetailIntent.SetMaxSelectCount -> handleSetMaxSelectCount(intent.count)
             is SearchDetailIntent.ShowSongInfoBottomSheet -> handleShowSongInfoBottomSheet(intent.selectedSong)
-            SearchDetailIntent.LoadSongInfo -> postSideEffect { SearchDetailEffect.NavigateToSongInfo }
+            SearchDetailIntent.DismissSongInfoBottomSheet -> handleDismissSongInfoBottomSheet()
+            SearchDetailIntent.LoadSongInfo -> {
+                /* 여기서 추가 API 호출하고 넘기려고 LoadSongInfo라고 네이밍 해둠 */
+                intent {
+                    state.songInfo?.let { postSideEffect { SearchDetailEffect.NavigateToSongInfo(it) } }
+                }
+            }
         }
     }
 
@@ -95,7 +101,11 @@ class SearchDetailViewModel @Inject constructor(
         updateState { copy(maxSelectCount = count) }
     }
 
-    private fun handleShowSongInfoBottomSheet(selectedSong: SongUiData?) {
-        updateState { copy(songInfo = selectedSong) }
+    private fun handleShowSongInfoBottomSheet(selectedSong: SongUiData) {
+        updateState { copy(isShownSongInfoBottomSheet = true, songInfo = selectedSong) }
+    }
+
+    private fun handleDismissSongInfoBottomSheet() {
+        updateState { copy(isShownSongInfoBottomSheet = false) }
     }
 }

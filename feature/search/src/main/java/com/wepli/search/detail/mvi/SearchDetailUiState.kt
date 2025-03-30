@@ -10,6 +10,7 @@ data class SearchDetailUiState(
     val searchMusicResult: List<SongUiData> = emptyList(),
     val selectedSongs: LinkedHashSet<SongUiData> = linkedSetOf(),
     val songInfo: SongUiData? = null,
+    val isShownSongInfoBottomSheet: Boolean = false,
     val maxSelectCount: Int = 0
 ) : UiState
 
@@ -17,7 +18,7 @@ sealed interface SearchDetailEffect : SideEffect {
     data class SearchError(val message: String) : SearchDetailEffect
     data class SelectedLimitExceeded(val limit: Int) : SearchDetailEffect
     data class NavigateBackWithResult(val selectedSongs: List<SongUiData>) : SearchDetailEffect
-    data object NavigateToSongInfo : SearchDetailEffect
+    data class NavigateToSongInfo(val song: SongUiData) : SearchDetailEffect
 }
 
 sealed interface SearchDetailIntent : Intent {
@@ -26,6 +27,7 @@ sealed interface SearchDetailIntent : Intent {
     data class OnSongSelected(val song: SongUiData) : SearchDetailIntent
     data class SetMaxSelectCount(val count: Int) : SearchDetailIntent
     data object OnCompleteSongSelect : SearchDetailIntent
-    data class ShowSongInfoBottomSheet(val selectedSong: SongUiData?) : SearchDetailIntent
+    data class ShowSongInfoBottomSheet(val selectedSong: SongUiData) : SearchDetailIntent
+    data object DismissSongInfoBottomSheet : SearchDetailIntent
     data object LoadSongInfo : SearchDetailIntent
 }

@@ -211,7 +211,10 @@ fun SongInfoBottomSheetContent(song: SongUiData, sendAction: (SearchDetailIntent
         BottomSheetItem(
             iconRes = R.drawable.ic_info_vector,
             text = "곡 정보",
-            onClick = { sendAction(SearchDetailIntent.LoadSongInfo) }
+            onClick = {
+                sendAction(SearchDetailIntent.DismissSongInfoBottomSheet)
+                sendAction(SearchDetailIntent.LoadSongInfo)
+            }
         )
 
         Spacer(modifier = Modifier.weight(2f))

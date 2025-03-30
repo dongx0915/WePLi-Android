@@ -110,7 +110,8 @@ fun SearchScreenRoute(
             }
 
             is SearchDetailEffect.NavigateToSongInfo -> {
-                state.songInfo?.let { navigateSongInfo(it) }
+                viewModel.processIntent(SearchDetailIntent.DismissSongInfoBottomSheet)
+                navigateSongInfo(sideEffect.song)
             }
         }
     }
