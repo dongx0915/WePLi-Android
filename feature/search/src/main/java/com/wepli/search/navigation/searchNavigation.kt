@@ -53,25 +53,13 @@ fun NavGraphBuilder.searchDetailGraph(
         popEnterTransition = { null },
         popExitTransition = { null },
     ) {
+        val searchQuery = it.arguments?.getString("searchQuery").orEmpty()
         val maxCount = it.arguments?.getInt("maxCount") ?: Int.MAX_VALUE
         val screenMode = SearchScreenMode.fromString(
             value = it.arguments?.getString("screenMode").orEmpty(),
             maxCount = maxCount
         )
-        val searchQuery = it.arguments?.getString("searchQuery").orEmpty()
 
-        val viewModel: SearchDetailViewModel = hiltViewModel()
-
-        LaunchedEffect(Unit) {
-            viewModel.processIntent(
-                // 초기 상태 설정 및 검색 요청
-                SearchDetailIntent.Init(
-                    initialSearchQuery = searchQuery,
-                    screenMode = screenMode
-                )
-            )
-        }
-
-        SearchScreenRoute(viewModel, navOnBack, navigateBackWithSelectedSongs,navigateSongInfo)
+        SearchScreenRoute(searchQuery, screenMode, navOnBack, navigateBackWithSelectedSongs,navigateSongInfo)
     }
 }

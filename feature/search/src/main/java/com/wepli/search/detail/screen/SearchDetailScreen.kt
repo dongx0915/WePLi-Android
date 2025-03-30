@@ -77,11 +77,13 @@ private val SongItemImageSize = 52.dp
 
 @Composable
 fun SearchScreenRoute(
-    viewModel: SearchDetailViewModel,
+    searchQuery: String,
+    screenMode: SearchScreenMode,
     navOnBack: () -> Unit,
     navigateBackWithSelectedSongs: (List<SongUiData>) -> Unit,
     navigateSongInfo: (SongUiData) -> Unit,
 ) {
+    val viewModel: SearchDetailViewModel = hiltViewModel()
     val state: SearchDetailUiState by viewModel.collectAsState()
     val context = LocalContext.current
 
@@ -102,6 +104,18 @@ fun SearchScreenRoute(
                 navigateSongInfo(sideEffect.song)
             }
         }
+    }
+
+    // 초기 상태 설정 및 검색 요청
+    LaunchedEffect(Unit) {
+        if (state.isInitialized) return@LaunchedEffect
+
+        viewModel.processIntent(
+            SearchDetailIntent.Init(
+                initialSearchQuery = searchQuery,
+                screenMode = screenMode
+            )
+        )
     }
 
     SearchScreen(
