@@ -1,7 +1,5 @@
 package com.wepli.search.navigation
 
-import androidx.compose.runtime.LaunchedEffect
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -9,10 +7,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.wepli.navigator.extras.Extras
 import com.wepli.navigator.feature.search.SearchRoute
-import com.wepli.search.detail.mvi.SearchDetailIntent
-import com.wepli.search.main.screen.SearchMainScreenRoute
 import com.wepli.search.detail.screen.SearchScreenRoute
-import com.wepli.search.detail.viewmodel.SearchDetailViewModel
+import com.wepli.search.main.screen.SearchMainScreenRoute
 import com.wepli.uimodel.music.SongUiData
 import extensions.enterAnimation
 
