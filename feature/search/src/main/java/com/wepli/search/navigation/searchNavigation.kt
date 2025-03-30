@@ -1,5 +1,7 @@
 package com.wepli.search.navigation
 
+import androidx.compose.runtime.LaunchedEffect
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -7,15 +9,17 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.wepli.navigator.extras.Extras
 import com.wepli.navigator.feature.search.SearchRoute
+import com.wepli.search.detail.mvi.SearchDetailIntent
 import com.wepli.search.main.screen.SearchMainScreenRoute
 import com.wepli.search.detail.screen.SearchScreenRoute
+import com.wepli.search.detail.viewmodel.SearchDetailViewModel
 import com.wepli.uimodel.music.SongUiData
 import extensions.enterAnimation
 
 // Controller - 화면 이동을 담당
 fun NavController.navigateToSearchDetail(screenMode: SearchScreenMode, searchQuery: String) {
     val maxCount = when (screenMode) {
-        is SearchScreenMode.Selectable -> screenMode.maxCount
+        is SearchScreenMode.Selectable -> screenMode.maxSelectCount
         SearchScreenMode.Normal -> Int.MAX_VALUE
     }
 
@@ -56,6 +60,18 @@ fun NavGraphBuilder.searchDetailGraph(
         )
         val searchQuery = it.arguments?.getString("searchQuery").orEmpty()
 
-        SearchScreenRoute(screenMode, searchQuery, navOnBack, navigateBackWithSelectedSongs,navigateSongInfo)
+        val viewModel: SearchDetailViewModel = hiltViewModel()
+
+        LaunchedEffect(Unit) {
+            viewModel.processIntent(
+                // 초기 상태 설정 및 검색 요청
+                SearchDetailIntent.Init(
+                    initialSearchQuery = searchQuery,
+                    screenMode = screenMode
+                )
+            )
+        }
+
+        SearchScreenRoute(viewModel, navOnBack, navigateBackWithSelectedSongs,navigateSongInfo)
     }
 }

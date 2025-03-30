@@ -77,24 +77,13 @@ private val SongItemImageSize = 52.dp
 
 @Composable
 fun SearchScreenRoute(
-    screenMode: SearchScreenMode,
-    searchQuery: String,
+    viewModel: SearchDetailViewModel,
     navOnBack: () -> Unit,
     navigateBackWithSelectedSongs: (List<SongUiData>) -> Unit,
     navigateSongInfo: (SongUiData) -> Unit,
 ) {
-    val viewModel = hiltViewModel<SearchDetailViewModel>()
     val state: SearchDetailUiState by viewModel.collectAsState()
     val context = LocalContext.current
-
-    // 초기 상태 설정 및 검색 요청
-    LaunchedEffect(state.isInitialized) {
-        if (!state.isInitialized) {
-            viewModel.processIntent(
-                SearchDetailIntent.Init(searchQuery)
-            )
-        }
-    }
 
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
@@ -116,7 +105,6 @@ fun SearchScreenRoute(
     }
 
     SearchScreen(
-        screenMode = screenMode,
         state = state,
         sendAction = { viewModel.processIntent(it) },
         navOnBack = { navOnBack() },
@@ -127,7 +115,6 @@ fun SearchScreenRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
-    screenMode: SearchScreenMode,
     state: SearchDetailUiState,
     sendAction: (SearchDetailIntent) -> Unit,
     navOnBack: () -> Unit,
@@ -143,7 +130,7 @@ fun SearchScreen(
             )
         }
     ) { paddingValues ->
-        when (screenMode) {
+        when (state.screenMode) {
             SearchScreenMode.Normal -> {
                 SearchContent(
                     state = state,
@@ -154,10 +141,6 @@ fun SearchScreen(
             }
 
             is SearchScreenMode.Selectable -> {
-                LaunchedEffect(screenMode.maxCount) {
-                    sendAction(SearchDetailIntent.SetMaxSelectCount(screenMode.maxCount))
-                }
-
                 SearchWithSelectedSheet(
                     state = state,
                     paddingValues = paddingValues,
@@ -484,7 +467,7 @@ fun SelectedSongItem(
 @Preview
 @Composable
 fun SearchScreenPreview() {
-    SearchScreen(SearchScreenMode.Normal, SearchDetailUiState(searchMusicResult = songMockData), {}, {})
+    SearchScreen(SearchDetailUiState(searchMusicResult = songMockData), {}, {})
 }
 
 @Preview
