@@ -21,7 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
-import com.wepli.shared.feature.mock.songUiMockData
+import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
 import common.ShimmerSkeleton
 import extensions.compose.toPx
@@ -96,5 +96,5 @@ fun SongItem(
 @Preview
 @Composable
 fun SongItemPreview() {
-    SongItem(song = songUiMockData[0])
+    SongItem(song = songMockData[0])
 }

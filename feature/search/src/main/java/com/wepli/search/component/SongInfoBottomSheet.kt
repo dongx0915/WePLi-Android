@@ -37,7 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
 import com.wepli.search.detail.mvi.SearchDetailIntent
-import com.wepli.shared.feature.mock.songUiMockData
+import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
 import component.bottomsheet.BottomSheetItem
 import extensions.compose.toPx
@@ -222,5 +222,5 @@ fun SongInfoBottomSheetContent(song: SongUiData, sendAction: (SearchDetailIntent
 @Preview
 @Composable
 fun SongInfoBottomSheetContentPreview() {
-    SongInfoBottomSheetContent(song = songUiMockData.random(), sendAction = {})
+    SongInfoBottomSheetContent(song = songMockData.random(), sendAction = {})
 }

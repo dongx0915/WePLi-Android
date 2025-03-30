@@ -26,7 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.musicMockData
-import com.wepli.shared.feature.mock.songUiMockData
+import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.ChartMusicUiData
 import com.wepli.uimodel.music.SongUiData
 import image.AsyncImageWithPreview
@@ -70,7 +70,7 @@ fun MusicItemPreview() {
 
         MusicItem(
             musicItemType = MusicItemType.Normal(
-                songUiData = songUiMockData[0],
+                songUiData = songMockData[0],
                 imageSize = 300
             ),
             showPlayIcon = true,
