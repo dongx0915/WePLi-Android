@@ -6,6 +6,7 @@ import base.UiState
 import com.wepli.uimodel.music.SongUiData
 
 data class SearchDetailUiState(
+    val isInitialized: Boolean = false,
     val searchInput: String = "",
     val searchMusicResult: List<SongUiData> = emptyList(),
     val selectedSongs: LinkedHashSet<SongUiData> = linkedSetOf(),
@@ -22,6 +23,7 @@ sealed interface SearchDetailEffect : SideEffect {
 }
 
 sealed interface SearchDetailIntent : Intent {
+    data class Init(val initialSearchQuery: String) : SearchDetailIntent
     data class OnSearchQueryChanged(val query: String) : SearchDetailIntent
     data class RequestSearch(val query: String) : SearchDetailIntent
     data class OnSongSelected(val song: SongUiData) : SearchDetailIntent

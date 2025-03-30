@@ -20,6 +20,7 @@ class SearchDetailViewModel @Inject constructor(
 ) {
     override fun processIntent(intent: SearchDetailIntent) {
         when (intent) {
+            is SearchDetailIntent.Init -> handleInitialize(intent.initialSearchQuery)
             is SearchDetailIntent.OnSearchQueryChanged -> handleSearchQueryChanged(intent.query)
             is SearchDetailIntent.RequestSearch -> searchMusic(intent.query)
             is SearchDetailIntent.OnSongSelected -> handleSongSelected(intent.song)
@@ -34,6 +35,14 @@ class SearchDetailViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun handleInitialize(searchQuery: String) {
+        updateState {
+            copy(isInitialized = true, searchInput = searchQuery)
+        }
+
+        searchMusic(searchQuery)
     }
 
     private fun handleSearchQueryChanged(query: String) = intent {

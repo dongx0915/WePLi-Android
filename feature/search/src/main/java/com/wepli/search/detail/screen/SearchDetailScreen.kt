@@ -88,11 +88,10 @@ fun SearchScreenRoute(
     val context = LocalContext.current
 
     // 초기 상태 설정 및 검색 요청
-    LaunchedEffect(searchQuery) {
-        if (searchQuery.isNotEmpty()) {
+    LaunchedEffect(state.isInitialized) {
+        if (!state.isInitialized) {
             viewModel.processIntent(
-                SearchDetailIntent.OnSearchQueryChanged(searchQuery),
-                SearchDetailIntent.RequestSearch(searchQuery)
+                SearchDetailIntent.Init(searchQuery)
             )
         }
     }
@@ -167,11 +166,13 @@ fun SearchScreen(
                 )
             }
         }
-        if (state.songInfo != null) {
-            SongInfoBottomSheet(
-                onClosed = { sendAction(SearchDetailIntent.ShowSongInfoBottomSheet(null)) },
-            ) {
-                SongInfoBottomSheetContent(state.songInfo, sendAction)
+        if (state.isShownSongInfoBottomSheet) {
+            state.songInfo?.let {
+                SongInfoBottomSheet(
+                    onClosed = { sendAction(SearchDetailIntent.DismissSongInfoBottomSheet) },
+                ) {
+                    SongInfoBottomSheetContent(it, sendAction)
+                }
             }
         }
     }
@@ -191,6 +192,7 @@ fun SearchContent(
             .padding(horizontal = 20.dp)
     ) {
         SearchBar(
+            isInitialized = state.isInitialized,
             searchQuery = state.searchInput,
             onQueryUpdate = { sendAction(SearchDetailIntent.OnSearchQueryChanged(it)) },
             onEnter = { sendAction(SearchDetailIntent.RequestSearch(state.searchInput)) }
@@ -234,6 +236,7 @@ fun SearchWithSelectedSheet(
 
 @Composable
 fun SearchBar(
+    isInitialized: Boolean,
     searchQuery: String,
     onQueryUpdate: (String) -> Unit,
     onEnter: () -> Unit,
@@ -242,9 +245,11 @@ fun SearchBar(
     val keyboardController = LocalSoftwareKeyboardController.current
 
     // 화면 진입 시 자동 포커스 요청
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
-        keyboardController?.show()
+    LaunchedEffect(isInitialized) {
+        if (isInitialized && searchQuery.isEmpty()) {
+            focusRequester.requestFocus()
+            keyboardController?.show()
+        }
     }
 
     Box(modifier = Modifier.padding(vertical = 10.dp)) {
