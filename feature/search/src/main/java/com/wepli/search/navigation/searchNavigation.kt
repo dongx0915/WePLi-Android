@@ -45,7 +45,9 @@ fun NavGraphBuilder.searchDetailGraph(
         arguments = listOf(
             navArgument("maxCount") { type = NavType.IntType }
         ),
-        enterTransition = { enterAnimation() }
+        enterTransition = { enterAnimation() },
+        popEnterTransition = { null },
+        popExitTransition = { null },
     ) {
         val maxCount = it.arguments?.getInt("maxCount") ?: Int.MAX_VALUE
         val screenMode = SearchScreenMode.fromString(
