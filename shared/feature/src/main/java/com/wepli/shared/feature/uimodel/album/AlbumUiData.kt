@@ -25,6 +25,14 @@ data class AlbumUiData(
 ) : UiModel {
     constructor() : this("", "", "", "", "", "", false, "", "", "", "", 0, emptyList(), emptyList())
 
+    fun getImageUrl(size: Int = 500): String {
+        return getImageUrl(size, size)
+    }
+
+    fun getImageUrl(width: Int, height: Int): String {
+        return coverImg.replace("{w}", width.toString()).replace("{h}", height.toString())
+    }
+
     companion object : UiModelMapper<Album, AlbumUiData> {
 
         override fun fromDomain(domainModel: Album): AlbumUiData {
