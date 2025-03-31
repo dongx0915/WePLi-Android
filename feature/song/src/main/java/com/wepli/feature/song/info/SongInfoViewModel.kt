@@ -35,8 +35,9 @@ class SongInfoViewModel @Inject constructor(
             appleMusicRepository.getSongById(song.id)
                 .suspendCollectResult(
                     onSuccess = {
-                        getAlbumByArtist(it.artistId.orEmpty())
+                        getAlbumById(it.albumId.orEmpty())
                         getSimilarSongs(song.id, it.artistName, it.genres.first())
+                        getAlbumByArtist(it.artistId.orEmpty())
                     },
                     onFailure = {
                         Log.e("SongInfoViewModel", it.message ?: "Error")
@@ -45,15 +46,15 @@ class SongInfoViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getAlbumByArtist(artistId: String) = intent {
-        if (artistId.isEmpty()) return@intent
+    private suspend fun getAlbumById(albumId: String) = intent {
+        if (albumId.isEmpty()) return@intent
 
-        appleMusicRepository.getAlbumsByArtist(artistId)
+        appleMusicRepository.getAlbumById(albumId)
             .flowOn(Dispatchers.IO)
             .collectResult(
                 onSuccess = {
                     updateState {
-                        copy(artistAlbums = it.map { AlbumUiData.fromDomain(it) })
+                        copy(album = AlbumUiData.fromDomain(it))
                     }
                 },
                 onFailure = {
@@ -75,6 +76,23 @@ class SongInfoViewModel @Inject constructor(
                         .take(5)
 
                     updateState { copy(similarSongs = similarSongs) }
+                },
+                onFailure = {
+                    Log.e("SongInfoViewModel", it.message ?: "Error")
+                }
+            )
+    }
+
+    private suspend fun getAlbumByArtist(artistId: String) = intent {
+        if (artistId.isEmpty()) return@intent
+
+        appleMusicRepository.getAlbumsByArtist(artistId)
+            .flowOn(Dispatchers.IO)
+            .collectResult(
+                onSuccess = {
+                    updateState {
+                        copy(artistAlbums = it.map { AlbumUiData.fromDomain(it) })
+                    }
                 },
                 onFailure = {
                     Log.e("SongInfoViewModel", it.message ?: "Error")
