@@ -14,4 +14,5 @@ interface AppleMusicRepository {
     fun getPopularSongs(): FlowResult<List<Song>>
     fun getSongById(songId: String): FlowResult<Song>
     fun getAlbumById(albumId: String): FlowResult<Album>
+    fun getAlbumsByArtist(artistId: String): FlowResult<List<Album>>
 }

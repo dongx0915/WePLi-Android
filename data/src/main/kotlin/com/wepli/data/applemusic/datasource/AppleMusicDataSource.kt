@@ -3,8 +3,10 @@ package com.wepli.data.applemusic.datasource
 import com.wepli.core.kotlin.flow.FlowResult
 import com.wepli.data.applemusic.common.response.AppleAlbumResponse
 import com.wepli.data.applemusic.common.response.AppleSongResponse
+import com.wepli.data.applemusic.common.response.base.AppleDataWrapper
 import com.wepli.data.applemusic.response.AppleCatalogResponse
 import com.wepli.data.applemusic.response.AppleSearchResponse
+import model.album.Album
 
 interface AppleMusicDataSource {
 
@@ -25,4 +27,8 @@ interface AppleMusicDataSource {
     fun getCatalogAlbum(
         albumId: String,
     ): FlowResult<AppleAlbumResponse>
+
+    fun getAlbumsByArtist(
+        artistId: String
+    ): FlowResult<AppleDataWrapper<AppleAlbumResponse>>
 }

@@ -36,4 +36,8 @@ interface AppleMusicApi {
     // 앨범
     @GET("v1/catalog/kr/albums/{albumId}")
     fun getCatalogAlbum(@Path("albumId") albumId: String): FlowResult<AppleDataWrapper<AppleAlbumResponse>>
+
+    // 특정 가수의 앨범 조회
+    @GET("v1/catalog/kr/artists/{artistId}/albums")
+    fun getCatalogAlbumsByArtist(@Path("artistId") artistId: String): FlowResult<AppleDataWrapper<AppleAlbumResponse>>
 }

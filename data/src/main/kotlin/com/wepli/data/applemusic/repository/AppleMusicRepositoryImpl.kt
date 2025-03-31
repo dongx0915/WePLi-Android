@@ -18,6 +18,7 @@ class AppleMusicRepositoryImpl @Inject constructor(
     private val appleMusicDataSource: AppleMusicDataSource
 ) : AppleMusicRepository {
 
+    /* Search */
     override fun searchMusics(query: String, limit: Int): FlowResult<List<Song>> {
         return appleMusicDataSource.searchForCatalogResources(
             query = query,
@@ -62,9 +63,16 @@ class AppleMusicRepositoryImpl @Inject constructor(
         }
     }
 
+    /* Album */
     override fun getAlbumById(albumId: String): FlowResult<Album> {
         return appleMusicDataSource.getCatalogAlbum(albumId).toEntityResult {
             it.toEntity()
+        }
+    }
+
+    override fun getAlbumsByArtist(artistId: String): FlowResult<List<Album>> {
+        return appleMusicDataSource.getAlbumsByArtist(artistId).toEntityResult {
+            it.data.map { it.toEntity() }
         }
     }
 }

@@ -45,4 +45,8 @@ class AppleMusicDataSourceImpl @Inject constructor(
             result.map { it.data.first() }
         }
     }
+
+    override fun getAlbumsByArtist(artistId: String): FlowResult<AppleDataWrapper<AppleAlbumResponse>> {
+        return appleMusicApi.getCatalogAlbum(artistId)
+    }
 }

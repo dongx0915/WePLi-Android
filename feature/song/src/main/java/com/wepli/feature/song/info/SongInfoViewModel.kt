@@ -35,7 +35,7 @@ class SongInfoViewModel @Inject constructor(
             appleMusicRepository.getSongById(song.id)
                 .suspendCollectResult(
                     onSuccess = {
-                        getAlbumById(it.albumId.orEmpty())
+                        getAlbumByArtist(it.artistId.orEmpty())
                         getSimilarSongs(song.id, it.artistName, it.genres.first())
                     },
                     onFailure = {
@@ -45,17 +45,15 @@ class SongInfoViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getAlbumById(albumId: String) = intent {
-        appleMusicRepository.getAlbumById(albumId)
+    private suspend fun getAlbumByArtist(artistId: String) = intent {
+        if (artistId.isEmpty()) return@intent
+
+        appleMusicRepository.getAlbumsByArtist(artistId)
             .flowOn(Dispatchers.IO)
             .collectResult(
                 onSuccess = {
-                    val currentSongId = state.song.id
-                    val albumUiData = AlbumUiData.fromDomain(it)
-                    val filteredTracks = albumUiData.tracks.filter { it.id != currentSongId }
-
                     updateState {
-                        copy(album = albumUiData.copy(tracks = filteredTracks))
+                        copy(artistAlbums = it.map { AlbumUiData.fromDomain(it) })
                     }
                 },
                 onFailure = {
