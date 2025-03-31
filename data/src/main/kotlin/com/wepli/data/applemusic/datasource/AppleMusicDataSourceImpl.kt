@@ -47,6 +47,6 @@ class AppleMusicDataSourceImpl @Inject constructor(
     }
 
     override fun getAlbumsByArtist(artistId: String): FlowResult<AppleDataWrapper<AppleAlbumResponse>> {
-        return appleMusicApi.getCatalogAlbum(artistId)
+        return appleMusicApi.getCatalogAlbumsByArtist(artistId)
     }
 }
