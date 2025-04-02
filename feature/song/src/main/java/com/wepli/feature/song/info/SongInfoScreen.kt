@@ -1,14 +1,18 @@
 package com.wepli.feature.song.info
 
+import android.app.Activity
+import androidx.activity.compose.LocalActivity
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,6 +25,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -29,9 +36,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -159,10 +170,46 @@ fun SongInfoScreen(
 
             Spacer(modifier = Modifier.height(64.dp))
             SimilarSongsLayout(similarSongs = state.similarSongs)
+
+            Spacer(modifier = Modifier.height(64.dp))
+            ResponsiveAlbumGrid(state.artistAlbums)
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalLayoutApi::class)
+@Composable
+fun ResponsiveAlbumGrid(albums: List<AlbumUiData>) {
+    val activity = LocalActivity.current
+    val windowSizeClass = activity?.let { calculateWindowSizeClass(it) }
+
+    val spacing = 20.dp
+    val itemsPerRow = when (windowSizeClass?.widthSizeClass) {
+        WindowWidthSizeClass.Compact -> 2
+        WindowWidthSizeClass.Medium -> 3
+        WindowWidthSizeClass.Expanded -> 4
+        else -> 2
+    }
+
+    BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
+        val itemWidthPx = (maxWidth.toPx() - spacing.toPx() * (itemsPerRow - 1)) / itemsPerRow
+        val itemWidthDp = with(LocalDensity.current) { itemWidthPx.toDp() }
+
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            maxItemsInEachRow = itemsPerRow,
+            horizontalArrangement = Arrangement.spacedBy(spacing),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            albums.forEach { album ->
+                AlbumComponent(
+                    album = album,
+                    modifier = Modifier.width(itemWidthDp)
+                )
+            }
+        }
+    }
+}
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -171,7 +218,7 @@ private fun SongDetailInfoLayout(
     genres: List<String>
 ) {
     @Composable
-    fun TagList(title:String, items: List<String>, modifier: Modifier = Modifier) {
+    fun TagList(title: String, items: List<String>, modifier: Modifier = Modifier) {
         Row(
             modifier = modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(24.dp)
@@ -312,6 +359,47 @@ private fun ReactionLayout(modifier: Modifier = Modifier) {
             painter = painterResource(id = R.drawable.ic_more_dot),
             tint = WepliTheme.color.gray800,
             contentDescription = null
+        )
+    }
+}
+
+@Composable
+private fun AlbumComponent(
+    album: AlbumUiData,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier) {
+        AsyncImageWithPreview(
+            imageUrl = album.getImageUrl(),
+            previewImage = painterResource(id = R.drawable.img_placeholder_chuu_2),
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(1f)
+                .clip(RoundedCornerShape(4.dp))
+        )
+
+        Row(modifier = Modifier.padding(top = 12.dp)) {
+            Text(
+                text = album.name,
+                style = WepliTheme.typo.body4,
+                color = WepliTheme.color.gray900,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f)
+            )
+
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.ic_more_dot_vector),
+                tint = WepliTheme.color.gray800,
+                contentDescription = null
+            )
+        }
+
+        Text(
+            text = album.artistName,
+            style = WepliTheme.typo.caption2,
+            color = WepliTheme.color.gray600,
+            modifier = Modifier.padding(top = 4.dp)
         )
     }
 }
