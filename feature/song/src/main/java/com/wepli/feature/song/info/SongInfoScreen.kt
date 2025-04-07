@@ -186,7 +186,7 @@ fun ResponsiveAlbumGrid(albums: List<AlbumUiData>) {
     val spacing = 20.dp
     val itemsPerRow = when (windowSizeClass?.widthSizeClass) {
         WindowWidthSizeClass.Compact -> 2
-        WindowWidthSizeClass.Medium -> 3
+        WindowWidthSizeClass.Medium,
         WindowWidthSizeClass.Expanded -> 4
         else -> 2
     }
