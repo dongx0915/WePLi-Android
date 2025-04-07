@@ -1,6 +1,5 @@
 package com.wepli.feature.song.info
 
-import android.app.Activity
 import androidx.activity.compose.LocalActivity
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
@@ -36,8 +35,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
@@ -59,6 +56,7 @@ import custom.MusicItemType
 import custom.OneLineTitle
 import extensions.compose.toPx
 import image.AsyncImageWithPreview
+import model.artist.Artist
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
 
@@ -166,41 +164,7 @@ fun SongInfoScreen(
             SimilarSongsLayout(similarSongs = state.similarSongs)
 
             Spacer(modifier = Modifier.height(64.dp))
-            ResponsiveAlbumGrid(state.artistAlbums)
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalLayoutApi::class)
-@Composable
-fun ResponsiveAlbumGrid(albums: List<AlbumUiData>) {
-    val activity = LocalActivity.current
-    val windowSizeClass = activity?.let { calculateWindowSizeClass(it) }
-
-    val spacing = 20.dp
-    val itemsPerRow = when (windowSizeClass?.widthSizeClass) {
-        WindowWidthSizeClass.Compact -> 2
-        WindowWidthSizeClass.Medium,
-        WindowWidthSizeClass.Expanded -> 4
-        else -> 2
-    }
-
-    BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
-        val itemWidthPx = (maxWidth.toPx() - spacing.toPx() * (itemsPerRow - 1)) / itemsPerRow
-        val itemWidthDp = with(LocalDensity.current) { itemWidthPx.toDp() }
-
-        FlowRow(
-            modifier = Modifier.fillMaxWidth(),
-            maxItemsInEachRow = itemsPerRow,
-            horizontalArrangement = Arrangement.spacedBy(spacing),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            albums.forEach { album ->
-                AlbumComponent(
-                    album = album,
-                    modifier = Modifier.width(itemWidthDp)
-                )
-            }
+            ArtistAlbumGrid(albums = state.artistAlbums)
         }
     }
 }
@@ -308,7 +272,7 @@ private fun AlbumInfoLayout(
         ) {
             InfoText("앨범명", album.name)
             InfoText("발매", album.releaseDate)
-            InfoText("유형", if (album.isSingle) "싱글" else "정규 앨범")
+            InfoText("유형", album.albumType)
             InfoText("저작권", album.copyright)
         }
     }
@@ -358,6 +322,51 @@ private fun ReactionLayout(modifier: Modifier = Modifier) {
 }
 
 @Composable
+fun ArtistAlbumGrid(albums: List<AlbumUiData>) {
+    OneLineTitle(
+        title = "이 가수의 다른 앨범",
+        showIcon = true,
+        modifier = Modifier.padding(vertical = 12.dp)
+    )
+
+    ResponsiveAlbumGrid(albums, Modifier.padding(top = 12.dp))
+}
+
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalLayoutApi::class)
+@Composable
+fun ResponsiveAlbumGrid(albums: List<AlbumUiData>, modifier: Modifier = Modifier) {
+    val activity = LocalActivity.current
+    val windowSizeClass = activity?.let { calculateWindowSizeClass(it) }
+
+    val spacing = 20.dp
+    val itemsPerRow = when (windowSizeClass?.widthSizeClass) {
+        WindowWidthSizeClass.Compact -> 2
+        WindowWidthSizeClass.Medium,
+        WindowWidthSizeClass.Expanded -> 4
+        else -> 2
+    }
+
+    BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
+        val itemWidthPx = (maxWidth.toPx() - spacing.toPx() * (itemsPerRow - 1)) / itemsPerRow
+        val itemWidthDp = with(LocalDensity.current) { itemWidthPx.toDp() }
+
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            maxItemsInEachRow = itemsPerRow,
+            horizontalArrangement = Arrangement.spacedBy(spacing),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            albums.forEach { album ->
+                AlbumComponent(
+                    album = album,
+                    modifier = Modifier.width(itemWidthDp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
 private fun AlbumComponent(
     album: AlbumUiData,
     modifier: Modifier = Modifier
@@ -394,6 +403,13 @@ private fun AlbumComponent(
             style = WepliTheme.typo.caption2,
             color = WepliTheme.color.gray600,
             modifier = Modifier.padding(top = 4.dp)
+        )
+
+        Text(
+            text = "${album.releaseDate} • ${album.albumType}",
+            style = WepliTheme.typo.body6,
+            color = WepliTheme.color.gray600,
+            modifier = Modifier.padding(top = 12.dp)
         )
     }
 }

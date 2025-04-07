@@ -25,6 +25,9 @@ data class AlbumUiData(
 ) : UiModel {
     constructor() : this("", "", "", "", "", "", false, "", "", "", "", 0, emptyList(), emptyList())
 
+    val albumType
+        get() = if (isSingle) "싱글" else "정규"
+
     fun getImageUrl(size: Int = 500): String {
         return getImageUrl(size, size)
     }
