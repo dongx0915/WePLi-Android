@@ -386,7 +386,7 @@ private fun AlbumComponent(
                 text = album.name,
                 style = WepliTheme.typo.body4,
                 color = WepliTheme.color.gray900,
-                maxLines = 1,
+                maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.weight(1f)
             )
@@ -402,6 +402,7 @@ private fun AlbumComponent(
             text = album.artistName,
             style = WepliTheme.typo.caption2,
             color = WepliTheme.color.gray600,
+            maxLines = 1,
             modifier = Modifier.padding(top = 4.dp)
         )
 
