@@ -3,7 +3,6 @@ package com.wepli.feature.song.info
 import androidx.activity.compose.LocalActivity
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -46,17 +45,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.ScrollableAppBar
 import appbar.WepliAppBar
 import com.wepli.designsystem.R
+import com.wepli.feature.song.info.component.album.AlbumInfoLayout
+import com.wepli.feature.song.info.component.album.ResponsiveAlbumGrid
+import com.wepli.feature.song.info.component.song.SimilarSongsLayout
+import com.wepli.feature.song.info.component.song.SongDetailInfoLayout
 import com.wepli.feature.song.info.mvi.SongInfoIntent
 import com.wepli.feature.song.info.mvi.SongInfoUiState
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.uimodel.album.AlbumUiData
 import com.wepli.uimodel.music.SongUiData
-import custom.MusicItem
-import custom.MusicItemType
 import custom.OneLineTitle
 import extensions.compose.toPx
 import image.AsyncImageWithPreview
-import model.artist.Artist
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
 
@@ -97,7 +97,7 @@ fun SongInfoScreen(
                 containerColor = backgroundColor,
                 contentsColor = contentsColor,
                 showBackButton = true,
-                onClickBack = { },
+                onClickBack = navOnBack,
             )
         }
     ) { paddingValues ->
@@ -169,140 +169,6 @@ fun SongInfoScreen(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-private fun SongDetailInfoLayout(
-    composers: List<String>,
-    genres: List<String>
-) {
-    @Composable
-    fun TagList(title: String, items: List<String>, modifier: Modifier = Modifier) {
-        Row(
-            modifier = modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(24.dp)
-        ) {
-            Text(
-                text = title,
-                style = WepliTheme.typo.body4,
-                color = WepliTheme.color.gray700,
-                modifier = Modifier
-                    .width(40.dp)
-                    .padding(vertical = 8.dp)
-                    .align(Alignment.Top)
-            )
-
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-            ) {
-                items.forEach {
-                    Text(
-                        text = it,
-                        style = WepliTheme.typo.body5,
-                        color = WepliTheme.color.gray700,
-                        modifier = Modifier
-                            .border(1.dp, WepliTheme.color.gray100, RoundedCornerShape(100.dp))
-                            .padding(vertical = 8.dp, horizontal = 12.dp)
-                    )
-                }
-            }
-        }
-    }
-
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-    ) {
-        OneLineTitle(
-            title = "곡 정보",
-            showIcon = true,
-            modifier = Modifier.padding(vertical = 12.dp)
-        )
-
-        Column(
-            modifier = Modifier.padding(top = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp),
-        ) {
-            if (composers.isNotEmpty()) {
-                TagList("작곡", composers)
-            }
-
-            if (genres.isNotEmpty()) {
-                TagList("장르", genres)
-            }
-        }
-    }
-}
-
-@Composable
-private fun AlbumInfoLayout(
-    album: AlbumUiData
-) {
-    @Composable
-    fun InfoText(title: String, content: String) {
-        Row(
-            verticalAlignment = Alignment.Top,
-            horizontalArrangement = Arrangement.spacedBy(24.dp),
-        ) {
-            Text(
-                text = title,
-                style = WepliTheme.typo.body5,
-                color = WepliTheme.color.gray600,
-                modifier = Modifier.width(40.dp)
-            )
-
-            Text(
-                text = content,
-                style = WepliTheme.typo.body4,
-                color = WepliTheme.color.gray800,
-            )
-        }
-    }
-
-    Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        OneLineTitle(
-            title = "앨범 정보",
-            showIcon = true,
-            modifier = Modifier.padding(vertical = 12.dp)
-        )
-
-        Column(
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            InfoText("앨범명", album.name)
-            InfoText("발매", album.releaseDate)
-            InfoText("유형", album.albumType)
-            InfoText("저작권", album.copyright)
-        }
-    }
-}
-
-@Composable
-private fun SimilarSongsLayout(similarSongs: List<SongUiData>) {
-    if (similarSongs.isEmpty()) return
-    val imageSize = 52.dp
-
-    Column(modifier = Modifier.fillMaxWidth()) {
-        OneLineTitle(
-            title = "함께 들으면 좋은 곡",
-            showIcon = true,
-            modifier = Modifier.padding(vertical = 12.dp)
-        )
-
-        similarSongs.forEach {
-            MusicItem(
-                modifier = Modifier.padding(top = 12.dp),
-                imageModifier = Modifier
-                    .size(imageSize)
-                    .clip(RoundedCornerShape(3.dp)),
-                musicItemType = MusicItemType.Normal(it, imageSize.toPx()),
-                showMoreIcon = true
-            )
-        }
-    }
-}
-
 @Composable
 private fun ReactionLayout(modifier: Modifier = Modifier) {
     Row(
@@ -330,89 +196,6 @@ fun ArtistAlbumGrid(albums: List<AlbumUiData>) {
     )
 
     ResponsiveAlbumGrid(albums, Modifier.padding(top = 12.dp))
-}
-
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalLayoutApi::class)
-@Composable
-fun ResponsiveAlbumGrid(albums: List<AlbumUiData>, modifier: Modifier = Modifier) {
-    val activity = LocalActivity.current
-    val windowSizeClass = activity?.let { calculateWindowSizeClass(it) }
-
-    val spacing = 20.dp
-    val itemsPerRow = when (windowSizeClass?.widthSizeClass) {
-        WindowWidthSizeClass.Compact -> 2
-        WindowWidthSizeClass.Medium,
-        WindowWidthSizeClass.Expanded -> 4
-        else -> 2
-    }
-
-    BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
-        val itemWidthPx = (maxWidth.toPx() - spacing.toPx() * (itemsPerRow - 1)) / itemsPerRow
-        val itemWidthDp = with(LocalDensity.current) { itemWidthPx.toDp() }
-
-        FlowRow(
-            modifier = Modifier.fillMaxWidth(),
-            maxItemsInEachRow = itemsPerRow,
-            horizontalArrangement = Arrangement.spacedBy(spacing),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            albums.forEach { album ->
-                AlbumComponent(
-                    album = album,
-                    modifier = Modifier.width(itemWidthDp)
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun AlbumComponent(
-    album: AlbumUiData,
-    modifier: Modifier = Modifier
-) {
-    Column(modifier = modifier) {
-        AsyncImageWithPreview(
-            imageUrl = album.getImageUrl(),
-            previewImage = painterResource(id = R.drawable.img_placeholder_chuu_2),
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(1f)
-                .clip(RoundedCornerShape(4.dp))
-        )
-
-        Row(modifier = Modifier.padding(top = 12.dp)) {
-            Text(
-                text = album.name,
-                style = WepliTheme.typo.body4,
-                color = WepliTheme.color.gray900,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.weight(1f)
-            )
-
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_more_dot_vector),
-                tint = WepliTheme.color.gray800,
-                contentDescription = null
-            )
-        }
-
-        Text(
-            text = album.artistName,
-            style = WepliTheme.typo.caption2,
-            color = WepliTheme.color.gray600,
-            maxLines = 1,
-            modifier = Modifier.padding(top = 4.dp)
-        )
-
-        Text(
-            text = "${album.releaseDate} • ${album.albumType}",
-            style = WepliTheme.typo.body6,
-            color = WepliTheme.color.gray600,
-            modifier = Modifier.padding(top = 12.dp)
-        )
-    }
 }
 
 @Composable
@@ -446,30 +229,4 @@ private fun LabeledIcon(
 @Composable
 fun SongInfoScreenPreview() {
     SongInfoScreen(state = SongInfoUiState(song = songMockData.random()), navOnBack = {})
-}
-
-@Preview
-@Composable
-fun AlbumComponentPreview() {
-    AlbumComponent(
-        album = AlbumUiData(
-            id = "album_001",
-            href = "https://api.example.com/albums/album_001",
-            name = "Mockingbird Melodies",
-            description = "A soulful collection of mellow acoustic tracks that touch the heart.",
-            coverImg = "https://example.com/images/albums/album_001_cover.jpg",
-            albumUrl = "https://example.com/albums/album_001",
-            isSingle = false,
-            artistId = "artist_001",
-            artistName = "Jane Doe",
-            releaseDate = "2024-12-01",
-            copyright = "© 2024 Mock Records",
-            trackCount = 3,
-            tracks = songMockData.take(3),
-            genres = listOf("Acoustic", "Indie", "Chill")
-        ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(24.dp)
-    )
 }
