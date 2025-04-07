@@ -95,23 +95,20 @@ fun SongInfoScreen(
                 .background(WepliTheme.color.black)
                 .verticalScroll(scrollState)
                 .padding(paddingValues)
-                .padding(24.dp)
+                .padding(24.dp),
+            verticalArrangement = Arrangement.spacedBy(64.dp)
         ) {
             SongInfoLayout(song = song)
 
-            Spacer(modifier = Modifier.height(64.dp))
             SongDetailInfoLayout(
                 composers = song.composers,
                 genres = song.genres
             )
 
-            Spacer(modifier = Modifier.height(64.dp))
             AlbumInfoLayout(album = state.album)
 
-            Spacer(modifier = Modifier.height(64.dp))
             SimilarSongsLayout(similarSongs = state.similarSongs)
 
-            Spacer(modifier = Modifier.height(64.dp))
             ArtistAlbumGrid(albums = state.artistAlbums)
         }
     }
@@ -119,58 +116,49 @@ fun SongInfoScreen(
 
 @Composable
 fun SongInfoLayout(song: SongUiData) {
-    Text(
-        text = song.title,
-        style = WepliTheme.typo.title2.copy(
-            fontWeight = FontWeight.Normal
-        ),
-        color = WepliTheme.color.gray900
-    )
+    Column {
+        Text(
+            text = song.title,
+            style = WepliTheme.typo.title2.copy(
+                fontWeight = FontWeight.Normal
+            ),
+            color = WepliTheme.color.gray900
+        )
 
-    Text(
-        text = song.artistName,
-        style = WepliTheme.typo.body4,
-        color = WepliTheme.color.gray700,
-        modifier = Modifier.padding(top = 12.dp)
-    )
+        Text(
+            text = song.artistName,
+            style = WepliTheme.typo.body4,
+            color = WepliTheme.color.gray700,
+            modifier = Modifier.padding(top = 12.dp)
+        )
 
-    Text(
-        text = song.albumName,
-        style = WepliTheme.typo.body3,
-        color = WepliTheme.color.gray700,
-        modifier = Modifier.padding(top = 12.dp)
-    )
+        Text(
+            text = song.albumName,
+            style = WepliTheme.typo.body3,
+            color = WepliTheme.color.gray700,
+            modifier = Modifier.padding(top = 12.dp)
+        )
 
-    Text(
-        text = "FLAC",
-        style = WepliTheme.typo.subTitle7,
-        color = WepliTheme.color.gray600,
-        modifier = Modifier.padding(top = 4.dp)
-    )
+        Text(
+            text = "FLAC",
+            style = WepliTheme.typo.subTitle7,
+            color = WepliTheme.color.gray600,
+            modifier = Modifier.padding(top = 4.dp)
+        )
 
-    ReactionLayout(modifier = Modifier.padding(top = 24.dp))
+        ReactionLayout(modifier = Modifier.padding(top = 24.dp))
 
-    Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
-    AsyncImageWithPreview(
-        imageUrl = song.getImageUrl(),
-        previewImage = painterResource(id = R.drawable.img_placeholder_chuu_2),
-        imageOverrideSize = 200.dp,
-        modifier = Modifier
-            .size(200.dp)
-            .clip(RoundedCornerShape(4.dp))
-    )
-}
-
-@Composable
-fun ArtistAlbumGrid(albums: List<AlbumUiData>) {
-    OneLineTitle(
-        title = "이 가수의 다른 앨범",
-        showIcon = true,
-        modifier = Modifier.padding(vertical = 12.dp)
-    )
-
-    ResponsiveAlbumGrid(albums, Modifier.padding(top = 12.dp))
+        AsyncImageWithPreview(
+            imageUrl = song.getImageUrl(),
+            previewImage = painterResource(id = R.drawable.img_placeholder_chuu_2),
+            imageOverrideSize = 200.dp,
+            modifier = Modifier
+                .size(200.dp)
+                .clip(RoundedCornerShape(4.dp))
+        )
+    }
 }
 
 @Composable
@@ -216,6 +204,17 @@ private fun LabeledIcon(
             color = WepliTheme.color.gray800,
         )
     }
+}
+
+@Composable
+fun ArtistAlbumGrid(albums: List<AlbumUiData>) {
+    OneLineTitle(
+        title = "이 가수의 다른 앨범",
+        showIcon = true,
+        modifier = Modifier.padding(vertical = 12.dp)
+    )
+
+    ResponsiveAlbumGrid(albums, Modifier.padding(top = 12.dp))
 }
 
 @Preview
