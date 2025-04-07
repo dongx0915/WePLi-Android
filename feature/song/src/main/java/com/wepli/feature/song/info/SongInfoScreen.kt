@@ -62,12 +62,6 @@ import image.AsyncImageWithPreview
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
 
-@Preview
-@Composable
-fun SongInfoScreenPreview() {
-    SongInfoScreen(state = SongInfoUiState(song = songMockData.random()), navOnBack = {})
-}
-
 @Composable
 fun SongInfoScreenRoute(
     song: SongUiData,
@@ -429,4 +423,36 @@ private fun LabeledIcon(
             color = WepliTheme.color.gray800,
         )
     }
+}
+
+@Preview
+@Composable
+fun SongInfoScreenPreview() {
+    SongInfoScreen(state = SongInfoUiState(song = songMockData.random()), navOnBack = {})
+}
+
+@Preview
+@Composable
+fun AlbumComponentPreview() {
+    AlbumComponent(
+        album = AlbumUiData(
+            id = "album_001",
+            href = "https://api.example.com/albums/album_001",
+            name = "Mockingbird Melodies",
+            description = "A soulful collection of mellow acoustic tracks that touch the heart.",
+            coverImg = "https://example.com/images/albums/album_001_cover.jpg",
+            albumUrl = "https://example.com/albums/album_001",
+            isSingle = false,
+            artistId = "artist_001",
+            artistName = "Jane Doe",
+            releaseDate = "2024-12-01",
+            copyright = "© 2024 Mock Records",
+            trackCount = 3,
+            tracks = songMockData.take(3),
+            genres = listOf("Acoustic", "Indie", "Chill")
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(24.dp)
+    )
 }
