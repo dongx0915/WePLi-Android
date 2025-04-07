@@ -208,13 +208,15 @@ private fun LabeledIcon(
 
 @Composable
 fun ArtistAlbumGrid(albums: List<AlbumUiData>) {
-    OneLineTitle(
-        title = "이 가수의 다른 앨범",
-        showIcon = true,
-        modifier = Modifier.padding(vertical = 12.dp)
-    )
+    Column {
+        OneLineTitle(
+            title = "이 가수의 다른 앨범",
+            showIcon = true,
+            modifier = Modifier.padding(vertical = 12.dp)
+        )
 
-    ResponsiveAlbumGrid(albums, Modifier.padding(top = 12.dp))
+        ResponsiveAlbumGrid(albums, Modifier.padding(top = 12.dp))
+    }
 }
 
 @Preview
