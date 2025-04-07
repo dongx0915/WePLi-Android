@@ -1,18 +1,12 @@
 package com.wepli.feature.song.info
 
-import androidx.activity.compose.LocalActivity
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -23,9 +17,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -34,11 +25,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -55,7 +44,6 @@ import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.uimodel.album.AlbumUiData
 import com.wepli.uimodel.music.SongUiData
 import custom.OneLineTitle
-import extensions.compose.toPx
 import image.AsyncImageWithPreview
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
@@ -109,47 +97,7 @@ fun SongInfoScreen(
                 .padding(paddingValues)
                 .padding(24.dp)
         ) {
-            Text(
-                text = song.title,
-                style = WepliTheme.typo.title2.copy(
-                    fontWeight = FontWeight.Normal
-                ),
-                color = WepliTheme.color.gray900
-            )
-
-            Text(
-                text = song.artistName,
-                style = WepliTheme.typo.body4,
-                color = WepliTheme.color.gray700,
-                modifier = Modifier.padding(top = 12.dp)
-            )
-
-            Text(
-                text = song.albumName,
-                style = WepliTheme.typo.body3,
-                color = WepliTheme.color.gray700,
-                modifier = Modifier.padding(top = 12.dp)
-            )
-
-            Text(
-                text = "FLAC",
-                style = WepliTheme.typo.subTitle7,
-                color = WepliTheme.color.gray600,
-                modifier = Modifier.padding(top = 4.dp)
-            )
-
-            ReactionLayout(modifier = Modifier.padding(top = 24.dp))
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            AsyncImageWithPreview(
-                imageUrl = song.getImageUrl(),
-                previewImage = painterResource(id = R.drawable.img_placeholder_chuu_2),
-                imageOverrideSize = 200.dp,
-                modifier = Modifier
-                    .size(200.dp)
-                    .clip(RoundedCornerShape(4.dp))
-            )
+            SongInfoLayout(song = song)
 
             Spacer(modifier = Modifier.height(64.dp))
             SongDetailInfoLayout(
@@ -170,6 +118,62 @@ fun SongInfoScreen(
 }
 
 @Composable
+fun SongInfoLayout(song: SongUiData) {
+    Text(
+        text = song.title,
+        style = WepliTheme.typo.title2.copy(
+            fontWeight = FontWeight.Normal
+        ),
+        color = WepliTheme.color.gray900
+    )
+
+    Text(
+        text = song.artistName,
+        style = WepliTheme.typo.body4,
+        color = WepliTheme.color.gray700,
+        modifier = Modifier.padding(top = 12.dp)
+    )
+
+    Text(
+        text = song.albumName,
+        style = WepliTheme.typo.body3,
+        color = WepliTheme.color.gray700,
+        modifier = Modifier.padding(top = 12.dp)
+    )
+
+    Text(
+        text = "FLAC",
+        style = WepliTheme.typo.subTitle7,
+        color = WepliTheme.color.gray600,
+        modifier = Modifier.padding(top = 4.dp)
+    )
+
+    ReactionLayout(modifier = Modifier.padding(top = 24.dp))
+
+    Spacer(modifier = Modifier.height(20.dp))
+
+    AsyncImageWithPreview(
+        imageUrl = song.getImageUrl(),
+        previewImage = painterResource(id = R.drawable.img_placeholder_chuu_2),
+        imageOverrideSize = 200.dp,
+        modifier = Modifier
+            .size(200.dp)
+            .clip(RoundedCornerShape(4.dp))
+    )
+}
+
+@Composable
+fun ArtistAlbumGrid(albums: List<AlbumUiData>) {
+    OneLineTitle(
+        title = "이 가수의 다른 앨범",
+        showIcon = true,
+        modifier = Modifier.padding(vertical = 12.dp)
+    )
+
+    ResponsiveAlbumGrid(albums, Modifier.padding(top = 12.dp))
+}
+
+@Composable
 private fun ReactionLayout(modifier: Modifier = Modifier) {
     Row(
         modifier = modifier,
@@ -185,17 +189,6 @@ private fun ReactionLayout(modifier: Modifier = Modifier) {
             contentDescription = null
         )
     }
-}
-
-@Composable
-fun ArtistAlbumGrid(albums: List<AlbumUiData>) {
-    OneLineTitle(
-        title = "이 가수의 다른 앨범",
-        showIcon = true,
-        modifier = Modifier.padding(vertical = 12.dp)
-    )
-
-    ResponsiveAlbumGrid(albums, Modifier.padding(top = 12.dp))
 }
 
 @Composable
