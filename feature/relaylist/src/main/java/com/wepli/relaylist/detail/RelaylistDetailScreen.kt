@@ -254,9 +254,9 @@ private fun EmptySongLayout(modifier: Modifier = Modifier) {
             style = WepliTheme.typo.subTitle5,
             color = WepliTheme.color.gray600,
             modifier = Modifier
-                .clickable { }
                 .padding(top = 20.dp)
                 .clip(RoundedCornerShape(8.dp))
+                .clickable { }
                 .background(WepliTheme.color.white.copy(alpha = 0.1f))
                 .padding(vertical = 8.dp, horizontal = 12.dp)
         )
