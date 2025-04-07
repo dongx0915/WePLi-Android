@@ -1,6 +1,7 @@
 package appbar
 
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -12,6 +13,7 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.wepli.shared.feature.mock.relaylistUiMockData
+import dev.chrisbanes.haze.HazeProgressive
 import dev.chrisbanes.haze.HazeStyle
 import dev.chrisbanes.haze.HazeTint
 import dev.chrisbanes.haze.hazeEffect
@@ -28,7 +30,7 @@ fun HomeAppBar(
 
     ScrollableAppBar(
         scrollState = scrollState,
-        backgroundColors = Color.Transparent to Color.Black.copy(0.5f),
+        backgroundColors = Color.Transparent to Color.Black.copy(0.7f),
         contentsColors = Color.White to Color.White,
         topBarComponent = { backgroundColor, contentsColor, _, scrollFraction ->
             WepliAppBar(
@@ -36,11 +38,13 @@ fun HomeAppBar(
                     .hazeEffect(
                         state = blurState,
                         style = HazeStyle(
-                            backgroundColor = backgroundColor,
+                            backgroundColor = Color.Transparent,
                             blurRadius = (scrollFraction * 24).dp,
-                            tint = HazeTint(color = backgroundColor),
+                            tint = HazeTint(color = Color.Transparent),
                         ),
-                    ),
+                    ) {
+                        progressive = HazeProgressive.verticalGradient(startIntensity = 1f, endIntensity = 0f)
+                    },
                 showLogo = true,
                 showBackButton = false,
                 containerColor = backgroundColor,
