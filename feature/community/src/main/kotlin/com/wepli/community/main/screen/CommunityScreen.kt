@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -87,46 +89,50 @@ fun CommunityScreen(
     val posts: List<PostUiData> by rememberUpdatedState(newValue = state.posts)
     val blurState = LocalHazeState.current
 
-    Scaffold(
-        containerColor = WepliTheme.color.black,
-        topBar = {
-            WepliAppBar(
-                showLogo = true,
-                showBackButton = false,
-                actionIcons = listOf {
-                    AppBarIcon(icon = AppBarIconType.Search())
-                    AppBarIcon(icon = AppBarIconType.Notification())
-                }
-            )
-        },
-        floatingActionButton = {
-            PostWritingButton(
-                onClick = { navOnCommunityWrite() },
-            )
-        },
-    ) { paddingValues ->
-        val bottomPadding = remember { paddingValues.calculateBottomPadding() * 2 }
-
-        LazyColumn(
-            modifier = Modifier.padding(paddingValues).hazeSource(blurState),
-            contentPadding = PaddingValues(bottom = bottomPadding),
-        ) {
-            item { WePLiStoryLayout(users = storyUsers) }
-
-            items(posts) { post: PostUiData ->
-                PostItem(
-                    modifier = Modifier.clickable {
-                        navOnCommunityDetail.invoke(post)
-                    },
-                    title = post.title,
-                    content = post.content,
-                    nickname = post.author,
-                    profileImageUrl = post.profileImg,
-                    songList = post.songList
+    // 전체를 Box로 감싼 후 hazeSource를 적용해야 바텀 네비바에 블러 적용됨
+    Box(modifier = Modifier.fillMaxSize().hazeSource(blurState)) {
+        Scaffold(
+            containerColor = WepliTheme.color.black,
+            topBar = {
+                WepliAppBar(
+                    showLogo = true,
+                    showBackButton = false,
+                    actionIcons = listOf {
+                        AppBarIcon(icon = AppBarIconType.Search())
+                        AppBarIcon(icon = AppBarIconType.Notification())
+                    }
                 )
+            },
+            floatingActionButton = {
+                PostWritingButton(
+                    onClick = { navOnCommunityWrite() },
+                )
+            },
+        ) { paddingValues ->
+            val bottomPadding = remember { paddingValues.calculateBottomPadding() * 2 }
+
+            LazyColumn(
+                modifier = Modifier.padding(paddingValues),
+                contentPadding = PaddingValues(bottom = bottomPadding),
+            ) {
+                item { WePLiStoryLayout(users = storyUsers) }
+
+                items(posts) { post: PostUiData ->
+                    PostItem(
+                        modifier = Modifier.clickable {
+                            navOnCommunityDetail.invoke(post)
+                        },
+                        title = post.title,
+                        content = post.content,
+                        nickname = post.author,
+                        profileImageUrl = post.profileImg,
+                        songList = post.songList
+                    )
+                }
             }
         }
     }
+
 }
 
 @Composable
