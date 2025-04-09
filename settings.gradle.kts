@@ -35,6 +35,7 @@ include(
     ":feature:playlist",
     ":feature:mypage",
     ":feature:photocard",
+    ":feature:song",
     ":shared:feature",
     ":core",
     ":core:common",

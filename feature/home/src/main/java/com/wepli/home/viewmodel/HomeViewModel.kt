@@ -1,5 +1,6 @@
 package com.wepli.home.viewmodel
 
+import android.util.Log
 import base.BaseMviViewModel
 import com.wepli.core.kotlin.flow.suspendCollectResult
 import com.wepli.home.mvi.HomeEffect
@@ -113,6 +114,7 @@ class HomeViewModel @Inject constructor(
                         postSideEffect { HomeEffect.RelaylistLoadSuccess(it.id) }
                     },
                     onFailure = {
+                        Log.e("HomeViewModel", "loadRelaylistById: $it")
                         postSideEffect { HomeEffect.RelaylistLoadFailed }
                     }
                 )

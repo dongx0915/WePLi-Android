@@ -1,5 +1,8 @@
 package com.wepli.data.applemusic.common.response
 
+import com.wepli.data.applemusic.common.response.base.AppleArtworkResponse
+import com.wepli.data.applemusic.common.response.base.AppleEditorialNotes
+import com.wepli.data.applemusic.common.response.base.AppleRelationshipsResponse
 import kotlinx.serialization.Serializable
 import model.artist.AppleArtist
 
@@ -14,6 +17,7 @@ data class AppleArtistResponse(
     val type: String? = null,
     val href: String? = null,
     val attributes: Attributes? = null,
+    val relationships: AppleRelationshipsResponse? = null,
 ) {
     /**
      * @property name 아티스트 이름
@@ -26,7 +30,9 @@ data class AppleArtistResponse(
         val name: String? = null,
         val url: String? = null,
         val genreNames: List<String>? = null,
+        val editorialNotes: AppleEditorialNotes? = null,
         val artwork: AppleArtworkResponse? = null,
+        val relationship: AppleRelationshipsResponse? = null,
     )
 }
 

@@ -1,7 +1,10 @@
 package com.wepli.data.applemusic.common.response
 
+import com.wepli.data.applemusic.common.response.base.AppleArtworkResponse
+import com.wepli.data.applemusic.common.response.base.AppleRelationshipsResponse
 import kotlinx.serialization.Serializable
 import model.music.Song
+import org.joda.time.LocalDate
 
 /**
  * @property id 노래 id
@@ -15,6 +18,7 @@ data class AppleSongResponse(
     val type: String? = null,
     val href: String? = null,
     val attributes: Attributes? = null,
+    val relationships: AppleRelationshipsResponse? = null,
 ) {
     /**
      * @property name 노래 제목
@@ -65,14 +69,33 @@ data class AppleSongResponse(
 }
 
 fun AppleSongResponse.toEntity(): Song {
+    val attr: AppleSongResponse.Attributes? = this.attributes
+    val relationship: AppleRelationshipsResponse? = this.relationships
+    val album = relationship?.albums?.data?.firstOrNull()
+    val artist = relationship?.artists?.data?.firstOrNull()
+
     return Song(
         id = this.id.orEmpty(),
+        title = attr?.name.orEmpty(),
+        artistName = attr?.artistName.orEmpty(),
+        artistId = artist?.id.orEmpty(),
+        albumName = attr?.albumName.orEmpty(),
+        albumId = album?.id.orEmpty(),
+        coverImg = attr?.artwork?.url.orEmpty(),
+        composers = attr?.composerName
+            ?.takeIf { it.isNotBlank() }
+            ?.split(", ")
+            .orEmpty(),
+        genres = attr?.genreNames.orEmpty(),
+        url = attr?.url.orEmpty(),
+        previewMusicUrl = attr?.previews?.map { it.url.orEmpty() }.orEmpty(),
+        releaseDate = attr?.releaseDate?.let { LocalDate(it) } ?: LocalDate.now(),
+        durationMillis = attr?.durationInMillis?.toLong() ?: 0L,
+        playParams = Song.PlayParams(
+            id = attr?.playParams?.id.orEmpty(),
+            kind = attr?.playParams?.kind.orEmpty(),
+        ),
+        isrc = attr?.isrc.orEmpty(),
         href = this.href.orEmpty(),
-        title = this.attributes?.name.orEmpty(),
-        albumName = this.attributes?.albumName.orEmpty(),
-        artistName = this.attributes?.artistName.orEmpty(),
-        genres = this.attributes?.genreNames.orEmpty(),
-        durationMillis = this.attributes?.durationInMillis?.toLong() ?: 0L,
-        coverImg = this.attributes?.artwork?.url.orEmpty(),
     )
 }

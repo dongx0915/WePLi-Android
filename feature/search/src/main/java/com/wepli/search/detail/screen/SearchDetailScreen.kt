@@ -26,6 +26,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,6 +44,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,6 +52,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
 import button.WepliBasicButton
 import button.WepliButtonStyle
+import com.wepli.designsystem.R
+import com.wepli.search.component.SongInfoBottomSheet
+import com.wepli.search.component.SongInfoBottomSheetContent
 import com.wepli.search.detail.mvi.SearchDetailEffect
 import com.wepli.search.detail.mvi.SearchDetailIntent
 import com.wepli.search.detail.mvi.SearchDetailUiState
@@ -72,24 +77,15 @@ private val SongItemImageSize = 52.dp
 
 @Composable
 fun SearchScreenRoute(
-    screenMode: SearchScreenMode,
     searchQuery: String,
+    screenMode: SearchScreenMode,
     navOnBack: () -> Unit,
     navigateBackWithSelectedSongs: (List<SongUiData>) -> Unit,
+    navigateSongInfo: (SongUiData) -> Unit,
 ) {
-    val viewModel = hiltViewModel<SearchDetailViewModel>()
+    val viewModel: SearchDetailViewModel = hiltViewModel()
     val state: SearchDetailUiState by viewModel.collectAsState()
     val context = LocalContext.current
-
-    // 초기 상태 설정 및 검색 요청
-    LaunchedEffect(searchQuery) {
-        if (searchQuery.isNotEmpty()) {
-            viewModel.processIntent(
-                SearchDetailIntent.OnSearchQueryChanged(searchQuery),
-                SearchDetailIntent.RequestSearch(searchQuery)
-            )
-        }
-    }
 
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
@@ -102,11 +98,27 @@ fun SearchScreenRoute(
             is SearchDetailEffect.NavigateBackWithResult -> {
                 navigateBackWithSelectedSongs(sideEffect.selectedSongs)
             }
+
+            is SearchDetailEffect.NavigateToSongInfo -> {
+                viewModel.processIntent(SearchDetailIntent.DismissSongInfoBottomSheet)
+                navigateSongInfo(sideEffect.song)
+            }
         }
     }
 
+    // 초기 상태 설정 및 검색 요청
+    LaunchedEffect(Unit) {
+        if (state.isInitialized) return@LaunchedEffect
+
+        viewModel.processIntent(
+            SearchDetailIntent.Init(
+                initialSearchQuery = searchQuery,
+                screenMode = screenMode
+            )
+        )
+    }
+
     SearchScreen(
-        screenMode = screenMode,
         state = state,
         sendAction = { viewModel.processIntent(it) },
         navOnBack = { navOnBack() },
@@ -117,7 +129,6 @@ fun SearchScreenRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
-    screenMode: SearchScreenMode,
     state: SearchDetailUiState,
     sendAction: (SearchDetailIntent) -> Unit,
     navOnBack: () -> Unit,
@@ -133,7 +144,7 @@ fun SearchScreen(
             )
         }
     ) { paddingValues ->
-        when (screenMode) {
+        when (state.screenMode) {
             SearchScreenMode.Normal -> {
                 SearchContent(
                     state = state,
@@ -144,16 +155,21 @@ fun SearchScreen(
             }
 
             is SearchScreenMode.Selectable -> {
-                LaunchedEffect(screenMode.maxCount) {
-                    sendAction(SearchDetailIntent.SetMaxSelectCount(screenMode.maxCount))
-                }
-
                 SearchWithSelectedSheet(
                     state = state,
                     paddingValues = paddingValues,
                     onClickSongItem = { sendAction(SearchDetailIntent.OnSongSelected(it)) },
                     sendAction = sendAction,
                 )
+            }
+        }
+        if (state.isShownSongInfoBottomSheet) {
+            state.songInfo?.let {
+                SongInfoBottomSheet(
+                    onClosed = { sendAction(SearchDetailIntent.DismissSongInfoBottomSheet) },
+                ) {
+                    SongInfoBottomSheetContent(it, sendAction)
+                }
             }
         }
     }
@@ -173,6 +189,7 @@ fun SearchContent(
             .padding(horizontal = 20.dp)
     ) {
         SearchBar(
+            isInitialized = state.isInitialized,
             searchQuery = state.searchInput,
             onQueryUpdate = { sendAction(SearchDetailIntent.OnSearchQueryChanged(it)) },
             onEnter = { sendAction(SearchDetailIntent.RequestSearch(state.searchInput)) }
@@ -181,6 +198,7 @@ fun SearchContent(
         SearchResults(
             key = state.searchInput,
             searchResult = state.searchMusicResult,
+            sendAction = sendAction,
             onClickSongItem = { onClickSongItem(it) }
         )
     }
@@ -215,6 +233,7 @@ fun SearchWithSelectedSheet(
 
 @Composable
 fun SearchBar(
+    isInitialized: Boolean,
     searchQuery: String,
     onQueryUpdate: (String) -> Unit,
     onEnter: () -> Unit,
@@ -223,9 +242,11 @@ fun SearchBar(
     val keyboardController = LocalSoftwareKeyboardController.current
 
     // 화면 진입 시 자동 포커스 요청
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
-        keyboardController?.show()
+    LaunchedEffect(isInitialized) {
+        if (isInitialized && searchQuery.isEmpty()) {
+            focusRequester.requestFocus()
+            keyboardController?.show()
+        }
     }
 
     Box(modifier = Modifier.padding(vertical = 10.dp)) {
@@ -248,6 +269,7 @@ fun SearchBar(
 fun SearchResults(
     key: String,
     searchResult: List<SongUiData>,
+    sendAction: (SearchDetailIntent) -> Unit,
     onClickSongItem: (SongUiData) -> Unit,
 ) {
     val lazyListState = rememberLazyListState()
@@ -267,6 +289,7 @@ fun SearchResults(
             SearchResultSongItem(
                 songUiData = song,
                 onClick = { onClickSongItem(song) },
+                onClickMore = { sendAction(SearchDetailIntent.ShowSongInfoBottomSheet(song)) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp),
@@ -280,6 +303,7 @@ fun SearchResultSongItem(
     modifier: Modifier = Modifier,
     songUiData: SongUiData,
     onClick: () -> Unit,
+    onClickMore: () -> Unit,
 ) {
     val imageSize = SongItemImageSize.toPx()
     val imageUrl = remember(songUiData.id) { songUiData.getImageUrl(imageSize) }
@@ -311,7 +335,9 @@ fun SearchResultSongItem(
 
         WepliSpacer(horizontal = 12.dp)
         Column(
-            modifier = Modifier.fillMaxHeight(),
+            modifier = Modifier
+                .fillMaxHeight()
+                .weight(1f),
             verticalArrangement = Arrangement.Center
         ) {
             Text(
@@ -329,6 +355,17 @@ fun SearchResultSongItem(
                 overflow = TextOverflow.Ellipsis
             )
         }
+
+        Icon(
+            modifier = Modifier
+                .clickable { onClickMore() }
+                .padding(start = 4.dp)
+                .align(Alignment.CenterVertically)
+                .size(24.dp),
+            tint = WepliTheme.color.gray800,
+            painter = painterResource(id = R.drawable.ic_more_dot),
+            contentDescription = null
+        )
     }
 }
 
@@ -444,7 +481,7 @@ fun SelectedSongItem(
 @Preview
 @Composable
 fun SearchScreenPreview() {
-    SearchScreen(SearchScreenMode.Normal, SearchDetailUiState(searchMusicResult = songMockData), {}, {})
+    SearchScreen(SearchDetailUiState(searchMusicResult = songMockData), {}, {})
 }
 
 @Preview

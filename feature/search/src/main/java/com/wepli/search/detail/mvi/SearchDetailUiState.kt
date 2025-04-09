@@ -3,25 +3,33 @@ package com.wepli.search.detail.mvi
 import base.Intent
 import base.SideEffect
 import base.UiState
+import com.wepli.search.navigation.SearchScreenMode
 import com.wepli.uimodel.music.SongUiData
 
 data class SearchDetailUiState(
+    val isInitialized: Boolean = false,
+    val screenMode: SearchScreenMode = SearchScreenMode.Normal,
     val searchInput: String = "",
     val searchMusicResult: List<SongUiData> = emptyList(),
     val selectedSongs: LinkedHashSet<SongUiData> = linkedSetOf(),
-    val maxSelectCount: Int = 0
+    val songInfo: SongUiData? = null,
+    val isShownSongInfoBottomSheet: Boolean = false,
 ) : UiState
 
-interface SearchDetailEffect : SideEffect {
+sealed interface SearchDetailEffect : SideEffect {
     data class SearchError(val message: String) : SearchDetailEffect
     data class SelectedLimitExceeded(val limit: Int) : SearchDetailEffect
     data class NavigateBackWithResult(val selectedSongs: List<SongUiData>) : SearchDetailEffect
+    data class NavigateToSongInfo(val song: SongUiData) : SearchDetailEffect
 }
 
-interface SearchDetailIntent : Intent {
+sealed interface SearchDetailIntent : Intent {
+    data class Init(val initialSearchQuery: String, val screenMode: SearchScreenMode) : SearchDetailIntent
     data class OnSearchQueryChanged(val query: String) : SearchDetailIntent
     data class RequestSearch(val query: String) : SearchDetailIntent
     data class OnSongSelected(val song: SongUiData) : SearchDetailIntent
-    data class SetMaxSelectCount(val count: Int) : SearchDetailIntent
     data object OnCompleteSongSelect : SearchDetailIntent
+    data class ShowSongInfoBottomSheet(val selectedSong: SongUiData) : SearchDetailIntent
+    data object DismissSongInfoBottomSheet : SearchDetailIntent
+    data object LoadSongInfo : SearchDetailIntent
 }

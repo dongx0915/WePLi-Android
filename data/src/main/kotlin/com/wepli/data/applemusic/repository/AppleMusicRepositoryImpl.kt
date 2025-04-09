@@ -1,6 +1,7 @@
 package com.wepli.data.applemusic.repository
 
 import com.wepli.core.kotlin.flow.FlowResult
+import com.wepli.data.applemusic.common.response.toEntity
 import com.wepli.data.applemusic.datasource.AppleMusicDataSource
 import com.wepli.data.network.toEntityResult
 import model.album.Album
@@ -17,28 +18,32 @@ class AppleMusicRepositoryImpl @Inject constructor(
     private val appleMusicDataSource: AppleMusicDataSource
 ) : AppleMusicRepository {
 
-    override fun searchMusics(query: String): FlowResult<List<Song>> {
+    /* Search */
+    override fun searchMusics(query: String, limit: Int): FlowResult<List<Song>> {
         return appleMusicDataSource.searchForCatalogResources(
             query = query,
-            searchTypes = listOf("songs")
+            searchTypes = listOf("songs"),
+            limit = limit
         ).toEntityResult {
             it.toMusicSearchResult()
         }
     }
 
-    override fun searchAlbums(query: String): FlowResult<List<Album>> {
+    override fun searchAlbums(query: String, limit: Int): FlowResult<List<Album>> {
         return appleMusicDataSource.searchForCatalogResources(
             query = query,
-            searchTypes = listOf("albums")
+            searchTypes = listOf("albums"),
+            limit = limit,
         ).toEntityResult {
             it.toAlbumSearchResult()
         }
     }
 
-    override fun searchArtists(query: String): FlowResult<List<AppleArtist>> {
+    override fun searchArtists(query: String, limit: Int): FlowResult<List<AppleArtist>> {
         return appleMusicDataSource.searchForCatalogResources(
             query = query,
-            searchTypes = listOf("artists")
+            searchTypes = listOf("artists"),
+            limit = limit,
         ).toEntityResult {
             it.toArtistSearchResult()
         }
@@ -49,6 +54,25 @@ class AppleMusicRepositoryImpl @Inject constructor(
             chartTypes = listOf("songs")
         ).toEntityResult {
             it.toSongList()
+        }
+    }
+
+    override fun getSongById(songId: String): FlowResult<Song> {
+        return appleMusicDataSource.getCatalogSong(songId).toEntityResult {
+            it.toEntity()
+        }
+    }
+
+    /* Album */
+    override fun getAlbumById(albumId: String): FlowResult<Album> {
+        return appleMusicDataSource.getCatalogAlbum(albumId).toEntityResult {
+            it.toEntity()
+        }
+    }
+
+    override fun getAlbumsByArtist(artistId: String): FlowResult<List<Album>> {
+        return appleMusicDataSource.getAlbumsByArtist(artistId).toEntityResult {
+            it.data.map { it.toEntity() }
         }
     }
 }

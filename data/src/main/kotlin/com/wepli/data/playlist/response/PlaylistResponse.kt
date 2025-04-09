@@ -1,10 +1,17 @@
 package com.wepli.data.playlist.response
 
+import com.wepli.data.song.response.SongResponse
+import com.wepli.data.song.response.toSong
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import model.music.Song
 import model.playlist.Playlist
 import model.playlist.RecommendPlaylist
+import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
+import java.text.SimpleDateFormat
 import java.util.Date
 
 @Serializable
@@ -21,49 +28,21 @@ data class PlaylistResponse(
     val author: String? = null,
     @SerialName("playlist_created_at")
     val createdAt: String? = null,
-    @SerialName("song_id")
-    val songId: String? = null,
-    @SerialName("song_title")
-    val songTitle: String? = null,
-    @SerialName("song_artist")
-    val songArtist: String? = null,
-    @SerialName("song_album")
-    val songAlbum: String? = null,
-    @SerialName("song_cover")
-    val songCoverImgUrl: String? = null,
-    @SerialName("song_href")
-    val songHref: String? = null,
-    @SerialName("song_duration")
-    val songDurationMillis: Long? = null,
+    @SerialName("b_side_track")
+    val bSideTracks: List<SongResponse>? = emptyList(),
 )
 
-fun List<PlaylistResponse>.toPlaylist(): Playlist {
-    var durationSum = 0L
-    val playlist = this.first()
-    val songList = this.map { playlist ->
-        durationSum += playlist.songDurationMillis ?: 0L
-        Song(
-            id = playlist.songId.orEmpty(),
-            title = playlist.songTitle.orEmpty(),
-            artistName = playlist.songArtist.orEmpty(),
-            albumName = playlist.songAlbum.orEmpty(),
-            coverImg = playlist.songCoverImgUrl.orEmpty(),
-            href = playlist.songHref.orEmpty(),
-            genres = emptyList(),
-            durationMillis = playlist.songDurationMillis ?: 0L
-        )
-    }
-
+fun PlaylistResponse.toPlaylist(): Playlist {
     return Playlist(
-        id = playlist.id ?: 0,
-        title = playlist.title.orEmpty(),
-        description = playlist.description.orEmpty(),
-        coverImgUrl = playlist.coverImgUrl.orEmpty(),
-        author = playlist.author.orEmpty(),
-        songCnt = songList.size,
-        totalDuration = durationSum,
-        bSideTrack = songList,
+        id = id ?: 0,
+        title = title.orEmpty(),
+        description = description.orEmpty(),
+        coverImgUrl = coverImgUrl.orEmpty(),
+        author = author.orEmpty(),
+        songCnt = bSideTracks?.size ?: 0,
+        totalDuration = bSideTracks.orEmpty().sumOf { it.duration ?: 0 }.toLong(),
+        bSideTrack = bSideTracks?.map { it.toSong() }.orEmpty(),
         artists = emptyList(),
-        createdAt = runCatching { Date(playlist.createdAt) }.getOrElse { Date() }
+        createdAt = runCatching { Date(createdAt) }.getOrElse { Date() }
     )
 }

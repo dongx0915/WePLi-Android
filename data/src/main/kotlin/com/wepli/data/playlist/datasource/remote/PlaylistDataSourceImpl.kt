@@ -25,7 +25,7 @@ class PlaylistDataSourceImpl @Inject constructor(
         return playlistApi.getThemePlaylist()
     }
 
-    override fun findPlaylistById(playlistId: Int): FlowResult<List<PlaylistResponse>> = flow {
+    override fun findPlaylistById(playlistId: Int): FlowResult<PlaylistResponse> = flow {
         // implements by supabaseDataSource
     }
 }

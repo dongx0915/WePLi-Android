@@ -10,5 +10,5 @@ interface PlaylistDataSource {
 
     fun getThemePlaylist(): FlowResult<List<RecommendPlaylistResponse>>
 
-    fun findPlaylistById(playlistId: Int): FlowResult<List<PlaylistResponse>>
+    fun findPlaylistById(playlistId: Int): FlowResult<PlaylistResponse>
 }

@@ -1,0 +1,226 @@
+package com.wepli.feature.song.info
+
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import appbar.ScrollableAppBar
+import appbar.WepliAppBar
+import com.wepli.designsystem.R
+import com.wepli.feature.song.info.component.album.AlbumInfoLayout
+import com.wepli.feature.song.info.component.album.ResponsiveAlbumGrid
+import com.wepli.feature.song.info.component.song.SimilarSongsLayout
+import com.wepli.feature.song.info.component.song.SongDetailInfoLayout
+import com.wepli.feature.song.info.mvi.SongInfoIntent
+import com.wepli.feature.song.info.mvi.SongInfoUiState
+import com.wepli.shared.feature.mock.songMockData
+import com.wepli.shared.feature.uimodel.album.AlbumUiData
+import com.wepli.uimodel.music.SongUiData
+import custom.OneLineTitle
+import image.AsyncImageWithPreview
+import org.orbitmvi.orbit.compose.collectAsState
+import theme.WepliTheme
+
+@Composable
+fun SongInfoScreenRoute(
+    song: SongUiData,
+    navOnBack: () -> Unit
+) {
+    val viewModel: SongInfoViewModel = hiltViewModel()
+    val state: SongInfoUiState by viewModel.collectAsState()
+
+    LaunchedEffect(song) {
+        viewModel.processIntent(SongInfoIntent.Init(song))
+    }
+
+    SongInfoScreen(
+        state = state,
+        navOnBack = navOnBack
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SongInfoScreen(
+    state: SongInfoUiState,
+    navOnBack: () -> Unit
+) {
+    val scrollState = rememberScrollState()
+    val song = state.song
+
+    ScrollableAppBar(
+        scrollState = scrollState,
+        backgroundColors = Color.Black to Color.Black,
+        contentsColors = Color.White to Color.White,
+        topBarComponent = { backgroundColor, contentsColor, _, scrollFraction ->
+            WepliAppBar(
+                title = "",
+                containerColor = backgroundColor,
+                contentsColor = contentsColor,
+                showBackButton = true,
+                onClickBack = navOnBack,
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(WepliTheme.color.black)
+                .verticalScroll(scrollState)
+                .padding(paddingValues)
+                .padding(24.dp),
+            verticalArrangement = Arrangement.spacedBy(64.dp)
+        ) {
+            SongInfoLayout(song = song)
+
+            SongDetailInfoLayout(
+                composers = song.composers,
+                genres = song.genres
+            )
+
+            AlbumInfoLayout(album = state.album)
+
+            SimilarSongsLayout(similarSongs = state.similarSongs)
+
+            ArtistAlbumGrid(albums = state.artistAlbums)
+        }
+    }
+}
+
+@Composable
+fun SongInfoLayout(song: SongUiData) {
+    Column {
+        Text(
+            text = song.title,
+            style = WepliTheme.typo.title2.copy(
+                fontWeight = FontWeight.Normal
+            ),
+            color = WepliTheme.color.gray900
+        )
+
+        Text(
+            text = song.artistName,
+            style = WepliTheme.typo.body4,
+            color = WepliTheme.color.gray700,
+            modifier = Modifier.padding(top = 12.dp)
+        )
+
+        Text(
+            text = song.albumName,
+            style = WepliTheme.typo.body3,
+            color = WepliTheme.color.gray700,
+            modifier = Modifier.padding(top = 12.dp)
+        )
+
+        Text(
+            text = "FLAC",
+            style = WepliTheme.typo.subTitle7,
+            color = WepliTheme.color.gray600,
+            modifier = Modifier.padding(top = 4.dp)
+        )
+
+        ReactionLayout(modifier = Modifier.padding(top = 24.dp))
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        AsyncImageWithPreview(
+            imageUrl = song.getImageUrl(),
+            previewImage = painterResource(id = R.drawable.img_placeholder_chuu_2),
+            imageOverrideSize = 200.dp,
+            modifier = Modifier
+                .size(200.dp)
+                .clip(RoundedCornerShape(4.dp))
+        )
+    }
+}
+
+@Composable
+private fun ReactionLayout(modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        LabeledIcon(iconId = R.drawable.ic_heart_vector, text = "10,123")
+        LabeledIcon(iconId = R.drawable.ic_comment_vector, text = "10,123")
+        Spacer(modifier = Modifier.weight(1f))
+        Icon(
+            modifier = Modifier.size(24.dp),
+            painter = painterResource(id = R.drawable.ic_more_dot),
+            tint = WepliTheme.color.gray800,
+            contentDescription = null
+        )
+    }
+}
+
+@Composable
+private fun LabeledIcon(
+    @DrawableRes iconId: Int,
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            modifier = Modifier.size(24.dp),
+            imageVector = ImageVector.vectorResource(iconId),
+            tint = WepliTheme.color.gray800,
+            contentDescription = null
+        )
+        Spacer(modifier = Modifier.width(4.dp))
+        Text(
+            text = text,
+            style = WepliTheme.typo.caption1.copy(
+                fontWeight = FontWeight.Medium,
+            ),
+            color = WepliTheme.color.gray800,
+        )
+    }
+}
+
+@Composable
+fun ArtistAlbumGrid(albums: List<AlbumUiData>) {
+    Column {
+        OneLineTitle(
+            title = "이 가수의 다른 앨범",
+            showIcon = true,
+            modifier = Modifier.padding(vertical = 12.dp)
+        )
+
+        ResponsiveAlbumGrid(albums, Modifier.padding(top = 12.dp))
+    }
+}
+
+@Preview
+@Composable
+fun SongInfoScreenPreview() {
+    SongInfoScreen(state = SongInfoUiState(song = songMockData.random()), navOnBack = {})
+}

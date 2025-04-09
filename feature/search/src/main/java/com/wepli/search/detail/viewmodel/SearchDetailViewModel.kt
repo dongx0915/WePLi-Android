@@ -5,6 +5,7 @@ import com.wepli.core.kotlin.flow.suspendCollectResult
 import com.wepli.search.detail.mvi.SearchDetailEffect
 import com.wepli.search.detail.mvi.SearchDetailIntent
 import com.wepli.search.detail.mvi.SearchDetailUiState
+import com.wepli.search.navigation.SearchScreenMode
 import com.wepli.uimodel.music.SongUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,12 +21,29 @@ class SearchDetailViewModel @Inject constructor(
 ) {
     override fun processIntent(intent: SearchDetailIntent) {
         when (intent) {
+            is SearchDetailIntent.Init -> handleInitialize(intent.initialSearchQuery, intent.screenMode)
             is SearchDetailIntent.OnSearchQueryChanged -> handleSearchQueryChanged(intent.query)
             is SearchDetailIntent.RequestSearch -> searchMusic(intent.query)
             is SearchDetailIntent.OnSongSelected -> handleSongSelected(intent.song)
             is SearchDetailIntent.OnCompleteSongSelect -> handleCompleteSongSelect()
-            is SearchDetailIntent.SetMaxSelectCount -> handleSetMaxSelectCount(intent.count)
+            is SearchDetailIntent.ShowSongInfoBottomSheet -> handleShowSongInfoBottomSheet(intent.selectedSong)
+            SearchDetailIntent.DismissSongInfoBottomSheet -> handleDismissSongInfoBottomSheet()
+            SearchDetailIntent.LoadSongInfo -> {
+                /* 여기서 추가 API 호출하고 넘기려고 LoadSongInfo라고 네이밍 해둠 */
+                intent {
+                    state.songInfo?.let { postSideEffect { SearchDetailEffect.NavigateToSongInfo(it) } }
+                }
+            }
         }
+    }
+
+    private fun handleInitialize(searchQuery: String, screenMode: SearchScreenMode) = intent {
+        if (state.isInitialized) return@intent
+
+        updateState {
+            copy(isInitialized = true, searchInput = searchQuery, screenMode = screenMode)
+        }
+        searchMusic(searchQuery)
     }
 
     private fun handleSearchQueryChanged(query: String) = intent {
@@ -58,6 +76,8 @@ class SearchDetailViewModel @Inject constructor(
     }
 
     private fun handleSongSelected(song: SongUiData) = intent {
+        val maxSelectCount = state.screenMode.maxSelectCount
+
         reduce {
             val updatedSelectedSongs = LinkedHashSet(state.selectedSongs).apply {
                 if (!add(song)) remove(song)
@@ -67,8 +87,8 @@ class SearchDetailViewModel @Inject constructor(
                 if (it.id == song.id) it.copy(isSelected = !it.isSelected) else it
             }
 
-            if (state.maxSelectCount < updatedSelectedSongs.size) {
-                postSideEffect { SearchDetailEffect.SelectedLimitExceeded(state.maxSelectCount) }
+            if (maxSelectCount < updatedSelectedSongs.size) {
+                postSideEffect { SearchDetailEffect.SelectedLimitExceeded(maxSelectCount) }
                 return@reduce state
             }
 
@@ -89,7 +109,11 @@ class SearchDetailViewModel @Inject constructor(
         postSideEffect(SearchDetailEffect.NavigateBackWithResult(state.selectedSongs.toList()))
     }
 
-    private fun handleSetMaxSelectCount(count: Int) {
-        updateState { copy(maxSelectCount = count) }
+    private fun handleShowSongInfoBottomSheet(selectedSong: SongUiData) {
+        updateState { copy(isShownSongInfoBottomSheet = true, songInfo = selectedSong) }
+    }
+
+    private fun handleDismissSongInfoBottomSheet() {
+        updateState { copy(isShownSongInfoBottomSheet = false) }
     }
 }

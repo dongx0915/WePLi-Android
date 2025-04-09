@@ -1,10 +1,14 @@
 package com.wepli.data.applemusic
 
 import com.wepli.core.kotlin.flow.FlowResult
+import com.wepli.data.applemusic.common.response.AppleAlbumResponse
+import com.wepli.data.applemusic.common.response.AppleSongResponse
+import com.wepli.data.applemusic.common.response.base.AppleDataWrapper
 import com.wepli.data.applemusic.response.AppleCatalogResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 import com.wepli.data.applemusic.response.AppleSearchResponse
+import retrofit2.http.Path
 
 interface AppleMusicApi {
 
@@ -24,4 +28,16 @@ interface AppleMusicApi {
         @Query("offset") offset: Int? = null, // 검색 결과의 시작 위치
         @Query("types") types: List<String>, // 차트 타입 [albums, songs, playlists]
     ): FlowResult<AppleCatalogResponse>
+
+    // 노래
+    @GET("v1/catalog/kr/songs/{songId}")
+    fun getCatalogSong(@Path("songId") songId: String): FlowResult<AppleDataWrapper<AppleSongResponse>>
+
+    // 앨범
+    @GET("v1/catalog/kr/albums/{albumId}")
+    fun getCatalogAlbum(@Path("albumId") albumId: String): FlowResult<AppleDataWrapper<AppleAlbumResponse>>
+
+    // 특정 가수의 앨범 조회
+    @GET("v1/catalog/kr/artists/{artistId}/albums")
+    fun getCatalogAlbumsByArtist(@Path("artistId") artistId: String): FlowResult<AppleDataWrapper<AppleAlbumResponse>>
 }

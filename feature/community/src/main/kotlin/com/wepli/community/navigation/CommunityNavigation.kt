@@ -1,6 +1,7 @@
 package com.wepli.community.navigation
 
 import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -60,6 +61,7 @@ fun NavGraphBuilder.communityDetailGraph(
         ),
         enterTransition = { enterAnimation() }
     ) {
+        Log.d("CommunityDetailScreen", "${it.arguments?.getString("post")?.parseFromJson<PostUiData>()}")
         // TODO 해당 부분을 CommunityDetailScreenRoute()에서 수행하고, Graph 부분은 Core 모듈로 이동시켜도 될 것 같음
         val post = it.arguments?.getString("post")?.parseFromJson<PostUiData>()
         val viewModel = hiltViewModel<CommunityDetailViewModel>()
