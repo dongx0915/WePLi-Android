@@ -31,8 +31,20 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.Material3.Light.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.Material3.Light.NoActionBar"></activity>
+
+        <!-- Meta Data -->
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="@string/facebook_client_token" />
+
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider4021054368168130"
+            android:exported="true" />
     </application>
 
 </manifest>

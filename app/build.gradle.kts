@@ -46,6 +46,8 @@ dependencies {
     implementation(libs.supabase.postgrest.kt)
     implementation(libs.supabase.realtime.kt)
 
+    implementation(libs.facebook.android.sdk)
+
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.android)
     implementation(libs.ktor.client.logging)
