@@ -41,6 +41,7 @@ include(
     ":core:common",
     ":core:navigator",
     ":core:kotlin",
+    ":core:resources",
     ":designsystem",
     ":domain",
     ":data",

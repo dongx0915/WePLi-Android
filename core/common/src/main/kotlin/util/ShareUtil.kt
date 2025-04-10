@@ -6,7 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Environment
 import android.widget.Toast
-import com.wepli.core.common.R
+import com.wepli.core.resources.R as CoreR
 import java.io.File
 
 
@@ -32,8 +32,8 @@ object ShareUtil {
         activity: Activity,
         backgroundAssetUri: Uri,
         stickerAssetUri: Uri,
-        facebookAppId: String
     ) {
+        val facebookAppId = activity.getString(CoreR.string.facebook_app_id)
         val intent = Intent("com.instagram.share.ADD_TO_STORY").apply {
             setDataAndType(backgroundAssetUri, "image/jpeg")
             putExtra("source_application", facebookAppId)
