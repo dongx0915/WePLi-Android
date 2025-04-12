@@ -3,6 +3,7 @@ package extensions
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.compose.ui.graphics.Color
@@ -30,7 +31,7 @@ fun ImageBitmap.toAndroidBitmap(): Bitmap {
 fun Bitmap.saveBitmapToFile(
     context: Context,
     fileName: String,
-    onSuccess: () -> Unit,
+    onSuccess: (Uri, String) -> Unit,
     onFailure: () -> Unit
 ) {
     val filename = "$fileName.png"
@@ -39,7 +40,7 @@ fun Bitmap.saveBitmapToFile(
     val contentValues = ContentValues().apply {
         put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
         put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
-        put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+        put(MediaStore.MediaColumns.RELATIVE_PATH, "${Environment.DIRECTORY_PICTURES}/wepli")
     }
 
     // ContentResolver를 통해 이미지 저장 Uri 생성
@@ -54,7 +55,9 @@ fun Bitmap.saveBitmapToFile(
     // 생성된 Uri에 출력 스트림을 열어 Bitmap을 저장
     resolver.openOutputStream(uri)?.use { outputStream ->
         val success = this@saveBitmapToFile.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-        if (success) onSuccess() else onFailure()
+        val absolutePath = "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)}/wepli/$filename"
+
+        if (success) onSuccess(uri, absolutePath) else onFailure()
     } ?: {
         onFailure()
     }

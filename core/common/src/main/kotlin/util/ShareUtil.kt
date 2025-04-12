@@ -3,57 +3,82 @@ package util
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Environment
 import android.widget.Toast
-import com.wepli.core.resources.R as CoreR
+import androidx.core.content.FileProvider
 import java.io.File
-
+import com.wepli.core.resources.R as CoreR
 
 object ShareUtil {
     private const val IMAGE_TYPE: String = "image/*"
-    private const val FILENAME: String = "/myPhoto.jpg"
-    private val mediaPath: String = Environment.getExternalStorageDirectory().toString() + FILENAME
+    private const val INSTAGRAM_PACKAGE_NAME: String = "com.instagram.android"
 
-    private const val INSTAGRAM_PACKAGE_NAME = "com.instagram.android"
-
-    private fun createInstagramIntent(context: Context) {
-        val media = File(mediaPath)
-        val uri = Uri.fromFile(media)
-        val shareIntent = Intent(Intent.ACTION_SEND).apply {
-            this.type = type
-            putExtra(Intent.EXTRA_STREAM, uri)
-        }
-
-        context.startActivity(Intent.createChooser(shareIntent, "Share to"))
-    }
-
+    // 스토리로 바로 공유
     fun shareToInstagramStory(
         activity: Activity,
-        backgroundAssetUri: Uri,
         stickerAssetUri: Uri,
+        backgroundAssetUri: Uri? = null,
     ) {
+        if (isAppInstalled(activity, INSTAGRAM_PACKAGE_NAME).not()) {
+            Toast.makeText(activity, "Instagram을 설치해주세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val facebookAppId = activity.getString(CoreR.string.facebook_app_id)
         val intent = Intent("com.instagram.share.ADD_TO_STORY").apply {
-            setDataAndType(backgroundAssetUri, "image/jpeg")
+            setType("image/*")
             putExtra("source_application", facebookAppId)
             putExtra("interactive_asset_uri", stickerAssetUri)
+            backgroundAssetUri?.let { setDataAndType(it, IMAGE_TYPE) }
             flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
         }
 
         // 스티커에 대한 권한 부여
-        activity.grantUriPermission(
-            "com.instagram.android",
-            stickerAssetUri,
-            Intent.FLAG_GRANT_READ_URI_PERMISSION
-        )
+        backgroundAssetUri?.let {
+            activity.grantUriPermission(INSTAGRAM_PACKAGE_NAME, it, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        activity.grantUriPermission(INSTAGRAM_PACKAGE_NAME, stickerAssetUri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
-        // 인스타그램 앱이 설치되어 있고 intent를 처리할 수 있는지 확인
         val packageManager = activity.packageManager
-        if (intent.resolveActivity(packageManager) != null) {
-            activity.startActivityForResult(intent, 0)
+        val resolveInfo = intent.resolveActivity(packageManager)
+        if (resolveInfo != null) {
+            activity.startActivity(intent)
         } else {
-            Toast.makeText(activity, "Instagram 앱이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
+            Intent(Intent.ACTION_SEND).apply {
+                type = "image/*"
+                putExtra(Intent.EXTRA_STREAM, stickerAssetUri)
+                setPackage(INSTAGRAM_PACKAGE_NAME)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+        }
+    }
+
+    // 인스타 공유 (피드, 릴스, 스토리, DM 선택 가능)
+    fun toInstagramIntentImage(activity: Activity, imagePath: String) {
+        if (isAppInstalled(activity, INSTAGRAM_PACKAGE_NAME).not()) {
+            Toast.makeText(activity, "Instagram을 설치해주세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        activity.run {
+            val file = File(imagePath)
+            val uri = FileProvider.getUriForFile(activity.applicationContext, "com.wepli.app.fileprovider", file)
+
+            Intent(Intent.ACTION_SEND).apply {
+                type = "image/jpg"
+                putExtra(Intent.EXTRA_STREAM, uri)
+                setPackage(INSTAGRAM_PACKAGE_NAME)
+            }.let(this::startActivity)
+        }
+    }
+
+    private fun isAppInstalled(context: Context, packageName: String): Boolean {
+        return try {
+            context.packageManager.getPackageInfo(packageName, 0)
+            true
+        } catch (e: PackageManager.NameNotFoundException) {
+            false
         }
     }
 }
