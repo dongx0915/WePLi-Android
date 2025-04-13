@@ -1,25 +1,20 @@
 package com.wepli.feature.photocard.result
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.widget.Toast
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,9 +32,7 @@ import androidx.compose.ui.graphics.layer.GraphicsLayer
 import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.rememberGraphicsLayer
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -59,6 +52,7 @@ import com.wepli.shared.feature.uimodel.photocard.PhotoCardUiData
 import component.bottomsheet.BottomSheetItem
 import component.bottomsheet.WepliBottomSheet
 import component.bottomsheet.WepliBottomSheetType
+import extensions.saveBitmapToCache
 import extensions.saveBitmapToFile
 import extensions.toAndroidBitmap
 import kotlinx.coroutines.CoroutineScope
@@ -67,6 +61,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
+import util.ShareUtil
 
 @Composable
 fun PhotoCardResultScreenRoute(
@@ -190,6 +185,9 @@ fun PhotoCardShareBottomSheet(
     photoCardBitmap: ImageBitmap,
     sendAction: (PhotoCardResultIntent) -> Unit,
 ) {
+    val context = LocalContext.current
+    val activity = context as? Activity
+
     WepliBottomSheet(
         onClosed = { sendAction(PhotoCardResultIntent.ShowShareBottomSheet(false)) },
         type = WepliBottomSheetType.Normal(title = "포토카드 공유하기"),
@@ -209,7 +207,21 @@ fun PhotoCardShareBottomSheet(
             BottomSheetItem(
                 iconRes = R.drawable.ic_instagram_vector,
                 text = "인스타그램으로 공유하기",
-                onClick = { }
+                onClick = {
+                    val bitmap = photoCardBitmap.toAndroidBitmap()
+                    bitmap.saveBitmapToCache(
+                        context = context,
+                        fileName = "wepli_photocard_${System.currentTimeMillis()}",
+                        onSuccess = { uri, path ->
+                            activity?.let {
+                                ShareUtil.shareToInstagramStory(activity = it, stickerAssetUri = uri)
+                            }
+                        },
+                        onFailure = {
+                            Toast.makeText(context, "포토카드 공유에 실패했어요", Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                }
             )
 
             BottomSheetItem(
@@ -262,7 +274,7 @@ private fun onClickSaveBtn(context: Context, scope: CoroutineScope, graphicsLaye
         bitmap.saveBitmapToFile(
             context = context,
             fileName = "wepli_photocard_${System.currentTimeMillis()}",
-            onSuccess = {
+            onSuccess = { uri, path ->
                 Toast.makeText(context, "포토카드가 저장 되었어요. 갤러리에서 확인해보세요!", Toast.LENGTH_SHORT).show()
             },
             onFailure = {
