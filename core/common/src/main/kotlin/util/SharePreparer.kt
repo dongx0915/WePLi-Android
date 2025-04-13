@@ -10,14 +10,28 @@ object SharePreparer {
     fun prepareShare(
         context: Context,
         bitmap: Bitmap,
-        onPrepared: ((Uri, String) -> Unit),
+        shareType: ShareType,
         onFailure: (() -> Unit),
     ) {
         bitmap.saveBitmapToCache(
             context,
             "wepli_${System.currentTimeMillis()}",
-            onSuccess = onPrepared,
+            onSuccess = { uri, path ->
+                shareBySnsType(context, shareType, uri)
+            },
             onFailure = onFailure,
         )
+    }
+
+    private fun shareBySnsType(
+        context: Context,
+        shareType: ShareType,
+        shareImage: Uri,
+    ) {
+        when (shareType) {
+            is ShareType.Instagram -> {
+                ShareUtil(context).shareToInstagramStory(shareImage, shareType.backgroundUri)
+            }
+        }
     }
 }

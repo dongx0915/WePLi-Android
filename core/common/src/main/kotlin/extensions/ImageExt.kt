@@ -90,3 +90,19 @@ fun Bitmap.saveBitmapToCache(
         onFailure()
     }
 }
+
+fun Bitmap.saveBitmapToCache(context: Context, fileName: String = "wepli_${System.currentTimeMillis()}"): Uri? {
+    val filename = "$fileName.png"
+    val file = File(context.cacheDir, filename)
+
+    return runCatching {
+        FileOutputStream(file).use { outputStream ->
+            val success = this.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+            if (success) {
+                FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+            } else {
+                null
+            }
+        }
+    }.getOrNull()
+}

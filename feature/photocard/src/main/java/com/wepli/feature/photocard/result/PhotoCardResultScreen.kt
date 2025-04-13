@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
+import android.media.Image
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -63,6 +65,7 @@ import kotlinx.coroutines.withContext
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
 import util.SharePreparer
+import util.ShareType
 import util.ShareUtil
 
 @Composable
@@ -188,7 +191,6 @@ fun PhotoCardShareBottomSheet(
     sendAction: (PhotoCardResultIntent) -> Unit,
 ) {
     val context = LocalContext.current
-    val activity = context as? Activity
 
     WepliBottomSheet(
         onClosed = { sendAction(PhotoCardResultIntent.ShowShareBottomSheet(false)) },
@@ -210,16 +212,10 @@ fun PhotoCardShareBottomSheet(
                 iconRes = R.drawable.ic_instagram_vector,
                 text = "인스타그램으로 공유하기",
                 onClick = {
-                    SharePreparer.prepareShare(
+                    onClickShareBtn(
                         context = context,
-                        bitmap = photoCardBitmap.toAndroidBitmap(),
-                        onPrepared = { stickerAssetUri, path ->
-                            // 인스타그램 스토리 공유
-                            ShareUtil(context).shareToInstagramStory(stickerAssetUri = stickerAssetUri)
-                        },
-                        onFailure = {
-                            Toast.makeText(context, "포토카드 공유에 실패했어요", Toast.LENGTH_SHORT).show()
-                        }
+                        bitmap = photoCardBitmap,
+                        shareType = ShareType.Instagram(backgroundUri = null)
                     )
                 }
             )
@@ -282,4 +278,15 @@ private fun onClickSaveBtn(context: Context, scope: CoroutineScope, graphicsLaye
             }
         )
     }
+}
+
+private fun onClickShareBtn(context: Context, bitmap: ImageBitmap, shareType: ShareType) {
+    SharePreparer.prepareShare(
+        context = context,
+        bitmap = bitmap.toAndroidBitmap(),
+        shareType = shareType,
+        onFailure = {
+            Toast.makeText(context, "포토카드 공유에 실패했어요", Toast.LENGTH_SHORT).show()
+        }
+    )
 }
