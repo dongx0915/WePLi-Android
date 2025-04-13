@@ -59,4 +59,10 @@
 
     </application>
 
+    <!-- queries -->
+    <!-- 일부 OS에서 외부 앱을 열 때 패키지를 선언 해주어야 함 -->
+    <queries>
+        <package android:name="com.instagram.android" />
+    </queries>
+
 </manifest>

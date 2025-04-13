@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import java.io.File
@@ -78,7 +79,11 @@ class ShareUtil(private val context: Context) {
 
     private fun isAppInstalled(context: Context, packageName: String): Boolean {
         return try {
-            context.packageManager.getPackageInfo(packageName, 0)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                context.packageManager.getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(0))
+            } else {
+                context.packageManager.getPackageInfo(packageName, 0)
+            }
             true
         } catch (e: PackageManager.NameNotFoundException) {
             showNotInstalledMessage(packageName)
