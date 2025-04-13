@@ -10,27 +10,30 @@ import androidx.core.content.FileProvider
 import java.io.File
 import com.wepli.core.resources.R as CoreR
 
-object ShareUtil {
-    private const val IMAGE_TYPE: String = "image/*"
-    private const val INSTAGRAM_PACKAGE_NAME: String = "com.instagram.android"
+class ShareUtil(private val context: Context) {
+
+    companion object {
+        private const val IMAGE_TYPE_ALL: String = "image/*"
+        private const val INSTAGRAM_PACKAGE_NAME: String = "com.instagram.android"
+    }
 
     // 스토리로 바로 공유
     fun shareToInstagramStory(
-        activity: Activity,
         stickerAssetUri: Uri,
         backgroundAssetUri: Uri? = null,
     ) {
+        val activity = context as? Activity ?: return
+
         if (isAppInstalled(activity, INSTAGRAM_PACKAGE_NAME).not()) {
-            Toast.makeText(activity, "Instagram을 설치해주세요.", Toast.LENGTH_SHORT).show()
             return
         }
 
         val facebookAppId = activity.getString(CoreR.string.facebook_app_id)
         val intent = Intent("com.instagram.share.ADD_TO_STORY").apply {
-            setType("image/*")
+            setType(IMAGE_TYPE_ALL)
             putExtra("source_application", facebookAppId)
             putExtra("interactive_asset_uri", stickerAssetUri)
-            backgroundAssetUri?.let { setDataAndType(it, IMAGE_TYPE) }
+            backgroundAssetUri?.let { setDataAndType(it, IMAGE_TYPE_ALL) }
             flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
         }
 
@@ -55,9 +58,9 @@ object ShareUtil {
     }
 
     // 인스타 공유 (피드, 릴스, 스토리, DM 선택 가능)
-    fun toInstagramIntentImage(activity: Activity, imagePath: String) {
+    fun toInstagramIntentImage(imagePath: String) {
+        val activity = context as? Activity ?: return
         if (isAppInstalled(activity, INSTAGRAM_PACKAGE_NAME).not()) {
-            Toast.makeText(activity, "Instagram을 설치해주세요.", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -78,7 +81,20 @@ object ShareUtil {
             context.packageManager.getPackageInfo(packageName, 0)
             true
         } catch (e: PackageManager.NameNotFoundException) {
+            showNotInstalledMessage(packageName)
             false
+        }
+    }
+
+    private fun showNotInstalledMessage(packageName: String) {
+        when (packageName) {
+            INSTAGRAM_PACKAGE_NAME -> {
+                Toast.makeText(context, "인스타그램을 설치해주세요.", Toast.LENGTH_SHORT).show()
+            }
+
+            else -> {
+                Toast.makeText(context, "앱이 설치되어 있는지 확인해 주세요.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

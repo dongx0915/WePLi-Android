@@ -3,6 +3,7 @@ package com.wepli.feature.photocard.result
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.graphics.Bitmap
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -61,6 +62,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
+import util.SharePreparer
 import util.ShareUtil
 
 @Composable
@@ -208,14 +210,12 @@ fun PhotoCardShareBottomSheet(
                 iconRes = R.drawable.ic_instagram_vector,
                 text = "인스타그램으로 공유하기",
                 onClick = {
-                    val bitmap = photoCardBitmap.toAndroidBitmap()
-                    bitmap.saveBitmapToCache(
+                    SharePreparer.prepareShare(
                         context = context,
-                        fileName = "wepli_photocard_${System.currentTimeMillis()}",
-                        onSuccess = { uri, path ->
-                            activity?.let {
-                                ShareUtil.shareToInstagramStory(activity = it, stickerAssetUri = uri)
-                            }
+                        bitmap = photoCardBitmap.toAndroidBitmap(),
+                        onPrepared = { stickerAssetUri, path ->
+                            // 인스타그램 스토리 공유
+                            ShareUtil(context).shareToInstagramStory(stickerAssetUri = stickerAssetUri)
                         },
                         onFailure = {
                             Toast.makeText(context, "포토카드 공유에 실패했어요", Toast.LENGTH_SHORT).show()
