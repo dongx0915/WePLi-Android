@@ -177,7 +177,7 @@ fun PhotoCardResultScreen(
 
             if (state.isShownShareBottomSheet) {
                 photoCardBitmap?.let {
-                    PhotoCardShareBottomSheet(photoCardBitmap = it, sendAction = sendAction)
+                    PhotoCardShareBottomSheet(photoCardBitmap = it, graphicsLayer = graphicsLayer, sendAction = sendAction)
                 }
             }
         }
@@ -188,9 +188,11 @@ fun PhotoCardResultScreen(
 @Composable
 fun PhotoCardShareBottomSheet(
     photoCardBitmap: ImageBitmap,
+    graphicsLayer: GraphicsLayer,
     sendAction: (PhotoCardResultIntent) -> Unit,
 ) {
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
 
     WepliBottomSheet(
         onClosed = { sendAction(PhotoCardResultIntent.ShowShareBottomSheet(false)) },
@@ -235,7 +237,9 @@ fun PhotoCardShareBottomSheet(
             BottomSheetItem(
                 iconRes = R.drawable.ic_download_vector,
                 text = "스크린샷으로 저장하기",
-                onClick = { }
+                onClick = {
+                    onClickSaveBtn(context, coroutineScope, graphicsLayer)
+                }
             )
         }
     }
@@ -260,7 +264,9 @@ fun PhotoCardResultScreenPreview() {
     )
 }
 
-private suspend fun capturePhotoCard(graphicsLayer: GraphicsLayer): ImageBitmap = withContext(Dispatchers.Default) {
+private suspend fun capturePhotoCard(
+    graphicsLayer: GraphicsLayer
+): ImageBitmap = withContext(Dispatchers.Default) {
     graphicsLayer.toImageBitmap()
 }
 
