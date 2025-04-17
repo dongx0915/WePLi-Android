@@ -5,6 +5,7 @@ import com.wepli.feature.photocard.detail.mvi.PhotoCardDetailEffect
 import com.wepli.feature.photocard.detail.mvi.PhotoCardDetailIntent
 import com.wepli.feature.photocard.detail.mvi.PhotoCardDetailUiState
 import com.wepli.shared.feature.uimodel.photocard.PhotoCardUiData
+import com.wepli.shared.feature.uimodel.user.UserUiData
 import com.wepli.uimodel.music.SongUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +21,10 @@ class PhotoCardDetailViewModel @Inject constructor(
 ) : BaseMviViewModel<PhotoCardDetailUiState, PhotoCardDetailEffect, PhotoCardDetailIntent>(
     initialState = PhotoCardDetailUiState()
 ) {
+    init {
+        setUserInfo()
+    }
+
     override fun processIntent(intent: PhotoCardDetailIntent) {
         when(intent) {
             is PhotoCardDetailIntent.Initialize -> handleInitialize(intent.totalPage, intent.oneLineIntroMaxLength)
@@ -112,5 +117,11 @@ class PhotoCardDetailViewModel @Inject constructor(
             instagramId = state.instagramId.text,
             favoriteSong = state.selectedFavoriteSong ?: SongUiData()
         )
+    }
+
+    private fun setUserInfo() = launch {
+        userRepository.getUser()?.let {
+            updateState { copy(user = UserUiData.fromDomain(it)) }
+        }
     }
 }
