@@ -78,11 +78,18 @@ fun HomeRoute(
 
     viewModel.collectSideEffect {
         when (it) {
+            is HomeEffect.PlaylistLoadSuccess -> {
+                onNavigatePlaylist(it.playlistId)
+            }
             is HomeEffect.RelaylistLoadSuccess -> {
                 onNavigateRelaylist(it.relaylistId)
             }
+
             HomeEffect.RelaylistLoadFailed -> {
                 Toast.makeText(context, "릴레이리스트 조회에 실패했어요.", Toast.LENGTH_SHORT).show()
+            }
+            HomeEffect.PlaylistLoadFailed -> {
+                Toast.makeText(context, "플레이리스트 조회에 실패했어요.", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -140,11 +147,19 @@ fun HomeScreen(
             item { ArtistLayout(artistList) }
 
             item {
-                WePLiPlaylistLayout(title = "위플리 추천 플레이리스트", playlists = recommendPlaylists, onClick = { onNavigatePlaylist(it) })
+                WePLiPlaylistLayout(
+                    title = "위플리 추천 플레이리스트",
+                    playlists = recommendPlaylists,
+                    onClick = { playlistId -> sendAction(HomeIntent.LoadPlaylist(playlistId)) }
+                )
             }
 
             item {
-                WePLiPlaylistLayout(title = "테마별 플레이리스트", playlists = themePlaylists, onClick = { onNavigatePlaylist(it) })
+                WePLiPlaylistLayout(
+                    title = "테마별 플레이리스트",
+                    playlists = themePlaylists,
+                    onClick = { playlistId -> sendAction(HomeIntent.LoadPlaylist(playlistId)) }
+                )
             }
         }
     }

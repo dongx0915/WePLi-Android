@@ -17,10 +17,14 @@ data class HomeUiState(
 ) : UiState
 
 sealed interface HomeEffect : SideEffect {
+    data class PlaylistLoadSuccess(val playlistId: Int) : HomeEffect
+    data object PlaylistLoadFailed : HomeEffect
+
     data class RelaylistLoadSuccess(val relaylistId: Int) : HomeEffect
     data object RelaylistLoadFailed : HomeEffect
 }
 
 sealed interface HomeIntent : Intent {
+    data class LoadPlaylist(val playlistId: Int) : HomeIntent
     data class LoadRelaylist(val relaylistId: Int) : HomeIntent
 }

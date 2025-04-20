@@ -37,6 +37,7 @@ class HomeViewModel @Inject constructor(
 
     override fun processIntent(intent: HomeIntent) {
         when (intent) {
+            is HomeIntent.LoadPlaylist -> loadPlaylistById(intent.playlistId)
             is HomeIntent.LoadRelaylist -> loadRelaylistById(intent.relaylistId)
         }
     }
@@ -103,6 +104,20 @@ class HomeViewModel @Inject constructor(
                     }
                 )
         }
+    }
+
+    private fun loadPlaylistById(id: Int) = launch {
+        playlistRepository.getPlaylistById(id)
+            .flowOn(Dispatchers.IO)
+            .suspendCollectResult(
+                onSuccess = {
+                    postSideEffect { HomeEffect.PlaylistLoadSuccess(it.id) }
+                },
+                onFailure = {
+                    Log.e("HomeViewModel", "loadPlaylistById: $it")
+                    postSideEffect { HomeEffect.PlaylistLoadFailed }
+                }
+            )
     }
 
     private fun loadRelaylistById(id: Int) {
