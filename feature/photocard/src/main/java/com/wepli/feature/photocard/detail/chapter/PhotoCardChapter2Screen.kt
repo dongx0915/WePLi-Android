@@ -58,7 +58,7 @@ fun PhotoCardChapter2Screen(
         )
         Spacer(modifier = Modifier.padding(top = 12.dp))
         Text(
-            text = "oo님을 잘 나타내는 문장을 입력해주세요",
+            text = "${state.user.nickname}님을 잘 나타내는 문장을 입력해주세요",
             style = WepliTheme.typo.body4,
             color = WepliTheme.color.gray500
         )

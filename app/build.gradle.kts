@@ -11,6 +11,14 @@ android {
 
 // App 모듈에선 모든 모듈 참조 필요
 dependencies {
+    implementation(projects.core.common)
+    implementation(projects.core.kotlin)
+    implementation(projects.core.navigator)
+    implementation(projects.core.resources)
+    implementation(projects.designsystem)
+    implementation(projects.domain)
+    implementation(projects.data)
+    implementation(projects.shared.feature)
     implementation(projects.feature.home)
     implementation(projects.feature.search)
     implementation(projects.feature.community)
@@ -19,13 +27,6 @@ dependencies {
     implementation(projects.feature.mypage)
     implementation(projects.feature.photocard)
     implementation(projects.feature.song)
-    implementation(projects.data)
-    implementation(projects.domain)
-    implementation(projects.core.common)
-    implementation(projects.core.kotlin)
-    implementation(projects.core.navigator)
-    implementation(projects.designsystem)
-    implementation(projects.shared.feature)
 
     // Orbit
     implementation(libs.bundles.orbit)
@@ -45,6 +46,8 @@ dependencies {
     implementation(platform(libs.supabase.bom))
     implementation(libs.supabase.postgrest.kt)
     implementation(libs.supabase.realtime.kt)
+
+    implementation(libs.facebook.android.sdk)
 
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.android)

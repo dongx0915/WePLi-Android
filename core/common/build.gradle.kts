@@ -1,3 +1,4 @@
+import extensions.implementation
 import java.util.Properties
 
 val properties = Properties().apply {
@@ -34,6 +35,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:resources"))
     implementation(libs.gson)
 
     // Orbit

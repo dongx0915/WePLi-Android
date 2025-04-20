@@ -4,10 +4,13 @@ import base.Intent
 import base.SideEffect
 import base.UiState
 import com.wepli.shared.feature.uimodel.photocard.PhotoCardUiData
+import com.wepli.shared.feature.uimodel.user.UserUiData
 import com.wepli.uimodel.music.SongUiData
+import model.user.User
 
 // TODO Page 별로 별도의 State를 갖는게 나을지
 data class PhotoCardDetailUiState(
+    val user: UserUiData = UserUiData(),
     val currentPage: Int = 0,
     val totalPage: Int = 0,
     val oneLineIntro: FieldState = FieldState(),
