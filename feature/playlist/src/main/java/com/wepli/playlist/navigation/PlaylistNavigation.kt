@@ -1,14 +1,14 @@
 package com.wepli.playlist.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.wepli.navigator.feature.playlist.PlaylistRoute
-import com.wepli.playlist.PlaylistScreen
 import com.wepli.playlist.PlaylistScreenRoute
-import extensions.enterAnimation
 
 // Controller
 fun NavController.navigateToPlaylistDetail(playlistId: Int) {
@@ -22,7 +22,7 @@ fun NavGraphBuilder.playlistDetailGraph(
     composable(
         route = "${PlaylistRoute.Detail.route}/{playlistId}",
         arguments = listOf(navArgument("playlistId") { type = NavType.IntType }),
-        enterTransition = { enterAnimation() }
+        enterTransition = { fadeIn(tween(1000)) }
     ) {
         val playlistId: Int = it.arguments?.getInt("playlistId") ?: -1
 
