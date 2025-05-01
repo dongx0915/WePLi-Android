@@ -1,6 +1,7 @@
 package com.wepli.feature.song.info
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -125,12 +126,22 @@ fun SongInfoLayout(song: SongUiData) {
             color = WepliTheme.color.gray900
         )
 
-        Text(
-            text = song.artistName,
-            style = WepliTheme.typo.body4,
-            color = WepliTheme.color.gray700,
-            modifier = Modifier.padding(top = 12.dp)
-        )
+        Row(
+            modifier = Modifier.padding(top = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Text(
+                text = song.artistName,
+                style = WepliTheme.typo.body4,
+                color = WepliTheme.color.gray700,
+            )
+
+            Image(
+                painter = painterResource(R.drawable.ic_badge),
+                contentDescription = null,
+            )
+        }
 
         Text(
             text = song.albumName,
