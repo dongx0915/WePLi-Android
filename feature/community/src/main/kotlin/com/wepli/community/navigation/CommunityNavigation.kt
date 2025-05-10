@@ -10,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.wepli.community.detail.CommunityDetailScreen
+import com.wepli.community.detail.CommunityDetailScreenRoute
 import com.wepli.community.detail.CommunityDetailViewModel
 import com.wepli.community.main.screen.CommunityMainScreenRoute
 import com.wepli.community.write.screen.CommunityWriteScreenRoute
@@ -64,13 +65,8 @@ fun NavGraphBuilder.communityDetailGraph(
         Log.d("CommunityDetailScreen", "${it.arguments?.getString("post")?.parseFromJson<PostUiData>()}")
         // TODO 해당 부분을 CommunityDetailScreenRoute()에서 수행하고, Graph 부분은 Core 모듈로 이동시켜도 될 것 같음
         val post = it.arguments?.getString("post")?.parseFromJson<PostUiData>()
-        val viewModel = hiltViewModel<CommunityDetailViewModel>()
 
-        LaunchedEffect(Unit) {
-            viewModel.setPost(post ?: PostUiData())
-        }
-
-        CommunityDetailScreen(viewModel = viewModel, navOnBack = { navOnBack() })
+        CommunityDetailScreenRoute(post = post ?: PostUiData(), navOnBack = { navOnBack() })
     }
 }
 
