@@ -11,6 +11,9 @@ data class CommunityDetailState(
     val post: PostUiData = PostUiData(),
     val user: UserUiData = UserUiData(),
     val comments: List<CommentUiData> = emptyList(),
+
+    // TextField
+    val comment: String = "",
 ): UiState
 
 sealed interface CommunityDetailEffect : SideEffect {
@@ -18,4 +21,5 @@ sealed interface CommunityDetailEffect : SideEffect {
 
 sealed interface CommunityDetailIntent : Intent {
     data class InitPost(val post: PostUiData) : CommunityDetailIntent
+    data class OnChangedComment(val comment: String) : CommunityDetailIntent
 }

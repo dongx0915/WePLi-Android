@@ -35,6 +35,10 @@ class CommunityDetailViewModel @Inject constructor(
             is CommunityDetailIntent.InitPost -> {
                 updateState { copy(post = intent.post) }
             }
+
+            is CommunityDetailIntent.OnChangedComment -> {
+                updateState { copy(comment = intent.comment) }
+            }
         }
     }
 
