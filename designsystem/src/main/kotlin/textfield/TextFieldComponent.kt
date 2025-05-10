@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
@@ -22,7 +23,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.OutlinedTextFieldDefaults.Container
-import androidx.compose.material3.OutlinedTextFieldDefaults.contentPadding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -42,7 +42,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
 import theme.WepliTheme
@@ -54,9 +53,6 @@ sealed interface WepliTextFieldType {
 
     @Composable
     fun trailingIcon(): Painter?
-
-    fun minHeight(): Dp = 44.dp
-    fun maxHeight(): Dp = 44.dp
 
     fun isEnabled(): Boolean = true
 
@@ -90,9 +86,6 @@ sealed interface WepliTextFieldType {
 
         @Composable
         override fun trailingIcon(): Painter? = null
-
-        override fun minHeight(): Dp = 250.dp
-        override fun maxHeight(): Dp = 250.dp
     }
 }
 
@@ -152,11 +145,7 @@ fun WepliTextField(
             BasicTextField(
                 value = textFieldValueState,
                 modifier = modifier
-                    .heightIn(
-                        min = type.minHeight(),
-                        max = type.maxHeight(),
-                    )
-                    .fillMaxWidth()
+                    .fillMaxSize()
                     .focusRequester(focusRequester)
                     .onFocusChanged { focusState -> onFocusChanged(focusState) },
                 onValueChange = { newValue ->
@@ -214,7 +203,7 @@ fun WepliTextField(
                         contentPadding = if (singleLine) {
                             PaddingValues(vertical = 0.dp, horizontal = 16.dp)
                         } else {
-                            contentPadding()
+                            PaddingValues(vertical = 12.dp, horizontal = 16.dp)
                         },
                         container = {
                             Container(
@@ -241,10 +230,11 @@ fun LimitedLengthTextField(
     placeholder: String,
     errorText: String,
     type: WepliTextFieldType,
-    onValueChanged: (String, Int) -> Unit
+    onValueChanged: (String, Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         WepliTextField(
@@ -295,6 +285,18 @@ private fun WepliTextFieldPreview() {
             singleLine = true,
             placeholder = "Placeholder",
             type = WepliTextFieldType.Normal,
+            modifier = Modifier.height(44.dp)
+        )
+
+        WepliTextField(
+            value = "",
+            onValueChanged = { _ -> },
+            onEnter = {},
+            onFocusChanged = {},
+            singleLine = false,
+            placeholder = "Placeholder",
+            type = WepliTextFieldType.MultiLine,
+            modifier = Modifier.height(100.dp)
         )
 
         WepliTextField(
@@ -306,6 +308,7 @@ private fun WepliTextFieldPreview() {
             singleLine = true,
             placeholder = "Placeholder",
             type = WepliTextFieldType.Normal,
+            modifier = Modifier.height(44.dp)
         )
 
         WepliTextField(
@@ -316,6 +319,7 @@ private fun WepliTextFieldPreview() {
             singleLine = true,
             placeholder = "검색어를 입력하세요.",
             type = WepliTextFieldType.PrimarySearch,
+            modifier = Modifier.height(44.dp)
         )
 
         WepliTextField(
@@ -326,6 +330,7 @@ private fun WepliTextFieldPreview() {
             singleLine = true,
             placeholder = "검색어를 입력하세요.",
             type = WepliTextFieldType.InlineSearch,
+            modifier = Modifier.height(44.dp)
         )
     }
 }
