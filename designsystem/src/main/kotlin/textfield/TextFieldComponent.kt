@@ -2,7 +2,6 @@ package textfield
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -12,7 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -138,87 +137,85 @@ fun WepliTextField(
         }
     }
 
-    Box(modifier = Modifier.wrapContentSize()) {
-        CompositionLocalProvider(
-            LocalTextSelectionColors provides customTextSelectionColors
-        ) {
-            BasicTextField(
-                value = textFieldValueState,
-                modifier = modifier
-                    .fillMaxSize()
-                    .focusRequester(focusRequester)
-                    .onFocusChanged { focusState -> onFocusChanged(focusState) },
-                onValueChange = { newValue ->
-                    textFieldValueState = newValue
-                    onValueChanged(newValue.text)
-                },
-                enabled = type.isEnabled(),
-                readOnly = readOnly,
-                textStyle = WepliTheme.typo.body2.copy(
-                    color = WepliTheme.color.gray900,
-                ),
-                cursorBrush = SolidColor(WepliTheme.color.gray900),
-                visualTransformation = VisualTransformation.None, // 텍스트 타입 (비밀번호, 전화번호 등)
-                keyboardOptions = keyboardOptions,
-                keyboardActions = keyboardActions,
-                interactionSource = interactionSource,
-                singleLine = singleLine,
-                decorationBox = @Composable { innerTextField ->
-                    OutlinedTextFieldDefaults.DecorationBox(
-                        value = textFieldValueState.text,
-                        visualTransformation = VisualTransformation.None,
-                        innerTextField = innerTextField,
-                        placeholder = {
-                            Text(
-                                text = placeholder,
-                                style = WepliTheme.typo.body2,
-                                color = WepliTheme.color.gray500,
+    CompositionLocalProvider(
+        LocalTextSelectionColors provides customTextSelectionColors
+    ) {
+        BasicTextField(
+            value = textFieldValueState,
+            modifier = modifier
+                .fillMaxWidth()
+                .focusRequester(focusRequester)
+                .onFocusChanged { focusState -> onFocusChanged(focusState) },
+            onValueChange = { newValue ->
+                textFieldValueState = newValue
+                onValueChanged(newValue.text)
+            },
+            enabled = type.isEnabled(),
+            readOnly = readOnly,
+            textStyle = WepliTheme.typo.body2.copy(
+                color = WepliTheme.color.gray900,
+            ),
+            cursorBrush = SolidColor(WepliTheme.color.gray900),
+            visualTransformation = VisualTransformation.None, // 텍스트 타입 (비밀번호, 전화번호 등)
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
+            interactionSource = interactionSource,
+            singleLine = singleLine,
+            decorationBox = @Composable { innerTextField ->
+                OutlinedTextFieldDefaults.DecorationBox(
+                    value = textFieldValueState.text,
+                    visualTransformation = VisualTransformation.None,
+                    innerTextField = innerTextField,
+                    placeholder = {
+                        Text(
+                            text = placeholder,
+                            style = WepliTheme.typo.body2,
+                            color = WepliTheme.color.gray500,
+                        )
+                    },
+                    leadingIcon = type.leadingIcon()?.let { // 텍스트 앞에 보여줄 아이콘
+                        {
+                            Icon(
+                                modifier = Modifier.size(20.dp),
+                                painter = it,
+                                tint = WepliTheme.color.gray300,
+                                contentDescription = null
                             )
-                        },
-                        leadingIcon = type.leadingIcon()?.let { // 텍스트 앞에 보여줄 아이콘
-                            {
-                                Icon(
-                                    modifier = Modifier.size(20.dp),
-                                    painter = it,
-                                    tint = WepliTheme.color.gray300,
-                                    contentDescription = null
-                                )
-                            }
-                        },
-                        trailingIcon = type.trailingIcon()?.let { // 텍스트 끝에 보여줄 아이콘
-                            {
-                                Icon(
-                                    modifier = Modifier.size(20.dp),
-                                    painter = it,
-                                    tint = WepliTheme.color.gray300,
-                                    contentDescription = null
-                                )
-                            }
-                        },
-                        singleLine = singleLine,
-                        enabled = type.isEnabled(),
-                        isError = isError,
-                        interactionSource = interactionSource,
-                        colors = textFieldColors,
-                        contentPadding = if (singleLine) {
-                            PaddingValues(vertical = 0.dp, horizontal = 16.dp)
-                        } else {
-                            PaddingValues(vertical = 12.dp, horizontal = 16.dp)
-                        },
-                        container = {
-                            Container(
-                                enabled = type.isEnabled(),
-                                isError = isError,
-                                interactionSource = interactionSource,
-                                colors = textFieldColors,
-                                shape = RoundedCornerShape(4.dp),
-                                focusedBorderThickness = 0.dp,
+                        }
+                    },
+                    trailingIcon = type.trailingIcon()?.let { // 텍스트 끝에 보여줄 아이콘
+                        {
+                            Icon(
+                                modifier = Modifier.size(20.dp),
+                                painter = it,
+                                tint = WepliTheme.color.gray300,
+                                contentDescription = null
                             )
-                        },
-                    )
-                }
-            )
-        }
+                        }
+                    },
+                    singleLine = singleLine,
+                    enabled = type.isEnabled(),
+                    isError = isError,
+                    interactionSource = interactionSource,
+                    colors = textFieldColors,
+                    contentPadding = if (singleLine) {
+                        PaddingValues(vertical = 0.dp, horizontal = 16.dp)
+                    } else {
+                        PaddingValues(vertical = 12.dp, horizontal = 16.dp)
+                    },
+                    container = {
+                        Container(
+                            enabled = type.isEnabled(),
+                            isError = isError,
+                            interactionSource = interactionSource,
+                            colors = textFieldColors,
+                            shape = RoundedCornerShape(4.dp),
+                            focusedBorderThickness = 0.dp,
+                        )
+                    },
+                )
+            }
+        )
     }
 }
 
@@ -296,7 +293,7 @@ private fun WepliTextFieldPreview() {
             singleLine = false,
             placeholder = "Placeholder",
             type = WepliTextFieldType.MultiLine,
-            modifier = Modifier.height(100.dp)
+            modifier = Modifier.wrapContentHeight().heightIn(min = 44.dp)
         )
 
         WepliTextField(
