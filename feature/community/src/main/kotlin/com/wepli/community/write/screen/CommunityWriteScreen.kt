@@ -192,7 +192,8 @@ fun TitleLayout(
             type = WepliTextFieldType.Normal,
             onValueChanged = { newValue, maxLength ->
                 sendAction(CommunityWriteIntent.UpdateTitle(newValue, maxLength))
-            }
+            },
+            modifier = Modifier.height(44.dp)
         )
     }
 }
@@ -220,7 +221,8 @@ fun ContentsLayout(
             type = WepliTextFieldType.MultiLine,
             onValueChanged = { newValue, maxLength ->
                 sendAction(CommunityWriteIntent.UpdateContents(newValue, maxLength))
-            }
+            },
+            modifier = Modifier.height(250.dp)
         )
     }
 }
