@@ -4,11 +4,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -136,18 +138,19 @@ fun CommunityDetailScreen(
 @Composable
 fun CommentTextFieldLayout(
     userProfileImgUrl: String,
-    sendAction: (CommunityDetailIntent) -> Unit
+    sendAction: (CommunityDetailIntent) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier
+        modifier = modifier
             .background(WepliTheme.color.black)
             .padding(vertical = 8.dp, horizontal = 20.dp)
     ) {
         AsyncImageWithPreview(
             modifier = Modifier
-                .size(32.dp)
+                .size(36.dp)
                 .clip(shape = CircleShape),
             imageUrl = userProfileImgUrl,
             previewImage = painterResource(id = R.drawable.img_placeholder_minnie),
@@ -159,9 +162,13 @@ fun CommentTextFieldLayout(
             onValueChanged = { newValue ->
                 sendAction(CommunityDetailIntent.OnChangedComment(newValue))
             },
+            singleLine = false,
             placeholder = "댓글을 남겨주세요",
             type = WepliTextFieldType.MultiLine,
-            modifier = Modifier.clip(RoundedCornerShape(16.dp)).height(44.dp)
+            modifier = Modifier
+                .height(IntrinsicSize.Min)
+                .heightIn(min = 44.dp, max = 60.dp)
+                .clip(RoundedCornerShape(16.dp))
         )
     }
 }
