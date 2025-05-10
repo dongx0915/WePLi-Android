@@ -260,7 +260,9 @@ fun SearchBar(
             },
             placeholder = "검색어를 입력하세요.",
             type = WepliTextFieldType.PrimarySearch,
-            modifier = Modifier.focusRequester(focusRequester)
+            modifier = Modifier
+                .focusRequester(focusRequester)
+                .height(44.dp)
         )
     }
 }
