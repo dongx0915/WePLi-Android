@@ -1,16 +1,20 @@
 package com.wepli.community.detail
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -81,7 +85,7 @@ fun CommunityDetailScreen(
     val scrollState = rememberLazyListState()
     val comments = remember {
         commentMockData().sortedByDescending { it.createdAt }
-    }.take(2)
+    }
 
     ScrollableAppBar(
         scrollState = scrollState,
@@ -101,11 +105,13 @@ fun CommunityDetailScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(WepliTheme.color.black)
-                .padding(paddingValue),
+                .padding(paddingValue)
+                .imePadding(),
             contentAlignment = Alignment.BottomCenter
         ) {
             LazyColumn(
                 state = scrollState,
+                contentPadding = PaddingValues(bottom = 72.dp),
                 modifier = Modifier.fillMaxSize().align(Alignment.TopCenter),
             ) {
                 item { PostContent(post) }
@@ -115,7 +121,12 @@ fun CommunityDetailScreen(
                 }
             }
 
-            Row {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier
+                    .padding(vertical = 8.dp, horizontal = 20.dp)
+            ) {
                 AsyncImageWithPreview(
                     modifier = Modifier
                         .size(32.dp)
@@ -133,6 +144,7 @@ fun CommunityDetailScreen(
                     singleLine = true,
                     placeholder = "댓글을 남겨주세요",
                     type = WepliTextFieldType.Normal,
+                    modifier = Modifier.clip(RoundedCornerShape(16.dp))
                 )
             }
         }
