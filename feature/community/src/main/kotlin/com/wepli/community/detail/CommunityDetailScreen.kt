@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -125,7 +126,8 @@ fun CommunityDetailScreen(
             }
 
             CommentTextFieldLayout(
-                userProfileImgUrl = state.user.profileImgUrl
+                userProfileImgUrl = state.user.profileImgUrl,
+                sendAction = sendAction,
             )
         }
     }
@@ -134,6 +136,7 @@ fun CommunityDetailScreen(
 @Composable
 fun CommentTextFieldLayout(
     userProfileImgUrl: String,
+    sendAction: (CommunityDetailIntent) -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -154,12 +157,11 @@ fun CommentTextFieldLayout(
         WepliTextField(
             value = "",
             onValueChanged = { newValue ->
-                // sendAction(PhotoCardDetailIntent.OnChangedInstagramId(newValue))
+                sendAction(CommunityDetailIntent.OnChangedComment(newValue))
             },
-            singleLine = true,
             placeholder = "댓글을 남겨주세요",
-            type = WepliTextFieldType.Normal,
-            modifier = Modifier.clip(RoundedCornerShape(16.dp))
+            type = WepliTextFieldType.MultiLine,
+            modifier = Modifier.clip(RoundedCornerShape(16.dp)).height(44.dp)
         )
     }
 }
