@@ -68,7 +68,7 @@ sealed interface WepliTextFieldType {
         override fun trailingIcon(): Painter? = null
     }
 
-    data object Search : WepliTextFieldType {
+    data object PrimarySearch : WepliTextFieldType {
         @Composable
         override fun leadingIcon(): Painter = painterResource(id = R.drawable.ic_search)
 
@@ -76,7 +76,7 @@ sealed interface WepliTextFieldType {
         override fun trailingIcon(): Painter? = null
     }
 
-    data object SearchTwo : WepliTextFieldType {
+    data object InlineSearch : WepliTextFieldType {
         @Composable
         override fun leadingIcon(): Painter? = null
 
@@ -315,7 +315,7 @@ private fun WepliTextFieldPreview() {
             onFocusChanged = {},
             singleLine = true,
             placeholder = "검색어를 입력하세요.",
-            type = WepliTextFieldType.Search,
+            type = WepliTextFieldType.PrimarySearch,
         )
 
         WepliTextField(
@@ -325,7 +325,7 @@ private fun WepliTextFieldPreview() {
             onFocusChanged = {},
             singleLine = true,
             placeholder = "검색어를 입력하세요.",
-            type = WepliTextFieldType.SearchTwo,
+            type = WepliTextFieldType.InlineSearch,
         )
     }
 }
