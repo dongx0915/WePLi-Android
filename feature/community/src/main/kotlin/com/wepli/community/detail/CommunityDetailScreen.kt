@@ -113,7 +113,9 @@ fun CommunityDetailScreen(
             LazyColumn(
                 state = scrollState,
                 contentPadding = PaddingValues(bottom = 72.dp),
-                modifier = Modifier.fillMaxSize().align(Alignment.TopCenter),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .align(Alignment.TopCenter),
             ) {
                 item { PostContent(post) }
 
@@ -122,34 +124,43 @@ fun CommunityDetailScreen(
                 }
             }
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier
-                    .background(WepliTheme.color.black)
-                    .padding(vertical = 8.dp, horizontal = 20.dp)
-            ) {
-                AsyncImageWithPreview(
-                    modifier = Modifier
-                        .size(32.dp)
-                        .clip(shape = CircleShape),
-                    imageUrl = state.user.profileImgUrl,
-                    previewImage = painterResource(id = R.drawable.img_placeholder_minnie),
-                    imageOverrideSize = 32.dp
-                )
-
-                WepliTextField(
-                    value = "",
-                    onValueChanged = { newValue ->
-                        // sendAction(PhotoCardDetailIntent.OnChangedInstagramId(newValue))
-                    },
-                    singleLine = true,
-                    placeholder = "댓글을 남겨주세요",
-                    type = WepliTextFieldType.Normal,
-                    modifier = Modifier.clip(RoundedCornerShape(16.dp))
-                )
-            }
+            CommentTextFieldLayout(
+                userProfileImgUrl = state.user.profileImgUrl
+            )
         }
+    }
+}
+
+@Composable
+fun CommentTextFieldLayout(
+    userProfileImgUrl: String,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier
+            .background(WepliTheme.color.black)
+            .padding(vertical = 8.dp, horizontal = 20.dp)
+    ) {
+        AsyncImageWithPreview(
+            modifier = Modifier
+                .size(32.dp)
+                .clip(shape = CircleShape),
+            imageUrl = userProfileImgUrl,
+            previewImage = painterResource(id = R.drawable.img_placeholder_minnie),
+            imageOverrideSize = 32.dp
+        )
+
+        WepliTextField(
+            value = "",
+            onValueChanged = { newValue ->
+                // sendAction(PhotoCardDetailIntent.OnChangedInstagramId(newValue))
+            },
+            singleLine = true,
+            placeholder = "댓글을 남겨주세요",
+            type = WepliTextFieldType.Normal,
+            modifier = Modifier.clip(RoundedCornerShape(16.dp))
+        )
     }
 }
 
