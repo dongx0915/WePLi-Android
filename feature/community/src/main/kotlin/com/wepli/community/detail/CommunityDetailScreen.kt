@@ -3,10 +3,11 @@ package com.wepli.community.detail
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -18,7 +19,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -37,8 +37,8 @@ import com.wepli.community.detail.state.CommunityDetailIntent
 import com.wepli.community.detail.state.CommunityDetailState
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.commentMockData
-import com.wepli.shared.feature.uimodel.community.PostUiData
 import com.wepli.shared.feature.uimodel.community.CommentUiData
+import com.wepli.shared.feature.uimodel.community.PostUiData
 import image.AsyncImageWithPreview
 import org.orbitmvi.orbit.compose.collectAsState
 import textfield.WepliTextField
@@ -74,7 +74,7 @@ fun CommunityDetailScreenRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun CommunityDetailScreen(
     state: CommunityDetailState,
@@ -106,6 +106,7 @@ fun CommunityDetailScreen(
                 .fillMaxSize()
                 .background(WepliTheme.color.black)
                 .padding(paddingValue)
+                .consumeWindowInsets(paddingValue)
                 .imePadding(),
             contentAlignment = Alignment.BottomCenter
         ) {
@@ -125,6 +126,7 @@ fun CommunityDetailScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier
+                    .background(WepliTheme.color.black)
                     .padding(vertical = 8.dp, horizontal = 20.dp)
             ) {
                 AsyncImageWithPreview(
