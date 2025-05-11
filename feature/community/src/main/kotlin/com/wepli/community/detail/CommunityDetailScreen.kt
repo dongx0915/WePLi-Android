@@ -143,14 +143,15 @@ fun CommentTextFieldLayout(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
         modifier = modifier
             .background(WepliTheme.color.black)
             .padding(vertical = 8.dp, horizontal = 20.dp)
+            .padding(bottom = 4.dp)
     ) {
         AsyncImageWithPreview(
             modifier = Modifier
-                .size(36.dp)
+                .size(28.dp)
                 .clip(shape = CircleShape),
             imageUrl = userProfileImgUrl,
             previewImage = painterResource(id = R.drawable.img_placeholder_minnie),
