@@ -2,6 +2,7 @@ package com.wepli.data.playlist.datasource.remote
 
 import com.wepli.data.playlist.response.RecommendPlaylistResponse
 import com.wepli.core.kotlin.flow.FlowResult
+import com.wepli.data.SupabaseTable
 import com.wepli.data.playlist.response.PlaylistResponse
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.postgrest
@@ -13,14 +14,9 @@ class PlaylistSupabaseDataSourceImpl @Inject constructor(
     private val supabaseClient: SupabaseClient,
 ) : PlaylistDataSource {
 
-    companion object {
-        private const val PLAYLIST_TABLE = "playlist"
-        private const val PLAYLIST_VIEW = "playlist_view"
-    }
-
     override fun getRecommendPlaylist(): FlowResult<List<RecommendPlaylistResponse>> = flow {
         val result = runCatching {
-            supabaseClient.postgrest[PLAYLIST_TABLE]
+            supabaseClient.postgrest[SupabaseTable.PLAYLIST_TABLE]
                 .select(
                     columns = Columns.list("id", "title", "cover_img"),
                     request = {
@@ -30,7 +26,7 @@ class PlaylistSupabaseDataSourceImpl @Inject constructor(
                     }
                 )
                 .decodeList<RecommendPlaylistResponse>()
-                .ifEmpty { throw Exception("Theme playlist not found") }
+                .ifEmpty { throw Exception("Recommend playlist not found") }
         }
 
         emit(result)
@@ -38,7 +34,7 @@ class PlaylistSupabaseDataSourceImpl @Inject constructor(
 
     override fun getThemePlaylist(): FlowResult<List<RecommendPlaylistResponse>> = flow {
         val result = runCatching {
-            supabaseClient.postgrest[PLAYLIST_TABLE]
+            supabaseClient.postgrest[SupabaseTable.PLAYLIST_TABLE]
                 .select(
                     columns = Columns.list("id", "title", "cover_img"),
                     request = {
@@ -56,7 +52,7 @@ class PlaylistSupabaseDataSourceImpl @Inject constructor(
 
     override fun findPlaylistById(playlistId: Int): FlowResult<PlaylistResponse> = flow {
         val result = runCatching {
-            supabaseClient.postgrest[PLAYLIST_VIEW]
+            supabaseClient.postgrest[SupabaseTable.PLAYLIST_VIEW]
                 .select(
                     columns = Columns.ALL,
                     request = {
