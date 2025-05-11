@@ -165,7 +165,7 @@ fun CommentTextFieldLayout(
             },
             singleLine = false,
             placeholder = "댓글을 남겨주세요",
-            type = WepliTextFieldType.MultiLine,
+            type = WepliTextFieldType.Comment,
             modifier = Modifier
                 .height(IntrinsicSize.Min)
                 .heightIn(min = 44.dp, max = 60.dp)

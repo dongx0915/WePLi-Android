@@ -45,25 +45,23 @@ import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
 import theme.WepliTheme
 
-sealed interface WepliTextFieldType {
+sealed class WepliTextFieldType(
+    val isEnabled: Boolean = true,
+) {
+    @Composable
+    open fun leadingIcon(): Painter? = null
 
     @Composable
-    fun leadingIcon(): Painter?
+    open fun trailingIcon(): Painter? = null
 
-    @Composable
-    fun trailingIcon(): Painter?
+    data object Normal : WepliTextFieldType()
 
-    fun isEnabled(): Boolean = true
-
-    data object Normal : WepliTextFieldType {
+    data object Comment : WepliTextFieldType() {
         @Composable
-        override fun leadingIcon(): Painter? = null
-
-        @Composable
-        override fun trailingIcon(): Painter? = null
+        override fun trailingIcon(): Painter = painterResource(id = R.drawable.ic_send)
     }
 
-    data object PrimarySearch : WepliTextFieldType {
+    data object PrimarySearch : WepliTextFieldType() {
         @Composable
         override fun leadingIcon(): Painter = painterResource(id = R.drawable.ic_search)
 
@@ -71,20 +69,12 @@ sealed interface WepliTextFieldType {
         override fun trailingIcon(): Painter? = null
     }
 
-    data object InlineSearch : WepliTextFieldType {
+    data object InlineSearch : WepliTextFieldType() {
         @Composable
         override fun leadingIcon(): Painter? = null
 
         @Composable
         override fun trailingIcon(): Painter = painterResource(id = R.drawable.ic_search)
-    }
-    
-    data object MultiLine : WepliTextFieldType {
-        @Composable
-        override fun leadingIcon(): Painter? = null
-
-        @Composable
-        override fun trailingIcon(): Painter? = null
     }
 }
 
@@ -143,14 +133,14 @@ fun WepliTextField(
         BasicTextField(
             value = textFieldValueState,
             modifier = modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .focusRequester(focusRequester)
                 .onFocusChanged { focusState -> onFocusChanged(focusState) },
             onValueChange = { newValue ->
                 textFieldValueState = newValue
                 onValueChanged(newValue.text)
             },
-            enabled = type.isEnabled(),
+            enabled = type.isEnabled,
             readOnly = readOnly,
             textStyle = WepliTheme.typo.body2.copy(
                 color = WepliTheme.color.gray900,
@@ -194,7 +184,7 @@ fun WepliTextField(
                         }
                     },
                     singleLine = singleLine,
-                    enabled = type.isEnabled(),
+                    enabled = type.isEnabled,
                     isError = isError,
                     interactionSource = interactionSource,
                     colors = textFieldColors,
@@ -205,7 +195,7 @@ fun WepliTextField(
                     },
                     container = {
                         Container(
-                            enabled = type.isEnabled(),
+                            enabled = type.isEnabled,
                             isError = isError,
                             interactionSource = interactionSource,
                             colors = textFieldColors,
@@ -222,6 +212,7 @@ fun WepliTextField(
 @Composable
 fun LimitedLengthTextField(
     value: String,
+    singleLine: Boolean,
     maxLength: Int,
     isLengthExceeded: Boolean,
     placeholder: String,
@@ -240,7 +231,7 @@ fun LimitedLengthTextField(
                 onValueChanged(newValue, maxLength)
             },
             isError = isLengthExceeded,
-            singleLine = type == WepliTextFieldType.Normal,
+            singleLine = singleLine,
             placeholder = placeholder,
             type = type
         )
@@ -292,8 +283,8 @@ private fun WepliTextFieldPreview() {
             onFocusChanged = {},
             singleLine = false,
             placeholder = "Placeholder",
-            type = WepliTextFieldType.MultiLine,
-            modifier = Modifier.wrapContentHeight().heightIn(min = 44.dp)
+            type = WepliTextFieldType.Normal,
+            modifier = Modifier.wrapContentHeight().heightIn(min = 44.dp, max = 100.dp)
         )
 
         WepliTextField(
@@ -327,6 +318,18 @@ private fun WepliTextFieldPreview() {
             singleLine = true,
             placeholder = "검색어를 입력하세요.",
             type = WepliTextFieldType.InlineSearch,
+            modifier = Modifier.height(44.dp)
+        )
+
+        LimitedLengthTextField(
+            value = "",
+            maxLength = 0,
+            isLengthExceeded = true,
+            placeholder = "제목을 작성해주세요.",
+            errorText = "최대 0자까지 입력 가능합니다.",
+            singleLine = true,
+            type = WepliTextFieldType.Normal,
+            onValueChanged = { newValue, maxLength ->  },
             modifier = Modifier.height(44.dp)
         )
     }
