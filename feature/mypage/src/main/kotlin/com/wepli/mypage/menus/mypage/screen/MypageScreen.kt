@@ -47,9 +47,11 @@ import com.wepli.shared.feature.mock.userMockData
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import component.dialog.WepliDialog
 import component.dialog.WepliDialogType
+import dev.chrisbanes.haze.hazeSource
 import image.AsyncImageWithPreview
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
+import theme.LocalHazeState
 import theme.WepliTheme
 
 @Preview
@@ -145,6 +147,7 @@ fun MyPageScreen(
     onAction: (MyPageIntent) -> Unit,
 ) {
     val scrollState = rememberScrollState()
+    val blurState = LocalHazeState.current
 
     Scaffold(
         containerColor = WepliTheme.color.black,
@@ -159,6 +162,7 @@ fun MyPageScreen(
             Modifier
                 .padding(paddingValues)
                 .padding(bottom = paddingValues.calculateBottomPadding())
+                .hazeSource(blurState)
                 .verticalScroll(scrollState)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(24.dp)
