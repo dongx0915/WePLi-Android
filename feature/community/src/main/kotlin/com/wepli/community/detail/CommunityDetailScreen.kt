@@ -3,7 +3,6 @@ package com.wepli.community.detail
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -73,11 +72,11 @@ fun CommunityDetailScreenRoute(
     CommunityDetailScreen(
         state = state,
         sendAction = viewModel::processIntent,
-        navOnBack = { }
+        navOnBack = navOnBack
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommunityDetailScreen(
     state: CommunityDetailState,
