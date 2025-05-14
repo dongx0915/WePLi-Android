@@ -80,12 +80,11 @@ fun PlaylistScreen(
         onClickLike = { sendAction(PlaylistIntent.OnClickLike) },
         navOnBack = navOnBack
     ) { scrollState, paddingValue ->
-        val (topPadding, bottomPadding) = paddingValue.calculateTopPadding() to paddingValue.calculateBottomPadding()
+        val topPadding = paddingValue.calculateTopPadding()
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = bottomPadding)
                 .verticalScroll(scrollState)
                 .background(Color.Black),
             verticalArrangement = Arrangement.spacedBy(32.dp)
@@ -105,6 +104,8 @@ fun PlaylistScreen(
                 subscription = "플레이리스트를 빛낸 아티스트들이에요",
                 artistList = artistMockData
             )
+
+            Spacer(modifier = Modifier.height(20.dp))
         }
     }
 }
