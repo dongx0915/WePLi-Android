@@ -9,7 +9,7 @@ import base.BaseMviViewModel
 import base.Intent
 import base.SideEffect
 import base.UiState
-import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.wepli.core.common.BuildConfig
 import com.wepli.core.kotlin.flow.suspendCollectResult
@@ -99,7 +99,7 @@ class LoginViewModel @Inject constructor(
         getCredential: suspend (GetCredentialRequest) -> GetCredentialResponse
     ) = intent {
         val hashedNonce: String = generateHashNonce(UUID.randomUUID().toString())
-        val request: GetCredentialRequest = buildGoogleLoginRequest(hashedNonce)
+        val request: GetCredentialRequest = buildGoogleLoginRequest()
 
         viewModelScope.launch {
             runCatching {
@@ -130,15 +130,12 @@ class LoginViewModel @Inject constructor(
         return messageDigest.fold("") { str, it -> str + "%02x".format(it) }
     }
 
-    private fun buildGoogleLoginRequest(hashedNonce: String): GetCredentialRequest {
-        val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
-            .setFilterByAuthorizedAccounts(false)
-            .setServerClientId(BuildConfig.SUPABASE_CLIENT_ID)
-            .setNonce(hashedNonce)
-            .build()
+    private fun buildGoogleLoginRequest(): GetCredentialRequest {
+        val googleOptions = GetSignInWithGoogleOption.Builder(BuildConfig.SUPABASE_CLIENT_ID).build()
 
         return GetCredentialRequest.Builder()
-            .addCredentialOption(googleIdOption)
+            .addCredentialOption(googleOptions)
+            .setPreferImmediatelyAvailableCredentials(false)
             .build()
     }
 
