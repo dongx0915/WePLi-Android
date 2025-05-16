@@ -8,12 +8,12 @@ import androidx.compose.animation.fadeOut
 
 object ScreenTransitions {
 
-    fun defaultEnterTransition(): EnterTransition {
-        return fadeIn(animationSpec = tween(durationMillis = 1000))
+    fun defaultEnterTransition(durationMillis: Int = 1000): EnterTransition {
+        return fadeIn(animationSpec = tween(durationMillis = durationMillis))
     }
 
-    fun defaultExitTransition(): ExitTransition {
-        return fadeOut(animationSpec = tween(durationMillis = 1000))
+    fun defaultExitTransition(durationMillis: Int = 1000): ExitTransition {
+        return fadeOut(animationSpec = tween(durationMillis = durationMillis))
     }
 
     fun defaultPopEnterTransition(): EnterTransition? = null

@@ -49,10 +49,10 @@ fun SetUpNavGraph(
         navController = navController,
         startDestination = startDestination,
         enterTransition = {
-            ScreenTransitions.defaultEnterTransition()
+            ScreenTransitions.defaultEnterTransition(500)
         },
         exitTransition = {
-            ScreenTransitions.defaultExitTransition()
+            ScreenTransitions.defaultExitTransition(500)
         }
     ) {
         // 홈 Graph
