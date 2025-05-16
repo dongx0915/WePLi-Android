@@ -51,7 +51,7 @@ data class RelaylistUiData(
                 description = domainModel.description,
                 coverImgUrl = domainModel.coverImgUrl,
                 bSideTrack = domainModel.bSideTrack.map(SongUiData::fromDomain),
-                songCnt = domainModel.songCount,
+                songCnt = domainModel.bSideTrack.size,
                 isLiked = false,
                 endDate = domainModel.endDate,
                 createdAt = domainModel.createdAt,
