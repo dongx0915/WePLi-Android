@@ -1,5 +1,6 @@
 package textfield
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -91,6 +92,8 @@ fun WepliTextField(
     onValueChanged: (String) -> Unit = { _ -> },
     onEnter: () -> Unit = {},
     onFocusChanged: (FocusState) -> Unit = {},
+    onClickLeadingIcon: () -> Unit = {},
+    onClickTrailingIcon: () -> Unit = {},
     focusRequester: FocusRequester = remember { FocusRequester() },
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions(onDone = { onEnter() }),
@@ -166,7 +169,7 @@ fun WepliTextField(
                     leadingIcon = type.leadingIcon()?.let { // 텍스트 앞에 보여줄 아이콘
                         {
                             Icon(
-                                modifier = Modifier.size(20.dp),
+                                modifier = Modifier.size(20.dp).clickable { onClickLeadingIcon() },
                                 painter = it,
                                 tint = WepliTheme.color.gray300,
                                 contentDescription = null
@@ -176,7 +179,7 @@ fun WepliTextField(
                     trailingIcon = type.trailingIcon()?.let { // 텍스트 끝에 보여줄 아이콘
                         {
                             Icon(
-                                modifier = Modifier.size(20.dp),
+                                modifier = Modifier.size(20.dp).clickable { onClickTrailingIcon() },
                                 painter = it,
                                 tint = WepliTheme.color.gray300,
                                 contentDescription = null
