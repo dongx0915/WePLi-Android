@@ -189,10 +189,12 @@ fun TitleLayout(
             isLengthExceeded = isTitleLengthExceeded,
             placeholder = "제목을 작성해주세요.",
             errorText = "제목은 ${maxLength}자 이내로 작성해주세요.",
+            singleLine = true,
             type = WepliTextFieldType.Normal,
             onValueChanged = { newValue, maxLength ->
                 sendAction(CommunityWriteIntent.UpdateTitle(newValue, maxLength))
-            }
+            },
+            modifier = Modifier.height(44.dp)
         )
     }
 }
@@ -213,14 +215,16 @@ fun ContentsLayout(
 
         LimitedLengthTextField(
             value = contents,
+            singleLine = false,
             maxLength = maxLength,
             isLengthExceeded = isContentsLengthExceeded,
             placeholder = "내용을 작성해주세요.",
             errorText = "내용은 ${maxLength}자 이내로 작성해주세요.",
-            type = WepliTextFieldType.MultiLine,
+            type = WepliTextFieldType.Normal,
             onValueChanged = { newValue, maxLength ->
                 sendAction(CommunityWriteIntent.UpdateContents(newValue, maxLength))
-            }
+            },
+            modifier = Modifier.height(250.dp)
         )
     }
 }

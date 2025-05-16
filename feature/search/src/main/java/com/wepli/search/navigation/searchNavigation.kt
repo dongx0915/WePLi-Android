@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import animation.transition.ScreenTransitions
 import com.wepli.navigator.extras.Extras
 import com.wepli.navigator.feature.search.SearchRoute
 import com.wepli.search.detail.screen.SearchScreenRoute
@@ -45,7 +46,8 @@ fun NavGraphBuilder.searchDetailGraph(
         arguments = listOf(
             navArgument("maxCount") { type = NavType.IntType }
         ),
-        enterTransition = { enterAnimation() },
+        enterTransition = { ScreenTransitions.defaultEnterTransition() },
+        exitTransition = { ScreenTransitions.defaultExitTransition() },
         popEnterTransition = { null },
         popExitTransition = { null },
     ) {

@@ -72,6 +72,7 @@ fun PhotoCardChapter3Screen(
             singleLine = true,
             placeholder = "계정을 입력해주세요",
             type = WepliTextFieldType.Normal,
+            modifier = Modifier.height(44.dp)
         )
 
         Spacer(modifier = Modifier.weight(1f))

@@ -7,6 +7,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import animation.transition.ScreenTransitions
 import com.wepli.navigator.feature.playlist.PlaylistRoute
 import com.wepli.playlist.PlaylistScreenRoute
 
@@ -22,7 +23,8 @@ fun NavGraphBuilder.playlistDetailGraph(
     composable(
         route = "${PlaylistRoute.Detail.route}/{playlistId}",
         arguments = listOf(navArgument("playlistId") { type = NavType.IntType }),
-        enterTransition = { fadeIn(tween(1000)) }
+        enterTransition = { ScreenTransitions.defaultEnterTransition() },
+        exitTransition = { ScreenTransitions.defaultExitTransition() },
     ) {
         val playlistId: Int = it.arguments?.getInt("playlistId") ?: -1
 

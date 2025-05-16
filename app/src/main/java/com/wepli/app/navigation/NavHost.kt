@@ -9,6 +9,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import animation.transition.ScreenTransitions
 import com.wepli.app.ChartScreen
 import com.wepli.community.navigation.communityDetailGraph
 import com.wepli.community.navigation.communityMainGraph
@@ -48,10 +49,10 @@ fun SetUpNavGraph(
         navController = navController,
         startDestination = startDestination,
         enterTransition = {
-            fadeIn(animationSpec = tween(500))
+            ScreenTransitions.defaultEnterTransition(500)
         },
         exitTransition = {
-            fadeOut(animationSpec = tween(500))
+            ScreenTransitions.defaultExitTransition(500)
         }
     ) {
         // 홈 Graph

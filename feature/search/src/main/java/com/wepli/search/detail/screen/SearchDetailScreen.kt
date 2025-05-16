@@ -259,8 +259,10 @@ fun SearchBar(
                 keyboardController?.hide()
             },
             placeholder = "검색어를 입력하세요.",
-            type = WepliTextFieldType.Search,
-            modifier = Modifier.focusRequester(focusRequester)
+            type = WepliTextFieldType.PrimarySearch,
+            modifier = Modifier
+                .focusRequester(focusRequester)
+                .height(44.dp)
         )
     }
 }
