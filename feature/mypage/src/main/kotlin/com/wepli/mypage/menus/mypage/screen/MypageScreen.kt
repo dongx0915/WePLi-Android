@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
+import com.wepli.core.common.BuildConfig
 import com.wepli.designsystem.R
 import com.wepli.mypage.common.MenuSection
 import com.wepli.mypage.component.MenuLayout
@@ -54,7 +55,7 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 import theme.LocalHazeState
 import theme.WepliTheme
 
-@Preview
+@Preview(heightDp = 2000)
 @Composable
 fun MyPageScreenPreview() {
     MyPageScreen(

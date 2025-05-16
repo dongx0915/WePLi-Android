@@ -4,6 +4,7 @@ import base.BaseMviViewModel
 import base.Intent
 import base.SideEffect
 import base.UiState
+import com.wepli.core.common.BuildConfig
 import com.wepli.mypage.common.MenuSection
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,6 +34,7 @@ interface MyPageIntent : Intent {
     data class ShowLogoutPopup(val isShow: Boolean) : MyPageIntent
     data object RequestLogout : MyPageIntent
     data object NavigateOnAppInfo : MyPageIntent
+    data object NavigateDevMode : MyPageIntent
     data object OnClickPhotoCardMenu : MyPageIntent
 }
 
@@ -76,9 +78,13 @@ class MyPageViewModel @Inject constructor(
             ),
             MenuSection(
                 title = "기타",
-                items = listOf(
+                items = mutableListOf(
                     MenuSection.MenuItem("로그아웃", MyPageIntent.ShowLogoutPopup(true)),
-                )
+                ).apply {
+                    if (BuildConfig.DEBUG) {
+                        add(MenuSection.MenuItem("개발자 모드", MyPageIntent.NavigateDevMode))
+                    }
+                }
             )
         )
 
