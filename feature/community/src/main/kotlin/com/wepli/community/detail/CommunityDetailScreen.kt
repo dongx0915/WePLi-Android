@@ -162,6 +162,9 @@ fun CommentTextFieldLayout(
             onValueChanged = { newValue ->
                 sendAction(CommunityDetailIntent.OnChangedComment(newValue))
             },
+            onClickTrailingIcon = {
+                sendAction(CommunityDetailIntent.UploadComment)
+            },
             singleLine = false,
             placeholder = "댓글을 남겨주세요",
             type = WepliTextFieldType.Comment,

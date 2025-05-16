@@ -22,4 +22,5 @@ sealed interface CommunityDetailEffect : SideEffect {
 sealed interface CommunityDetailIntent : Intent {
     data class InitPost(val post: PostUiData) : CommunityDetailIntent
     data class OnChangedComment(val comment: String) : CommunityDetailIntent
+    data object UploadComment : CommunityDetailIntent
 }
