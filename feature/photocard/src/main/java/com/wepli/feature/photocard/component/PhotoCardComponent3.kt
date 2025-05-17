@@ -34,7 +34,7 @@ import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.uimodel.photocard.PhotoCardUiData
 import com.wepli.uimodel.music.SongUiData
 import common.ShimmerSkeleton
-import extensions.compose.shimmerEffect
+import compose.shimmerEffect
 import image.AsyncImageWithPreview
 import theme.WepliTheme
 

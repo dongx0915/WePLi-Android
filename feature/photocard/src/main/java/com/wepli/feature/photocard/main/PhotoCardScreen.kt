@@ -40,7 +40,7 @@ import button.WepliButtonStyle
 import com.wepli.feature.photocard.component.PhotoCardComponent4
 import com.wepli.feature.photocard.main.mvi.PhotoCardMainUiState
 import com.wepli.feature.photocard.main.viewmodel.PhotoCardMainViewModel
-import extensions.compose.shimmerEffect
+import compose.shimmerEffect
 import kotlinx.coroutines.delay
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme

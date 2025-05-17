@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import extensions.compose.shimmerEffect
+import compose.shimmerEffect
 import theme.WepliTheme
 
 @Composable

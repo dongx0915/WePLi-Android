@@ -40,7 +40,7 @@ import com.wepli.search.detail.mvi.SearchDetailIntent
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
 import component.bottomsheet.BottomSheetItem
-import extensions.compose.toPx
+import compose.toPx
 import image.AsyncImageWithPreview
 import theme.WepliTheme
 

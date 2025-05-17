@@ -26,7 +26,7 @@ import button.WepliButtonStyle
 import com.wepli.designsystem.R
 import com.wepli.feature.photocard.detail.mvi.PhotoCardDetailUiState
 import common.ShimmerSkeleton
-import extensions.compose.toPx
+import compose.toPx
 import image.AsyncImageWithPreview
 import theme.WepliTheme
 

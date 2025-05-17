@@ -27,7 +27,7 @@ import androidx.compose.ui.util.lerp
 import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.relaylistMockData
 import custom.BlurBackgroundOverlay
-import extensions.compose.pagerFadeTransition
+import compose.pagerFadeTransition
 import image.AsyncImageWithPreview
 import model.relaylist.Relaylist
 import theme.WepliTheme

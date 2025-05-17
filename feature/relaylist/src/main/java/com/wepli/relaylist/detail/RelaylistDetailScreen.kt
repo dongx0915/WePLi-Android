@@ -24,7 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -42,7 +41,7 @@ import com.wepli.shared.feature.mock.relaylistUiMockData
 import com.wepli.uimodel.music.SongUiData
 import custom.MusicItem
 import custom.MusicItemType
-import extensions.compose.toPx
+import compose.toPx
 import image.AsyncImageWithPreview
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme

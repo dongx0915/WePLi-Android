@@ -64,8 +64,8 @@ import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
 import common.ShimmerSkeleton
 import common.WepliSpacer
-import extensions.compose.toPx
-import extensions.compose.topBorderWithRoundedCorners
+import compose.toPx
+import compose.topBorderWithRoundedCorners
 import image.AsyncImageWithPreview
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect

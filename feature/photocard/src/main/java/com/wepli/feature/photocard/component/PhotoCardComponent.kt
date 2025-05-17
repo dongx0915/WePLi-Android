@@ -34,7 +34,7 @@ import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.uimodel.photocard.PhotoCardUiData
 import common.ShimmerSkeleton
-import extensions.compose.toPx
+import compose.toPx
 import image.AsyncImageWithPreview
 import theme.WepliTheme
 

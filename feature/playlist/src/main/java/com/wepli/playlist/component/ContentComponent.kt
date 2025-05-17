@@ -23,7 +23,7 @@ import custom.ArtistProfileListItem
 import custom.MusicItem
 import custom.MusicItemType
 import custom.TwoLineTitle
-import extensions.compose.toPx
+import compose.toPx
 
 @Composable
 fun ArtistLayout(

@@ -24,7 +24,7 @@ import com.wepli.designsystem.R
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
 import common.ShimmerSkeleton
-import extensions.compose.toPx
+import compose.toPx
 import image.AsyncImageWithPreview
 import theme.WepliTheme
 

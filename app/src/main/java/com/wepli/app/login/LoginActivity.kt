@@ -55,8 +55,8 @@ import common.WepliSpacer
 import component.dialog.WepliDialog
 import component.dialog.WepliDialogType
 import dagger.hilt.android.AndroidEntryPoint
-import extensions.compose.shimmerEffect
-import extensions.compose.toPx
+import compose.shimmerEffect
+import compose.toPx
 import image.AsyncImageWithPreview
 import kotlinx.coroutines.delay
 import org.orbitmvi.orbit.compose.collectAsState
