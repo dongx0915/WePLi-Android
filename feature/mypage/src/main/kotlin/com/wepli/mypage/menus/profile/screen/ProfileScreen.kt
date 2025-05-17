@@ -106,7 +106,7 @@ private fun ProfileScreen(
             Spacer(modifier = Modifier.height(40.dp))
             NicknameLayout(
                 nickname = state.user.nickname,
-                maxLength = 16,
+                maxLength = 20,
                 isTitleLengthExceeded = false,
                 sendAction = sendAction,
             )
@@ -114,8 +114,6 @@ private fun ProfileScreen(
             Spacer(modifier = Modifier.height(24.dp))
             TendencyField(
                 tendency = state.user.tendency,
-                maxLength = 20,
-                isTitleLengthExceeded = false,
                 sendAction = sendAction
             )
 
@@ -158,8 +156,6 @@ fun NicknameLayout(
 @Composable
 fun TendencyField(
     tendency: Tendency,
-    maxLength: Int,
-    isTitleLengthExceeded: Boolean,
     sendAction: (ProfileIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
