@@ -96,7 +96,7 @@ private fun ProfileScreen(
 
             ProfileImage(
                 imageSize = 84.dp,
-                profileImgUrl = "",
+                profileImgUrl = state.user.profileImgUrl,
                 modifier = Modifier.size(84.dp)
             )
 

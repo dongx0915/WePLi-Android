@@ -7,6 +7,7 @@ import base.UiState
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import model.tendency.Tendency
+import repository.user.UserRepository
 import javax.inject.Inject
 
 
@@ -20,10 +21,22 @@ sealed interface ProfileEffect : SideEffect
 sealed interface ProfileIntent : Intent
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor() : BaseMviViewModel<ProfileState, ProfileEffect, ProfileIntent>(
+class ProfileViewModel @Inject constructor(
+    private val userRepository: UserRepository,
+) : BaseMviViewModel<ProfileState, ProfileEffect, ProfileIntent>(
     initialState = ProfileState()
 ) {
+    init {
+        loadUserData()
+    }
+
     override fun processIntent(intent: ProfileIntent) {
         TODO("Not yet implemented")
+    }
+
+    private fun loadUserData() = launch {
+        userRepository.getUser()?.let {
+            updateState { copy(user = UserUiData.fromDomain(it)) }
+        }
     }
 }
