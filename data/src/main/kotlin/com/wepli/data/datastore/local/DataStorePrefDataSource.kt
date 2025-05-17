@@ -1,5 +1,7 @@
 package com.wepli.data.datastore.local
 
+import kotlinx.coroutines.flow.Flow
+
 interface DataStorePrefDataSource {
 
     suspend fun getInt(key: String, defaultValue: Int): Int
@@ -25,4 +27,14 @@ interface DataStorePrefDataSource {
     suspend fun getString(key: String, defaultValue: String): String
     suspend fun setString(key: String, value: String)
     suspend fun removeString(key: String)
+
+    // Flow
+    fun getIntFlow(key: String, defaultValue: Int): Flow<Int>
+    fun getLongFlow(key: String, defaultValue: Long): Flow<Long>
+    fun getFloatFlow(key: String, defaultValue: Float): Flow<Float>
+    fun getDoubleFlow(key: String, defaultValue: Double): Flow<Double>
+    fun getBooleanFlow(key: String, defaultValue: Boolean): Flow<Boolean>
+    fun getStringFlow(key: String, defaultValue: String): Flow<String>
+
+    fun <T> getObjectFlow(key: String, clazz: Class<T>): Flow<T?>
 }

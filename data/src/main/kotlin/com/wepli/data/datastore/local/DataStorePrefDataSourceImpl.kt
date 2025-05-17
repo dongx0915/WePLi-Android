@@ -1,15 +1,22 @@
 package com.wepli.data.datastore.local
 
+import android.util.Log
 import androidx.datastore.core.DataStore
+import androidx.datastore.core.IOException
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import extensions.parseFromJson
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class DataStorePrefDataSourceImpl @Inject constructor(
@@ -158,5 +165,51 @@ class DataStorePrefDataSourceImpl @Inject constructor(
         } catch (e: Exception) {
             // handle exception
         }
+    }
+
+    // Flow
+    override fun getIntFlow(key: String, defaultValue: Int): Flow<Int> {
+        return getFlow(intPreferencesKey(key), defaultValue)
+    }
+
+    override fun getLongFlow(key: String, defaultValue: Long): Flow<Long> {
+        return getFlow(longPreferencesKey(key), defaultValue)
+    }
+
+    override fun getFloatFlow(key: String, defaultValue: Float): Flow<Float> {
+        return getFlow(floatPreferencesKey(key), defaultValue)
+    }
+
+    override fun getDoubleFlow(key: String, defaultValue: Double): Flow<Double> {
+        return getFlow(doublePreferencesKey(key), defaultValue)
+    }
+
+    override fun getBooleanFlow(key: String, defaultValue: Boolean): Flow<Boolean> {
+        return getFlow(booleanPreferencesKey(key), defaultValue)
+    }
+
+    override fun getStringFlow(key: String, defaultValue: String): Flow<String> {
+        return getFlow(stringPreferencesKey(key), defaultValue)
+    }
+
+    override fun <T> getObjectFlow(key: String, clazz: Class<T>): Flow<T?> = dataStore.data
+        .catch { e ->
+            Log.e("DataStore", "Error reading data", e)
+            if (e is IOException) emit(emptyPreferences()) else throw e
+        }.map { prefs ->
+            val json = prefs[stringPreferencesKey(key)]
+            json?.parseFromJson(clazz)
+        }
+
+    private fun <T> getFlow(
+        key: Preferences.Key<T>,
+        defaultValue: T
+    ): Flow<T> {
+        return dataStore.data
+            .catch { e ->
+                Log.e("DataStore", "Error reading key: $key", e)
+                if (e is IOException) emit(emptyPreferences()) else throw e
+            }
+            .map { prefs -> prefs[key] ?: defaultValue }
     }
 }
