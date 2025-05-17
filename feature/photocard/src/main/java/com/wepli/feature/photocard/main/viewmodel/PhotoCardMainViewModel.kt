@@ -28,7 +28,7 @@ class PhotoCardMainViewModel @Inject constructor(
     }
 
     private fun getUser() = launch {
-        userRepository.getUser()?.let {
+        userRepository.getUserLocalData()?.let {
             updateState { copy(user = UserUiData.fromDomain(it)) }
         }
     }

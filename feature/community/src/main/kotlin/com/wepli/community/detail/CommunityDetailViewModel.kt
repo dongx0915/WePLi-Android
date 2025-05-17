@@ -39,7 +39,7 @@ class CommunityDetailViewModel @Inject constructor(
     }
 
     private fun loadUser() = launch {
-        userRepository.getUser()?.let {
+        userRepository.getUserLocalData()?.let {
             updateState { copy(user = UserUiData.fromDomain(it)) }
         }
     }

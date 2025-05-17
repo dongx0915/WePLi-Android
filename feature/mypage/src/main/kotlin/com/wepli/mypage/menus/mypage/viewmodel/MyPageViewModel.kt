@@ -102,7 +102,7 @@ class MyPageViewModel @Inject constructor(
 
     private fun loadUser() = intent {
         launchWithHandler {
-            val user: User? = withContext(Dispatchers.IO) { userRepository.getUser() }
+            val user: User? = withContext(Dispatchers.IO) { userRepository.getUserLocalData() }
             user?.let {
                 reduce { state.copy(user = UserUiData.fromDomain(it)) }
             }

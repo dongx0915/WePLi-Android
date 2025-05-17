@@ -108,7 +108,7 @@ class PhotoCardDetailViewModel @Inject constructor(
     private suspend fun makePhotoCardResult(
         state: PhotoCardDetailUiState
     ) = withContext(Dispatchers.IO) {
-        val user = userRepository.getUser()
+        val user = userRepository.getUserLocalData()
         PhotoCardUiData(
             nickname = user?.nickname ?: "",
             profileImg = user?.profileImgUrl ?: "",
@@ -120,7 +120,7 @@ class PhotoCardDetailViewModel @Inject constructor(
     }
 
     private fun setUserInfo() = launch {
-        userRepository.getUser()?.let {
+        userRepository.getUserLocalData()?.let {
             updateState { copy(user = UserUiData.fromDomain(it)) }
         }
     }

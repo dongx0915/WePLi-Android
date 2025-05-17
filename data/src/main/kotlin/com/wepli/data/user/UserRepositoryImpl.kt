@@ -27,11 +27,11 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getUser(): User? {
+    override suspend fun getUserLocalData(): User? {
         return user ?: dataStorePrefDataSource.getString(DataStoreKey.USER, "").parseFromJson<User>()
     }
 
-    override suspend fun setUserData(user: User) {
+    override suspend fun setUserLocalData(user: User) {
         dataStorePrefDataSource.setString(DataStoreKey.USER, user.toJsonString())
     }
 

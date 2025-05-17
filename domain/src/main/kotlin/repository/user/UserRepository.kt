@@ -8,8 +8,8 @@ interface UserRepository {
 
     suspend fun getUserById(id: String): FlowResult<User>
 
-    suspend fun getUser(): User?
-    suspend fun setUserData(user: User)
+    suspend fun getUserLocalData(): User?
+    suspend fun setUserLocalData(user: User)
 
     suspend fun getRefreshToken(): String
     suspend fun saveUserSession(

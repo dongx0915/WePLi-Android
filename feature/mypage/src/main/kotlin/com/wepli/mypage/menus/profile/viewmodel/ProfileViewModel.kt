@@ -49,7 +49,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun loadUserData() = launch {
-        userRepository.getUser()?.let {
+        userRepository.getUserLocalData()?.let {
             Log.d("USER", it.toString())
             updateState { copy(user = UserUiData.fromDomain(it)) }
         }
