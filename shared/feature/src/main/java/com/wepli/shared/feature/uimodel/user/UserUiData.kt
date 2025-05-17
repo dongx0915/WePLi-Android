@@ -27,5 +27,15 @@ data class UserUiData(
                 tendency = domainModel.tendency
             )
         }
+
+        override fun toDomain(uiModel: UserUiData): User {
+            return User(
+                id = uiModel.id,
+                nickname = uiModel.nickname,
+                email = uiModel.email,
+                profileImgUrl = uiModel.profileImgUrl,
+                tendency = uiModel.tendency
+            )
+        }
     }
 }
