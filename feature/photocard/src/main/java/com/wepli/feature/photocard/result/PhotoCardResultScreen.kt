@@ -41,7 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.AppBarIcon
-import appbar.AppBarIconType
+import appbar.IconType
 import appbar.WepliAppBar
 import button.WepliBasicButton
 import button.WepliButtonStyle
@@ -105,7 +105,7 @@ fun PhotoCardResultScreen(
                 onClickBack = navOnBack,
                 actionIcons = listOf {
                     AppBarIcon(
-                        icon = AppBarIconType.Save {
+                        icon = IconType.Save {
                             onClickSaveBtn(context, coroutineScope, graphicsLayer)
                         }
                     )

@@ -58,7 +58,7 @@ fun WepliAppBar(
 
             if (showBackButton) {
                 AppBarIcon(
-                    icon = AppBarIconType.Back(
+                    icon = IconType.Back(
                         iconColor = { contentsColor },
                         onClick = { onClickBack?.invoke() }
                     )
@@ -92,8 +92,8 @@ fun AppBarPreview() {
             showLogo = true,
             showBackButton = false,
             actionIcons = listOf {
-                AppBarIcon(icon = AppBarIconType.Search())
-                AppBarIcon(icon = AppBarIconType.Notification())
+                AppBarIcon(icon = IconType.Search())
+                AppBarIcon(icon = IconType.Notification())
             }
         )
     }

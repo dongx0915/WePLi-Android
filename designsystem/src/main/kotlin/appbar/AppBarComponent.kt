@@ -50,8 +50,8 @@ fun HomeAppBar(
                 containerColor = backgroundColor,
                 contentsColor = contentsColor,
                 actionIcons = listOf {
-                    AppBarIcon(icon = AppBarIconType.Search())
-                    AppBarIcon(icon = AppBarIconType.Notification())
+                    AppBarIcon(icon = IconType.Search())
+                    AppBarIcon(icon = IconType.Notification())
                 }
             )
         }
@@ -83,13 +83,13 @@ fun PlaylistAppBar(
                 showBackButton = true,
                 actionIcons = listOf {
                     AppBarIcon(
-                        icon = AppBarIconType.Like(
+                        icon = IconType.Like(
                             isLiked = playlistIsLiked,
                             iconColor = { contentsColor },
                             onClick = { onClickLike() }
                         )
                     )
-                    AppBarIcon(icon = AppBarIconType.More(iconColor = { contentsColor }))
+                    AppBarIcon(icon = IconType.More(iconColor = { contentsColor }))
                 },
                 onClickBack = { navOnBack() }
             )

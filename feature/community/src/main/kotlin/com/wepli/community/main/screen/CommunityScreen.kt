@@ -26,7 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.AppBarIcon
-import appbar.AppBarIconType
+import appbar.IconType
 import appbar.WepliAppBar
 import com.wepli.community.component.PostItem
 import com.wepli.community.component.WePLiStoryLayout
@@ -98,8 +98,8 @@ fun CommunityScreen(
                     showLogo = true,
                     showBackButton = false,
                     actionIcons = listOf {
-                        AppBarIcon(icon = AppBarIconType.Search())
-                        AppBarIcon(icon = AppBarIconType.Notification())
+                        AppBarIcon(icon = IconType.Search())
+                        AppBarIcon(icon = IconType.Notification())
                     }
                 )
             },
