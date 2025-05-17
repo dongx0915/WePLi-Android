@@ -7,6 +7,7 @@ import base.SideEffect
 import base.UiState
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import model.tendency.Tendency
 import repository.user.UserRepository
 import javax.inject.Inject
 
@@ -20,6 +21,7 @@ sealed interface ProfileEffect : SideEffect
 
 sealed interface ProfileIntent : Intent {
     data class ShowTendencyBottomSheet(val isShown: Boolean) : ProfileIntent
+    data class UpdateTendency(val tendency: Tendency) : ProfileIntent
 }
 
 @HiltViewModel
@@ -35,6 +37,9 @@ class ProfileViewModel @Inject constructor(
     override fun processIntent(intent: ProfileIntent) {
         when(intent) {
             is ProfileIntent.ShowTendencyBottomSheet -> updateState { copy(isShownTendencyBottomSheet = intent.isShown) }
+            is ProfileIntent.UpdateTendency -> updateState {
+                copy(user = user.copy(tendency = intent.tendency))
+            }
         }
     }
 

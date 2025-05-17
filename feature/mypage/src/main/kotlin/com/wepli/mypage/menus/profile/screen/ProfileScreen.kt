@@ -112,7 +112,7 @@ private fun ProfileScreen(
             )
 
             Spacer(modifier = Modifier.height(24.dp))
-            TendencyLayout(
+            TendencyField(
                 tendency = state.user.tendency,
                 maxLength = 20,
                 isTitleLengthExceeded = false,
@@ -156,7 +156,7 @@ fun NicknameLayout(
 }
 
 @Composable
-fun TendencyLayout(
+fun TendencyField(
     tendency: Tendency,
     maxLength: Int,
     isTitleLengthExceeded: Boolean,
@@ -221,7 +221,11 @@ fun TendencySelectBottomSheet(
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Tendency.entries.forEach {
-                TendencyItem(it, it == userTendency)
+                TendencyItem(
+                    tendency = it,
+                    isChecked = it == userTendency,
+                    sendAction = sendAction
+                )
             }
         }
     }
@@ -232,22 +236,26 @@ fun TendencySelectBottomSheet(
 fun TendencySelectBottomSheetPreview() {
     Column {
         Tendency.entries.forEach {
-            TendencyItem(it, false)
+            TendencyItem(it, false, {})
         }
     }
 }
 
-@Preview
 @Composable
 fun TendencyItem(
-    tendency: Tendency = Tendency.entries.random(),
-    isChecked: Boolean = false,
+    tendency: Tendency,
+    isChecked: Boolean,
+    sendAction: (ProfileIntent) -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier
             .fillMaxWidth()
+            .clickable {
+                sendAction(ProfileIntent.UpdateTendency(tendency))
+                sendAction(ProfileIntent.ShowTendencyBottomSheet(false))
+            }
             .padding(vertical = 6.dp, horizontal = 20.dp),
     ) {
         Icon(
