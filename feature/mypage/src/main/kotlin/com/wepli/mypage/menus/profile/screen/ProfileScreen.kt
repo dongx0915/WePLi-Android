@@ -3,6 +3,7 @@ package com.wepli.mypage.menus.profile.screen
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,12 +34,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.AppBarIcon
 import appbar.TextType
 import appbar.WepliAppBar
-import com.wepli.feature.mypage.R
 import com.wepli.mypage.component.ProfileImage
 import com.wepli.mypage.menus.profile.viewmodel.ProfileIntent
 import com.wepli.mypage.menus.profile.viewmodel.ProfileState
 import com.wepli.mypage.menus.profile.viewmodel.ProfileViewModel
 import com.wepli.shared.feature.uimodel.tendency.toIconResId
+import component.bottomsheet.WepliBottomSheet
+import component.bottomsheet.WepliBottomSheetType
 import model.tendency.Tendency
 import org.orbitmvi.orbit.compose.collectAsState
 import textfield.FieldLabel
@@ -50,7 +52,7 @@ import com.wepli.core.resources.R as CoreR
 @Preview
 @Composable
 fun ProfileScreenPreview() {
-    ProfileScreen(ProfileState())
+    ProfileScreen(ProfileState(), {})
 }
 
 @Composable
@@ -58,14 +60,15 @@ fun ProfileScreenRoute() {
     val viewModel = hiltViewModel<ProfileViewModel>()
     val state by viewModel.collectAsState()
 
-    ProfileScreen(state = state)
+    ProfileScreen(state = state, sendAction = viewModel::processIntent)
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ProfileScreen(
-    state: ProfileState
+    state: ProfileState,
+    sendAction: (ProfileIntent) -> Unit
 ) {
     Scaffold(
         containerColor = WepliTheme.color.black,
@@ -105,7 +108,7 @@ private fun ProfileScreen(
                 nickname = state.user.nickname,
                 maxLength = 16,
                 isTitleLengthExceeded = false,
-                sendAction = {},
+                sendAction = sendAction,
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -113,8 +116,12 @@ private fun ProfileScreen(
                 tendency = state.tendency,
                 maxLength = 20,
                 isTitleLengthExceeded = false,
-                sendAction = {}
+                sendAction = sendAction
             )
+
+            if (state.isShownTendencyBottomSheet) {
+                TendencySelectBottomSheet(sendAction)
+            }
         }
     }
 }
@@ -165,6 +172,7 @@ fun TendencyLayout(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
+                .clickable { sendAction(ProfileIntent.ShowTendencyBottomSheet(true)) }
                 .clip(RoundedCornerShape(4.dp))
                 .background(color = WepliTheme.color.gray000)
                 .padding(horizontal = 16.dp)
@@ -195,6 +203,81 @@ fun TendencyLayout(
                     modifier = Modifier.size(20.dp)
                 )
             }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TendencySelectBottomSheet(
+    sendAction: (ProfileIntent) -> Unit
+) {
+    WepliBottomSheet(
+        onClosed = { sendAction(ProfileIntent.ShowTendencyBottomSheet(false)) },
+        type = WepliBottomSheetType.Normal(title = "나의 음악 성향은?"),
+    ) {
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Tendency.entries.forEach {
+                TendencyItem(it, false)
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun TendencySelectBottomSheetPreview() {
+    Column {
+        Tendency.entries.forEach {
+            TendencyItem(it, false)
+        }
+    }
+}
+
+@Preview
+@Composable
+fun TendencyItem(
+    tendency: Tendency = Tendency.entries.random(),
+    isChecked: Boolean = false,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 6.dp, horizontal = 20.dp),
+    ) {
+        Icon(
+            painter = painterResource(tendency.toIconResId()),
+            tint = Color.Unspecified,
+            contentDescription = null,
+            modifier = Modifier.size(28.dp)
+        )
+
+        Column(
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            modifier = Modifier.weight(1f)
+        ) {
+            Text(
+                text = tendency.title,
+                style = WepliTheme.typo.subTitle3,
+                color = WepliTheme.color.gray700
+            )
+
+            Text(
+                text = tendency.description,
+                style = WepliTheme.typo.body6,
+                color = WepliTheme.color.gray500
+            )
+        }
+
+        if (isChecked) {
+            Icon(
+                painter = painterResource(CoreR.drawable.ic_checkbox),
+                tint = Color.Unspecified,
+                contentDescription = null,
+                modifier = Modifier.size(24.dp)
+            )
         }
     }
 }

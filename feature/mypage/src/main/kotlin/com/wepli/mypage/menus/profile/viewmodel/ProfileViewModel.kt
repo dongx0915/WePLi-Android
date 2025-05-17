@@ -14,11 +14,14 @@ import javax.inject.Inject
 data class ProfileState(
     val user: UserUiData = UserUiData(),
     val tendency: Tendency = Tendency.BASIC_RHYTHM,
+    val isShownTendencyBottomSheet: Boolean = false,
 ) : UiState
 
 sealed interface ProfileEffect : SideEffect
 
-sealed interface ProfileIntent : Intent
+sealed interface ProfileIntent : Intent {
+    data class ShowTendencyBottomSheet(val isShown: Boolean) : ProfileIntent
+}
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
@@ -31,7 +34,9 @@ class ProfileViewModel @Inject constructor(
     }
 
     override fun processIntent(intent: ProfileIntent) {
-        TODO("Not yet implemented")
+        when(intent) {
+            is ProfileIntent.ShowTendencyBottomSheet -> updateState { copy(isShownTendencyBottomSheet = intent.isShown) }
+        }
     }
 
     private fun loadUserData() = launch {
