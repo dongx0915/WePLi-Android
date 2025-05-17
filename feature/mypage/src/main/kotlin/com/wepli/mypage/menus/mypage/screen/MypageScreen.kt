@@ -43,10 +43,12 @@ import com.wepli.mypage.menus.mypage.viewmodel.MyPageIntent
 import com.wepli.mypage.menus.mypage.viewmodel.MyPageUiState
 import com.wepli.mypage.menus.mypage.viewmodel.MyPageViewModel
 import com.wepli.shared.feature.mock.userMockData
+import com.wepli.shared.feature.uimodel.tendency.toIconResId
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import component.dialog.WepliDialog
 import component.dialog.WepliDialogType
 import dev.chrisbanes.haze.hazeSource
+import model.tendency.Tendency
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import theme.LocalHazeState
@@ -176,7 +178,10 @@ fun MyPageScreen(
                 profileImgUrl = user.profileImgUrl,
             )
 
-            TendencyComponent(modifier = Modifier.padding(horizontal = 20.dp))
+            TendencyComponent(
+                tendency = user.tendency,
+                modifier = Modifier.padding(horizontal = 20.dp)
+            )
 
             MenuLayout(
                 sections = menuSections,
@@ -242,11 +247,10 @@ fun ProfileLayout(
     }
 }
 
-@Preview
 @Composable
 fun TendencyComponent(
+    tendency: Tendency,
     modifier: Modifier = Modifier,
-    tendencyTitle: String = "센티멘탈 심포니",
 ) {
     Row(
         modifier = modifier
@@ -258,12 +262,12 @@ fun TendencyComponent(
     ) {
         Image(
             modifier = Modifier.size(24.dp),
-            painter = painterResource(id = CoreR.drawable.img_crystal_ball),
+            painter = painterResource(id = tendency.toIconResId()),
             contentDescription = null
         )
         Spacer(modifier = Modifier.width(12.dp))
         Text(
-            text = tendencyTitle,
+            text = tendency.title,
             style = WepliTheme.typo.subTitle5,
             color = WepliTheme.color.gray700
         )

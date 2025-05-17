@@ -1,5 +1,6 @@
 package com.wepli.mypage.menus.mypage.viewmodel
 
+import androidx.lifecycle.viewModelScope
 import base.BaseMviViewModel
 import base.Intent
 import base.SideEffect
@@ -11,8 +12,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
-import model.user.User
 import repository.user.UserRepository
 import javax.inject.Inject
 
@@ -47,7 +49,7 @@ class MyPageViewModel @Inject constructor(
 ) {
 
     init {
-        loadUser()
+        collectUserFlow()
         setMenuSections()
     }
 
@@ -100,13 +102,18 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
-    private fun loadUser() = intent {
-        launchWithHandler {
-            val user: User? = withContext(Dispatchers.IO) { userRepository.getUserLocalData() }
-            user?.let {
-                reduce { state.copy(user = UserUiData.fromDomain(it)) }
+    private fun collectUserFlow() = intent {
+        userRepository.getUserFlow()
+            .stateIn(
+                scope = this@MyPageViewModel.viewModelScope,
+                started = SharingStarted.Lazily,
+                initialValue = null
+            )
+            .collect { user ->
+                user?.let {
+                    updateState { copy(user = UserUiData.fromDomain(it)) }
+                }
             }
-        }
     }
 
     private fun handleOnClickLogout(isShow: Boolean) = intent {
