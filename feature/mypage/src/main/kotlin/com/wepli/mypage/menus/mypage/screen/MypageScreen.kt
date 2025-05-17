@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -79,19 +80,20 @@ fun MyPageScreenPreview() {
                 title = "앱 정보",
                 items = listOf(
                     MenuSection.MenuItem("서비스 이용 가이드", MyPageIntent.None),
-                    MenuSection.MenuItem("공지 • 이용약관", MyPageIntent.NavigateOnAppInfo),
+                    MenuSection.MenuItem("공지 • 이용약관", MyPageIntent.None),
                     MenuSection.MenuItem("앱 버전", MyPageIntent.None),
                 )
             ),
             MenuSection(
                 title = "기타",
                 items = listOf(
-                    MenuSection.MenuItem("로그아웃", MyPageIntent.ShowLogoutPopup(true)),
+                    MenuSection.MenuItem("로그아웃", MyPageIntent.None),
                 )
             )
         ),
         showLogoutPopup = false,
         navOnAppInfo = {},
+        navOnProfile = {},
         onAction = {}
     )
 }
@@ -121,6 +123,7 @@ fun MyPageScreenRoute(
     viewModel: MyPageViewModel = hiltViewModel(),
     navOnAppInfo: () -> Unit,
     navOnPhotoCard: () -> Unit,
+    navOnProfile: () -> Unit,
     goToLoginActivity: () -> Unit,
 ) {
     val context: Context = LocalContext.current
@@ -133,6 +136,7 @@ fun MyPageScreenRoute(
         menuSections = state.menuSections,
         showLogoutPopup = state.showLogoutPopup,
         navOnAppInfo = navOnAppInfo,
+        navOnProfile = navOnProfile,
         onAction = viewModel::processIntent
     )
 }
@@ -145,6 +149,7 @@ fun MyPageScreen(
     menuSections: List<MenuSection>,
     showLogoutPopup: Boolean,
     navOnAppInfo: () -> Unit,
+    navOnProfile: () -> Unit,
     onAction: (MyPageIntent) -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -169,7 +174,7 @@ fun MyPageScreen(
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             ProfileLayout(
-                modifier = Modifier.padding(horizontal = 20.dp),
+                modifier = Modifier.padding(horizontal = 20.dp).clickable { navOnProfile() },
                 nickname = user.nickname,
                 email = user.email,
                 profileImgUrl = user.profileImgUrl,
