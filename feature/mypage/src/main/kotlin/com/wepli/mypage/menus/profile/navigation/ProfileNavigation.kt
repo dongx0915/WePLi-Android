@@ -10,10 +10,12 @@ fun NavController.navigateProfileMain() {
     navigate(ProfileRoute.MAIN.route)
 }
 
-fun NavGraphBuilder.profileMainGraph() {
+fun NavGraphBuilder.profileMainGraph(
+    navOnBack: () -> Unit
+) {
     composable(
         route = ProfileRoute.MAIN.route
     ) {
-        ProfileScreenRoute()
+        ProfileScreenRoute(navOnBack = navOnBack)
     }
 }

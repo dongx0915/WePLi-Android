@@ -17,11 +17,15 @@ data class ProfileState(
     val isShownTendencyBottomSheet: Boolean = false,
 ) : UiState
 
-sealed interface ProfileEffect : SideEffect
+sealed interface ProfileEffect : SideEffect {
+    data object ProfileUpdateSuccess : ProfileEffect
+    data object ProfileUpdateFailed : ProfileEffect
+}
 
 sealed interface ProfileIntent : Intent {
     data class ShowTendencyBottomSheet(val isShown: Boolean) : ProfileIntent
     data class UpdateTendency(val tendency: Tendency) : ProfileIntent
+    data object OnCompleteProfileEdit : ProfileIntent
 }
 
 @HiltViewModel
@@ -40,6 +44,7 @@ class ProfileViewModel @Inject constructor(
             is ProfileIntent.UpdateTendency -> updateState {
                 copy(user = user.copy(tendency = intent.tendency))
             }
+            ProfileIntent.OnCompleteProfileEdit -> postSideEffect { ProfileEffect.ProfileUpdateSuccess }
         }
     }
 

@@ -35,6 +35,7 @@ import appbar.AppBarIcon
 import appbar.TextType
 import appbar.WepliAppBar
 import com.wepli.mypage.component.ProfileImage
+import com.wepli.mypage.menus.profile.viewmodel.ProfileEffect
 import com.wepli.mypage.menus.profile.viewmodel.ProfileIntent
 import com.wepli.mypage.menus.profile.viewmodel.ProfileState
 import com.wepli.mypage.menus.profile.viewmodel.ProfileViewModel
@@ -43,6 +44,7 @@ import component.bottomsheet.WepliBottomSheet
 import component.bottomsheet.WepliBottomSheetType
 import model.tendency.Tendency
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 import textfield.FieldLabel
 import textfield.LimitedLengthTextField
 import textfield.WepliTextFieldType
@@ -52,15 +54,26 @@ import com.wepli.core.resources.R as CoreR
 @Preview
 @Composable
 fun ProfileScreenPreview() {
-    ProfileScreen(ProfileState(), {})
+    ProfileScreen(ProfileState(), {}, {})
 }
 
 @Composable
-fun ProfileScreenRoute() {
+fun ProfileScreenRoute(navOnBack: () -> Unit) {
     val viewModel = hiltViewModel<ProfileViewModel>()
     val state by viewModel.collectAsState()
 
-    ProfileScreen(state = state, sendAction = viewModel::processIntent)
+    viewModel.collectSideEffect {
+        when(it) {
+            ProfileEffect.ProfileUpdateSuccess -> {
+                navOnBack()
+            }
+            ProfileEffect.ProfileUpdateFailed -> {
+
+            }
+        }
+    }
+
+    ProfileScreen(state = state, navOnBack = navOnBack, sendAction = viewModel::processIntent)
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -68,6 +81,7 @@ fun ProfileScreenRoute() {
 @Composable
 private fun ProfileScreen(
     state: ProfileState,
+    navOnBack: () -> Unit,
     sendAction: (ProfileIntent) -> Unit
 ) {
     Scaffold(
@@ -77,12 +91,14 @@ private fun ProfileScreen(
                 containerColor = Color.Transparent,
                 title = "내 정보 수정",
                 showBackButton = true,
+                onClickBack = navOnBack,
                 actionIcons = listOf {
                     AppBarIcon(
                         icon = TextType.Gradient(
                             brush = WepliTheme.color.linear3,
-                            textResource = CoreR.string.common_complete
-                        )
+                            textResource = CoreR.string.common_complete,
+                            onClick = { sendAction(ProfileIntent.OnCompleteProfileEdit) }
+                        ),
                     )
                 }
             )

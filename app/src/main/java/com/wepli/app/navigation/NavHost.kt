@@ -83,7 +83,7 @@ fun SetUpNavGraph(
         mypageGraph(navController, goToLoginActivity)
 
         // 프로필 Graph
-        profileGraph()
+        profileGraph(navController)
 
         // 포토카드 Graph
         photoCardGraph(navController)
@@ -163,8 +163,10 @@ fun NavGraphBuilder.mypageGraph(
 }
 
 // 프로필 Graph
-fun NavGraphBuilder.profileGraph() {
-    profileMainGraph()
+fun NavGraphBuilder.profileGraph(navController: NavController) {
+    profileMainGraph(
+        navOnBack = { navController.navigateUp() }
+    )
 }
 
 fun NavGraphBuilder.photoCardGraph(navController: NavController) {
