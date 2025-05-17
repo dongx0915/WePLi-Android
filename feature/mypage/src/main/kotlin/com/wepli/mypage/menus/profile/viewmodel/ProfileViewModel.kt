@@ -6,11 +6,13 @@ import base.SideEffect
 import base.UiState
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import model.tendency.Tendency
 import javax.inject.Inject
 
 
 data class ProfileState(
     val user: UserUiData = UserUiData(),
+    val tendency: Tendency = Tendency.BASIC_RHYTHM,
 ) : UiState
 
 sealed interface ProfileEffect : SideEffect
