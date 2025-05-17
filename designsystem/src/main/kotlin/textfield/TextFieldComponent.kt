@@ -223,7 +223,8 @@ fun LimitedLengthTextField(
     errorText: String,
     type: WepliTextFieldType,
     onValueChanged: (String, Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    textFieldModifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -237,7 +238,8 @@ fun LimitedLengthTextField(
             isError = isLengthExceeded,
             singleLine = singleLine,
             placeholder = placeholder,
-            type = type
+            type = type,
+            modifier = textFieldModifier
         )
 
         Row(
@@ -334,7 +336,7 @@ private fun WepliTextFieldPreview() {
             singleLine = true,
             type = WepliTextFieldType.Normal,
             onValueChanged = { newValue, maxLength ->  },
-            modifier = Modifier.height(44.dp)
+            textFieldModifier = Modifier.height(44.dp)
         )
     }
 }

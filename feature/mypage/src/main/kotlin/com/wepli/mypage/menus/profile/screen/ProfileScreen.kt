@@ -150,7 +150,7 @@ fun NicknameLayout(
             onValueChanged = { newValue, maxLength ->
 
             },
-            modifier = Modifier.height(44.dp)
+            textFieldModifier = Modifier.height(44.dp)
         )
     }
 }

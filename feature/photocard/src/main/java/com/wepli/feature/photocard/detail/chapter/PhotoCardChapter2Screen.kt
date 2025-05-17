@@ -75,7 +75,7 @@ fun PhotoCardChapter2Screen(
             isLengthExceeded = oneLineIntro.isLengthExceed,
             type = WepliTextFieldType.Normal,
             singleLine = true,
-            modifier = Modifier.height(44.dp)
+            textFieldModifier = Modifier.height(44.dp)
         )
 
         Spacer(modifier = Modifier.weight(1f))

@@ -193,7 +193,7 @@ fun TitleLayout(
             onValueChanged = { newValue, maxLength ->
                 sendAction(CommunityWriteIntent.UpdateTitle(newValue, maxLength))
             },
-            modifier = Modifier.height(44.dp)
+            textFieldModifier = Modifier.height(44.dp)
         )
     }
 }
@@ -223,7 +223,7 @@ fun ContentsLayout(
             onValueChanged = { newValue, maxLength ->
                 sendAction(CommunityWriteIntent.UpdateContents(newValue, maxLength))
             },
-            modifier = Modifier.height(250.dp)
+            textFieldModifier = Modifier.height(250.dp)
         )
     }
 }
