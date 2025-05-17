@@ -8,15 +8,15 @@ import model.user.User
 @Serializable
 data class UserResponse(
     @SerialName("id")
-    val id: String?,
+    val id: String? = null,
     @SerialName("username")
-    val nickname: String?,
+    val nickname: String? = null,
     @SerialName("email")
-    val email: String?,
+    val email: String? = null,
     @SerialName("profile_img")
-    val profileImgUrl: String?,
+    val profileImgUrl: String? = null,
     @SerialName("tendency")
-    val tendency: String?,
+    val tendency: String? = null,
 )
 
 fun UserResponse.toUser() = User(
