@@ -1,11 +1,7 @@
 package com.wepli.feature.photocard.result
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
-import android.graphics.Bitmap
-import android.media.Image
-import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -45,7 +41,7 @@ import appbar.IconType
 import appbar.WepliAppBar
 import button.WepliBasicButton
 import button.WepliButtonStyle
-import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.feature.photocard.component.PhotoCardComponent4
 import com.wepli.feature.photocard.result.mvi.PhotoCardResultIntent
 import com.wepli.feature.photocard.result.mvi.PhotoCardResultUiState
@@ -55,7 +51,6 @@ import com.wepli.shared.feature.uimodel.photocard.PhotoCardUiData
 import component.bottomsheet.BottomSheetItem
 import component.bottomsheet.WepliBottomSheet
 import component.bottomsheet.WepliBottomSheetType
-import extensions.saveBitmapToCache
 import extensions.saveBitmapToFile
 import extensions.toAndroidBitmap
 import kotlinx.coroutines.CoroutineScope
@@ -66,7 +61,6 @@ import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
 import util.SharePreparer
 import util.ShareType
-import util.ShareUtil
 
 @Composable
 fun PhotoCardResultScreenRoute(
@@ -211,7 +205,7 @@ fun PhotoCardShareBottomSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
             BottomSheetItem(
-                iconRes = R.drawable.ic_instagram_vector,
+                iconRes = CoreR.drawable.ic_instagram_vector,
                 text = "인스타그램으로 공유하기",
                 onClick = {
                     onClickShareBtn(
@@ -223,19 +217,19 @@ fun PhotoCardShareBottomSheet(
             )
 
             BottomSheetItem(
-                iconRes = R.drawable.ic_kakao_vector,
+                iconRes = CoreR.drawable.ic_kakao_vector,
                 text = "카카오톡으로 공유하기",
                 onClick = { }
             )
 
             BottomSheetItem(
-                iconRes = R.drawable.ic_link_vector,
+                iconRes = CoreR.drawable.ic_link_vector,
                 text = "링크로 공유하기",
                 onClick = { }
             )
 
             BottomSheetItem(
-                iconRes = R.drawable.ic_download_vector,
+                iconRes = CoreR.drawable.ic_download_vector,
                 text = "스크린샷으로 저장하기",
                 onClick = {
                     onClickSaveBtn(context, coroutineScope, graphicsLayer)

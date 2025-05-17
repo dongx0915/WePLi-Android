@@ -35,7 +35,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.search.detail.mvi.SearchDetailIntent
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
@@ -113,7 +113,7 @@ fun SongInfoBottomSheetContent(song: SongUiData, sendAction: (SearchDetailIntent
         Row(modifier = Modifier.padding(vertical = 12.dp, horizontal = 20.dp)) {
             AsyncImageWithPreview(
                 imageUrl = song.getImageUrl(imageSize.toPx()),
-                previewImage = painterResource(R.drawable.img_placeholder_chuu_2),
+                previewImage = painterResource(CoreR.drawable.img_placeholder_chuu_2),
                 imageOverrideSize = imageSize,
                 modifier = Modifier
                     .size(64.dp)
@@ -146,7 +146,7 @@ fun SongInfoBottomSheetContent(song: SongUiData, sendAction: (SearchDetailIntent
                 modifier = Modifier
                     .size(24.dp)
                     .align(Alignment.CenterVertically),
-                imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_forward_vector),
+                imageVector = ImageVector.vectorResource(CoreR.drawable.ic_arrow_forward_vector),
                 contentDescription = null,
                 tint = WepliTheme.color.gray900
             )
@@ -155,61 +155,61 @@ fun SongInfoBottomSheetContent(song: SongUiData, sendAction: (SearchDetailIntent
         Spacer(modifier = Modifier.height(12.dp))
 
         BottomSheetItem(
-            iconRes = R.drawable.ic_heart_vector,
+            iconRes = CoreR.drawable.ic_heart_vector,
             text = "좋아요",
             onClick = { }
         )
 
         BottomSheetItem(
-            iconRes = R.drawable.ic_lyrics_vector,
+            iconRes = CoreR.drawable.ic_lyrics_vector,
             text = "가사 보기",
             onClick = { }
         )
 
         BottomSheetItem(
-            iconRes = R.drawable.ic_folder_vector,
+            iconRes = CoreR.drawable.ic_folder_vector,
             text = "플레이리스트에 추가하기",
             onClick = { }
         )
 
         BottomSheetItem(
-            iconRes = R.drawable.ic_pencil_vector,
+            iconRes = CoreR.drawable.ic_pencil_vector,
             text = "게시글로 공유하기",
             onClick = { }
         )
 
         BottomSheetItem(
-            iconRes = R.drawable.ic_instagram_vector,
+            iconRes = CoreR.drawable.ic_instagram_vector,
             text = "인스타그램으로 공유하기",
             onClick = { }
         )
 
         BottomSheetItem(
-            iconRes = R.drawable.ic_kakao_vector,
+            iconRes = CoreR.drawable.ic_kakao_vector,
             text = "카카오톡으로 공유하기",
             onClick = { }
         )
 
         BottomSheetItem(
-            iconRes = R.drawable.ic_link_vector,
+            iconRes = CoreR.drawable.ic_link_vector,
             text = "링크로 공유하기",
             onClick = { }
         )
 
         BottomSheetItem(
-            iconRes = R.drawable.ic_download_vector,
+            iconRes = CoreR.drawable.ic_download_vector,
             text = "스크린샷으로 저장",
             onClick = { }
         )
 
         BottomSheetItem(
-            iconRes = R.drawable.ic_profile_vector,
+            iconRes = CoreR.drawable.ic_profile_vector,
             text = "아티스트 정보",
             onClick = { }
         )
 
         BottomSheetItem(
-            iconRes = R.drawable.ic_info_vector,
+            iconRes = CoreR.drawable.ic_info_vector,
             text = "곡 정보",
             onClick = {
                 sendAction(SearchDetailIntent.DismissSongInfoBottomSheet)

@@ -29,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import common.NotificationDot
 import theme.WepliTheme
 
@@ -43,21 +44,21 @@ sealed interface IconType : AppBarIconType {
     val iconColor: @Composable () -> Color
 
     data class Back(
-        override val iconResource: Int = R.drawable.ic_arrow_back,
+        override val iconResource: Int = CoreR.drawable.ic_arrow_back,
         override val iconColor: @Composable () -> Color = { WepliTheme.color.white },
         override val onClick: () -> Unit = {},
         val offset: Dp = (-16).dp,
     ) : IconType
 
     data class Search(
-        override val iconResource: Int = R.drawable.ic_search,
+        override val iconResource: Int = CoreR.drawable.ic_search,
         override val iconColor: @Composable () -> Color = { WepliTheme.color.white },
         override val onClick: () -> Unit = {},
         val offset: Dp = (-16).dp,
     ) : IconType
 
     data class Notification(
-        override val iconResource: Int = R.drawable.ic_alarm,
+        override val iconResource: Int = CoreR.drawable.ic_alarm,
         override val iconColor: @Composable () -> Color = { WepliTheme.color.white },
         override val onClick: () -> Unit = {},
         val offset: Dp = (-16).dp,
@@ -65,21 +66,21 @@ sealed interface IconType : AppBarIconType {
     ) : IconType
 
     data class Like(
-        override val iconResource: Int = R.drawable.ic_heart,
+        override val iconResource: Int = CoreR.drawable.ic_heart,
         override val iconColor: @Composable () -> Color = { WepliTheme.color.white },
         override val onClick: () -> Unit = {},
-        val likedIconResource: Int = R.drawable.ic_heart_filled,
+        val likedIconResource: Int = CoreR.drawable.ic_heart_filled,
         val isLiked: Boolean,
     ) : IconType
 
     data class More(
-        override val iconResource: Int = R.drawable.ic_more_dot,
+        override val iconResource: Int = CoreR.drawable.ic_more_dot,
         override val iconColor: @Composable () -> Color = { WepliTheme.color.white },
         override val onClick: () -> Unit = {},
     ) : IconType
 
     data class Save(
-        override val iconResource: Int = R.drawable.ic_download,
+        override val iconResource: Int = CoreR.drawable.ic_download,
         override val iconColor: @Composable () -> Color = { WepliTheme.color.white },
         override val onClick: () -> Unit = {},
     ) : IconType

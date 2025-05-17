@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.shared.feature.mock.artistMockData
 import com.wepli.shared.feature.uimodel.artist.ArtistUiData
 import compose.toPx
@@ -50,7 +51,7 @@ fun ArtistProfileListItem(
                 modifier = Modifier
                     .size(80.dp)
                     .clip(CircleShape),
-                painter = painterResource(id = R.drawable.img_placeholder_artist_profile),
+                painter = painterResource(id = CoreR.drawable.img_placeholder_artist_profile),
                 contentDescription = null
             )
         } else {

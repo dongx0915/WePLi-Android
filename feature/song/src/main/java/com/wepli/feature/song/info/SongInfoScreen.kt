@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.ScrollableAppBar
 import appbar.WepliAppBar
-import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.feature.song.info.component.album.AlbumInfoLayout
 import com.wepli.feature.song.info.component.album.ResponsiveAlbumGrid
 import com.wepli.feature.song.info.component.song.SimilarSongsLayout
@@ -138,7 +138,7 @@ fun SongInfoLayout(song: SongUiData) {
             )
 
             Image(
-                painter = painterResource(R.drawable.ic_badge),
+                painter = painterResource(CoreR.drawable.ic_badge),
                 contentDescription = null,
             )
         }
@@ -163,7 +163,7 @@ fun SongInfoLayout(song: SongUiData) {
 
         AsyncImageWithPreview(
             imageUrl = song.getImageUrl(),
-            previewImage = painterResource(id = R.drawable.img_placeholder_chuu_2),
+            previewImage = painterResource(id = CoreR.drawable.img_placeholder_chuu_2),
             imageOverrideSize = 200.dp,
             modifier = Modifier
                 .size(200.dp)
@@ -178,12 +178,12 @@ private fun ReactionLayout(modifier: Modifier = Modifier) {
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        LabeledIcon(iconId = R.drawable.ic_heart_vector, text = "10,123")
-        LabeledIcon(iconId = R.drawable.ic_comment_vector, text = "10,123")
+        LabeledIcon(iconId = CoreR.drawable.ic_heart_vector, text = "10,123")
+        LabeledIcon(iconId = CoreR.drawable.ic_comment_vector, text = "10,123")
         Spacer(modifier = Modifier.weight(1f))
         Icon(
             modifier = Modifier.size(24.dp),
-            painter = painterResource(id = R.drawable.ic_more_dot),
+            painter = painterResource(id = CoreR.drawable.ic_more_dot),
             tint = WepliTheme.color.gray800,
             contentDescription = null
         )

@@ -34,7 +34,7 @@ import appbar.RelaylistAppBar
 import button.WepliBasicButton
 import button.WepliButtonStyle
 import com.wepli.core.kotlin.time.formatAsRemainingTime
-import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.relaylist.detail.mvi.RelaylistDetailIntent
 import com.wepli.relaylist.detail.mvi.RelaylistDetailUiState
 import com.wepli.shared.feature.mock.relaylistUiMockData
@@ -81,7 +81,7 @@ fun RelaylistDetailScreen(
                 imageUrl = relaylist.coverImgUrl,
                 imageOverrideSize = 1.dp, // 성능을 위해 다운샘플링
                 contentScale = ContentScale.Crop,
-                previewImage = painterResource(id = R.drawable.img_placeholder_chuu_3),
+                previewImage = painterResource(id = CoreR.drawable.img_placeholder_chuu_3),
                 modifier = Modifier
                     .fillMaxSize()
                     .blur(48.dp),
@@ -103,7 +103,7 @@ fun RelaylistDetailScreen(
                 AsyncImageWithPreview(
                     imageUrl = relaylist.coverImgUrl,
                     contentScale = ContentScale.Crop,
-                    previewImage = painterResource(id = R.drawable.img_placeholder_chuu_3),
+                    previewImage = painterResource(id = CoreR.drawable.img_placeholder_chuu_3),
                     modifier = Modifier
                         .widthIn(max = 180.dp)
                         .aspectRatio(1f)

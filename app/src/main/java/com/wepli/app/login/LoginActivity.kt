@@ -49,7 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.credentials.CredentialManager
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wepli.app.MainActivity
-import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.shared.feature.mock.musicMockData
 import common.WepliSpacer
 import component.dialog.WepliDialog
@@ -215,7 +215,7 @@ fun PlaylistCoverPager(
                         .size(animatedSize.value)
                         .clip(RoundedCornerShape(animatedCornerRadius.value)),
                     imageUrl = imageList[index % imageList.size],
-                    previewImage = painterResource(id = R.drawable.img_placeholder_eunbin),
+                    previewImage = painterResource(id = CoreR.drawable.img_placeholder_eunbin),
                     loadingContent = {
                         Box(
                             modifier = Modifier

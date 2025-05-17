@@ -34,7 +34,7 @@ import com.wepli.community.main.mvi.CommunityMainEffect
 import com.wepli.community.main.mvi.CommunityMainIntent
 import com.wepli.community.main.mvi.CommunityMainUiState
 import com.wepli.community.main.viewmodel.CommunityViewModel
-import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.shared.feature.mock.postMockData
 import com.wepli.shared.feature.mock.userMockData
 import com.wepli.shared.feature.uimodel.user.UserUiData
@@ -145,7 +145,7 @@ fun PostWritingButton(
             modifier = modifier
                 .clickable { onClick() }
                 .size(50.dp),
-            painter = painterResource(id = R.drawable.img_fab_write_post),
+            painter = painterResource(id = CoreR.drawable.img_fab_write_post),
             contentDescription = ""
         )
         WepliSpacer(vertical = 56.dp)

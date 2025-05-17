@@ -1,7 +1,6 @@
 package com.wepli.mypage.menus.profile.screen
 
 import android.annotation.SuppressLint
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -39,13 +38,14 @@ import com.wepli.mypage.component.ProfileImage
 import com.wepli.mypage.menus.profile.viewmodel.ProfileIntent
 import com.wepli.mypage.menus.profile.viewmodel.ProfileState
 import com.wepli.mypage.menus.profile.viewmodel.ProfileViewModel
+import com.wepli.shared.feature.uimodel.tendency.toIconResId
+import model.tendency.Tendency
 import org.orbitmvi.orbit.compose.collectAsState
 import textfield.FieldLabel
 import textfield.LimitedLengthTextField
 import textfield.WepliTextFieldType
 import theme.WepliTheme
 import com.wepli.core.resources.R as CoreR
-import com.wepli.designsystem.R as DesignSystemR
 
 @Preview
 @Composable
@@ -110,7 +110,7 @@ private fun ProfileScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
             TendencyLayout(
-                tendency = "센티멘탈 심포니",
+                tendency = state.tendency,
                 maxLength = 20,
                 isTitleLengthExceeded = false,
                 sendAction = {}
@@ -150,7 +150,7 @@ fun NicknameLayout(
 
 @Composable
 fun TendencyLayout(
-    tendency: String,
+    tendency: Tendency,
     maxLength: Int,
     isTitleLengthExceeded: Boolean,
     sendAction: (ProfileIntent) -> Unit,
@@ -177,19 +177,19 @@ fun TendencyLayout(
             ) {
                 Image(
                     modifier = Modifier.size(24.dp),
-                    painter = painterResource(DesignSystemR.drawable.img_crystal_ball),
+                    painter = painterResource(tendency.toIconResId()),
                     contentDescription = null
                 )
 
                 Text(
-                    text = tendency,
+                    text = tendency.title,
                     style = WepliTheme.typo.subTitle5,
                     color = WepliTheme.color.gray700,
                     modifier = Modifier.weight(1f)
                 )
 
                 Icon(
-                    imageVector = ImageVector.vectorResource(DesignSystemR.drawable.ic_arrow_down_vector),
+                    imageVector = ImageVector.vectorResource(CoreR.drawable.ic_arrow_down_vector),
                     tint = Color.Unspecified,
                     contentDescription = null,
                     modifier = Modifier.size(20.dp)

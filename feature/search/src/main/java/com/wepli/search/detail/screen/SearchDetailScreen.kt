@@ -52,7 +52,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
 import button.WepliBasicButton
 import button.WepliButtonStyle
-import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.search.component.SongInfoBottomSheet
 import com.wepli.search.component.SongInfoBottomSheetContent
 import com.wepli.search.detail.mvi.SearchDetailEffect
@@ -365,7 +365,7 @@ fun SearchResultSongItem(
                 .align(Alignment.CenterVertically)
                 .size(24.dp),
             tint = WepliTheme.color.gray800,
-            painter = painterResource(id = R.drawable.ic_more_dot),
+            painter = painterResource(id = CoreR.drawable.ic_more_dot),
             contentDescription = null
         )
     }

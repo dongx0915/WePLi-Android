@@ -12,7 +12,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import image.AsyncImageWithPreview
 import theme.WepliTheme
 
@@ -35,14 +35,14 @@ fun ProfileImage(
         AsyncImageWithPreview(
             modifier = imageModifier,
             imageUrl = profileImgUrl,
-            previewImage = painterResource(R.drawable.img_placeholder_eunbin)
+            previewImage = painterResource(CoreR.drawable.img_placeholder_eunbin)
         )
 
         Image(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .size(20.dp),
-            painter = painterResource(id = R.drawable.ic_profile_camera),
+            painter = painterResource(id = CoreR.drawable.ic_profile_camera),
             contentDescription = null
         )
     }

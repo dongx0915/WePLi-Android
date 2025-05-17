@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -45,7 +44,7 @@ import com.wepli.community.write.mvi.CommunityWriteEffect
 import com.wepli.community.write.mvi.CommunityWriteIntent
 import com.wepli.community.write.mvi.CommunityWriteUiState
 import com.wepli.community.write.viewmodel.CommunityWriteViewModel
-import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
 import component.bottomsheet.WepliBottomSheetType
@@ -56,7 +55,6 @@ import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import textfield.FieldLabel
 import textfield.LimitedLengthTextField
-import textfield.WepliTextField
 import textfield.WepliTextFieldType
 import theme.WepliTheme
 
@@ -329,7 +327,7 @@ fun AddSongButton(
     ) {
         Icon(
             modifier = Modifier.size(24.dp),
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_plus_gradient),
+            imageVector = ImageVector.vectorResource(id = CoreR.drawable.ic_plus_gradient),
             tint = Color.Unspecified,
             contentDescription = null
         )

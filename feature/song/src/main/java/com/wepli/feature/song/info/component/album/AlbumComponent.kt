@@ -21,7 +21,7 @@ import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.uimodel.album.AlbumUiData
 import image.AsyncImageWithPreview
 import theme.WepliTheme
-import com.wepli.designsystem.R as DesignSystemR
+import com.wepli.core.resources.R as CoreR
 
 @Composable
 internal fun AlbumComponent(
@@ -31,7 +31,7 @@ internal fun AlbumComponent(
     Column(modifier = modifier) {
         AsyncImageWithPreview(
             imageUrl = album.getImageUrl(),
-            previewImage = painterResource(id = DesignSystemR.drawable.img_placeholder_chuu_2),
+            previewImage = painterResource(id = CoreR.drawable.img_placeholder_chuu_2),
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(1f)
@@ -49,7 +49,7 @@ internal fun AlbumComponent(
             )
 
             Icon(
-                imageVector = ImageVector.vectorResource(DesignSystemR.drawable.ic_more_dot_vector),
+                imageVector = ImageVector.vectorResource(CoreR.drawable.ic_more_dot_vector),
                 tint = WepliTheme.color.gray800,
                 contentDescription = null
             )

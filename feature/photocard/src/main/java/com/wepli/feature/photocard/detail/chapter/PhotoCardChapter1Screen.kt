@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import button.WepliBasicButton
 import button.WepliButtonStyle
 import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.feature.photocard.detail.mvi.PhotoCardDetailUiState
 import common.ShimmerSkeleton
 import compose.toPx
@@ -101,7 +102,7 @@ fun SelectedSongComponent(
             ) {
                 Icon(
                     modifier = Modifier.size(24.dp),
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_plus_gradient),
+                    imageVector = ImageVector.vectorResource(id = CoreR.drawable.ic_plus_gradient),
                     tint = Color.Unspecified,
                     contentDescription = null
                 )
@@ -109,7 +110,7 @@ fun SelectedSongComponent(
         } else {
             AsyncImageWithPreview(
                 imageUrl = selectedSong.getImageUrl(imageSize.toPx()),
-                previewImage = painterResource(id = R.drawable.img_placeholder_eunbin),
+                previewImage = painterResource(id = CoreR.drawable.img_placeholder_eunbin),
                 modifier = selectedSongModifier,
                 loadingContent = {
                     ShimmerSkeleton(

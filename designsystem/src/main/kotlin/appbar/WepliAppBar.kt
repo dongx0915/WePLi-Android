@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import common.WepliSpacer
 import theme.WepliTheme
 
@@ -48,7 +49,7 @@ fun WepliAppBar(
         navigationIcon = {
             if (showLogo) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_wepli_logo_white),
+                    painter = painterResource(id = CoreR.drawable.ic_wepli_logo_white),
                     contentDescription = null,
                     modifier = Modifier
                         .width(24.dp)

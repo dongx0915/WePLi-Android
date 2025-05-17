@@ -33,7 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.uimodel.photocard.PhotoCardUiData
 import com.wepli.uimodel.music.SongUiData
@@ -91,7 +91,7 @@ fun PhotoCardComponent4(
                     .fillMaxSize()
                     .blur(8.dp),
                 imageUrl = photoCardInfo.favoriteSong.getImageUrl(),
-                previewImage = painterResource(R.drawable.img_placeholder_eunbin),
+                previewImage = painterResource(CoreR.drawable.img_placeholder_eunbin),
                 allowHardware = false,
                 contentScale = ContentScale.Crop,
             )
@@ -173,7 +173,7 @@ private fun UserProfile(
     ) {
         AsyncImageWithPreview(
             imageUrl = profileImg,
-            previewImage = painterResource(R.drawable.img_placeholder_eunbin),
+            previewImage = painterResource(CoreR.drawable.img_placeholder_eunbin),
             modifier = Modifier
                 .size(28.dp)
                 .clip(CircleShape)
@@ -242,7 +242,7 @@ private fun FavoriteSongComponent(favoriteSong: SongUiData, modifier: Modifier =
 
         Spacer(modifier = Modifier.width(40.dp))
         Icon(
-            painter = painterResource(id = R.drawable.ic_more_dot),
+            painter = painterResource(id = CoreR.drawable.ic_more_dot),
             contentDescription = null,
             tint = WepliTheme.color.gray900,
             modifier = Modifier

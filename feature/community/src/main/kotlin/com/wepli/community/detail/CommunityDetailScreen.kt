@@ -37,7 +37,7 @@ import com.wepli.community.component.CommentItem
 import com.wepli.community.component.PostItem
 import com.wepli.community.detail.state.CommunityDetailIntent
 import com.wepli.community.detail.state.CommunityDetailState
-import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.shared.feature.mock.commentMockData
 import com.wepli.shared.feature.uimodel.community.CommentUiData
 import com.wepli.shared.feature.uimodel.community.PostUiData
@@ -153,7 +153,7 @@ fun CommentTextFieldLayout(
                 .size(28.dp)
                 .clip(shape = CircleShape),
             imageUrl = userProfileImgUrl,
-            previewImage = painterResource(id = R.drawable.img_placeholder_minnie),
+            previewImage = painterResource(id = CoreR.drawable.img_placeholder_minnie),
             imageOverrideSize = 32.dp
         )
 
