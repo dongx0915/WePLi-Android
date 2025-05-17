@@ -5,6 +5,7 @@ import base.BaseMviViewModel
 import base.Intent
 import base.SideEffect
 import base.UiState
+import com.wepli.core.kotlin.flow.collectResult
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import model.tendency.Tendency
@@ -44,7 +45,7 @@ class ProfileViewModel @Inject constructor(
             is ProfileIntent.UpdateTendency -> updateState {
                 copy(user = user.copy(tendency = intent.tendency))
             }
-            ProfileIntent.OnCompleteProfileEdit -> postSideEffect { ProfileEffect.ProfileUpdateSuccess }
+            ProfileIntent.OnCompleteProfileEdit -> updateUser()
         }
     }
 
@@ -53,5 +54,18 @@ class ProfileViewModel @Inject constructor(
             Log.d("USER", it.toString())
             updateState { copy(user = UserUiData.fromDomain(it)) }
         }
+    }
+
+    private fun updateUser() = intent {
+        val newUserData = UserUiData.toDomain(state.user)
+        userRepository.updateUserData(newUserData)
+            .collectResult(
+                onSuccess = {
+                    postSideEffect { ProfileEffect.ProfileUpdateSuccess }
+                },
+                onFailure = {
+                    postSideEffect { ProfileEffect.ProfileUpdateFailed }
+                }
+            )
     }
 }

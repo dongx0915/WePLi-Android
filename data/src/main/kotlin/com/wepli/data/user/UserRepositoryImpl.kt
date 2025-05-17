@@ -9,6 +9,8 @@ import com.wepli.data.user.datasource.UserSupabaseDataSource
 import com.wepli.data.user.response.toUser
 import extensions.parseFromJson
 import extensions.toJsonString
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.onEach
 import model.user.User
 import repository.user.UserRepository
 import java.time.Instant
@@ -27,12 +29,24 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getUserFlow(): Flow<User?> {
+        return dataStorePrefDataSource
+            .getObjectFlow(DataStoreKey.USER, User::class.java)
+            .onEach { user = it }
+    }
+
     override suspend fun getUserLocalData(): User? {
         return user ?: dataStorePrefDataSource.getString(DataStoreKey.USER, "").parseFromJson<User>()
     }
 
     override suspend fun setUserLocalData(user: User) {
         dataStorePrefDataSource.setString(DataStoreKey.USER, user.toJsonString())
+    }
+
+    override suspend fun updateUserData(user: User): FlowResult<Unit> {
+        return userSupabaseDataSource.updateUser(user).onEach {
+            it.onSuccess { setUserLocalData(user) }
+        }
     }
 
     override suspend fun getRefreshToken(): String {
