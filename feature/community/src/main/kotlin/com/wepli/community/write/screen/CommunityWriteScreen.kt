@@ -54,6 +54,7 @@ import compose.MeasuredHeightContainer
 import custom.SongItem
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
+import textfield.FieldLabel
 import textfield.LimitedLengthTextField
 import textfield.WepliTextField
 import textfield.WepliTextFieldType
@@ -331,38 +332,6 @@ fun AddSongButton(
             imageVector = ImageVector.vectorResource(id = R.drawable.ic_plus_gradient),
             tint = Color.Unspecified,
             contentDescription = null
-        )
-    }
-}
-
-/** -- **/
-
-@Composable
-fun FieldLabel(
-    text: String,
-    label: String,
-    isRequired: Boolean,
-    modifier: Modifier = Modifier,
-) {
-    val labelStyle = with(WepliTheme.typo) {
-        if (isRequired) body4 else caption2
-    }
-
-    Row(
-        modifier = modifier,
-        verticalAlignment = if (isRequired) Alignment.Top else Alignment.CenterVertically,
-        horizontalArrangement = if (isRequired) Arrangement.spacedBy(2.dp) else Arrangement.spacedBy(4.dp)
-    ) {
-        Text(
-            text = text,
-            style = WepliTheme.typo.body4,
-            color = WepliTheme.color.gray900
-        )
-        Text(
-            text = label,
-            style = labelStyle.copy(
-                brush = WepliTheme.color.linear3
-            )
         )
     }
 }

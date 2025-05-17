@@ -41,6 +41,7 @@ import com.wepli.core.common.BuildConfig
 import com.wepli.designsystem.R
 import com.wepli.mypage.common.MenuSection
 import com.wepli.mypage.component.MenuLayout
+import com.wepli.mypage.component.ProfileImage
 import com.wepli.mypage.menus.mypage.viewmodel.MyPageEffect
 import com.wepli.mypage.menus.mypage.viewmodel.MyPageIntent
 import com.wepli.mypage.menus.mypage.viewmodel.MyPageUiState
@@ -213,36 +214,6 @@ fun LogoutDialog(
 }
 
 @Composable
-fun ProfileImage(
-    modifier: Modifier = Modifier,
-    profileImgUrl: String,
-) {
-    val imageModifier = modifier
-        .border(
-            width = 1.dp,
-            brush = WepliTheme.color.linear3,
-            shape = CircleShape
-        )
-        .clip(CircleShape)
-
-    Box {
-        AsyncImageWithPreview(
-            modifier = imageModifier,
-            imageUrl = profileImgUrl,
-            previewImage = painterResource(R.drawable.img_placeholder_eunbin)
-        )
-
-        Image(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .size(20.dp),
-            painter = painterResource(id = R.drawable.ic_profile_camera),
-            contentDescription = null
-        )
-    }
-}
-
-@Composable
 fun ProfileLayout(
     modifier: Modifier = Modifier,
     nickname: String,
@@ -251,8 +222,9 @@ fun ProfileLayout(
 ) {
     Row(modifier = modifier) {
         ProfileImage(
-            modifier = Modifier.size(60.dp),
+            imageSize = 60.dp,
             profileImgUrl = profileImgUrl,
+            modifier = Modifier.size(60.dp),
         )
         Spacer(modifier = Modifier.width(20.dp))
         Column(
