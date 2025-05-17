@@ -2,6 +2,7 @@ package com.wepli.data.user.response
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import model.tendency.Tendency
 import model.user.User
 
 @Serializable
@@ -14,11 +15,14 @@ data class UserResponse(
     val email: String?,
     @SerialName("profile_img")
     val profileImgUrl: String?,
+    @SerialName("tendency")
+    val tendency: String?,
 )
 
 fun UserResponse.toUser() = User(
     id = id.orEmpty(),
     nickname = nickname.orEmpty(),
     email = email.orEmpty(),
-    profileImgUrl = profileImgUrl.orEmpty()
+    profileImgUrl = profileImgUrl.orEmpty(),
+    tendency = Tendency.from(tendency)
 )

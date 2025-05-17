@@ -28,4 +28,10 @@ enum class Tendency(
         title = "에너지 플래시",
         description = "신나는 노래를 좋아해요",
     );
+
+    companion object {
+        fun from(value: String?): Tendency {
+            return Tendency.entries.find { it.name == value } ?: BASIC_RHYTHM
+        }
+    }
 }

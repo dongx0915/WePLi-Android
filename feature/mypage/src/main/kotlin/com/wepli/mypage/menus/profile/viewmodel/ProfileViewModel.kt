@@ -1,19 +1,18 @@
 package com.wepli.mypage.menus.profile.viewmodel
 
+import android.util.Log
 import base.BaseMviViewModel
 import base.Intent
 import base.SideEffect
 import base.UiState
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import model.tendency.Tendency
 import repository.user.UserRepository
 import javax.inject.Inject
 
 
 data class ProfileState(
     val user: UserUiData = UserUiData(),
-    val tendency: Tendency = Tendency.BASIC_RHYTHM,
     val isShownTendencyBottomSheet: Boolean = false,
 ) : UiState
 
@@ -41,6 +40,7 @@ class ProfileViewModel @Inject constructor(
 
     private fun loadUserData() = launch {
         userRepository.getUser()?.let {
+            Log.d("USER", it.toString())
             updateState { copy(user = UserUiData.fromDomain(it)) }
         }
     }

@@ -113,14 +113,14 @@ private fun ProfileScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
             TendencyLayout(
-                tendency = state.tendency,
+                tendency = state.user.tendency,
                 maxLength = 20,
                 isTitleLengthExceeded = false,
                 sendAction = sendAction
             )
 
             if (state.isShownTendencyBottomSheet) {
-                TendencySelectBottomSheet(sendAction)
+                TendencySelectBottomSheet(state, sendAction)
             }
         }
     }
@@ -210,15 +210,18 @@ fun TendencyLayout(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TendencySelectBottomSheet(
+    state: ProfileState,
     sendAction: (ProfileIntent) -> Unit
 ) {
+    val userTendency = state.user.tendency
+
     WepliBottomSheet(
         onClosed = { sendAction(ProfileIntent.ShowTendencyBottomSheet(false)) },
         type = WepliBottomSheetType.Normal(title = "나의 음악 성향은?"),
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Tendency.entries.forEach {
-                TendencyItem(it, false)
+                TendencyItem(it, it == userTendency)
             }
         }
     }

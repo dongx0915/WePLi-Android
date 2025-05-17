@@ -3,6 +3,7 @@ package com.wepli.shared.feature.uimodel.user
 import com.wepli.shared.feature.common.UiModel
 import com.wepli.shared.feature.common.UiModelMapper
 import kotlinx.parcelize.Parcelize
+import model.tendency.Tendency
 import model.user.User
 
 @Parcelize
@@ -11,9 +12,10 @@ data class UserUiData(
     val nickname: String,
     val email: String,
     val profileImgUrl: String,
+    val tendency: Tendency,
 ) : UiModel {
 
-    constructor() : this("", "", "", "")
+    constructor() : this("", "", "", "", Tendency.BASIC_RHYTHM)
 
     companion object : UiModelMapper<User, UserUiData> {
         override fun fromDomain(domainModel: User): UserUiData {
@@ -22,6 +24,7 @@ data class UserUiData(
                 nickname = domainModel.nickname,
                 email = domainModel.email,
                 profileImgUrl = domainModel.profileImgUrl,
+                tendency = domainModel.tendency
             )
         }
     }
