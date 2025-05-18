@@ -1,7 +1,7 @@
 package com.wepli.data.song.datasource
 
 import com.wepli.core.kotlin.flow.FlowResult
-import com.wepli.data.SupabaseTable
+import com.wepli.data.supabase.SupabaseConstants
 import com.wepli.data.common.supabase.response.IdResponse
 import com.wepli.data.song.request.SongRequestBody
 import io.github.jan.supabase.SupabaseClient
@@ -16,7 +16,7 @@ class SongSupabaseDataSourceImpl @Inject constructor(
 
     override fun upsertSongs(song: List<SongRequestBody>): FlowResult<List<IdResponse>> = flow {
         val result = runCatching {
-            supabase.postgrest[SupabaseTable.SONG_TABLE].upsert(song) {
+            supabase.postgrest[SupabaseConstants.SONG_TABLE].upsert(song) {
                 onConflict = "song_id"
                 select(columns = Columns.list("id"))
             }.decodeList<IdResponse>()

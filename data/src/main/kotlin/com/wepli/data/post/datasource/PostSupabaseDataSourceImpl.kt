@@ -1,7 +1,7 @@
 package com.wepli.data.post.datasource
 
 import com.wepli.core.kotlin.flow.FlowResult
-import com.wepli.data.SupabaseTable
+import com.wepli.data.supabase.SupabaseConstants
 import com.wepli.data.common.supabase.response.IdResponse
 import com.wepli.data.di.qualifier.SupabaseDataSource
 import com.wepli.data.post.request.PostBsideTrackRequestBody
@@ -31,7 +31,7 @@ class PostSupabaseDataSourceImpl @Inject constructor(
 
     override fun getPosts(): FlowResult<List<PostResponse>> = flow {
         val result = runCatching {
-            supabase.postgrest[SupabaseTable.POST_VIEW].select().decodeList<PostResponse>()
+            supabase.postgrest[SupabaseConstants.POST_VIEW].select().decodeList<PostResponse>()
         }
 
         emit(result)
@@ -72,7 +72,7 @@ class PostSupabaseDataSourceImpl @Inject constructor(
      */
     private fun insertPost(post: PostRequestBody) = flow {
         val result = runCatching {
-            with(supabase.postgrest[SupabaseTable.POST_TABLE]) {
+            with(supabase.postgrest[SupabaseConstants.POST_TABLE]) {
                 insert(post) {
                     select(columns = Columns.list("id"))
                 }.decodeSingle<IdResponse>()
@@ -84,7 +84,7 @@ class PostSupabaseDataSourceImpl @Inject constructor(
 
     private fun insertPostBsideTracks(bSideTracks: List<PostBsideTrackRequestBody>) = flow {
         val result = runCatching {
-            supabase.postgrest[SupabaseTable.POST_BSIDE_TRACK_TABLE].insert(bSideTracks)
+            supabase.postgrest[SupabaseConstants.POST_BSIDE_TRACK_TABLE].insert(bSideTracks)
         }
 
         emit(result)
