@@ -1,6 +1,5 @@
 package com.wepli.mypage.menus.profile.viewmodel
 
-import android.util.Log
 import base.BaseMviViewModel
 import base.Intent
 import base.SideEffect
@@ -15,6 +14,7 @@ import javax.inject.Inject
 
 data class ProfileState(
     val user: UserUiData = UserUiData(),
+    val isNicknameLengthExceeded: Boolean = false,
     val isShownTendencyBottomSheet: Boolean = false,
 ) : UiState
 
@@ -25,6 +25,7 @@ sealed interface ProfileEffect : SideEffect {
 
 sealed interface ProfileIntent : Intent {
     data class ShowTendencyBottomSheet(val isShown: Boolean) : ProfileIntent
+    data class UpdateNickname(val nickname: String, val maxLength: Int) : ProfileIntent
     data class UpdateTendency(val tendency: Tendency) : ProfileIntent
     data object OnCompleteProfileEdit : ProfileIntent
 }
@@ -40,18 +41,19 @@ class ProfileViewModel @Inject constructor(
     }
 
     override fun processIntent(intent: ProfileIntent) {
+
         when(intent) {
-            is ProfileIntent.ShowTendencyBottomSheet -> updateState { copy(isShownTendencyBottomSheet = intent.isShown) }
-            is ProfileIntent.UpdateTendency -> updateState {
-                copy(user = user.copy(tendency = intent.tendency))
+            is ProfileIntent.ShowTendencyBottomSheet -> updateState {
+                copy(isShownTendencyBottomSheet = intent.isShown)
             }
+            is ProfileIntent.UpdateNickname -> updateNickname(intent.nickname, intent.maxLength)
+            is ProfileIntent.UpdateTendency -> updateTendency(intent.tendency)
             ProfileIntent.OnCompleteProfileEdit -> updateUser()
         }
     }
 
     private fun loadUserData() = launch {
         userRepository.getUserLocalData()?.let {
-            Log.d("USER", it.toString())
             updateState { copy(user = UserUiData.fromDomain(it)) }
         }
     }
@@ -67,5 +69,20 @@ class ProfileViewModel @Inject constructor(
                     postSideEffect { ProfileEffect.ProfileUpdateFailed }
                 }
             )
+    }
+
+    private fun updateNickname(newNickname: String, maxLength: Int) {
+        updateState {
+            copy(
+                user = user.copy(nickname = newNickname),
+                isNicknameLengthExceeded = newNickname.length > maxLength
+            )
+        }
+    }
+
+    private fun updateTendency(newTendency: Tendency) {
+        updateState {
+            copy(user = user.copy(tendency = newTendency))
+        }
     }
 }

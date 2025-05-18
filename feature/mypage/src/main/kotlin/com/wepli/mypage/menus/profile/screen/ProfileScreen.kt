@@ -120,12 +120,7 @@ private fun ProfileScreen(
             )
 
             Spacer(modifier = Modifier.height(40.dp))
-            NicknameLayout(
-                nickname = state.user.nickname,
-                maxLength = 20,
-                isTitleLengthExceeded = false,
-                sendAction = sendAction,
-            )
+            NicknameLayout(state = state, maxLength = 20, sendAction = sendAction)
 
             Spacer(modifier = Modifier.height(24.dp))
             TendencyField(
@@ -142,9 +137,8 @@ private fun ProfileScreen(
 
 @Composable
 fun NicknameLayout(
-    nickname: String,
+    state: ProfileState,
     maxLength: Int,
-    isTitleLengthExceeded: Boolean,
     sendAction: (ProfileIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -154,15 +148,15 @@ fun NicknameLayout(
     ) {
         FieldLabel("닉네임", "*", true)
         LimitedLengthTextField(
-            value = nickname,
+            value = state.user.nickname,
             maxLength = maxLength,
-            isLengthExceeded = isTitleLengthExceeded,
+            isLengthExceeded = state.isNicknameLengthExceeded,
             placeholder = "변경할 닉네임을 입력해주세요.",
             errorText = "닉네임은 ${maxLength}자 이내로 작성해주세요.",
             singleLine = true,
             type = WepliTextFieldType.Normal,
             onValueChanged = { newValue, maxLength ->
-
+                sendAction(ProfileIntent.UpdateNickname(newValue, maxLength))
             },
             textFieldModifier = Modifier.height(44.dp)
         )
