@@ -12,6 +12,7 @@ import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.serializer.KotlinXSerializer
+import io.github.jan.supabase.storage.Storage
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
@@ -40,6 +41,7 @@ object SupabaseModule {
 
             install(Auth)
             install(Postgrest)
+            install(Storage)
 
             httpConfig {
                 install(Logging) {
