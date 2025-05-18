@@ -1,4 +1,4 @@
-package com.wepli.data.di
+package com.wepli.data.di.repository
 
 import com.wepli.data.applemusic.repository.AppleMusicRepositoryImpl
 import com.wepli.data.artist.repository.ArtistRepositoryImpl
