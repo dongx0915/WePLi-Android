@@ -1,2 +1,8 @@
 <resources>
+    <string name="profile_title">내 정보 수정</string>
+    <string name="profile_nickname">닉네임</string>
+    <string name="profile_my_tendency">나의 성향</string>
+    <string name="profile_nickname_placeholder">변경할 닉네임을 입력해주세요.</string>
+    <string name="profile_nickname_error">닉네임은 %d자 이내로 작성해주세요.</string>
+    <string name="profile_tendency_bottom_sheet_title">나의 음악 성향은?</string>
 </resources>

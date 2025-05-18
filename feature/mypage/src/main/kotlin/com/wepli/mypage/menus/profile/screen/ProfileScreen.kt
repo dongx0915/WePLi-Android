@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -34,6 +35,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.AppBarIcon
 import appbar.TextType
 import appbar.WepliAppBar
+import com.wepli.feature.mypage.R
 import com.wepli.mypage.component.ProfileImage
 import com.wepli.mypage.menus.profile.viewmodel.ProfileEffect
 import com.wepli.mypage.menus.profile.viewmodel.ProfileIntent
@@ -89,7 +91,7 @@ private fun ProfileScreen(
         topBar = {
             WepliAppBar(
                 containerColor = Color.Transparent,
-                title = "내 정보 수정",
+                title = stringResource(R.string.profile_title),
                 showBackButton = true,
                 onClickBack = navOnBack,
                 actionIcons = listOf {
@@ -146,13 +148,18 @@ fun NicknameLayout(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        FieldLabel("닉네임", "*", true)
+        FieldLabel(
+            text = stringResource(R.string.profile_nickname),
+            label = "*",
+            isRequired = true
+        )
+
         LimitedLengthTextField(
             value = state.user.nickname,
             maxLength = maxLength,
             isLengthExceeded = state.isNicknameLengthExceeded,
-            placeholder = "변경할 닉네임을 입력해주세요.",
-            errorText = "닉네임은 ${maxLength}자 이내로 작성해주세요.",
+            placeholder = stringResource(R.string.profile_nickname_placeholder),
+            errorText = stringResource(R.string.profile_nickname_error, maxLength),
             singleLine = true,
             type = WepliTextFieldType.Normal,
             onValueChanged = { newValue, maxLength ->
@@ -173,7 +180,11 @@ fun TendencyField(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        FieldLabel("나의 성향", "*", true)
+        FieldLabel(
+            text = stringResource(R.string.profile_my_tendency),
+            label = "*",
+            isRequired = true
+        )
 
         Box(
             modifier = Modifier
@@ -223,7 +234,9 @@ fun TendencySelectBottomSheet(
 
     WepliBottomSheet(
         onClosed = { sendAction(ProfileIntent.ShowTendencyBottomSheet(false)) },
-        type = WepliBottomSheetType.Normal(title = "나의 음악 성향은?"),
+        type = WepliBottomSheetType.Normal(
+            title = stringResource(R.string.profile_tendency_bottom_sheet_title)
+        ),
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Tendency.entries.forEach {
