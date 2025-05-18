@@ -1,6 +1,7 @@
 package com.wepli.data.supabase.bucket.datasource
 
 import android.util.Log
+import com.wepli.core.common.BuildConfig
 import com.wepli.core.kotlin.flow.FlowResult
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.storage.FileUploadResponse
@@ -20,10 +21,16 @@ class SupabaseBucketDataSourceImpl @Inject constructor(
                     data = file,
                     options = { upsert = true }
                 )
+        }.map {
+            it.copy(path = buildBucketImagePath(bucketName, it.path),)
         }.onFailure {
             Log.e("SupabaseBucketDataSource", "File upload failed", it)
         }
 
         emit(fileUploadResult)
+    }
+
+    private fun buildBucketImagePath(bucketName: String, imagePath: String): String {
+        return "${BuildConfig.SUPABASE_URL}/storage/v1/object/public/${bucketName}/${imagePath}"
     }
 }
