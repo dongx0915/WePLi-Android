@@ -119,13 +119,12 @@ fun HomeScreen(
 ) {
     val hazeState = LocalHazeState.current
     HomeAppBar { scrollState, paddingValues ->
-        val (topPadding, bottomPadding) = paddingValues.calculateTopPadding() to paddingValues.calculateBottomPadding()
+        val topPadding = paddingValues.calculateTopPadding()
 
         LazyColumn(
             modifier = Modifier
                 .hazeSource(hazeState)
                 .background(WepliTheme.color.black)
-                .padding(bottom = bottomPadding)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(24.dp),
             contentPadding = PaddingValues(bottom = 100.dp),
