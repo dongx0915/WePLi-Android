@@ -1,6 +1,13 @@
 package com.wepli.mypage.menus.profile.screen
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.net.Uri
+import android.util.Log
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -44,6 +52,7 @@ import com.wepli.mypage.menus.profile.viewmodel.ProfileViewModel
 import com.wepli.shared.feature.uimodel.tendency.toIconResId
 import component.bottomsheet.WepliBottomSheet
 import component.bottomsheet.WepliBottomSheetType
+import kotlinx.io.IOException
 import model.tendency.Tendency
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
@@ -51,18 +60,36 @@ import textfield.FieldLabel
 import textfield.LimitedLengthTextField
 import textfield.WepliTextFieldType
 import theme.WepliTheme
+import java.io.ByteArrayOutputStream
 import com.wepli.core.resources.R as CoreR
 
 @Preview
 @Composable
 fun ProfileScreenPreview() {
-    ProfileScreen(ProfileState(), {}, {})
+    ProfileScreen(ProfileState(), {}, {}, {})
 }
 
 @Composable
 fun ProfileScreenRoute(navOnBack: () -> Unit) {
     val viewModel = hiltViewModel<ProfileViewModel>()
     val state by viewModel.collectAsState()
+    val context = LocalContext.current
+
+    val pickMedia = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        if (uri != null) {
+            val uriToByteArray = uriToByteArray(context, uri) ?: return@rememberLauncherForActivityResult
+
+            viewModel.processIntent(
+                ProfileIntent.UpdateProfileImage(
+                    imageUri = uri.toString(),
+                    imageByteArray = uriToByteArray
+                )
+            )
+            Log.d("PhotoPicker", "Selected URI: $uri")
+        } else {
+            Log.d("PhotoPicker", "No media selected")
+        }
+    }
 
     viewModel.collectSideEffect {
         when(it) {
@@ -75,7 +102,16 @@ fun ProfileScreenRoute(navOnBack: () -> Unit) {
         }
     }
 
-    ProfileScreen(state = state, navOnBack = navOnBack, sendAction = viewModel::processIntent)
+    ProfileScreen(
+        state = state,
+        onClickProfile = {
+            pickMedia.launch(
+                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+            )
+        },
+        navOnBack = navOnBack,
+        sendAction = viewModel::processIntent
+    )
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -83,6 +119,7 @@ fun ProfileScreenRoute(navOnBack: () -> Unit) {
 @Composable
 private fun ProfileScreen(
     state: ProfileState,
+    onClickProfile: () -> Unit,
     navOnBack: () -> Unit,
     sendAction: (ProfileIntent) -> Unit
 ) {
@@ -118,7 +155,9 @@ private fun ProfileScreen(
             ProfileImage(
                 imageSize = 84.dp,
                 profileImgUrl = state.user.profileImgUrl,
-                modifier = Modifier.size(84.dp)
+                modifier = Modifier
+                    .size(84.dp)
+                    .clickable { onClickProfile() }
             )
 
             Spacer(modifier = Modifier.height(40.dp))
@@ -309,5 +348,23 @@ fun TendencyItem(
                 modifier = Modifier.size(24.dp)
             )
         }
+    }
+}
+
+fun uriToByteArray(context: Context, uri: Uri): ByteArray? {
+    return try {
+        context.contentResolver.openInputStream(uri)?.use { inputStream ->
+            val buffer = ByteArrayOutputStream()
+            val data = ByteArray(1024)
+            var nRead: Int
+
+            while (inputStream.read(data, 0, data.size).also { nRead = it } != -1) {
+                buffer.write(data, 0, nRead)
+            }
+            buffer.toByteArray()
+        }
+    } catch (e: IOException) {
+        Log.e("UriToByteArray", "Error converting URI to byte array", e)
+        null
     }
 }

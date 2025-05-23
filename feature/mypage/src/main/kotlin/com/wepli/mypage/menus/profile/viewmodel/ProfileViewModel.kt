@@ -4,9 +4,14 @@ import base.BaseMviViewModel
 import base.Intent
 import base.SideEffect
 import base.UiState
+import com.wepli.core.kotlin.flow.FlowResult
 import com.wepli.core.kotlin.flow.collectResult
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.flowOf
+import model.supabase.repository.SupabaseBucketRepository
 import model.tendency.Tendency
 import repository.user.UserRepository
 import javax.inject.Inject
@@ -25,6 +30,7 @@ sealed interface ProfileEffect : SideEffect {
 
 sealed interface ProfileIntent : Intent {
     data class ShowTendencyBottomSheet(val isShown: Boolean) : ProfileIntent
+    data class UpdateProfileImage(val imageUri: String, val imageByteArray: ByteArray) : ProfileIntent
     data class UpdateNickname(val nickname: String, val maxLength: Int) : ProfileIntent
     data class UpdateTendency(val tendency: Tendency) : ProfileIntent
     data object OnCompleteProfileEdit : ProfileIntent
@@ -33,6 +39,7 @@ sealed interface ProfileIntent : Intent {
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val userRepository: UserRepository,
+    private val supabaseBucketRepository: SupabaseBucketRepository,
 ) : BaseMviViewModel<ProfileState, ProfileEffect, ProfileIntent>(
     initialState = ProfileState()
 ) {
@@ -40,12 +47,14 @@ class ProfileViewModel @Inject constructor(
         loadUserData()
     }
 
-    override fun processIntent(intent: ProfileIntent) {
+    private var pendingImageData: ByteArray? = null
 
+    override fun processIntent(intent: ProfileIntent) {
         when(intent) {
             is ProfileIntent.ShowTendencyBottomSheet -> updateState {
                 copy(isShownTendencyBottomSheet = intent.isShown)
             }
+            is ProfileIntent.UpdateProfileImage -> updateProfileImage(intent.imageUri, intent.imageByteArray)
             is ProfileIntent.UpdateNickname -> updateNickname(intent.nickname, intent.maxLength)
             is ProfileIntent.UpdateTendency -> updateTendency(intent.tendency)
             ProfileIntent.OnCompleteProfileEdit -> updateUser()
@@ -58,17 +67,39 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun updateUser() = intent {
-        val newUserData = UserUiData.toDomain(state.user)
-        userRepository.updateUserData(newUserData)
-            .collectResult(
-                onSuccess = {
-                    postSideEffect { ProfileEffect.ProfileUpdateSuccess }
-                },
-                onFailure = {
-                    postSideEffect { ProfileEffect.ProfileUpdateFailed }
-                }
+        launch {
+            val newUserData = UserUiData.toDomain(state.user)
+            val updateFlow: FlowResult<Unit> = if (pendingImageData != null) {
+                supabaseBucketRepository.uploadFile("profile", pendingImageData!!)
+                    .flatMapConcat { result ->
+                        result.fold(
+                            onSuccess = {
+                                val updatedUser = newUserData.copy(profileImgUrl = it.path)
+
+                                userRepository.updateUserData(updatedUser)
+                            },
+                            onFailure = { flowOf(Result.failure(it)) }
+                        )
+                    }
+            } else {
+                userRepository.updateUserData(newUserData)
+            }
+
+            updateFlow.collectResult(
+                onSuccess = { postSideEffect { ProfileEffect.ProfileUpdateSuccess } },
+                onFailure = { postSideEffect { ProfileEffect.ProfileUpdateFailed } }
             )
+        }
+    }
+
+    private fun updateProfileImage(imageUri: String, imageByteArray: ByteArray) {
+        pendingImageData = imageByteArray
+
+        updateState {
+            copy(user = user.copy(profileImgUrl = imageUri))
+        }
     }
 
     private fun updateNickname(newNickname: String, maxLength: Int) {
