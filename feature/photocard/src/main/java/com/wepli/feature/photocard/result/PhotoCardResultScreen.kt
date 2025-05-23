@@ -59,8 +59,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
-import util.SharePreparer
-import util.ShareType
+import util.share.SharePreparer
+import util.share.ShareType
 
 @Composable
 fun PhotoCardResultScreenRoute(

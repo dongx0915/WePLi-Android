@@ -1,4 +1,4 @@
-package util
+package util.share
 
 import android.app.Activity
 import android.content.Context

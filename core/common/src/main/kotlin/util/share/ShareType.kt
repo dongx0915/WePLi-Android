@@ -1,4 +1,4 @@
-package util
+package util.share
 
 import android.net.Uri
 
