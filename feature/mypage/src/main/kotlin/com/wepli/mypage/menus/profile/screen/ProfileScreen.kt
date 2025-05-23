@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -97,7 +98,7 @@ fun ProfileScreenRoute(navOnBack: () -> Unit) {
                 navOnBack()
             }
             ProfileEffect.ProfileUpdateFailed -> {
-
+                Toast.makeText(context, "프로필 변경 중 오류가 발생했어요", Toast.LENGTH_SHORT).show()
             }
         }
     }
