@@ -1,4 +1,4 @@
-package com.wepli.data.supabase.bucket.repository
+package model.supabase.repository
 
 import com.wepli.core.kotlin.flow.FlowResult
 import model.supabase.FileUploadResult

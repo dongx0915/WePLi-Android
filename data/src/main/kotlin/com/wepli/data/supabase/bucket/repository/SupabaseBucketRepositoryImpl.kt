@@ -6,6 +6,7 @@ import com.wepli.data.network.toEntityResult
 import com.wepli.data.supabase.bucket.datasource.SupabaseBucketDataSource
 import com.wepli.data.supabase.bucket.mapper.toEntity
 import model.supabase.FileUploadResult
+import model.supabase.repository.SupabaseBucketRepository
 import javax.inject.Inject
 
 class SupabaseBucketRepositoryImpl @Inject constructor(
