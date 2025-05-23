@@ -14,15 +14,18 @@ class SupabaseBucketDataSourceImpl @Inject constructor(
 ): SupabaseBucketDataSource {
 
     override fun updateFile(bucketName: String, file: ByteArray): FlowResult<FileUploadResponse> = flow {
+        val fileName = "profile_${System.currentTimeMillis()}.png"
+        val path = "images/$fileName"
+
         val fileUploadResult = runCatching {
             supabase.storage[bucketName]
                 .upload(
-                    path = "path/to/file",
+                    path = path,
                     data = file,
                     options = { upsert = true }
                 )
-        }.map {
-            it.copy(path = buildBucketImagePath(bucketName, it.path),)
+        }.map { result ->
+            result.copy(path = buildBucketImagePath(bucketName, path))
         }.onFailure {
             Log.e("SupabaseBucketDataSource", "File upload failed", it)
         }
