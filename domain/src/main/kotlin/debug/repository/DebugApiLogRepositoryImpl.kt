@@ -12,6 +12,8 @@ class DebugApiLogRepositoryImpl @Inject constructor() : DebugApiLogRepository {
         get() = _logs.asStateFlow()
 
     override fun addLog(log: ApiLog) {
-        _logs.value += log
+        val updatedLogs = (_logs.value + log).takeLast(20)
+
+        _logs.value = updatedLogs
     }
 }
