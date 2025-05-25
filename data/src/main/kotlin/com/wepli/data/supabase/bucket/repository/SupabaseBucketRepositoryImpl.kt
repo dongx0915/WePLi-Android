@@ -13,8 +13,8 @@ class SupabaseBucketRepositoryImpl @Inject constructor(
     @SupabaseDataSource private val supabaseBucketDataSource: SupabaseBucketDataSource
 ) : SupabaseBucketRepository {
 
-    override fun uploadFile(bucketName: String, file: ByteArray): FlowResult<FileUploadResult> {
-        return supabaseBucketDataSource.updateFile(bucketName, file).toEntityResult {
+    override fun uploadFile(bucketName: String, file: ByteArray, extension: String): FlowResult<FileUploadResult> {
+        return supabaseBucketDataSource.updateFile(bucketName, file, extension).toEntityResult {
             it.toEntity()
         }
     }

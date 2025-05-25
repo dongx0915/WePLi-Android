@@ -7,6 +7,7 @@ interface SupabaseBucketRepository {
 
     fun uploadFile(
         bucketName: String,
-        file: ByteArray
+        file: ByteArray,
+        extension: String,
     ): FlowResult<FileUploadResult>
 }

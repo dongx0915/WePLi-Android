@@ -5,5 +5,5 @@ import io.github.jan.supabase.storage.FileUploadResponse
 
 interface SupabaseBucketDataSource {
 
-    fun updateFile(bucketName: String, file: ByteArray): FlowResult<FileUploadResponse>
+    fun updateFile(bucketName: String, file: ByteArray, extension: String): FlowResult<FileUploadResponse>
 }

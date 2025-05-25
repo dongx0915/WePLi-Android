@@ -13,8 +13,8 @@ class SupabaseBucketDataSourceImpl @Inject constructor(
     private val supabase: SupabaseClient
 ): SupabaseBucketDataSource {
 
-    override fun updateFile(bucketName: String, file: ByteArray): FlowResult<FileUploadResponse> = flow {
-        val fileName = "profile_${System.currentTimeMillis()}.png"
+    override fun updateFile(bucketName: String, file: ByteArray, extension: String): FlowResult<FileUploadResponse> = flow {
+        val fileName = "profile_${System.currentTimeMillis()}.$extension"
         val path = "images/$fileName"
 
         val fileUploadResult = runCatching {
