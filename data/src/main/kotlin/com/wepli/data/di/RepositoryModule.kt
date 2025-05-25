@@ -15,6 +15,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import debug.repository.DebugApiLogRepository
+import debug.repository.DebugApiLogRepositoryImpl
 import model.recommend.repository.KeywordRepository
 import repository.applemusic.AppleMusicRepository
 import repository.artist.ArtistRepository
@@ -63,4 +65,8 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindAppleMusicRepository(appleMusicRepositoryImpl: AppleMusicRepositoryImpl): AppleMusicRepository
+
+    @Binds
+    @Singleton
+    fun bindDebugApiLogRepository(debugApiLogRepositoryImpl: DebugApiLogRepositoryImpl): DebugApiLogRepository
 }

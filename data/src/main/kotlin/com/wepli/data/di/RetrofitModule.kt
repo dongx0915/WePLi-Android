@@ -8,11 +8,14 @@ import com.wepli.data.di.qualifier.AppleMusicRetrofit
 import com.wepli.data.di.qualifier.BaseOkHttpClient
 import com.wepli.data.di.qualifier.BaseRetrofit
 import com.wepli.data.network.calladapter.FlowCallAdapterFactory
+import com.wepli.data.network.interceptor.DebugApiLogInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import debug.repository.DebugApiLogRepository
 import kotlinx.serialization.json.Json
+import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -60,12 +63,20 @@ object RetrofitModule {
 
     @Provides
     @Singleton
+    fun provideDebugApiLogInterceptor(apiLogRepository: DebugApiLogRepository): Interceptor {
+        return DebugApiLogInterceptor(apiLogRepository)
+    }
+
+    @Provides
+    @Singleton
     @BaseOkHttpClient
     fun provideHttpClient(
         logger: HttpLoggingInterceptor,
+        debugApiLogInterceptor: DebugApiLogInterceptor
     ): OkHttpClient {
         return OkHttpClient().newBuilder()
             .addInterceptor(logger)
+            .addInterceptor(debugApiLogInterceptor)
             .build()
     }
 
@@ -74,9 +85,11 @@ object RetrofitModule {
     @AppleMusicOkHttpClient
     fun provideAppleApiHttpClient(
         logger: HttpLoggingInterceptor,
+        debugApiLogInterceptor: DebugApiLogInterceptor,
     ): OkHttpClient {
         return OkHttpClient().newBuilder()
             .addInterceptor(logger)
+            .addInterceptor(debugApiLogInterceptor)
             .addInterceptor { chain ->
                 val request = chain.request().newBuilder()
                     .addHeader("Authorization", BuildConfig.APPLE_MUSIC_API_TOKEN)
