@@ -89,13 +89,13 @@ object RetrofitModule {
     ): OkHttpClient {
         return OkHttpClient().newBuilder()
             .addInterceptor(logger)
-            .addInterceptor(debugApiLogInterceptor)
             .addInterceptor { chain ->
                 val request = chain.request().newBuilder()
                     .addHeader("Authorization", BuildConfig.APPLE_MUSIC_API_TOKEN)
                     .build()
                 chain.proceed(request)
             }
+            .addInterceptor(debugApiLogInterceptor)
             .build()
     }
 
