@@ -1,11 +1,8 @@
 package com.wepli.mypage.menus.profile.screen
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.net.Uri
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -53,7 +50,6 @@ import com.wepli.mypage.menus.profile.viewmodel.ProfileViewModel
 import com.wepli.shared.feature.uimodel.tendency.toIconResId
 import component.bottomsheet.WepliBottomSheet
 import component.bottomsheet.WepliBottomSheetType
-import kotlinx.io.IOException
 import model.tendency.Tendency
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
@@ -61,7 +57,7 @@ import textfield.FieldLabel
 import textfield.LimitedLengthTextField
 import textfield.WepliTextFieldType
 import theme.WepliTheme
-import java.io.ByteArrayOutputStream
+import util.image.UriUtils
 import com.wepli.core.resources.R as CoreR
 
 @Preview
@@ -78,12 +74,14 @@ fun ProfileScreenRoute(navOnBack: () -> Unit) {
 
     val pickMedia = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         if (uri != null) {
-            val uriToByteArray = uriToByteArray(context, uri) ?: return@rememberLauncherForActivityResult
+            val uriToByteArray = UriUtils.uriToByteArray(context, uri)
+            val fileExtension = UriUtils.getFileExtension(context, uri)
 
             viewModel.processIntent(
                 ProfileIntent.UpdateProfileImage(
                     imageUri = uri.toString(),
-                    imageByteArray = uriToByteArray
+                    imageByteArray = uriToByteArray,
+                    fileExtension = fileExtension
                 )
             )
             Log.d("PhotoPicker", "Selected URI: $uri")
@@ -99,6 +97,10 @@ fun ProfileScreenRoute(navOnBack: () -> Unit) {
             }
             ProfileEffect.ProfileUpdateFailed -> {
                 Toast.makeText(context, "프로필 변경 중 오류가 발생했어요", Toast.LENGTH_SHORT).show()
+            }
+
+            ProfileEffect.ImageSelectFailed -> {
+                Toast.makeText(context, "이미지를 가져오지 못했어요.", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -349,23 +351,5 @@ fun TendencyItem(
                 modifier = Modifier.size(24.dp)
             )
         }
-    }
-}
-
-fun uriToByteArray(context: Context, uri: Uri): ByteArray? {
-    return try {
-        context.contentResolver.openInputStream(uri)?.use { inputStream ->
-            val buffer = ByteArrayOutputStream()
-            val data = ByteArray(1024)
-            var nRead: Int
-
-            while (inputStream.read(data, 0, data.size).also { nRead = it } != -1) {
-                buffer.write(data, 0, nRead)
-            }
-            buffer.toByteArray()
-        }
-    } catch (e: IOException) {
-        Log.e("UriToByteArray", "Error converting URI to byte array", e)
-        null
     }
 }

@@ -26,11 +26,12 @@ data class ProfileState(
 sealed interface ProfileEffect : SideEffect {
     data object ProfileUpdateSuccess : ProfileEffect
     data object ProfileUpdateFailed : ProfileEffect
+    data object ImageSelectFailed : ProfileEffect
 }
 
 sealed interface ProfileIntent : Intent {
     data class ShowTendencyBottomSheet(val isShown: Boolean) : ProfileIntent
-    data class UpdateProfileImage(val imageUri: String, val imageByteArray: ByteArray) : ProfileIntent
+    data class UpdateProfileImage(val imageUri: String, val imageByteArray: ByteArray?, val fileExtension: String?) : ProfileIntent
     data class UpdateNickname(val nickname: String, val maxLength: Int) : ProfileIntent
     data class UpdateTendency(val tendency: Tendency) : ProfileIntent
     data object OnCompleteProfileEdit : ProfileIntent
@@ -48,13 +49,16 @@ class ProfileViewModel @Inject constructor(
     }
 
     private var pendingImageData: ByteArray? = null
+    private var pendingFileExtension: String? = null
 
     override fun processIntent(intent: ProfileIntent) {
         when(intent) {
             is ProfileIntent.ShowTendencyBottomSheet -> updateState {
                 copy(isShownTendencyBottomSheet = intent.isShown)
             }
-            is ProfileIntent.UpdateProfileImage -> updateProfileImage(intent.imageUri, intent.imageByteArray)
+            is ProfileIntent.UpdateProfileImage -> {
+                updateProfileImage(intent.imageUri, intent.imageByteArray, intent.fileExtension)
+            }
             is ProfileIntent.UpdateNickname -> updateNickname(intent.nickname, intent.maxLength)
             is ProfileIntent.UpdateTendency -> updateTendency(intent.tendency)
             ProfileIntent.OnCompleteProfileEdit -> updateUser()
@@ -71,8 +75,8 @@ class ProfileViewModel @Inject constructor(
     private fun updateUser() = intent {
         launch {
             val newUserData = UserUiData.toDomain(state.user)
-            val updateFlow: FlowResult<Unit> = if (pendingImageData != null) {
-                supabaseBucketRepository.uploadFile("profile", pendingImageData!!)
+            val updateFlow: FlowResult<Unit> = if (pendingImageData != null && pendingFileExtension != null) {
+                supabaseBucketRepository.uploadFile("profile", pendingImageData!!, pendingFileExtension!!)
                     .flatMapConcat { result ->
                         result.fold(
                             onSuccess = {
@@ -94,8 +98,14 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun updateProfileImage(imageUri: String, imageByteArray: ByteArray) {
+    private fun updateProfileImage(imageUri: String, imageByteArray: ByteArray?, fileExtension: String?) {
+        if (imageByteArray == null || fileExtension == null) {
+            postSideEffect { ProfileEffect.ImageSelectFailed }
+            return
+        }
+
         pendingImageData = imageByteArray
+        pendingFileExtension = fileExtension
 
         updateState {
             copy(user = user.copy(profileImgUrl = imageUri))
