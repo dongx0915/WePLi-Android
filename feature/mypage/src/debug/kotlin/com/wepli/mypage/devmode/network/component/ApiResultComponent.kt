@@ -42,7 +42,7 @@ fun ApiResultComponent(apiLog: ApiLog) {
             Spacer(modifier = Modifier.width(12.dp))
 
             Text(
-                text = "Supabase API",
+                text = apiLog.baseUrlType,
                 style = WepliTheme.typo.body6,
                 color = WepliTheme.color.gray700,
             )

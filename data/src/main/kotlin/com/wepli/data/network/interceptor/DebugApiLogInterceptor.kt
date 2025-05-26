@@ -16,11 +16,17 @@ class DebugApiLogInterceptor @Inject constructor(
         val startTime = System.currentTimeMillis()
         val request = chain.request()
         val response = chain.proceed(request)
+        val fullUrl = request.url.toString()
+
+        val matchedBaseUrl = DebugUrlType.entries.firstOrNull { fullUrl.startsWith(it.url) } ?: DebugUrlType.UNKNOWN
+        val relativePath = fullUrl.removePrefix(matchedBaseUrl.url)
 
         runCatching {
             ApiLog(
                 method = ApiMethod.fromString(request.method),
-                url = request.url.toString(),
+                baseUrlType = matchedBaseUrl.value,
+                baseUrl = matchedBaseUrl.url,
+                url = relativePath,
                 requestHeaders = request.headers.toString(),
                 requestBody = request.body?.toString() ?: "Empty Request",
                 responseCode = response.code,

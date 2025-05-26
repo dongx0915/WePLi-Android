@@ -4,6 +4,8 @@ import java.util.Locale
 
 data class ApiLog(
     val method: ApiMethod,
+    val baseUrlType: String,
+    val baseUrl: String,
     val url: String,
     val requestHeaders: String,
     val requestBody: String,

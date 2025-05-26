@@ -43,7 +43,9 @@ fun NetworkLogDebugScreenPreview() {
     val mockApiLogs = listOf(
         ApiLog(
             method = ApiMethod.GET,
-            url = "https://api.example.com/users",
+            baseUrlType = "Production",
+            baseUrl = "https://api.example.com",
+            url = "/users",
             requestHeaders = "Authorization: Bearer token123",
             requestBody = "",
             responseCode = 200,
@@ -52,7 +54,9 @@ fun NetworkLogDebugScreenPreview() {
         ),
         ApiLog(
             method = ApiMethod.POST,
-            url = "https://api.example.com/login",
+            baseUrlType = "Production",
+            baseUrl = "https://api.example.com",
+            url = "/login",
             requestHeaders = "Content-Type: application/json",
             requestBody = "{\"username\":\"john\",\"password\":\"secret\"}",
             responseCode = 401,
@@ -61,7 +65,9 @@ fun NetworkLogDebugScreenPreview() {
         ),
         ApiLog(
             method = ApiMethod.PUT,
-            url = "https://api.example.com/users/1",
+            baseUrlType = "Production",
+            baseUrl = "https://api.example.com",
+            url = "/users/1",
             requestHeaders = "Authorization: Bearer token123\nContent-Type: application/json",
             requestBody = "{\"name\":\"Alice Updated\"}",
             responseCode = 200,
@@ -70,7 +76,9 @@ fun NetworkLogDebugScreenPreview() {
         ),
         ApiLog(
             method = ApiMethod.DELETE,
-            url = "https://api.example.com/users/2",
+            baseUrlType = "Production",
+            baseUrl = "https://api.example.com",
+            url = "/users/2",
             requestHeaders = "Authorization: Bearer token123",
             requestBody = "",
             responseCode = 204,
