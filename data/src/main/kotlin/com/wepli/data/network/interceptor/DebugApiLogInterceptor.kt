@@ -2,6 +2,7 @@ package com.wepli.data.network.interceptor
 
 import android.util.Log
 import debug.model.ApiLog
+import debug.model.ApiMethod
 import debug.repository.DebugApiLogRepository
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -18,7 +19,7 @@ class DebugApiLogInterceptor @Inject constructor(
 
         runCatching {
             ApiLog(
-                method = request.method,
+                method = ApiMethod.fromString(request.method),
                 url = request.url.toString(),
                 requestHeaders = request.headers.toString(),
                 requestBody = request.body?.toString() ?: "Empty Request",
