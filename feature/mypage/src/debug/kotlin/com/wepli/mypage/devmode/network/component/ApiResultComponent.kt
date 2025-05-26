@@ -15,7 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.wepli.mypage.devmode.network.mapper.toColor
+import com.wepli.mypage.devmode.network.enums.toColor
 import debug.model.ApiLog
 import theme.WepliTheme
 
