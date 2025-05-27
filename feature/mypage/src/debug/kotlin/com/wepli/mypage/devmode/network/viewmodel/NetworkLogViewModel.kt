@@ -35,7 +35,7 @@ class NetworkLogViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             apiLogRepository.logs.collect {
-                updateState { copy(apiLog = it) }
+                updateState { copy(apiLog = it.sortedByDescending { it.startTime }) }
             }
         }
     }
