@@ -33,14 +33,27 @@ class NetworkLogViewModel @Inject constructor(
 ) {
 
     init {
-        viewModelScope.launch {
-            apiLogRepository.logs.collect {
-                updateState { copy(apiLog = it.sortedByDescending { it.startTime }) }
-            }
-        }
+        collectApiLog()
     }
 
     override fun processIntent(intent: NetworkLogIntent) {
+        when (intent) {
+            is NetworkLogIntent.SelectTag -> {}
+        }
+    }
 
+    private fun collectApiLog() = intent {
+        viewModelScope.launch {
+            apiLogRepository.logs.collect {
+                val currentTag = state.selectedTag
+                val filteredLogs = it
+                    .filter { log ->
+                        currentTag == ApiMethodUiTag.ALL || log.method.name == currentTag.name
+                    }
+                    .sortedByDescending { it.startTime }
+
+                updateState { copy(apiLog = filteredLogs) }
+            }
+        }
     }
 }
