@@ -2,7 +2,7 @@ package com.wepli.app.di
 
 import android.util.Log
 import com.wepli.core.common.BuildConfig
-import com.wepli.data.network.interceptor.DebugUrlType
+import com.wepli.data.network.baseurl.BaseUrl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,7 +32,7 @@ object SupabaseModule {
         apiLogRepository: DebugApiLogRepository,
     ): SupabaseClient {
         return createSupabaseClient(
-            supabaseUrl = BuildConfig.SUPABASE_URL,
+            supabaseUrl = BaseUrl.SUPABASE.url,
             supabaseKey = BuildConfig.SUPABASE_KEY
         ) {
             defaultSerializer = KotlinXSerializer(
@@ -64,9 +64,9 @@ object SupabaseModule {
                             val startTime = System.currentTimeMillis()
                             val request = response.call.request
                             val fullUrl = request.url.toString()
-                            val matchedBaseUrl = DebugUrlType.entries.firstOrNull {
+                            val matchedBaseUrl = BaseUrl.entries.firstOrNull {
                                 fullUrl.startsWith(it.url)
-                            } ?: DebugUrlType.UNKNOWN
+                            } ?: BaseUrl.UNKNOWN
                             val relativePath = fullUrl.removePrefix(matchedBaseUrl.url)
 
                             val responseBody = response.bodyAsText()

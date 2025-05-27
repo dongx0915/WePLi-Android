@@ -2,8 +2,32 @@ package com.wepli.data.network.baseurl
 
 import com.wepli.core.common.BuildConfig
 
-object BaseUrl {
-    const val POST_MAN = "https://c5d99f29-4f14-416b-9baa-c691ac5fe558.mock.pstmn.io/"
-    const val APPLE_MUSIC = "https://api.music.apple.com/"
-    const val SUPABASE = BuildConfig.SUPABASE_URL
+enum class BaseUrl(
+    private val prodUrl: String,
+    private val testUrl: String,
+    val value: String
+) {
+    POSTMAN(
+        prodUrl = BuildConfig.POSTMAN_URL,
+        testUrl = BuildConfig.POSTMAN_URL,
+        value = "Postman API"
+    ),
+    APPLE_MUSIC(
+        prodUrl = BuildConfig.APPLE_MUSIC_URL,
+        testUrl = BuildConfig.APPLE_MUSIC_URL,
+        value = "Apple Music API"
+    ),
+    SUPABASE(
+        prodUrl = BuildConfig.SUPABASE_URL,
+        testUrl = BuildConfig.SUPABASE_URL,
+        value = "Supabase API"
+    ),
+    UNKNOWN(
+        prodUrl = "",
+        testUrl = "",
+        value = "Unknown API"
+    );
+
+    val url: String
+        get() = if (BuildConfig.DEBUG) testUrl else prodUrl
 }

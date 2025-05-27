@@ -107,7 +107,7 @@ object RetrofitModule {
         val converterFactory = json.asConverterFactory(contentType)
 
         return Retrofit.Builder()
-            .baseUrl(BaseUrl.POST_MAN)
+            .baseUrl(BaseUrl.POSTMAN.url)
             .client(httpClient)
             .addConverterFactory(converterFactory)
             .addCallAdapterFactory(FlowCallAdapterFactory.create())
@@ -125,7 +125,7 @@ object RetrofitModule {
         val converterFactory = json.asConverterFactory(contentType)
 
         return Retrofit.Builder()
-            .baseUrl(BaseUrl.APPLE_MUSIC)
+            .baseUrl(BaseUrl.APPLE_MUSIC.url)
             .client(httpClient)
             .addConverterFactory(converterFactory)
             .addCallAdapterFactory(FlowCallAdapterFactory.create())

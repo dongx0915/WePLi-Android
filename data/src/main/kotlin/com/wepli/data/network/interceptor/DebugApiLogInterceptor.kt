@@ -1,6 +1,7 @@
 package com.wepli.data.network.interceptor
 
 import android.util.Log
+import com.wepli.data.network.baseurl.BaseUrl
 import debug.model.ApiLog
 import debug.model.ApiMethod
 import debug.repository.DebugApiLogRepository
@@ -18,7 +19,7 @@ class DebugApiLogInterceptor @Inject constructor(
         val response = chain.proceed(request)
         val fullUrl = request.url.toString()
 
-        val matchedBaseUrl = DebugUrlType.entries.firstOrNull { fullUrl.startsWith(it.url) } ?: DebugUrlType.UNKNOWN
+        val matchedBaseUrl = BaseUrl.entries.firstOrNull { fullUrl.startsWith(it.url) } ?: BaseUrl.UNKNOWN
         val relativePath = fullUrl.removePrefix(matchedBaseUrl.url)
 
         runCatching {
