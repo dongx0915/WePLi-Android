@@ -3,7 +3,7 @@ package com.wepli.mypage.devmode.network.enums
 import androidx.compose.ui.graphics.Color
 import debug.model.ApiMethod
 
-enum class ApiMethodUiModel {
+enum class ApiMethodUiTag {
     ALL,
     GET,
     POST,

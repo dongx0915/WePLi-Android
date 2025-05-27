@@ -32,7 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
 import com.wepli.mypage.devmode.network.component.ApiResultComponent
 import com.wepli.mypage.devmode.network.component.MethodTag
-import com.wepli.mypage.devmode.network.enums.ApiMethodUiModel
+import com.wepli.mypage.devmode.network.enums.ApiMethodUiTag
 import com.wepli.mypage.devmode.network.viewmodel.NetworkLogState
 import com.wepli.mypage.devmode.network.viewmodel.NetworkLogViewModel
 import debug.model.ApiLog
@@ -158,14 +158,14 @@ fun NetworkLogDebugScreen(state: NetworkLogState) {
 }
 
 @Composable
-fun MethodTagList(selectedTag: ApiMethodUiModel, modifier: Modifier = Modifier) {
+fun MethodTagList(selectedTag: ApiMethodUiTag, modifier: Modifier = Modifier) {
     val tagScrollState = rememberScrollState()
 
     Row(
         horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.Start),
         modifier = modifier.horizontalScroll(tagScrollState),
     ) {
-        ApiMethodUiModel.entries.forEach {
+        ApiMethodUiTag.entries.forEach {
             MethodTag(tagName = it.name, isSelected = selectedTag == it)
         }
     }
