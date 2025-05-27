@@ -1,5 +1,7 @@
 package debug.model
 
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 data class ApiLog(
@@ -11,8 +13,14 @@ data class ApiLog(
     val requestBody: String,
     val responseCode: Int,
     val responseBody: String,
-    val durationMs: Long
-)
+    val startTime: Long,
+    val durationMs: Long = System.currentTimeMillis() - startTime
+) {
+    fun formattedStartTime(): String {
+        val sdf = SimpleDateFormat("a hh:mm:ss", Locale.KOREAN)
+        return sdf.format(Date(startTime))
+    }
+}
 
 enum class ApiMethod {
     GET,

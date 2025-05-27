@@ -62,7 +62,7 @@ fun ApiResultComponent(apiLog: ApiLog) {
         // Footer
         Row {
             Text(
-                text = "오후 07:25:43",
+                text = apiLog.formattedStartTime(),
                 style = WepliTheme.typo.body6,
                 color = WepliTheme.color.gray600,
             )

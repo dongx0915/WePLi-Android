@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -50,6 +51,7 @@ fun NetworkLogDebugScreenPreview() {
             requestBody = "",
             responseCode = 200,
             responseBody = "[{\"id\":1,\"name\":\"Alice\"},{\"id\":2,\"name\":\"Bob\"}]",
+            startTime = System.currentTimeMillis(),
             durationMs = 120
         ),
         ApiLog(
@@ -61,6 +63,7 @@ fun NetworkLogDebugScreenPreview() {
             requestBody = "{\"username\":\"john\",\"password\":\"secret\"}",
             responseCode = 401,
             responseBody = "{\"error\":\"Invalid credentials\"}",
+            startTime = System.currentTimeMillis(),
             durationMs = 98
         ),
         ApiLog(
@@ -72,6 +75,7 @@ fun NetworkLogDebugScreenPreview() {
             requestBody = "{\"name\":\"Alice Updated\"}",
             responseCode = 200,
             responseBody = "{\"id\":1,\"name\":\"Alice Updated\"}",
+            startTime = System.currentTimeMillis(),
             durationMs = 150
         ),
         ApiLog(
@@ -83,6 +87,7 @@ fun NetworkLogDebugScreenPreview() {
             requestBody = "",
             responseCode = 204,
             responseBody = "",
+            startTime = System.currentTimeMillis(),
             durationMs = 85
         )
     )
@@ -105,6 +110,8 @@ fun NetworkLogDebugScreenRoute() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NetworkLogDebugScreen(state: NetworkLogState) {
+    val scrollState = rememberScrollState()
+
     Scaffold(
         containerColor = WepliTheme.color.black,
         topBar = {
@@ -115,9 +122,15 @@ fun NetworkLogDebugScreen(state: NetworkLogState) {
             )
         }
     ) { paddingValues ->
-        Column(modifier = Modifier.padding(paddingValues)) {
+        Column(
+            modifier = Modifier
+            .padding(paddingValues)
+            .verticalScroll(scrollState)
+        ) {
             NoticeComponent(
-                modifier = Modifier.padding(horizontal = 20.dp).padding(top = 20.dp)
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .padding(top = 20.dp)
             )
 
             MethodTagList(

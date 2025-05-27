@@ -32,7 +32,7 @@ class DebugApiLogInterceptor @Inject constructor(
                 requestBody = request.body?.toString() ?: "Empty Request",
                 responseCode = response.code,
                 responseBody = response.peekBody(1024 * 1024).string(),
-                durationMs = System.currentTimeMillis() - startTime
+                startTime = startTime,
             )
         }.onSuccess { logEntry ->
             apiLogRepository.addLog(logEntry)

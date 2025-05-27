@@ -80,7 +80,7 @@ object SupabaseModule {
                                 requestBody = "", // <- 이 부분은 Ktor에서 직접 얻기 어려움
                                 responseCode = response.status.value,
                                 responseBody = responseBody,
-                                durationMs = System.currentTimeMillis() - startTime // <- 필요하면 시간 측정 로직 추가
+                                startTime = startTime,
                             )
 
                             apiLogRepository.addLog(log)
