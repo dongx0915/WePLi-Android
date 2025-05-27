@@ -1,5 +1,6 @@
 package debug.model
 
+import java.net.URLDecoder
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -18,6 +19,14 @@ data class ApiLog(
     val startTime: Long,
     val durationMs: Long = System.currentTimeMillis() - startTime
 ) {
+    val decodedUrl: String by lazy {
+        try {
+            URLDecoder.decode(url, "UTF-8")
+        } catch (e: Exception) {
+            url
+        }
+    }
+
     fun formattedStartTime(): String {
         val sdf = SimpleDateFormat("a hh:mm:ss", Locale.KOREAN)
         return sdf.format(Date(startTime))

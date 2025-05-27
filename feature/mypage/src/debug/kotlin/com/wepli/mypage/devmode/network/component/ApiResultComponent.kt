@@ -54,7 +54,7 @@ fun ApiResultComponent(apiLog: ApiLog, modifier: Modifier = Modifier) {
 
         // Body
         Text(
-            text = apiLog.url,
+            text = apiLog.decodedUrl,
             style = WepliTheme.typo.subTitle2,
             color = WepliTheme.color.gray900,
         )
