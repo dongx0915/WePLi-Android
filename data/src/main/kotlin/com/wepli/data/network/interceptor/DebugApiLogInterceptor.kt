@@ -17,8 +17,11 @@ class DebugApiLogInterceptor @Inject constructor(
         val startTime = System.currentTimeMillis()
         val request = chain.request()
         val response = chain.proceed(request)
-        val fullUrl = request.url.toString()
+        val headersMap: Map<String, String> = request.headers.names().associateWith { name ->
+            request.headers.values(name).joinToString(", ")
+        }
 
+        val fullUrl = request.url.toString()
         val matchedBaseUrl = BaseUrl.entries.firstOrNull { fullUrl.startsWith(it.url) } ?: BaseUrl.UNKNOWN
         val relativePath = fullUrl.removePrefix(matchedBaseUrl.url)
 
@@ -28,7 +31,7 @@ class DebugApiLogInterceptor @Inject constructor(
                 baseUrlType = matchedBaseUrl.value,
                 baseUrl = matchedBaseUrl.url,
                 url = relativePath,
-                requestHeaders = request.headers.toString(),
+                requestHeaders = headersMap,
                 requestBody = request.body?.toString() ?: "Empty Request",
                 responseCode = response.code,
                 responseBody = response.peekBody(1024 * 1024).string(),

@@ -10,6 +10,8 @@ import dagger.hilt.components.SingletonComponent
 import debug.model.ApiLog
 import debug.model.ApiMethod
 import debug.repository.DebugApiLogRepository
+import extensions.toJsonString
+import extensions.toPrettyJsonString
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.annotations.SupabaseInternal
 import io.github.jan.supabase.auth.Auth
@@ -19,6 +21,7 @@ import io.github.jan.supabase.serializer.KotlinXSerializer
 import io.ktor.client.plugins.HttpResponseValidator
 import io.ktor.client.statement.bodyAsText
 import kotlinx.serialization.json.Json
+import java.util.TreeMap
 import javax.inject.Singleton
 
 @Module
@@ -69,6 +72,11 @@ object SupabaseModule {
                             } ?: BaseUrl.UNKNOWN
                             val relativePath = fullUrl.removePrefix(matchedBaseUrl.url)
 
+                            val headersMap: Map<String, String> = request.headers.entries()
+                                .associate { (key, value) ->
+                                    key to value.joinToString(", ") // 다중 값은 쉼표로 연결
+                                }
+
                             val responseBody = response.bodyAsText()
 
                             val log = ApiLog(
@@ -76,7 +84,7 @@ object SupabaseModule {
                                 baseUrlType = matchedBaseUrl.value,
                                 baseUrl = matchedBaseUrl.url,
                                 url = relativePath,
-                                requestHeaders = request.headers.toString(),
+                                requestHeaders = headersMap,
                                 requestBody = "", // <- 이 부분은 Ktor에서 직접 얻기 어려움
                                 responseCode = response.status.value,
                                 responseBody = responseBody,

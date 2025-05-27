@@ -12,7 +12,7 @@ data class ApiLog(
     val baseUrlType: String,
     val baseUrl: String,
     val url: String,
-    val requestHeaders: String,
+    val requestHeaders: Map<String, String>,
     val requestBody: String,
     val responseCode: Int,
     val responseBody: String,
