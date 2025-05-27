@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
+import com.wepli.mypage.devmode.mock.mockApiLogs
 import com.wepli.mypage.devmode.network.main.component.ApiResultComponent
 import com.wepli.mypage.devmode.network.main.component.MethodTag
 import com.wepli.mypage.devmode.network.main.enums.ApiMethodUiTag
@@ -47,57 +48,6 @@ import com.wepli.designsystem.R as CoreR
 @Preview
 @Composable
 fun NetworkLogDebugScreenPreview() {
-    val mockApiLogs = listOf(
-        ApiLog(
-            method = ApiMethod.GET,
-            baseUrlType = "Production",
-            baseUrl = "https://api.example.com",
-            url = "/users",
-            requestHeaders = "Authorization: Bearer token123",
-            requestBody = "",
-            responseCode = 200,
-            responseBody = "[{\"id\":1,\"name\":\"Alice\"},{\"id\":2,\"name\":\"Bob\"}]",
-            startTime = System.currentTimeMillis(),
-            durationMs = 120
-        ),
-        ApiLog(
-            method = ApiMethod.POST,
-            baseUrlType = "Production",
-            baseUrl = "https://api.example.com",
-            url = "/login",
-            requestHeaders = "Content-Type: application/json",
-            requestBody = "{\"username\":\"john\",\"password\":\"secret\"}",
-            responseCode = 401,
-            responseBody = "{\"error\":\"Invalid credentials\"}",
-            startTime = System.currentTimeMillis(),
-            durationMs = 98
-        ),
-        ApiLog(
-            method = ApiMethod.PUT,
-            baseUrlType = "Production",
-            baseUrl = "https://api.example.com",
-            url = "/users/1",
-            requestHeaders = "Authorization: Bearer token123\nContent-Type: application/json",
-            requestBody = "{\"name\":\"Alice Updated\"}",
-            responseCode = 200,
-            responseBody = "{\"id\":1,\"name\":\"Alice Updated\"}",
-            startTime = System.currentTimeMillis(),
-            durationMs = 150
-        ),
-        ApiLog(
-            method = ApiMethod.DELETE,
-            baseUrlType = "Production",
-            baseUrl = "https://api.example.com",
-            url = "/users/2",
-            requestHeaders = "Authorization: Bearer token123",
-            requestBody = "",
-            responseCode = 204,
-            responseBody = "",
-            startTime = System.currentTimeMillis(),
-            durationMs = 85
-        )
-    )
-
     NetworkLogDebugScreen(
         state = NetworkLogState(
             originApiLogs = mockApiLogs
