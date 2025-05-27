@@ -1,4 +1,4 @@
-package com.wepli.mypage.devmode.network.component
+package com.wepli.mypage.devmode.network.main.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

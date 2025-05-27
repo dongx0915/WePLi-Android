@@ -1,4 +1,4 @@
-package com.wepli.mypage.devmode.network.screen
+package com.wepli.mypage.devmode.network.main.screen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalOverscrollConfiguration
@@ -31,12 +31,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
-import com.wepli.mypage.devmode.network.component.ApiResultComponent
-import com.wepli.mypage.devmode.network.component.MethodTag
-import com.wepli.mypage.devmode.network.enums.ApiMethodUiTag
-import com.wepli.mypage.devmode.network.viewmodel.NetworkLogIntent
-import com.wepli.mypage.devmode.network.viewmodel.NetworkLogState
-import com.wepli.mypage.devmode.network.viewmodel.NetworkLogViewModel
+import com.wepli.mypage.devmode.network.main.component.ApiResultComponent
+import com.wepli.mypage.devmode.network.main.component.MethodTag
+import com.wepli.mypage.devmode.network.main.enums.ApiMethodUiTag
+import com.wepli.mypage.devmode.network.main.viewmodel.NetworkLogIntent
+import com.wepli.mypage.devmode.network.main.viewmodel.NetworkLogState
+import com.wepli.mypage.devmode.network.main.viewmodel.NetworkLogViewModel
 import debug.model.ApiLog
 import debug.model.ApiMethod
 import org.orbitmvi.orbit.compose.collectAsState

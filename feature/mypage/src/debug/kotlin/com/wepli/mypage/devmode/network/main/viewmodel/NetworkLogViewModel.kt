@@ -1,11 +1,11 @@
-package com.wepli.mypage.devmode.network.viewmodel
+package com.wepli.mypage.devmode.network.main.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import base.BaseMviViewModel
 import base.Intent
 import base.SideEffect
 import base.UiState
-import com.wepli.mypage.devmode.network.enums.ApiMethodUiTag
+import com.wepli.mypage.devmode.network.main.enums.ApiMethodUiTag
 import dagger.hilt.android.lifecycle.HiltViewModel
 import debug.model.ApiLog
 import debug.repository.DebugApiLogRepository

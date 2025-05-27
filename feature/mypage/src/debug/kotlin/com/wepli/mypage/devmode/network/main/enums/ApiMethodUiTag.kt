@@ -1,4 +1,4 @@
-package com.wepli.mypage.devmode.network.enums
+package com.wepli.mypage.devmode.network.main.enums
 
 import androidx.compose.ui.graphics.Color
 import debug.model.ApiMethod
