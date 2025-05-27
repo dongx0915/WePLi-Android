@@ -137,6 +137,7 @@ supabase-realtime-kt = { group = "io.github.jan-tennert.supabase", name = "realt
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 
 # etc
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
