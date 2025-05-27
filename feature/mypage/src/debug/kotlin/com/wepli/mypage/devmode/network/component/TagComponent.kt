@@ -39,12 +39,12 @@ fun PreviewStatusTag() {
 }
 
 @Composable
-fun MethodTag(tagName: String, isSelected: Boolean) {
+fun MethodTag(tagName: String, isSelected: Boolean, modifier: Modifier = Modifier) {
     val textColor = if (isSelected) WepliTheme.color.gray900 else WepliTheme.color.gray200
     val backgroundColor = if (isSelected) WepliTheme.color.gray000 else Color.Transparent
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .background(color = backgroundColor, shape = RoundedCornerShape(8.dp))
             .border(width = 1.dp, color = WepliTheme.color.gray050, shape = RoundedCornerShape(8.dp))
             .padding(horizontal = 16.dp, vertical = 8.dp)

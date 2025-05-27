@@ -9,12 +9,14 @@ import com.wepli.mypage.devmode.network.enums.ApiMethodUiTag
 import dagger.hilt.android.lifecycle.HiltViewModel
 import debug.model.ApiLog
 import debug.repository.DebugApiLogRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 data class NetworkLogState(
-    val apiLog: List<ApiLog> = emptyList(),
+    val originApiLogs: List<ApiLog> = emptyList(),
+    val filteredApiLogs: List<ApiLog> = emptyList(),
     val selectedTag: ApiMethodUiTag = ApiMethodUiTag.ALL,
 ): UiState
 
@@ -38,22 +40,33 @@ class NetworkLogViewModel @Inject constructor(
 
     override fun processIntent(intent: NetworkLogIntent) {
         when (intent) {
-            is NetworkLogIntent.SelectTag -> {}
+            is NetworkLogIntent.SelectTag -> updateSelectedTag(intent.tag)
         }
     }
 
     private fun collectApiLog() = intent {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             apiLogRepository.logs.collect {
-                val currentTag = state.selectedTag
-                val filteredLogs = it
-                    .filter { log ->
-                        currentTag == ApiMethodUiTag.ALL || log.method.name == currentTag.name
-                    }
-                    .sortedByDescending { it.startTime }
+                val sortedLogs = it.sortedByDescending { it.startTime }
+                val filteredApiLogs = filterLogs(sortedLogs, state.selectedTag)
 
-                updateState { copy(apiLog = filteredLogs) }
+                updateState {
+                    copy(originApiLogs = sortedLogs, filteredApiLogs = filteredApiLogs)
+                }
             }
+        }
+    }
+
+    private fun updateSelectedTag(tag: ApiMethodUiTag) = intent {
+        val filtered = filterLogs(state.originApiLogs, tag)
+        updateState { copy(selectedTag = tag, filteredApiLogs = filtered) }
+    }
+
+    private fun filterLogs(logs: List<ApiLog>, tag: ApiMethodUiTag): List<ApiLog> {
+        return if (tag == ApiMethodUiTag.ALL) {
+            logs
+        } else {
+            logs.filter { it.method.name == tag.name }
         }
     }
 }

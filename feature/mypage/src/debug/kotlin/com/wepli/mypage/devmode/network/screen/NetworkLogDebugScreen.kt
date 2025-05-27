@@ -3,6 +3,7 @@ package com.wepli.mypage.devmode.network.screen
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalOverscrollConfiguration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -33,6 +34,7 @@ import appbar.WepliAppBar
 import com.wepli.mypage.devmode.network.component.ApiResultComponent
 import com.wepli.mypage.devmode.network.component.MethodTag
 import com.wepli.mypage.devmode.network.enums.ApiMethodUiTag
+import com.wepli.mypage.devmode.network.viewmodel.NetworkLogIntent
 import com.wepli.mypage.devmode.network.viewmodel.NetworkLogState
 import com.wepli.mypage.devmode.network.viewmodel.NetworkLogViewModel
 import debug.model.ApiLog
@@ -98,8 +100,9 @@ fun NetworkLogDebugScreenPreview() {
 
     NetworkLogDebugScreen(
         state = NetworkLogState(
-            apiLog = mockApiLogs
-        )
+            originApiLogs = mockApiLogs
+        ),
+        sendAction = {}
     )
 }
 
@@ -108,12 +111,15 @@ fun NetworkLogDebugScreenRoute() {
     val viewModel: NetworkLogViewModel = hiltViewModel()
     val state: NetworkLogState by viewModel.collectAsState()
 
-    NetworkLogDebugScreen(state = state)
+    NetworkLogDebugScreen(state = state, sendAction = viewModel::processIntent)
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun NetworkLogDebugScreen(state: NetworkLogState) {
+fun NetworkLogDebugScreen(
+    state: NetworkLogState,
+    sendAction: (NetworkLogIntent) -> Unit,
+) {
     val scrollState = rememberLazyListState()
 
     Scaffold(
@@ -142,11 +148,14 @@ fun NetworkLogDebugScreen(state: NetworkLogState) {
                         selectedTag = state.selectedTag,
                         modifier = Modifier
                             .background(WepliTheme.color.black)
-                            .padding(top = 20.dp, bottom = 20.dp, start = 20.dp)
+                            .padding(top = 20.dp, bottom = 20.dp, start = 20.dp),
+                        onClick = {
+                            sendAction(NetworkLogIntent.SelectTag(it))
+                        }
                     )
                 }
 
-                itemsIndexed(state.apiLog) { _, log ->
+                itemsIndexed(state.filteredApiLogs) { _, log ->
                     ApiResultComponent(
                         apiLog = log,
                         modifier = Modifier.padding(start = 20.dp, end = 20.dp, bottom = 12.dp)
@@ -158,7 +167,11 @@ fun NetworkLogDebugScreen(state: NetworkLogState) {
 }
 
 @Composable
-fun MethodTagList(selectedTag: ApiMethodUiTag, modifier: Modifier = Modifier) {
+fun MethodTagList(
+    selectedTag: ApiMethodUiTag,
+    onClick: (ApiMethodUiTag) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     val tagScrollState = rememberScrollState()
 
     Row(
@@ -166,7 +179,11 @@ fun MethodTagList(selectedTag: ApiMethodUiTag, modifier: Modifier = Modifier) {
         modifier = modifier.horizontalScroll(tagScrollState),
     ) {
         ApiMethodUiTag.entries.forEach {
-            MethodTag(tagName = it.name, isSelected = selectedTag == it)
+            MethodTag(
+                tagName = it.name,
+                isSelected = selectedTag == it,
+                modifier = Modifier.clickable { onClick(it) }
+            )
         }
     }
 }
