@@ -50,6 +50,11 @@ class NetworkLogViewModel @Inject constructor(
                 val sortedLogs = it.sortedByDescending { it.startTime }
                 val filteredApiLogs = filterLogs(sortedLogs, state.selectedTag)
 
+                // 이전과 같으면 생략
+                if (state.originApiLogs == sortedLogs && state.filteredApiLogs == filteredApiLogs) {
+                    return@collect
+                }
+
                 updateState {
                     copy(originApiLogs = sortedLogs, filteredApiLogs = filteredApiLogs)
                 }
@@ -58,6 +63,8 @@ class NetworkLogViewModel @Inject constructor(
     }
 
     private fun updateSelectedTag(tag: ApiMethodUiTag) = intent {
+        if (tag == state.selectedTag) return@intent
+
         val filtered = filterLogs(state.originApiLogs, tag)
         updateState { copy(selectedTag = tag, filteredApiLogs = filtered) }
     }
