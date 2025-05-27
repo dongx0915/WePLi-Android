@@ -102,22 +102,24 @@ fun NetworkLogDebugScreenPreview() {
         state = NetworkLogState(
             originApiLogs = mockApiLogs
         ),
+        navOnBack = {},
         sendAction = {}
     )
 }
 
 @Composable
-fun NetworkLogDebugScreenRoute() {
+fun NetworkLogDebugScreenRoute(navOnBack: () -> Unit) {
     val viewModel: NetworkLogViewModel = hiltViewModel()
     val state: NetworkLogState by viewModel.collectAsState()
 
-    NetworkLogDebugScreen(state = state, sendAction = viewModel::processIntent)
+    NetworkLogDebugScreen(state = state, navOnBack = navOnBack, sendAction = viewModel::processIntent)
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun NetworkLogDebugScreen(
     state: NetworkLogState,
+    navOnBack: () -> Unit,
     sendAction: (NetworkLogIntent) -> Unit,
 ) {
     val scrollState = rememberLazyListState()
@@ -128,7 +130,8 @@ fun NetworkLogDebugScreen(
             WepliAppBar(
                 containerColor = Color.Transparent,
                 title = "네트워크 로그",
-                showBackButton = true
+                showBackButton = true,
+                onClickBack = navOnBack
             )
         }
     ) { paddingValues ->

@@ -83,7 +83,7 @@ fun SetUpNavGraph(
         mypageGraph(navController, goToLoginActivity)
 
         // 개발자 모드 Graph
-        networkLogGraph()
+        networkLogGraph(navController)
 
         // 포토카드 Graph
         photoCardGraph(navController)
@@ -163,8 +163,10 @@ fun NavGraphBuilder.mypageGraph(
 }
 
 // 개발자 모드 Graph
-fun NavGraphBuilder.networkLogGraph() {
-    networkLogMainGraph()
+fun NavGraphBuilder.networkLogGraph(navController: NavController) {
+    networkLogMainGraph(
+        navOnBack = { navController.navigateUp() }
+    )
 }
 
 fun NavGraphBuilder.photoCardGraph(navController: NavController) {
