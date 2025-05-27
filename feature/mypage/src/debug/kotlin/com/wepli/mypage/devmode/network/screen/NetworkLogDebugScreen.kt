@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -110,7 +112,7 @@ fun NetworkLogDebugScreenRoute() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NetworkLogDebugScreen(state: NetworkLogState) {
-    val scrollState = rememberScrollState()
+    val scrollState = rememberLazyListState()
 
     Scaffold(
         containerColor = WepliTheme.color.black,
@@ -122,28 +124,33 @@ fun NetworkLogDebugScreen(state: NetworkLogState) {
             )
         }
     ) { paddingValues ->
-        Column(
-            modifier = Modifier
-            .padding(paddingValues)
-            .verticalScroll(scrollState)
+        LazyColumn(
+            state = scrollState,
+            modifier = Modifier.padding(paddingValues),
         ) {
-            NoticeComponent(
-                modifier = Modifier
-                    .padding(horizontal = 20.dp)
-                    .padding(top = 20.dp)
-            )
+            item {
+                NoticeComponent(
+                    modifier = Modifier
+                        .padding(horizontal = 20.dp)
+                        .padding(top = 20.dp)
+                )
+            }
 
-            MethodTagList(
-                selectedTag = state.selectedTag,
-                modifier = Modifier
-                    .padding(vertical = 20.dp)
-                    .padding(start = 20.dp)
-            )
+            item {
+                MethodTagList(
+                    selectedTag = state.selectedTag,
+                    modifier = Modifier
+                        .padding(vertical = 20.dp)
+                        .padding(start = 20.dp)
+                )
+            }
 
-            ApiResultList(
-                apiLog = state.apiLog,
-                modifier = Modifier.padding(horizontal = 20.dp),
-            )
+            items(state.apiLog.size) { index ->
+                ApiResultComponent(
+                    apiLog = state.apiLog[index],
+                    modifier = Modifier.padding(horizontal = 20.dp).padding(bottom = 12.dp)
+                )
+            }
         }
     }
 }
@@ -158,18 +165,6 @@ fun MethodTagList(selectedTag: ApiMethodUiModel, modifier: Modifier = Modifier) 
     ) {
         ApiMethodUiModel.entries.forEach {
             MethodTag(tagName = it.name, isSelected = selectedTag == it)
-        }
-    }
-}
-
-@Composable
-fun ApiResultList(apiLog: List<ApiLog>, modifier: Modifier = Modifier) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = modifier
-    ) {
-        apiLog.forEach {
-            ApiResultComponent(apiLog = it)
         }
     }
 }

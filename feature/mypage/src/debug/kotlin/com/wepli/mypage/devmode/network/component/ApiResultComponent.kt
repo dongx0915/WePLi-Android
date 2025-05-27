@@ -20,10 +20,10 @@ import debug.model.ApiLog
 import theme.WepliTheme
 
 @Composable
-fun ApiResultComponent(apiLog: ApiLog) {
+fun ApiResultComponent(apiLog: ApiLog, modifier: Modifier = Modifier) {
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier
+        modifier = modifier
             .background(color = WepliTheme.color.gray050, shape = RoundedCornerShape(8.dp))
             .border(width = 1.dp, color = WepliTheme.color.gray100, shape = RoundedCornerShape(8.dp))
             .padding(horizontal = 16.dp, vertical = 16.dp)
