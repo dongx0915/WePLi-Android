@@ -14,7 +14,6 @@ import appbar.WepliAppBar
 import com.wepli.mypage.devmode.mock.mockApiLogs
 import com.wepli.mypage.devmode.network.detail.viewmodel.NetworkLogDetailState
 import com.wepli.mypage.devmode.network.detail.viewmodel.NetworkLogDetailViewModel
-import debug.model.ApiLog
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
 
@@ -22,30 +21,27 @@ import theme.WepliTheme
 @Composable
 fun NetworkLogDetailScreenPreview() {
     NetworkLogDetailScreen(
-        apiLog = mockApiLogs.random()
-    ) {
-
-    }
+        state = NetworkLogDetailState(
+            apiLog = mockApiLogs.firstOrNull()
+        ),
+    ) { }
 }
 
-
 @Composable
-fun NetworkLogDetailScreenRoute(navOnBack: () -> Unit) {
+fun NetworkLogDetailScreenRoute(apiLogId: String, navOnBack: () -> Unit) {
     val viewModel: NetworkLogDetailViewModel = hiltViewModel()
     val state: NetworkLogDetailState by viewModel.collectAsState()
 
-    state.apiLog?.let {
-        NetworkLogDetailScreen(
-            apiLog = it,
-            navOnBack = navOnBack
-        )
-    }
+    NetworkLogDetailScreen(
+        state = state,
+        navOnBack = navOnBack
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NetworkLogDetailScreen(
-    apiLog: ApiLog,
+    state: NetworkLogDetailState,
     navOnBack: () -> Unit
 ) {
     Scaffold(
@@ -53,7 +49,7 @@ fun NetworkLogDetailScreen(
         topBar = {
             WepliAppBar(
                 containerColor = Color.Transparent,
-                title = "${apiLog.method.name} ${apiLog.url}",
+                title = "${state.apiLog?.method?.name} ${state.apiLog?.url}",
                 showBackButton = true,
                 onClickBack = navOnBack
             )

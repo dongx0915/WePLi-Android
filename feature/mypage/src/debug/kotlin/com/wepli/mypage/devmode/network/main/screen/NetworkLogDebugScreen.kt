@@ -52,23 +52,33 @@ fun NetworkLogDebugScreenPreview() {
         state = NetworkLogState(
             originApiLogs = mockApiLogs
         ),
+        navOnNetworkLogDetail = {},
         navOnBack = {},
         sendAction = {}
     )
 }
 
 @Composable
-fun NetworkLogDebugScreenRoute(navOnBack: () -> Unit) {
+fun NetworkLogDebugScreenRoute(
+    navOnNetworkLogDetail: (String) -> Unit,
+    navOnBack: () -> Unit
+) {
     val viewModel: NetworkLogViewModel = hiltViewModel()
     val state: NetworkLogState by viewModel.collectAsState()
 
-    NetworkLogDebugScreen(state = state, navOnBack = navOnBack, sendAction = viewModel::processIntent)
+    NetworkLogDebugScreen(
+        state = state,
+        navOnNetworkLogDetail = navOnNetworkLogDetail,
+        navOnBack = navOnBack,
+        sendAction = viewModel::processIntent
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun NetworkLogDebugScreen(
     state: NetworkLogState,
+    navOnNetworkLogDetail: (String) -> Unit,
     navOnBack: () -> Unit,
     sendAction: (NetworkLogIntent) -> Unit,
 ) {
@@ -111,7 +121,9 @@ fun NetworkLogDebugScreen(
                 itemsIndexed(state.filteredApiLogs) { _, log ->
                     ApiResultComponent(
                         apiLog = log,
-                        modifier = Modifier.padding(start = 20.dp, end = 20.dp, bottom = 12.dp)
+                        modifier = Modifier
+                            .clickable { navOnNetworkLogDetail(log.id) }
+                            .padding(start = 20.dp, end = 20.dp, bottom = 12.dp),
                     )
                 }
             }

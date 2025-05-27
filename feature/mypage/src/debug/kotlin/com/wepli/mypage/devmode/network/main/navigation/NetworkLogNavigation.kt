@@ -11,11 +11,12 @@ fun NavController.navigateToNetworkLogMain() {
 }
 
 fun NavGraphBuilder.networkLogMainGraph(
+    navOnNetworkLogDetail: (String) -> Unit,
     navOnBack: () -> Unit
 ) {
     composable(
         route = NetworkLogRoute.Main.route
     ) {
-        NetworkLogDebugScreenRoute(navOnBack = navOnBack)
+        NetworkLogDebugScreenRoute(navOnNetworkLogDetail = navOnNetworkLogDetail, navOnBack = navOnBack)
     }
 }
