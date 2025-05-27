@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -12,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
 import com.wepli.mypage.devmode.mock.mockApiLogs
+import com.wepli.mypage.devmode.network.detail.viewmodel.NetworkLogDetailIntent
 import com.wepli.mypage.devmode.network.detail.viewmodel.NetworkLogDetailState
 import com.wepli.mypage.devmode.network.detail.viewmodel.NetworkLogDetailViewModel
 import org.orbitmvi.orbit.compose.collectAsState
@@ -31,6 +33,12 @@ fun NetworkLogDetailScreenPreview() {
 fun NetworkLogDetailScreenRoute(apiLogId: String, navOnBack: () -> Unit) {
     val viewModel: NetworkLogDetailViewModel = hiltViewModel()
     val state: NetworkLogDetailState by viewModel.collectAsState()
+
+    LaunchedEffect(apiLogId) {
+        viewModel.processIntent(
+            NetworkLogDetailIntent.InitApiLog(apiLogId)
+        )
+    }
 
     NetworkLogDetailScreen(
         state = state,
