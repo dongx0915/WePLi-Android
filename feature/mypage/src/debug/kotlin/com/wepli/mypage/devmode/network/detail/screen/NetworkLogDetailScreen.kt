@@ -110,10 +110,10 @@ fun NetworkLogDetailScreen(
                 .background(WepliTheme.color.black)
                 .verticalScroll(scrollState)
                 .padding(paddingValues)
-                .padding(horizontal = 20.dp),
+                .padding(horizontal = 20.dp, vertical = 20.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            ApiInfoHeader(apiLog = state.apiLog, modifier = Modifier.padding(top = 20.dp))
+            ApiInfoHeader(apiLog = state.apiLog)
 
             ApiRequestComponent(
                 apiLog = state.apiLog,
