@@ -124,7 +124,7 @@ fun NetworkLogDetailScreen(
 
 @Composable
 private fun ApiInfoHeader(apiLog: ApiLog, modifier: Modifier = Modifier) {
-    Column {
+    Column(modifier = modifier) {
         // Status Tag
         Row(
             verticalAlignment = Alignment.CenterVertically,
