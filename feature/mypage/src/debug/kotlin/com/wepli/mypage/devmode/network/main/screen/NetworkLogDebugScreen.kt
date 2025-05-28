@@ -141,7 +141,7 @@ fun MethodTagList(
 
     Row(
         horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.Start),
-        modifier = modifier.horizontalScroll(tagScrollState),
+        modifier = modifier.fillMaxWidth().horizontalScroll(tagScrollState),
     ) {
         ApiMethodUiTag.entries.forEach {
             MethodTag(
