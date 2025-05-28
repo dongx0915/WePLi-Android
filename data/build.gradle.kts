@@ -24,4 +24,8 @@ dependencies {
     // Supabase
     implementation(platform(libs.supabase.bom))
     implementation(libs.supabase.postgrest.kt)
+
+    // Room
+    implementation(libs.bundles.room)
+    ksp(libs.androidx.room.compiler.ksp)
 }

@@ -53,6 +53,9 @@ firebase-bom = "33.8.0"
 supabase = "3.0.2"
 ktor = "3.0.1"
 
+# Room
+room = "2.7.1"
+
 # Etc
 coil = "2.7.0"
 retrofit = "2.11.0"
@@ -140,6 +143,11 @@ ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "k
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 
+# Room
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-compiler-ksp = { group = "androidx.room", name = "room-compiler", version.ref = "room" } # need ksp
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+
 # etc
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
@@ -181,6 +189,11 @@ orbit = [
     "orbit-core",
     "orbit-viewmodel",
     "orbit-compose",
+]
+
+room = [
+    "androidx-room-runtime",
+    "androidx-room-ktx",
 ]
 
 [plugins] # 플러그인
