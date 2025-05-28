@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -37,6 +38,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import appbar.ScrollableAppBar
 import appbar.WepliAppBar
 import com.sebastianneubauer.jsontree.JsonTree
 import com.sebastianneubauer.jsontree.TreeColors
@@ -89,12 +91,14 @@ fun NetworkLogDetailScreen(
 
     val scrollState = rememberScrollState()
 
-    Scaffold(
-        containerColor = WepliTheme.color.black,
-        topBar = {
+    ScrollableAppBar(
+        scrollState = scrollState,
+        backgroundColors = Color.Black to Color.Black,
+        contentsColors = Color.White to Color.White,
+        topBarComponent = { backgroundColor, _, _, scrollFaction ->
             WepliAppBar(
-                containerColor = Color.Transparent,
-                title = "${state.apiLog?.method?.name} ${state.apiLog?.url}",
+                containerColor = backgroundColor,
+                title = if (scrollFaction >= 0.4) "${state.apiLog.method.name} ${state.apiLog.url}" else "",
                 showBackButton = true,
                 onClickBack = navOnBack
             )
@@ -102,9 +106,11 @@ fun NetworkLogDetailScreen(
     ) { paddingValues ->
         Column(
             modifier = Modifier
+                .fillMaxSize()
+                .background(WepliTheme.color.black)
+                .verticalScroll(scrollState)
                 .padding(paddingValues)
-                .padding(horizontal = 20.dp)
-                .verticalScroll(scrollState),
+                .padding(horizontal = 20.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             ApiInfoHeader(apiLog = state.apiLog, modifier = Modifier.padding(top = 20.dp))
