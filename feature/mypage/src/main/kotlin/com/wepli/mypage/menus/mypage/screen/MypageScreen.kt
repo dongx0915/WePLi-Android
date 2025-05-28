@@ -101,6 +101,7 @@ private fun handleSideEffect(
     sideEffect: MyPageEffect,
     navOnAppInfo: () -> Unit,
     navOnPhotoCard: () -> Unit,
+    navOnDevMode: () -> Unit,
     goToLoginActivity: () -> Unit
 ) {
     when (sideEffect) {
@@ -113,6 +114,7 @@ private fun handleSideEffect(
         }
         MyPageEffect.NavigateOnAppInfo -> navOnAppInfo()
         MyPageEffect.NavigateOnPhotoCard -> navOnPhotoCard()
+        MyPageEffect.NavigateOnDevMode -> navOnDevMode()
     }
 }
 
@@ -121,12 +123,13 @@ fun MyPageScreenRoute(
     viewModel: MyPageViewModel = hiltViewModel(),
     navOnAppInfo: () -> Unit,
     navOnPhotoCard: () -> Unit,
+    navOnDevMode: () -> Unit,
     goToLoginActivity: () -> Unit,
 ) {
     val context: Context = LocalContext.current
     val state: MyPageUiState by viewModel.collectAsState()
 
-    viewModel.collectSideEffect { sideEffect -> handleSideEffect(context, sideEffect, navOnAppInfo, navOnPhotoCard, goToLoginActivity) }
+    viewModel.collectSideEffect { sideEffect -> handleSideEffect(context, sideEffect, navOnAppInfo, navOnPhotoCard, navOnDevMode, goToLoginActivity) }
 
     MyPageScreen(
         user = state.user,

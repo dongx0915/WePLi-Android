@@ -1,0 +1,55 @@
+package com.wepli.mypage.devmode.mock
+
+import debug.model.ApiLog
+import debug.model.ApiMethod
+
+val mockApiLogs = listOf(
+    ApiLog(
+        method = ApiMethod.GET,
+        baseUrlType = "Production",
+        baseUrl = "https://api.example.com",
+        url = "/users",
+        requestHeaders = mapOf(),
+        requestBody = "",
+        responseCode = 200,
+        responseBody = "[{\"id\":1,\"name\":\"Alice\"},{\"id\":2,\"name\":\"Bob\"}]",
+        startTime = System.currentTimeMillis(),
+        durationMs = 120
+    ),
+    ApiLog(
+        method = ApiMethod.POST,
+        baseUrlType = "Production",
+        baseUrl = "https://api.example.com",
+        url = "/login",
+        requestHeaders = mapOf(),
+        requestBody = "{\"username\":\"john\",\"password\":\"secret\"}",
+        responseCode = 401,
+        responseBody = "{\"error\":\"Invalid credentials\"}",
+        startTime = System.currentTimeMillis(),
+        durationMs = 98
+    ),
+    ApiLog(
+        method = ApiMethod.PUT,
+        baseUrlType = "Production",
+        baseUrl = "https://api.example.com",
+        url = "/users/1",
+        requestHeaders = mapOf(),
+        requestBody = "{\"name\":\"Alice Updated\"}",
+        responseCode = 200,
+        responseBody = "{\"id\":1,\"name\":\"Alice Updated\"}",
+        startTime = System.currentTimeMillis(),
+        durationMs = 150
+    ),
+    ApiLog(
+        method = ApiMethod.DELETE,
+        baseUrlType = "Production",
+        baseUrl = "https://api.example.com",
+        url = "/users/2",
+        requestHeaders = mapOf(),
+        requestBody = "",
+        responseCode = 204,
+        responseBody = "",
+        startTime = System.currentTimeMillis(),
+        durationMs = 85
+    )
+)

@@ -22,14 +22,15 @@ data class MyPageUiState(
     val menuSections: List<MenuSection> = emptyList()
 ) : UiState
 
-interface MyPageEffect : SideEffect {
+sealed interface MyPageEffect : SideEffect {
     data object SuccessLogout : MyPageEffect
     data object FailedLogout : MyPageEffect
     data object NavigateOnAppInfo : MyPageEffect
     data object NavigateOnPhotoCard : MyPageEffect
+    data object NavigateOnDevMode : MyPageEffect
 }
 
-interface MyPageIntent : Intent {
+sealed interface MyPageIntent : Intent {
     data object None : MyPageIntent
     data class ShowLogoutPopup(val isShow: Boolean) : MyPageIntent
     data object RequestLogout : MyPageIntent
@@ -97,6 +98,8 @@ class MyPageViewModel @Inject constructor(
             MyPageIntent.RequestLogout -> handleRequestLogout()
             MyPageIntent.NavigateOnAppInfo -> handleNavigateOnAppInfo()
             MyPageIntent.OnClickPhotoCardMenu -> handleNavigateOnPhotoCard()
+            MyPageIntent.NavigateDevMode -> handleNavigateOnDevMode()
+            MyPageIntent.None -> Unit
         }
     }
 
@@ -132,5 +135,9 @@ class MyPageViewModel @Inject constructor(
 
     private fun handleNavigateOnPhotoCard() = intent {
         postSideEffect(MyPageEffect.NavigateOnPhotoCard)
+    }
+
+    private fun handleNavigateOnDevMode() = intent {
+        postSideEffect(MyPageEffect.NavigateOnDevMode)
     }
 }

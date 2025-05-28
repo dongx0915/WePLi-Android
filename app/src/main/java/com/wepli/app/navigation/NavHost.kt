@@ -1,8 +1,5 @@
 package com.wepli.app.navigation
 
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -29,6 +26,10 @@ import com.wepli.feature.photocard.result.navigation.photoCardResultGraph
 import com.wepli.feature.photocard.result.navigation.navigateToPhotoCardResult
 import com.wepli.feature.song.info.navigation.navigateToSongInfo
 import com.wepli.feature.song.info.navigation.songInfoGraph
+import com.wepli.mypage.devmode.network.detail.navigation.navigateToNetworkLogDetail
+import com.wepli.mypage.devmode.network.detail.navigation.networkLogDetailGraph
+import com.wepli.mypage.devmode.network.main.navigation.navigateToNetworkLogMain
+import com.wepli.mypage.devmode.network.main.navigation.networkLogMainGraph
 import com.wepli.playlist.navigation.navigateToPlaylistDetail
 import com.wepli.playlist.navigation.playlistDetailGraph
 import com.wepli.relaylist.navigation.navigateToRelaylistDetail
@@ -79,6 +80,9 @@ fun SetUpNavGraph(
 
         // 마이페이지 Graph
         mypageGraph(navController, goToLoginActivity)
+
+        // 개발자 모드 Graph
+        networkLogGraph(navController)
 
         // 포토카드 Graph
         photoCardGraph(navController)
@@ -149,9 +153,24 @@ fun NavGraphBuilder.mypageGraph(
     mypageMainGraph(
         navOnAppInfo = { navController.navigateToAppInfo() },
         navOnPhotoCard = { navController.navigateToPhotoCardMain() },
+        navOnDevMode = { navController.navigateToNetworkLogMain()},
         goToLoginActivity = { goToLoginActivity() }
     )
     mypageAppInfoGraph(
+        navOnBack = { navController.navigateUp() }
+    )
+}
+
+// 개발자 모드 Graph
+fun NavGraphBuilder.networkLogGraph(navController: NavController) {
+    networkLogMainGraph(
+        navOnNetworkLogDetail = { apiLogId ->
+            navController.navigateToNetworkLogDetail(apiLogId)
+        },
+        navOnBack = { navController.navigateUp() }
+    )
+
+    networkLogDetailGraph(
         navOnBack = { navController.navigateUp() }
     )
 }
