@@ -16,7 +16,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import debug.repository.DebugApiLogRepository
-import debug.repository.DebugApiLogRepositoryImpl
+import com.wepli.data.network.apilog.DebugApiLogRepositoryImpl
 import model.recommend.repository.KeywordRepository
 import repository.applemusic.AppleMusicRepository
 import repository.artist.ArtistRepository

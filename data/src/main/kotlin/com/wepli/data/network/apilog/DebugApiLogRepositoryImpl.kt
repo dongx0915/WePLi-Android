@@ -1,6 +1,7 @@
-package debug.repository
+package com.wepli.data.network.apilog
 
 import debug.model.ApiLog
+import debug.repository.DebugApiLogRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
