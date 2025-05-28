@@ -5,6 +5,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -102,11 +103,11 @@ fun NetworkLogDetailScreen(
         Column(
             modifier = Modifier
                 .padding(paddingValues)
-                .padding(vertical = 20.dp, horizontal = 20.dp)
+                .padding(horizontal = 20.dp)
                 .verticalScroll(scrollState),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            ApiInfoHeader(apiLog = state.apiLog)
+            ApiInfoHeader(apiLog = state.apiLog, modifier = Modifier.padding(top = 20.dp))
 
             ApiRequestComponent(
                 apiLog = state.apiLog,
@@ -222,6 +223,7 @@ private fun CollapsingComponent(
     contents: String,
     modifier: Modifier = Modifier
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
     var expanded by remember { mutableStateOf(false) }
     val rotationAngle by animateFloatAsState(
         targetValue = if (expanded) 180f else 0f,
@@ -231,7 +233,6 @@ private fun CollapsingComponent(
     Column(
         modifier = modifier
             .animateContentSize()
-            .clickable { expanded = !expanded } // 클릭 시 toggle
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
             .background(color = WepliTheme.color.gray050)
@@ -242,6 +243,10 @@ private fun CollapsingComponent(
         // Header
         Row(
             verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.clickable(
+                interactionSource = interactionSource,
+                indication = null,
+            ) { expanded = !expanded }
         ) {
             Text(
                 text = title,
