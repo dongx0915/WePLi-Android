@@ -34,7 +34,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -229,6 +231,7 @@ private fun CollapsingComponent(
     contents: String,
     modifier: Modifier = Modifier
 ) {
+    val clipboardManager = LocalClipboardManager.current
     val interactionSource = remember { MutableInteractionSource() }
     var expanded by remember { mutableStateOf(false) }
     val rotationAngle by animateFloatAsState(
@@ -299,6 +302,25 @@ private fun CollapsingComponent(
             )
 
             // Footer
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.End),
+                modifier = Modifier.fillMaxWidth().clickable {
+                    clipboardManager.setText(AnnotatedString(contents))
+                }
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(CoreR.drawable.ic_copy_right),
+                    tint = WepliTheme.color.gray900,
+                    contentDescription = null,
+                    modifier = Modifier.size(16.dp)
+                )
+                Text(
+                    text = "copy",
+                    style = WepliTheme.typo.body6,
+                    color = WepliTheme.color.gray900
+                )
+            }
         }
     }
 }
