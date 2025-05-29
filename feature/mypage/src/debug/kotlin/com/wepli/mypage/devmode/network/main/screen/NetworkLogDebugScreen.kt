@@ -38,11 +38,9 @@ import com.wepli.mypage.devmode.network.main.enums.ApiMethodUiTag
 import com.wepli.mypage.devmode.network.main.viewmodel.NetworkLogIntent
 import com.wepli.mypage.devmode.network.main.viewmodel.NetworkLogState
 import com.wepli.mypage.devmode.network.main.viewmodel.NetworkLogViewModel
-import debug.model.ApiLog
-import debug.model.ApiMethod
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
-import com.wepli.designsystem.R as CoreR
+import com.wepli.core.resources.R as CoreR
 
 
 @Preview
@@ -166,7 +164,7 @@ fun NoticeComponent(modifier: Modifier = Modifier) {
         horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.Start)
     ) {
         Icon(
-            imageVector = ImageVector.vectorResource(CoreR.drawable.ic_info_vector),
+            imageVector = ImageVector.vectorResource(CoreR.drawable.ic_arrow_down_vector),
             tint = WepliTheme.color.gray900,
             contentDescription = null,
         )

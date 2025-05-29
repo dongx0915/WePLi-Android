@@ -54,7 +54,7 @@ import debug.model.ApiLog
 import extensions.toPrettyJsonString
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
-import com.wepli.designsystem.R as CoreR
+import com.wepli.core.resources.R as CoreR
 
 @Preview
 @Composable

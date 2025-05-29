@@ -10,8 +10,6 @@ import dagger.hilt.components.SingletonComponent
 import debug.model.ApiLog
 import debug.model.ApiMethod
 import debug.repository.DebugApiLogRepository
-import extensions.toJsonString
-import extensions.toPrettyJsonString
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.annotations.SupabaseInternal
 import io.github.jan.supabase.auth.Auth
@@ -19,13 +17,9 @@ import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.serializer.KotlinXSerializer
 import io.github.jan.supabase.storage.Storage
-import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logger
-import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.HttpResponseValidator
 import io.ktor.client.statement.bodyAsText
 import kotlinx.serialization.json.Json
-import java.util.TreeMap
 import javax.inject.Singleton
 
 @Module
