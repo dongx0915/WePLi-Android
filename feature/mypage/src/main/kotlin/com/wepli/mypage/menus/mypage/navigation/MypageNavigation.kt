@@ -10,15 +10,17 @@ fun NavGraphBuilder.mypageMainGraph(
     navOnAppInfo: () -> Unit,
     navOnPhotoCard: () -> Unit,
     navOnProfile: () -> Unit,
+    navOnDevMode: () -> Unit,
     goToLoginActivity: () -> Unit,
 ) {
     composable(
         route = MyPageRoute.Main.route
     ) {
         MyPageScreenRoute(
-            navOnAppInfo = { navOnAppInfo() },
-            navOnPhotoCard = { navOnPhotoCard() },
-            navOnProfile = { navOnProfile() },
+            navOnAppInfo = navOnAppInfo,
+            navOnPhotoCard = navOnPhotoCard,
+            navOnProfile = navOnProfile,
+            navOnDevMode = navOnDevMode,
             goToLoginActivity = { goToLoginActivity() }
         )
     }

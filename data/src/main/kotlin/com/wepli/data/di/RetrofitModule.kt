@@ -7,12 +7,16 @@ import com.wepli.data.di.qualifier.AppleMusicOkHttpClient
 import com.wepli.data.di.qualifier.AppleMusicRetrofit
 import com.wepli.data.di.qualifier.BaseOkHttpClient
 import com.wepli.data.di.qualifier.BaseRetrofit
+import com.wepli.data.network.baseurl.BaseUrl
 import com.wepli.data.network.calladapter.FlowCallAdapterFactory
+import com.wepli.data.network.interceptor.DebugApiLogInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import debug.repository.DebugApiLogRepository
 import kotlinx.serialization.json.Json
+import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -22,9 +26,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RetrofitModule {
-
-    private const val BASE_URL = "https://c5d99f29-4f14-416b-9baa-c691ac5fe558.mock.pstmn.io/"
-    private const val APPLE_MUSIC_BASE_URL = "https://api.music.apple.com/"
 
     private val json: Json by lazy {
         Json {
@@ -60,12 +61,20 @@ object RetrofitModule {
 
     @Provides
     @Singleton
+    fun provideDebugApiLogInterceptor(apiLogRepository: DebugApiLogRepository): Interceptor {
+        return DebugApiLogInterceptor(apiLogRepository)
+    }
+
+    @Provides
+    @Singleton
     @BaseOkHttpClient
     fun provideHttpClient(
         logger: HttpLoggingInterceptor,
+        debugApiLogInterceptor: DebugApiLogInterceptor
     ): OkHttpClient {
         return OkHttpClient().newBuilder()
             .addInterceptor(logger)
+            .addInterceptor(debugApiLogInterceptor)
             .build()
     }
 
@@ -74,6 +83,7 @@ object RetrofitModule {
     @AppleMusicOkHttpClient
     fun provideAppleApiHttpClient(
         logger: HttpLoggingInterceptor,
+        debugApiLogInterceptor: DebugApiLogInterceptor,
     ): OkHttpClient {
         return OkHttpClient().newBuilder()
             .addInterceptor(logger)
@@ -83,6 +93,7 @@ object RetrofitModule {
                     .build()
                 chain.proceed(request)
             }
+            .addInterceptor(debugApiLogInterceptor)
             .build()
     }
 
@@ -96,7 +107,7 @@ object RetrofitModule {
         val converterFactory = json.asConverterFactory(contentType)
 
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BaseUrl.POSTMAN.url)
             .client(httpClient)
             .addConverterFactory(converterFactory)
             .addCallAdapterFactory(FlowCallAdapterFactory.create())
@@ -114,7 +125,7 @@ object RetrofitModule {
         val converterFactory = json.asConverterFactory(contentType)
 
         return Retrofit.Builder()
-            .baseUrl(APPLE_MUSIC_BASE_URL)
+            .baseUrl(BaseUrl.APPLE_MUSIC.url)
             .client(httpClient)
             .addConverterFactory(converterFactory)
             .addCallAdapterFactory(FlowCallAdapterFactory.create())

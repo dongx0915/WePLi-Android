@@ -1,8 +1,5 @@
 package com.wepli.app.navigation
 
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -29,6 +26,10 @@ import com.wepli.feature.photocard.result.navigation.photoCardResultGraph
 import com.wepli.feature.photocard.result.navigation.navigateToPhotoCardResult
 import com.wepli.feature.song.info.navigation.navigateToSongInfo
 import com.wepli.feature.song.info.navigation.songInfoGraph
+import com.wepli.mypage.devmode.network.detail.navigation.navigateToNetworkLogDetail
+import com.wepli.mypage.devmode.network.detail.navigation.networkLogDetailGraph
+import com.wepli.mypage.devmode.network.main.navigation.navigateToNetworkLogMain
+import com.wepli.mypage.devmode.network.main.navigation.networkLogMainGraph
 import com.wepli.mypage.menus.profile.navigation.navigateProfileMain
 import com.wepli.mypage.menus.profile.navigation.profileMainGraph
 import com.wepli.playlist.navigation.navigateToPlaylistDetail
@@ -81,6 +82,9 @@ fun SetUpNavGraph(
 
         // 마이페이지 Graph
         mypageGraph(navController, goToLoginActivity)
+
+        // 개발자 모드 Graph
+        networkLogGraph(navController)
 
         // 프로필 Graph
         profileGraph(navController)
@@ -155,6 +159,7 @@ fun NavGraphBuilder.mypageGraph(
         navOnAppInfo = { navController.navigateToAppInfo() },
         navOnPhotoCard = { navController.navigateToPhotoCardMain() },
         navOnProfile = { navController.navigateProfileMain() },
+        navOnDevMode = { navController.navigateToNetworkLogMain()},
         goToLoginActivity = { goToLoginActivity() }
     )
     mypageAppInfoGraph(
@@ -165,6 +170,20 @@ fun NavGraphBuilder.mypageGraph(
 // 프로필 Graph
 fun NavGraphBuilder.profileGraph(navController: NavController) {
     profileMainGraph(
+        navOnBack = { navController.navigateUp() }
+    )
+}
+
+// 개발자 모드 Graph
+fun NavGraphBuilder.networkLogGraph(navController: NavController) {
+    networkLogMainGraph(
+        navOnNetworkLogDetail = { apiLogId ->
+            navController.navigateToNetworkLogDetail(apiLogId)
+        },
+        navOnBack = { navController.navigateUp() }
+    )
+
+    networkLogDetailGraph(
         navOnBack = { navController.navigateUp() }
     )
 }

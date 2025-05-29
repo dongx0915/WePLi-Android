@@ -30,6 +30,13 @@ inline fun <reified T> T.toJsonString(): String {
     }.getOrDefault("")
 }
 
+inline fun <reified T> T.toPrettyJsonString(): String {
+    return runCatching {
+        GsonBuilder().setPrettyPrinting().create().toJson(this).orEmpty()
+    }.getOrDefault("")
+}
+
+
 /**
  * Json을 클래스로 변환
  */
