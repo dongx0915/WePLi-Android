@@ -64,8 +64,9 @@ object SupabaseModule {
                     // Header까지 기록하려면 아래 코드를 사용
                     HttpResponseValidator {
                         validateResponse { response ->
-                            val startTime = System.currentTimeMillis()
                             val request = response.call.request
+                            val responseBody = response.bodyAsText()
+
                             val fullUrl = request.url.toString()
                             val matchedBaseUrl = BaseUrl.entries.firstOrNull {
                                 fullUrl.startsWith(it.url)
@@ -77,8 +78,6 @@ object SupabaseModule {
                                     key to value.joinToString(", ") // 다중 값은 쉼표로 연결
                                 }
 
-                            val responseBody = response.bodyAsText()
-
                             val log = ApiLog(
                                 method = ApiMethod.fromString(request.method.value),
                                 baseUrlType = matchedBaseUrl.value,
@@ -88,7 +87,7 @@ object SupabaseModule {
                                 requestBody = "", // <- 이 부분은 Ktor에서 직접 얻기 어려움
                                 responseCode = response.status.value,
                                 responseBody = responseBody,
-                                startTime = startTime,
+                                startTime = response.requestTime.timestamp,
                             )
 
                             apiLogRepository.addLog(log)
