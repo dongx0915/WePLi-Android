@@ -128,10 +128,11 @@ suspend fun ByteArray.compressImage(
     var compressed: ByteArray
 
     do {
-        val outputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream)
-        compressed = outputStream.toByteArray()
-        quality -= 10
+        ByteArrayOutputStream().use { stream ->
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, stream)
+            compressed = stream.toByteArray()
+            quality -= 10
+        }
     } while (compressed.size > maxSizeInBytes && quality >= minQuality)
 
     compressed
