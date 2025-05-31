@@ -1,6 +1,6 @@
-package com.wepli.data
+package com.wepli.data.supabase
 
-object SupabaseTable {
+object SupabaseConstants {
     // User
     const val USER_TABLE = "user"
 
@@ -22,4 +22,7 @@ object SupabaseTable {
     // Relaylist
     const val RELAYLIST_TABLE = "relaylist"
     const val RELAYLIST_VIEW = "relaylist_view"
+
+    // Bucket
+    const val PROFILE_BUCKET = "profile"
 }

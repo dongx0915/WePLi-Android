@@ -1,4 +1,4 @@
-package com.wepli.data.di
+package com.wepli.data.di.repository
 
 import com.wepli.data.applemusic.repository.AppleMusicRepositoryImpl
 import com.wepli.data.artist.repository.ArtistRepositoryImpl
@@ -10,6 +10,7 @@ import com.wepli.data.post.repository.PostRepositoryImpl
 import com.wepli.data.relaylist.repository.RelaylistRepositoryImpl
 import com.wepli.data.song.repository.SongRepository
 import com.wepli.data.song.repository.SongRepositoryImpl
+import com.wepli.data.supabase.bucket.repository.SupabaseBucketRepositoryImpl
 import com.wepli.data.user.UserRepositoryImpl
 import dagger.Binds
 import dagger.Module
@@ -18,6 +19,7 @@ import dagger.hilt.components.SingletonComponent
 import debug.repository.DebugApiLogRepository
 import com.wepli.data.network.apilog.DebugApiLogRepositoryImpl
 import model.recommend.repository.KeywordRepository
+import model.supabase.repository.SupabaseBucketRepository
 import repository.applemusic.AppleMusicRepository
 import repository.artist.ArtistRepository
 import repository.playlist.PlaylistRepository

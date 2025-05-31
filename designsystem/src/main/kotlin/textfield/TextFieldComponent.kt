@@ -44,6 +44,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import theme.WepliTheme
 
 sealed class WepliTextFieldType(
@@ -59,12 +60,12 @@ sealed class WepliTextFieldType(
 
     data object Comment : WepliTextFieldType() {
         @Composable
-        override fun trailingIcon(): Painter = painterResource(id = R.drawable.ic_send)
+        override fun trailingIcon(): Painter = painterResource(id = CoreR.drawable.ic_send)
     }
 
     data object PrimarySearch : WepliTextFieldType() {
         @Composable
-        override fun leadingIcon(): Painter = painterResource(id = R.drawable.ic_search)
+        override fun leadingIcon(): Painter = painterResource(id = CoreR.drawable.ic_search)
 
         @Composable
         override fun trailingIcon(): Painter? = null
@@ -75,7 +76,7 @@ sealed class WepliTextFieldType(
         override fun leadingIcon(): Painter? = null
 
         @Composable
-        override fun trailingIcon(): Painter = painterResource(id = R.drawable.ic_search)
+        override fun trailingIcon(): Painter = painterResource(id = CoreR.drawable.ic_search)
     }
 }
 
@@ -222,7 +223,8 @@ fun LimitedLengthTextField(
     errorText: String,
     type: WepliTextFieldType,
     onValueChanged: (String, Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    textFieldModifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -236,7 +238,8 @@ fun LimitedLengthTextField(
             isError = isLengthExceeded,
             singleLine = singleLine,
             placeholder = placeholder,
-            type = type
+            type = type,
+            modifier = textFieldModifier
         )
 
         Row(
@@ -333,7 +336,7 @@ private fun WepliTextFieldPreview() {
             singleLine = true,
             type = WepliTextFieldType.Normal,
             onValueChanged = { newValue, maxLength ->  },
-            modifier = Modifier.height(44.dp)
+            textFieldModifier = Modifier.height(44.dp)
         )
     }
 }

@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.shared.feature.mock.musicMockData
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.ChartMusicUiData
@@ -99,7 +100,7 @@ fun MusicItem(
                 .clip(RoundedCornerShape(3.dp))
                 .fillMaxHeight(),
             imageUrl = musicItemType.coverImgUrl,
-            previewImage = painterResource(id = R.drawable.img_placeholder_album_cover),
+            previewImage = painterResource(id = CoreR.drawable.img_placeholder_album_cover),
             imageOverrideSize = 52.dp,
             contentScale = ContentScale.Crop
         )
@@ -153,7 +154,7 @@ fun MusicItem(
                     .align(Alignment.CenterVertically)
                     .size(24.dp),
                 tint = WepliTheme.color.gray800,
-                painter = painterResource(id = R.drawable.ic_play),
+                painter = painterResource(id = CoreR.drawable.ic_play),
                 contentDescription = null
             )
         }
@@ -165,7 +166,7 @@ fun MusicItem(
                     .align(Alignment.CenterVertically)
                     .size(24.dp),
                 tint = WepliTheme.color.gray800,
-                painter = painterResource(id = R.drawable.ic_more_dot),
+                painter = painterResource(id = CoreR.drawable.ic_more_dot),
                 contentDescription = null
             )
         }

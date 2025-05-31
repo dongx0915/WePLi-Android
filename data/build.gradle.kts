@@ -24,6 +24,7 @@ dependencies {
     // Supabase
     implementation(platform(libs.supabase.bom))
     implementation(libs.supabase.postgrest.kt)
+    implementation(libs.supabase.storage.kt)
 
     // Room
     implementation(libs.bundles.room)

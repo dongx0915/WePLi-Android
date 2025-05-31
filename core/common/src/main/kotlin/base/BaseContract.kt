@@ -3,7 +3,11 @@ package base
 import android.util.Log
 
 interface UiState {
-    fun toLog() = Log.i("EapState", "State Changed: $this")
+    fun toLog() = Log.i("WePLiState", "State Changed: $this")
+}
+
+interface LoadingState {
+    val isLoading: Boolean
 }
 
 /**
@@ -12,7 +16,7 @@ interface UiState {
  * - View -> (Event) -> Dispatcher -> ViewModel -> (UiState, SideEffect) -> View
  */
 interface Intent {
-    fun toLog() = Log.i("EapState", "Event Received: $this")
+    fun toLog() = Log.i("WePLiIntent", "Event Received: $this")
 }
 
 /**
@@ -21,6 +25,6 @@ interface Intent {
  *       UI에 일회성으로 발생하는 작업
  */
 interface SideEffect {
-    fun toLog() = Log.i("EapState", "SideEffect Posted: $this")
+    fun toLog() = Log.i("WePliEffect", "SideEffect Posted: $this")
     data class DefaultException(val type: Int) : SideEffect
 }

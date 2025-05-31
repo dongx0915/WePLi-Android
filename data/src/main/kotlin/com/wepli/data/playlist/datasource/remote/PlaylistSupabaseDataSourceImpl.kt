@@ -2,7 +2,7 @@ package com.wepli.data.playlist.datasource.remote
 
 import com.wepli.data.playlist.response.RecommendPlaylistResponse
 import com.wepli.core.kotlin.flow.FlowResult
-import com.wepli.data.SupabaseTable
+import com.wepli.data.supabase.SupabaseConstants
 import com.wepli.data.playlist.response.PlaylistResponse
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.postgrest
@@ -16,7 +16,7 @@ class PlaylistSupabaseDataSourceImpl @Inject constructor(
 
     override fun getRecommendPlaylist(): FlowResult<List<RecommendPlaylistResponse>> = flow {
         val result = runCatching {
-            supabaseClient.postgrest[SupabaseTable.PLAYLIST_TABLE]
+            supabaseClient.postgrest[SupabaseConstants.PLAYLIST_TABLE]
                 .select(
                     columns = Columns.list("id", "title", "cover_img"),
                     request = {
@@ -34,7 +34,7 @@ class PlaylistSupabaseDataSourceImpl @Inject constructor(
 
     override fun getThemePlaylist(): FlowResult<List<RecommendPlaylistResponse>> = flow {
         val result = runCatching {
-            supabaseClient.postgrest[SupabaseTable.PLAYLIST_TABLE]
+            supabaseClient.postgrest[SupabaseConstants.PLAYLIST_TABLE]
                 .select(
                     columns = Columns.list("id", "title", "cover_img"),
                     request = {
@@ -52,7 +52,7 @@ class PlaylistSupabaseDataSourceImpl @Inject constructor(
 
     override fun findPlaylistById(playlistId: Int): FlowResult<PlaylistResponse> = flow {
         val result = runCatching {
-            supabaseClient.postgrest[SupabaseTable.PLAYLIST_VIEW]
+            supabaseClient.postgrest[SupabaseConstants.PLAYLIST_VIEW]
                 .select(
                     columns = Columns.ALL,
                     request = {

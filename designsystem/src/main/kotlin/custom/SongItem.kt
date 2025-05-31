@@ -21,10 +21,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
 import common.ShimmerSkeleton
-import extensions.compose.toPx
+import compose.toPx
 import image.AsyncImageWithPreview
 import theme.WepliTheme
 
@@ -49,7 +50,7 @@ fun SongItem(
                     .size(imageSize)
                     .clip(shape),
                 imageUrl = song.getImageUrl(imagePixel),
-                previewImage = painterResource(id = R.drawable.img_placeholder_album_cover),
+                previewImage = painterResource(id = CoreR.drawable.img_placeholder_album_cover),
                 imageOverrideSize = imageSize,
                 loadingContent = {
                     loadingContent?.invoke() ?: ShimmerSkeleton(
@@ -67,7 +68,7 @@ fun SongItem(
             ) {
                 Icon(
                     modifier = Modifier.size(24.dp),
-                    painter = painterResource(id = R.drawable.ic_play),
+                    painter = painterResource(id = CoreR.drawable.ic_play),
                     tint = WepliTheme.color.gray900,
                     contentDescription = null
                 )

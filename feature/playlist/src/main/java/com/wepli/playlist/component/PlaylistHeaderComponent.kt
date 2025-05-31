@@ -1,6 +1,5 @@
 package com.wepli.playlist.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,14 +9,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.shared.feature.uimodel.playlist.PlaylistUiData
 import image.AsyncImageWithPreview
 import org.joda.time.LocalDate
@@ -87,7 +85,7 @@ fun HeaderBackground(
                 .aspectRatio(1f)
                 .blur(50.dp),
             imageUrl = coverImgUrl,
-            previewImage = painterResource(id = R.drawable.img_placeholder_eunbin),
+            previewImage = painterResource(id = CoreR.drawable.img_placeholder_eunbin),
         )
 
         Box(

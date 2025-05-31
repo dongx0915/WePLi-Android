@@ -1,7 +1,7 @@
 package com.wepli.data.relaylist.datasource.remote
 
 import com.wepli.core.kotlin.flow.FlowResult
-import com.wepli.data.SupabaseTable
+import com.wepli.data.supabase.SupabaseConstants
 import com.wepli.data.relaylist.response.RelaylistResponse
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.postgrest
@@ -15,7 +15,7 @@ class RelaylistSupabaseDataSourceImpl @Inject constructor(
 
     override fun getRelaylistById(id: Int): FlowResult<RelaylistResponse> = flow {
         val result: Result<RelaylistResponse> = runCatching {
-            supabase.postgrest[SupabaseTable.RELAYLIST_VIEW]
+            supabase.postgrest[SupabaseConstants.RELAYLIST_VIEW]
                 .select {
                     filter {
                         eq("id", id)
@@ -33,7 +33,7 @@ class RelaylistSupabaseDataSourceImpl @Inject constructor(
      */
     override fun getRelaylists(): FlowResult<List<RelaylistResponse>> = flow {
         val result: Result<List<RelaylistResponse>> = runCatching {
-            supabase.postgrest[SupabaseTable.RELAYLIST_TABLE]
+            supabase.postgrest[SupabaseConstants.RELAYLIST_TABLE]
                 .select {
                     order("id", Order.ASCENDING)
                 }

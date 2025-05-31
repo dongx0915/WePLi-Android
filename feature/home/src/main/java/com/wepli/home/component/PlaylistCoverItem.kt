@@ -14,7 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.shared.feature.mock.recommendPlaylistMockData
 import image.AsyncImageWithPreview
 import model.playlist.RecommendPlaylist
@@ -31,7 +31,7 @@ fun PlayListCoverItem(
                 .aspectRatio(1f)
                 .clip(RoundedCornerShape(4.dp)),
             imageUrl = recommendPlaylist.coverImgUrl,
-            previewImage = painterResource(id = R.drawable.img_placeholder_album_cover),
+            previewImage = painterResource(id = CoreR.drawable.img_placeholder_album_cover),
             imageOverrideSize = 136.dp,
         )
         Spacer(modifier = Modifier.height(12.dp))

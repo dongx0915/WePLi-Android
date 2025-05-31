@@ -5,9 +5,8 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,7 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,20 +34,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
-import com.wepli.core.common.BuildConfig
-import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.mypage.common.MenuSection
 import com.wepli.mypage.component.MenuLayout
+import com.wepli.mypage.component.ProfileImage
 import com.wepli.mypage.menus.mypage.viewmodel.MyPageEffect
 import com.wepli.mypage.menus.mypage.viewmodel.MyPageIntent
 import com.wepli.mypage.menus.mypage.viewmodel.MyPageUiState
 import com.wepli.mypage.menus.mypage.viewmodel.MyPageViewModel
 import com.wepli.shared.feature.mock.userMockData
+import com.wepli.shared.feature.uimodel.tendency.toIconResId
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import component.dialog.WepliDialog
 import component.dialog.WepliDialogType
 import dev.chrisbanes.haze.hazeSource
-import image.AsyncImageWithPreview
+import model.tendency.Tendency
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import theme.LocalHazeState
@@ -79,19 +78,20 @@ fun MyPageScreenPreview() {
                 title = "앱 정보",
                 items = listOf(
                     MenuSection.MenuItem("서비스 이용 가이드", MyPageIntent.None),
-                    MenuSection.MenuItem("공지 • 이용약관", MyPageIntent.NavigateOnAppInfo),
+                    MenuSection.MenuItem("공지 • 이용약관", MyPageIntent.None),
                     MenuSection.MenuItem("앱 버전", MyPageIntent.None),
                 )
             ),
             MenuSection(
                 title = "기타",
                 items = listOf(
-                    MenuSection.MenuItem("로그아웃", MyPageIntent.ShowLogoutPopup(true)),
+                    MenuSection.MenuItem("로그아웃", MyPageIntent.None),
                 )
             )
         ),
         showLogoutPopup = false,
         navOnAppInfo = {},
+        navOnProfile = {},
         onAction = {}
     )
 }
@@ -123,6 +123,7 @@ fun MyPageScreenRoute(
     viewModel: MyPageViewModel = hiltViewModel(),
     navOnAppInfo: () -> Unit,
     navOnPhotoCard: () -> Unit,
+    navOnProfile: () -> Unit,
     navOnDevMode: () -> Unit,
     goToLoginActivity: () -> Unit,
 ) {
@@ -136,6 +137,7 @@ fun MyPageScreenRoute(
         menuSections = state.menuSections,
         showLogoutPopup = state.showLogoutPopup,
         navOnAppInfo = navOnAppInfo,
+        navOnProfile = navOnProfile,
         onAction = viewModel::processIntent
     )
 }
@@ -148,6 +150,7 @@ fun MyPageScreen(
     menuSections: List<MenuSection>,
     showLogoutPopup: Boolean,
     navOnAppInfo: () -> Unit,
+    navOnProfile: () -> Unit,
     onAction: (MyPageIntent) -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -172,13 +175,16 @@ fun MyPageScreen(
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             ProfileLayout(
-                modifier = Modifier.padding(horizontal = 20.dp),
+                modifier = Modifier.padding(horizontal = 20.dp).clickable { navOnProfile() },
                 nickname = user.nickname,
                 email = user.email,
                 profileImgUrl = user.profileImgUrl,
             )
 
-            TendencyComponent(modifier = Modifier.padding(horizontal = 20.dp))
+            TendencyComponent(
+                tendency = user.tendency,
+                modifier = Modifier.padding(horizontal = 20.dp)
+            )
 
             MenuLayout(
                 sections = menuSections,
@@ -211,36 +217,6 @@ fun LogoutDialog(
 }
 
 @Composable
-fun ProfileImage(
-    modifier: Modifier = Modifier,
-    profileImgUrl: String,
-) {
-    val imageModifier = modifier
-        .border(
-            width = 1.dp,
-            brush = WepliTheme.color.linear3,
-            shape = CircleShape
-        )
-        .clip(CircleShape)
-
-    Box {
-        AsyncImageWithPreview(
-            modifier = imageModifier,
-            imageUrl = profileImgUrl,
-            previewImage = painterResource(R.drawable.img_placeholder_eunbin)
-        )
-
-        Image(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .size(20.dp),
-            painter = painterResource(id = R.drawable.ic_profile_camera),
-            contentDescription = null
-        )
-    }
-}
-
-@Composable
 fun ProfileLayout(
     modifier: Modifier = Modifier,
     nickname: String,
@@ -249,8 +225,9 @@ fun ProfileLayout(
 ) {
     Row(modifier = modifier) {
         ProfileImage(
-            modifier = Modifier.size(60.dp),
+            imageSize = 60.dp,
             profileImgUrl = profileImgUrl,
+            modifier = Modifier.size(60.dp),
         )
         Spacer(modifier = Modifier.width(20.dp))
         Column(
@@ -273,11 +250,10 @@ fun ProfileLayout(
     }
 }
 
-@Preview
 @Composable
 fun TendencyComponent(
+    tendency: Tendency,
     modifier: Modifier = Modifier,
-    tendencyTitle: String = "센티멘탈 심포니",
 ) {
     Row(
         modifier = modifier
@@ -289,12 +265,12 @@ fun TendencyComponent(
     ) {
         Image(
             modifier = Modifier.size(24.dp),
-            painter = painterResource(id = R.drawable.img_crystal_ball),
+            painter = painterResource(id = tendency.toIconResId()),
             contentDescription = null
         )
         Spacer(modifier = Modifier.width(12.dp))
         Text(
-            text = tendencyTitle,
+            text = tendency.title,
             style = WepliTheme.typo.subTitle5,
             color = WepliTheme.color.gray700
         )

@@ -47,7 +47,7 @@ class CommunityWriteViewModel @Inject constructor(
     }
 
     private fun handleAddPost() = intent {
-        val user = userRepository.getUser() ?: return@intent
+        val user = userRepository.getUserLocalData() ?: return@intent
         val (isPostDataValid: Boolean, errorEffect: CommunityWriteEffect?) = checkPostValidity(state = state)
 
         if (!isPostDataValid) {

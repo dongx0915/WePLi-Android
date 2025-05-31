@@ -13,7 +13,7 @@ import com.wepli.uimodel.music.SongUiData
 import custom.MusicItem
 import custom.MusicItemType
 import custom.OneLineTitle
-import extensions.compose.toPx
+import compose.toPx
 
 @Composable
 internal fun SimilarSongsLayout(similarSongs: List<SongUiData>) {

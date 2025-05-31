@@ -1,4 +1,4 @@
-package extensions.compose
+package compose
 
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable

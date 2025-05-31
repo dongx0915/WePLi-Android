@@ -32,7 +32,7 @@ class PhotoCardResultViewModel @Inject constructor(
     }
 
     private fun setUserInfo() = launch {
-        userRepository.getUser()?.let {
+        userRepository.getUserLocalData()?.let {
             updateState { copy(user = UserUiData.fromDomain(it)) }
         }
     }

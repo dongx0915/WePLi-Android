@@ -17,7 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import extensions.getRelativeTime
 import image.AsyncImageWithPreview
 import theme.WepliTheme
@@ -56,7 +56,7 @@ fun CommentItem(
                 .size(32.dp)
                 .clip(shape = CircleShape),
             imageUrl = profileImg,
-            previewImage = painterResource(id = R.drawable.img_placeholder_minnie),
+            previewImage = painterResource(id = CoreR.drawable.img_placeholder_minnie),
             imageOverrideSize = 32.dp
         )
 
@@ -117,7 +117,7 @@ private fun CommentBody(
         Spacer(modifier = Modifier.width(4.dp))
         Icon(
             modifier = Modifier.size(24.dp),
-            painter = painterResource(id = R.drawable.ic_heart),
+            painter = painterResource(id = CoreR.drawable.ic_heart),
             tint = WepliTheme.color.gray800,
             contentDescription = null
         )

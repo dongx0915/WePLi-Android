@@ -18,7 +18,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -54,7 +53,7 @@ import custom.MusicItemType
 import custom.OneLineTitle
 import custom.TwoLineTitle
 import dev.chrisbanes.haze.hazeSource
-import extensions.compose.calculateCurrentOffsetForPage
+import compose.calculateCurrentOffsetForPage
 import model.playlist.RecommendPlaylist
 import model.relaylist.Relaylist
 import org.orbitmvi.orbit.compose.collectAsState
@@ -120,13 +119,12 @@ fun HomeScreen(
 ) {
     val hazeState = LocalHazeState.current
     HomeAppBar { scrollState, paddingValues ->
-        val (topPadding, bottomPadding) = paddingValues.calculateTopPadding() to paddingValues.calculateBottomPadding()
+        val topPadding = paddingValues.calculateTopPadding()
 
         LazyColumn(
             modifier = Modifier
                 .hazeSource(hazeState)
                 .background(WepliTheme.color.black)
-                .padding(bottom = bottomPadding)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(24.dp),
             contentPadding = PaddingValues(bottom = 100.dp),

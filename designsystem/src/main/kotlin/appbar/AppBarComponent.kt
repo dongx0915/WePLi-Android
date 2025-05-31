@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.wepli.shared.feature.mock.relaylistUiMockData
 import dev.chrisbanes.haze.HazeProgressive
 import dev.chrisbanes.haze.HazeStyle
 import dev.chrisbanes.haze.HazeTint
@@ -50,8 +49,8 @@ fun HomeAppBar(
                 containerColor = backgroundColor,
                 contentsColor = contentsColor,
                 actionIcons = listOf {
-                    AppBarIcon(icon = AppBarIconType.Search())
-                    AppBarIcon(icon = AppBarIconType.Notification())
+                    AppBarIcon(icon = IconType.Search())
+                    AppBarIcon(icon = IconType.Notification())
                 }
             )
         }
@@ -83,13 +82,13 @@ fun PlaylistAppBar(
                 showBackButton = true,
                 actionIcons = listOf {
                     AppBarIcon(
-                        icon = AppBarIconType.Like(
+                        icon = IconType.Like(
                             isLiked = playlistIsLiked,
                             iconColor = { contentsColor },
                             onClick = { onClickLike() }
                         )
                     )
-                    AppBarIcon(icon = AppBarIconType.More(iconColor = { contentsColor }))
+                    AppBarIcon(icon = IconType.More(iconColor = { contentsColor }))
                 },
                 onClickBack = { navOnBack() }
             )

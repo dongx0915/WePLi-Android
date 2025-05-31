@@ -50,6 +50,15 @@ inline fun <reified T> String.parseFromJson(): T? {
     }.getOrNull()
 }
 
+fun <T> String.parseFromJson(clazz: Class<T>): T? {
+    return runCatching {
+        GsonProvider.gson.fromJson(this, clazz).also { parsedObject ->
+            Log.i("ParseFromJson", parsedObject.toString())
+        }
+    }.onFailure {
+        Log.e("ParseFromJson", it.message.orEmpty())
+    }.getOrNull()
+}
 /**
  * Json을 클래스로 변환
  * @param default 실패 시 반환할 기본값

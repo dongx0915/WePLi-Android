@@ -1,6 +1,7 @@
 package repository.user
 
 import com.wepli.core.kotlin.flow.FlowResult
+import kotlinx.coroutines.flow.Flow
 import model.user.User
 import java.time.Instant
 
@@ -8,8 +9,10 @@ interface UserRepository {
 
     suspend fun getUserById(id: String): FlowResult<User>
 
-    suspend fun getUser(): User?
-    suspend fun setUserData(user: User)
+    fun getUserFlow(): Flow<User?>
+    suspend fun getUserLocalData(): User?
+    suspend fun setUserLocalData(user: User)
+    suspend fun updateUserData(user: User): FlowResult<Unit>
 
     suspend fun getRefreshToken(): String
     suspend fun saveUserSession(

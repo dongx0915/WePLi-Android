@@ -8,4 +8,8 @@ interface UiModel : Parcelable
 // 제네릭 타입을 사용한 UiModelMapper 인터페이스
 interface UiModelMapper<D : DomainModel, U : UiModel> {
     fun fromDomain(domainModel: D): U
+
+    fun toDomain(uiModel: U): D {
+        throw NotImplementedError("toDomain is not implemented for this mapper.")
+    }
 }

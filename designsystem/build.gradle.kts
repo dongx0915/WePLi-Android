@@ -9,6 +9,7 @@ android {
 
 dependencies {
     implementation(project(":core:common"))
+    implementation(project(":core:resources"))
     implementation(project(":shared:feature"))
 
     implementation(libs.coil)

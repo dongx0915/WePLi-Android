@@ -30,11 +30,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.uimodel.photocard.PhotoCardUiData
 import common.ShimmerSkeleton
-import extensions.compose.toPx
+import compose.toPx
 import image.AsyncImageWithPreview
 import theme.WepliTheme
 
@@ -145,7 +145,7 @@ fun PhotoCardComponent(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Image(
-                painter = painterResource(R.drawable.ic_instagram_color),
+                painter = painterResource(CoreR.drawable.ic_instagram_color),
                 contentDescription = null,
             )
 
@@ -166,7 +166,7 @@ private fun FavoriteSongComponent(imageSize: Dp, imageUrl: String, modifier: Mod
     ) {
         Image(
             modifier = Modifier.size(150.dp),
-            painter = painterResource(R.drawable.img_cd_background),
+            painter = painterResource(CoreR.drawable.img_cd_background),
             contentDescription = null,
         )
 
@@ -175,7 +175,7 @@ private fun FavoriteSongComponent(imageSize: Dp, imageUrl: String, modifier: Mod
                 .size(imageSize)
                 .clip(CircleShape),
             imageUrl = imageUrl,
-            previewImage = painterResource(R.drawable.img_placeholder_chuu),
+            previewImage = painterResource(CoreR.drawable.img_placeholder_chuu),
             allowHardware = false, // 하드웨어 가속이 켜져있으면 비트맵으로 저장 불가
             loadingContent = {
                 ShimmerSkeleton(

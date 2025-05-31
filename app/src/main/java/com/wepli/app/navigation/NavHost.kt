@@ -30,6 +30,8 @@ import com.wepli.mypage.devmode.network.detail.navigation.navigateToNetworkLogDe
 import com.wepli.mypage.devmode.network.detail.navigation.networkLogDetailGraph
 import com.wepli.mypage.devmode.network.main.navigation.navigateToNetworkLogMain
 import com.wepli.mypage.devmode.network.main.navigation.networkLogMainGraph
+import com.wepli.mypage.menus.profile.navigation.navigateProfileMain
+import com.wepli.mypage.menus.profile.navigation.profileMainGraph
 import com.wepli.playlist.navigation.navigateToPlaylistDetail
 import com.wepli.playlist.navigation.playlistDetailGraph
 import com.wepli.relaylist.navigation.navigateToRelaylistDetail
@@ -83,6 +85,9 @@ fun SetUpNavGraph(
 
         // 개발자 모드 Graph
         networkLogGraph(navController)
+
+        // 프로필 Graph
+        profileGraph(navController)
 
         // 포토카드 Graph
         photoCardGraph(navController)
@@ -153,10 +158,18 @@ fun NavGraphBuilder.mypageGraph(
     mypageMainGraph(
         navOnAppInfo = { navController.navigateToAppInfo() },
         navOnPhotoCard = { navController.navigateToPhotoCardMain() },
+        navOnProfile = { navController.navigateProfileMain() },
         navOnDevMode = { navController.navigateToNetworkLogMain()},
         goToLoginActivity = { goToLoginActivity() }
     )
     mypageAppInfoGraph(
+        navOnBack = { navController.navigateUp() }
+    )
+}
+
+// 프로필 Graph
+fun NavGraphBuilder.profileGraph(navController: NavController) {
+    profileMainGraph(
         navOnBack = { navController.navigateUp() }
     )
 }

@@ -28,11 +28,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.uimodel.photocard.PhotoCardUiData
 import com.wepli.uimodel.music.SongUiData
-import extensions.compose.shimmerEffect
+import compose.shimmerEffect
 import image.AsyncImageWithPreview
 import theme.WepliTheme
 
@@ -81,7 +81,7 @@ fun PhotoCardComponent2(
                     .fillMaxSize()
                     .blur(8.dp),
                 imageUrl = photoCardInfo.favoriteSong.getImageUrl(),
-                previewImage = painterResource(R.drawable.img_placeholder_eunbin),
+                previewImage = painterResource(CoreR.drawable.img_placeholder_eunbin),
                 allowHardware = false,
                 contentScale = ContentScale.Crop
             )
@@ -172,7 +172,7 @@ private fun FavoriteSongComponent(favoriteSong: SongUiData, modifier: Modifier =
         
         Spacer(modifier = Modifier.width(40.dp))
         Icon(
-            painter = painterResource(id = R.drawable.ic_more_dot),
+            painter = painterResource(id = CoreR.drawable.ic_more_dot),
             contentDescription = null,
             tint = WepliTheme.color.gray900,
             modifier = Modifier

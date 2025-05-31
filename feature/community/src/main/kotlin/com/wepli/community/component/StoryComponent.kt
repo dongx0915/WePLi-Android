@@ -25,7 +25,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.shared.feature.mock.userMockData
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import image.AsyncImageWithPreview
@@ -83,7 +83,7 @@ fun StoryItem(
                 .clip(storyShape)
                 .border(brush = WepliTheme.color.linear3, shape = storyShape, width = (1.5).dp),
             imageUrl = profileImgUrl,
-            previewImage = painterResource(id = R.drawable.img_placeholder_chuu),
+            previewImage = painterResource(id = CoreR.drawable.img_placeholder_chuu),
             imageOverrideSize = imageSize,
         )
 

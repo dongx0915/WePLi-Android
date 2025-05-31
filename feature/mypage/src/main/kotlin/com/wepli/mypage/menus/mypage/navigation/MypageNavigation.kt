@@ -9,6 +9,7 @@ import com.wepli.navigator.feature.mypage.MyPageRoute
 fun NavGraphBuilder.mypageMainGraph(
     navOnAppInfo: () -> Unit,
     navOnPhotoCard: () -> Unit,
+    navOnProfile: () -> Unit,
     navOnDevMode: () -> Unit,
     goToLoginActivity: () -> Unit,
 ) {
@@ -18,6 +19,7 @@ fun NavGraphBuilder.mypageMainGraph(
         MyPageScreenRoute(
             navOnAppInfo = navOnAppInfo,
             navOnPhotoCard = navOnPhotoCard,
+            navOnProfile = navOnProfile,
             navOnDevMode = navOnDevMode,
             goToLoginActivity = { goToLoginActivity() }
         )

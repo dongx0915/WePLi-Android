@@ -170,7 +170,7 @@ class LoginViewModel @Inject constructor(
                                 refreshToken = session.refreshToken,
                                 expiredAt = session.expiresAt.toJavaInstant()
                             )
-                            setUserData(user)
+                            setUserLocalData(user)
                         }
 
                         isSuccess = true

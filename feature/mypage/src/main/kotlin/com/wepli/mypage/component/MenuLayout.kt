@@ -15,7 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import base.Intent
-import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.mypage.common.MenuSection
 import theme.WepliTheme
 
@@ -77,7 +77,7 @@ fun MenuComponent(
 
         Icon(
             modifier = Modifier.size(16.dp),
-            painter = painterResource(id = R.drawable.ic_arrow_forward),
+            painter = painterResource(id = CoreR.drawable.ic_arrow_forward),
             tint = WepliTheme.color.gray600,
             contentDescription = null
         )

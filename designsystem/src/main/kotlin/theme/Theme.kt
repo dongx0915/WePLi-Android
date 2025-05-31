@@ -30,9 +30,6 @@ fun WePLiTheme(
     val window = (view.context as? Activity)?.window
     if (window != null) {
         LaunchedEffect(darkTheme) {
-            // 하단 네비게이션 바의 배경색을 검은색으로 설정
-            window.navigationBarColor = Color.Black.toArgb()
-
             // 다크 모드에 따른 아이콘 색상 설정
             val controller = WindowInsetsControllerCompat(window, view)
             controller.isAppearanceLightStatusBars = false // 아이콘을 항상 밝게 설정

@@ -24,10 +24,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
-import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.shared.feature.mock.relaylistMockData
 import custom.BlurBackgroundOverlay
-import extensions.compose.pagerFadeTransition
+import compose.pagerFadeTransition
 import image.AsyncImageWithPreview
 import model.relaylist.Relaylist
 import theme.WepliTheme
@@ -74,7 +74,7 @@ fun RelaylistBannerComponent(
             AsyncImageWithPreview(
                 modifier = Modifier.fillMaxSize(),
                 imageUrl = item.coverImgUrl,
-                previewImage = painterResource(id = R.drawable.img_placeholder_eunbin),
+                previewImage = painterResource(id = CoreR.drawable.img_placeholder_eunbin),
                 contentScale = ContentScale.Crop,
             )
 
@@ -140,7 +140,7 @@ fun RelaylistBackground(
         AsyncImageWithPreview(
             modifier = Modifier.fillMaxSize(),
             imageUrl = item.coverImgUrl,
-            previewImage = painterResource(id = R.drawable.img_placeholder_eunbin),
+            previewImage = painterResource(id = CoreR.drawable.img_placeholder_eunbin),
             contentScale = ContentScale.FillBounds,
         )
 

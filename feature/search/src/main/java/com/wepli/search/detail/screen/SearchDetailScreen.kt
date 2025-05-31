@@ -52,7 +52,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
 import button.WepliBasicButton
 import button.WepliButtonStyle
-import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.search.component.SongInfoBottomSheet
 import com.wepli.search.component.SongInfoBottomSheetContent
 import com.wepli.search.detail.mvi.SearchDetailEffect
@@ -64,8 +64,8 @@ import com.wepli.shared.feature.mock.songMockData
 import com.wepli.uimodel.music.SongUiData
 import common.ShimmerSkeleton
 import common.WepliSpacer
-import extensions.compose.toPx
-import extensions.compose.topBorderWithRoundedCorners
+import compose.toPx
+import compose.topBorderWithRoundedCorners
 import image.AsyncImageWithPreview
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
@@ -365,7 +365,7 @@ fun SearchResultSongItem(
                 .align(Alignment.CenterVertically)
                 .size(24.dp),
             tint = WepliTheme.color.gray800,
-            painter = painterResource(id = R.drawable.ic_more_dot),
+            painter = painterResource(id = CoreR.drawable.ic_more_dot),
             contentDescription = null
         )
     }

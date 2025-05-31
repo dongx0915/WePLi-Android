@@ -31,7 +31,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.wepli.designsystem.R
+import com.wepli.core.resources.R as CoreR
 import com.wepli.shared.feature.mock.postMockData
 import com.wepli.shared.feature.mock.userMockData
 import com.wepli.uimodel.music.SongUiData
@@ -114,7 +114,7 @@ fun PostHeader(nickname: String, profileImageUrl: String) {
                 .size(32.dp)
                 .clip(CircleShape),
             imageUrl = profileImageUrl,
-            previewImage = painterResource(id = R.drawable.img_placeholder_artist_profile),
+            previewImage = painterResource(id = CoreR.drawable.img_placeholder_artist_profile),
             imageOverrideSize = 32.dp,
         )
 
@@ -147,7 +147,7 @@ fun PostHeader(nickname: String, profileImageUrl: String) {
         ) {
             Icon(
                 modifier = Modifier.size(24.dp),
-                painter = painterResource(id = R.drawable.ic_more_dot),
+                painter = painterResource(id = CoreR.drawable.ic_more_dot),
                 tint = WepliTheme.color.gray700,
                 contentDescription = null
             )
@@ -185,12 +185,12 @@ fun PostFooter(modifier: Modifier) {
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        LabeledIcon(icon = painterResource(id = R.drawable.ic_heart), text = "10,123")
-        LabeledIcon(icon = painterResource(id = R.drawable.ic_comment), text = "10,123")
+        LabeledIcon(icon = painterResource(id = CoreR.drawable.ic_heart), text = "10,123")
+        LabeledIcon(icon = painterResource(id = CoreR.drawable.ic_comment), text = "10,123")
         Spacer(modifier = Modifier.weight(1f))
         Icon(
             modifier = Modifier.size(24.dp),
-            painter = painterResource(id = R.drawable.ic_bookmark),
+            painter = painterResource(id = CoreR.drawable.ic_bookmark),
             tint = WepliTheme.color.gray800,
             contentDescription = null
         )
@@ -248,7 +248,7 @@ fun SingleSongItem(
         Spacer(modifier = Modifier.width(4.dp))
         Icon(
             modifier = Modifier.size(16.dp),
-            painter = painterResource(id = R.drawable.ic_play_gradient),
+            painter = painterResource(id = CoreR.drawable.ic_play_gradient),
             tint = Color.Unspecified,
             contentDescription = null,
         )
