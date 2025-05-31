@@ -3,14 +3,20 @@ package extensions
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.toPixelMap
 import androidx.core.content.FileProvider
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 
@@ -58,7 +64,8 @@ fun Bitmap.saveBitmapToFile(
     // 생성된 Uri에 출력 스트림을 열어 Bitmap을 저장
     resolver.openOutputStream(uri)?.use { outputStream ->
         val success = this@saveBitmapToFile.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-        val absolutePath = "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)}/wepli/$filename"
+        val absolutePath =
+            "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)}/wepli/$filename"
 
         if (success) onSuccess(uri, absolutePath) else onFailure()
     } ?: {
@@ -91,7 +98,10 @@ fun Bitmap.saveBitmapToCache(
     }
 }
 
-fun Bitmap.saveBitmapToCache(context: Context, fileName: String = "wepli_${System.currentTimeMillis()}"): Uri? {
+fun Bitmap.saveBitmapToCache(
+    context: Context,
+    fileName: String = "wepli_${System.currentTimeMillis()}"
+): Uri? {
     val filename = "$fileName.png"
     val file = File(context.cacheDir, filename)
 
@@ -105,4 +115,24 @@ fun Bitmap.saveBitmapToCache(context: Context, fileName: String = "wepli_${Syste
             }
         }
     }.getOrNull()
+}
+
+suspend fun ByteArray.compressImage(
+    maxSizeMB: Int = 5,
+    initialQuality: Int = 100,
+    minQuality: Int = 10,
+): ByteArray = withContext(Dispatchers.Default) {
+    val bitmap = BitmapFactory.decodeByteArray(this@compressImage, 0, size)
+    val maxSizeInBytes = maxSizeMB * 1024 * 1024
+    var quality = initialQuality
+    var compressed: ByteArray
+
+    do {
+        val outputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream)
+        compressed = outputStream.toByteArray()
+        quality -= 10
+    } while (compressed.size > maxSizeInBytes && quality >= minQuality)
+
+    compressed
 }
