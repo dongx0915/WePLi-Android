@@ -5,4 +5,8 @@
     <string name="profile_nickname_placeholder">변경할 닉네임을 입력해주세요.</string>
     <string name="profile_nickname_error">닉네임은 %d자 이내로 작성해주세요.</string>
     <string name="profile_tendency_bottom_sheet_title">나의 음악 성향은?</string>
+
+    <string name="profile_update_failed_error">프로필 변경 중 오류가 발생했어요.</string>
+    <string name="profile_image_selected_error">이미지를 가져오지 못했어요.</string>
+    <string name="profile_nickname_invalid_error">닉네임을 확인해 주세요.</string>
 </resources>

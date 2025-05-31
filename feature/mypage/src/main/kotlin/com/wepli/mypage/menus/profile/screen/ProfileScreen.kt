@@ -97,15 +97,15 @@ fun ProfileScreenRoute(navOnBack: () -> Unit) {
                 navOnBack()
             }
             ProfileEffect.ProfileUpdateFailed -> {
-                Toast.makeText(context, "프로필 변경 중 오류가 발생했어요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.profile_update_failed_error), Toast.LENGTH_SHORT).show()
             }
 
             ProfileEffect.ImageSelectFailed -> {
-                Toast.makeText(context, "이미지를 가져오지 못했어요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.profile_image_selected_error), Toast.LENGTH_SHORT).show()
             }
 
             ProfileEffect.NicknameLengthExceeded -> {
-                Toast.makeText(context, "닉네임을 확인해 주세요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.profile_nickname_invalid_error), Toast.LENGTH_SHORT).show()
             }
         }
     }
