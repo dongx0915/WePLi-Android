@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.annotation.OrbitDsl
@@ -53,6 +54,23 @@ abstract class BaseMviViewModel<S : UiState, E : SideEffect, I : Intent>(
         } ?: dispatcher
 
         return viewModelScope.launch(coroutineContext, start, block)
+    }
+
+    fun launch(
+        dispatcher: CoroutineDispatcher = Dispatchers.Main.immediate,
+        start: CoroutineStart = CoroutineStart.DEFAULT,
+        exceptionHandler: CoroutineExceptionHandler = this.exceptionHandler,
+        onStart: S.() -> S,
+        onComplete: S.() -> S,
+        block: suspend CoroutineScope.() -> Unit
+    ): Job {
+        return viewModelScope.launch(Dispatchers.Main.immediate + exceptionHandler, start) {
+            updateState { onStart(this) }
+
+            withContext(dispatcher, block)
+
+            updateState { onComplete(this) }
+        }
     }
 
     fun launchWithHandler(

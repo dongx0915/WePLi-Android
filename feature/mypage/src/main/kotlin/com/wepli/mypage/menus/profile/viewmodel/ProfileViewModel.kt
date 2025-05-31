@@ -2,6 +2,7 @@ package com.wepli.mypage.menus.profile.viewmodel
 
 import base.BaseMviViewModel
 import base.Intent
+import base.LoadingState
 import base.SideEffect
 import base.UiState
 import com.wepli.core.kotlin.flow.FlowResult
@@ -19,10 +20,10 @@ import javax.inject.Inject
 
 data class ProfileState(
     val user: UserUiData = UserUiData(),
-    val isLoading: Boolean = false,
     val isNicknameLengthExceeded: Boolean = false,
     val isShownTendencyBottomSheet: Boolean = false,
-) : UiState
+    override val isLoading: Boolean = false,
+) : UiState, LoadingState
 
 sealed interface ProfileEffect : SideEffect {
     data object ProfileUpdateSuccess : ProfileEffect
@@ -74,9 +75,10 @@ class ProfileViewModel @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun updateUser() = intent {
-        launch {
-            updateState { copy(isLoading = true) }
-
+        launch(
+            onStart = { copy(isLoading = true) },
+            onComplete = { copy(isLoading = false) }
+        ) {
             val newUserData = UserUiData.toDomain(state.user)
             val updateFlow: FlowResult<Unit> = if (pendingImageData != null && pendingFileExtension != null) {
                 supabaseBucketRepository.uploadFile("profile", pendingImageData!!, pendingFileExtension!!)
@@ -98,8 +100,6 @@ class ProfileViewModel @Inject constructor(
                 onSuccess = { postSideEffect { ProfileEffect.ProfileUpdateSuccess } },
                 onFailure = { postSideEffect { ProfileEffect.ProfileUpdateFailed } }
             )
-
-            updateState { copy(isLoading = false) }
         }
     }
 
