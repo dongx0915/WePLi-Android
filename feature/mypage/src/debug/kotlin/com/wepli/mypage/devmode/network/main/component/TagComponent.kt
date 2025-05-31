@@ -71,7 +71,7 @@ fun StatusTag(status: Int) {
     }
 
     Text(
-        text = "200",
+        text = status.toString(),
         style = WepliTheme.typo.subTitle6,
         color = statusColor,
         modifier = Modifier
