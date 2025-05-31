@@ -1,6 +1,8 @@
 package com.wepli.mypage.menus.profile.screen
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -74,21 +76,7 @@ fun ProfileScreenRoute(navOnBack: () -> Unit) {
     val context = LocalContext.current
 
     val pickMedia = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-        if (uri != null) {
-            val uriToByteArray = UriUtils.uriToByteArray(context, uri)
-            val fileExtension = UriUtils.getFileExtension(context, uri)
-
-            viewModel.processIntent(
-                ProfileIntent.UpdateProfileImage(
-                    imageUri = uri.toString(),
-                    imageByteArray = uriToByteArray,
-                    fileExtension = fileExtension
-                )
-            )
-            Log.d("PhotoPicker", "Selected URI: $uri")
-        } else {
-            Log.d("PhotoPicker", "No media selected")
-        }
+        handlePickVisualMedia(context, uri, viewModel::processIntent)
     }
 
     viewModel.collectSideEffect {
@@ -361,5 +349,30 @@ fun TendencyItem(
                 modifier = Modifier.size(24.dp)
             )
         }
+    }
+}
+
+fun handlePickVisualMedia(context: Context, uri: Uri?, sendAction: (ProfileIntent) -> Unit) {
+    if (uri != null) {
+        val maxFileSize = 10 * 1024 * 1024 // 10 MB
+        val uriToByteArray = UriUtils.uriToByteArray(context, uri)
+        val fileExtension = UriUtils.getFileExtension(context, uri)
+        val fileSize = uriToByteArray?.size ?: maxFileSize
+
+        if (fileSize >= maxFileSize) {
+            Toast.makeText(context, "10MB 이하의 파일만 선택 가능해요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        sendAction(
+            ProfileIntent.UpdateProfileImage(
+                imageUri = uri.toString(),
+                imageByteArray = uriToByteArray,
+                fileExtension = fileExtension
+            )
+        )
+        Log.d("PhotoPicker", "Selected URI: $uri")
+    } else {
+        Log.d("PhotoPicker", "No media selected")
     }
 }
