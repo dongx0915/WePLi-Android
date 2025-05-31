@@ -9,6 +9,10 @@ class WePLiException(
     fun toLog() = "$message (${code})"
 }
 
+fun Throwable.code(): Int {
+    return if (this is WePLiException) this.code else -1
+}
+
 fun Throwable.toLog(): String {
     return if(this is WePLiException) {
         this.toLog()
