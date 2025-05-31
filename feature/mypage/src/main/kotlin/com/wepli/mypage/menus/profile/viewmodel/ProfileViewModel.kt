@@ -8,6 +8,7 @@ import base.UiState
 import com.wepli.core.kotlin.flow.collectResult
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import extensions.compressImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import model.tendency.Tendency
@@ -88,9 +89,10 @@ class ProfileViewModel @Inject constructor(
             onComplete = { copy(isLoading = false) }
         ) {
             val newUserData = UserUiData.toDomain(state.user)
+            val compressedImageData = pendingImageData?.compressImage()
 
             uploadProfileImageUseCase
-                .invoke(newUserData, pendingImageData, pendingFileExtension)
+                .invoke(newUserData, compressedImageData, pendingFileExtension)
                 .flowOn(Dispatchers.IO)
                 .collectResult(
                     onSuccess = {
