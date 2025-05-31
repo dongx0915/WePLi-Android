@@ -19,6 +19,7 @@ import javax.inject.Inject
 
 data class ProfileState(
     val user: UserUiData = UserUiData(),
+    val isLoading: Boolean = false,
     val isNicknameLengthExceeded: Boolean = false,
     val isShownTendencyBottomSheet: Boolean = false,
 ) : UiState
@@ -74,6 +75,8 @@ class ProfileViewModel @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun updateUser() = intent {
         launch {
+            updateState { copy(isLoading = true) }
+
             val newUserData = UserUiData.toDomain(state.user)
             val updateFlow: FlowResult<Unit> = if (pendingImageData != null && pendingFileExtension != null) {
                 supabaseBucketRepository.uploadFile("profile", pendingImageData!!, pendingFileExtension!!)
@@ -95,6 +98,8 @@ class ProfileViewModel @Inject constructor(
                 onSuccess = { postSideEffect { ProfileEffect.ProfileUpdateSuccess } },
                 onFailure = { postSideEffect { ProfileEffect.ProfileUpdateFailed } }
             )
+
+            updateState { copy(isLoading = false) }
         }
     }
 

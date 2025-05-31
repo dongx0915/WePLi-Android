@@ -50,6 +50,7 @@ import com.wepli.mypage.menus.profile.viewmodel.ProfileViewModel
 import com.wepli.shared.feature.uimodel.tendency.toIconResId
 import component.bottomsheet.WepliBottomSheet
 import component.bottomsheet.WepliBottomSheetType
+import compose.FullScreenLoader
 import model.tendency.Tendency
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
@@ -174,6 +175,10 @@ private fun ProfileScreen(
 
             if (state.isShownTendencyBottomSheet) {
                 TendencySelectBottomSheet(state, sendAction)
+            }
+
+            if (state.isLoading) {
+                FullScreenLoader()
             }
         }
     }
