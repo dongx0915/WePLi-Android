@@ -21,12 +21,18 @@ data class ProfileState(
     val isNicknameLengthExceeded: Boolean = false,
     val isShownTendencyBottomSheet: Boolean = false,
     override val isLoading: Boolean = false,
-) : UiState, LoadingState
+) : UiState, LoadingState {
+
+    fun isValidNickname(): Boolean {
+        return user.nickname.isNotBlank() && !isNicknameLengthExceeded
+    }
+}
 
 sealed interface ProfileEffect : SideEffect {
     data object ProfileUpdateSuccess : ProfileEffect
     data object ProfileUpdateFailed : ProfileEffect
     data object ImageSelectFailed : ProfileEffect
+    data object NicknameLengthExceeded : ProfileEffect
 }
 
 sealed interface ProfileIntent : Intent {
@@ -72,6 +78,11 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun updateUser() = intent {
+        if (state.isValidNickname().not()) {
+            postSideEffect(ProfileEffect.NicknameLengthExceeded)
+            return@intent
+        }
+
         launch(
             onStart = { copy(isLoading = true) },
             onComplete = { copy(isLoading = false) }

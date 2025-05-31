@@ -103,6 +103,10 @@ fun ProfileScreenRoute(navOnBack: () -> Unit) {
             ProfileEffect.ImageSelectFailed -> {
                 Toast.makeText(context, "이미지를 가져오지 못했어요.", Toast.LENGTH_SHORT).show()
             }
+
+            ProfileEffect.NicknameLengthExceeded -> {
+                Toast.makeText(context, "닉네임을 확인해 주세요.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
