@@ -5,15 +5,13 @@ import base.Intent
 import base.LoadingState
 import base.SideEffect
 import base.UiState
-import com.wepli.core.kotlin.flow.FlowResult
 import com.wepli.core.kotlin.flow.collectResult
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.flowOf
-import model.supabase.repository.SupabaseBucketRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
 import model.tendency.Tendency
+import model.user.usecase.UploadProfileImageUseCase
 import repository.user.UserRepository
 import javax.inject.Inject
 
@@ -42,7 +40,7 @@ sealed interface ProfileIntent : Intent {
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val userRepository: UserRepository,
-    private val supabaseBucketRepository: SupabaseBucketRepository,
+    private val uploadProfileImageUseCase: UploadProfileImageUseCase,
 ) : BaseMviViewModel<ProfileState, ProfileEffect, ProfileIntent>(
     initialState = ProfileState()
 ) {
@@ -73,33 +71,24 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     private fun updateUser() = intent {
         launch(
             onStart = { copy(isLoading = true) },
             onComplete = { copy(isLoading = false) }
         ) {
             val newUserData = UserUiData.toDomain(state.user)
-            val updateFlow: FlowResult<Unit> = if (pendingImageData != null && pendingFileExtension != null) {
-                supabaseBucketRepository.uploadFile("profile", pendingImageData!!, pendingFileExtension!!)
-                    .flatMapConcat { result ->
-                        result.fold(
-                            onSuccess = {
-                                val updatedUser = newUserData.copy(profileImgUrl = it.path)
 
-                                userRepository.updateUserData(updatedUser)
-                            },
-                            onFailure = { flowOf(Result.failure(it)) }
-                        )
+            uploadProfileImageUseCase
+                .invoke(newUserData, pendingImageData, pendingFileExtension)
+                .flowOn(Dispatchers.IO)
+                .collectResult(
+                    onSuccess = {
+                        postSideEffect { ProfileEffect.ProfileUpdateSuccess }
+                    },
+                    onFailure = {
+                        postSideEffect { ProfileEffect.ProfileUpdateFailed }
                     }
-            } else {
-                userRepository.updateUserData(newUserData)
-            }
-
-            updateFlow.collectResult(
-                onSuccess = { postSideEffect { ProfileEffect.ProfileUpdateSuccess } },
-                onFailure = { postSideEffect { ProfileEffect.ProfileUpdateFailed } }
-            )
+                )
         }
     }
 
