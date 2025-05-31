@@ -1,8 +1,16 @@
 import extensions.implementation
 import java.util.Properties
+import com.android.build.api.dsl.BuildType
 
 val properties = Properties().apply {
     load(rootProject.file("local.properties").inputStream())
+}
+val buildConfigProperties = properties.filterKeys { it != "sdk.dir" }
+
+fun BuildType.addBuildConfigFields(props: Map<Any, Any>) {
+    props.forEach { (key, value) ->
+        buildConfigField("String", key.toString().uppercase(), "\"$value\"")
+    }
 }
 
 plugins {
@@ -20,16 +28,12 @@ android {
     buildTypes {
         debug {
             // local.properties 값 추가
-            properties.filter { it.key != "sdk.dir" }.forEach { (key, value) ->
-                buildConfigField("String", key.toString().uppercase(), "\"$value\"")
-            }
+            addBuildConfigFields(buildConfigProperties)
         }
 
         release {
             // local.properties 값 추가
-            properties.filter { it.key != "sdk.dir" }.forEach { (key, value) ->
-                buildConfigField("String", key.toString().uppercase(), "\"$value\"")
-            }
+            addBuildConfigFields(buildConfigProperties)
         }
     }
 }
