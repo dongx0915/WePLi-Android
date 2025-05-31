@@ -37,6 +37,7 @@ enum class ApiMethod {
     GET,
     POST,
     PUT,
+    PATCH,
     DELETE,
     UNKNOWN;
 
