@@ -1,0 +1,55 @@
+package com.wepli.data.db.devmode.entity
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import debug.model.ApiLog
+import debug.model.ApiMethod
+import java.util.UUID
+
+@Entity(tableName = "ApiLogs")
+data class ApiLogEntity(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    val method: ApiMethod,
+    val baseUrlType: String,
+    val baseUrl: String,
+    val url: String,
+    val requestHeaders: Map<String, String>,
+    val requestBody: String,
+    val responseCode: Int,
+    val responseBody: String,
+    val startTime: Long,
+    val durationMs: Long = System.currentTimeMillis() - startTime
+)
+
+fun ApiLogEntity.toDomain(): ApiLog {
+    return ApiLog(
+        id = id,
+        method = method,
+        baseUrlType = baseUrlType,
+        baseUrl = baseUrl,
+        url = url,
+        requestHeaders = requestHeaders,
+        requestBody = requestBody,
+        responseCode = responseCode,
+        responseBody = responseBody,
+        startTime = startTime,
+        durationMs = durationMs
+    )
+}
+
+fun ApiLog.toEntity(): ApiLogEntity {
+    return ApiLogEntity(
+        id = 0,
+        method = method,
+        baseUrlType = baseUrlType,
+        baseUrl = baseUrl,
+        url = url,
+        requestHeaders = requestHeaders,
+        requestBody = requestBody,
+        responseCode = responseCode,
+        responseBody = responseBody,
+        startTime = startTime,
+        durationMs = durationMs
+    )
+}
