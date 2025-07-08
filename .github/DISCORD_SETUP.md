@@ -43,6 +43,8 @@ POSTMAN_URL=https://c5d99f29-4f14-416b-9baa-c691ac5fe558.mock.pstmn.io
 GOOGLE_SERVICES_JSON=base64로 인코딩된 google-services.json 내용
 ```
 
+**⚠️ 주의사항**: 위의 API 키들은 예시로 제공된 것이며, 실제 운영 환경에서는 본인의 API 키를 사용해야 합니다.
+
 ### 3. Google Services JSON 설정 (Firebase 사용 시)
 
 1. **파일 인코딩**
@@ -62,11 +64,10 @@ GOOGLE_SERVICES_JSON=base64로 인코딩된 google-services.json 내용
 워크플로우는 다음 상황에서 자동 실행됩니다:
 
 ### 1. 자동 트리거
-- `develop` 브랜치에 push할 때
-- `develop` 브랜치로의 PR이 merge될 때
+- `release/` 패턴의 브랜치가 생성될 때 (예: `release/1.0.0`, `release/v2.1.0`)
 
 ### 2. 수동 트리거
-- GitHub Actions 탭에서 "Debug APK Auto Deploy to Discord" 워크플로우 수동 실행
+- GitHub Actions 탭에서 "Discord로 Debug APK 자동 배포" 워크플로우 수동 실행
 
 ## 📱 배포 결과
 
@@ -74,15 +75,9 @@ GOOGLE_SERVICES_JSON=base64로 인코딩된 google-services.json 내용
 배포 완료 시 Discord 채널에 다음 정보가 포함된 embed 메시지가 전송됩니다:
 
 - 📱 **APK 정보**: 파일명, 크기
-- 🌿 **브랜치**: 빌드된 브랜치명
-- 👤 **작성자**: 커밋 작성자
-- 💬 **커밋 메시지**: 최근 커밋 메시지
-- 🔗 **커밋 링크**: GitHub 커밋 페이지 링크
+- 🌿 **브랜치**: 빌드된 Release 브랜치명
 - 📅 **빌드 시간**: 빌드 완료 시간
 - 📎 **APK 파일**: 다운로드 가능한 APK 첨부
-
-### PR 댓글 (PR merge 시)
-PR이 merge될 때 해당 PR에 빌드 완료 댓글이 자동으로 추가됩니다.
 
 ## ⚙️ 워크플로우 구성
 
@@ -99,10 +94,8 @@ PR이 merge될 때 해당 PR에 빌드 완료 댓글이 자동으로 추가됩�
 4. 📄 google-services.json 디코딩 (필요 시)
 5. ⚙️ local.properties 생성 (모든 API 키 포함)
 6. 🔨 Debug APK 빌드
-7. 📊 커밋 정보 수집
-8. 📱 APK 정보 수집
-9. 🚀 Discord로 업로드
-10. 💬 PR 댓글 추가 (해당 시)
+7. 📱 APK 정보 수집
+8. 🚀 Discord로 업로드
 
 ## 🔧 커스터마이징
 
@@ -114,11 +107,11 @@ PR이 merge될 때 해당 PR에 빌드 완료 댓글이 자동으로 추가됩�
 
 ```yaml
 on:
-  push:
-    branches: [ develop, main ]  # 브랜치 추가
-  pull_request:
-    branches: [ develop ]
-    types: [ closed, opened ]    # 트리거 타입 추가
+  create:
+    branches:
+      - 'release/**'      # release 브랜치 패턴
+      - 'hotfix/**'       # hotfix 브랜치 패턴 추가
+  workflow_dispatch:      # 수동 트리거
 ```
 
 ### APK 변형 변경
