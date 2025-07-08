@@ -1,0 +1,313 @@
+name: Discord로 Debug APK 자동 배포 (병렬 최적화)
+
+on:
+  create:
+    branches:
+      - 'release/**'
+  workflow_dispatch:
+
+jobs:
+  # 1단계: 환경 준비 (병렬 실행)
+  setup:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'create' && github.ref_type == 'branch' && startsWith(github.ref_name, 'release/'))
+    
+    outputs:
+      cache-key: ${{ steps.cache-key.outputs.key }}
+      
+    steps:
+    - name: 📥 저장소 체크아웃
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: 🔑 캐시 키 생성
+      id: cache-key
+      run: |
+        echo "key=${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}" >> $GITHUB_OUTPUT
+
+    - name: 💾 Gradle 패키지 캐시
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ steps.cache-key.outputs.key }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: 🔑 Gradlew 실행 권한 부여
+      run: chmod +x gradlew
+
+  # 2단계: 파일 준비 (병렬 실행)
+  prepare-files:
+    runs-on: ubuntu-latest
+    needs: setup
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'create' && github.ref_type == 'branch' && startsWith(github.ref_name, 'release/'))
+    
+    steps:
+    - name: 📥 저장소 체크아웃
+      uses: actions/checkout@v4
+
+    - name: 📄 Google Services JSON 파일 생성
+      env:
+        GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+      run: |
+        if [ -n "$GOOGLE_SERVICES_JSON" ]; then
+          echo "$GOOGLE_SERVICES_JSON" | base64 -d > app/google-services.json
+        else
+          echo "Warning: GOOGLE_SERVICES_JSON secret not found. Creating dummy file."
+          echo '{}' > app/google-services.json
+        fi
+
+    - name: ⚙️ Local Properties 파일 생성
+      run: |
+        echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> local.properties
+        echo "SUPABASE_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> local.properties
+        echo "SUPABASE_CLIENT_ID=${{ secrets.SUPABASE_CLIENT_ID }}" >> local.properties
+        echo "APPLE_MUSIC_URL=${{ secrets.APPLE_MUSIC_URL }}" >> local.properties
+        echo "APPLE_MUSIC_API_TOKEN=${{ secrets.APPLE_MUSIC_API_TOKEN }}" >> local.properties
+        echo "POSTMAN_URL=${{ secrets.POSTMAN_URL }}" >> local.properties
+
+    - name: 💾 설정 파일 업로드
+      uses: actions/upload-artifact@v4
+      with:
+        name: config-files
+        path: |
+          app/google-services.json
+          local.properties
+        retention-days: 1
+
+  # 3단계: Java 환경 설정 (병렬 실행)
+  setup-java:
+    runs-on: ubuntu-latest
+    needs: setup
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'create' && github.ref_type == 'branch' && startsWith(github.ref_name, 'release/'))
+    
+    steps:
+    - name: ☕ JDK 17 설정
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'adopt'
+
+    - name: 📋 Java 환경 정보 저장
+      run: |
+        echo "JAVA_HOME=$JAVA_HOME" > java-env.txt
+        echo "PATH=$PATH" >> java-env.txt
+
+    - name: 💾 Java 환경 업로드
+      uses: actions/upload-artifact@v4
+      with:
+        name: java-env
+        path: java-env.txt
+        retention-days: 1
+
+  # 4단계: 의존성 다운로드 (병렬 실행)
+  download-dependencies:
+    runs-on: ubuntu-latest
+    needs: [setup, prepare-files, setup-java]
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'create' && github.ref_type == 'branch' && startsWith(github.ref_name, 'release/'))
+    
+    steps:
+    - name: 📥 저장소 체크아웃
+      uses: actions/checkout@v4
+
+    - name: ☕ JDK 17 설정
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'adopt'
+
+    - name: 💾 Gradle 캐시 복원
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ needs.setup.outputs.cache-key }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: 📦 설정 파일 다운로드
+      uses: actions/download-artifact@v4
+      with:
+        name: config-files
+        path: .
+
+    - name: 🔑 Gradlew 실행 권한 부여
+      run: chmod +x gradlew
+
+    - name: 📦 의존성 다운로드
+      run: ./gradlew dependencies --no-daemon
+
+  # 5단계: 실제 빌드 (의존성 준비 후 실행)
+  build:
+    runs-on: ubuntu-latest
+    needs: [setup, prepare-files, setup-java, download-dependencies]
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'create' && github.ref_type == 'branch' && startsWith(github.ref_name, 'release/'))
+    
+    outputs:
+      apk-path: ${{ steps.build-info.outputs.apk-path }}
+      apk-size: ${{ steps.build-info.outputs.apk-size }}
+      apk-name: ${{ steps.build-info.outputs.apk-name }}
+      
+    steps:
+    - name: 📥 저장소 체크아웃
+      uses: actions/checkout@v4
+
+    - name: ☕ JDK 17 설정
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'adopt'
+
+    - name: 💾 Gradle 캐시 복원
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ needs.setup.outputs.cache-key }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: 📦 설정 파일 다운로드
+      uses: actions/download-artifact@v4
+      with:
+        name: config-files
+        path: .
+
+    - name: 🔑 Gradlew 실행 권한 부여
+      run: chmod +x gradlew
+
+    - name: 🔨 Debug APK 빌드
+      run: ./gradlew assembleDebug --no-daemon --parallel --build-cache
+
+    - name: 📱 APK 정보 수집
+      id: build-info
+      run: |
+        APK_PATH=$(find app/build/outputs/apk/debug -name "*.apk" | head -1)
+        APK_SIZE=$(du -h "$APK_PATH" | cut -f1)
+        APK_NAME=$(basename "$APK_PATH")
+        
+        echo "apk-path=${APK_PATH}" >> $GITHUB_OUTPUT
+        echo "apk-size=${APK_SIZE}" >> $GITHUB_OUTPUT
+        echo "apk-name=${APK_NAME}" >> $GITHUB_OUTPUT
+
+    - name: 💾 APK 파일 업로드
+      uses: actions/upload-artifact@v4
+      with:
+        name: debug-apk
+        path: ${{ steps.build-info.outputs.apk-path }}
+        retention-days: 1
+
+  # 6단계: Discord 업로드 (빌드 완료 후 실행)
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [build]
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'create' && github.ref_type == 'branch' && startsWith(github.ref_name, 'release/'))
+    
+    steps:
+    - name: 📦 APK 파일 다운로드
+      uses: actions/download-artifact@v4
+      with:
+        name: debug-apk
+        path: .
+
+    - name: 🚀 Discord로 APK 업로드
+      env:
+        DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        APK_PATH: ${{ needs.build.outputs.apk-path }}
+        APK_SIZE: ${{ needs.build.outputs.apk-size }}
+        APK_NAME: ${{ needs.build.outputs.apk-name }}
+      run: |
+        if [ -z "$DISCORD_WEBHOOK_URL" ]; then
+          echo "❌ DISCORD_WEBHOOK_URL secret not found. Please add Discord webhook URL to repository secrets."
+          exit 1
+        fi
+        
+        # 실제 APK 파일 이름으로 업데이트
+        ACTUAL_APK=$(find . -name "*.apk" | head -1)
+        
+        # 브랜치 이름 가져오기
+        if [ "${{ github.event_name }}" = "create" ]; then
+          BRANCH_NAME="${{ github.ref_name }}"
+        else
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+        fi
+        
+        # Discord embed 메시지 생성
+        EMBED_JSON=$(cat << EOF
+        {
+          "embeds": [
+            {
+              "title": "🚀 WePLi Android Debug APK 배포 (병렬 최적화)",
+              "description": "새로운 Release 브랜치에서 Debug APK가 빌드되었습니다!",
+              "color": 5814783,
+              "fields": [
+                {
+                  "name": "📱 APK 정보",
+                  "value": "**파일명**: \`$APK_NAME\`\n**크기**: \`$APK_SIZE\`",
+                  "inline": true
+                },
+                {
+                  "name": "🌿 브랜치",
+                  "value": "\`${BRANCH_NAME}\`",
+                  "inline": true
+                },
+                {
+                  "name": "⚡ 빌드 방식",
+                  "value": "병렬 최적화",
+                  "inline": true
+                },
+                {
+                  "name": "📅 빌드 시간",
+                  "value": "\`$(date '+%Y-%m-%d %H:%M:%S')\`",
+                  "inline": false
+                }
+              ],
+              "footer": {
+                "text": "WePLi Android • GitHub Actions (Parallel Build)",
+                "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+              },
+              "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%S.000Z)"
+            }
+          ]
+        }
+        EOF
+        )
+        
+        # Discord에 APK 파일과 메시지 전송
+        curl -H "Content-Type: multipart/form-data" \
+             -F "payload_json=${EMBED_JSON}" \
+             -F "file=@${ACTUAL_APK}" \
+             "${DISCORD_WEBHOOK_URL}"
+        
+        echo "✅ APK successfully uploaded to Discord!"
+
+  # 7단계: 정리 (항상 실행)
+  cleanup:
+    runs-on: ubuntu-latest
+    needs: [build, deploy]
+    if: always()
+    
+    steps:
+    - name: 🧹 아티팩트 정리
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            run_id: context.runId,
+          });
+          
+          for (const artifact of artifacts.data.artifacts) {
+            console.log(`Deleting artifact: ${artifact.name}`);
+            await github.rest.actions.deleteArtifact({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              artifact_id: artifact.id,
+            });
+          }
