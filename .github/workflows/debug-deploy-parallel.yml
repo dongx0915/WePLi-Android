@@ -6,6 +6,9 @@ on:
       - 'release/**'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   # 1단계: 환경 준비 (병렬 실행)
   setup:
