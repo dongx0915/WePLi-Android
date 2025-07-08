@@ -1,0 +1,188 @@
+name: Debug APK Auto Deploy to Discord
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+    types: [ closed ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'adopt'
+
+    - name: Cache Gradle packages
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Decode google-services.json
+      env:
+        GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+      run: |
+        if [ -n "$GOOGLE_SERVICES_JSON" ]; then
+          echo "$GOOGLE_SERVICES_JSON" | base64 -d > app/google-services.json
+        else
+          echo "Warning: GOOGLE_SERVICES_JSON secret not found. Creating dummy file."
+          echo '{}' > app/google-services.json
+        fi
+
+    - name: Create local.properties
+      run: |
+        echo "supabase.url=${{ secrets.SUPABASE_URL }}" >> local.properties
+        echo "supabase.anon.key=${{ secrets.SUPABASE_ANON_KEY }}" >> local.properties
+
+    - name: Build Debug APK
+      run: ./gradlew assembleDebug --stacktrace
+
+    - name: Get commit info
+      id: commit_info
+      run: |
+        COMMIT_SHA="${{ github.sha }}"
+        COMMIT_MESSAGE=$(git log -1 --pretty=format:'%s' $COMMIT_SHA)
+        COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an' $COMMIT_SHA)
+        COMMIT_DATE=$(git log -1 --pretty=format:'%cd' --date=format:'%Y-%m-%d %H:%M:%S' $COMMIT_SHA)
+        BRANCH_NAME=${GITHUB_REF#refs/heads/}
+        
+        echo "commit_sha=${COMMIT_SHA}" >> $GITHUB_OUTPUT
+        echo "commit_message=${COMMIT_MESSAGE}" >> $GITHUB_OUTPUT
+        echo "commit_author=${COMMIT_AUTHOR}" >> $GITHUB_OUTPUT
+        echo "commit_date=${COMMIT_DATE}" >> $GITHUB_OUTPUT
+        echo "branch_name=${BRANCH_NAME}" >> $GITHUB_OUTPUT
+
+    - name: Get APK info
+      id: apk_info
+      run: |
+        APK_PATH=$(find app/build/outputs/apk/debug -name "*.apk" | head -1)
+        APK_SIZE=$(du -h "$APK_PATH" | cut -f1)
+        APK_NAME=$(basename "$APK_PATH")
+        
+        echo "apk_path=${APK_PATH}" >> $GITHUB_OUTPUT
+        echo "apk_size=${APK_SIZE}" >> $GITHUB_OUTPUT
+        echo "apk_name=${APK_NAME}" >> $GITHUB_OUTPUT
+
+    - name: Upload APK to Discord
+      env:
+        DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        COMMIT_SHA: ${{ steps.commit_info.outputs.commit_sha }}
+        COMMIT_MESSAGE: ${{ steps.commit_info.outputs.commit_message }}
+        COMMIT_AUTHOR: ${{ steps.commit_info.outputs.commit_author }}
+        COMMIT_DATE: ${{ steps.commit_info.outputs.commit_date }}
+        BRANCH_NAME: ${{ steps.commit_info.outputs.branch_name }}
+        APK_PATH: ${{ steps.apk_info.outputs.apk_path }}
+        APK_SIZE: ${{ steps.apk_info.outputs.apk_size }}
+        APK_NAME: ${{ steps.apk_info.outputs.apk_name }}
+      run: |
+        if [ -z "$DISCORD_WEBHOOK_URL" ]; then
+          echo "❌ DISCORD_WEBHOOK_URL secret not found. Please add Discord webhook URL to repository secrets."
+          exit 1
+        fi
+        
+        # Discord embed 메시지 생성
+        EMBED_JSON=$(cat << EOF
+        {
+          "embeds": [
+            {
+              "title": "🚀 WePLi Android Debug APK 배포",
+              "description": "새로운 Debug APK가 빌드되었습니다!",
+              "color": 5814783,
+              "fields": [
+                {
+                  "name": "📱 APK 정보",
+                  "value": "**파일명**: \`${APK_NAME}\`\n**크기**: \`${APK_SIZE}\`",
+                  "inline": true
+                },
+                {
+                  "name": "🌿 브랜치",
+                  "value": "\`${BRANCH_NAME}\`",
+                  "inline": true
+                },
+                {
+                  "name": "👤 작성자",
+                  "value": "\`${COMMIT_AUTHOR}\`",
+                  "inline": true
+                },
+                {
+                  "name": "💬 커밋 메시지",
+                  "value": "\`${COMMIT_MESSAGE}\`",
+                  "inline": false
+                },
+                {
+                  "name": "🔗 커밋 링크",
+                  "value": "[${COMMIT_SHA:0:7}](https://github.com/${{ github.repository }}/commit/${COMMIT_SHA})",
+                  "inline": true
+                },
+                {
+                  "name": "📅 빌드 시간",
+                  "value": "\`${COMMIT_DATE}\`",
+                  "inline": true
+                }
+              ],
+              "footer": {
+                "text": "WePLi Android • GitHub Actions",
+                "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+              },
+              "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%S.000Z)"
+            }
+          ]
+        }
+        EOF
+        )
+        
+        # Discord에 APK 파일과 메시지 전송
+        curl -H "Content-Type: multipart/form-data" \
+             -F "payload_json=${EMBED_JSON}" \
+             -F "file=@${APK_PATH}" \
+             "${DISCORD_WEBHOOK_URL}"
+        
+        echo "✅ APK successfully uploaded to Discord!"
+
+    - name: Comment on PR (if applicable)
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const commitSha = '${{ steps.commit_info.outputs.commit_sha }}';
+          const apkSize = '${{ steps.apk_info.outputs.apk_size }}';
+          const apkName = '${{ steps.apk_info.outputs.apk_name }}';
+          
+          const comment = `## 🚀 Debug APK 빌드 완료
+          
+          📱 **APK 정보**
+          - 파일명: \`${apkName}\`
+          - 크기: \`${apkSize}\`
+          - 커밋: \`${commitSha.substring(0, 7)}\`
+          
+          🎯 **Discord 채널에서 APK를 다운로드할 수 있습니다!**
+          
+          ---
+          *🤖 Automated by GitHub Actions*`;
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });
