@@ -1,4 +1,4 @@
-name: Discord로 Debug APK 자동 배포 (병렬 최적화)
+name: Discord로 Debug APK 자동 배포
 
 on:
   create:
@@ -236,9 +236,9 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ steps.version-info.outputs.tag-name }}
-        release_name: 🚀 WePLi Debug APK v${{ steps.version-info.outputs.release-version }} (병렬 빌드)
+        release_name: 🚀 WePLi APK v${{ steps.version-info.outputs.release-version }}
         body: |
-          ## 🚀 WePLi Android Debug APK 배포 (병렬 최적화)
+          ## 🚀 WePLi Android Apk
           
           ### 📱 APK 정보
           - **버전**: v${{ steps.version-info.outputs.release-version }}
@@ -249,7 +249,7 @@ jobs:
           
           ### 📅 빌드 정보
           - **빌드 시간**: $(date '+%Y-%m-%d %H:%M:%S')
-          - **빌드 환경**: GitHub Actions (병렬 최적화)
+          - **빌드 환경**: GitHub Actions
           
           ### 📥 다운로드
           아래 Assets에서 APK 파일을 다운로드할 수 있습니다.
@@ -307,38 +307,33 @@ jobs:
         {
           "embeds": [
             {
-              "title": "🚀 WePLi Android Debug APK 배포 (병렬 최적화)",
-              "description": "새로운 Release 브랜치에서 Debug APK가 빌드되었습니다!",
+              "title": "🚀 WePLi Android",
+              "description": "WePLi v${APP_VERSION} APK가 배포 되었습니다,",
               "color": 5814783,
               "fields": [
                 {
-                  "name": "📱 APK 정보",
-                  "value": "**버전**: v${APP_VERSION}\n**파일명**: \`${APK_NAME}\`\n**크기**: \`${APK_SIZE}\`",
+                  "name": "APK 정보",
+                  "value": "**버전**: \`v${APP_VERSION}\`\n**파일명**: \`${APK_NAME}\`\n**크기**: \`${APK_SIZE}\`",
                   "inline": true
                 },
                 {
-                  "name": "🌿 브랜치",
+                  "name": "브랜치",
                   "value": "\`${BRANCH_NAME}\`",
-                  "inline": true
+                  "inline": false
                 },
                 {
-                  "name": "⚡ 빌드 방식",
-                  "value": "병렬 최적화",
-                  "inline": true
-                },
-                {
-                  "name": "📅 빌드 시간",
+                  "name": "빌드 시간",
                   "value": "\`$(date '+%Y-%m-%d %H:%M:%S')\`",
                   "inline": false
                 },
                 {
-                  "name": "📥 다운로드",
-                  "value": "[**🔗 GitHub Release에서 다운로드**](${RELEASE_URL})\n\n[**⬇️ APK 직접 다운로드**](${DOWNLOAD_URL})",
+                  "name": "다운로드",
+                  "value": "[**1. GitHub Release에서 다운로드**](${RELEASE_URL})\n\n[**2. APK 직접 다운로드**](${DOWNLOAD_URL})",
                   "inline": false
                 }
               ],
               "footer": {
-                "text": "WePLi Android • GitHub Actions (Parallel Build)",
+                "text": "WePLi Android • GitHub Actions",
                 "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
               },
               "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%S.000Z)"
