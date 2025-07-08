@@ -5,5 +5,5 @@ import com.wepli.core.kotlin.flow.FlowResult
 
 interface ChartDataSource {
 
-    suspend fun getTopChart(): FlowResult<ChartListResponse>
+    fun getTopChart(): FlowResult<ChartListResponse>
 }

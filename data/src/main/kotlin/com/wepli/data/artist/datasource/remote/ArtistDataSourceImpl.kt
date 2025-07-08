@@ -9,7 +9,7 @@ class ArtistDataSourceImpl @Inject constructor(
     private val artistApi: ArtistApi
 ) : ArtistDataSource {
 
-    override suspend fun getArtists(): FlowResult<ArtistListResponse> {
+    override fun getArtists(): FlowResult<ArtistListResponse> {
         return artistApi.getArtists()
     }
 }

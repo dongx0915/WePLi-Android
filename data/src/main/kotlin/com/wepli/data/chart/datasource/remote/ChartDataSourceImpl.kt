@@ -9,7 +9,7 @@ class ChartDataSourceImpl @Inject constructor(
     private val chartApi: ChartApi
 ) : ChartDataSource {
 
-    override suspend fun getTopChart(): FlowResult<ChartListResponse> {
+    override fun getTopChart(): FlowResult<ChartListResponse> {
         return chartApi.getTopChart()
     }
 }
