@@ -25,11 +25,22 @@ GitHub Repository → Settings → Secrets and variables → Actions에서 다�
 DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/your-webhook-url
 ```
 
-#### 선택적 Secrets (앱에서 사용하는 경우)
+#### API 관련 Secrets
 ```
+# Supabase 설정
+SUPABASE_URL=https://tnzaalcaqnanyprzbyhs.supabase.co
+SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRuemFhbGNhcW5hbnlwcnpieWhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzE5NDE2NDUsImV4cCI6MjA0NzUxNzY0NX0.Fw-nUvprxkl1ZpoEXho2XA-yUKftrYFMBfb2sBzBdMw
+SUPABASE_CLIENT_ID=103843519167-irrt7h4sb995p500tlmohoh5lp21c2ss.apps.googleusercontent.com
+
+# Apple Music API 설정
+APPLE_MUSIC_URL=https://api.music.apple.com/
+APPLE_MUSIC_API_TOKEN=Bearer eyJraWQiOiI3QlU4R1pBNDREIiwiYWxnIjoiRVMyNTYifQ.eyJpc3MiOiI4UTRIN1gzUTU4IiwiZXhwIjoxNzQ5MjIxMDUyLCJpYXQiOjE3NDA1ODEwNTJ9.2IEUFOf1o0K6vciuYU_MLhHUpqJUw0IzUfk8ETW_k_-5VdAE2dMsv7eMfNpF0lHHpTmdvBGGXxne0coajSSeJg
+
+# Postman Mock API 설정
+POSTMAN_URL=https://c5d99f29-4f14-416b-9baa-c691ac5fe558.mock.pstmn.io
+
+# Google Services (선택적)
 GOOGLE_SERVICES_JSON=base64로 인코딩된 google-services.json 내용
-SUPABASE_URL=your-supabase-url
-SUPABASE_ANON_KEY=your-supabase-anon-key
 ```
 
 ### 3. Google Services JSON 설정 (Firebase 사용 시)
@@ -82,16 +93,16 @@ PR이 merge될 때 해당 PR에 빌드 완료 댓글이 자동으로 추가됩�
 - **캐싱**: Gradle 의존성 캐싱 활성화
 
 ### 빌드 과정
-1. 소스코드 체크아웃
-2. Java 17 설정
-3. Gradle 캐시 복원
-4. google-services.json 디코딩 (필요 시)
-5. local.properties 생성
-6. Debug APK 빌드
-7. 커밋 정보 수집
-8. APK 정보 수집
-9. Discord로 업로드
-10. PR 댓글 추가 (해당 시)
+1. 📥 저장소 체크아웃
+2. ☕ Java 17 설정
+3. 💾 Gradle 캐시 복원
+4. 📄 google-services.json 디코딩 (필요 시)
+5. ⚙️ local.properties 생성 (모든 API 키 포함)
+6. 🔨 Debug APK 빌드
+7. 📊 커밋 정보 수집
+8. 📱 APK 정보 수집
+9. 🚀 Discord로 업로드
+10. 💬 PR 댓글 추가 (해당 시)
 
 ## 🔧 커스터마이징
 
