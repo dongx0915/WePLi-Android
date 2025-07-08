@@ -13,7 +13,7 @@ class UserSupabaseDataSourceImpl @Inject constructor(
     private val supabase: SupabaseClient
 ) : UserSupabaseDataSource{
 
-    override suspend fun getUserById(id: String): FlowResult<UserResponse> = flow {
+    override fun getUserById(id: String): FlowResult<UserResponse> = flow {
         val result = runCatching {
             supabase.postgrest[SupabaseConstants.USER_TABLE]
                 .select {
@@ -27,7 +27,7 @@ class UserSupabaseDataSourceImpl @Inject constructor(
         emit(result)
     }
 
-    override suspend fun updateUser(user: User): FlowResult<Unit> = flow {
+    override fun updateUser(user: User): FlowResult<Unit> = flow {
         val result = runCatching {
             supabase.postgrest[SupabaseConstants.USER_TABLE]
                 .update(

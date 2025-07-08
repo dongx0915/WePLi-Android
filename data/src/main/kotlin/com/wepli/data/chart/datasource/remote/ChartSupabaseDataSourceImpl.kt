@@ -12,7 +12,7 @@ class ChartSupabaseDataSourceImpl @Inject constructor(
     private val supabase: SupabaseClient,
 ) : ChartDataSource {
 
-    override suspend fun getTopChart(): FlowResult<ChartListResponse> = flow {
+    override fun getTopChart(): FlowResult<ChartListResponse> = flow {
         val result = runCatching {
             supabase.postgrest[SupabaseConstants.CHART_TABLE]
                 .select()
