@@ -5,6 +5,10 @@ import com.wepli.data.network.baseurl.BaseUrl
 import debug.model.ApiLog
 import debug.model.ApiMethod
 import debug.repository.DebugApiLogRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
@@ -12,6 +16,9 @@ import javax.inject.Inject
 class DebugApiLogInterceptor @Inject constructor(
     private val apiLogRepository: DebugApiLogRepository
 ) : Interceptor {
+
+    private val scope: CoroutineScope
+        get() = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val startTime = System.currentTimeMillis()
@@ -38,7 +45,7 @@ class DebugApiLogInterceptor @Inject constructor(
                 startTime = startTime,
             )
         }.onSuccess { logEntry ->
-            apiLogRepository.addLog(logEntry)
+            scope.launch { apiLogRepository.insertLog(logEntry) }
         }.onFailure {
             Log.e("ApiLogInterceptor", "Failed to log API request/response", it)
         }
