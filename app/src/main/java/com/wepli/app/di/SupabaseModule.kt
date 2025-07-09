@@ -18,6 +18,7 @@ import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.serializer.KotlinXSerializer
 import io.github.jan.supabase.storage.Storage
 import io.ktor.client.plugins.HttpResponseValidator
+import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import kotlinx.serialization.json.Json
 import javax.inject.Singleton
@@ -63,38 +64,42 @@ object SupabaseModule {
                     // Header까지 기록하려면 아래 코드를 사용
                     HttpResponseValidator {
                         validateResponse { response ->
-                            val request = response.call.request
-                            val responseBody = response.bodyAsText()
-
-                            val fullUrl = request.url.toString()
-                            val matchedBaseUrl = BaseUrl.entries.firstOrNull {
-                                fullUrl.startsWith(it.url)
-                            } ?: BaseUrl.UNKNOWN
-                            val relativePath = fullUrl.removePrefix(matchedBaseUrl.url)
-
-                            val headersMap: Map<String, String> = request.headers.entries()
-                                .associate { (key, value) ->
-                                    key to value.joinToString(", ") // 다중 값은 쉼표로 연결
-                                }
-
-                            val log = ApiLog(
-                                method = ApiMethod.fromString(request.method.value),
-                                baseUrlType = matchedBaseUrl.value,
-                                baseUrl = matchedBaseUrl.url,
-                                url = relativePath,
-                                requestHeaders = headersMap,
-                                requestBody = "", // <- 이 부분은 Ktor에서 직접 얻기 어려움
-                                responseCode = response.status.value,
-                                responseBody = responseBody,
-                                startTime = response.requestTime.timestamp,
-                            )
-
-                            apiLogRepository.insertLog(log)
-                            Log.d("Supabase Log", log.toString())
+                            makeApiLog(response, apiLogRepository)
                         }
                     }
                 }
             }
         }
+    }
+
+    private suspend fun makeApiLog(response: HttpResponse, apiLogRepository: DebugApiLogRepository) {
+        val request = response.call.request
+        val responseBody = response.bodyAsText()
+
+        val fullUrl = request.url.toString()
+        val matchedBaseUrl = BaseUrl.entries.firstOrNull {
+            fullUrl.startsWith(it.url)
+        } ?: BaseUrl.UNKNOWN
+        val relativePath = fullUrl.removePrefix(matchedBaseUrl.url)
+
+        val headersMap: Map<String, String> = request.headers.entries()
+            .associate { (key, value) ->
+                key to value.joinToString(", ") // 다중 값은 쉼표로 연결
+            }
+
+        val log = ApiLog(
+            method = ApiMethod.fromString(request.method.value),
+            baseUrlType = matchedBaseUrl.value,
+            baseUrl = matchedBaseUrl.url,
+            url = relativePath,
+            requestHeaders = headersMap,
+            requestBody = "", // <- 이 부분은 Ktor에서 직접 얻기 어려움
+            responseCode = response.status.value,
+            responseBody = responseBody,
+            startTime = response.requestTime.timestamp,
+        )
+
+        apiLogRepository.insertLog(log)
+        Log.d("Supabase Log", log.toString())
     }
 }
