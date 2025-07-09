@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   # 1단계: 환경 준비 (병렬 실행)
