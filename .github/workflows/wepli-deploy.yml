@@ -278,7 +278,6 @@ jobs:
         APP_VERSION: ${{ needs.build.outputs.app-version }}
         VERSION_CODE: ${{ needs.build.outputs.version-code }}
         BRANCH_NAME: ${{ needs.build.outputs.branch-name }}
-        TAG_NAME: ${{ needs.build.outputs.tag-name }}
       run: |
         if [ -z "$DISCORD_WEBHOOK_URL" ]; then
           echo "❌ DISCORD_WEBHOOK_URL secret not found. Please add Discord webhook URL to repository secrets."
