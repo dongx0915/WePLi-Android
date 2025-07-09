@@ -67,7 +67,7 @@ fun NetworkLogDetailScreenPreview() {
 }
 
 @Composable
-fun NetworkLogDetailScreenRoute(apiLogId: String, navOnBack: () -> Unit) {
+fun NetworkLogDetailScreenRoute(apiLogId: Int, navOnBack: () -> Unit) {
     val viewModel: NetworkLogDetailViewModel = hiltViewModel()
     val state: NetworkLogDetailState by viewModel.collectAsState()
 

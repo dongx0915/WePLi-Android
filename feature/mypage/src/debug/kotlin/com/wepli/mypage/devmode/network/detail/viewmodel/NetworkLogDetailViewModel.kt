@@ -8,7 +8,10 @@ import base.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import debug.model.ApiLog
 import debug.repository.DebugApiLogRepository
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 
@@ -19,15 +22,21 @@ data class NetworkLogDetailState(
 sealed interface NetworkLogDetailEffect : SideEffect
 
 sealed interface NetworkLogDetailIntent : Intent {
-    data class InitApiLog(val apiLogId: String) : NetworkLogDetailIntent
+    data class InitApiLog(val apiLogId: Int) : NetworkLogDetailIntent
 }
 
 @HiltViewModel
 class NetworkLogDetailViewModel @Inject constructor(
-    private val apiLogRepository: DebugApiLogRepository
+    apiLogRepository: DebugApiLogRepository
 ) : BaseMviViewModel<NetworkLogDetailState, NetworkLogDetailEffect, NetworkLogDetailIntent>(
     initialState = NetworkLogDetailState()
 ) {
+
+    private val apiLogs: StateFlow<List<ApiLog>> = apiLogRepository.logs.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = emptyList()
+    )
 
     override fun processIntent(intent: NetworkLogDetailIntent) {
         when (intent) {
@@ -37,13 +46,14 @@ class NetworkLogDetailViewModel @Inject constructor(
         }
     }
 
-    private fun updateApiLog(apiLogId: String) = intent {
-        viewModelScope.launch {
-            apiLogRepository.logs.value
-                .find { it.id == apiLogId }
-                ?.let {
-                    updateState { copy(apiLog = it) }
-                }
+    private fun updateApiLog(apiLogId: Int) = intent {
+        launch {
+            apiLogs.collect { logs ->
+                logs.find { it.id == apiLogId }
+                    ?.let {
+                        updateState { copy(apiLog = it) }
+                    }
+            }
         }
     }
 }

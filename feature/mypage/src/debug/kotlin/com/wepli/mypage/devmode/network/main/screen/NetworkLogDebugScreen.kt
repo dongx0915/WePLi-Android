@@ -58,7 +58,7 @@ fun NetworkLogDebugScreenPreview() {
 
 @Composable
 fun NetworkLogDebugScreenRoute(
-    navOnNetworkLogDetail: (String) -> Unit,
+    navOnNetworkLogDetail: (Int) -> Unit,
     navOnBack: () -> Unit
 ) {
     val viewModel: NetworkLogViewModel = hiltViewModel()
@@ -76,7 +76,7 @@ fun NetworkLogDebugScreenRoute(
 @Composable
 fun NetworkLogDebugScreen(
     state: NetworkLogState,
-    navOnNetworkLogDetail: (String) -> Unit,
+    navOnNetworkLogDetail: (Int) -> Unit,
     navOnBack: () -> Unit,
     sendAction: (NetworkLogIntent) -> Unit,
 ) {

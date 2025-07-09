@@ -11,7 +11,7 @@ fun NavController.navigateToNetworkLogMain() {
 }
 
 fun NavGraphBuilder.networkLogMainGraph(
-    navOnNetworkLogDetail: (String) -> Unit,
+    navOnNetworkLogDetail: (Int) -> Unit,
     navOnBack: () -> Unit
 ) {
     composable(

@@ -5,6 +5,7 @@ import debug.model.ApiMethod
 
 val mockApiLogs = listOf(
     ApiLog(
+        id = 0,
         method = ApiMethod.GET,
         baseUrlType = "Production",
         baseUrl = "https://api.example.com",
@@ -17,6 +18,7 @@ val mockApiLogs = listOf(
         durationMs = 120
     ),
     ApiLog(
+        id = 1,
         method = ApiMethod.POST,
         baseUrlType = "Production",
         baseUrl = "https://api.example.com",
@@ -29,6 +31,7 @@ val mockApiLogs = listOf(
         durationMs = 98
     ),
     ApiLog(
+        id = 2,
         method = ApiMethod.PUT,
         baseUrlType = "Production",
         baseUrl = "https://api.example.com",
@@ -41,6 +44,7 @@ val mockApiLogs = listOf(
         durationMs = 150
     ),
     ApiLog(
+        id = 3,
         method = ApiMethod.DELETE,
         baseUrlType = "Production",
         baseUrl = "https://api.example.com",
