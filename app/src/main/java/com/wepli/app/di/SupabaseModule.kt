@@ -89,7 +89,7 @@ object SupabaseModule {
                                 startTime = response.requestTime.timestamp,
                             )
 
-                            apiLogRepository.addLog(log)
+                            apiLogRepository.insertLog(log)
                             Log.d("Supabase Log", log.toString())
                         }
                     }
