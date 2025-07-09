@@ -232,27 +232,6 @@ jobs:
         echo "tag-name=${TAG_NAME}" >> $GITHUB_OUTPUT
         echo "branch-name=${BRANCH_NAME}" >> $GITHUB_OUTPUT
 
-    - name: 🗑️ 기존 릴리스 및 태그 삭제 (있는 경우)
-      continue-on-error: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        TAG_NAME="${{ steps.version-info.outputs.tag-name }}"
-        
-        # 기존 릴리스 확인 및 삭제
-        RELEASE_ID=$(gh api repos/${{ github.repository }}/releases/tags/$TAG_NAME --jq '.id' 2>/dev/null || echo "")
-        if [ -n "$RELEASE_ID" ]; then
-          echo "기존 릴리스 삭제: $TAG_NAME"
-          gh api -X DELETE repos/${{ github.repository }}/releases/$RELEASE_ID
-        fi
-        
-        # 기존 태그 확인 및 삭제
-        TAG_EXISTS=$(gh api repos/${{ github.repository }}/git/refs/tags/$TAG_NAME 2>/dev/null || echo "")
-        if [ -n "$TAG_EXISTS" ]; then
-          echo "기존 태그 삭제: $TAG_NAME"
-          gh api -X DELETE repos/${{ github.repository }}/git/refs/tags/$TAG_NAME
-        fi
-
     - name: 📦 GitHub Release 생성
       id: create-release
       uses: actions/create-release@v1
