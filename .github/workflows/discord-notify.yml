@@ -82,7 +82,7 @@ jobs:
                 },
                 {
                   "name": "다운로드",
-                  "value": "1. [**GitHub Release에서 다운로드**](${RELEASE_URL})\n\n2. [**APK 직접 다운로드**](${DOWNLOAD_URL})",
+                  "value": "1. [**GitHub Release에서 다운로드**](${RELEASE_URL})\n2. [**APK 직접 다운로드**](${DOWNLOAD_URL})",
                   "inline": false
                 }
               ],
