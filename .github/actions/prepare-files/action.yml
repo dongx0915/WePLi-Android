@@ -1,0 +1,34 @@
+name: '필수 파일 준비'
+description: 'Android 빌드에 필요한 설정 파일들을 준비합니다'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 📄 Google Services JSON 파일 생성
+      shell: bash
+      env:
+        GOOGLE_SERVICES_JSON: ${{ env.GOOGLE_SERVICES_JSON }}
+      run: |
+        if [ -n "$GOOGLE_SERVICES_JSON" ]; then
+          echo "$GOOGLE_SERVICES_JSON" | base64 -d > app/google-services.json
+        else
+          echo "Warning: GOOGLE_SERVICES_JSON secret not found. Creating dummy file."
+          echo '{}' > app/google-services.json
+        fi
+
+    - name: ⚙️ Local Properties 파일 생성
+      shell: bash
+      env:
+        SUPABASE_URL: ${{ env.SUPABASE_URL }}
+        SUPABASE_ANON_KEY: ${{ env.SUPABASE_ANON_KEY }}
+        SUPABASE_CLIENT_ID: ${{ env.SUPABASE_CLIENT_ID }}
+        APPLE_MUSIC_URL: ${{ env.APPLE_MUSIC_URL }}
+        APPLE_MUSIC_API_TOKEN: ${{ env.APPLE_MUSIC_API_TOKEN }}
+        POSTMAN_URL: ${{ env.POSTMAN_URL }}
+      run: |
+        echo "SUPABASE_URL=${SUPABASE_URL}" >> local.properties
+        echo "SUPABASE_KEY=${SUPABASE_ANON_KEY}" >> local.properties
+        echo "SUPABASE_CLIENT_ID=${SUPABASE_CLIENT_ID}" >> local.properties
+        echo "APPLE_MUSIC_URL=${APPLE_MUSIC_URL}" >> local.properties
+        echo "APPLE_MUSIC_API_TOKEN=${APPLE_MUSIC_API_TOKEN}" >> local.properties
+        echo "POSTMAN_URL=${POSTMAN_URL}" >> local.properties

@@ -1,4 +1,4 @@
-name: Discord로 Debug APK 자동 배포
+name: Discord로 Debug APK 자동 배포 (모듈화)
 
 on:
   create:
@@ -8,370 +8,41 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
-  # 1단계: 환경 준비 (병렬 실행)
-  setup:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'create' && github.ref_type == 'branch' && startsWith(github.ref_name, 'release/'))
-    
-    outputs:
-      cache-key: ${{ steps.cache-key.outputs.key }}
-      
-    steps:
-    - name: 📥 저장소 체크아웃
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-
-    - name: 🔑 캐시 키 생성
-      id: cache-key
-      run: |
-        echo "key=${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}" >> $GITHUB_OUTPUT
-
-    - name: 💾 Gradle 패키지 캐시
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ steps.cache-key.outputs.key }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
-
-    - name: 🔑 Gradlew 실행 권한 부여
-      run: chmod +x gradlew
-
-  # 2단계: 파일 준비 (병렬 실행)
-  prepare-files:
-    runs-on: ubuntu-latest
-    needs: setup
-    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'create' && github.ref_type == 'branch' && startsWith(github.ref_name, 'release/'))
-    
-    steps:
-    - name: 📥 저장소 체크아웃
-      uses: actions/checkout@v4
-
-    - name: 📄 Google Services JSON 파일 생성
-      env:
-        GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
-      run: |
-        if [ -n "$GOOGLE_SERVICES_JSON" ]; then
-          echo "$GOOGLE_SERVICES_JSON" | base64 -d > app/google-services.json
-        else
-          echo "Warning: GOOGLE_SERVICES_JSON secret not found. Creating dummy file."
-          echo '{}' > app/google-services.json
-        fi
-
-    - name: ⚙️ Local Properties 파일 생성
-      run: |
-        echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> local.properties
-        echo "SUPABASE_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> local.properties
-        echo "SUPABASE_CLIENT_ID=${{ secrets.SUPABASE_CLIENT_ID }}" >> local.properties
-        echo "APPLE_MUSIC_URL=${{ secrets.APPLE_MUSIC_URL }}" >> local.properties
-        echo "APPLE_MUSIC_API_TOKEN=${{ secrets.APPLE_MUSIC_API_TOKEN }}" >> local.properties
-        echo "POSTMAN_URL=${{ secrets.POSTMAN_URL }}" >> local.properties
-
-    - name: 💾 설정 파일 업로드
-      uses: actions/upload-artifact@v4
-      with:
-        name: config-files
-        path: |
-          app/google-services.json
-          local.properties
-        retention-days: 1
-
-  # 3단계: Java 환경 설정 (병렬 실행)
-  setup-java:
-    runs-on: ubuntu-latest
-    needs: setup
-    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'create' && github.ref_type == 'branch' && startsWith(github.ref_name, 'release/'))
-    
-    steps:
-    - name: ☕ JDK 17 설정
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'adopt'
-
-    - name: 📋 Java 환경 정보 저장
-      run: |
-        echo "JAVA_HOME=$JAVA_HOME" > java-env.txt
-        echo "PATH=$PATH" >> java-env.txt
-
-    - name: 💾 Java 환경 업로드
-      uses: actions/upload-artifact@v4
-      with:
-        name: java-env
-        path: java-env.txt
-        retention-days: 1
-
-  # 4단계: 의존성 다운로드 (병렬 실행)
-  download-dependencies:
-    runs-on: ubuntu-latest
-    needs: [setup, prepare-files, setup-java]
-    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'create' && github.ref_type == 'branch' && startsWith(github.ref_name, 'release/'))
-    
-    steps:
-    - name: 📥 저장소 체크아웃
-      uses: actions/checkout@v4
-
-    - name: ☕ JDK 17 설정
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'adopt'
-
-    - name: 💾 Gradle 캐시 복원
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ needs.setup.outputs.cache-key }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
-
-    - name: 📦 설정 파일 다운로드
-      uses: actions/download-artifact@v4
-      with:
-        name: config-files
-        path: .
-
-    - name: 🔑 Gradlew 실행 권한 부여
-      run: chmod +x gradlew
-
-    - name: 📦 의존성 다운로드
-      run: ./gradlew dependencies --no-daemon
-
-  # 5단계: 실제 빌드 (의존성 준비 후 실행)
+  # APK 빌드 (재활용 가능한 워크플로우 호출)
   build:
-    runs-on: ubuntu-latest
-    needs: [setup, prepare-files, setup-java, download-dependencies]
+    uses: ./.github/workflows/build-apk.yml
+    with:
+      branch-name: ${{ github.ref_name }}
+    secrets: inherit
     if: github.event_name == 'workflow_dispatch' || (github.event_name == 'create' && github.ref_type == 'branch' && startsWith(github.ref_name, 'release/'))
-    
-    outputs:
-      apk-path: ${{ steps.build-info.outputs.apk-path }}
-      apk-size: ${{ steps.build-info.outputs.apk-size }}
-      apk-name: ${{ steps.build-info.outputs.apk-name }}
-      app-version: ${{ steps.version-info.outputs.release-version }}
-      version-code: ${{ steps.version-info.outputs.version-code }}
-      tag-name: ${{ steps.version-info.outputs.tag-name }}
-      branch-name: ${{ steps.version-info.outputs.branch-name }}
-      release-url: ${{ steps.create-release.outputs.html_url }}
-      
-    steps:
-    - name: 📥 저장소 체크아웃
-      uses: actions/checkout@v4
 
-    - name: ☕ JDK 17 설정
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'adopt'
-
-    - name: 💾 Gradle 캐시 복원
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ needs.setup.outputs.cache-key }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
-
-    - name: 📦 설정 파일 다운로드
-      uses: actions/download-artifact@v4
-      with:
-        name: config-files
-        path: .
-
-    - name: 🔑 Gradlew 실행 권한 부여
-      run: chmod +x gradlew
-
-    - name: 🔨 Debug APK 빌드
-      run: ./gradlew assembleDebug --no-daemon --parallel --build-cache
-
-    - name: 📱 APK 정보 수집
-      id: build-info
-      run: |
-        APK_PATH=$(find app/build/outputs/apk/debug -name "*.apk" | head -1)
-        APK_SIZE=$(du -h "$APK_PATH" | cut -f1)
-        APK_NAME=$(basename "$APK_PATH")
-        
-        echo "apk-path=${APK_PATH}" >> $GITHUB_OUTPUT
-        echo "apk-size=${APK_SIZE}" >> $GITHUB_OUTPUT
-        echo "apk-name=${APK_NAME}" >> $GITHUB_OUTPUT
-
-    - name: 📋 앱 버전 정보 추출
-      id: version-info
-      run: |
-        APP_VERSION=$(grep "appVersion" gradle/libs.versions.toml | cut -d'"' -f2)
-        VERSION_CODE=$(grep "versionCode" gradle/libs.versions.toml | cut -d'"' -f2)
-        
-        # 브랜치 이름에서 버전 추출 (예: release/1.0.0)
-        if [ "${{ github.event_name }}" = "create" ]; then
-          BRANCH_NAME="${{ github.ref_name }}"
-          if [[ "$BRANCH_NAME" =~ ^release/(.+)$ ]]; then
-            RELEASE_VERSION="${BASH_REMATCH[1]}"
-          else
-            RELEASE_VERSION="$APP_VERSION"
-          fi
-        else
-          RELEASE_VERSION="$APP_VERSION"
-        fi
-        
-        # 태그 이름 생성 (예: v1.0.0-debug)
-        TAG_NAME="v${RELEASE_VERSION}-debug"
-        
-        echo "release-version=${RELEASE_VERSION}" >> $GITHUB_OUTPUT
-        echo "version-code=${VERSION_CODE}" >> $GITHUB_OUTPUT
-        echo "tag-name=${TAG_NAME}" >> $GITHUB_OUTPUT
-        echo "branch-name=${BRANCH_NAME}" >> $GITHUB_OUTPUT
-
-    - name: 📦 GitHub Release 생성
-      id: create-release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ steps.version-info.outputs.tag-name }}
-        release_name: 🚀 WePLi APK v${{ steps.version-info.outputs.release-version }}
-        body: |
-          ## 🚀 WePLi Android Apk
-          
-          ### 📱 APK 정보
-          - **버전**: v${{ steps.version-info.outputs.release-version }}
-          - **버전 코드**: ${{ steps.version-info.outputs.version-code }}
-          - **파일명**: `${{ steps.build-info.outputs.apk-name }}`
-          - **크기**: ${{ steps.build-info.outputs.apk-size }}
-          - **브랜치**: ${{ steps.version-info.outputs.branch-name }}
-          
-          ### 📅 빌드 정보
-          - **빌드 시간**: $(date '+%Y-%m-%d %H:%M:%S')
-          - **빌드 환경**: GitHub Actions
-          
-          ### 📥 다운로드
-          아래 Assets에서 APK 파일을 다운로드할 수 있습니다.
-          
-          ---
-          🤖 *Automated by GitHub Actions*
-        draft: false
-        prerelease: true
-
-    - name: 📤 GitHub Release에 APK 업로드
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create-release.outputs.upload_url }}
-        asset_path: ${{ steps.build-info.outputs.apk-path }}
-        asset_name: ${{ steps.build-info.outputs.apk-name }}
-        asset_content_type: application/vnd.android.package-archive
-
-    - name: 💾 APK 파일 업로드
-      uses: actions/upload-artifact@v4
-      with:
-        name: debug-apk
-        path: ${{ steps.build-info.outputs.apk-path }}
-        retention-days: 1
-
-  # 6단계: Discord 링크 전송 (빌드 완료 후 실행)
-  deploy:
-    runs-on: ubuntu-latest
-    needs: [build]
+  # Discord 알림 (재활용 가능한 워크플로우 호출)
+  discord-notify:
+    needs: build
+    uses: ./.github/workflows/discord-notify.yml
+    with:
+      release-url: ${{ needs.build.outputs.release-url }}
+      apk-size: ${{ needs.build.outputs.apk-size }}
+      apk-name: ${{ needs.build.outputs.apk-name }}
+      app-version: ${{ needs.build.outputs.app-version }}
+      version-code: ${{ needs.build.outputs.version-code }}
+      branch-name: ${{ github.ref_name }}
+      tag-name: ${{ needs.build.outputs.tag-name }}
+    secrets: inherit
     if: github.event_name == 'workflow_dispatch' || (github.event_name == 'create' && github.ref_type == 'branch' && startsWith(github.ref_name, 'release/'))
-    
-    steps:
-    - name: 🚀 Discord로 다운로드 링크 전송
-      env:
-        DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        RELEASE_URL: ${{ needs.build.outputs.release-url }}
-        APK_SIZE: ${{ needs.build.outputs.apk-size }}
-        APK_NAME: ${{ needs.build.outputs.apk-name }}
-        APP_VERSION: ${{ needs.build.outputs.app-version }}
-        VERSION_CODE: ${{ needs.build.outputs.version-code }}
-        BRANCH_NAME: ${{ needs.build.outputs.branch-name }}
-        TAG_NAME: ${{ needs.build.outputs.tag-name }}
-      run: |
-        if [ -z "$DISCORD_WEBHOOK_URL" ]; then
-          echo "❌ DISCORD_WEBHOOK_URL secret not found. Please add Discord webhook URL to repository secrets."
-          exit 1
-        fi
-        
-        # APK 다운로드 직링크 생성
-        DOWNLOAD_URL="https://github.com/${{ github.repository }}/releases/download/${TAG_NAME}/${APK_NAME}"
-        
-        # Discord embed 메시지 생성
-        EMBED_JSON=$(cat << EOF
-        {
-          "embeds": [
-            {
-              "title": "🚀 WePLi Android",
-              "description": "WePLi v${APP_VERSION} APK가 배포 되었습니다,",
-              "color": 5814783,
-              "fields": [
-                {
-                  "name": "APK 정보",
-                  "value": "**버전**: \`v${APP_VERSION}\`\n**파일명**: \`${APK_NAME}\`\n**크기**: \`${APK_SIZE}\`",
-                  "inline": true
-                },
-                {
-                  "name": "브랜치",
-                  "value": "\`${BRANCH_NAME}\`",
-                  "inline": false
-                },
-                {
-                  "name": "빌드 시간",
-                  "value": "\`$(date '+%Y-%m-%d %H:%M:%S')\`",
-                  "inline": false
-                },
-                {
-                  "name": "다운로드",
-                  "value": "[**1. GitHub Release에서 다운로드**](${RELEASE_URL})\n\n[**2. APK 직접 다운로드**](${DOWNLOAD_URL})",
-                  "inline": false
-                }
-              ],
-              "footer": {
-                "text": "WePLi Android • GitHub Actions",
-                "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-              },
-              "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%S.000Z)"
-            }
-          ]
-        }
-        EOF
-        )
-        
-        # Discord에 메시지 전송
-        curl -H "Content-Type: application/json" \
-             -d "${EMBED_JSON}" \
-             "${DISCORD_WEBHOOK_URL}"
-        
-        echo "✅ APK download link successfully sent to Discord!"
 
-  # 7단계: 정리 (항상 실행)
+  # 정리 작업
   cleanup:
     runs-on: ubuntu-latest
-    needs: [build, deploy]
+    needs: [build, discord-notify]
     if: always()
     
     steps:
+    - name: 📥 저장소 체크아웃
+      uses: actions/checkout@v4
+      
     - name: 🧹 아티팩트 정리
-      uses: actions/github-script@v7
-      with:
-        script: |
-          const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            run_id: context.runId,
-          });
-          
-          for (const artifact of artifacts.data.artifacts) {
-            console.log(`Deleting artifact: ${artifact.name}`);
-            await github.rest.actions.deleteArtifact({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              artifact_id: artifact.id,
-            });
-          }
+      uses: ./.github/actions/cleanup-artifacts
