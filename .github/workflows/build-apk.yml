@@ -192,17 +192,22 @@ jobs:
         APP_VERSION=$(grep "appVersion" gradle/libs.versions.toml | cut -d'"' -f2)
         VERSION_CODE=$(grep "versionCode" gradle/libs.versions.toml | cut -d'"' -f2)
         
-        # 브랜치 이름에서 버전 추출 (예: release/1.0.0)
+        # 브랜치 이름 확인 및 디버깅
         BRANCH_NAME="${{ inputs.branch-name }}"
+        echo "DEBUG: 입력받은 브랜치명: $BRANCH_NAME"
+        
         if [ -n "$BRANCH_NAME" ] && [[ "$BRANCH_NAME" =~ ^release/(.+)$ ]]; then
           RELEASE_VERSION="${BASH_REMATCH[1]}"
+          echo "DEBUG: 릴리스 브랜치에서 추출한 버전: $RELEASE_VERSION"
         else
           RELEASE_VERSION="$APP_VERSION"
+          echo "DEBUG: 기본 앱 버전 사용: $RELEASE_VERSION"
         fi
         
-        # 태그 이름 생성 (예: v1.0.0-debug-20250109-143022)
+        # 태그 이름 생성 (항상 타임스탬프 포함)
         TIMESTAMP=$(date +%Y%m%d-%H%M%S)
         TAG_NAME="v${RELEASE_VERSION}-debug-${TIMESTAMP}"
+        echo "DEBUG: 생성된 태그명: $TAG_NAME"
         
         echo "release-version=${RELEASE_VERSION}" >> $GITHUB_OUTPUT
         echo "version-code=${VERSION_CODE}" >> $GITHUB_OUTPUT
