@@ -61,10 +61,8 @@ class AndroidApplicationPlugin: Plugin<Project> {
                 }
 
                 signingConfigs {
-                    // debug는 AGP가 기본적으로 제공하므로 getByName 사용
-                    // debug 서명은 자동으로 생성됨
                     getByName("debug") {
-
+                        storeFile = rootProject.file("wepli-debug.keystore")
                     }
 
                     // release는 직접 정의해야하는 구성이므로 create 사용
