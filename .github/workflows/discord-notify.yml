@@ -1,0 +1,105 @@
+name: Discord 알림 전송
+
+on:
+  workflow_call:
+    inputs:
+      release-url:
+        required: true
+        type: string
+        description: "GitHub 릴리스 URL"
+      apk-size:
+        required: true
+        type: string
+        description: "APK 파일 크기"
+      apk-name:
+        required: true
+        type: string
+        description: "APK 파일명"
+      app-version:
+        required: true
+        type: string
+        description: "앱 버전"
+      version-code:
+        required: true
+        type: string
+        description: "버전 코드"
+      branch-name:
+        required: true
+        type: string
+        description: "브랜치명"
+      tag-name:
+        required: true
+        type: string
+        description: "릴리스 태그명"
+
+jobs:
+  discord-notify:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 🚀 Discord로 다운로드 링크 전송
+      env:
+        DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        RELEASE_URL: ${{ inputs.release-url }}
+        APK_SIZE: ${{ inputs.apk-size }}
+        APK_NAME: ${{ inputs.apk-name }}
+        APP_VERSION: ${{ inputs.app-version }}
+        VERSION_CODE: ${{ inputs.version-code }}
+        BRANCH_NAME: ${{ inputs.branch-name }}
+        TAG_NAME: ${{ inputs.tag-name }}
+      run: |
+        if [ -z "$DISCORD_WEBHOOK_URL" ]; then
+          echo "❌ DISCORD_WEBHOOK_URL secret not found. Please add Discord webhook URL to repository secrets."
+          exit 1
+        fi
+        
+        # APK 다운로드 직링크 생성
+        DOWNLOAD_URL="https://github.com/${{ github.repository }}/releases/download/${TAG_NAME}/${APK_NAME}"
+        
+        # Discord embed 메시지 생성
+        EMBED_JSON=$(cat << EOF
+        {
+          "embeds": [
+            {
+              "title": "🚀 WePLi Android",
+              "description": "WePLi v${APP_VERSION} APK가 배포 되었습니다,",
+              "color": 5814783,
+              "fields": [
+                {
+                  "name": "APK 정보",
+                  "value": "**버전**: \`v${APP_VERSION}\`\n**파일명**: \`${APK_NAME}\`\n**크기**: \`${APK_SIZE}\`",
+                  "inline": true
+                },
+                {
+                  "name": "브랜치",
+                  "value": "\`${BRANCH_NAME}\`",
+                  "inline": false
+                },
+                {
+                  "name": "빌드 시간",
+                  "value": "\`$(date '+%Y-%m-%d %H:%M:%S')\`",
+                  "inline": false
+                },
+                {
+                  "name": "다운로드",
+                  "value": "[**1. GitHub Release에서 다운로드**](${RELEASE_URL})\n\n[**2. APK 직접 다운로드**](${DOWNLOAD_URL})",
+                  "inline": false
+                }
+              ],
+              "footer": {
+                "text": "WePLi Android • GitHub Actions",
+                "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+              },
+              "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%S.000Z)"
+            }
+          ]
+        }
+        EOF
+        )
+        
+        # Discord에 메시지 전송
+        curl -H "Content-Type: application/json" \
+             -d "${EMBED_JSON}" \
+             "${DISCORD_WEBHOOK_URL}"
+        
+        echo "✅ APK download link successfully sent to Discord!"

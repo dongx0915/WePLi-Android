@@ -1,0 +1,32 @@
+name: '아티팩트 정리'
+description: '워크플로우 실행 후 임시 아티팩트들을 정리합니다'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 🧹 아티팩트 정리
+      uses: actions/github-script@v7
+      with:
+        script: |
+          try {
+            const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.runId,
+            });
+            
+            for (const artifact of artifacts.data.artifacts) {
+              console.log(`Deleting artifact: ${artifact.name}`);
+              try {
+                await github.rest.actions.deleteArtifact({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  artifact_id: artifact.id,
+                });
+              } catch (error) {
+                console.log(`Failed to delete artifact ${artifact.name}: ${error.message}`);
+              }
+            }
+          } catch (error) {
+            console.log(`Failed to list artifacts: ${error.message}`);
+          }

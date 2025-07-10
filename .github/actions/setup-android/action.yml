@@ -1,0 +1,36 @@
+name: 'Android 환경 설정'
+description: 'Android 빌드를 위한 환경을 설정합니다'
+
+inputs:
+  java-version:
+    description: 'Java 버전'
+    required: false
+    default: '17'
+  gradle-cache:
+    description: 'Gradle 캐시 사용 여부'
+    required: false
+    default: 'true'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: ☕ JDK ${{ inputs.java-version }} 설정
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ inputs.java-version }}
+        distribution: 'adopt'
+    
+    - name: 🔑 Gradlew 실행 권한 부여
+      shell: bash
+      run: chmod +x gradlew
+    
+    - name: 💾 Gradle 패키지 캐시
+      if: inputs.gradle-cache == 'true'
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
