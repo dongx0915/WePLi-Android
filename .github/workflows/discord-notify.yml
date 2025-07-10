@@ -72,17 +72,17 @@ jobs:
                 },
                 {
                   "name": "브랜치",
-                  "value": "\`${BRANCH_NAME}\`",
+                  "value": "- \`${BRANCH_NAME}\`",
                   "inline": false
                 },
                 {
                   "name": "빌드 시간",
-                  "value": "\`$(date '+%Y-%m-%d %H:%M:%S')\`",
+                  "value": "- \`$(date '+%Y-%m-%d %H:%M:%S')\`",
                   "inline": false
                 },
                 {
                   "name": "다운로드",
-                  "value": "[**1. GitHub Release에서 다운로드**](${RELEASE_URL})\n\n[**2. APK 직접 다운로드**](${DOWNLOAD_URL})",
+                  "value": "1. [**GitHub Release에서 다운로드**](${RELEASE_URL})\n\n2. [**APK 직접 다운로드**](${DOWNLOAD_URL})",
                   "inline": false
                 }
               ],
