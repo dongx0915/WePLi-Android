@@ -16,6 +16,18 @@ runs:
           echo '{}' > app/google-services.json
         fi
 
+    - name: 🔑 Debug Keystore 파일 생성
+      shell: bash
+      env:
+        DEBUG_KEYSTORE: ${{ env.WEPLI_DEBUG_KEYSTORE }}
+      run: |
+        if [ -n "$DEBUG_KEYSTORE" ]; then
+          echo "$DEBUG_KEYSTORE" | base64 -d > wepli-debug.keystore
+          echo "Debug keystore created successfully"
+        else
+          echo "Warning: DEBUG_KEYSTORE secret not found. Using default debug keystore."
+        fi
+
     - name: ⚙️ Local Properties 파일 생성
       shell: bash
       env:
