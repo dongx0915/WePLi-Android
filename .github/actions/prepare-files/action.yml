@@ -32,14 +32,14 @@ runs:
       shell: bash
       env:
         SUPABASE_URL: ${{ env.SUPABASE_URL }}
-        SUPABASE_KEY: ${{ env.SUPABASE_ANON_KEY }}
+        SUPABASE_KEY: ${{ env.SUPABASE_KEY }}
         SUPABASE_CLIENT_ID: ${{ env.SUPABASE_CLIENT_ID }}
         APPLE_MUSIC_URL: ${{ env.APPLE_MUSIC_URL }}
         APPLE_MUSIC_API_TOKEN: ${{ env.APPLE_MUSIC_API_TOKEN }}
         POSTMAN_URL: ${{ env.POSTMAN_URL }}
       run: |
         echo "SUPABASE_URL=${SUPABASE_URL}" >> local.properties
-        echo "SUPABASE_KEY=${SUPABASE_ANON_KEY}" >> local.properties
+        echo "SUPABASE_KEY=${SUPABASE_KEY}" >> local.properties
         echo "SUPABASE_CLIENT_ID=${SUPABASE_CLIENT_ID}" >> local.properties
         echo "APPLE_MUSIC_URL=${APPLE_MUSIC_URL}" >> local.properties
         echo "APPLE_MUSIC_API_TOKEN=${APPLE_MUSIC_API_TOKEN}" >> local.properties
