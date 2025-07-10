@@ -75,7 +75,7 @@ jobs:
       uses: ./.github/actions/prepare-files
       env:
         GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
-        DEBUG_KEYSTORE: ${{ secrets.WEPLI_DEBUG_KEYSTORE }}
+        WEPLI_DEBUG_KEYSTORE: ${{ secrets.WEPLI_DEBUG_KEYSTORE }}
         SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
         SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         SUPABASE_CLIENT_ID: ${{ secrets.SUPABASE_CLIENT_ID }}
