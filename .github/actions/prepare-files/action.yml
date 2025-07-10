@@ -32,7 +32,7 @@ runs:
       shell: bash
       env:
         SUPABASE_URL: ${{ env.SUPABASE_URL }}
-        SUPABASE_ANON_KEY: ${{ env.SUPABASE_ANON_KEY }}
+        SUPABASE_KEY: ${{ env.SUPABASE_ANON_KEY }}
         SUPABASE_CLIENT_ID: ${{ env.SUPABASE_CLIENT_ID }}
         APPLE_MUSIC_URL: ${{ env.APPLE_MUSIC_URL }}
         APPLE_MUSIC_API_TOKEN: ${{ env.APPLE_MUSIC_API_TOKEN }}
