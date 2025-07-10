@@ -67,7 +67,7 @@ jobs:
               "fields": [
                 {
                   "name": "APK 정보",
-                  "value": "**버전**: \`v${APP_VERSION}\`\n**파일명**: \`${APK_NAME}\`\n**크기**: \`${APK_SIZE}\`",
+                  "value": "- **버전**: \`v${APP_VERSION}\`\n- **파일명**: \`${APK_NAME}\`\n- **크기**: \`${APK_SIZE}\`",
                   "inline": true
                 },
                 {
