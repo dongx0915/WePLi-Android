@@ -17,8 +17,7 @@ class DebugApiLogInterceptor @Inject constructor(
     private val apiLogRepository: DebugApiLogRepository
 ) : Interceptor {
 
-    private val scope: CoroutineScope
-        get() = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private val ioScope: CoroutineScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val startTime = System.currentTimeMillis()
@@ -45,7 +44,7 @@ class DebugApiLogInterceptor @Inject constructor(
                 startTime = startTime,
             )
         }.onSuccess { logEntry ->
-            scope.launch { apiLogRepository.insertLog(logEntry) }
+            ioScope.launch { apiLogRepository.insertLog(logEntry) }
         }.onFailure {
             Log.e("ApiLogInterceptor", "Failed to log API request/response", it)
         }
