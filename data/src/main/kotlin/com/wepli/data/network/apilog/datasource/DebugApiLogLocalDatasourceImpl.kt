@@ -17,7 +17,7 @@ class DebugApiLogLocalDatasourceImpl @Inject constructor(
     }
 
     override suspend fun insertLog(log: ApiLogEntity) {
-        apiLogDao.insert(log)
+        apiLogDao.insertLogWithCleanUp(log = log, maxLogs = 50, threshold = 70)
     }
     
     override suspend fun deleteOldLogs(limit: Int) {
