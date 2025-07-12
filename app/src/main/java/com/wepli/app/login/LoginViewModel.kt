@@ -1,5 +1,6 @@
 package com.wepli.app.login
 
+import android.util.Log
 import androidx.credentials.Credential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
@@ -70,7 +71,9 @@ class LoginViewModel @Inject constructor(
             if (userRepository.isUserSessionValid()) {
                 runCatching {
                     val refreshToken = userRepository.getRefreshToken()
-                    supabase.auth.refreshSession(refreshToken)
+                    val session= supabase.auth.refreshSession(refreshToken)
+
+                    saveLoginResult(session)
                 }.onSuccess {
                     postSideEffect(LoginEffect.NavigateToMain)
                 }.onFailure {
