@@ -34,6 +34,10 @@ class NetworkLogViewModel @Inject constructor(
     initialState = NetworkLogState()
 ) {
 
+    companion object {
+        private const val MAX_LOG = 50
+    }
+
     init {
         collectApiLog()
     }
@@ -45,19 +49,17 @@ class NetworkLogViewModel @Inject constructor(
     }
 
     private fun collectApiLog() = intent {
-        viewModelScope.launch(Dispatchers.Default) {
-            apiLogRepository.logs.collect {
-                val sortedLogs = it.sortedByDescending { it.startTime }
-                val filteredApiLogs = filterLogs(sortedLogs, state.selectedTag)
+        launch(Dispatchers.IO) {
+            val sortedLogs = apiLogRepository.getLogs(MAX_LOG).sortedByDescending { it.startTime }
+            val filteredApiLogs = filterLogs(sortedLogs, state.selectedTag)
 
-                // 이전과 같으면 생략
-                if (state.originApiLogs == sortedLogs && state.filteredApiLogs == filteredApiLogs) {
-                    return@collect
-                }
+            // 이전과 같으면 생략
+            if (state.originApiLogs == sortedLogs && state.filteredApiLogs == filteredApiLogs) {
+                return@launch
+            }
 
-                updateState {
-                    copy(originApiLogs = sortedLogs, filteredApiLogs = filteredApiLogs)
-                }
+            updateState {
+                copy(originApiLogs = sortedLogs, filteredApiLogs = filteredApiLogs)
             }
         }
     }
