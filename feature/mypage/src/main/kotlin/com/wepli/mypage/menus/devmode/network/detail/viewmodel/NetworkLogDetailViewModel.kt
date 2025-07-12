@@ -1,4 +1,4 @@
-package com.wepli.mypage.devmode.network.detail.viewmodel
+package com.wepli.mypage.menus.devmode.network.detail.viewmodel
 
 import base.BaseMviViewModel
 import base.Intent

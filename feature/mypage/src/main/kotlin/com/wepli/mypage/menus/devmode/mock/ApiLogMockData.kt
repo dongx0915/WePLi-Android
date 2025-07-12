@@ -1,4 +1,4 @@
-package com.wepli.mypage.devmode.mock
+package com.wepli.mypage.menus.devmode.mock
 
 import debug.model.ApiLog
 import debug.model.ApiMethod

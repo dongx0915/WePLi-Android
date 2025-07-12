@@ -1,4 +1,4 @@
-package com.wepli.mypage.devmode.network.detail.navigation
+package com.wepli.mypage.menus.devmode.network.detail.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -6,7 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import animation.transition.ScreenTransitions
-import com.wepli.mypage.devmode.network.detail.screen.NetworkLogDetailScreenRoute
+import com.wepli.mypage.menus.devmode.network.detail.screen.NetworkLogDetailScreenRoute
 import com.wepli.navigator.feature.mypage.NetworkLogRoute
 
 fun NavController.navigateToNetworkLogDetail(apiLogId: Int) {
