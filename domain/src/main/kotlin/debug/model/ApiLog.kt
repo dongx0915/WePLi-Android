@@ -4,10 +4,9 @@ import java.net.URLDecoder
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import java.util.UUID
 
 data class ApiLog(
-    val id: String = UUID.randomUUID().toString(),
+    val id: Int = 0,
     val method: ApiMethod,
     val baseUrlType: String,
     val baseUrl: String,

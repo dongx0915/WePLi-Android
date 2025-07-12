@@ -10,4 +10,7 @@
     <string name="profile_update_failed_error">프로필 변경 중 오류가 발생했어요.</string>
     <string name="profile_image_selected_error">이미지를 가져오지 못했어요.</string>
     <string name="profile_nickname_invalid_error">닉네임을 확인해 주세요.</string>
+
+    <string name="dev_mode_api_log_limit_notice">최근 %d개 내역만 보여집니다.</string>
+    <string name="dev_mode_api_log_title">네트워크 로그</string>
 </resources>

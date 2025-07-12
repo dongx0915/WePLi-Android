@@ -1,20 +1,19 @@
-package com.wepli.mypage.devmode.network.main.viewmodel
+package com.wepli.mypage.menus.devmode.network.main.viewmodel
 
-import androidx.lifecycle.viewModelScope
 import base.BaseMviViewModel
 import base.Intent
 import base.SideEffect
 import base.UiState
-import com.wepli.mypage.devmode.network.main.enums.ApiMethodUiTag
+import com.wepli.mypage.menus.devmode.network.main.enums.ApiMethodUiTag
 import dagger.hilt.android.lifecycle.HiltViewModel
 import debug.model.ApiLog
 import debug.repository.DebugApiLogRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 data class NetworkLogState(
+    val maxApiLogs: Int = 50,
     val originApiLogs: List<ApiLog> = emptyList(),
     val filteredApiLogs: List<ApiLog> = emptyList(),
     val selectedTag: ApiMethodUiTag = ApiMethodUiTag.ALL,
@@ -45,19 +44,19 @@ class NetworkLogViewModel @Inject constructor(
     }
 
     private fun collectApiLog() = intent {
-        viewModelScope.launch(Dispatchers.Default) {
-            apiLogRepository.logs.collect {
-                val sortedLogs = it.sortedByDescending { it.startTime }
-                val filteredApiLogs = filterLogs(sortedLogs, state.selectedTag)
+        launch(Dispatchers.IO) {
+            val sortedLogs = apiLogRepository
+                .getLogs(state.maxApiLogs)
+                .sortedByDescending { it.startTime }
+            val filteredApiLogs = filterLogs(sortedLogs, state.selectedTag)
 
-                // 이전과 같으면 생략
-                if (state.originApiLogs == sortedLogs && state.filteredApiLogs == filteredApiLogs) {
-                    return@collect
-                }
+            // 이전과 같으면 생략
+            if (state.originApiLogs == sortedLogs && state.filteredApiLogs == filteredApiLogs) {
+                return@launch
+            }
 
-                updateState {
-                    copy(originApiLogs = sortedLogs, filteredApiLogs = filteredApiLogs)
-                }
+            updateState {
+                copy(originApiLogs = sortedLogs, filteredApiLogs = filteredApiLogs)
             }
         }
     }

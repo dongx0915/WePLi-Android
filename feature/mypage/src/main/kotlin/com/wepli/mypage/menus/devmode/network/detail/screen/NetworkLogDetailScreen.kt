@@ -1,4 +1,4 @@
-package com.wepli.mypage.devmode.network.detail.screen
+package com.wepli.mypage.menus.devmode.network.detail.screen
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
@@ -20,7 +20,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -44,12 +43,12 @@ import appbar.ScrollableAppBar
 import appbar.WepliAppBar
 import com.sebastianneubauer.jsontree.JsonTree
 import com.sebastianneubauer.jsontree.TreeColors
-import com.wepli.mypage.devmode.mock.mockApiLogs
-import com.wepli.mypage.devmode.network.detail.viewmodel.NetworkLogDetailIntent
-import com.wepli.mypage.devmode.network.detail.viewmodel.NetworkLogDetailState
-import com.wepli.mypage.devmode.network.detail.viewmodel.NetworkLogDetailViewModel
-import com.wepli.mypage.devmode.network.main.component.StatusTag
-import com.wepli.mypage.devmode.network.main.enums.toColor
+import com.wepli.mypage.menus.devmode.mock.mockApiLogs
+import com.wepli.mypage.menus.devmode.network.detail.viewmodel.NetworkLogDetailIntent
+import com.wepli.mypage.menus.devmode.network.detail.viewmodel.NetworkLogDetailState
+import com.wepli.mypage.menus.devmode.network.detail.viewmodel.NetworkLogDetailViewModel
+import com.wepli.mypage.menus.devmode.network.main.component.StatusTag
+import com.wepli.mypage.menus.devmode.network.main.enums.toColor
 import debug.model.ApiLog
 import extensions.toPrettyJsonString
 import org.orbitmvi.orbit.compose.collectAsState
@@ -67,7 +66,7 @@ fun NetworkLogDetailScreenPreview() {
 }
 
 @Composable
-fun NetworkLogDetailScreenRoute(apiLogId: String, navOnBack: () -> Unit) {
+fun NetworkLogDetailScreenRoute(apiLogId: Int, navOnBack: () -> Unit) {
     val viewModel: NetworkLogDetailViewModel = hiltViewModel()
     val state: NetworkLogDetailState by viewModel.collectAsState()
 

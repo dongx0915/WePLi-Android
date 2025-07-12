@@ -1,4 +1,4 @@
-package com.wepli.mypage.devmode.network.main.screen
+package com.wepli.mypage.menus.devmode.network.main.screen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalOverscrollConfiguration
@@ -26,18 +26,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
-import com.wepli.mypage.devmode.mock.mockApiLogs
-import com.wepli.mypage.devmode.network.main.component.ApiResultComponent
-import com.wepli.mypage.devmode.network.main.component.MethodTag
-import com.wepli.mypage.devmode.network.main.enums.ApiMethodUiTag
-import com.wepli.mypage.devmode.network.main.viewmodel.NetworkLogIntent
-import com.wepli.mypage.devmode.network.main.viewmodel.NetworkLogState
-import com.wepli.mypage.devmode.network.main.viewmodel.NetworkLogViewModel
+import com.wepli.feature.mypage.R
+import com.wepli.mypage.menus.devmode.mock.mockApiLogs
+import com.wepli.mypage.menus.devmode.network.main.component.ApiResultComponent
+import com.wepli.mypage.menus.devmode.network.main.component.MethodTag
+import com.wepli.mypage.menus.devmode.network.main.enums.ApiMethodUiTag
+import com.wepli.mypage.menus.devmode.network.main.viewmodel.NetworkLogIntent
+import com.wepli.mypage.menus.devmode.network.main.viewmodel.NetworkLogState
+import com.wepli.mypage.menus.devmode.network.main.viewmodel.NetworkLogViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
 import com.wepli.core.resources.R as CoreR
@@ -58,7 +60,7 @@ fun NetworkLogDebugScreenPreview() {
 
 @Composable
 fun NetworkLogDebugScreenRoute(
-    navOnNetworkLogDetail: (String) -> Unit,
+    navOnNetworkLogDetail: (Int) -> Unit,
     navOnBack: () -> Unit
 ) {
     val viewModel: NetworkLogViewModel = hiltViewModel()
@@ -76,7 +78,7 @@ fun NetworkLogDebugScreenRoute(
 @Composable
 fun NetworkLogDebugScreen(
     state: NetworkLogState,
-    navOnNetworkLogDetail: (String) -> Unit,
+    navOnNetworkLogDetail: (Int) -> Unit,
     navOnBack: () -> Unit,
     sendAction: (NetworkLogIntent) -> Unit,
 ) {
@@ -87,7 +89,7 @@ fun NetworkLogDebugScreen(
         topBar = {
             WepliAppBar(
                 containerColor = Color.Transparent,
-                title = "네트워크 로그",
+                title = stringResource(R.string.dev_mode_api_log_title),
                 showBackButton = true,
                 onClickBack = navOnBack
             )
@@ -100,6 +102,7 @@ fun NetworkLogDebugScreen(
             ) {
                 item {
                     NoticeComponent(
+                        maxLogCount = state.maxApiLogs,
                         modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 20.dp)
                     )
                 }
@@ -151,9 +154,11 @@ fun MethodTagList(
     }
 }
 
-@Preview
 @Composable
-fun NoticeComponent(modifier: Modifier = Modifier) {
+fun NoticeComponent(
+    maxLogCount: Int,
+    modifier: Modifier = Modifier
+) {
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -170,7 +175,7 @@ fun NoticeComponent(modifier: Modifier = Modifier) {
         )
 
         Text(
-            text = "최근 20개 내역만 보여집니다.",
+            text = stringResource(R.string.dev_mode_api_log_limit_notice, maxLogCount),
             style = WepliTheme.typo.body6,
             color = WepliTheme.color.gray900,
         )
