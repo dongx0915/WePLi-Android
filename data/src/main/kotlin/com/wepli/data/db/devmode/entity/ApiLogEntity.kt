@@ -1,12 +1,21 @@
 package com.wepli.data.db.devmode.entity
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import debug.model.ApiLog
 import debug.model.ApiMethod
 import java.util.UUID
 
-@Entity(tableName = "ApiLogs")
+@Entity(
+    tableName = "ApiLogs",
+    indices = [
+        Index(
+            value = ["id"],
+            orders = [Index.Order.DESC]
+        )
+    ]
+)
 data class ApiLogEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
