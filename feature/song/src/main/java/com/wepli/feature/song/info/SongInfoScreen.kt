@@ -116,7 +116,6 @@ fun SongInfoScreen(
                 musicVideo = state.musicVideoState,
                 isExpanded = state.isMusicVideoExpanded,
                 onToggleExpanded = { sendAction(SongInfoIntent.ToggleMusicVideo) },
-                sendAction = sendAction
             )
 
             SongDetailInfoLayout(
@@ -138,7 +137,6 @@ fun MusicVideoInfoLayout(
     musicVideo: MusicVideoUiData,
     isExpanded: Boolean,
     onToggleExpanded: () -> Unit,
-    sendAction: (SongInfoIntent) -> Unit = {},
 ) {
     val videoSizeIcon = ImageVector.vectorResource(
         if (isExpanded) CoreR.drawable.ic_arrow_minimize else CoreR.drawable.ic_arrow_expand
