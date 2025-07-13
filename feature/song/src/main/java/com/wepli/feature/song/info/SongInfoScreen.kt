@@ -1,8 +1,10 @@
 package com.wepli.feature.song.info
 
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -71,7 +73,8 @@ fun SongInfoScreenRoute(
 
     SongInfoScreen(
         state = state,
-        navOnBack = navOnBack
+        navOnBack = navOnBack,
+        viewModel = viewModel
     )
 }
 
@@ -79,7 +82,8 @@ fun SongInfoScreenRoute(
 @Composable
 fun SongInfoScreen(
     state: SongInfoUiState,
-    navOnBack: () -> Unit
+    navOnBack: () -> Unit,
+    viewModel: SongInfoViewModel = hiltViewModel()
 ) {
     val scrollState = rememberScrollState()
     val song = state.song
@@ -109,7 +113,10 @@ fun SongInfoScreen(
         ) {
             SongInfoLayout(song = song)
 
-            MusicVideoInfoLayout()
+            MusicVideoInfoLayout(
+                isExpanded = state.isMusicVideoExpanded,
+                onToggleExpanded = { viewModel.processIntent(SongInfoIntent.ToggleMusicVideo) }
+            )
 
             SongDetailInfoLayout(
                 composers = song.composers,
@@ -150,12 +157,17 @@ fun YoutubeVideoPlayer(
 
 @Preview
 @Composable
-fun MusicVideoInfoLayout(isExpanded: Boolean = false) {
+fun MusicVideoInfoLayout(
+    isExpanded: Boolean = false,
+    onToggleExpanded: () -> Unit = {}
+) {
     val videoSizeIcon = ImageVector.vectorResource(
         if (isExpanded) CoreR.drawable.ic_arrow_minimize else CoreR.drawable.ic_arrow_expand
     )
 
-    Column {
+    Column(
+        modifier = Modifier.animateContentSize()
+    ) {
         OneLineTitle(
             title = "뮤직비디오",
             showIcon = true,
@@ -182,9 +194,9 @@ fun MusicVideoInfoLayout(isExpanded: Boolean = false) {
                         .size(52.dp)
                         .clip(RoundedCornerShape(8.dp))
                 )
-            }
 
-            WepliSpacer(horizontal = 12.dp)
+                WepliSpacer(horizontal = 12.dp)
+            }
 
             Column(
                 modifier = Modifier.weight(1f),
@@ -207,7 +219,9 @@ fun MusicVideoInfoLayout(isExpanded: Boolean = false) {
             Image(
                 imageVector = videoSizeIcon,
                 contentDescription = null,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier
+                    .size(24.dp)
+                    .clickable { onToggleExpanded() }
             )
         }
     }
@@ -332,5 +346,9 @@ fun ArtistAlbumGrid(albums: List<AlbumUiData>) {
 @Preview(heightDp = 1000)
 @Composable
 fun SongInfoScreenPreview() {
-    SongInfoScreen(state = SongInfoUiState(song = songMockData.random()), navOnBack = {})
+    SongInfoScreen(
+        state = SongInfoUiState(song = songMockData.random()),
+        navOnBack = {},
+        viewModel = hiltViewModel()
+    )
 }

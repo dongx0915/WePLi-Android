@@ -25,6 +25,7 @@ class SongInfoViewModel @Inject constructor(
     override fun processIntent(intent: SongInfoIntent) {
         when (intent) {
             is SongInfoIntent.Init -> init(intent.song)
+            SongInfoIntent.ToggleMusicVideo -> toggleMusicVideo()
         }
     }
 
@@ -98,5 +99,9 @@ class SongInfoViewModel @Inject constructor(
                     Log.e("SongInfoViewModel", it.message ?: "Error")
                 }
             )
+    }
+
+    private fun toggleMusicVideo() = intent {
+        updateState { copy(isMusicVideoExpanded = !isMusicVideoExpanded) }
     }
 }
