@@ -37,6 +37,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.ScrollableAppBar
@@ -191,37 +192,33 @@ fun MusicVideoInfoLayout(
                 WepliSpacer(horizontal = 12.dp)
             }
 
-            Row(
-                modifier = Modifier.padding(top = if (isExpanded) 8.dp else 0.dp)
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                Column(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Text(
-                        text = musicVideo.title,
-                        style = WepliTheme.typo.body6,
-                        color = WepliTheme.color.gray900,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                    Text(
-                        text = musicVideo.channelTitle,
-                        style = WepliTheme.typo.subTitle7,
-                        color = WepliTheme.color.gray600,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-
-                WepliSpacer(horizontal = 8.dp)
-
-                Image(
-                    imageVector = ImageVector.vectorResource(videoSizeIcon),
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp)
+                Text(
+                    text = musicVideo.title,
+                    style = WepliTheme.typo.body6,
+                    color = WepliTheme.color.gray900,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                Text(
+                    text = musicVideo.channelTitle,
+                    style = WepliTheme.typo.subTitle7,
+                    color = WepliTheme.color.gray600,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
+
+            WepliSpacer(horizontal = 8.dp)
+
+            Image(
+                imageVector = ImageVector.vectorResource(videoSizeIcon),
+                contentDescription = null,
+                modifier = Modifier.size(20.dp)
+            )
         }
     }
 }
