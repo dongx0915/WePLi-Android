@@ -34,6 +34,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.ScrollableAppBar
@@ -69,8 +70,8 @@ fun SongInfoScreenRoute(
 
     SongInfoScreen(
         state = state,
+        sendAction = { viewModel.processIntent(it) },
         navOnBack = navOnBack,
-        viewModel = viewModel
     )
 }
 
@@ -78,8 +79,8 @@ fun SongInfoScreenRoute(
 @Composable
 fun SongInfoScreen(
     state: SongInfoUiState,
+    sendAction: (SongInfoIntent) -> Unit,
     navOnBack: () -> Unit,
-    viewModel: SongInfoViewModel = hiltViewModel()
 ) {
     val scrollState = rememberScrollState()
     val song = state.song
@@ -110,8 +111,8 @@ fun SongInfoScreen(
             SongInfoLayout(song = song)
 
             MusicVideoInfoLayout(
-                state = state,
-                onToggleExpanded = { viewModel.processIntent(SongInfoIntent.ToggleMusicVideo) }
+                isExpanded = state.isMusicVideoExpanded,
+                onToggleExpanded = { sendAction(SongInfoIntent.ToggleMusicVideo) }
             )
 
             SongDetailInfoLayout(
@@ -128,14 +129,11 @@ fun SongInfoScreen(
     }
 }
 
-
-@Preview
 @Composable
 fun MusicVideoInfoLayout(
-    state: SongInfoUiState = SongInfoUiState(),
-    onToggleExpanded: () -> Unit = {}
+    isExpanded: Boolean,
+    onToggleExpanded: () -> Unit,
 ) {
-    val isExpanded = state.isMusicVideoExpanded
     val videoSizeIcon = ImageVector.vectorResource(
         if (isExpanded) CoreR.drawable.ic_arrow_minimize else CoreR.drawable.ic_arrow_expand
     )
@@ -334,6 +332,6 @@ fun SongInfoScreenPreview() {
     SongInfoScreen(
         state = SongInfoUiState(song = songMockData.random()),
         navOnBack = {},
-        viewModel = hiltViewModel()
+        sendAction = {},
     )
 }
