@@ -156,33 +156,36 @@ fun MusicVideoInfoLayout(
             modifier = Modifier.padding(vertical = 12.dp)
         )
 
-        key("youtube_player_${musicVideo.id}") {
-            YoutubeVideoPlayer(
-                videoId = musicVideo.id,
-                forcePause = !isExpanded,
-                modifier = Modifier
-                    .clip(RoundedCornerShape(16.dp))
-                    .wrapContentHeight()
-                    .let {
-                        if (isExpanded) it
-                        else it.height(0.dp)
-                    }
-            )
-        }
+        YoutubeVideoPlayer(
+            videoId = musicVideo.id,
+            forcePause = !isExpanded,
+            modifier = Modifier
+                .clip(RoundedCornerShape(16.dp))
+                .wrapContentHeight()
+                .animateContentSize()
+                .let {
+                    if (isExpanded) it
+                    else it.height(0.dp)
+                }
+        )
 
         Row(
             modifier = Modifier.padding(top = 8.dp),
         ) {
-            if (isExpanded.not()) {
-                AsyncImageWithPreview(
-                    imageUrl = musicVideo.thumbnail,
-                    previewImage = painterResource(id = CoreR.drawable.img_placeholder_minnie),
-                    imageOverrideSize = 52.dp,
-                    modifier = Modifier
-                        .size(52.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                )
+            AsyncImageWithPreview(
+                imageUrl = musicVideo.thumbnail,
+                previewImage = painterResource(id = CoreR.drawable.img_placeholder_minnie),
+                imageOverrideSize = 52.dp,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(8.dp))
+                    .animateContentSize()
+                    .let {
+                        if (isExpanded) it.size(0.dp)
+                        else it.size(52.dp)
+                    }
+            )
 
+            if (isExpanded.not()) {
                 WepliSpacer(horizontal = 12.dp)
             }
 
