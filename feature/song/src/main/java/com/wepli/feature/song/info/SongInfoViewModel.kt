@@ -65,7 +65,7 @@ class SongInfoViewModel @Inject constructor(
     }
 
     private fun getSimilarSongs(currentSongId: String, artistName: String, genre: String) = intent {
-        val searchQuery = "${artistName} ${genre}"
+        val searchQuery = "$artistName $genre"
 
         appleMusicRepository.searchMusics(searchQuery, 10)
             .flowOn(Dispatchers.IO)
