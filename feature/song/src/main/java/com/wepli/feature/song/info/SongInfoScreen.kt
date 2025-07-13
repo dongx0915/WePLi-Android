@@ -206,7 +206,9 @@ fun MusicVideoInfoLayout(
                     Text(
                         text = musicVideo.channelTitle,
                         style = WepliTheme.typo.subTitle7,
-                        color = WepliTheme.color.gray600
+                        color = WepliTheme.color.gray600,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
 
