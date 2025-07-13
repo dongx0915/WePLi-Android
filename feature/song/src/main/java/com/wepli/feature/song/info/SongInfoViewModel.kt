@@ -29,7 +29,6 @@ class SongInfoViewModel @Inject constructor(
         when (intent) {
             is SongInfoIntent.Init -> init(intent.song)
             SongInfoIntent.ToggleMusicVideo -> toggleMusicVideo()
-            is SongInfoIntent.UpdateMusicVideoDuration -> updateMusicVideoDuration(intent.duration)
         }
     }
 
@@ -124,14 +123,6 @@ class SongInfoViewModel @Inject constructor(
     private fun toggleMusicVideo() = intent {
         updateState { 
             copy(isMusicVideoExpanded = !isMusicVideoExpanded)
-        }
-    }
-
-    private fun updateMusicVideoDuration(duration: Float) = intent {
-        updateState {
-            copy(
-                musicVideoState = musicVideoState.copy(playtime = duration)
-            )
         }
     }
 }

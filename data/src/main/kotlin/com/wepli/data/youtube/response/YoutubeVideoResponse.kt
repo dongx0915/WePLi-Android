@@ -44,7 +44,7 @@ fun YoutubeVideoResponse.toDomain(): MusicVideo {
     return MusicVideo(
         id = id?.videoId.orEmpty(),
         title = snippet?.title.orEmpty(),
-        playtime = 0f,
+        channelTitle = snippet?.channelTitle.orEmpty(),
         thumbnail = snippet?.thumbnails?.high?.url.orEmpty()
     )
 }

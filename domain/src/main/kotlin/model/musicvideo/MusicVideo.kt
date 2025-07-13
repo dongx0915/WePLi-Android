@@ -5,6 +5,6 @@ import common.DomainModel
 data class MusicVideo(
     val id: String,
     val title: String,
-    val playtime: Float,
+    val channelTitle: String,
     val thumbnail: String,
 ) : DomainModel

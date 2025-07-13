@@ -22,5 +22,4 @@ interface SongInfoEffect : SideEffect
 interface SongInfoIntent : Intent {
     data class Init(val song: SongUiData) : SongInfoIntent
     data object ToggleMusicVideo : SongInfoIntent
-    data class UpdateMusicVideoDuration(val duration: Float) : SongInfoIntent
 }
