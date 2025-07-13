@@ -1,4 +1,4 @@
-package com.wepli.data.youtube.repository
+package repository.youtube
 
 import com.wepli.core.kotlin.flow.FlowResult
 import model.musicvideo.MusicVideo

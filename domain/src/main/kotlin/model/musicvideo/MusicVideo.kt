@@ -3,8 +3,8 @@ package model.musicvideo
 import common.DomainModel
 
 data class MusicVideo(
-    private val id: String,
-    private val title: String,
-    private val playtime: Float,
-    private val thumbnail: String,
+    val id: String,
+    val title: String,
+    val playtime: Float,
+    val thumbnail: String,
 ) : DomainModel

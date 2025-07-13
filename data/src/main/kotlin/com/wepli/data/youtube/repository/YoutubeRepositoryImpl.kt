@@ -5,6 +5,7 @@ import com.wepli.data.network.toEntityResult
 import com.wepli.data.youtube.datasource.remote.YoutubeRemoteDataSource
 import com.wepli.data.youtube.response.toDomain
 import model.musicvideo.MusicVideo
+import repository.youtube.YoutubeRepository
 import javax.inject.Inject
 
 class YoutubeRepositoryImpl @Inject constructor(
@@ -18,7 +19,7 @@ class YoutubeRepositoryImpl @Inject constructor(
             type = "video",
             maxResults = 1,
         ).toEntityResult {
-            it.data.first().toDomain()
+            it.items.first().toDomain()
         }
     }
 }

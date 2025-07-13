@@ -17,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SongInfoViewModel @Inject constructor(
-    private val appleMusicRepository: AppleMusicRepository
+    private val appleMusicRepository: AppleMusicRepository,
+    private val youtubeRepository: YoutubeRepository,
 ) : BaseMviViewModel<SongInfoUiState, SongInfoEffect, SongInfoIntent>(
     initialState = SongInfoUiState()
 ) {
@@ -39,6 +40,7 @@ class SongInfoViewModel @Inject constructor(
                         getAlbumById(it.albumId.orEmpty())
                         getSimilarSongs(song.id, it.artistName, it.genres.first())
                         getAlbumByArtist(it.artistId.orEmpty())
+                        getMusicVideo(it.title, it.artistName)
                     },
                     onFailure = {
                         Log.e("SongInfoViewModel", it.message ?: "Error")
@@ -94,6 +96,21 @@ class SongInfoViewModel @Inject constructor(
                     updateState {
                         copy(artistAlbums = it.map { AlbumUiData.fromDomain(it) })
                     }
+                },
+                onFailure = {
+                    Log.e("SongInfoViewModel", it.message ?: "Error")
+                }
+            )
+    }
+
+    private fun getMusicVideo(title: String, artistName: String) = launch {
+        val searchQuery = "$title $artistName Music Video"
+
+        youtubeRepository.searchMusicVideo(searchQuery = searchQuery)
+            .flowOn(Dispatchers.IO)
+            .collectResult(
+                onSuccess = {
+                    updateState { copy(musicVideoState = MusicVideoUiData.fromDomain(it)) }
                 },
                 onFailure = {
                     Log.e("SongInfoViewModel", it.message ?: "Error")

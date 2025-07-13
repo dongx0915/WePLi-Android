@@ -21,6 +21,7 @@ fun YoutubeVideoPlayer(
     forcePause: Boolean = false,
     needAutoPlay: Boolean = false,
     autoPlayStartSeconds: Float = 0f,
+    onDurationReady: ((Float) -> Unit)? = null,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
     modifier: Modifier = Modifier
 ) {
@@ -49,6 +50,10 @@ fun YoutubeVideoPlayer(
                         } else {
                             player.cueVideo(videoId, 0f)
                         }
+                    }
+
+                    override fun onVideoDuration(youTubePlayer: YouTubePlayer, duration: Float) {
+                        onDurationReady?.invoke(duration)
                     }
                 })
             }
