@@ -44,6 +44,7 @@ import com.wepli.feature.song.info.mvi.SongInfoUiState
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.uimodel.album.AlbumUiData
 import com.wepli.uimodel.music.SongUiData
+import common.WepliSpacer
 import custom.OneLineTitle
 import image.AsyncImageWithPreview
 import org.orbitmvi.orbit.compose.collectAsState
@@ -101,6 +102,8 @@ fun SongInfoScreen(
         ) {
             SongInfoLayout(song = song)
 
+            MusicVideoInfoLayout()
+
             SongDetailInfoLayout(
                 composers = song.composers,
                 genres = song.genres
@@ -114,6 +117,58 @@ fun SongInfoScreen(
         }
     }
 }
+
+@Preview
+@Composable
+fun MusicVideoInfoLayout(isExpanded: Boolean = false) {
+    Column {
+        OneLineTitle(
+            title = "뮤직비디오",
+            showIcon = true,
+            modifier = Modifier.padding(vertical = 12.dp)
+        )
+
+        Row(
+            modifier = Modifier.padding(top = 8.dp),
+        ) {
+            AsyncImageWithPreview(
+                imageUrl = "https://image.bugsm.co.kr/artist/images/1000/803073/80307310_009.jpg?version=369360&d=20230515180027",
+                previewImage = painterResource(id = CoreR.drawable.img_placeholder_minnie),
+                imageOverrideSize = 52.dp,
+                modifier = Modifier
+                    .size(52.dp)
+                    .clip(RoundedCornerShape(8.dp))
+            )
+
+            WepliSpacer(horizontal = 12.dp)
+
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = "[Playlist]숲 공기\uD83C\uDF3F가득 마시며 일하기 |업무음악,공부음악,작업음악,집중할때듣는음악,독서음악 |",
+                    style = WepliTheme.typo.body6,
+                    color = WepliTheme.color.gray900
+                )
+                Text(
+                    text = "02:48:58",
+                    style = WepliTheme.typo.subTitle7,
+                    color = WepliTheme.color.gray600
+                )
+            }
+
+            WepliSpacer(horizontal = 8.dp)
+
+            Image(
+                imageVector = ImageVector.vectorResource(CoreR.drawable.ic_arrow_expand),
+                contentDescription = null,
+                modifier = Modifier.size(24.dp)
+            )
+        }
+    }
+}
+
 
 @Composable
 fun SongInfoLayout(song: SongUiData) {
@@ -230,7 +285,7 @@ fun ArtistAlbumGrid(albums: List<AlbumUiData>) {
     }
 }
 
-@Preview
+@Preview(heightDp = 1000)
 @Composable
 fun SongInfoScreenPreview() {
     SongInfoScreen(state = SongInfoUiState(song = songMockData.random()), navOnBack = {})
