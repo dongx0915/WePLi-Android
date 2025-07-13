@@ -113,11 +113,13 @@ fun SongInfoScreen(
         ) {
             SongInfoLayout(song = song)
 
-            MusicVideoInfoLayout(
-                musicVideo = state.musicVideoState,
-                isExpanded = state.isMusicVideoExpanded,
-                onToggleExpanded = { sendAction(SongInfoIntent.ToggleMusicVideo) },
-            )
+            state.musicVideoState?.let { musicVideo ->
+                MusicVideoInfoLayout(
+                    musicVideo = musicVideo,
+                    isExpanded = state.isMusicVideoExpanded,
+                    onToggleExpanded = { sendAction(SongInfoIntent.ToggleMusicVideo) },
+                )
+            }
 
             SongDetailInfoLayout(
                 composers = song.composers,

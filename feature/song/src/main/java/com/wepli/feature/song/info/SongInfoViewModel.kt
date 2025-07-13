@@ -111,8 +111,10 @@ class SongInfoViewModel @Inject constructor(
         youtubeRepository.searchMusicVideo(searchQuery = searchQuery)
             .flowOn(Dispatchers.IO)
             .collectResult(
-                onSuccess = {
-                    updateState { copy(musicVideoState = MusicVideoUiData.fromDomain(it)) }
+                onSuccess = { musicVideo ->
+                    if (musicVideo == null) return@collectResult
+
+                    updateState { copy(musicVideoState = MusicVideoUiData.fromDomain(musicVideo)) }
                 },
                 onFailure = {
                     Log.e("SongInfoViewModel", it.message ?: "Error")

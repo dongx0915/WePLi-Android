@@ -5,5 +5,5 @@ import model.musicvideo.MusicVideo
 
 interface YoutubeRepository {
 
-    fun searchMusicVideo(searchQuery: String): FlowResult<MusicVideo>
+    fun searchMusicVideo(searchQuery: String): FlowResult<MusicVideo?>
 }

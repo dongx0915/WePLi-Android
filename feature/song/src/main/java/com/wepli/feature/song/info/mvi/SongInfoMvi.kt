@@ -10,7 +10,7 @@ import model.album.Album
 
 data class SongInfoUiState(
     val song: SongUiData = SongUiData(),
-    val musicVideoState: MusicVideoUiData = MusicVideoUiData(),
+    val musicVideoState: MusicVideoUiData? = null,
     val artistAlbums: List<AlbumUiData> = emptyList(),
     val album: AlbumUiData = AlbumUiData(),
     val similarSongs: List<SongUiData> = emptyList(),
