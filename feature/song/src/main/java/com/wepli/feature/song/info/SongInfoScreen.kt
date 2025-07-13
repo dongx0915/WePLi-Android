@@ -200,7 +200,7 @@ fun MusicVideoInfoLayout(
                         overflow = TextOverflow.Ellipsis,
                     )
                     Text(
-                        text = musicVideo.playtime.toString(),
+                        text = musicVideo.formattedPlaytime,
                         style = WepliTheme.typo.subTitle7,
                         color = WepliTheme.color.gray600
                     )
