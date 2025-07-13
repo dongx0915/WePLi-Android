@@ -26,10 +26,10 @@ import com.wepli.feature.photocard.result.navigation.photoCardResultGraph
 import com.wepli.feature.photocard.result.navigation.navigateToPhotoCardResult
 import com.wepli.feature.song.info.navigation.navigateToSongInfo
 import com.wepli.feature.song.info.navigation.songInfoGraph
-import com.wepli.mypage.devmode.network.detail.navigation.navigateToNetworkLogDetail
-import com.wepli.mypage.devmode.network.detail.navigation.networkLogDetailGraph
-import com.wepli.mypage.devmode.network.main.navigation.navigateToNetworkLogMain
-import com.wepli.mypage.devmode.network.main.navigation.networkLogMainGraph
+import com.wepli.mypage.menus.devmode.network.detail.navigation.navigateToNetworkLogDetail
+import com.wepli.mypage.menus.devmode.network.detail.navigation.networkLogDetailGraph
+import com.wepli.mypage.menus.devmode.network.main.navigation.navigateToNetworkLogMain
+import com.wepli.mypage.menus.devmode.network.main.navigation.networkLogMainGraph
 import com.wepli.mypage.menus.profile.navigation.navigateProfileMain
 import com.wepli.mypage.menus.profile.navigation.profileMainGraph
 import com.wepli.playlist.navigation.navigateToPlaylistDetail

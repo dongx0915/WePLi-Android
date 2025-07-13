@@ -13,6 +13,8 @@ import com.wepli.data.di.qualifier.RemoteDataSource
 import com.wepli.data.di.qualifier.SupabaseDataSource
 import com.wepli.data.keyword.datasource.KeywordDatasource
 import com.wepli.data.keyword.datasource.KeywordSupabaseDatasourceImpl
+import com.wepli.data.network.apilog.datasource.DebugApiLogLocalDatasource
+import com.wepli.data.network.apilog.datasource.DebugApiLogLocalDatasourceImpl
 import com.wepli.data.playlist.datasource.remote.PlaylistDataSource
 import com.wepli.data.playlist.datasource.remote.PlaylistDataSourceImpl
 import com.wepli.data.playlist.datasource.remote.PlaylistSupabaseDataSourceImpl
@@ -63,4 +65,8 @@ interface DataSourceModule {
     @Binds
     @Singleton
     fun bindDataStoreDataSource(dataStoreDataSourceImpl: DataStorePrefDataSourceImpl): DataStorePrefDataSource
+
+    @Binds
+    @Singleton
+    fun bindApiLogDataSource(dataSource: DebugApiLogLocalDatasourceImpl): DebugApiLogLocalDatasource
 }

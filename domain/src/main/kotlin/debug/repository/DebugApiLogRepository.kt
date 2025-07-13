@@ -1,10 +1,12 @@
 package debug.repository
 
 import debug.model.ApiLog
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
 
 interface DebugApiLogRepository {
-    val logs: StateFlow<List<ApiLog>>
+    suspend fun getLogs(count: Int): List<ApiLog>
 
-    fun addLog(log: ApiLog)
+    suspend fun insertLog(log: ApiLog)
+
+    suspend fun findLogById(logId: Int): ApiLog?
 }
