@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -23,13 +22,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,15 +35,10 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import appbar.ScrollableAppBar
 import appbar.WepliAppBar
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+import component.youtube.YoutubeVideoPlayer
 import com.wepli.core.resources.R as CoreR
 import com.wepli.feature.song.info.component.album.AlbumInfoLayout
 import com.wepli.feature.song.info.component.album.ResponsiveAlbumGrid
@@ -138,38 +128,6 @@ fun SongInfoScreen(
     }
 }
 
-@Preview
-@Composable
-fun YoutubeVideoPlayer(
-    videoId: String = "",
-    isPause: Boolean = false,
-    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
-    modifier: Modifier = Modifier
-) {
-    var youTubePlayer: YouTubePlayer? by remember { mutableStateOf(null) }
-
-    LaunchedEffect(isPause) {
-        youTubePlayer?.let { player ->
-            if (isPause) player.pause()
-        }
-    }
-    
-    AndroidView(
-        modifier = modifier.fillMaxWidth(),
-        factory = {
-            YouTubePlayerView(context = it).apply {
-                lifecycleOwner.lifecycle.addObserver(this)
-
-                addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
-                    override fun onReady(player: YouTubePlayer) {
-                        youTubePlayer = player
-                        player.cueVideo(videoId, 0f)
-                    }
-                })
-            }
-        }
-    )
-}
 
 @Preview
 @Composable
@@ -194,7 +152,7 @@ fun MusicVideoInfoLayout(
         key("youtube_player") {
             YoutubeVideoPlayer(
                 videoId = "riWBCpP14ek",
-                isPause = !isExpanded,
+                forcePause = !isExpanded,
                 modifier = Modifier
                     .clip(RoundedCornerShape(16.dp))
                     .wrapContentHeight()
