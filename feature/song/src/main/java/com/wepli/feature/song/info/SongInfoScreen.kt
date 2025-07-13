@@ -198,31 +198,35 @@ fun MusicVideoInfoLayout(
                 WepliSpacer(horizontal = 12.dp)
             }
 
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+            Row(
+                modifier = Modifier.padding(top = if (isExpanded) 8.dp else 0.dp)
             ) {
-                Text(
-                    text = "[Playlist]숲 공기\uD83C\uDF3F가득 마시며 일하기 |업무음악,공부음악,작업음악,집중할때듣는음악,독서음악 |",
-                    style = WepliTheme.typo.body6,
-                    color = WepliTheme.color.gray900
-                )
-                Text(
-                    text = "02:48:58",
-                    style = WepliTheme.typo.subTitle7,
-                    color = WepliTheme.color.gray600
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Text(
+                        text = "[Playlist]숲 공기\uD83C\uDF3F가득 마시며 일하기 |업무음악,공부음악,작업음악,집중할때듣는음악,독서음악 |",
+                        style = WepliTheme.typo.body6,
+                        color = WepliTheme.color.gray900
+                    )
+                    Text(
+                        text = "02:48:58",
+                        style = WepliTheme.typo.subTitle7,
+                        color = WepliTheme.color.gray600
+                    )
+                }
+
+                WepliSpacer(horizontal = 8.dp)
+
+                Image(
+                    imageVector = videoSizeIcon,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(20.dp)
+                        .clickable { onToggleExpanded() }
                 )
             }
-
-            WepliSpacer(horizontal = 8.dp)
-
-            Image(
-                imageVector = videoSizeIcon,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(24.dp)
-                    .clickable { onToggleExpanded() }
-            )
         }
     }
 }
