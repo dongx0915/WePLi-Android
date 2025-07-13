@@ -62,7 +62,7 @@ jobs:
           "embeds": [
             {
               "title": "🚀 WePLi Android",
-              "description": "WePLi v${APP_VERSION} APK가 배포 되었습니다,",
+              "description": "WePLi v${APP_VERSION} APK가 배포 되었습니다.",
               "color": 5814783,
               "fields": [
                 {
