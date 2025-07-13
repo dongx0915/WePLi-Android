@@ -26,7 +26,7 @@ fun YoutubeVideoPlayer(
 ) {
     var youTubePlayer: YouTubePlayer? by remember { mutableStateOf(null) }
 
-    LaunchedEffect(forcePause) {
+    LaunchedEffect(forcePause, youTubePlayer) {
         youTubePlayer?.let { player ->
             if (forcePause) {
                 player.pause()
