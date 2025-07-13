@@ -170,7 +170,9 @@ fun MusicVideoInfoLayout(
         )
 
         Row(
-            modifier = Modifier.padding(top = 8.dp),
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .clickable { onToggleExpanded() },
         ) {
             AsyncImageWithPreview(
                 imageUrl = musicVideo.thumbnail,
@@ -217,9 +219,7 @@ fun MusicVideoInfoLayout(
                 Image(
                     imageVector = ImageVector.vectorResource(videoSizeIcon),
                     contentDescription = null,
-                    modifier = Modifier
-                        .size(20.dp)
-                        .clickable { onToggleExpanded() }
+                    modifier = Modifier.size(20.dp)
                 )
             }
         }
