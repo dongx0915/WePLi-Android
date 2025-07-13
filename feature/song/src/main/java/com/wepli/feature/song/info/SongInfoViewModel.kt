@@ -8,11 +8,13 @@ import com.wepli.feature.song.info.mvi.SongInfoEffect
 import com.wepli.feature.song.info.mvi.SongInfoIntent
 import com.wepli.feature.song.info.mvi.SongInfoUiState
 import com.wepli.shared.feature.uimodel.album.AlbumUiData
+import com.wepli.shared.feature.uimodel.musicvideo.MusicVideoUiData
 import com.wepli.uimodel.music.SongUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import repository.applemusic.AppleMusicRepository
+import repository.youtube.YoutubeRepository
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,6 +29,7 @@ class SongInfoViewModel @Inject constructor(
         when (intent) {
             is SongInfoIntent.Init -> init(intent.song)
             SongInfoIntent.ToggleMusicVideo -> toggleMusicVideo()
+            is SongInfoIntent.UpdateMusicVideoDuration -> updateMusicVideoDuration(intent.duration)
         }
     }
 
@@ -121,6 +124,27 @@ class SongInfoViewModel @Inject constructor(
     private fun toggleMusicVideo() = intent {
         updateState { 
             copy(isMusicVideoExpanded = !isMusicVideoExpanded)
+        }
+    }
+
+    private fun updateMusicVideoDuration(duration: Float) = intent {
+        updateState {
+            copy(
+                musicVideoState = musicVideoState.copy(playtime = duration)
+            )
+        }
+    }
+
+    private fun formatDuration(seconds: Float): String {
+        val totalSeconds = seconds.toInt()
+        val hours = totalSeconds / 3600
+        val minutes = (totalSeconds % 3600) / 60
+        val remainingSeconds = totalSeconds % 60
+
+        return if (hours > 0) {
+            String.format("%d:%02d:%02d", hours, minutes, remainingSeconds)
+        } else {
+            String.format("%d:%02d", minutes, remainingSeconds)
         }
     }
 }

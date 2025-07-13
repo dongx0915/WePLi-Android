@@ -35,7 +35,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.ScrollableAppBar
@@ -50,6 +49,7 @@ import com.wepli.feature.song.info.mvi.SongInfoIntent
 import com.wepli.feature.song.info.mvi.SongInfoUiState
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.uimodel.album.AlbumUiData
+import com.wepli.shared.feature.uimodel.musicvideo.MusicVideoUiData
 import com.wepli.uimodel.music.SongUiData
 import common.WepliSpacer
 import custom.OneLineTitle
@@ -112,9 +112,10 @@ fun SongInfoScreen(
             SongInfoLayout(song = song)
 
             MusicVideoInfoLayout(
-                musicVideoState = state.musicVideoState,
+                musicVideo = state.musicVideoState,
                 isExpanded = state.isMusicVideoExpanded,
-                onToggleExpanded = { sendAction(SongInfoIntent.ToggleMusicVideo) }
+                onToggleExpanded = { sendAction(SongInfoIntent.ToggleMusicVideo) },
+                sendAction = sendAction
             )
 
             SongDetailInfoLayout(
@@ -133,9 +134,10 @@ fun SongInfoScreen(
 
 @Composable
 fun MusicVideoInfoLayout(
-    musicVideoState: SongInfoUiState.MusicVideoState,
+    musicVideo: MusicVideoUiData,
     isExpanded: Boolean,
     onToggleExpanded: () -> Unit,
+    sendAction: (SongInfoIntent) -> Unit = {},
 ) {
     val videoSizeIcon = ImageVector.vectorResource(
         if (isExpanded) CoreR.drawable.ic_arrow_minimize else CoreR.drawable.ic_arrow_expand
@@ -150,10 +152,13 @@ fun MusicVideoInfoLayout(
             modifier = Modifier.padding(vertical = 12.dp)
         )
 
-        key("youtube_player") {
+        key("youtube_player_${musicVideo.id}") {
             YoutubeVideoPlayer(
-                videoId = "NbKH4iZqq1Y",
+                videoId = musicVideo.id,
                 forcePause = !isExpanded,
+                onDurationReady = { duration ->
+                    sendAction(SongInfoIntent.UpdateMusicVideoDuration(duration))
+                },
                 modifier = Modifier
                     .clip(RoundedCornerShape(16.dp))
                     .wrapContentHeight()
@@ -169,7 +174,7 @@ fun MusicVideoInfoLayout(
         ) {
             if (isExpanded.not()) {
                 AsyncImageWithPreview(
-                    imageUrl = "https://image.bugsm.co.kr/artist/images/1000/803073/80307310_009.jpg?version=369360&d=20230515180027",
+                    imageUrl = musicVideo.thumbnail,
                     previewImage = painterResource(id = CoreR.drawable.img_placeholder_minnie),
                     imageOverrideSize = 52.dp,
                     modifier = Modifier
@@ -188,14 +193,14 @@ fun MusicVideoInfoLayout(
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Text(
-                        text = "[Playlist]숲 공기\uD83C\uDF3F가득 마시며 일하기 |업무음악,공부음악,작업음악,집중할때듣는음악,독서음악 |",
+                        text = musicVideo.title,
                         style = WepliTheme.typo.body6,
                         color = WepliTheme.color.gray900,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                     )
                     Text(
-                        text = "02:48:58",
+                        text = musicVideo.playtime.toString(),
                         style = WepliTheme.typo.subTitle7,
                         color = WepliTheme.color.gray600
                     )
