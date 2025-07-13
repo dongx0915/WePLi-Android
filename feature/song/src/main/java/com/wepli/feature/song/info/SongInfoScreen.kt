@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -31,9 +32,15 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import appbar.ScrollableAppBar
 import appbar.WepliAppBar
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.wepli.core.resources.R as CoreR
 import com.wepli.feature.song.info.component.album.AlbumInfoLayout
 import com.wepli.feature.song.info.component.album.ResponsiveAlbumGrid
@@ -120,7 +127,34 @@ fun SongInfoScreen(
 
 @Preview
 @Composable
+fun YoutubeVideoPlayer(
+    videoId: String = "",
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
+    modifier: Modifier = Modifier
+) {
+    AndroidView(
+        modifier = modifier.fillMaxWidth(),
+        factory = {
+            YouTubePlayerView(context = it).apply { 
+                lifecycleOwner.lifecycle.addObserver(this)
+
+                addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+                    override fun onReady(youTubePlayer: YouTubePlayer) {
+                        youTubePlayer.loadVideo(videoId, 0f)
+                    }
+                })
+            }
+        }
+    )
+}
+
+@Preview
+@Composable
 fun MusicVideoInfoLayout(isExpanded: Boolean = false) {
+    val videoSizeIcon = ImageVector.vectorResource(
+        if (isExpanded) CoreR.drawable.ic_arrow_minimize else CoreR.drawable.ic_arrow_expand
+    )
+
     Column {
         OneLineTitle(
             title = "뮤직비디오",
@@ -128,17 +162,27 @@ fun MusicVideoInfoLayout(isExpanded: Boolean = false) {
             modifier = Modifier.padding(vertical = 12.dp)
         )
 
+
+        if (isExpanded) {
+            YoutubeVideoPlayer(
+                videoId = "riWBCpP14ek",
+                modifier = Modifier.clip(RoundedCornerShape(16.dp))
+            )
+        }
+
         Row(
             modifier = Modifier.padding(top = 8.dp),
         ) {
-            AsyncImageWithPreview(
-                imageUrl = "https://image.bugsm.co.kr/artist/images/1000/803073/80307310_009.jpg?version=369360&d=20230515180027",
-                previewImage = painterResource(id = CoreR.drawable.img_placeholder_minnie),
-                imageOverrideSize = 52.dp,
-                modifier = Modifier
-                    .size(52.dp)
-                    .clip(RoundedCornerShape(8.dp))
-            )
+            if (isExpanded.not()) {
+                AsyncImageWithPreview(
+                    imageUrl = "https://image.bugsm.co.kr/artist/images/1000/803073/80307310_009.jpg?version=369360&d=20230515180027",
+                    previewImage = painterResource(id = CoreR.drawable.img_placeholder_minnie),
+                    imageOverrideSize = 52.dp,
+                    modifier = Modifier
+                        .size(52.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                )
+            }
 
             WepliSpacer(horizontal = 12.dp)
 
@@ -161,7 +205,7 @@ fun MusicVideoInfoLayout(isExpanded: Boolean = false) {
             WepliSpacer(horizontal = 8.dp)
 
             Image(
-                imageVector = ImageVector.vectorResource(CoreR.drawable.ic_arrow_expand),
+                imageVector = videoSizeIcon,
                 contentDescription = null,
                 modifier = Modifier.size(24.dp)
             )
