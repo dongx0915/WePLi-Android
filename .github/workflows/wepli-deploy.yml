@@ -1,9 +1,6 @@
-name: Discord로 Debug APK 자동 배포 (모듈화)
+name: Debug APK 자동 배포 (Discord)
 
 on:
-  create:
-    branches:
-      - 'release/**'
   workflow_dispatch:
 
 permissions:
