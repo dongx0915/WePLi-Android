@@ -9,11 +9,20 @@ import model.album.Album
 
 data class SongInfoUiState(
     val song: SongUiData = SongUiData(),
+    val musicVideoState: MusicVideoState = MusicVideoState(),
     val artistAlbums: List<AlbumUiData> = emptyList(),
     val album: AlbumUiData = AlbumUiData(),
     val similarSongs: List<SongUiData> = emptyList(),
     val isMusicVideoExpanded: Boolean = false,
-) : UiState
+) : UiState {
+
+    data class MusicVideoState(
+        val title: String = "",
+        val playtime: String = "",
+        val videoUrl: String = "",
+        val videoThumbnail: String = "",
+    )
+}
 
 interface SongInfoEffect : SideEffect
 

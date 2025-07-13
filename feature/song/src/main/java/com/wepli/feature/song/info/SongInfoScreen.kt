@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -111,6 +112,7 @@ fun SongInfoScreen(
             SongInfoLayout(song = song)
 
             MusicVideoInfoLayout(
+                musicVideoState = state.musicVideoState,
                 isExpanded = state.isMusicVideoExpanded,
                 onToggleExpanded = { sendAction(SongInfoIntent.ToggleMusicVideo) }
             )
@@ -131,6 +133,7 @@ fun SongInfoScreen(
 
 @Composable
 fun MusicVideoInfoLayout(
+    musicVideoState: SongInfoUiState.MusicVideoState,
     isExpanded: Boolean,
     onToggleExpanded: () -> Unit,
 ) {
@@ -187,7 +190,9 @@ fun MusicVideoInfoLayout(
                     Text(
                         text = "[Playlist]숲 공기\uD83C\uDF3F가득 마시며 일하기 |업무음악,공부음악,작업음악,집중할때듣는음악,독서음악 |",
                         style = WepliTheme.typo.body6,
-                        color = WepliTheme.color.gray900
+                        color = WepliTheme.color.gray900,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
                     )
                     Text(
                         text = "02:48:58",
