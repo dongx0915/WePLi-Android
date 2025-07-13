@@ -23,8 +23,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -137,9 +139,11 @@ fun MusicVideoInfoLayout(
     isExpanded: Boolean,
     onToggleExpanded: () -> Unit,
 ) {
-    val videoSizeIcon = ImageVector.vectorResource(
-        if (isExpanded) CoreR.drawable.ic_arrow_minimize else CoreR.drawable.ic_arrow_expand
-    )
+    val videoSizeIcon by remember(isExpanded) {
+        derivedStateOf {
+            if (isExpanded) CoreR.drawable.ic_arrow_minimize else CoreR.drawable.ic_arrow_expand
+        }
+    }
 
     Column(
         modifier = Modifier.animateContentSize()
@@ -204,7 +208,7 @@ fun MusicVideoInfoLayout(
                 WepliSpacer(horizontal = 8.dp)
 
                 Image(
-                    imageVector = videoSizeIcon,
+                    imageVector = ImageVector.vectorResource(videoSizeIcon),
                     contentDescription = null,
                     modifier = Modifier
                         .size(20.dp)
