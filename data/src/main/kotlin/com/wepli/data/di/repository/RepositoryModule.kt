@@ -18,6 +18,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import debug.repository.DebugApiLogRepository
 import com.wepli.data.network.apilog.DebugApiLogRepositoryImpl
+import com.wepli.data.youtube.repository.YoutubeRepository
+import com.wepli.data.youtube.repository.YoutubeRepositoryImpl
 import model.recommend.repository.KeywordRepository
 import model.supabase.repository.SupabaseBucketRepository
 import repository.applemusic.AppleMusicRepository
@@ -67,6 +69,10 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindAppleMusicRepository(appleMusicRepositoryImpl: AppleMusicRepositoryImpl): AppleMusicRepository
+
+    @Binds
+    @Singleton
+    fun bindYoutubeRepository(youtubeRepositoryImpl: YoutubeRepositoryImpl): YoutubeRepository
 
     @Binds
     @Singleton
