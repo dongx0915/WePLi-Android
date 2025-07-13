@@ -13,7 +13,7 @@ class ChartRepositoryImpl @Inject constructor(
     @SupabaseDataSource private val chartDataSource: ChartDataSource
 ) : ChartRepository {
 
-    override suspend fun getTopChart(): FlowResult<List<ChartMusic>> {
+    override fun getTopChart(): FlowResult<List<ChartMusic>> {
         return chartDataSource.getTopChart().toEntityResult {
             it.toEntities()
         }

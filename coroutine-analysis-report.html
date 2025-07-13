@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kotlin 코루틴 모범 사례 검증 리포트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet">
+    <style>
+        .violation-error { border-left: 4px solid #dc2626; }
+        .violation-warning { border-left: 4px solid #f59e0b; }
+        .violation-info { border-left: 4px solid #3b82f6; }
+        .severity-error { color: #dc2626; }
+        .severity-warning { color: #f59e0b; }
+        .severity-info { color: #3b82f6; }
+        .code-snippet { background-color: #f8fafc; }
+        .prism-code { font-size: 0.875rem; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- 헤더 -->
+        <div class="bg-white shadow-sm rounded-lg p-6 mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">🔍 Kotlin 코루틴 모범 사례 검증 리포트</h1>
+            <p class="text-gray-600">WePLi-Android 프로젝트의 코루틴 코드 품질 분석 결과</p>
+        </div>
+
+        <!-- 요약 섹션 -->
+        <div class="bg-white shadow-sm rounded-lg p-6 mb-8">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">📊 분석 요약</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <div class="text-2xl font-bold text-gray-900">15</div>
+                    <div class="text-sm text-gray-600">분석된 파일</div>
+                </div>
+                <div class="bg-red-50 p-4 rounded-lg">
+                    <div class="text-2xl font-bold text-red-600">2</div>
+                    <div class="text-sm text-gray-600">오류 (ERROR)</div>
+                </div>
+                <div class="bg-yellow-50 p-4 rounded-lg">
+                    <div class="text-2xl font-bold text-yellow-600">0</div>
+                    <div class="text-sm text-gray-600">경고 (WARNING)</div>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <div class="text-2xl font-bold text-blue-600">1</div>
+                    <div class="text-sm text-gray-600">정보 (INFO)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 위반 사항 섹션 -->
+        <div class="bg-white shadow-sm rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-gray-900 mb-6">🚨 위반 사항</h2>
+            
+            <!-- 위반 사항 1: USE_MAIN_IMMEDIATE -->
+            <div class="mb-8">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">
+                    📂 core/common/src/main/kotlin/common/CoroutineExt.kt
+                </h3>
+                
+                <div class="violation-info bg-blue-50 p-4 rounded-lg">
+                    <div class="flex items-start space-x-3">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm font-medium">ℹ️</span>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium severity-info">USE_MAIN_IMMEDIATE: Dispatchers.Main 대신 Dispatchers.Main.immediate 사용 권장</h4>
+                            <p class="text-sm text-gray-600 mt-1">
+                                <strong>라인 17:</strong> 불필요한 디스패치를 피하기 위해 Main.immediate를 사용하세요.
+                            </p>
+                            
+                            <div class="mt-3">
+                                <p class="text-sm font-medium text-gray-700 mb-2">📍 위반 코드:</p>
+                                <div class="code-snippet border rounded-lg p-3">
+                                    <pre><code class="language-kotlin">context = Dispatchers.Main + coroutineContext,</code></pre>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-3">
+                                <p class="text-sm font-medium text-gray-700 mb-2">✅ 권장 사항:</p>
+                                <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+                                    <pre><code class="language-kotlin">context = Dispatchers.Main.immediate + coroutineContext,</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 위반 사항 2: SUSPEND_FUNCTION_RETURNING_FLOW -->
+            <div class="mb-8">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">
+                    📂 data/src/main/kotlin/com/wepli/data/artist/datasource/remote/ArtistDataSourceImpl.kt
+                </h3>
+                
+                <div class="violation-error bg-red-50 p-4 rounded-lg">
+                    <div class="flex items-start space-x-3">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm font-medium">❌</span>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium severity-error">SUSPEND_FUNCTION_RETURNING_FLOW: Flow를 반환하는 함수가 suspend 함수로 정의됨</h4>
+                            <p class="text-sm text-gray-600 mt-1">
+                                <strong>라인 12:</strong> Flow를 반환하는 함수는 suspend 함수로 정의하지 마세요.
+                            </p>
+                            
+                            <div class="mt-3">
+                                <p class="text-sm font-medium text-gray-700 mb-2">📍 위반 코드:</p>
+                                <div class="code-snippet border rounded-lg p-3">
+                                    <pre><code class="language-kotlin">override suspend fun getArtists(): FlowResult&lt;ArtistListResponse&gt; {
+    return artistApi.getArtists()
+}</code></pre>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-3">
+                                <p class="text-sm font-medium text-gray-700 mb-2">✅ 권장 사항:</p>
+                                <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+                                    <pre><code class="language-kotlin">override fun getArtists(): FlowResult&lt;ArtistListResponse&gt; {
+    return artistApi.getArtists()
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 위반 사항 3: SUSPEND_FUNCTION_RETURNING_FLOW -->
+            <div class="mb-8">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">
+                    📂 data/src/main/kotlin/com/wepli/data/chart/datasource/remote/ChartDataSourceImpl.kt
+                </h3>
+                
+                <div class="violation-error bg-red-50 p-4 rounded-lg">
+                    <div class="flex items-start space-x-3">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm font-medium">❌</span>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium severity-error">SUSPEND_FUNCTION_RETURNING_FLOW: Flow를 반환하는 함수가 suspend 함수로 정의됨</h4>
+                            <p class="text-sm text-gray-600 mt-1">
+                                <strong>라인 12:</strong> Flow를 반환하는 함수는 suspend 함수로 정의하지 마세요.
+                            </p>
+                            
+                            <div class="mt-3">
+                                <p class="text-sm font-medium text-gray-700 mb-2">📍 위반 코드:</p>
+                                <div class="code-snippet border rounded-lg p-3">
+                                    <pre><code class="language-kotlin">override suspend fun getTopChart(): FlowResult&lt;ChartListResponse&gt; {
+    return chartApi.getTopChart()
+}</code></pre>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-3">
+                                <p class="text-sm font-medium text-gray-700 mb-2">✅ 권장 사항:</p>
+                                <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+                                    <pre><code class="language-kotlin">override fun getTopChart(): FlowResult&lt;ChartListResponse&gt; {
+    return chartApi.getTopChart()
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 긍정적인 측면 -->
+        <div class="bg-white shadow-sm rounded-lg p-6 mt-8">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">🎉 긍정적인 측면</h2>
+            <div class="space-y-3">
+                <div class="flex items-start space-x-3">
+                    <div class="flex-shrink-0">
+                        <div class="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                            <span class="text-white text-xs">✓</span>
+                        </div>
+                    </div>
+                    <div>
+                        <strong>BaseViewModel.kt:</strong> <code class="bg-gray-100 px-2 py-1 rounded">Dispatchers.Main.immediate</code>를 기본값으로 사용하여 올바른 디스패처 사용
+                    </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                    <div class="flex-shrink-0">
+                        <div class="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                            <span class="text-white text-xs">✓</span>
+                        </div>
+                    </div>
+                    <div>
+                        <strong>FlowCallAdapter.kt:</strong> <code class="bg-gray-100 px-2 py-1 rounded">flowOn(Dispatchers.IO)</code>를 사용하여 네트워크 호출을 올바른 디스패처에서 실행
+                    </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                    <div class="flex-shrink-0">
+                        <div class="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                            <span class="text-white text-xs">✓</span>
+                        </div>
+                    </div>
+                    <div>
+                        <strong>KeywordSupabaseDatasourceImpl.kt:</strong> <code class="bg-gray-100 px-2 py-1 rounded">runCatching</code>을 사용하여 예외 처리를 안전하게 수행
+                    </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                    <div class="flex-shrink-0">
+                        <div class="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                            <span class="text-white text-xs">✓</span>
+                        </div>
+                    </div>
+                    <div>
+                        <strong>FlowResult 사용:</strong> 전체적으로 일관된 FlowResult 패턴 사용으로 에러 처리 구조화
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 추가 개선 권장사항 -->
+        <div class="bg-white shadow-sm rounded-lg p-6 mt-8">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">💡 추가 개선 권장사항</h2>
+            <div class="space-y-4">
+                <div class="border-l-4 border-blue-500 pl-4">
+                    <h3 class="font-medium text-gray-900">네이밍 컨벤션</h3>
+                    <p class="text-sm text-gray-600 mt-1">
+                        일부 함수들이 <code class="bg-gray-100 px-2 py-1 rounded">get...</code> 패턴을 사용하고 있는데, 
+                        Flow를 반환하는 함수는 <code class="bg-gray-100 px-2 py-1 rounded">observe...</code> 또는 
+                        <code class="bg-gray-100 px-2 py-1 rounded">watch...</code> 패턴을 고려해보세요.
+                    </p>
+                </div>
+                <div class="border-l-4 border-blue-500 pl-4">
+                    <h3 class="font-medium text-gray-900">일관성</h3>
+                    <p class="text-sm text-gray-600 mt-1">
+                        DataSource 인터페이스에서 일부는 suspend 함수로, 일부는 일반 함수로 정의되어 있습니다. 
+                        Flow를 반환하는 함수는 모두 일반 함수로 통일하는 것이 좋습니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 결론 -->
+        <div class="bg-green-50 border border-green-200 rounded-lg p-6 mt-8">
+            <h2 class="text-lg font-semibold text-green-900 mb-2">🎯 결론</h2>
+            <p class="text-green-800">
+                전체적으로 코루틴 사용에 있어 큰 문제는 없으며, 몇 가지 작은 개선사항만 수정하면 더 나은 코드가 될 것입니다.
+                특히 Flow를 반환하는 함수의 suspend 제거와 Main.immediate 사용으로 성능을 개선할 수 있습니다.
+            </p>
+        </div>
+
+        <!-- 푸터 -->
+        <div class="text-center mt-8 text-sm text-gray-500">
+            <p>생성일: 2025-07-08 | 분석 도구: Claude Code</p>
+        </div>
+    </div>
+
+    <script>
+        // Prism.js 초기화
+        Prism.highlightAll();
+    </script>
+</body>
+</html>

@@ -12,7 +12,7 @@ class ArtistRepositoryImpl @Inject constructor(
     private val artistDataSource: ArtistDataSource
 ) : ArtistRepository {
 
-    override suspend fun getArtists(): FlowResult<List<Artist>> {
+    override fun getArtists(): FlowResult<List<Artist>> {
         return artistDataSource.getArtists().toEntityResult {
             it.toDomain()
         }

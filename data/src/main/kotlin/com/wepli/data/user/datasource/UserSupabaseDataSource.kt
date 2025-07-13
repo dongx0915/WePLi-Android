@@ -6,7 +6,7 @@ import model.user.User
 
 interface UserSupabaseDataSource {
 
-    suspend fun getUserById(id: String): FlowResult<UserResponse>
+    fun getUserById(id: String): FlowResult<UserResponse>
 
-    suspend fun updateUser(user: User): FlowResult<Unit>
+    fun updateUser(user: User): FlowResult<Unit>
 }

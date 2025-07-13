@@ -1,0 +1,134 @@
+name: Discord로 Debug APK 자동 배포
+
+on:
+  create:
+    branches:
+      - 'release/**'
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'create' && github.ref_type == 'branch' && startsWith(github.ref_name, 'release/'))
+    
+    steps:
+    - name: 📥 저장소 체크아웃
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: ☕ JDK 17 설정
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'adopt'
+
+    - name: 💾 Gradle 패키지 캐시
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: 🔑 Gradlew 실행 권한 부여
+      run: chmod +x gradlew
+
+    - name: 📄 Google Services JSON 파일 생성
+      env:
+        GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+      run: |
+        if [ -n "$GOOGLE_SERVICES_JSON" ]; then
+          echo "$GOOGLE_SERVICES_JSON" | base64 -d > app/google-services.json
+        else
+          echo "Warning: GOOGLE_SERVICES_JSON secret not found. Creating dummy file."
+          echo '{}' > app/google-services.json
+        fi
+
+    - name: ⚙️ Local Properties 파일 생성
+      run: |
+        echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> local.properties
+        echo "SUPABASE_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> local.properties
+        echo "SUPABASE_CLIENT_ID=${{ secrets.SUPABASE_CLIENT_ID }}" >> local.properties
+        echo "APPLE_MUSIC_URL=${{ secrets.APPLE_MUSIC_URL }}" >> local.properties
+        echo "APPLE_MUSIC_API_TOKEN=${{ secrets.APPLE_MUSIC_API_TOKEN }}" >> local.properties
+        echo "POSTMAN_URL=${{ secrets.POSTMAN_URL }}" >> local.properties
+
+    - name: 🔨 Debug APK 빌드
+      run: ./gradlew assembleDebug --stacktrace
+
+    - name: 📱 APK 정보 수집
+      id: apk_info
+      run: |
+        APK_PATH=$(find app/build/outputs/apk/debug -name "*.apk" | head -1)
+        APK_SIZE=$(du -h "$APK_PATH" | cut -f1)
+        APK_NAME=$(basename "$APK_PATH")
+        
+        echo "apk_path=${APK_PATH}" >> $GITHUB_OUTPUT
+        echo "apk_size=${APK_SIZE}" >> $GITHUB_OUTPUT
+        echo "apk_name=${APK_NAME}" >> $GITHUB_OUTPUT
+
+    - name: 🚀 Discord로 APK 업로드
+      env:
+        DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        APK_PATH: ${{ steps.apk_info.outputs.apk_path }}
+        APK_SIZE: ${{ steps.apk_info.outputs.apk_size }}
+        APK_NAME: ${{ steps.apk_info.outputs.apk_name }}
+      run: |
+        if [ -z "$DISCORD_WEBHOOK_URL" ]; then
+          echo "❌ DISCORD_WEBHOOK_URL secret not found. Please add Discord webhook URL to repository secrets."
+          exit 1
+        fi
+        
+        # 브랜치 이름 가져오기
+        if [ "${{ github.event_name }}" = "create" ]; then
+          BRANCH_NAME="${{ github.ref_name }}"
+        else
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+        fi
+        
+        # Discord embed 메시지 생성
+        EMBED_JSON=$(cat << EOF
+        {
+          "embeds": [
+            {
+              "title": "🚀 WePLi Android Debug APK 배포",
+              "description": "새로운 Release 브랜치에서 Debug APK가 빌드되었습니다!",
+              "color": 5814783,
+              "fields": [
+                {
+                  "name": "📱 APK 정보",
+                  "value": "**파일명**: \`${APK_NAME}\`\n**크기**: \`${APK_SIZE}\`",
+                  "inline": true
+                },
+                {
+                  "name": "🌿 브랜치",
+                  "value": "\`${BRANCH_NAME}\`",
+                  "inline": true
+                },
+                {
+                  "name": "📅 빌드 시간",
+                  "value": "\`$(date '+%Y-%m-%d %H:%M:%S')\`",
+                  "inline": true
+                }
+              ],
+              "footer": {
+                "text": "WePLi Android • GitHub Actions",
+                "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+              },
+              "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%S.000Z)"
+            }
+          ]
+        }
+        EOF
+        )
+        
+        # Discord에 APK 파일과 메시지 전송
+        curl -H "Content-Type: multipart/form-data" \
+             -F "payload_json=${EMBED_JSON}" \
+             -F "file=@${APK_PATH}" \
+             "${DISCORD_WEBHOOK_URL}"
+        
+        echo "✅ APK successfully uploaded to Discord!"
