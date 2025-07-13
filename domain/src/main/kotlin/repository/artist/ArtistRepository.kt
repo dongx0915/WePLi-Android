@@ -5,5 +5,5 @@ import model.artist.Artist
 
 interface ArtistRepository {
 
-    suspend fun getArtists(): FlowResult<List<Artist>>
+    fun getArtists(): FlowResult<List<Artist>>
 }

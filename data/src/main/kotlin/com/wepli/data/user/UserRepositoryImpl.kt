@@ -23,7 +23,7 @@ class UserRepositoryImpl @Inject constructor(
 
     private var user: User? = null
 
-    override suspend fun getUserById(id: String): FlowResult<User> {
+    override fun getUserById(id: String): FlowResult<User> {
         return userSupabaseDataSource.getUserById(id).toEntityResult {
             it.toUser()
         }
@@ -43,7 +43,7 @@ class UserRepositoryImpl @Inject constructor(
         dataStorePrefDataSource.setString(DataStoreKey.USER, user.toJsonString())
     }
 
-    override suspend fun updateUserData(user: User): FlowResult<Unit> {
+    override fun updateUserData(user: User): FlowResult<Unit> {
         return userSupabaseDataSource.updateUser(user).onEach {
             it.onSuccess { setUserLocalData(user) }
         }

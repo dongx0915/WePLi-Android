@@ -5,5 +5,5 @@ import com.wepli.core.kotlin.flow.FlowResult
 
 interface ArtistDataSource {
 
-    suspend fun getArtists(): FlowResult<ArtistListResponse>
+    fun getArtists(): FlowResult<ArtistListResponse>
 }

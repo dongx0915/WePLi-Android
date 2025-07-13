@@ -6,5 +6,5 @@ import model.music.ChartMusic
 
 interface ChartRepository {
 
-    suspend fun getTopChart(): FlowResult<List<ChartMusic>>
+    fun getTopChart(): FlowResult<List<ChartMusic>>
 }

@@ -14,7 +14,7 @@ fun LifecycleOwner.withInMainScope(
     action: suspend () -> Unit
 ) {
     lifecycleScope.launch(
-        context = Dispatchers.Main + coroutineContext,
+        context = Dispatchers.Main.immediate + coroutineContext,
         start = start,
     ) {
         action()
