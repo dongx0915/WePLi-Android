@@ -139,19 +139,15 @@ fun SongInfoScreen(
 @Composable
 fun YoutubeVideoPlayer(
     videoId: String = "",
-    isExpanded: Boolean = false,
+    isPause: Boolean = false,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
     modifier: Modifier = Modifier
 ) {
     var youTubePlayer: YouTubePlayer? by remember { mutableStateOf(null) }
-    
-    LaunchedEffect(isExpanded) {
+
+    LaunchedEffect(isPause) {
         youTubePlayer?.let { player ->
-            if (isExpanded) {
-                player.play()
-            } else {
-                player.pause()
-            }
+            if (isPause) player.pause() else player.play()
         }
     }
     
@@ -195,7 +191,7 @@ fun MusicVideoInfoLayout(
         if (isExpanded) {
             YoutubeVideoPlayer(
                 videoId = "riWBCpP14ek",
-                isExpanded = isExpanded,
+                isPause = isExpanded.not(),
                 modifier = Modifier.clip(RoundedCornerShape(16.dp))
             )
         }
