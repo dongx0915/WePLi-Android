@@ -39,19 +39,20 @@ fun YoutubeVideoPlayer(
         factory = { context ->
             YouTubePlayerView(context).apply {
                 lifecycleOwner.lifecycle.addObserver(this)
-
-                addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
-                    override fun onReady(player: YouTubePlayer) {
-                        youTubePlayer = player
-
-                        if (needAutoPlay) {
-                            player.loadVideo(videoId, autoPlayStartSeconds)
-                        } else {
-                            player.cueVideo(videoId, 0f)
-                        }
-                    }
-                })
             }
+        },
+        update = { view ->
+            view.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+                override fun onReady(player: YouTubePlayer) {
+                    youTubePlayer = player
+
+                    if (needAutoPlay) {
+                        player.loadVideo(videoId, autoPlayStartSeconds)
+                    } else {
+                        player.cueVideo(videoId, 0f)
+                    }
+                }
+            })
         }
     )
 }
