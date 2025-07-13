@@ -152,7 +152,7 @@ fun MusicVideoInfoLayout(
 
         key("youtube_player") {
             YoutubeVideoPlayer(
-                videoId = "riWBCpP14ek",
+                videoId = "NbKH4iZqq1Y",
                 forcePause = !isExpanded,
                 modifier = Modifier
                     .clip(RoundedCornerShape(16.dp))

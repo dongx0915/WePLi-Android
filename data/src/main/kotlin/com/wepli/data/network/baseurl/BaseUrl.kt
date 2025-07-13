@@ -5,7 +5,8 @@ import com.wepli.core.common.BuildConfig
 enum class BaseUrl(
     private val prodUrl: String,
     private val testUrl: String,
-    val value: String
+    val value: String,
+    val url: String = if (BuildConfig.DEBUG) testUrl else prodUrl
 ) {
     POSTMAN(
         prodUrl = BuildConfig.POSTMAN_URL,
@@ -22,12 +23,14 @@ enum class BaseUrl(
         testUrl = BuildConfig.SUPABASE_URL,
         value = "Supabase API"
     ),
+    YOUTUBE(
+        prodUrl = BuildConfig.YOUTUBE_API_URL,
+        testUrl = BuildConfig.YOUTUBE_API_URL,
+        value = "Youtube API"
+    ),
     UNKNOWN(
         prodUrl = "",
         testUrl = "",
         value = "Unknown API"
     );
-
-    val url: String
-        get() = if (BuildConfig.DEBUG) testUrl else prodUrl
 }
