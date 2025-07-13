@@ -10,3 +10,7 @@ annotation class BaseRetrofit
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class AppleMusicRetrofit
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class YoutubeRetrofit
