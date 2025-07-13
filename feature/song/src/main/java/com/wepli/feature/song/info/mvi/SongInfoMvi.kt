@@ -12,7 +12,7 @@ data class SongInfoUiState(
     val artistAlbums: List<AlbumUiData> = emptyList(),
     val album: AlbumUiData = AlbumUiData(),
     val similarSongs: List<SongUiData> = emptyList(),
-    val isMusicVideoExpanded: Boolean = false
+    val isMusicVideoExpanded: Boolean = false,
 ) : UiState
 
 interface SongInfoEffect : SideEffect

@@ -102,6 +102,8 @@ class SongInfoViewModel @Inject constructor(
     }
 
     private fun toggleMusicVideo() = intent {
-        updateState { copy(isMusicVideoExpanded = !isMusicVideoExpanded) }
+        updateState { 
+            copy(isMusicVideoExpanded = !isMusicVideoExpanded)
+        }
     }
 }
