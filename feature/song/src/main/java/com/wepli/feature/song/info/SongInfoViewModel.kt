@@ -47,7 +47,7 @@ class SongInfoViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getAlbumById(albumId: String) = intent {
+    private fun getAlbumById(albumId: String) = intent {
         if (albumId.isEmpty()) return@intent
 
         appleMusicRepository.getAlbumById(albumId)
@@ -64,7 +64,7 @@ class SongInfoViewModel @Inject constructor(
             )
     }
 
-    private suspend fun getSimilarSongs(currentSongId: String, artistName: String, genre: String) = intent {
+    private fun getSimilarSongs(currentSongId: String, artistName: String, genre: String) = intent {
         val searchQuery = "${artistName} ${genre}"
 
         appleMusicRepository.searchMusics(searchQuery, 10)
@@ -84,7 +84,7 @@ class SongInfoViewModel @Inject constructor(
             )
     }
 
-    private suspend fun getAlbumByArtist(artistId: String) = intent {
+    private fun getAlbumByArtist(artistId: String) = intent {
         if (artistId.isEmpty()) return@intent
 
         appleMusicRepository.getAlbumsByArtist(artistId)
