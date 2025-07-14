@@ -120,6 +120,7 @@ fun HomeScreen(
     val hazeState = LocalHazeState.current
     HomeAppBar { scrollState, paddingValues ->
         val topPadding = paddingValues.calculateTopPadding()
+        val bottomPadding = paddingValues.calculateBottomPadding()
 
         LazyColumn(
             modifier = Modifier
@@ -132,7 +133,7 @@ fun HomeScreen(
         ) {
             item {
                 RelaylistPagerLayout(
-                    topPagerModifier = Modifier.padding(top = topPadding),
+                    topPagerModifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
                     relaylists = relaylists,
                     onClick = { relaylistId -> sendAction(HomeIntent.LoadRelaylist(relaylistId)) }
                 )
