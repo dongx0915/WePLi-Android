@@ -109,10 +109,11 @@ fun CommunityScreen(
                 )
             },
         ) { paddingValues ->
+            val topPadding = remember { paddingValues.calculateTopPadding() }
             val bottomPadding = remember { paddingValues.calculateBottomPadding() * 2 }
 
             LazyColumn(
-                modifier = Modifier.padding(paddingValues),
+                modifier = Modifier.padding(top = topPadding),
                 contentPadding = PaddingValues(bottom = bottomPadding),
             ) {
                 item { WePLiStoryLayout(users = storyUsers) }
