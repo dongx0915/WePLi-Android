@@ -142,11 +142,7 @@ fun MusicVideoInfoLayout(
     isExpanded: Boolean,
     onToggleExpanded: () -> Unit,
 ) {
-    val videoSizeIcon by remember(isExpanded) {
-        derivedStateOf {
-            if (isExpanded) CoreR.drawable.ic_arrow_minimize else CoreR.drawable.ic_arrow_expand
-        }
-    }
+    val videoSizeIcon = if (isExpanded) CoreR.drawable.ic_arrow_minimize else CoreR.drawable.ic_arrow_expand
 
     Column(
         modifier = Modifier.animateContentSize()
