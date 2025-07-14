@@ -23,27 +23,23 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.ScrollableAppBar
 import appbar.WepliAppBar
-import component.youtube.YoutubeVideoPlayer
-import com.wepli.core.resources.R as CoreR
+import com.wepli.feature.song.R
 import com.wepli.feature.song.info.component.album.AlbumInfoLayout
 import com.wepli.feature.song.info.component.album.ResponsiveAlbumGrid
 import com.wepli.feature.song.info.component.song.SimilarSongsLayout
@@ -55,10 +51,12 @@ import com.wepli.shared.feature.uimodel.album.AlbumUiData
 import com.wepli.shared.feature.uimodel.musicvideo.MusicVideoUiData
 import com.wepli.uimodel.music.SongUiData
 import common.WepliSpacer
+import component.youtube.YoutubeVideoPlayer
 import custom.OneLineTitle
 import image.AsyncImageWithPreview
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
+import com.wepli.core.resources.R as CoreR
 
 @Composable
 fun SongInfoScreenRoute(
@@ -148,7 +146,7 @@ fun MusicVideoInfoLayout(
         modifier = Modifier.animateContentSize()
     ) {
         OneLineTitle(
-            title = "뮤직비디오",
+            title = stringResource(R.string.song_info_music_video),
             showIcon = true,
             modifier = Modifier.padding(vertical = 12.dp)
         )
@@ -253,7 +251,7 @@ fun SongInfoLayout(song: SongUiData) {
         )
 
         Text(
-            text = "FLAC",
+            text = stringResource(R.string.song_info_flac),
             style = WepliTheme.typo.subTitle7,
             color = WepliTheme.color.gray600,
             modifier = Modifier.padding(top = 4.dp)
@@ -323,7 +321,7 @@ private fun LabeledIcon(
 fun ArtistAlbumGrid(albums: List<AlbumUiData>) {
     Column {
         OneLineTitle(
-            title = "이 가수의 다른 앨범",
+            title = stringResource(R.string.song_info_other_albums),
             showIcon = true,
             modifier = Modifier.padding(vertical = 12.dp)
         )
