@@ -8,16 +8,19 @@ import com.wepli.feature.song.info.mvi.SongInfoEffect
 import com.wepli.feature.song.info.mvi.SongInfoIntent
 import com.wepli.feature.song.info.mvi.SongInfoUiState
 import com.wepli.shared.feature.uimodel.album.AlbumUiData
+import com.wepli.shared.feature.uimodel.musicvideo.MusicVideoUiData
 import com.wepli.uimodel.music.SongUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import repository.applemusic.AppleMusicRepository
+import repository.youtube.YoutubeRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class SongInfoViewModel @Inject constructor(
-    private val appleMusicRepository: AppleMusicRepository
+    private val appleMusicRepository: AppleMusicRepository,
+    private val youtubeRepository: YoutubeRepository,
 ) : BaseMviViewModel<SongInfoUiState, SongInfoEffect, SongInfoIntent>(
     initialState = SongInfoUiState()
 ) {
@@ -25,6 +28,7 @@ class SongInfoViewModel @Inject constructor(
     override fun processIntent(intent: SongInfoIntent) {
         when (intent) {
             is SongInfoIntent.Init -> init(intent.song)
+            SongInfoIntent.ToggleMusicVideo -> toggleMusicVideo()
         }
     }
 
@@ -38,6 +42,7 @@ class SongInfoViewModel @Inject constructor(
                         getAlbumById(it.albumId.orEmpty())
                         getSimilarSongs(song.id, it.artistName, it.genres.first())
                         getAlbumByArtist(it.artistId.orEmpty())
+                        getMusicVideo(it.title, it.artistName)
                     },
                     onFailure = {
                         Log.e("SongInfoViewModel", it.message ?: "Error")
@@ -46,7 +51,7 @@ class SongInfoViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getAlbumById(albumId: String) = intent {
+    private fun getAlbumById(albumId: String) = intent {
         if (albumId.isEmpty()) return@intent
 
         appleMusicRepository.getAlbumById(albumId)
@@ -63,8 +68,8 @@ class SongInfoViewModel @Inject constructor(
             )
     }
 
-    private suspend fun getSimilarSongs(currentSongId: String, artistName: String, genre: String) = intent {
-        val searchQuery = "${artistName} ${genre}"
+    private fun getSimilarSongs(currentSongId: String, artistName: String, genre: String) = intent {
+        val searchQuery = "$artistName $genre"
 
         appleMusicRepository.searchMusics(searchQuery, 10)
             .flowOn(Dispatchers.IO)
@@ -83,7 +88,7 @@ class SongInfoViewModel @Inject constructor(
             )
     }
 
-    private suspend fun getAlbumByArtist(artistId: String) = intent {
+    private fun getAlbumByArtist(artistId: String) = intent {
         if (artistId.isEmpty()) return@intent
 
         appleMusicRepository.getAlbumsByArtist(artistId)
@@ -98,5 +103,28 @@ class SongInfoViewModel @Inject constructor(
                     Log.e("SongInfoViewModel", it.message ?: "Error")
                 }
             )
+    }
+
+    private fun getMusicVideo(title: String, artistName: String) = launch {
+        val searchQuery = "$title $artistName Music Video"
+
+        youtubeRepository.searchMusicVideo(searchQuery = searchQuery)
+            .flowOn(Dispatchers.IO)
+            .collectResult(
+                onSuccess = { musicVideo ->
+                    if (musicVideo == null) return@collectResult
+
+                    updateState { copy(musicVideoState = MusicVideoUiData.fromDomain(musicVideo)) }
+                },
+                onFailure = {
+                    Log.e("SongInfoViewModel", it.message ?: "Error")
+                }
+            )
+    }
+
+    private fun toggleMusicVideo() = intent {
+        updateState { 
+            copy(isMusicVideoExpanded = !isMusicVideoExpanded)
+        }
     }
 }

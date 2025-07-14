@@ -1,8 +1,10 @@
 package com.wepli.feature.song.info
 
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -27,14 +30,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.ScrollableAppBar
 import appbar.WepliAppBar
-import com.wepli.core.resources.R as CoreR
+import com.wepli.feature.song.R
 import com.wepli.feature.song.info.component.album.AlbumInfoLayout
 import com.wepli.feature.song.info.component.album.ResponsiveAlbumGrid
 import com.wepli.feature.song.info.component.song.SimilarSongsLayout
@@ -43,11 +48,15 @@ import com.wepli.feature.song.info.mvi.SongInfoIntent
 import com.wepli.feature.song.info.mvi.SongInfoUiState
 import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.uimodel.album.AlbumUiData
+import com.wepli.shared.feature.uimodel.musicvideo.MusicVideoUiData
 import com.wepli.uimodel.music.SongUiData
+import common.WepliSpacer
+import component.youtube.YoutubeVideoPlayer
 import custom.OneLineTitle
 import image.AsyncImageWithPreview
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
+import com.wepli.core.resources.R as CoreR
 
 @Composable
 fun SongInfoScreenRoute(
@@ -63,7 +72,8 @@ fun SongInfoScreenRoute(
 
     SongInfoScreen(
         state = state,
-        navOnBack = navOnBack
+        sendAction = { viewModel.processIntent(it) },
+        navOnBack = navOnBack,
     )
 }
 
@@ -71,7 +81,8 @@ fun SongInfoScreenRoute(
 @Composable
 fun SongInfoScreen(
     state: SongInfoUiState,
-    navOnBack: () -> Unit
+    sendAction: (SongInfoIntent) -> Unit,
+    navOnBack: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
     val song = state.song
@@ -101,6 +112,14 @@ fun SongInfoScreen(
         ) {
             SongInfoLayout(song = song)
 
+            state.musicVideoState?.let { musicVideo ->
+                MusicVideoInfoLayout(
+                    musicVideo = musicVideo,
+                    isExpanded = state.isMusicVideoExpanded,
+                    onToggleExpanded = { sendAction(SongInfoIntent.ToggleMusicVideo) },
+                )
+            }
+
             SongDetailInfoLayout(
                 composers = song.composers,
                 genres = song.genres
@@ -114,6 +133,87 @@ fun SongInfoScreen(
         }
     }
 }
+
+@Composable
+fun MusicVideoInfoLayout(
+    musicVideo: MusicVideoUiData,
+    isExpanded: Boolean,
+    onToggleExpanded: () -> Unit,
+) {
+    val videoSizeIcon = if (isExpanded) CoreR.drawable.ic_arrow_minimize else CoreR.drawable.ic_arrow_expand
+
+    Column(
+        modifier = Modifier.animateContentSize()
+    ) {
+        OneLineTitle(
+            title = stringResource(R.string.song_info_music_video),
+            showIcon = true,
+            modifier = Modifier.padding(vertical = 12.dp)
+        )
+
+        YoutubeVideoPlayer(
+            videoId = musicVideo.id,
+            forcePause = !isExpanded,
+            modifier = Modifier
+                .clip(RoundedCornerShape(16.dp))
+                .wrapContentHeight()
+                .animateContentSize()
+                .let {
+                    if (isExpanded) it
+                    else it.height(0.dp)
+                }
+        )
+
+        Row(
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .clickable { onToggleExpanded() },
+        ) {
+            AsyncImageWithPreview(
+                imageUrl = musicVideo.thumbnail,
+                previewImage = painterResource(id = CoreR.drawable.img_placeholder_minnie),
+                imageOverrideSize = 52.dp,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(8.dp))
+                    .animateContentSize()
+                    .size(if (isExpanded) 0.dp else 52.dp)
+            )
+
+            if (isExpanded.not()) {
+                WepliSpacer(horizontal = 12.dp)
+            }
+
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = musicVideo.title,
+                    style = WepliTheme.typo.body6,
+                    color = WepliTheme.color.gray900,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                Text(
+                    text = musicVideo.channelTitle,
+                    style = WepliTheme.typo.subTitle7,
+                    color = WepliTheme.color.gray600,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+
+            WepliSpacer(horizontal = 8.dp)
+
+            Image(
+                imageVector = ImageVector.vectorResource(videoSizeIcon),
+                contentDescription = null,
+                modifier = Modifier.size(20.dp)
+            )
+        }
+    }
+}
+
 
 @Composable
 fun SongInfoLayout(song: SongUiData) {
@@ -151,7 +251,7 @@ fun SongInfoLayout(song: SongUiData) {
         )
 
         Text(
-            text = "FLAC",
+            text = stringResource(R.string.song_info_flac),
             style = WepliTheme.typo.subTitle7,
             color = WepliTheme.color.gray600,
             modifier = Modifier.padding(top = 4.dp)
@@ -221,7 +321,7 @@ private fun LabeledIcon(
 fun ArtistAlbumGrid(albums: List<AlbumUiData>) {
     Column {
         OneLineTitle(
-            title = "이 가수의 다른 앨범",
+            title = stringResource(R.string.song_info_other_albums),
             showIcon = true,
             modifier = Modifier.padding(vertical = 12.dp)
         )
@@ -230,8 +330,12 @@ fun ArtistAlbumGrid(albums: List<AlbumUiData>) {
     }
 }
 
-@Preview
+@Preview(heightDp = 1000)
 @Composable
 fun SongInfoScreenPreview() {
-    SongInfoScreen(state = SongInfoUiState(song = songMockData.random()), navOnBack = {})
+    SongInfoScreen(
+        state = SongInfoUiState(song = songMockData.random()),
+        navOnBack = {},
+        sendAction = {},
+    )
 }

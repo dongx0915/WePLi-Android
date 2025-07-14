@@ -7,6 +7,7 @@ import com.wepli.data.di.qualifier.AppleMusicOkHttpClient
 import com.wepli.data.di.qualifier.AppleMusicRetrofit
 import com.wepli.data.di.qualifier.BaseOkHttpClient
 import com.wepli.data.di.qualifier.BaseRetrofit
+import com.wepli.data.di.qualifier.YoutubeRetrofit
 import com.wepli.data.network.baseurl.BaseUrl
 import com.wepli.data.network.calladapter.FlowCallAdapterFactory
 import com.wepli.data.network.interceptor.DebugApiLogInterceptor
@@ -126,6 +127,23 @@ object RetrofitModule {
 
         return Retrofit.Builder()
             .baseUrl(BaseUrl.APPLE_MUSIC.url)
+            .client(httpClient)
+            .addConverterFactory(converterFactory)
+            .addCallAdapterFactory(FlowCallAdapterFactory.create())
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @YoutubeRetrofit
+    fun provideYoutubeRetrofit(
+        @BaseOkHttpClient httpClient: OkHttpClient
+    ): Retrofit {
+        val contentType = "application/json".toMediaType()
+        val converterFactory = json.asConverterFactory(contentType)
+
+        return Retrofit.Builder()
+            .baseUrl(BaseUrl.YOUTUBE.url)
             .client(httpClient)
             .addConverterFactory(converterFactory)
             .addCallAdapterFactory(FlowCallAdapterFactory.create())

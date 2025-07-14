@@ -15,4 +15,5 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.blur.haze)
     implementation(libs.blur.haze.materials)
+    implementation(libs.youtube.player)
 }

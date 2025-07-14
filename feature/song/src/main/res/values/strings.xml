@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="song_info_music_video">뮤직비디오</string>
+    <string name="song_info_other_albums">이 가수의 다른 앨범</string>
+    <string name="song_info_flac">FLAC</string>
+</resources>

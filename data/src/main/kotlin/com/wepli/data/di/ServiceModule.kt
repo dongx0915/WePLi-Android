@@ -5,8 +5,10 @@ import com.wepli.data.artist.ArtistApi
 import com.wepli.data.chart.ChartApi
 import com.wepli.data.di.qualifier.AppleMusicRetrofit
 import com.wepli.data.di.qualifier.BaseRetrofit
+import com.wepli.data.di.qualifier.YoutubeRetrofit
 import com.wepli.data.playlist.PlaylistApi
 import com.wepli.data.relaylist.RelaylistApi
+import com.wepli.data.youtube.YoutubeApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,4 +40,8 @@ object ServiceModule {
     @Provides
     @Singleton
     fun provideAppleMusicService(@AppleMusicRetrofit retrofit: Retrofit): AppleMusicApi = retrofit.create(AppleMusicApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideYoutubeService(@YoutubeRetrofit retrofit: Retrofit): YoutubeApi = retrofit.create(YoutubeApi::class.java)
 }

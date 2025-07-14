@@ -29,6 +29,9 @@ import com.wepli.data.supabase.bucket.datasource.SupabaseBucketDataSource
 import com.wepli.data.supabase.bucket.datasource.SupabaseBucketDataSourceImpl
 import com.wepli.data.user.datasource.UserSupabaseDataSource
 import com.wepli.data.user.datasource.UserSupabaseDataSourceImpl
+import com.wepli.data.youtube.datasource.remote.YoutubeRemoteDataSource
+import com.wepli.data.youtube.datasource.remote.YoutubeRemoteDataSourceImpl
+import com.wepli.data.youtube.repository.YoutubeRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -61,6 +64,10 @@ interface DataSourceModule {
     @Binds
     @Singleton
     fun bindAppleMusicDataSource(appleMusicDataSourceImpl: AppleMusicDataSourceImpl): AppleMusicDataSource
+
+    @Binds
+    @Singleton
+    fun bindYoutubeDataSource(youtubeDataSourceImpl: YoutubeRemoteDataSourceImpl): YoutubeRemoteDataSource
 
     @Binds
     @Singleton
