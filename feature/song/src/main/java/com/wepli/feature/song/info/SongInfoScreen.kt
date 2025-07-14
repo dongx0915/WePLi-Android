@@ -178,10 +178,7 @@ fun MusicVideoInfoLayout(
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
                     .animateContentSize()
-                    .let {
-                        if (isExpanded) it.size(0.dp)
-                        else it.size(52.dp)
-                    }
+                    .size(if (isExpanded) 0.dp else 52.dp)
             )
 
             if (isExpanded.not()) {
