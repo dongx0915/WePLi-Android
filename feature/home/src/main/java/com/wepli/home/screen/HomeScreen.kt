@@ -100,8 +100,6 @@ fun HomeRoute(
         recommendPlaylists = recommendPlaylists,
         themePlaylists = themePlaylists,
         sendAction = viewModel::processIntent,
-        onNavigatePlaylist = { playlistId -> onNavigatePlaylist(playlistId) },
-        onNavigateRelaylist = { relaylistId -> onNavigateRelaylist(relaylistId) }
     )
 }
 
@@ -114,8 +112,6 @@ fun HomeScreen(
     recommendPlaylists: List<RecommendPlaylist>,
     themePlaylists: List<RecommendPlaylist>,
     sendAction: (HomeIntent) -> Unit,
-    onNavigatePlaylist: (playlistId: Int) -> Unit,
-    onNavigateRelaylist: (relaylistId: Int) -> Unit,
 ) {
     val hazeState = LocalHazeState.current
     HomeAppBar { scrollState, paddingValues ->
@@ -352,8 +348,6 @@ fun HomeScreenPreview() {
         recommendPlaylists = recommendPlaylistMockData,
         themePlaylists = recommendPlaylistMockData,
         sendAction = {},
-        onNavigatePlaylist = {},
-        onNavigateRelaylist = {}
     )
 }
 
