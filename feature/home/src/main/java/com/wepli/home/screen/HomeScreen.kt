@@ -124,7 +124,7 @@ fun HomeScreen(
                 .background(WepliTheme.color.black)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(24.dp),
-            contentPadding = PaddingValues(bottom = 100.dp),
+            contentPadding = PaddingValues(bottom = 50.dp + bottomPadding * 2),
             state = scrollState
         ) {
             item {
