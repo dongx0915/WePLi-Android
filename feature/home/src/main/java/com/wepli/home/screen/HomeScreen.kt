@@ -143,7 +143,7 @@ fun HomeScreen(
 
             item {
                 WePLiPlaylistLayout(
-                    title = "위플리 추천 플레이리스트",
+                    title = stringResource(R.string.home_recommend_playlist_title),
                     playlists = recommendPlaylists,
                     onClick = { playlistId -> sendAction(HomeIntent.LoadPlaylist(playlistId)) }
                 )
@@ -151,7 +151,7 @@ fun HomeScreen(
 
             item {
                 WePLiPlaylistLayout(
-                    title = "테마별 플레이리스트",
+                    title = stringResource(R.string.home_theme_playlist_title),
                     playlists = themePlaylists,
                     onClick = { playlistId -> sendAction(HomeIntent.LoadPlaylist(playlistId)) }
                 )
@@ -256,7 +256,10 @@ fun WePLiChartLayout(
     }
 
     Column(modifier = modifier) {
-        TwoLineTitle(title = "위플리 TOP 100", subscription = "매일 오전 6시 업데이트")
+        TwoLineTitle(
+            title = stringResource(R.string.home_top_100_title),
+            subscription = stringResource(R.string.home_top_100_update_time)
+        )
         HorizontalPager(
             modifier = Modifier
                 .fillMaxWidth()
@@ -323,8 +326,8 @@ fun ArtistLayout(artistList: List<ArtistUiData>) {
 
     Column {
         TwoLineTitle(
-            title = "위플리 인기 랭킹",
-            subscription = "위플리 차트에서 인기가 많은 가수들을 모아봤어요"
+            title = stringResource(R.string.home_top_artist_title),
+            subscription = stringResource(R.string.home_top_artist_desc),
         )
         Spacer(modifier = Modifier.height(4.dp))
         LazyRow(

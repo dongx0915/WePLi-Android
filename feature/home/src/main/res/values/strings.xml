@@ -1,2 +1,8 @@
 <resources>
+    <string name="home_recommend_playlist_title">위플리 추천 플레이리스트</string>
+    <string name="home_theme_playlist_title">테마별 플레이리스트</string>
+    <string name="home_top_100_title">위플리 TOP 100</string>
+    <string name="home_top_100_update_time">매일 오전 6시 업데이트</string>
+    <string name="home_top_artist_title">위플리 인기 랭킹</string>
+    <string name="home_top_artist_desc">위플리 차트에서 인기가 많은 가수들을 모아봤어요</string>
 </resources>
