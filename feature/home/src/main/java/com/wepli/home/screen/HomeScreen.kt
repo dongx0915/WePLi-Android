@@ -23,10 +23,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -60,6 +60,7 @@ import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import theme.LocalHazeState
 import theme.WepliTheme
+import com.wepli.feature.home.R
 
 @Composable
 fun HomeRoute(
@@ -69,11 +70,6 @@ fun HomeRoute(
 ) {
     val state by viewModel.collectAsState()
     val context = LocalContext.current
-    val relaylists by rememberUpdatedState(newValue = state.relaylists)
-    val topChartList by rememberUpdatedState(newValue = state.topChartList)
-    val artistList by rememberUpdatedState(newValue = state.artistList)
-    val recommendPlaylists by rememberUpdatedState(newValue = state.recommendPlaylists)
-    val themePlaylists by rememberUpdatedState(newValue = state.themePlaylists)
 
     viewModel.collectSideEffect {
         when (it) {
@@ -94,11 +90,11 @@ fun HomeRoute(
     }
 
     HomeScreen(
-        relaylists = relaylists,
-        topChartList = topChartList,
-        artistList = artistList,
-        recommendPlaylists = recommendPlaylists,
-        themePlaylists = themePlaylists,
+        relaylists = state.relaylists,
+        topChartList = state.topChartList,
+        artistList = state.artistList,
+        recommendPlaylists = state.recommendPlaylists,
+        themePlaylists = state.themePlaylists,
         sendAction = viewModel::processIntent,
     )
 }
@@ -247,11 +243,11 @@ fun WePLiChartLayout(
 ) {
     if (musicList.isEmpty()) return
 
-    val pageCount = remember(key1 = musicList.size) { musicList.size / 5 }
+    val pageCount = remember(musicList.size) { musicList.size / 5 }
     val pagerState = rememberPagerState(
         pageCount = { pageCount }
     )
-    val musicChunk = remember(musicList) {
+    val musicChunk = remember(musicList.size) {
         musicList.chunked(5)
     }
 
@@ -290,7 +286,7 @@ fun WePLiPlaylistLayout(
     playlists: List<RecommendPlaylist>,
     onClick: (playlistId: Int) -> Unit = {},
 ) {
-    val playlistWithMaxTitle = remember(key1 = playlists) {
+    val playlistWithMaxTitle = remember(playlists.size) {
         playlists.maxByOrNull { it.title.length }
     } ?: return
 
