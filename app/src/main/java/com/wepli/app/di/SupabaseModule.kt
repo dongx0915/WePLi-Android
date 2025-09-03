@@ -17,15 +17,43 @@ import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.serializer.KotlinXSerializer
 import io.github.jan.supabase.storage.Storage
+import io.ktor.client.call.HttpClientCall
 import io.ktor.client.plugins.HttpResponseValidator
+import io.ktor.client.plugins.api.Send
+import io.ktor.client.plugins.api.createClientPlugin
+import io.ktor.client.request.forms.FormDataContent
+import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
+import io.ktor.http.content.ByteArrayContent
+import io.ktor.http.content.OutgoingContent
+import io.ktor.http.content.TextContent
+import io.ktor.util.AttributeKey
 import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object SupabaseModule {
+
+    private val RequestBodyKey = AttributeKey<String>("requestBodyForLog")
+
+    private val RequestBodyCapture = createClientPlugin("RequestBodyCapture") {
+        on(Send) { request ->
+            val bodyStr = when (val content = request.body) {
+                is TextContent -> content.text
+                is ByteArrayContent -> runCatching { content.bytes().decodeToString() }.getOrDefault("<byte-array>")
+                is FormDataContent -> content.formData.toString()           // 간단 표기
+                is MultiPartFormDataContent -> "<multipart>"
+                is OutgoingContent.NoContent -> ""
+                else -> content.toString()
+            }
+
+            val call: HttpClientCall = proceed(request)
+            call.attributes.put(RequestBodyKey, bodyStr)
+            call
+        }
+    }
 
     @OptIn(SupabaseInternal::class)
     @Provides
@@ -61,6 +89,8 @@ object SupabaseModule {
                         level = LogLevel.BODY
                     } */
 
+                    install(RequestBodyCapture)
+
                     // Header까지 기록하려면 아래 코드를 사용
                     HttpResponseValidator {
                         validateResponse { response ->
@@ -75,6 +105,7 @@ object SupabaseModule {
     private suspend fun makeApiLog(response: HttpResponse, apiLogRepository: DebugApiLogRepository) {
         val request = response.call.request
         val responseBody = response.bodyAsText()
+        val requestBodyForLog = response.call.attributes.getOrNull(RequestBodyKey).orEmpty()
 
         val fullUrl = request.url.toString()
         val matchedBaseUrl = BaseUrl.entries.firstOrNull {
@@ -93,7 +124,7 @@ object SupabaseModule {
             baseUrl = matchedBaseUrl.url,
             url = relativePath,
             requestHeaders = headersMap,
-            requestBody = "", // <- 이 부분은 Ktor에서 직접 얻기 어려움
+            requestBody = requestBodyForLog,
             responseCode = response.status.value,
             responseBody = responseBody,
             startTime = response.requestTime.timestamp,
