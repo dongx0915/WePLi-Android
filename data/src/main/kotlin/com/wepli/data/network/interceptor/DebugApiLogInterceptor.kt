@@ -2,9 +2,9 @@ package com.wepli.data.network.interceptor
 
 import android.util.Log
 import com.wepli.data.network.baseurl.BaseUrl
-import debug.model.ApiLog
-import debug.model.ApiMethod
-import debug.repository.DebugApiLogRepository
+import com.wepli.domain.devmode.model.ApiLog
+import com.wepli.domain.devmode.model.ApiMethod
+import com.wepli.domain.devmode.repository.DebugApiLogRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

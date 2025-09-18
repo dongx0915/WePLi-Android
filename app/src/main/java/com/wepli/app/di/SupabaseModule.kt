@@ -3,13 +3,13 @@ package com.wepli.app.di
 import android.util.Log
 import com.wepli.core.common.BuildConfig
 import com.wepli.data.network.baseurl.BaseUrl
+import com.wepli.domain.devmode.model.ApiLog
+import com.wepli.domain.devmode.model.ApiMethod
+import com.wepli.domain.devmode.repository.DebugApiLogRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import debug.model.ApiLog
-import debug.model.ApiMethod
-import debug.repository.DebugApiLogRepository
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.annotations.SupabaseInternal
 import io.github.jan.supabase.auth.Auth

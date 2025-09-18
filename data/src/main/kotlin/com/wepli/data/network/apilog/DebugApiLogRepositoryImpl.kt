@@ -3,15 +3,8 @@ package com.wepli.data.network.apilog
 import com.wepli.data.db.devmode.entity.toDomain
 import com.wepli.data.db.devmode.entity.toEntity
 import com.wepli.data.network.apilog.datasource.DebugApiLogLocalDatasourceImpl
-import debug.model.ApiLog
-import debug.repository.DebugApiLogRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
+import com.wepli.domain.devmode.model.ApiLog
+import com.wepli.domain.devmode.repository.DebugApiLogRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
