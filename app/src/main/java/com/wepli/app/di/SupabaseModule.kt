@@ -31,6 +31,8 @@ import io.ktor.http.content.TextContent
 import io.ktor.util.AttributeKey
 import kotlinx.serialization.json.Json
 import javax.inject.Singleton
+import kotlin.collections.component1
+import kotlin.collections.component2
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -94,7 +96,9 @@ object SupabaseModule {
                     // Header까지 기록하려면 아래 코드를 사용
                     HttpResponseValidator {
                         validateResponse { response ->
-                            makeApiLog(response, apiLogRepository)
+                            val apiLog = response.toApiLog()
+                            apiLogRepository.insertLog(apiLog)
+                            Log.d("Supabase Log", apiLog.toString())
                         }
                     }
                 }
@@ -102,15 +106,13 @@ object SupabaseModule {
         }
     }
 
-    private suspend fun makeApiLog(response: HttpResponse, apiLogRepository: DebugApiLogRepository) {
-        val request = response.call.request
-        val responseBody = response.bodyAsText()
-        val requestBodyForLog = response.call.attributes.getOrNull(RequestBodyKey).orEmpty()
+    suspend fun HttpResponse.toApiLog(): ApiLog {
+        val request = call.request
+        val responseBody = bodyAsText()
+        val requestBodyForLog = call.attributes.getOrNull(RequestBodyKey).orEmpty()
 
         val fullUrl = request.url.toString()
-        val matchedBaseUrl = BaseUrl.entries.firstOrNull {
-            fullUrl.startsWith(it.url)
-        } ?: BaseUrl.UNKNOWN
+        val matchedBaseUrl = BaseUrl.entries.firstOrNull { fullUrl.startsWith(it.url) } ?: BaseUrl.UNKNOWN
         val relativePath = fullUrl.removePrefix(matchedBaseUrl.url)
 
         val headersMap: Map<String, String> = request.headers.entries()
@@ -118,19 +120,16 @@ object SupabaseModule {
                 key to value.joinToString(", ") // 다중 값은 쉼표로 연결
             }
 
-        val log = ApiLog(
+        return ApiLog(
             method = ApiMethod.fromString(request.method.value),
             baseUrlType = matchedBaseUrl.value,
             baseUrl = matchedBaseUrl.url,
             url = relativePath,
             requestHeaders = headersMap,
             requestBody = requestBodyForLog,
-            responseCode = response.status.value,
+            responseCode = status.value,
             responseBody = responseBody,
-            startTime = response.requestTime.timestamp,
+            startTime = requestTime.timestamp,
         )
-
-        apiLogRepository.insertLog(log)
-        Log.d("Supabase Log", log.toString())
     }
 }
