@@ -25,6 +25,7 @@ import io.ktor.client.request.forms.FormDataContent
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
+import io.ktor.http.Headers
 import io.ktor.http.content.ByteArrayContent
 import io.ktor.http.content.OutgoingContent
 import io.ktor.http.content.TextContent
@@ -106,29 +107,30 @@ object SupabaseModule {
         }
     }
 
+    private fun Headers.toSingleValueMap(separator: String): Map<String, String> {
+        return entries().associate { (key, values) ->
+            key to values.joinToString(separator)
+        }
+    }
+
     suspend fun HttpResponse.toApiLog(): ApiLog {
         val request = call.request
-        val responseBody = bodyAsText()
+        val requestHeaders: Map<String, String> = request.headers.toSingleValueMap(", ")
         val requestBodyForLog = call.attributes.getOrNull(RequestBodyKey).orEmpty()
 
         val fullUrl = request.url.toString()
         val matchedBaseUrl = BaseUrl.entries.firstOrNull { fullUrl.startsWith(it.url) } ?: BaseUrl.UNKNOWN
         val relativePath = fullUrl.removePrefix(matchedBaseUrl.url)
 
-        val headersMap: Map<String, String> = request.headers.entries()
-            .associate { (key, value) ->
-                key to value.joinToString(", ") // 다중 값은 쉼표로 연결
-            }
-
         return ApiLog(
             method = ApiMethod.fromString(request.method.value),
             baseUrlType = matchedBaseUrl.value,
             baseUrl = matchedBaseUrl.url,
             url = relativePath,
-            requestHeaders = headersMap,
+            requestHeaders = requestHeaders,
             requestBody = requestBodyForLog,
             responseCode = status.value,
-            responseBody = responseBody,
+            responseBody = bodyAsText(),
             startTime = requestTime.timestamp,
         )
     }
