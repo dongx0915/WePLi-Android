@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun BlurBackgroundOverlay(
     backgroundColor: Color = Color.Black,
-    colorStops: List<Float> = listOf(0.67f, 0.70f, 0.82f, 0.85f, 1.0f),
+    colorStops: List<Float> = (1..10).map { it / 10f },
     modifier: Modifier = Modifier,
     blurModifier: Modifier = Modifier
         .fillMaxWidth()

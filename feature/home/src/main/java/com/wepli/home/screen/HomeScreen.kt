@@ -2,39 +2,53 @@ package com.wepli.home.screen
 
 import android.annotation.SuppressLint
 import android.widget.Toast
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.HomeAppBar
 import appbar.WepliAppBar
+import com.wepli.core.kotlin.time.formatAsRemainingTime
+import com.wepli.feature.home.R
 import com.wepli.home.component.PlayListCoverItem
 import com.wepli.home.component.RelaylistBackground
-import com.wepli.home.component.RelaylistBannerComponent
 import com.wepli.home.component.WePLiBanner
 import com.wepli.home.component.WePLiBannerType
 import com.wepli.home.mvi.HomeEffect
@@ -46,21 +60,24 @@ import com.wepli.shared.feature.mock.recommendPlaylistMockData
 import com.wepli.shared.feature.mock.relaylistMockData
 import com.wepli.shared.feature.uimodel.artist.ArtistUiData
 import com.wepli.uimodel.music.ChartMusicUiData
+import com.wepli.uimodel.music.SongUiData
 import compose.MeasuredHeightContainer
+import compose.calculateCurrentOffsetForPage
 import custom.ArtistProfileListItem
 import custom.MusicItem
 import custom.MusicItemType
 import custom.OneLineTitle
 import custom.TwoLineTitle
 import dev.chrisbanes.haze.hazeSource
-import compose.calculateCurrentOffsetForPage
+import image.AsyncImageWithPreview
 import model.playlist.RecommendPlaylist
 import model.relaylist.Relaylist
+import org.joda.time.DateTime
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import theme.LocalHazeState
 import theme.WepliTheme
-import com.wepli.feature.home.R
+import com.wepli.core.resources.R as CoreR
 
 @Composable
 fun HomeRoute(
@@ -172,8 +189,6 @@ fun RelaylistPagerLayout(
         pageCount = { relaylists.size }
     )
 
-    val scaleSizeRatio = 0.8f
-
     // 상위 Pager 스크롤에 따라 하위 Pager를 동기화
     LaunchedEffect(topPagerState) {
         snapshotFlow { topPagerState.currentPageOffsetFraction }
@@ -204,14 +219,123 @@ fun RelaylistPagerLayout(
             modifier = topPagerModifier
                 .fillMaxWidth()
                 .padding(top = 20.dp),
-            contentPadding = PaddingValues(horizontal = 24.dp),
             pageSpacing = 12.dp
         ) { page ->
             val relaylist = relaylists[page]
             val pageOffset = topPagerState.calculateCurrentOffsetForPage(page)
 
-            RelaylistBannerComponent(item = relaylist, scaleSizeRatio = scaleSizeRatio, pageOffset = pageOffset, modifier = Modifier.clickable { onClick(relaylist.id) })
+            RelaylistBanner(
+                item = relaylist,
+                pageOffset = pageOffset,
+                modifier = Modifier
+                    .clickable { onClick.invoke(relaylist.id) }
+                    .padding(horizontal = 20.dp)
+            )
         }
+    }
+}
+
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@Composable
+private fun RelaylistBanner(
+    modifier: Modifier = Modifier,
+    item: Relaylist = relaylistMockData.first(),
+    pageOffset: Float,
+) {
+    val activity = LocalActivity.current ?: return
+    val windowSizeClass = calculateWindowSizeClass(activity)
+
+    val ratio = when (windowSizeClass.widthSizeClass) {
+        WindowWidthSizeClass.Medium,
+        WindowWidthSizeClass.Expanded -> 10f / 5f
+        else -> 10f / 7f
+    }
+    val firstSong: SongUiData? = item.bSideTrack.firstOrNull()?.let(SongUiData::fromDomain)
+
+    Column(modifier) {
+        Box(modifier = Modifier.aspectRatio(ratio))
+        Text(
+            text = item.title,
+            style = WepliTheme.typo.title1,
+            color = WepliTheme.color.white,
+            minLines = 2,
+            modifier = Modifier.width(300.dp)
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+
+        Text(
+            text = "총 ${item.songCount}곡 • ${item.voteCount} 투표",
+            style = WepliTheme.typo.body3,
+            color = WepliTheme.color.gray700
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        if (firstSong != null) {
+            RelaylistFirstSong(firstSong)
+        }
+
+        Spacer(modifier = Modifier.height(36.dp))
+        RelaylistTimerComponent(remainingTime = DateTime.now().millis)
+    }
+}
+
+@Composable
+private fun RelaylistFirstSong(firstSong: SongUiData) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(6.dp),
+        ) {
+            Text(
+                text = firstSong.title,
+                style = WepliTheme.typo.subTitle1,
+                color = WepliTheme.color.white
+            )
+
+            Text(
+                text = firstSong.artistName,
+                style = WepliTheme.typo.body4,
+                color = WepliTheme.color.gray700
+            )
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.width(4.dp))
+
+        AsyncImageWithPreview(
+            imageUrl = firstSong.coverImg,
+            previewImage = painterResource(id = CoreR.drawable.img_placeholder_chuu),
+            modifier = Modifier
+                .size(60.dp)
+                .clip(RoundedCornerShape(6.dp))
+        )
+    }
+}
+
+@Composable
+private fun RelaylistTimerComponent(modifier: Modifier = Modifier, remainingTime: Long) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                color = WepliTheme.color.white.copy(alpha = 0.1f),
+                shape = RoundedCornerShape(12.dp)
+            )
+            .padding(horizontal = 20.dp, vertical = 20.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = "플리 완성까지",
+            style = WepliTheme.typo.subTitle2,
+            color = WepliTheme.color.gray900,
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        Text(
+            text = remainingTime.formatAsRemainingTime(),
+            style = WepliTheme.typo.body4,
+            color = WepliTheme.color.gray700,
+        )
     }
 }
 

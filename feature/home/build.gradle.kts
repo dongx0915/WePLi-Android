@@ -7,3 +7,6 @@ plugins {
 android {
     namespace = "com.wepli.feature.home"
 }
+dependencies {
+    implementation(libs.androidx.material3.window.size.clazz)
+}

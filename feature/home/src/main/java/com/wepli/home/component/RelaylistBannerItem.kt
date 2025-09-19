@@ -14,7 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -31,6 +30,7 @@ import compose.pagerFadeTransition
 import image.AsyncImageWithPreview
 import model.relaylist.Relaylist
 import theme.WepliTheme
+import kotlin.Float
 import kotlin.math.absoluteValue
 
 @Preview
@@ -135,19 +135,18 @@ fun RelaylistBackground(
     Box(
         modifier = modifier
             .pagerFadeTransition(page, bottomPagerState) // 전환 효과 적용
-            .blur(20.dp)
     ) {
         AsyncImageWithPreview(
             modifier = Modifier.fillMaxSize(),
             imageUrl = item.coverImgUrl,
             previewImage = painterResource(id = CoreR.drawable.img_placeholder_eunbin),
-            contentScale = ContentScale.FillBounds,
+            contentScale = ContentScale.Crop,
         )
 
         BlurBackgroundOverlay(
             modifier = Modifier.matchParentSize(),
             blurModifier = Modifier.matchParentSize(),
-            colorStopRange = 0f..1f
+            colorStopRange = 0.3f..1f
         )
     }
 }
