@@ -51,11 +51,11 @@ import com.wepli.home.component.WePLiBanner
 import com.wepli.home.component.WePLiBannerType
 import com.wepli.home.mvi.HomeEffect
 import com.wepli.home.mvi.HomeIntent
-import com.wepli.home.mvi.HomeUiState
 import com.wepli.home.viewmodel.HomeViewModel
 import com.wepli.shared.feature.mock.artistMockData
 import com.wepli.shared.feature.mock.musicMockData
 import com.wepli.shared.feature.mock.recommendPlaylistMockData
+import com.wepli.shared.feature.mock.relaylistMockData
 import com.wepli.shared.feature.uimodel.artist.ArtistUiData
 import com.wepli.uimodel.music.ChartMusicUiData
 import com.wepli.uimodel.music.SongUiData
@@ -107,7 +107,7 @@ fun HomeRoute(
     }
 
     HomeScreen(
-        state = state,
+        relaylists = state.relaylists,
         topChartList = state.topChartList,
         artistList = state.artistList,
         recommendPlaylists = state.recommendPlaylists,
@@ -119,7 +119,7 @@ fun HomeRoute(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @Composable
 fun HomeScreen(
-    state: HomeUiState,
+    relaylists: List<Relaylist>,
     topChartList: List<ChartMusicUiData>,
     artistList: List<ArtistUiData>,
     recommendPlaylists: List<RecommendPlaylist>,
@@ -144,7 +144,7 @@ fun HomeScreen(
             item {
                 RelaylistPagerLayout(
                     topPagerModifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
-                    state = state,
+                    relaylists = relaylists,
                     onClick = { relaylistId -> sendAction(HomeIntent.LoadRelaylist(relaylistId)) }
                 )
             }
@@ -180,10 +180,9 @@ fun HomeScreen(
 fun RelaylistPagerLayout(
     modifier: Modifier = Modifier,
     topPagerModifier: Modifier = Modifier,
-    state: HomeUiState,
+    relaylists: List<Relaylist>,
     onClick: (relaylistId: Int) -> Unit,
 ) {
-    val relaylists = state.relaylists
     val topPagerState = rememberPagerState(
         pageCount = { relaylists.size }
     )
@@ -460,11 +459,11 @@ fun ArtistLayout(artistList: List<ArtistUiData>) {
     }
 }
 
-@Preview
+@Preview(heightDp = 2000)
 @Composable
 fun HomeScreenPreview() {
     HomeScreen(
-        state = HomeUiState(),
+        relaylists = relaylistMockData,
         topChartList = musicMockData,
         artistList = artistMockData,
         recommendPlaylists = recommendPlaylistMockData,
