@@ -11,6 +11,7 @@ import model.relaylist.Relaylist
 
 data class HomeUiState(
     val relaylists: List<Relaylist> = relaylistMockData,
+    val currentRelaylistRemainingTime:Long = 0L,
     val topChartList: List<ChartMusicUiData> = emptyList(),
     val artistList: List<ArtistUiData> = emptyList(),
     val recommendPlaylists: List<RecommendPlaylist> = emptyList(),
@@ -28,4 +29,6 @@ sealed interface HomeEffect : SideEffect {
 sealed interface HomeIntent : Intent {
     data class LoadPlaylist(val playlistId: Int) : HomeIntent
     data class LoadRelaylist(val relaylistId: Int) : HomeIntent
+
+    data class UpdateCurrentPage(val page: Int) : HomeIntent
 }

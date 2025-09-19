@@ -1,6 +1,7 @@
 package com.wepli.home.screen
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -51,6 +52,7 @@ import com.wepli.home.component.WePLiBanner
 import com.wepli.home.component.WePLiBannerType
 import com.wepli.home.mvi.HomeEffect
 import com.wepli.home.mvi.HomeIntent
+import com.wepli.home.mvi.HomeUiState
 import com.wepli.home.viewmodel.HomeViewModel
 import com.wepli.shared.feature.mock.artistMockData
 import com.wepli.shared.feature.mock.musicMockData
@@ -71,7 +73,6 @@ import dev.chrisbanes.haze.hazeSource
 import image.AsyncImageWithPreview
 import model.playlist.RecommendPlaylist
 import model.relaylist.Relaylist
-import org.joda.time.DateTime
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import theme.LocalHazeState
@@ -107,11 +108,7 @@ fun HomeRoute(
     }
 
     HomeScreen(
-        relaylists = state.relaylists,
-        topChartList = state.topChartList,
-        artistList = state.artistList,
-        recommendPlaylists = state.recommendPlaylists,
-        themePlaylists = state.themePlaylists,
+        state = state,
         sendAction = viewModel::processIntent,
     )
 }
@@ -119,14 +116,15 @@ fun HomeRoute(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @Composable
 fun HomeScreen(
-    relaylists: List<Relaylist>,
-    topChartList: List<ChartMusicUiData>,
-    artistList: List<ArtistUiData>,
-    recommendPlaylists: List<RecommendPlaylist>,
-    themePlaylists: List<RecommendPlaylist>,
+    state: HomeUiState,
     sendAction: (HomeIntent) -> Unit,
 ) {
     val hazeState = LocalHazeState.current
+    val relaylists = state.relaylists
+    val topChartList = state.topChartList
+    val artistList = state.artistList
+    val recommendPlaylists = state.recommendPlaylists
+    val themePlaylists = state.themePlaylists
 
     HomeAppBar { scrollState, paddingValues ->
         val topPadding = paddingValues.calculateTopPadding()
@@ -144,8 +142,9 @@ fun HomeScreen(
             item {
                 RelaylistPagerLayout(
                     topPagerModifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
-                    relaylists = relaylists,
-                    onClick = { relaylistId -> sendAction(HomeIntent.LoadRelaylist(relaylistId)) }
+                    state = state,
+                    onClick = { relaylistId -> sendAction(HomeIntent.LoadRelaylist(relaylistId)) },
+                    onPageChanged = { page -> sendAction(HomeIntent.UpdateCurrentPage(page))}
                 )
             }
 
@@ -180,9 +179,11 @@ fun HomeScreen(
 fun RelaylistPagerLayout(
     modifier: Modifier = Modifier,
     topPagerModifier: Modifier = Modifier,
-    relaylists: List<Relaylist>,
+    state: HomeUiState,
     onClick: (relaylistId: Int) -> Unit,
+    onPageChanged: (Int) -> Unit,
 ) {
+    val relaylists = state.relaylists
     val topPagerState = rememberPagerState(
         pageCount = { relaylists.size }
     )
@@ -191,6 +192,13 @@ fun RelaylistPagerLayout(
     )
 
     // 상위 Pager 스크롤에 따라 하위 Pager를 동기화
+    LaunchedEffect(topPagerState) {
+        snapshotFlow { topPagerState.currentPage }
+            .collect { page ->
+                onPageChanged(page)
+            }
+    }
+
     LaunchedEffect(topPagerState) {
         snapshotFlow { topPagerState.currentPageOffsetFraction }
             .collect { offset ->
@@ -227,6 +235,7 @@ fun RelaylistPagerLayout(
 
             RelaylistBanner(
                 item = relaylist,
+                remainingTime = state.currentRelaylistRemainingTime,
                 pageOffset = pageOffset,
                 modifier = Modifier
                     .clickable { onClick.invoke(relaylist.id) }
@@ -241,6 +250,7 @@ fun RelaylistPagerLayout(
 private fun RelaylistBanner(
     modifier: Modifier = Modifier,
     item: Relaylist,
+    remainingTime: Long,
     pageOffset: Float,
 ) {
     val windowWidthSizeClass = LocalWindowWidthSizeClass.current
@@ -273,7 +283,7 @@ private fun RelaylistBanner(
         }
 
         Spacer(modifier = Modifier.height(36.dp))
-        RelaylistTimerComponent(remainingTime = DateTime.now().millis)
+        RelaylistTimerComponent(remainingTime = remainingTime)
     }
 }
 
@@ -323,17 +333,28 @@ private fun RelaylistTimerComponent(modifier: Modifier = Modifier, remainingTime
             .padding(horizontal = 20.dp, vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
-            text = "플리 완성까지",
-            style = WepliTheme.typo.subTitle2,
-            color = WepliTheme.color.gray900,
-        )
-        Spacer(modifier = Modifier.weight(1f))
-        Text(
-            text = remainingTime.formatAsRemainingTime(),
-            style = WepliTheme.typo.body4,
-            color = WepliTheme.color.gray700,
-        )
+        if (remainingTime <= 0L) {
+            Text(
+                text = "릴레이리스트가 완성되었어요 🎉",
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                style = WepliTheme.typo.subTitle2,
+                color = WepliTheme.color.gray900,
+                modifier = Modifier.fillMaxWidth()
+            )
+            return@Row
+        } else {
+            Text(
+                text = "플리 완성까지",
+                style = WepliTheme.typo.subTitle2,
+                color = WepliTheme.color.gray900,
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = remainingTime.formatAsRemainingTime(),
+                style = WepliTheme.typo.body4,
+                color = WepliTheme.color.gray700,
+            )
+        }
     }
 }
 
@@ -463,11 +484,13 @@ fun ArtistLayout(artistList: List<ArtistUiData>) {
 @Composable
 fun HomeScreenPreview() {
     HomeScreen(
-        relaylists = relaylistMockData,
-        topChartList = musicMockData,
-        artistList = artistMockData,
-        recommendPlaylists = recommendPlaylistMockData,
-        themePlaylists = recommendPlaylistMockData,
+        state = HomeUiState(
+            relaylists = relaylistMockData,
+            topChartList = musicMockData,
+            artistList = artistMockData,
+            recommendPlaylists = recommendPlaylistMockData,
+            themePlaylists = recommendPlaylistMockData,
+        ),
         sendAction = {},
     )
 }

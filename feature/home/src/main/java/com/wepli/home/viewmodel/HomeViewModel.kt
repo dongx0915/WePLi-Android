@@ -7,9 +7,12 @@ import com.wepli.home.mvi.HomeEffect
 import com.wepli.home.mvi.HomeIntent
 import com.wepli.home.mvi.HomeUiState
 import com.wepli.shared.feature.uimodel.artist.ArtistUiData
+import com.wepli.shared.feature.uimodel.relaylist.RelaylistUiData
 import com.wepli.uimodel.music.ChartMusicUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flowOn
 import repository.artist.ArtistRepository
 import repository.chart.ChartRepository
@@ -27,6 +30,8 @@ class HomeViewModel @Inject constructor(
     initialState = HomeUiState()
 ) {
 
+    private var timerJob: Job? = null
+
     init {
         getRelaylists()
         getTopChart()
@@ -39,7 +44,18 @@ class HomeViewModel @Inject constructor(
         when (intent) {
             is HomeIntent.LoadPlaylist -> loadPlaylistById(intent.playlistId)
             is HomeIntent.LoadRelaylist -> loadRelaylistById(intent.relaylistId)
+            is HomeIntent.UpdateCurrentPage -> updateCurrentPage(intent.page)
         }
+    }
+
+    private fun updateCurrentPage(page: Int) = intent {
+        val currentRelaylist = RelaylistUiData.fromDomain(state.relaylists[page])
+        updateState {
+            Log.d("페이지", "마감 시간: ${currentRelaylist.endDate} |남은 시간: ${currentRelaylist.remainingTime}")
+            copy(currentRelaylistRemainingTime = currentRelaylist.remainingTime)
+        }
+
+        startTimer()
     }
 
     private fun getRelaylists() = intent {
@@ -133,6 +149,18 @@ class HomeViewModel @Inject constructor(
                         postSideEffect { HomeEffect.RelaylistLoadFailed }
                     }
                 )
+        }
+    }
+
+    private fun startTimer() = intent {
+        timerJob?.cancel()
+        timerJob = launch(Dispatchers.Default) {
+            while (state.currentRelaylistRemainingTime >= 0L) {
+                delay(1000)
+                reduce {
+                    state.copy(currentRelaylistRemainingTime = state.currentRelaylistRemainingTime - 1000)
+                }
+            }
         }
     }
 }
