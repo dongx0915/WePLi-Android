@@ -16,7 +16,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import com.wepli.domain.devmode.repository.DebugApiLogRepository
-import com.wepli.data.network.apilog.DebugApiLogRepositoryImpl
+import com.wepli.data.devmode.repository.DebugApiLogRepositoryImpl
 import repository.youtube.YoutubeRepository
 import com.wepli.data.youtube.repository.YoutubeRepositoryImpl
 import model.recommend.repository.KeywordRepository

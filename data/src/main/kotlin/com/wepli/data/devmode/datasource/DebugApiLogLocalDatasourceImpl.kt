@@ -1,4 +1,4 @@
-package com.wepli.data.network.apilog.datasource
+package com.wepli.data.devmode.datasource
 
 import com.wepli.data.devmode.dao.ApiLogDao
 import com.wepli.data.devmode.entity.ApiLogEntity

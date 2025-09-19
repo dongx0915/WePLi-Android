@@ -1,8 +1,8 @@
-package com.wepli.data.network.apilog
+package com.wepli.data.devmode.repository
 
+import com.wepli.data.devmode.datasource.DebugApiLogLocalDatasourceImpl
 import com.wepli.data.devmode.entity.toDomain
 import com.wepli.data.devmode.entity.toEntity
-import com.wepli.data.network.apilog.datasource.DebugApiLogLocalDatasourceImpl
 import com.wepli.domain.devmode.model.ApiLog
 import com.wepli.domain.devmode.repository.DebugApiLogRepository
 import javax.inject.Inject
@@ -24,7 +24,7 @@ class DebugApiLogRepositoryImpl @Inject constructor(
 
     override suspend fun insertLog(log: ApiLog) {
         apiLogDatasource.insertLog(log.toEntity())
-        
+
         val currentCount = apiLogDatasource.getCount()
         if (currentCount >= CLEANUP_THRESHOLD) {
             apiLogDatasource.deleteOldLogs(MAX_LOGS)
