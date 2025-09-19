@@ -243,13 +243,13 @@ private fun RelaylistBanner(
     item: Relaylist,
     pageOffset: Float,
 ) {
+    val windowWidthSizeClass = LocalWindowWidthSizeClass.current
     val firstSong: SongUiData? = item.bSideTrack.firstOrNull()?.let(SongUiData::fromDomain)
-    val ratio = when (LocalWindowWidthSizeClass.current) {
-        WindowWidthSizeClass.Medium,
-        WindowWidthSizeClass.Expanded -> {
-            10f / 5f
+    val ratio = remember(windowWidthSizeClass) {
+        when (windowWidthSizeClass) {
+            WindowWidthSizeClass.Compact -> 10f / 7f
+            else -> 10f / 5f
         }
-        else -> 10f / 7f
     }
 
     Column(modifier) {
