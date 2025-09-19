@@ -1,7 +1,7 @@
 package com.wepli.data.network.apilog
 
-import com.wepli.data.db.devmode.entity.toDomain
-import com.wepli.data.db.devmode.entity.toEntity
+import com.wepli.data.devmode.entity.toDomain
+import com.wepli.data.devmode.entity.toEntity
 import com.wepli.data.network.apilog.datasource.DebugApiLogLocalDatasourceImpl
 import com.wepli.domain.devmode.model.ApiLog
 import com.wepli.domain.devmode.repository.DebugApiLogRepository

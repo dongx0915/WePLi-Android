@@ -1,10 +1,10 @@
-package com.wepli.data.db.devmode.dao
+package com.wepli.data.devmode.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
-import com.wepli.data.db.devmode.entity.ApiLogEntity
+import com.wepli.data.devmode.entity.ApiLogEntity
 
 @Dao
 interface ApiLogDao {
