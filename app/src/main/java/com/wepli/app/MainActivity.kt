@@ -51,6 +51,7 @@ import dev.chrisbanes.haze.HazeStyle
 import dev.chrisbanes.haze.HazeTint
 import dev.chrisbanes.haze.hazeEffect
 import theme.LocalHazeState
+import theme.ProvideWindowWidthSizeClass
 import theme.WePLiTheme
 import theme.WepliTheme
 
@@ -66,10 +67,12 @@ class MainActivity : ComponentActivity() {
         window.isNavigationBarContrastEnforced = false // 하단바 투명으로 설정
 
         setContent {
-            WePLiTheme {
-                MainApp {
-                    startActivity(Intent(this, LoginActivity::class.java))
-                    finish()
+            ProvideWindowWidthSizeClass(this) {
+                WePLiTheme {
+                    MainApp {
+                        startActivity(Intent(this, LoginActivity::class.java))
+                        finish()
+                    }
                 }
             }
         }

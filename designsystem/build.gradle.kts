@@ -16,4 +16,5 @@ dependencies {
     implementation(libs.blur.haze)
     implementation(libs.blur.haze.materials)
     implementation(libs.youtube.player)
+    implementation(libs.androidx.material3.window.size.clazz)
 }

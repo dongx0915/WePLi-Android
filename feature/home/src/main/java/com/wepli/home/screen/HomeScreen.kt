@@ -2,7 +2,6 @@ package com.wepli.home.screen
 
 import android.annotation.SuppressLint
 import android.widget.Toast
-import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -28,7 +27,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -53,11 +51,11 @@ import com.wepli.home.component.WePLiBanner
 import com.wepli.home.component.WePLiBannerType
 import com.wepli.home.mvi.HomeEffect
 import com.wepli.home.mvi.HomeIntent
+import com.wepli.home.mvi.HomeUiState
 import com.wepli.home.viewmodel.HomeViewModel
 import com.wepli.shared.feature.mock.artistMockData
 import com.wepli.shared.feature.mock.musicMockData
 import com.wepli.shared.feature.mock.recommendPlaylistMockData
-import com.wepli.shared.feature.mock.relaylistMockData
 import com.wepli.shared.feature.uimodel.artist.ArtistUiData
 import com.wepli.uimodel.music.ChartMusicUiData
 import com.wepli.uimodel.music.SongUiData
@@ -77,6 +75,7 @@ import org.joda.time.DateTime
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import theme.LocalHazeState
+import theme.LocalWindowWidthSizeClass
 import theme.WepliTheme
 import com.wepli.core.resources.R as CoreR
 
@@ -108,7 +107,7 @@ fun HomeRoute(
     }
 
     HomeScreen(
-        relaylists = state.relaylists,
+        state = state,
         topChartList = state.topChartList,
         artistList = state.artistList,
         recommendPlaylists = state.recommendPlaylists,
@@ -120,7 +119,7 @@ fun HomeRoute(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @Composable
 fun HomeScreen(
-    relaylists: List<Relaylist>,
+    state: HomeUiState,
     topChartList: List<ChartMusicUiData>,
     artistList: List<ArtistUiData>,
     recommendPlaylists: List<RecommendPlaylist>,
@@ -128,6 +127,7 @@ fun HomeScreen(
     sendAction: (HomeIntent) -> Unit,
 ) {
     val hazeState = LocalHazeState.current
+
     HomeAppBar { scrollState, paddingValues ->
         val topPadding = paddingValues.calculateTopPadding()
         val bottomPadding = paddingValues.calculateBottomPadding()
@@ -144,7 +144,7 @@ fun HomeScreen(
             item {
                 RelaylistPagerLayout(
                     topPagerModifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
-                    relaylists = relaylists,
+                    state = state,
                     onClick = { relaylistId -> sendAction(HomeIntent.LoadRelaylist(relaylistId)) }
                 )
             }
@@ -180,9 +180,10 @@ fun HomeScreen(
 fun RelaylistPagerLayout(
     modifier: Modifier = Modifier,
     topPagerModifier: Modifier = Modifier,
-    relaylists: List<Relaylist>,
+    state: HomeUiState,
     onClick: (relaylistId: Int) -> Unit,
 ) {
+    val relaylists = state.relaylists
     val topPagerState = rememberPagerState(
         pageCount = { relaylists.size }
     )
@@ -240,18 +241,17 @@ fun RelaylistPagerLayout(
 @Composable
 private fun RelaylistBanner(
     modifier: Modifier = Modifier,
-    item: Relaylist = relaylistMockData.first(),
+    item: Relaylist,
     pageOffset: Float,
 ) {
-    val activity = LocalActivity.current ?: return
-    val windowSizeClass = calculateWindowSizeClass(activity)
-
-    val ratio = when (windowSizeClass.widthSizeClass) {
+    val firstSong: SongUiData? = item.bSideTrack.firstOrNull()?.let(SongUiData::fromDomain)
+    val ratio = when (LocalWindowWidthSizeClass.current) {
         WindowWidthSizeClass.Medium,
-        WindowWidthSizeClass.Expanded -> 10f / 5f
+        WindowWidthSizeClass.Expanded -> {
+            10f / 5f
+        }
         else -> 10f / 7f
     }
-    val firstSong: SongUiData? = item.bSideTrack.firstOrNull()?.let(SongUiData::fromDomain)
 
     Column(modifier) {
         Box(modifier = Modifier.aspectRatio(ratio))
@@ -259,8 +259,6 @@ private fun RelaylistBanner(
             text = item.title,
             style = WepliTheme.typo.title1,
             color = WepliTheme.color.white,
-            minLines = 2,
-            modifier = Modifier.width(300.dp)
         )
         Spacer(modifier = Modifier.height(4.dp))
 
@@ -466,7 +464,7 @@ fun ArtistLayout(artistList: List<ArtistUiData>) {
 @Composable
 fun HomeScreenPreview() {
     HomeScreen(
-        relaylists = relaylistMockData,
+        state = HomeUiState(),
         topChartList = musicMockData,
         artistList = artistMockData,
         recommendPlaylists = recommendPlaylistMockData,
