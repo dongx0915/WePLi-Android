@@ -63,6 +63,7 @@ import com.wepli.uimodel.music.ChartMusicUiData
 import com.wepli.uimodel.music.SongUiData
 import compose.MeasuredHeightContainer
 import compose.calculateCurrentOffsetForPage
+import compose.pagerFadeTransition
 import custom.ArtistProfileListItem
 import custom.MusicItem
 import custom.MusicItemType
@@ -207,10 +208,10 @@ fun RelaylistPagerLayout(
             val relaylist = relaylists[page]
 
             RelaylistBackground(
-                modifier = Modifier.matchParentSize(),
+                modifier = Modifier
+                    .matchParentSize()
+                    .pagerFadeTransition(page, bottomPagerState), // 전환 효과 적용
                 item = relaylist,
-                page = page,
-                bottomPagerState = bottomPagerState
             )
         }
 

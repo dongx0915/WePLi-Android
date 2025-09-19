@@ -129,12 +129,9 @@ fun RelaylistBannerComponent(
 fun RelaylistBackground(
     modifier: Modifier = Modifier,
     item: Relaylist,
-    page: Int,
-    bottomPagerState: PagerState,
 ) {
     Box(
         modifier = modifier
-            .pagerFadeTransition(page, bottomPagerState) // 전환 효과 적용
     ) {
         AsyncImageWithPreview(
             modifier = Modifier.fillMaxSize(),
