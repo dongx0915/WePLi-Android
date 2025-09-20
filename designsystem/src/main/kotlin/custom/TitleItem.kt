@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.designsystem.R
@@ -41,7 +42,7 @@ fun OneLineTitle(
     ) {
         Text(
             text = title,
-            style = WepliTheme.typo.subTitle2,
+            style = WepliTheme.typo.subTitle1,
             color = WepliTheme.color.gray900,
         )
         if (showIcon) {
@@ -66,7 +67,7 @@ fun TwoLineTitle(
         title?.let {
             Text(
                 text = it,
-                style = WepliTheme.typo.subTitle2,
+                style = WepliTheme.typo.subTitle1,
                 color = WepliTheme.color.gray900,
             )
         }

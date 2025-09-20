@@ -93,7 +93,7 @@ fun HomeScreen(
                 .hazeSource(hazeState)
                 .background(WepliTheme.color.black)
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(24.dp),
+            verticalArrangement = Arrangement.spacedBy(48.dp),
             contentPadding = PaddingValues(bottom = 50.dp + bottomPadding * 2),
             state = scrollState
         ) {
