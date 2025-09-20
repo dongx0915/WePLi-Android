@@ -6,10 +6,6 @@ import com.wepli.uimodel.music.SongUiData
 import kotlinx.parcelize.Parcelize
 import model.relaylist.Relaylist
 import org.joda.time.DateTime
-import java.time.Duration
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.util.concurrent.TimeUnit
 
 
 /**
@@ -26,13 +22,14 @@ data class RelaylistUiData(
     val description: String,
     val coverImgUrl: String,
     val bSideTrack: List<SongUiData>,
-    val songCnt: Int,
+    val songCount: Int,
+    val voteCount:Int,
     val isLiked: Boolean,
     val endDate: DateTime,
     val createdAt: DateTime,
 ) : UiModel {
 
-    constructor() : this(0, "", "", "", emptyList(), 0, false, DateTime.now(), DateTime.now())
+    constructor() : this(0, "", "", "", emptyList(), 0, 0, false, DateTime.now(), DateTime.now())
 
     val formattedCreatedAt: String = createdAt.toString("yyyy.MM.dd")
 
@@ -51,7 +48,8 @@ data class RelaylistUiData(
                 description = domainModel.description,
                 coverImgUrl = domainModel.coverImgUrl,
                 bSideTrack = domainModel.bSideTrack.map(SongUiData::fromDomain),
-                songCnt = domainModel.bSideTrack.size,
+                songCount = domainModel.bSideTrack.size,
+                voteCount = domainModel.voteCount,
                 isLiked = false,
                 endDate = domainModel.endDate,
                 createdAt = domainModel.createdAt,

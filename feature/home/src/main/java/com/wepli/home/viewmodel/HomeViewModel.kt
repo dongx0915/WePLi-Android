@@ -51,7 +51,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun updateCurrentPage(page: Int) = intent {
-        val currentRelaylist = RelaylistUiData.fromDomain(state.relaylists[page])
+        val currentRelaylist = state.relaylists.getOrNull(page) ?: return@intent
         updateState {
             copy(currentRelaylistRemainingTime = currentRelaylist.remainingTime)
         }
@@ -65,7 +65,7 @@ class HomeViewModel @Inject constructor(
                 .flowOn(Dispatchers.IO)
                 .suspendFirstResult(
                     onSuccess = { relaylists ->
-                        reduce { state.copy(relaylists = relaylists) }
+                        reduce { state.copy(relaylists = relaylists.map(RelaylistUiData::fromDomain)) }
                     }
                 )
         }

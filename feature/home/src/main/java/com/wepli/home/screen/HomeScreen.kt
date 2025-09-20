@@ -1,7 +1,6 @@
 package com.wepli.home.screen
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -57,9 +56,9 @@ import com.wepli.home.viewmodel.HomeViewModel
 import com.wepli.shared.feature.mock.artistMockData
 import com.wepli.shared.feature.mock.musicMockData
 import com.wepli.shared.feature.mock.recommendPlaylistMockData
-import com.wepli.shared.feature.mock.relaylistMockData
-import com.wepli.shared.feature.mock.songMockData
+import com.wepli.shared.feature.mock.relaylistUiMockData
 import com.wepli.shared.feature.uimodel.artist.ArtistUiData
+import com.wepli.shared.feature.uimodel.relaylist.RelaylistUiData
 import com.wepli.uimodel.music.ChartMusicUiData
 import com.wepli.uimodel.music.SongUiData
 import compose.MeasuredHeightContainer
@@ -73,7 +72,6 @@ import custom.TwoLineTitle
 import dev.chrisbanes.haze.hazeSource
 import image.AsyncImageWithPreview
 import model.playlist.RecommendPlaylist
-import model.relaylist.Relaylist
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import theme.LocalHazeState
@@ -219,7 +217,7 @@ fun RelaylistPagerLayout(
                 modifier = Modifier
                     .matchParentSize()
                     .pagerFadeTransition(page, bottomPagerState), // 전환 효과 적용
-                item = relaylist,
+                imageUrl = relaylist.coverImgUrl,
             )
         }
 
@@ -249,12 +247,12 @@ fun RelaylistPagerLayout(
 @Composable
 private fun RelaylistBanner(
     modifier: Modifier = Modifier,
-    item: Relaylist,
+    item: RelaylistUiData,
     remainingTime: Long,
     pageOffset: Float,
 ) {
+    val firstSong: SongUiData? = item.bSideTrack.firstOrNull()
     val windowWidthSizeClass = LocalWindowWidthSizeClass.current
-    val firstSong: SongUiData? = item.bSideTrack.firstOrNull()?.let(SongUiData::fromDomain)
     val ratio = remember(windowWidthSizeClass) {
         when (windowWidthSizeClass) {
             WindowWidthSizeClass.Compact -> 10f / 5f
@@ -485,7 +483,7 @@ fun ArtistLayout(artistList: List<ArtistUiData>) {
 fun HomeScreenPreview() {
     HomeScreen(
         state = HomeUiState(
-            relaylists = relaylistMockData,
+            relaylists = relaylistUiMockData,
             topChartList = musicMockData,
             artistList = artistMockData,
             recommendPlaylists = recommendPlaylistMockData,

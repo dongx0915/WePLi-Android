@@ -128,14 +128,14 @@ fun RelaylistBannerComponent(
 @Composable
 fun RelaylistBackground(
     modifier: Modifier = Modifier,
-    item: Relaylist,
+    imageUrl: String,
 ) {
     Box(
         modifier = modifier
     ) {
         AsyncImageWithPreview(
             modifier = Modifier.fillMaxSize(),
-            imageUrl = item.coverImgUrl,
+            imageUrl = imageUrl,
             previewImage = painterResource(id = CoreR.drawable.img_placeholder_eunbin),
             contentScale = ContentScale.Crop,
         )
