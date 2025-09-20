@@ -1,4 +1,4 @@
-package com.wepli.home.screen.relaylist
+package com.wepli.home.component.relaylist
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -27,11 +27,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.core.kotlin.time.formatAsRemainingTime
 import com.wepli.core.resources.R as CoreR
-import com.wepli.home.component.RelaylistBackground
 import com.wepli.home.mvi.HomeUiState
 import com.wepli.shared.feature.uimodel.relaylist.RelaylistUiData
 import com.wepli.uimodel.music.SongUiData
@@ -211,7 +211,7 @@ private fun RelaylistTimerComponent(modifier: Modifier = Modifier, remainingTime
         if (remainingTime <= 0L) {
             Text(
                 text = "릴레이리스트가 완성되었어요 🎉",
-                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                textAlign = TextAlign.Center,
                 style = WepliTheme.typo.subTitle2,
                 color = WepliTheme.color.gray900,
                 modifier = Modifier.fillMaxWidth()

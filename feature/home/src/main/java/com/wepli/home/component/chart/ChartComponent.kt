@@ -1,4 +1,4 @@
-package com.wepli.home.screen.relaylist
+package com.wepli.home.component.chart
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

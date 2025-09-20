@@ -1,4 +1,4 @@
-package com.wepli.home.component
+package com.wepli.home.component.banner
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

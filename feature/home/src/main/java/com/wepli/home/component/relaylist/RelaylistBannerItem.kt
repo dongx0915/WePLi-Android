@@ -1,4 +1,4 @@
-package com.wepli.home.component
+package com.wepli.home.component.relaylist
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,7 +25,6 @@ import androidx.compose.ui.util.lerp
 import com.wepli.core.resources.R as CoreR
 import com.wepli.shared.feature.mock.relaylistMockData
 import custom.BlurBackgroundOverlay
-import compose.pagerFadeTransition
 import image.AsyncImageWithPreview
 import model.relaylist.Relaylist
 import theme.WepliTheme
@@ -43,6 +41,7 @@ fun RelaylistBannerPreview() {
     )
 }
 
+@Deprecated("이전 버전 배너, 삭제 예정", replaceWith = ReplaceWith("RelaylistBannerComponent"))
 @Composable
 fun RelaylistBannerComponent(
     item: Relaylist,
