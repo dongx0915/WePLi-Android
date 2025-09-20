@@ -19,7 +19,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.unit.Dp
@@ -30,7 +29,6 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.TextUnit
-import kotlin.math.absoluteValue
 
 @Composable
 fun Dp.toPx(): Int = with(LocalDensity.current) { this@toPx.roundToPx() }
@@ -60,17 +58,6 @@ fun Modifier.gesturesDisabled(disabled: Boolean = true): Modifier {
         }
     } else {
         this
-    }
-}
-
-// 페이드 전환 효과를 적용하는 Modifier 확장 함수
-fun Modifier.pagerFadeTransition(page: Int, pagerState: PagerState): Modifier {
-    return graphicsLayer {
-        val pageOffset = pagerState.calculateCurrentOffsetForPage(page)
-        // 페이지 크기에 따라 콘텐츠를 이동시켜 가운데 유지
-        translationX = pageOffset * size.width
-        // alpha 값을 적용하여 페이드 효과 추가
-        alpha = 1 - pageOffset.absoluteValue
     }
 }
 

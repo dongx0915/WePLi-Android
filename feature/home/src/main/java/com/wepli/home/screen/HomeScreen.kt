@@ -66,6 +66,7 @@ import com.wepli.uimodel.music.SongUiData
 import compose.MeasuredHeightContainer
 import compose.calculateCurrentOffsetForPage
 import compose.pagerFadeTransition
+import compose.pagerZoomOut
 import custom.ArtistProfileListItem
 import custom.MusicItem
 import custom.MusicItemType
@@ -79,7 +80,6 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 import theme.LocalHazeState
 import theme.LocalWindowWidthSizeClass
 import theme.WepliTheme
-import kotlin.math.absoluteValue
 import com.wepli.core.resources.R as CoreR
 
 @Composable
@@ -219,7 +219,7 @@ fun RelaylistPagerLayout(
             RelaylistBackground(
                 modifier = Modifier
                     .matchParentSize()
-                    .pagerFadeTransition(page, bottomPagerState), // 전환 효과 적용
+                    .pagerFadeTransition(bottomPagerState, page), // 전환 효과 적용
                 imageUrl = relaylist.coverImgUrl,
             )
         }
@@ -232,8 +232,6 @@ fun RelaylistPagerLayout(
             pageSpacing = 12.dp,
         ) { page ->
             val relaylist = relaylists[page]
-            val pageOffset = topPagerState.calculateCurrentOffsetForPage(page)
-            val scaledFraction: (scale: Int) -> Float = { (pageOffset.absoluteValue * it).coerceIn(0f, 1f) }
 
             RelaylistBanner(
                 item = relaylist,
@@ -241,10 +239,7 @@ fun RelaylistPagerLayout(
                 modifier = Modifier
                     .clickable { onClick.invoke(relaylist.id) }
                     .padding(horizontal = 20.dp)
-                    .graphicsLayer {
-                        alpha = 1 - scaledFraction(2)
-                        translationY = lerp(start = 0f, stop = 100f, fraction = scaledFraction(1))
-                    }
+                    .pagerZoomOut(topPagerState, page),
             )
         }
     }
