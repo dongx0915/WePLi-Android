@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -63,6 +64,7 @@ import com.wepli.shared.feature.uimodel.relaylist.RelaylistUiData
 import com.wepli.uimodel.music.ChartMusicUiData
 import com.wepli.uimodel.music.SongUiData
 import compose.MeasuredHeightContainer
+import compose.noRippleClickable
 import compose.pagerFadeTransition
 import compose.pagerZoomOut
 import custom.ArtistProfileListItem
@@ -235,7 +237,9 @@ fun RelaylistPagerLayout(
                 item = relaylist,
                 remainingTime = state.currentRelaylistRemainingTime,
                 modifier = Modifier
-                    .clickable { onClick.invoke(relaylist.id) }
+                    .noRippleClickable {
+                        onClick.invoke(relaylist.id)
+                    }
                     .padding(horizontal = 20.dp)
                     .pagerZoomOut(topPagerState, page),
             )
