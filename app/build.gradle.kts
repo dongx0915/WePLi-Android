@@ -55,4 +55,7 @@ dependencies {
     implementation(libs.ktor.client.logging)
     implementation(libs.ktor.client.okhttp)
     implementation(libs.androidx.junit.ktx)
+
+    // debugging
+    implementation(libs.screen.name.viewer)
 }
