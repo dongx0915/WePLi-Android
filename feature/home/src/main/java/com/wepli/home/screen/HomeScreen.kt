@@ -37,6 +37,7 @@ import com.wepli.home.mvi.HomeEffect
 import com.wepli.home.mvi.HomeIntent
 import com.wepli.home.mvi.HomeUiState
 import com.wepli.home.screen.relaylist.RelaylistPagerLayout
+import com.wepli.home.screen.relaylist.WePLiChartLayout
 import com.wepli.home.viewmodel.HomeViewModel
 import com.wepli.shared.feature.mock.artistMockData
 import com.wepli.shared.feature.mock.musicMockData
@@ -170,50 +171,6 @@ fun WePLiBannerLayout() {
     ) { page ->
         val banner = bannerList[page]
         WePLiBanner(modifier = Modifier.fillMaxWidth(), bannerType = banner)
-    }
-}
-
-@Composable
-fun WePLiChartLayout(
-    modifier: Modifier = Modifier,
-    musicList: List<ChartMusicUiData>
-) {
-    if (musicList.isEmpty()) return
-
-    val pageCount = remember(musicList.size) { musicList.size / 5 }
-    val pagerState = rememberPagerState(
-        pageCount = { pageCount }
-    )
-    val musicChunk = remember(musicList.size) {
-        musicList.chunked(5)
-    }
-
-    Column(modifier = modifier) {
-        TwoLineTitle(
-            title = stringResource(R.string.home_top_100_title),
-            subscription = stringResource(R.string.home_top_100_update_time)
-        )
-        HorizontalPager(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 12.dp),
-            state = pagerState,
-            contentPadding = PaddingValues(start = 20.dp, end = 10.dp),
-        ) { page ->
-            // LazyColumn 내에 동일한 스크롤 방향의 LazyColumn 추가 불가
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                musicChunk[page].forEach { music ->
-                    MusicItem(
-                        modifier = Modifier.padding(end = 22.dp),
-                        musicItemType = MusicItemType.Chart(music),
-                        showPlayIcon = true,
-                    )
-                }
-            }
-        }
     }
 }
 
