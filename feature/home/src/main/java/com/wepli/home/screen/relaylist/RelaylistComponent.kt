@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.core.kotlin.time.formatAsRemainingTime
 import com.wepli.core.resources.R as CoreR
@@ -204,7 +205,7 @@ private fun RelaylistTimerComponent(modifier: Modifier = Modifier, remainingTime
                 color = WepliTheme.color.white.copy(alpha = 0.1f),
                 shape = RoundedCornerShape(12.dp)
             )
-            .padding(horizontal = 20.dp, vertical = 20.dp),
+            .padding(horizontal = 20.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (remainingTime <= 0L) {
@@ -230,4 +231,15 @@ private fun RelaylistTimerComponent(modifier: Modifier = Modifier, remainingTime
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun RelaylistTimerPreview() {
+    RelaylistTimerComponent(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
+        remainingTime = 3661000L
+    )
 }
