@@ -37,6 +37,7 @@ import com.wepli.home.mvi.HomeEffect
 import com.wepli.home.mvi.HomeIntent
 import com.wepli.home.mvi.HomeUiState
 import com.wepli.home.screen.relaylist.RelaylistPagerLayout
+import com.wepli.home.screen.relaylist.WePLiBannerLayout
 import com.wepli.home.screen.relaylist.WePLiChartLayout
 import com.wepli.home.viewmodel.HomeViewModel
 import com.wepli.shared.feature.mock.artistMockData
@@ -147,30 +148,6 @@ fun HomeScreen(
                 )
             }
         }
-    }
-}
-
-
-
-
-@Composable
-fun WePLiBannerLayout() {
-    val bannerList = listOf(
-        WePLiBannerType.Twitter,
-        WePLiBannerType.Instagram
-    )
-    val pagerState = rememberPagerState(pageCount = { bannerList.size })
-
-    HorizontalPager(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
-        state = pagerState,
-        contentPadding = PaddingValues(horizontal = 20.dp),
-        pageSpacing = 12.dp
-    ) { page ->
-        val banner = bannerList[page]
-        WePLiBanner(modifier = Modifier.fillMaxWidth(), bannerType = banner)
     }
 }
 
