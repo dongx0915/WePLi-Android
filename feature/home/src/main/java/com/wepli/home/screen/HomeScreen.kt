@@ -36,6 +36,7 @@ import com.wepli.home.component.WePLiBannerType
 import com.wepli.home.mvi.HomeEffect
 import com.wepli.home.mvi.HomeIntent
 import com.wepli.home.mvi.HomeUiState
+import com.wepli.home.screen.relaylist.ArtistLayout
 import com.wepli.home.screen.relaylist.RelaylistPagerLayout
 import com.wepli.home.screen.relaylist.WePLiBannerLayout
 import com.wepli.home.screen.relaylist.WePLiChartLayout
@@ -152,27 +153,6 @@ fun HomeScreen(
     }
 }
 
-@Composable
-fun ArtistLayout(artistList: List<ArtistUiData>) {
-    if (artistList.isEmpty()) return
-
-    Column {
-        TwoLineTitle(
-            title = stringResource(R.string.home_top_artist_title),
-            subscription = stringResource(R.string.home_top_artist_desc),
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(horizontal = 20.dp)
-        ) {
-            items(artistList) { artist ->
-                ArtistProfileListItem(artist)
-            }
-        }
-    }
-}
-
 @Preview(heightDp = 2000)
 @Composable
 fun HomeScreenPreview() {
@@ -201,10 +181,4 @@ fun AppBarPreview() {
 @Composable
 fun WePLiChartPreview() {
     WePLiChartLayout(musicList = musicMockData)
-}
-
-@Preview
-@Composable
-fun ArtistLayoutPreview() {
-    ArtistLayout(artistList = artistMockData)
 }
