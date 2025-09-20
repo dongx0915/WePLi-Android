@@ -33,7 +33,7 @@ class RelaylistSupabaseDataSourceImpl @Inject constructor(
      */
     override fun getRelaylists(): FlowResult<List<RelaylistResponse>> = flow {
         val result: Result<List<RelaylistResponse>> = runCatching {
-            supabase.postgrest[SupabaseConstants.RELAYLIST_TABLE]
+            supabase.postgrest[SupabaseConstants.RELAYLIST_VIEW]
                 .select {
                     order("id", Order.ASCENDING)
                 }

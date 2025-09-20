@@ -310,8 +310,9 @@ private fun RelaylistFirstSong(firstSong: SongUiData) {
         Spacer(modifier = Modifier.width(4.dp))
 
         AsyncImageWithPreview(
-            imageUrl = firstSong.coverImg,
+            imageUrl = firstSong.getImageUrl(),
             previewImage = painterResource(id = CoreR.drawable.img_placeholder_chuu),
+            imageOverrideSize = 60.dp,
             modifier = Modifier
                 .size(60.dp)
                 .clip(RoundedCornerShape(6.dp))
