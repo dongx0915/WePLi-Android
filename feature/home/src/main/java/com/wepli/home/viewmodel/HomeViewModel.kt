@@ -53,7 +53,6 @@ class HomeViewModel @Inject constructor(
     private fun updateCurrentPage(page: Int) = intent {
         val currentRelaylist = RelaylistUiData.fromDomain(state.relaylists[page])
         updateState {
-            Log.d("페이지", "마감 시간: ${currentRelaylist.endDate} |남은 시간: ${currentRelaylist.remainingTime}")
             copy(currentRelaylistRemainingTime = currentRelaylist.remainingTime)
         }
 
