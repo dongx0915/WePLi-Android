@@ -177,8 +177,3 @@ fun AppBarPreview() {
     )
 }
 
-@Preview
-@Composable
-fun WePLiChartPreview() {
-    WePLiChartLayout(musicList = musicMockData)
-}
