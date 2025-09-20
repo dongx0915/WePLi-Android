@@ -39,6 +39,7 @@ import com.wepli.home.mvi.HomeUiState
 import com.wepli.home.screen.relaylist.RelaylistPagerLayout
 import com.wepli.home.screen.relaylist.WePLiBannerLayout
 import com.wepli.home.screen.relaylist.WePLiChartLayout
+import com.wepli.home.screen.relaylist.WePLiPlaylistLayout
 import com.wepli.home.viewmodel.HomeViewModel
 import com.wepli.shared.feature.mock.artistMockData
 import com.wepli.shared.feature.mock.musicMockData
@@ -146,42 +147,6 @@ fun HomeScreen(
                     playlists = themePlaylists,
                     onClick = { playlistId -> sendAction(HomeIntent.LoadPlaylist(playlistId)) }
                 )
-            }
-        }
-    }
-}
-
-@Composable
-fun WePLiPlaylistLayout(
-    title: String,
-    playlists: List<RecommendPlaylist>,
-    onClick: (playlistId: Int) -> Unit = {},
-) {
-    val playlistWithMaxTitle = remember(playlists.size) {
-        playlists.maxByOrNull { it.title.length }
-    } ?: return
-
-    Column(
-        verticalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        OneLineTitle(title = title)
-
-        MeasuredHeightContainer(
-            modifier = Modifier,
-            measured = {
-                PlayListCoverItem(recommendPlaylist = playlistWithMaxTitle)
-            },
-        ) {
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                contentPadding = PaddingValues(horizontal = 20.dp)
-            ) {
-                items(playlists) { playlist ->
-                    PlayListCoverItem(
-                        modifier = Modifier.clickable { onClick(playlist.id) },
-                        recommendPlaylist = playlist,
-                    )
-                }
             }
         }
     }
