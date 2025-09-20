@@ -143,7 +143,7 @@ fun RelaylistBackground(
         BlurBackgroundOverlay(
             modifier = Modifier.matchParentSize(),
             blurModifier = Modifier.matchParentSize(),
-            colorStopRange = 0.3f..1f
+            colorStopRange = 0f..1f
         )
     }
 }

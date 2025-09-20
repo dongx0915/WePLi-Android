@@ -58,6 +58,7 @@ import com.wepli.shared.feature.mock.artistMockData
 import com.wepli.shared.feature.mock.musicMockData
 import com.wepli.shared.feature.mock.recommendPlaylistMockData
 import com.wepli.shared.feature.mock.relaylistMockData
+import com.wepli.shared.feature.mock.songMockData
 import com.wepli.shared.feature.uimodel.artist.ArtistUiData
 import com.wepli.uimodel.music.ChartMusicUiData
 import com.wepli.uimodel.music.SongUiData
@@ -120,7 +121,6 @@ fun HomeScreen(
     sendAction: (HomeIntent) -> Unit,
 ) {
     val hazeState = LocalHazeState.current
-    val relaylists = state.relaylists
     val topChartList = state.topChartList
     val artistList = state.artistList
     val recommendPlaylists = state.recommendPlaylists
@@ -257,8 +257,8 @@ private fun RelaylistBanner(
     val firstSong: SongUiData? = item.bSideTrack.firstOrNull()?.let(SongUiData::fromDomain)
     val ratio = remember(windowWidthSizeClass) {
         when (windowWidthSizeClass) {
-            WindowWidthSizeClass.Compact -> 10f / 7f
-            else -> 10f / 5f
+            WindowWidthSizeClass.Compact -> 10f / 5f
+            else -> 10f / 4f
         }
     }
 
@@ -276,7 +276,7 @@ private fun RelaylistBanner(
             style = WepliTheme.typo.body3,
             color = WepliTheme.color.gray700
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(32.dp))
 
         if (firstSong != null) {
             RelaylistFirstSong(firstSong)
