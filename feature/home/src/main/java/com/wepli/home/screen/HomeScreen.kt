@@ -35,11 +35,13 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.lerp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.HomeAppBar
 import appbar.WepliAppBar
@@ -77,6 +79,7 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 import theme.LocalHazeState
 import theme.LocalWindowWidthSizeClass
 import theme.WepliTheme
+import kotlin.math.absoluteValue
 import com.wepli.core.resources.R as CoreR
 
 @Composable
@@ -139,7 +142,7 @@ fun HomeScreen(
         ) {
             item {
                 RelaylistPagerLayout(
-                    topPagerModifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
+                    topPagerModifier = Modifier.padding(top = topPadding),
                     state = state,
                     onClick = { relaylistId -> sendAction(HomeIntent.LoadRelaylist(relaylistId)) },
                     onPageChanged = { page -> sendAction(HomeIntent.UpdateCurrentPage(page))}
@@ -230,14 +233,18 @@ fun RelaylistPagerLayout(
         ) { page ->
             val relaylist = relaylists[page]
             val pageOffset = topPagerState.calculateCurrentOffsetForPage(page)
+            val scaledFraction: (scale: Int) -> Float = { (pageOffset.absoluteValue * it).coerceIn(0f, 1f) }
 
             RelaylistBanner(
                 item = relaylist,
                 remainingTime = state.currentRelaylistRemainingTime,
-                pageOffset = pageOffset,
                 modifier = Modifier
                     .clickable { onClick.invoke(relaylist.id) }
                     .padding(horizontal = 20.dp)
+                    .graphicsLayer {
+                        alpha = 1 - scaledFraction(2)
+                        translationY = lerp(start = 0f, stop = 100f, fraction = scaledFraction(1))
+                    }
             )
         }
     }
@@ -249,7 +256,6 @@ private fun RelaylistBanner(
     modifier: Modifier = Modifier,
     item: RelaylistUiData,
     remainingTime: Long,
-    pageOffset: Float,
 ) {
     val firstSong: SongUiData? = item.bSideTrack.firstOrNull()
     val windowWidthSizeClass = LocalWindowWidthSizeClass.current
@@ -261,7 +267,7 @@ private fun RelaylistBanner(
     }
 
     Column(modifier) {
-        Box(modifier = Modifier.aspectRatio(ratio))
+        Spacer(modifier = Modifier.aspectRatio(ratio))
         Text(
             text = item.title,
             style = WepliTheme.typo.title1,
@@ -277,7 +283,7 @@ private fun RelaylistBanner(
         Spacer(modifier = Modifier.height(32.dp))
 
         if (firstSong != null) {
-            RelaylistFirstSong(firstSong)
+            RelaylistFirstSong(firstSong = firstSong)
         }
 
         Spacer(modifier = Modifier.height(36.dp))
@@ -286,9 +292,10 @@ private fun RelaylistBanner(
 }
 
 @Composable
-private fun RelaylistFirstSong(firstSong: SongUiData) {
+private fun RelaylistFirstSong(modifier: Modifier = Modifier, firstSong: SongUiData) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier,
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(6.dp),
