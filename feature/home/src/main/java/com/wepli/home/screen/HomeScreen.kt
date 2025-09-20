@@ -38,6 +38,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -293,17 +294,20 @@ private fun RelaylistFirstSong(modifier: Modifier = Modifier, firstSong: SongUiD
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(6.dp),
+            modifier = Modifier.weight(1f)
         ) {
             Text(
                 text = firstSong.title,
                 style = WepliTheme.typo.subTitle1,
-                color = WepliTheme.color.white
+                color = WepliTheme.color.white,
+                maxLines = 1,
             )
 
             Text(
                 text = firstSong.artistName,
                 style = WepliTheme.typo.body4,
-                color = WepliTheme.color.gray700
+                color = WepliTheme.color.gray700,
+                maxLines = 1,
             )
         }
 
