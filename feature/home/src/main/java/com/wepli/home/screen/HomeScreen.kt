@@ -229,7 +229,7 @@ fun RelaylistPagerLayout(
             modifier = topPagerModifier
                 .fillMaxWidth()
                 .padding(top = 20.dp),
-            pageSpacing = 12.dp
+            pageSpacing = 12.dp,
         ) { page ->
             val relaylist = relaylists[page]
             val pageOffset = topPagerState.calculateCurrentOffsetForPage(page)
@@ -261,13 +261,15 @@ private fun RelaylistBanner(
     val windowWidthSizeClass = LocalWindowWidthSizeClass.current
     val ratio = remember(windowWidthSizeClass) {
         when (windowWidthSizeClass) {
-            WindowWidthSizeClass.Compact -> 10f / 5f
-            else -> 10f / 4f
+            WindowWidthSizeClass.Compact -> 1f / 1.4f
+            else -> 1f / 0.8f
         }
     }
 
-    Column(modifier) {
-        Spacer(modifier = Modifier.aspectRatio(ratio))
+    Column(
+        modifier = modifier.aspectRatio(ratio),
+        verticalArrangement = Arrangement.Bottom
+    ) {
         Text(
             text = item.title,
             style = WepliTheme.typo.title1,
