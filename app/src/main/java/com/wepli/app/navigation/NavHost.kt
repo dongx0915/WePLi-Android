@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import animation.transition.ScreenTransitions
+import com.donglab.screennameviewer.publicapi.extensions.ScreenNameTracker
 import com.wepli.app.ChartScreen
 import com.wepli.community.navigation.communityDetailGraph
 import com.wepli.community.navigation.communityMainGraph
@@ -48,52 +49,54 @@ fun SetUpNavGraph(
     startDestination: String,
     goToLoginActivity: () -> Unit,
 ) {
-    NavHost(
-        navController = navController,
-        startDestination = startDestination,
-        enterTransition = {
-            ScreenTransitions.defaultEnterTransition(500)
-        },
-        exitTransition = {
-            ScreenTransitions.defaultExitTransition(500)
+    ScreenNameTracker(navController) {
+        NavHost(
+            navController = navController,
+            startDestination = startDestination,
+            enterTransition = {
+                ScreenTransitions.defaultEnterTransition(500)
+            },
+            exitTransition = {
+                ScreenTransitions.defaultExitTransition(500)
+            }
+        ) {
+            // 홈 Graph
+            homeGraph(
+                navOnPlaylistDetail = { playlistId -> navController.navigateToPlaylistDetail(playlistId) },
+                navOnRelaylistDetail = { relaylistId -> navController.navigateToRelaylistDetail(relaylistId) }
+            )
+
+            // 검색 Graph
+            searchGraph(navController)
+
+            composable(BottomNavRoute.Chart.route) {
+                ChartScreen()
+            }
+
+            // 커뮤니티 Graph
+            communityGraph(navController)
+
+            // 플레이리스트 Graph
+            playlistGraph(navController)
+
+            // 릴레이리스트 Graph
+            relaylistGraph(navController)
+
+            // 마이페이지 Graph
+            mypageGraph(navController, goToLoginActivity)
+
+            // 개발자 모드 Graph
+            networkLogGraph(navController)
+
+            // 프로필 Graph
+            profileGraph(navController)
+
+            // 포토카드 Graph
+            photoCardGraph(navController)
+
+            // 노래 Graph
+            songInfoGraph { navController.navigateUp() }
         }
-    ) {
-        // 홈 Graph
-        homeGraph(
-            navOnPlaylistDetail = { playlistId -> navController.navigateToPlaylistDetail(playlistId) },
-            navOnRelaylistDetail = { relaylistId -> navController.navigateToRelaylistDetail(relaylistId) }
-        )
-
-        // 검색 Graph
-        searchGraph(navController)
-
-        composable(BottomNavRoute.Chart.route) {
-            ChartScreen()
-        }
-
-        // 커뮤니티 Graph
-        communityGraph(navController)
-
-        // 플레이리스트 Graph
-        playlistGraph(navController)
-
-        // 릴레이리스트 Graph
-        relaylistGraph(navController)
-
-        // 마이페이지 Graph
-        mypageGraph(navController, goToLoginActivity)
-
-        // 개발자 모드 Graph
-        networkLogGraph(navController)
-
-        // 프로필 Graph
-        profileGraph(navController)
-
-        // 포토카드 Graph
-        photoCardGraph(navController)
-
-        // 노래 Graph
-        songInfoGraph { navController.navigateUp() }
     }
 }
 
