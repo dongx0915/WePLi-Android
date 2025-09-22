@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import animation.transition.ScreenTransitions
 import com.wepli.feature.devmode.network.detail.screen.NetworkLogDetailScreenRoute
-import com.wepli.feature.devmode.navigation.NetworkLogRoute
+import com.wepli.feature.devmode.network.navigation.NetworkLogRoute
 
 fun NavController.navigateToNetworkLogDetail(apiLogId: Int) {
     navigate("${NetworkLogRoute.Detail.route}/${apiLogId}")

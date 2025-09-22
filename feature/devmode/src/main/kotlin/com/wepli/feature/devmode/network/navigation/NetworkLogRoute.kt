@@ -1,4 +1,4 @@
-package com.wepli.feature.devmode.navigation
+package com.wepli.feature.devmode.network.navigation
 
 enum class NetworkLogRoute(val route: String) {
     Main("network_main"),

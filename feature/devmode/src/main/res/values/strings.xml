@@ -1,4 +1,6 @@
 <resources>
+    <string name="dev_mode_api_main_title">개발자 모드</string>
+
     <string name="dev_mode_api_log_limit_notice">최근 %d개 내역만 보여집니다.</string>
     <string name="dev_mode_api_log_title">네트워크 로그</string>
 </resources>
