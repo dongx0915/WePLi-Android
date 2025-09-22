@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -36,20 +37,28 @@ import kotlin.math.roundToInt
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun WepliSwitch(width: Dp, height: Dp, thumbSize: Dp) {
+fun WepliSwitch(
+    width: Dp,
+    height: Dp,
+    thumbSize: Dp,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+) {
+    val scope = rememberCoroutineScope()
+
     // Density -> px 변환 (thumb 이동 거리 계산)
     val density = LocalDensity.current
     val dragRange = with(density) { (width - height).toPx() }
 
     // Anchors 정의 (왼쪽 = 0, 오른쪽 = 1, 스위치 상태와 위치 매핑)
     val anchors = DraggableAnchors {
-        0 at 0f
-        1 at dragRange
+        false at 0f
+        true at dragRange
     }
 
     val draggableState = remember {
         AnchoredDraggableState(
-            initialValue = 0, // 시작 상태는 Off (0)
+            initialValue = checked, // 시작 상태는 Off (0)
             anchors = anchors, // 위치 <-> 상태 매핑
             positionalThreshold = { totalDistance: Float -> totalDistance * 0.1f }, // 드래그 가능한 거리 중 몇 % 이상 갔을 때 상태를 바꿀지
             velocityThreshold = { with(density) { 100.dp.toPx() } }, // 드래그 속도가 임계 값을 넘으면 거리가 부족해도 상태 변경됨
@@ -59,13 +68,25 @@ fun WepliSwitch(width: Dp, height: Dp, thumbSize: Dp) {
         )
     }
 
-    val backgroundModifier = if (draggableState.currentValue == 1) {
+    val backgroundModifier = if (draggableState.currentValue) {
         Modifier.background(WepliTheme.color.linear3)
     } else {
         Modifier.background(WepliTheme.color.gray400)
     }
 
-    val scope = rememberCoroutineScope()
+    // 초기 checked 값과 동기화
+    LaunchedEffect(checked) {
+        if (checked != draggableState.currentValue) {
+            draggableState.animateTo(checked)
+        }
+    }
+
+    // draggableState 값 변경 시 onCheckedChange 호출
+    LaunchedEffect(draggableState.currentValue) {
+        if (checked != draggableState.currentValue) {
+            onCheckedChange(draggableState.currentValue)
+        }
+    }
 
     Row(
         modifier = Modifier
@@ -80,11 +101,7 @@ fun WepliSwitch(width: Dp, height: Dp, thumbSize: Dp) {
             modifier = Modifier
                 .clickable {
                     scope.launch {
-                        if (draggableState.currentValue == 1) {
-                            draggableState.animateTo(0)
-                        } else {
-                            draggableState.animateTo(1)
-                        }
+                        draggableState.animateTo(draggableState.currentValue.not())
                     }
                 }
                 .offset {
@@ -98,7 +115,7 @@ fun WepliSwitch(width: Dp, height: Dp, thumbSize: Dp) {
                     orientation = Orientation.Horizontal
                 )
                 .size(thumbSize)
-                .shadow(elevation = 2.dp, shape = CircleShape)
+                .shadow(elevation = 4.dp, shape = CircleShape)
                 .clip(CircleShape)
                 .background(WepliTheme.color.white)
 
