@@ -94,12 +94,12 @@ fun WepliSwitch(
             .height(height)
             .clip(RoundedCornerShape(height))
             .then(backgroundModifier)
-            .padding(horizontal = 3.dp),
+            .padding(horizontal = (height - thumbSize) / 2),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             modifier = Modifier
-                .clickable {
+                .clickable { // 클릭으로도 상태 변경 되게 설정
                     scope.launch {
                         draggableState.animateTo(draggableState.currentValue.not())
                     }
@@ -110,7 +110,7 @@ fun WepliSwitch(
                         y = 0
                     )
                 }
-                .anchoredDraggable(
+                .anchoredDraggable( // 드래그 가능하게 설정
                     state = draggableState,
                     orientation = Orientation.Horizontal
                 )
