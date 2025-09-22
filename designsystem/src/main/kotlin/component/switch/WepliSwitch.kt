@@ -32,17 +32,19 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import theme.WepliTheme
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun WepliSwitch(
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
     width: Dp,
     height: Dp,
     thumbSize: Dp,
-    checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
+    enabled: Boolean = true,
+    trackColors: WepliTrackColors = WepliSwitchDefaults.trackColors(),
+    thumbStyle: WepliThumbStyle = WepliSwitchDefaults.thumbStyle(),
 ) {
     val scope = rememberCoroutineScope()
 
@@ -68,12 +70,6 @@ fun WepliSwitch(
         )
     }
 
-    val backgroundModifier = if (draggableState.currentValue) {
-        Modifier.background(WepliTheme.color.linear3)
-    } else {
-        Modifier.background(WepliTheme.color.gray400)
-    }
-
     // 초기 checked 값과 동기화
     LaunchedEffect(checked) {
         if (checked != draggableState.currentValue) {
@@ -93,7 +89,12 @@ fun WepliSwitch(
             .width(width)
             .height(height)
             .clip(RoundedCornerShape(height))
-            .then(backgroundModifier)
+            .then(
+                trackColors.trackColorModifier(
+                    enabled = enabled,
+                    checked = draggableState.currentValue
+                )
+            )
             .padding(horizontal = (height - thumbSize) / 2),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -115,10 +116,9 @@ fun WepliSwitch(
                     orientation = Orientation.Horizontal
                 )
                 .size(thumbSize)
-                .shadow(elevation = 4.dp, shape = CircleShape)
+                .shadow(elevation = thumbStyle.elevation, shape = CircleShape)
                 .clip(CircleShape)
-                .background(WepliTheme.color.white)
-
+                .background(thumbStyle.thumbColor(enabled, draggableState.currentValue))
         )
     }
 }
