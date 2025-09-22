@@ -1,4 +1,4 @@
-package com.wepli.mypage.component
+package template.menu
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -16,7 +16,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import base.Intent
 import com.wepli.core.resources.R as CoreR
-import com.wepli.mypage.common.MenuSection
 import theme.WepliTheme
 
 @Composable

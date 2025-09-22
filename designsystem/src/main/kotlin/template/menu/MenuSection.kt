@@ -1,4 +1,4 @@
-package com.wepli.mypage.common
+package template.menu
 
 import base.Intent
 
