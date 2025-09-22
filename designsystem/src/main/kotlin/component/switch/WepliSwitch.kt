@@ -28,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -39,14 +38,14 @@ import kotlin.math.roundToInt
 fun WepliSwitch(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
-    width: Dp,
-    height: Dp,
-    thumbSize: Dp,
     enabled: Boolean = true,
+    switchSize: WepliSwitchSize = WepliSwitchSize.Default,
     trackColors: WepliTrackColors = WepliSwitchDefaults.trackColors(),
     thumbStyle: WepliThumbStyle = WepliSwitchDefaults.thumbStyle(),
 ) {
     val scope = rememberCoroutineScope()
+    val size = remember(switchSize) { switchSize }
+    val (width, height, thumbSize) = size
 
     // Density -> px 변환 (thumb 이동 거리 계산)
     val density = LocalDensity.current

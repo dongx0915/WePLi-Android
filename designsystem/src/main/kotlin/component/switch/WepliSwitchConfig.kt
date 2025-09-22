@@ -23,6 +23,21 @@ sealed class SwitchTrackBrush {
     }
 }
 
+@ConsistentCopyVisibility
+data class WepliSwitchSize internal constructor(
+    val width: Dp,
+    val height: Dp,
+    val thumbSize: Dp,
+) {
+    companion object {
+        val Default = WepliSwitchSize(
+            width = 32.dp,
+            height = 20.dp,
+            thumbSize = 12.dp,
+        )
+    }
+}
+
 class WepliTrackColors internal constructor(
     private val checkedTrackColor: SwitchTrackBrush,
     private val uncheckedTrackColor: SwitchTrackBrush,
