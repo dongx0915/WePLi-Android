@@ -49,6 +49,10 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getAccessToken(): String {
+        return dataStorePrefDataSource.getString(DataStoreKey.ACCESS_TOKEN, "")
+    }
+
     override suspend fun getRefreshToken(): String {
         return dataStorePrefDataSource.getString(DataStoreKey.REFRESH_TOKEN, "")
     }

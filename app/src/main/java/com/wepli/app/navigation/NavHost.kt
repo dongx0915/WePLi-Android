@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import animation.transition.ScreenTransitions
+import com.donglab.screennameviewer.publicapi.extensions.ScreenNameTracker
 import com.wepli.app.ChartScreen
 import com.wepli.community.navigation.communityDetailGraph
 import com.wepli.community.navigation.communityMainGraph
@@ -18,6 +19,8 @@ import com.wepli.mypage.menus.mypage.navigation.mypageMainGraph
 import com.wepli.community.navigation.communityWriteGraph
 import com.wepli.community.navigation.navigateToBackAndPostRefresh
 import com.wepli.community.navigation.navigateToCommunityWrite
+import com.wepli.feature.devmode.main.navigation.devModeMainGraph
+import com.wepli.feature.devmode.main.navigation.navigateToDevModeMain
 import com.wepli.feature.photocard.detail.navigation.photoCardDetailGraph
 import com.wepli.feature.photocard.detail.navigation.navigateToPhotoCardDetail
 import com.wepli.feature.photocard.main.navigation.photoCardMainGraph
@@ -26,10 +29,10 @@ import com.wepli.feature.photocard.result.navigation.photoCardResultGraph
 import com.wepli.feature.photocard.result.navigation.navigateToPhotoCardResult
 import com.wepli.feature.song.info.navigation.navigateToSongInfo
 import com.wepli.feature.song.info.navigation.songInfoGraph
-import com.wepli.mypage.menus.devmode.network.detail.navigation.navigateToNetworkLogDetail
-import com.wepli.mypage.menus.devmode.network.detail.navigation.networkLogDetailGraph
-import com.wepli.mypage.menus.devmode.network.main.navigation.navigateToNetworkLogMain
-import com.wepli.mypage.menus.devmode.network.main.navigation.networkLogMainGraph
+import com.wepli.feature.devmode.network.detail.navigation.navigateToNetworkLogDetail
+import com.wepli.feature.devmode.network.detail.navigation.networkLogDetailGraph
+import com.wepli.feature.devmode.network.main.navigation.navigateToNetworkLogMain
+import com.wepli.feature.devmode.network.main.navigation.networkLogMainGraph
 import com.wepli.mypage.menus.profile.navigation.navigateProfileMain
 import com.wepli.mypage.menus.profile.navigation.profileMainGraph
 import com.wepli.playlist.navigation.navigateToPlaylistDetail
@@ -48,52 +51,65 @@ fun SetUpNavGraph(
     startDestination: String,
     goToLoginActivity: () -> Unit,
 ) {
-    NavHost(
-        navController = navController,
-        startDestination = startDestination,
-        enterTransition = {
-            ScreenTransitions.defaultEnterTransition(500)
-        },
-        exitTransition = {
-            ScreenTransitions.defaultExitTransition(500)
+    ScreenNameTracker(navController) {
+        NavHost(
+            navController = navController,
+            startDestination = startDestination,
+            enterTransition = {
+                ScreenTransitions.defaultEnterTransition(500)
+            },
+            exitTransition = {
+                ScreenTransitions.defaultExitTransition(500)
+            }
+        ) {
+            // 홈 Graph
+            homeGraph(
+                navOnPlaylistDetail = { playlistId ->
+                    navController.navigateToPlaylistDetail(
+                        playlistId
+                    )
+                },
+                navOnRelaylistDetail = { relaylistId ->
+                    navController.navigateToRelaylistDetail(
+                        relaylistId
+                    )
+                }
+            )
+
+            // 검색 Graph
+            searchGraph(navController)
+
+            composable(BottomNavRoute.Chart.route) {
+                ChartScreen()
+            }
+
+            // 커뮤니티 Graph
+            communityGraph(navController)
+
+            // 플레이리스트 Graph
+            playlistGraph(navController)
+
+            // 릴레이리스트 Graph
+            relaylistGraph(navController)
+
+            // 마이페이지 Graph
+            mypageGraph(navController, goToLoginActivity)
+
+            // 개발자 모드 Graph
+            // TODO: 중첩 그래프로 관리 필요성 검토
+            devModeGraph(navController)
+
+            networkLogGraph(navController)
+
+            // 프로필 Graph
+            profileGraph(navController)
+
+            // 포토카드 Graph
+            photoCardGraph(navController)
+
+            // 노래 Graph
+            songInfoGraph { navController.navigateUp() }
         }
-    ) {
-        // 홈 Graph
-        homeGraph(
-            navOnPlaylistDetail = { playlistId -> navController.navigateToPlaylistDetail(playlistId) },
-            navOnRelaylistDetail = { relaylistId -> navController.navigateToRelaylistDetail(relaylistId) }
-        )
-
-        // 검색 Graph
-        searchGraph(navController)
-
-        composable(BottomNavRoute.Chart.route) {
-            ChartScreen()
-        }
-
-        // 커뮤니티 Graph
-        communityGraph(navController)
-
-        // 플레이리스트 Graph
-        playlistGraph(navController)
-
-        // 릴레이리스트 Graph
-        relaylistGraph(navController)
-
-        // 마이페이지 Graph
-        mypageGraph(navController, goToLoginActivity)
-
-        // 개발자 모드 Graph
-        networkLogGraph(navController)
-
-        // 프로필 Graph
-        profileGraph(navController)
-
-        // 포토카드 Graph
-        photoCardGraph(navController)
-
-        // 노래 Graph
-        songInfoGraph { navController.navigateUp() }
     }
 }
 
@@ -159,7 +175,7 @@ fun NavGraphBuilder.mypageGraph(
         navOnAppInfo = { navController.navigateToAppInfo() },
         navOnPhotoCard = { navController.navigateToPhotoCardMain() },
         navOnProfile = { navController.navigateProfileMain() },
-        navOnDevMode = { navController.navigateToNetworkLogMain()},
+        navOnDevMode = { navController.navigateToDevModeMain() },
         goToLoginActivity = { goToLoginActivity() }
     )
     mypageAppInfoGraph(
@@ -175,6 +191,14 @@ fun NavGraphBuilder.profileGraph(navController: NavController) {
 }
 
 // 개발자 모드 Graph
+
+fun NavGraphBuilder.devModeGraph(navController: NavController) {
+    devModeMainGraph(
+        navOnBack = { navController.navigateUp() },
+        navOnNetworkLog = { navController.navigateToNetworkLogMain() }
+    )
+}
+
 fun NavGraphBuilder.networkLogGraph(navController: NavController) {
     networkLogMainGraph(
         navOnNetworkLogDetail = { apiLogId ->
@@ -188,6 +212,7 @@ fun NavGraphBuilder.networkLogGraph(navController: NavController) {
     )
 }
 
+// 포토카드 Graph
 fun NavGraphBuilder.photoCardGraph(navController: NavController) {
     photoCardMainGraph(
         navOnBack = { navController.popBackStack() },

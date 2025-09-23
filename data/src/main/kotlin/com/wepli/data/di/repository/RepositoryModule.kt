@@ -15,8 +15,10 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import debug.repository.DebugApiLogRepository
-import com.wepli.data.network.apilog.DebugApiLogRepositoryImpl
+import com.wepli.domain.devmode.repository.DebugApiLogRepository
+import com.wepli.data.devmode.repository.DebugApiLogRepositoryImpl
+import repository.setting.SettingRepository
+import com.wepli.data.setting.repository.SettingRepositoryImpl
 import repository.youtube.YoutubeRepository
 import com.wepli.data.youtube.repository.YoutubeRepositoryImpl
 import model.recommend.repository.KeywordRepository
@@ -75,4 +77,8 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindDebugApiLogRepository(debugApiLogRepositoryImpl: DebugApiLogRepositoryImpl): DebugApiLogRepository
+
+    @Binds
+    @Singleton
+    fun bindSettingRepository(settingRepositoryImpl: SettingRepositoryImpl): SettingRepository
 }

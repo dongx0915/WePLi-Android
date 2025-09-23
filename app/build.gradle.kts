@@ -25,6 +25,7 @@ dependencies {
     implementation(projects.feature.playlist)
     implementation(projects.feature.relaylist)
     implementation(projects.feature.mypage)
+    implementation(projects.feature.devmode)
     implementation(projects.feature.photocard)
     implementation(projects.feature.song)
 
@@ -55,4 +56,7 @@ dependencies {
     implementation(libs.ktor.client.logging)
     implementation(libs.ktor.client.okhttp)
     implementation(libs.androidx.junit.ktx)
+
+    // debugging
+    implementation(libs.screen.name.viewer)
 }

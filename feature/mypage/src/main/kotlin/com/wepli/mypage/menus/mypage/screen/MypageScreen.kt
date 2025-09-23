@@ -34,9 +34,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
-import com.wepli.core.resources.R as CoreR
-import com.wepli.mypage.common.MenuSection
-import com.wepli.mypage.component.MenuLayout
+import template.menu.MenuSection
+import template.menu.MenuLayout
 import com.wepli.mypage.component.ProfileImage
 import com.wepli.mypage.menus.mypage.viewmodel.MyPageEffect
 import com.wepli.mypage.menus.mypage.viewmodel.MyPageIntent
