@@ -15,9 +15,9 @@ import appbar.WepliAppBar
 import com.wepli.feature.devmode.R
 import template.menu.ExpandableMenuComponent
 import template.menu.MenuComponent
-import template.menu.SwitchMenuComponent
 import template.menu.MenuTitleComponent
 import template.menu.ShortContentMenuComponent
+import template.menu.SwitchMenuComponent
 import theme.WepliTheme
 
 
