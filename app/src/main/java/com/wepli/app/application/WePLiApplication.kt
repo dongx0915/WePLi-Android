@@ -46,16 +46,18 @@ class WePLiApplication : Application() {
             settingRepository?.isEnableScreenNameViewer() ?: false
         }
 
-        initScreenNameViewer(this@WePLiApplication) {
-            settings {
-                debugMode { BuildConfig.DEBUG }
-                enabled { isEnabled }
-            }
-            config {
-                textStyle {
-                    this.color = Color.CYAN
-                }
-            }
-        }
+         withContext(Dispatchers.Main.immediate) {
+             initScreenNameViewer(this@WePLiApplication) {
+                 settings {
+                     debugMode { BuildConfig.DEBUG }
+                     enabled { isEnabled }
+                 }
+                 config {
+                     textStyle {
+                         this.color = Color.CYAN
+                     }
+                 }
+             }
+         }
     }
 }
