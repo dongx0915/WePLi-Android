@@ -2,6 +2,8 @@ package com.wepli.feature.devmode.main.screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -39,6 +41,8 @@ private fun DevModeScreen(
     navOnBack: () -> Unit,
     navOnNetworkLog: () -> Unit,
 ) {
+    val scrollState = rememberScrollState()
+
     Scaffold(
         containerColor = WepliTheme.color.black,
         topBar = {
@@ -51,13 +55,14 @@ private fun DevModeScreen(
         }
     ) { paddingValues ->
         Column(
-            modifier = Modifier.padding(paddingValues))
-        {
+            modifier = Modifier
+                .verticalScroll(scrollState)
+                .padding(paddingValues)
+        ) {
             UserInfoLayout()
             DeviceInfoLayout()
             LogMenuLayout(navOnNetworkLog)
         }
-        paddingValues
     }
 }
 
