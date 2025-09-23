@@ -39,7 +39,7 @@ fun DevModeScreenRoute(
 ) {
     val viewModel: DevModeMainViewModel = hiltViewModel()
     val state by viewModel.collectAsState()
-    val activity = LocalActivity.current ?:return
+    val activity = LocalActivity.current ?: return
     val metrics = activity.resources?.displayMetrics
 
     LaunchedEffect(metrics) {
