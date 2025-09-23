@@ -34,6 +34,7 @@ include(
     ":feature:relaylist",
     ":feature:playlist",
     ":feature:mypage",
+    ":feature:devmode",
     ":feature:photocard",
     ":feature:song",
     ":shared:feature",

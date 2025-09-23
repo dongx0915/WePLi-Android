@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import appbar.WepliAppBar
-import com.wepli.mypage.component.MenuComponent
-import com.wepli.mypage.component.MenuTitleComponent
+import template.menu.MenuComponent
+import template.menu.MenuTitleComponent
 import theme.WepliTheme
 
 @Preview
