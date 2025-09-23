@@ -1,7 +1,6 @@
 package com.wepli.feature.devmode.main.screen
 
 import androidx.activity.compose.LocalActivity
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -119,11 +118,6 @@ private fun UserInfoLayout(state: DevModeMainState) {
     ExpandableMenuComponent(
         title = "리프레시 토큰",
         content = state.refreshToken
-    )
-
-    ExpandableMenuComponent(
-        title = "FCM 토큰",
-        content = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxMjM0NTY3ODkwIiwidXNlcm5hbWUiOiJ3ZWxjb21lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
     )
 }
 
