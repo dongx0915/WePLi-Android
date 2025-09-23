@@ -10,6 +10,7 @@ import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.gestures.animateTo
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
@@ -44,6 +45,8 @@ fun WepliSwitch(
     thumbStyle: WepliThumbStyle = WepliSwitchDefaults.thumbStyle(),
 ) {
     val scope = rememberCoroutineScope()
+    val interactionSource = remember { MutableInteractionSource() }
+
     val size = remember(switchSize) { switchSize }
     val (width, height, thumbSize) = size
 
@@ -99,7 +102,10 @@ fun WepliSwitch(
     ) {
         Box(
             modifier = Modifier
-                .clickable { // 클릭으로도 상태 변경 되게 설정
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null
+                ) { // 클릭으로도 상태 변경 되게 설정
                     scope.launch {
                         draggableState.animateTo(draggableState.currentValue.not())
                     }

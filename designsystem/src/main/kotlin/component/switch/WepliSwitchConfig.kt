@@ -31,9 +31,9 @@ data class WepliSwitchSize internal constructor(
 ) {
     companion object {
         val Default = WepliSwitchSize(
-            width = 32.dp,
-            height = 20.dp,
-            thumbSize = 12.dp,
+            width = 44.dp,
+            height = 28.dp,
+            thumbSize = 20.dp,
         )
     }
 }
