@@ -4,7 +4,6 @@ import base.BaseMviViewModel
 import base.Intent
 import base.SideEffect
 import base.UiState
-import com.wepli.feature.devmode.main.utils.DevModeUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import repository.user.UserRepository
 import javax.inject.Inject
@@ -14,6 +13,7 @@ data class DevModeMainState(
     val sdkVersion: Int = 0,
     val deviceModel: String = "",
     val resourceBucket: String = "",
+    val density: Int = 0,
     val deviceWidth: Int = 0,
     val deviceHeight: Int = 0,
 ) : UiState
@@ -26,6 +26,7 @@ sealed interface DevModeMainIntent : Intent {
         val sdkVersion: Int,
         val deviceModel: String,
         val resourceBucket: String,
+        val density: Int,
         val deviceWidth: Int,
         val deviceHeight: Int,
     ) : DevModeMainIntent
@@ -45,6 +46,7 @@ class DevModeMainViewModel @Inject constructor(
                     sdkVersion = intent.sdkVersion,
                     deviceModel = intent.deviceModel,
                     resourceBucket = intent.resourceBucket,
+                    density = intent.density,
                     deviceWidth = intent.deviceWidth,
                     deviceHeight = intent.deviceHeight,
                 )

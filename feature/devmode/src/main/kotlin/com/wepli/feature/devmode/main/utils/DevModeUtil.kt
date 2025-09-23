@@ -37,6 +37,8 @@ object DevModeUtil {
         }
     }
 
+    fun getDpi(metrics: DisplayMetrics?): Int = metrics?.densityDpi ?: 0
+
     fun getDeviceWidth(activity: Activity): Int {
         val metrics = activity.resources.displayMetrics
 

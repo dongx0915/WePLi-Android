@@ -1,6 +1,7 @@
 package com.wepli.feature.devmode.main.screen
 
 import androidx.activity.compose.LocalActivity
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -14,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
 import com.wepli.feature.devmode.R
@@ -49,6 +51,7 @@ fun DevModeScreenRoute(
                 sdkVersion = DevModeUtil.getSdkVersion(),
                 deviceModel = DevModeUtil.getDeviceModel(),
                 resourceBucket = DevModeUtil.getDeviceResourceBucket(metrics),
+                density = DevModeUtil.getDpi(metrics),
                 deviceWidth = DevModeUtil.getDeviceWidth(activity),
                 deviceHeight = DevModeUtil.getDeviceHeight(activity),
             )
@@ -75,7 +78,7 @@ private fun DevModeScreen(
         containerColor = WepliTheme.color.black,
         topBar = {
             WepliAppBar(
-                containerColor = Color.Transparent,
+                containerColor = Color.Black,
                 title = stringResource(R.string.dev_mode_api_main_title),
                 showBackButton = true,
                 onClickBack = navOnBack
@@ -86,9 +89,11 @@ private fun DevModeScreen(
             modifier = Modifier
                 .verticalScroll(scrollState)
                 .padding(paddingValues)
+                .padding(bottom = 50.dp)
         ) {
             UserInfoLayout()
             DeviceInfoLayout(state)
+            ScreenInfoLayout(state)
             LogMenuLayout(navOnNetworkLog)
         }
     }
@@ -133,6 +138,20 @@ private fun DeviceInfoLayout(state: DevModeMainState) {
     ShortContentMenuComponent(
         title = "모델명",
         content = state.deviceModel
+    )
+}
+
+@Composable
+private fun ScreenInfoLayout(state: DevModeMainState) {
+    MenuTitleComponent(title = "화면 정보")
+    ShortContentMenuComponent(
+        title = "화면 비율",
+        content = "${state.deviceWidth} x ${state.deviceHeight}"
+    )
+
+    ShortContentMenuComponent(
+        title = "화면 밀도",
+        content = "${state.density} dpi"
     )
 
     ShortContentMenuComponent(
