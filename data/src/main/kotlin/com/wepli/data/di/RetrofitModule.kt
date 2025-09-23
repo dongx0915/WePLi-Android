@@ -10,12 +10,12 @@ import com.wepli.data.di.qualifier.BaseRetrofit
 import com.wepli.data.di.qualifier.YoutubeRetrofit
 import com.wepli.data.network.baseurl.BaseUrl
 import com.wepli.data.network.calladapter.FlowCallAdapterFactory
-import com.wepli.data.network.interceptor.DebugApiLogInterceptor
+import com.wepli.data.devmode.interceptor.DebugApiLogInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import debug.repository.DebugApiLogRepository
+import com.wepli.domain.devmode.repository.DebugApiLogRepository
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType

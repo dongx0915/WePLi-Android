@@ -6,7 +6,7 @@ import base.Intent
 import base.SideEffect
 import base.UiState
 import com.wepli.core.common.BuildConfig
-import com.wepli.mypage.common.MenuSection
+import template.menu.MenuSection
 import com.wepli.shared.feature.uimodel.user.UserUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.jan.supabase.SupabaseClient

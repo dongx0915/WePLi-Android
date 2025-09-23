@@ -14,6 +14,7 @@ interface UserRepository {
     suspend fun setUserLocalData(user: User)
     fun updateUserData(user: User): FlowResult<Unit>
 
+    suspend fun getAccessToken(): String
     suspend fun getRefreshToken(): String
     suspend fun saveUserSession(
         accessToken: String,
