@@ -1,5 +1,6 @@
 package com.wepli.feature.devmode.main.screen
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -7,13 +8,17 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
 import com.wepli.feature.devmode.R
 import com.wepli.feature.devmode.main.utils.DevModeUtil
+import org.orbitmvi.orbit.compose.collectAsState
 import template.menu.ExpandableMenuComponent
 import template.menu.MenuComponent
 import template.menu.MenuTitleComponent
@@ -21,24 +26,46 @@ import template.menu.ShortContentMenuComponent
 import template.menu.SwitchMenuComponent
 import theme.WepliTheme
 
+@Preview
+@Composable
+private fun DevModeScreenPreview() {
+    DevModeScreen(DevModeMainState(), {}, {})
+}
 
 @Composable
 fun DevModeScreenRoute(
     navOnBack: () -> Unit,
     navOnNetworkLog: () ->Unit,
 ) {
-    DevModeScreen(navOnBack, navOnNetworkLog)
-}
+    val viewModel: DevModeMainViewModel = hiltViewModel()
+    val state by viewModel.collectAsState()
+    val activity = LocalActivity.current ?:return
+    val metrics = activity.resources?.displayMetrics
 
-@Preview
-@Composable
-private fun DevModeScreenPreview() {
-    DevModeScreen({}, {})
+    LaunchedEffect(metrics) {
+        viewModel.processIntent(
+            DevModeMainIntent.Init(
+                androidOs = DevModeUtil.getAndroidOS(),
+                sdkVersion = DevModeUtil.getSdkVersion(),
+                deviceModel = DevModeUtil.getDeviceModel(),
+                resourceBucket = DevModeUtil.getDeviceResourceBucket(metrics),
+                deviceWidth = DevModeUtil.getDeviceWidth(activity),
+                deviceHeight = DevModeUtil.getDeviceHeight(activity),
+            )
+        )
+    }
+
+    DevModeScreen(
+        state = state,
+        navOnBack = navOnBack,
+        navOnNetworkLog = navOnNetworkLog
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DevModeScreen(
+    state: DevModeMainState,
     navOnBack: () -> Unit,
     navOnNetworkLog: () -> Unit,
 ) {
@@ -61,7 +88,7 @@ private fun DevModeScreen(
                 .padding(paddingValues)
         ) {
             UserInfoLayout()
-            DeviceInfoLayout()
+            DeviceInfoLayout(state)
             LogMenuLayout(navOnNetworkLog)
         }
     }
@@ -96,23 +123,20 @@ private fun UserInfoLayout() {
 }
 
 @Composable
-private fun DeviceInfoLayout() {
-    val sdkVersion = DevModeUtil.getSdkVersion()
-    val osVersion = DevModeUtil.getAndroidOS()
-
+private fun DeviceInfoLayout(state: DevModeMainState) {
     MenuTitleComponent(title = "디바이스 정보")
     ShortContentMenuComponent(
         title = "OS 버전 (SDK)",
-        content = "Android $osVersion (${sdkVersion})"
+        content = "Android ${state.androidOs} (${state.sdkVersion})"
     )
 
     ShortContentMenuComponent(
         title = "모델명",
-        content = "SM-F916N"
+        content = state.deviceModel
     )
 
     ShortContentMenuComponent(
         title = "리소스 버킷",
-        content = "xxhdpi"
+        content = state.resourceBucket
     )
 }

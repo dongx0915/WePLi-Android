@@ -23,8 +23,9 @@ object DevModeUtil {
 
     fun getDeviceModel(): String = "${Build.BRAND} ${Build.MODEL}"
 
-    fun getDeviceResourceBucket(metrics: DisplayMetrics): String {
-        val densityDpi = metrics.densityDpi
+    fun getDeviceResourceBucket(metrics: DisplayMetrics?): String {
+        val densityDpi = metrics?.densityDpi ?: return "unknown"
+
         return when {
             densityDpi <= DisplayMetrics.DENSITY_LOW -> "ldpi"
             densityDpi <= DisplayMetrics.DENSITY_MEDIUM -> "mdpi"

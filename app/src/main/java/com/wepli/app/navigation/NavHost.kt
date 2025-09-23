@@ -86,6 +86,7 @@ fun SetUpNavGraph(
         mypageGraph(navController, goToLoginActivity)
 
         // 개발자 모드 Graph
+        // TODO: 중첩 그래프로 관리 필요성 검토
         devModeGraph(navController)
 
         networkLogGraph(navController)
