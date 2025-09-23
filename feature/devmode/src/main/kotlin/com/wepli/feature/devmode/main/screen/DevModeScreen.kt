@@ -11,8 +11,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import appbar.WepliAppBar
 import com.wepli.feature.devmode.R
+import template.menu.ExpandableMenuComponent
 import template.menu.MenuComponent
-import template.menu.MenuSwitchComponent
+import template.menu.SwitchMenuComponent
 import template.menu.MenuTitleComponent
 import theme.WepliTheme
 
@@ -51,6 +52,7 @@ private fun DevModeScreen(
         Column(
             modifier = Modifier.padding(paddingValues))
         {
+            UserInfoLayout()
             LogMenuLayout(navOnNetworkLog)
         }
         paddingValues
@@ -63,5 +65,11 @@ private fun LogMenuLayout(
 ) {
     MenuTitleComponent(title = "로그")
     MenuComponent(title = "네트워크 로그", onClickMenu = { navOnNetworkLog() })
-    MenuSwitchComponent(title = "ScreenNameViewer 활성화", checked = false, onClickMenu = {})
+    SwitchMenuComponent(title = "ScreenNameViewer 활성화", checked = false, onClickMenu = {})
+}
+
+@Composable
+private fun UserInfoLayout() {
+    MenuTitleComponent(title = "사용자 정보")
+    ExpandableMenuComponent(title = "액세스 토큰", content = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxMjM0NTY3ODkwIiwidXNlcm5hbWUiOiJ3ZWxjb21lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c")
 }
