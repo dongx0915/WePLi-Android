@@ -3,10 +3,37 @@ package com.wepli.app.application
 import android.app.Application
 import android.graphics.Color
 import com.donglab.screennameviewer.publicapi.dsl.initScreenNameViewer
+import com.wepli.core.common.BuildConfig
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.HiltAndroidApp
+import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import repository.setting.SettingRepository
+
+@EntryPoint
+@InstallIn(SingletonComponent::class)
+interface ApplicationEntryPoint {
+    fun getSettingRepository(): SettingRepository
+}
 
 @HiltAndroidApp
 class WePLiApplication : Application() {
+
+    private val applicationScope: CoroutineScope = CoroutineScope(Dispatchers.Default)
+
+    private val settingRepository: SettingRepository? by lazy {
+        applicationContext?.let {
+            EntryPointAccessors.fromApplication(
+                it,
+                ApplicationEntryPoint::class.java
+            ).getSettingRepository()
+        }
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -14,11 +41,15 @@ class WePLiApplication : Application() {
         initScreenNameViewer()
     }
 
-    private fun initScreenNameViewer() {
-        initScreenNameViewer(this) {
+     private fun initScreenNameViewer() = applicationScope.launch {
+        val isEnabled = withContext(Dispatchers.IO) {
+            settingRepository?.isEnableScreenNameViewer() ?: false
+        }
+
+        initScreenNameViewer(this@WePLiApplication) {
             settings {
-                debugMode { true }
-                enabled { true }
+                debugMode { BuildConfig.DEBUG }
+                enabled { isEnabled }
             }
             config {
                 textStyle {

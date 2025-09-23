@@ -1,5 +1,6 @@
 package com.wepli.feature.devmode.main.screen
 
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -20,6 +21,7 @@ import appbar.WepliAppBar
 import com.wepli.feature.devmode.R
 import com.wepli.feature.devmode.main.utils.DevModeUtil
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 import template.menu.ExpandableMenuComponent
 import template.menu.MenuComponent
 import template.menu.MenuTitleComponent
@@ -40,8 +42,14 @@ fun DevModeScreenRoute(
 ) {
     val viewModel: DevModeMainViewModel = hiltViewModel()
     val state by viewModel.collectAsState()
-    val activity = LocalActivity.current ?: return
+    val activity = LocalActivity.current as? ComponentActivity ?: return
     val metrics = activity.resources?.displayMetrics
+
+    viewModel.collectSideEffect { effect ->
+        when(effect) {
+            DevModeMainEffect.RestartApplication -> DevModeUtil.restartApplication(activity)
+        }
+    }
 
     LaunchedEffect(metrics) {
         viewModel.processIntent(

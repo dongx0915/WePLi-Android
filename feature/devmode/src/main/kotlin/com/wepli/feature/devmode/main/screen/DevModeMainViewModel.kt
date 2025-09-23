@@ -24,7 +24,9 @@ data class DevModeMainState(
     val deviceHeight: Int = 0,
 ) : UiState
 
-sealed interface DevModeMainEffect : SideEffect
+sealed interface DevModeMainEffect : SideEffect {
+    data object RestartApplication : DevModeMainEffect
+}
 
 sealed interface DevModeMainIntent : Intent {
     data class Init(
@@ -87,5 +89,7 @@ class DevModeMainViewModel @Inject constructor(
 
     private fun updateScreenNameViewerSetting(isEnabled: Boolean) = launch {
         settingRepository.setEnableScreenNameViewer(isEnabled)
+
+        postSideEffect { DevModeMainEffect.RestartApplication }
     }
 }
