@@ -13,6 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import appbar.WepliAppBar
 import com.wepli.feature.devmode.R
+import com.wepli.feature.devmode.main.utils.DevModeUtil
 import template.menu.ExpandableMenuComponent
 import template.menu.MenuComponent
 import template.menu.MenuTitleComponent
@@ -96,10 +97,13 @@ private fun UserInfoLayout() {
 
 @Composable
 private fun DeviceInfoLayout() {
+    val sdkVersion = DevModeUtil.getSdkVersion()
+    val osVersion = DevModeUtil.getAndroidOS()
+
     MenuTitleComponent(title = "디바이스 정보")
     ShortContentMenuComponent(
         title = "OS 버전 (SDK)",
-        content = "Android 13 (33)"
+        content = "Android $osVersion (${sdkVersion})"
     )
 
     ShortContentMenuComponent(

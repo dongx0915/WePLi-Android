@@ -15,7 +15,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
 
-class DevModeUtil {
+object DevModeUtil {
 
     fun getSdkVersion(): Int = Build.VERSION.SDK_INT
 
