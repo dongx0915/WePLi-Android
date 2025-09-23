@@ -115,7 +115,9 @@ fun MenuComponent(
 fun MenuSwitchComponent(
     modifier: Modifier = Modifier,
     title: String = "메뉴 콘텐츠",
-    onClickMenu: () -> Unit = {}
+    checked: Boolean = true,
+    onClickMenu: () -> Unit = {},
+    onCheckedChanged: (Boolean) -> Unit = {},
 ) {
     Row(
         modifier = modifier
@@ -132,8 +134,8 @@ fun MenuSwitchComponent(
         )
 
         WepliSwitch(
-            checked = true,
-            onCheckedChange = {},
+            checked = checked,
+            onCheckedChange = onCheckedChanged,
         )
     }
 }

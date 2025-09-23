@@ -18,6 +18,8 @@ import com.wepli.mypage.menus.mypage.navigation.mypageMainGraph
 import com.wepli.community.navigation.communityWriteGraph
 import com.wepli.community.navigation.navigateToBackAndPostRefresh
 import com.wepli.community.navigation.navigateToCommunityWrite
+import com.wepli.feature.devmode.main.navigation.devModeMainGraph
+import com.wepli.feature.devmode.main.navigation.navigateToDevModeMain
 import com.wepli.feature.photocard.detail.navigation.photoCardDetailGraph
 import com.wepli.feature.photocard.detail.navigation.navigateToPhotoCardDetail
 import com.wepli.feature.photocard.main.navigation.photoCardMainGraph
@@ -84,6 +86,8 @@ fun SetUpNavGraph(
         mypageGraph(navController, goToLoginActivity)
 
         // 개발자 모드 Graph
+        devModeGraph(navController)
+
         networkLogGraph(navController)
 
         // 프로필 Graph
@@ -159,7 +163,7 @@ fun NavGraphBuilder.mypageGraph(
         navOnAppInfo = { navController.navigateToAppInfo() },
         navOnPhotoCard = { navController.navigateToPhotoCardMain() },
         navOnProfile = { navController.navigateProfileMain() },
-        navOnDevMode = { navController.navigateToNetworkLogMain()},
+        navOnDevMode = { navController.navigateToDevModeMain() },
         goToLoginActivity = { goToLoginActivity() }
     )
     mypageAppInfoGraph(
@@ -175,6 +179,14 @@ fun NavGraphBuilder.profileGraph(navController: NavController) {
 }
 
 // 개발자 모드 Graph
+
+fun NavGraphBuilder.devModeGraph(navController: NavController) {
+    devModeMainGraph(
+        navOnBack = { navController.navigateUp() },
+        navOnNetworkLog = { navController.navigateToNetworkLogMain() }
+    )
+}
+
 fun NavGraphBuilder.networkLogGraph(navController: NavController) {
     networkLogMainGraph(
         navOnNetworkLogDetail = { apiLogId ->
@@ -188,6 +200,7 @@ fun NavGraphBuilder.networkLogGraph(navController: NavController) {
     )
 }
 
+// 포토카드 Graph
 fun NavGraphBuilder.photoCardGraph(navController: NavController) {
     photoCardMainGraph(
         navOnBack = { navController.popBackStack() },
