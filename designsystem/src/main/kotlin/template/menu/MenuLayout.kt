@@ -95,6 +95,36 @@ fun MenuComponent(
 
 @Preview
 @Composable
+fun ShortContentMenuComponent(
+    modifier: Modifier = Modifier,
+    title: String = "메뉴 콘텐츠",
+    content: String = "내용",
+    onClickMenu: () -> Unit = {}
+) {
+    Row(
+        modifier = modifier
+            .clickable { onClickMenu() }
+            .fillMaxWidth()
+            .padding(vertical = 16.dp, horizontal = 20.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            modifier = Modifier.weight(1f),
+            text = title,
+            style = WepliTheme.typo.body3,
+            color = WepliTheme.color.gray600
+        )
+
+        Text(
+            text = content,
+            style = WepliTheme.typo.body5,
+            color = WepliTheme.color.gray900
+        )
+    }
+}
+
+@Preview
+@Composable
 fun SwitchMenuComponent(
     modifier: Modifier = Modifier,
     title: String = "메뉴 콘텐츠",
