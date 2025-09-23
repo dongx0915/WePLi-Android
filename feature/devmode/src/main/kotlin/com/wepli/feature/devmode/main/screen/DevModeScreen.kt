@@ -1,7 +1,6 @@
 package com.wepli.feature.devmode.main.screen
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -52,15 +51,17 @@ private fun DevModeScreen(
         Column(
             modifier = Modifier.padding(paddingValues))
         {
-            LogMenuLayout()
+            LogMenuLayout(navOnNetworkLog)
         }
         paddingValues
     }
 }
 
 @Composable
-private fun ColumnScope.LogMenuLayout() {
+private fun LogMenuLayout(
+    navOnNetworkLog: () -> Unit,
+) {
     MenuTitleComponent(title = "로그")
-    MenuComponent(title = "네트워크 로그", onClickMenu = {  })
+    MenuComponent(title = "네트워크 로그", onClickMenu = { navOnNetworkLog() })
     MenuSwitchComponent(title = "ScreenNameViewer 활성화", checked = false, onClickMenu = {})
 }
