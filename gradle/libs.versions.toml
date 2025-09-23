@@ -9,8 +9,8 @@ appVersion = "0.0.1"
 versionCode = "1"
 
 # Kotlin
-kotlin = "2.1.0"
-ksp = "2.1.0-1.0.29"
+kotlin = "2.2.20"
+ksp = "2.2.20-2.0.3"
 kotlinx-serialization-json = "1.8.0"
 kotlinx-serialization-json-converter = "1.0.0"
 
@@ -26,7 +26,7 @@ junitVersion = "1.2.1"
 # Android Libraries
 coreKtx = "1.15.0"
 appcompat = "1.7.0"
-hilt = "2.51.1"
+hilt = "2.57.1"
 
 # Material Design Libraries
 material = "1.12.0"

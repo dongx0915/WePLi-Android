@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import repository.setting.SettingRepository
+import javax.inject.Inject
 
 @EntryPoint
 @InstallIn(SingletonComponent::class)
@@ -26,14 +27,8 @@ class WePLiApplication : Application() {
 
     private val applicationScope: CoroutineScope = CoroutineScope(Dispatchers.Default)
 
-    private val settingRepository: SettingRepository? by lazy {
-        applicationContext?.let {
-            EntryPointAccessors.fromApplication(
-                it,
-                ApplicationEntryPoint::class.java
-            ).getSettingRepository()
-        }
-    }
+    @Inject
+    lateinit var settingRepository: SettingRepository
 
     override fun onCreate() {
         super.onCreate()
@@ -43,7 +38,7 @@ class WePLiApplication : Application() {
 
      private fun initScreenNameViewer() = applicationScope.launch {
         val isEnabled = withContext(Dispatchers.IO) {
-            settingRepository?.isEnableScreenNameViewer() ?: false
+            settingRepository.isEnableScreenNameViewer()
         }
 
          withContext(Dispatchers.Main.immediate) {
