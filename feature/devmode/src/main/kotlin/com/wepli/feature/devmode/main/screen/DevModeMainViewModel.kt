@@ -1,18 +1,19 @@
 package com.wepli.feature.devmode.main.screen
 
-import android.util.Log
 import base.BaseMviViewModel
 import base.Intent
 import base.SideEffect
 import base.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import repository.setting.SettingRepository
 import repository.user.UserRepository
 import javax.inject.Inject
 
 data class DevModeMainState(
     val accessToken: String = "",
     val refreshToken: String = "",
+    val isEnabledScreenNameViewer: Boolean = false,
     val fcmToken: String = "",
     val androidOs: String = "",
     val sdkVersion: Int = 0,
@@ -23,7 +24,9 @@ data class DevModeMainState(
     val deviceHeight: Int = 0,
 ) : UiState
 
-sealed interface DevModeMainEffect : SideEffect
+sealed interface DevModeMainEffect : SideEffect {
+    data object RestartApplication : DevModeMainEffect
+}
 
 sealed interface DevModeMainIntent : Intent {
     data class Init(
@@ -35,16 +38,19 @@ sealed interface DevModeMainIntent : Intent {
         val deviceWidth: Int,
         val deviceHeight: Int,
     ) : DevModeMainIntent
+
+    data class ChangeScreenNameViewerState(val enabled: Boolean) : DevModeMainIntent
 }
 
 @HiltViewModel
 class DevModeMainViewModel @Inject constructor(
     private val userRepository: UserRepository,
+    private val settingRepository: SettingRepository,
 ) : BaseMviViewModel<DevModeMainState, DevModeMainEffect, DevModeMainIntent>(
     initialState = DevModeMainState()
 ) {
     init {
-        updateUserInfo()
+        initState()
     }
 
     override fun processIntent(intent: DevModeMainIntent) {
@@ -60,20 +66,30 @@ class DevModeMainViewModel @Inject constructor(
                     deviceHeight = intent.deviceHeight,
                 )
             }
+
+            is DevModeMainIntent.ChangeScreenNameViewerState -> updateScreenNameViewerSetting(intent.enabled)
         }
     }
 
-    private fun updateUserInfo() = intent {
+    private fun initState() = intent {
         launch(Dispatchers.IO) {
             val accessToken = userRepository.getAccessToken()
             val refreshToken = userRepository.getRefreshToken()
+            val isEnabledScreenNameViewer = settingRepository.isEnableScreenNameViewer()
 
             reduce {
                 state.copy(
                     accessToken = accessToken,
                     refreshToken = refreshToken,
+                    isEnabledScreenNameViewer = isEnabledScreenNameViewer,
                 )
             }
         }
+    }
+
+    private fun updateScreenNameViewerSetting(isEnabled: Boolean) = launch {
+        settingRepository.setEnableScreenNameViewer(isEnabled)
+
+        postSideEffect { DevModeMainEffect.RestartApplication }
     }
 }

@@ -1,5 +1,6 @@
 package com.wepli.feature.devmode.main.screen
 
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -20,6 +21,7 @@ import appbar.WepliAppBar
 import com.wepli.feature.devmode.R
 import com.wepli.feature.devmode.main.utils.DevModeUtil
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 import template.menu.ExpandableMenuComponent
 import template.menu.MenuComponent
 import template.menu.MenuTitleComponent
@@ -30,18 +32,24 @@ import theme.WepliTheme
 @Preview
 @Composable
 private fun DevModeScreenPreview() {
-    DevModeScreen(DevModeMainState(), {}, {})
+    DevModeScreen(DevModeMainState(), {},  {}, {})
 }
 
 @Composable
 fun DevModeScreenRoute(
     navOnBack: () -> Unit,
-    navOnNetworkLog: () ->Unit,
+    navOnNetworkLog: () -> Unit,
 ) {
     val viewModel: DevModeMainViewModel = hiltViewModel()
     val state by viewModel.collectAsState()
-    val activity = LocalActivity.current ?: return
+    val activity = LocalActivity.current as? ComponentActivity ?: return
     val metrics = activity.resources?.displayMetrics
+
+    viewModel.collectSideEffect { effect ->
+        when(effect) {
+            DevModeMainEffect.RestartApplication -> DevModeUtil.restartApplication(activity)
+        }
+    }
 
     LaunchedEffect(metrics) {
         viewModel.processIntent(
@@ -59,6 +67,7 @@ fun DevModeScreenRoute(
 
     DevModeScreen(
         state = state,
+        sendAction = viewModel::processIntent,
         navOnBack = navOnBack,
         navOnNetworkLog = navOnNetworkLog
     )
@@ -68,6 +77,7 @@ fun DevModeScreenRoute(
 @Composable
 private fun DevModeScreen(
     state: DevModeMainState,
+    sendAction: (DevModeMainIntent) -> Unit,
     navOnBack: () -> Unit,
     navOnNetworkLog: () -> Unit,
 ) {
@@ -93,18 +103,27 @@ private fun DevModeScreen(
             UserInfoLayout(state)
             DeviceInfoLayout(state)
             ScreenInfoLayout(state)
-            LogMenuLayout(navOnNetworkLog)
+            LogMenuLayout(state, sendAction, navOnNetworkLog)
         }
     }
 }
 
 @Composable
 private fun LogMenuLayout(
+    state: DevModeMainState,
+    sendAction: (DevModeMainIntent) -> Unit,
     navOnNetworkLog: () -> Unit,
 ) {
     MenuTitleComponent(title = "로그")
     MenuComponent(title = "네트워크 로그", onClickMenu = { navOnNetworkLog() })
-    SwitchMenuComponent(title = "ScreenNameViewer 활성화", checked = false, onClickMenu = {})
+    SwitchMenuComponent(
+        title = "ScreenNameViewer 활성화",
+        checked = state.isEnabledScreenNameViewer,
+        onClickMenu = {},
+        onCheckedChanged = { newState ->
+            sendAction(DevModeMainIntent.ChangeScreenNameViewerState(newState))
+        }
+    )
 }
 
 @Composable
