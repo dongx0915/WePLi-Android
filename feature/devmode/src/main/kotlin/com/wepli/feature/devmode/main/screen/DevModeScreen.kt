@@ -15,6 +15,7 @@ import template.menu.ExpandableMenuComponent
 import template.menu.MenuComponent
 import template.menu.SwitchMenuComponent
 import template.menu.MenuTitleComponent
+import template.menu.ShortContentMenuComponent
 import theme.WepliTheme
 
 
@@ -53,6 +54,7 @@ private fun DevModeScreen(
             modifier = Modifier.padding(paddingValues))
         {
             UserInfoLayout()
+            DeviceInfoLayout()
             LogMenuLayout(navOnNetworkLog)
         }
         paddingValues
@@ -84,5 +86,24 @@ private fun UserInfoLayout() {
     ExpandableMenuComponent(
         title = "FCM 토큰",
         content = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxMjM0NTY3ODkwIiwidXNlcm5hbWUiOiJ3ZWxjb21lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+    )
+}
+
+@Composable
+private fun DeviceInfoLayout() {
+    MenuTitleComponent(title = "디바이스 정보")
+    ShortContentMenuComponent(
+        title = "OS 버전 (SDK)",
+        content = "Android 13 (33)"
+    )
+
+    ShortContentMenuComponent(
+        title = "모델명",
+        content = "SM-F916N"
+    )
+
+    ShortContentMenuComponent(
+        title = "리소스 버킷",
+        content = "xxhdpi"
     )
 }
