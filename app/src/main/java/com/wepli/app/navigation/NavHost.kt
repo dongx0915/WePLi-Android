@@ -64,8 +64,16 @@ fun SetUpNavGraph(
         ) {
             // 홈 Graph
             homeGraph(
-                navOnPlaylistDetail = { playlistId -> navController.navigateToPlaylistDetail(playlistId) },
-                navOnRelaylistDetail = { relaylistId -> navController.navigateToRelaylistDetail(relaylistId) }
+                navOnPlaylistDetail = { playlistId ->
+                    navController.navigateToPlaylistDetail(
+                        playlistId
+                    )
+                },
+                navOnRelaylistDetail = { relaylistId ->
+                    navController.navigateToRelaylistDetail(
+                        relaylistId
+                    )
+                }
             )
 
             // 검색 Graph
@@ -87,11 +95,11 @@ fun SetUpNavGraph(
             // 마이페이지 Graph
             mypageGraph(navController, goToLoginActivity)
 
-        // 개발자 모드 Graph
-        // TODO: 중첩 그래프로 관리 필요성 검토
-        devModeGraph(navController)
+            // 개발자 모드 Graph
+            // TODO: 중첩 그래프로 관리 필요성 검토
+            devModeGraph(navController)
 
-        networkLogGraph(navController)
+            networkLogGraph(navController)
 
             // 프로필 Graph
             profileGraph(navController)
