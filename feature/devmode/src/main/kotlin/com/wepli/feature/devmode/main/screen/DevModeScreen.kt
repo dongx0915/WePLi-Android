@@ -30,13 +30,13 @@ import theme.WepliTheme
 @Preview
 @Composable
 private fun DevModeScreenPreview() {
-    DevModeScreen(DevModeMainState(), {}, {})
+    DevModeScreen(DevModeMainState(), {},  {}, {})
 }
 
 @Composable
 fun DevModeScreenRoute(
     navOnBack: () -> Unit,
-    navOnNetworkLog: () ->Unit,
+    navOnNetworkLog: () -> Unit,
 ) {
     val viewModel: DevModeMainViewModel = hiltViewModel()
     val state by viewModel.collectAsState()
@@ -59,6 +59,7 @@ fun DevModeScreenRoute(
 
     DevModeScreen(
         state = state,
+        sendAction = viewModel::processIntent,
         navOnBack = navOnBack,
         navOnNetworkLog = navOnNetworkLog
     )
@@ -68,6 +69,7 @@ fun DevModeScreenRoute(
 @Composable
 private fun DevModeScreen(
     state: DevModeMainState,
+    sendAction: (DevModeMainIntent) -> Unit,
     navOnBack: () -> Unit,
     navOnNetworkLog: () -> Unit,
 ) {
@@ -93,18 +95,27 @@ private fun DevModeScreen(
             UserInfoLayout(state)
             DeviceInfoLayout(state)
             ScreenInfoLayout(state)
-            LogMenuLayout(navOnNetworkLog)
+            LogMenuLayout(state, sendAction, navOnNetworkLog)
         }
     }
 }
 
 @Composable
 private fun LogMenuLayout(
+    state: DevModeMainState,
+    sendAction: (DevModeMainIntent) -> Unit,
     navOnNetworkLog: () -> Unit,
 ) {
     MenuTitleComponent(title = "로그")
     MenuComponent(title = "네트워크 로그", onClickMenu = { navOnNetworkLog() })
-    SwitchMenuComponent(title = "ScreenNameViewer 활성화", checked = false, onClickMenu = {})
+    SwitchMenuComponent(
+        title = "ScreenNameViewer 활성화",
+        checked = state.isEnabledScreenNameViewer,
+        onClickMenu = {},
+        onCheckedChanged = { newState ->
+            sendAction(DevModeMainIntent.ChangeScreenNameViewerState(newState))
+        }
+    )
 }
 
 @Composable
