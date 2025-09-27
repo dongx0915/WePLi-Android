@@ -153,7 +153,7 @@ fun BottomNavigationBar(
     currentRoute: String?,
     hazeState: HazeState // hazeState 매개변수 추가
 ) {
-    val bottomNavColor = WepliTheme.color.black.copy(0.92f)
+    val bottomNavColor = WepliTheme.color.black.copy(0.85f)
     val density = LocalDensity.current
     val navBarHeight = with(density) { WindowInsets.navigationBars.getBottom(this).toDp() }
 
