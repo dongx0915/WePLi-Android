@@ -1,5 +1,6 @@
 package com.wepli.devmode.fcm.data.model
 
+import com.wepli.devmode.fcm.domain.model.FcmMessage
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -16,12 +17,28 @@ data class FcmMessageRequest(
 
     @Serializable
     data class Notification(
-        val title: String,
-        val body: String,
+        val title: String? = null,
+        val body: String? = null,
     )
 
     @Serializable
     data class AndroidConfig(
-        val priority: String = "high",
+        val priority: String? = "high",
+    )
+}
+
+fun FcmMessage.toFcmMessageRequest(): FcmMessageRequest {
+    return FcmMessageRequest(
+        message = FcmMessageRequest.Message(
+            token = message.token,
+            notification = FcmMessageRequest.Notification(
+                title = message.notification?.title,
+                body = message.notification?.body,
+            ),
+            android = FcmMessageRequest.AndroidConfig(
+                priority = message.android?.priority
+            ),
+            data = message.data
+        )
     )
 }
