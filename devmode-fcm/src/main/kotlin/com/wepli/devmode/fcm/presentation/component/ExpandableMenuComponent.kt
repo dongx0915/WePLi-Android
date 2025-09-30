@@ -3,7 +3,7 @@ package com.wepli.devmode.fcm.presentation.component
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,9 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wepli.devmode.fcm.presentation.theme.DevModeTheme
@@ -35,7 +33,6 @@ import com.wepli.devmode.fcm.R
 fun ExpandableMenuComponent(
     modifier: Modifier = Modifier,
     title: String = "메뉴 콘텐츠",
-    content: String = "콘텐츠",
     innerContent: @Composable () -> Unit = {}
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -43,19 +40,13 @@ fun ExpandableMenuComponent(
         targetValue = if (expanded) 270f else 90f,
         label = "ArrowRotationAngle"
     )
-    val clipboardManager = LocalClipboardManager.current
 
     Column(
         modifier = modifier
             .animateContentSize()
-            .combinedClickable(
-                onClick = {
-                    expanded = !expanded
-                },
-                onLongClick = {
-                    clipboardManager.setText(AnnotatedString(content))
-                }
-            )
+            .clickable {
+                expanded = !expanded
+            }
             .fillMaxWidth()
             .padding(vertical = 16.dp, horizontal = 20.dp),
     ) {
