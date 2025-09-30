@@ -101,6 +101,7 @@ private fun DevModeScreen(
                 .padding(bottom = 50.dp)
         ) {
             UserInfoLayout(state)
+            FcmPushLayout(sendAction)
             DeviceInfoLayout(state)
             ScreenInfoLayout(state)
             LogMenuLayout(state, sendAction, navOnNetworkLog)
@@ -122,6 +123,19 @@ private fun LogMenuLayout(
         onClickMenu = {},
         onCheckedChanged = { newState ->
             sendAction(DevModeMainIntent.ChangeScreenNameViewerState(newState))
+        }
+    )
+}
+
+@Composable
+private fun FcmPushLayout(
+    sendAction: (DevModeMainIntent) -> Unit,
+) {
+    MenuTitleComponent(title = "FCM")
+    MenuComponent(
+        title = "테스트 푸시 전송",
+        onClickMenu = {
+            sendAction(DevModeMainIntent.SendTestFcmMessage)
         }
     )
 }

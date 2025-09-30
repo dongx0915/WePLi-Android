@@ -4,6 +4,7 @@ import base.BaseMviViewModel
 import base.Intent
 import base.SideEffect
 import base.UiState
+import com.wepli.devmode.fcm.data.model.FcmMessageRequest
 import com.wepli.devmode.fcm.domain.repository.DevModeFcmRepository
 import com.wepli.feature.devmode.main.utils.DevModeUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -43,6 +44,7 @@ sealed interface DevModeMainIntent : Intent {
     ) : DevModeMainIntent
 
     data class ChangeScreenNameViewerState(val enabled: Boolean) : DevModeMainIntent
+    data object SendTestFcmMessage : DevModeMainIntent
 }
 
 @HiltViewModel
@@ -72,6 +74,7 @@ class DevModeMainViewModel @Inject constructor(
             }
 
             is DevModeMainIntent.ChangeScreenNameViewerState -> updateScreenNameViewerSetting(intent.enabled)
+            DevModeMainIntent.SendTestFcmMessage -> sendTestFcmMessage()
         }
     }
 
@@ -99,5 +102,23 @@ class DevModeMainViewModel @Inject constructor(
         settingRepository.setEnableScreenNameViewer(isEnabled)
 
         postSideEffect { DevModeMainEffect.RestartApplication }
+    }
+
+    private fun sendTestFcmMessage() {
+        launch(Dispatchers.IO) {
+            devModeFcmRepository.sendMessage(
+                projectId = "wepli-app-49e90",
+                accessToken = devModeFcmRepository.getFcmAccessToken(),
+                request = FcmMessageRequest(
+                    message = FcmMessageRequest.Message(
+                        token = DevModeUtil.getFcmToken(),
+                        data = mapOf(
+                            "Nick" to "Mario",
+                            "Room" to "PortugalVSDenmark"
+                        ),
+                    )
+                )
+            )
+        }
     }
 }

@@ -11,7 +11,7 @@ data class FcmMessageRequest(
         val token: String,
         val notification: Notification? = null,
         val android: AndroidConfig? = null,
-        val data: String? = null,
+        val data: Map<String, String>? = null,
     )
 
     @Serializable

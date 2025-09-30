@@ -1,5 +1,6 @@
 package com.wepli.devmode.di
 
+import com.wepli.devmode.di.qualifier.FcmRetrofit
 import com.wepli.devmode.fcm.data.api.FcmApi
 import dagger.Module
 import dagger.Provides
@@ -15,5 +16,5 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun provideFcmService(retrofit: Retrofit): FcmApi = retrofit.create(FcmApi::class.java)
+    fun provideFcmService(@FcmRetrofit retrofit: Retrofit): FcmApi = retrofit.create(FcmApi::class.java)
 }
