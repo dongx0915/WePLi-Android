@@ -1,4 +1,4 @@
-package com.wepli.app.di
+package com.wepli.app.di.module
 
 import android.util.Log
 import com.wepli.core.common.BuildConfig
