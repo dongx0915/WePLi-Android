@@ -61,5 +61,5 @@ include(
     ":domain",
     ":data",
     ":app",
-    ":devmode"
+    ":devmode-fcm"
 )

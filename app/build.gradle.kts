@@ -24,7 +24,6 @@ dependencies {
     implementation(projects.designsystem)
     implementation(projects.domain)
     implementation(projects.data)
-    implementation(projects.devmode)
     implementation(projects.shared.feature)
     implementation(projects.feature.home)
     implementation(projects.feature.search)
@@ -35,6 +34,7 @@ dependencies {
     implementation(projects.feature.devmode)
     implementation(projects.feature.photocard)
     implementation(projects.feature.song)
+    implementation(project(":devmode-fcm"))
 
     // Orbit
     implementation(libs.bundles.orbit)

@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.wepli.devmode"
+    namespace = "com.wepli.devmode.fcm"
 }
 
 dependencies {
