@@ -24,6 +24,7 @@ dependencies {
     implementation(projects.designsystem)
     implementation(projects.domain)
     implementation(projects.data)
+    implementation(projects.devmode)
     implementation(projects.shared.feature)
     implementation(projects.feature.home)
     implementation(projects.feature.search)

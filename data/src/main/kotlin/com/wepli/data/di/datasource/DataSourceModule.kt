@@ -11,8 +11,6 @@ import com.wepli.data.datastore.local.DataStorePrefDataSourceImpl
 import com.wepli.data.di.qualifier.RemoteDataSource
 import com.wepli.data.devmode.apilog.datasource.DebugApiLogLocalDatasource
 import com.wepli.data.devmode.apilog.datasource.DebugApiLogLocalDatasourceImpl
-import com.wepli.data.devmode.fcm.datasource.DevModeFcmDataSource
-import com.wepli.data.devmode.fcm.datasource.DevModeFcmDataSourceImpl
 import com.wepli.data.playlist.datasource.remote.PlaylistDataSource
 import com.wepli.data.playlist.datasource.remote.PlaylistDataSourceImpl
 import com.wepli.data.relaylist.datasource.remote.RelaylistDataSource
@@ -64,8 +62,4 @@ interface DataSourceModule {
     @Binds
     @Singleton
     fun bindApiLogDataSource(dataSource: DebugApiLogLocalDatasourceImpl): DebugApiLogLocalDatasource
-
-    @Binds
-    @Singleton
-    fun bindDevFcmDataSource(dataSource: DevModeFcmDataSourceImpl): DevModeFcmDataSource
 }

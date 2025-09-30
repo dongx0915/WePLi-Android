@@ -1,4 +1,4 @@
-package com.wepli.data.devmode.fcm.datasource
+package com.wepli.devmode.fcm.datasource
 
 import android.content.Context
 import com.google.auth.oauth2.GoogleCredentials

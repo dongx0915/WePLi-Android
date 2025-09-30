@@ -1,0 +1,18 @@
+package com.wepli.devmode.di
+
+import com.wepli.devmode.fcm.repository.DevModeFcmRepository
+import com.wepli.devmode.fcm.repository.DevModeFcmRepositoryImpl
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+interface DevModeRepositoryModule {
+
+    @Binds
+    @Singleton
+    fun bindDevFcmRepository(devModeFcmRepositoryImpl: DevModeFcmRepositoryImpl): DevModeFcmRepository
+}

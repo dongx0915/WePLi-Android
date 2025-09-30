@@ -1,4 +1,4 @@
-package com.wepli.data.devmode.fcm.datasource
+package com.wepli.devmode.fcm.datasource
 
 interface DevModeFcmDataSource {
 

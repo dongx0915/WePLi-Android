@@ -29,10 +29,6 @@ dependencies {
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.fcm)
-    implementation(libs.google.credential) {
-        exclude(group = "com.google.api", module = "api-common")
-        exclude(group = "org.apache.httpcomponents")
-    }
 
     // Room
     implementation(libs.bundles.room)

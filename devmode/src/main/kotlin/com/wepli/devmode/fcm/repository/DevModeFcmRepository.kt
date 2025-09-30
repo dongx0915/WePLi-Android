@@ -1,4 +1,4 @@
-package com.wepli.domain.devmode.fcm.repository
+package com.wepli.devmode.fcm.repository
 
 interface DevModeFcmRepository {
 

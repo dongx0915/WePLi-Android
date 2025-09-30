@@ -9,6 +9,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":devmode"))
     implementation(libs.json.tree)
 
     implementation(platform(libs.firebase.bom))
