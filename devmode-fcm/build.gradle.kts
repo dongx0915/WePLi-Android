@@ -16,4 +16,13 @@ dependencies {
         exclude(group = "com.google.api", module = "api-common")
         exclude(group = "org.apache.httpcomponents")
     }
+
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.okhttp3)
+    implementation(libs.okhttp3.logging.interceptor)
+
+    // Kotlin Serialization
+    implementation(libs.kotlin.serialization.json)
+    implementation(libs.kotlin.serialization.converter)
 }

@@ -4,7 +4,7 @@ import base.BaseMviViewModel
 import base.Intent
 import base.SideEffect
 import base.UiState
-import com.wepli.devmode.fcm.repository.DevModeFcmRepository
+import com.wepli.devmode.fcm.domain.repository.DevModeFcmRepository
 import com.wepli.feature.devmode.main.utils.DevModeUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

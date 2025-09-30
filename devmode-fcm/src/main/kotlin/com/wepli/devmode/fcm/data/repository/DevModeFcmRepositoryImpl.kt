@@ -1,6 +1,7 @@
-package com.wepli.devmode.fcm.repository
+package com.wepli.devmode.fcm.data.repository
 
-import com.wepli.devmode.fcm.datasource.DevModeFcmDataSource
+import com.wepli.devmode.fcm.data.datasource.DevModeFcmDataSource
+import com.wepli.devmode.fcm.domain.repository.DevModeFcmRepository
 import javax.inject.Inject
 
 class DevModeFcmRepositoryImpl @Inject constructor(

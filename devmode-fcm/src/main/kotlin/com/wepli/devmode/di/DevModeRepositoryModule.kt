@@ -1,7 +1,7 @@
 package com.wepli.devmode.di
 
-import com.wepli.devmode.fcm.repository.DevModeFcmRepository
-import com.wepli.devmode.fcm.repository.DevModeFcmRepositoryImpl
+import com.wepli.devmode.fcm.domain.repository.DevModeFcmRepository
+import com.wepli.devmode.fcm.data.repository.DevModeFcmRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
