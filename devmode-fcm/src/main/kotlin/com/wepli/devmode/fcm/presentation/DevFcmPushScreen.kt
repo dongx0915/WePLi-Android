@@ -12,6 +12,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -20,6 +22,8 @@ import com.wepli.devmode.fcm.presentation.textfield.DevModeTextField
 import com.wepli.devmode.fcm.presentation.textfield.DevModeTextFieldType
 import com.wepli.devmode.fcm.presentation.theme.DevModeTheme
 import com.wepli.devmode.fcm.R
+import com.wepli.devmode.fcm.domain.model.FcmMessage
+import com.wepli.devmode.fcm.presentation.component.NoticeComponent
 
 
 @Preview
@@ -61,22 +65,9 @@ fun DevFcmPushScreen() {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            DevModeTextField(
-                value = "",
-                placeholder = "제목을 입력하세요",
-                onValueChanged = { },
-                singleLine = true,
-                type = DevModeTextFieldType.Normal,
-                modifier = Modifier.height(44.dp)
-            )
-
-            DevModeTextField(
-                value = "",
-                placeholder = "메시지를 입력하세요",
-                onValueChanged = { },
-                singleLine = false,
-                type = DevModeTextFieldType.Normal,
-                modifier = Modifier.height(120.dp)
+            NoticeComponent(
+                notice = "",
+                imageVector = ImageVector.vectorResource(com.wepli.core.resources.R.drawable.ic_info_vector)
             )
         }
     }
