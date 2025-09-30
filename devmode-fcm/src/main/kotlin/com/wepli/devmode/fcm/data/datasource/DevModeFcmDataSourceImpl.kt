@@ -2,11 +2,15 @@ package com.wepli.devmode.fcm.data.datasource
 
 import android.content.Context
 import com.google.auth.oauth2.GoogleCredentials
+import com.wepli.devmode.fcm.data.api.FcmApi
+import com.wepli.devmode.fcm.data.model.FcmMessageRequest
+import com.wepli.devmode.fcm.data.model.FcmResponse
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class DevModeFcmDataSourceImpl @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val fcmApi: FcmApi
 ) : DevModeFcmDataSource {
 
     override fun getFcmAccessToken(): String {
@@ -21,6 +25,24 @@ class DevModeFcmDataSourceImpl @Inject constructor(
             googleCredentials?.accessToken?.tokenValue.orEmpty()
         }.getOrElse {
             it.message.toString()
+        }
+    }
+
+    override suspend fun sendMessage(
+        projectId: String,
+        accessToken: String,
+        request: FcmMessageRequest
+    ): FcmResponse {
+        val response = fcmApi.sendMessage(
+            projectId = projectId,
+            authorization = "Bearer $accessToken",
+            request = request,
+        )
+
+        return if (response.isSuccessful && response.body() != null) {
+            response.body()!!
+        } else {
+            throw Exception(response.errorBody()?.string())
         }
     }
 }
