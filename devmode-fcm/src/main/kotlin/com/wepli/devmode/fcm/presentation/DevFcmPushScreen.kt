@@ -1,6 +1,9 @@
 package com.wepli.devmode.fcm.presentation
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -12,7 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.wepli.devmode.fcm.presentation.component.AppBarIcon
+import com.wepli.devmode.fcm.presentation.textfield.DevModeTextField
+import com.wepli.devmode.fcm.presentation.textfield.DevModeTextFieldType
 import com.wepli.devmode.fcm.presentation.theme.DevModeTheme
 import com.wepli.devmode.fcm.R
 
@@ -49,8 +55,30 @@ fun DevFcmPushScreen() {
             )
         }
     ) { paddingValues ->
-        Column(modifier = Modifier.padding(paddingValues)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            DevModeTextField(
+                value = "",
+                placeholder = "제목을 입력하세요",
+                onValueChanged = { },
+                singleLine = true,
+                type = DevModeTextFieldType.Normal,
+                modifier = Modifier.height(44.dp)
+            )
 
+            DevModeTextField(
+                value = "",
+                placeholder = "메시지를 입력하세요",
+                onValueChanged = { },
+                singleLine = false,
+                type = DevModeTextFieldType.Normal,
+                modifier = Modifier.height(120.dp)
+            )
         }
     }
 }
