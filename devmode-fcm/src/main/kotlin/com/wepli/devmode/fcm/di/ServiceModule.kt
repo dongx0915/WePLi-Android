@@ -1,6 +1,6 @@
-package com.wepli.devmode.di
+package com.wepli.devmode.fcm.di
 
-import com.wepli.devmode.di.qualifier.FcmRetrofit
+import com.wepli.devmode.fcm.di.qualifier.FcmRetrofit
 import com.wepli.devmode.fcm.data.api.FcmApi
 import dagger.Module
 import dagger.Provides

@@ -1,4 +1,4 @@
-package com.wepli.devmode.di.qualifier
+package com.wepli.devmode.fcm.di.qualifier
 
 import javax.inject.Qualifier
 

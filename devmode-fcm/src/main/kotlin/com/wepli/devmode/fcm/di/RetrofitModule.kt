@@ -1,10 +1,8 @@
-package com.wepli.devmode.di
+package com.wepli.devmode.fcm.di
 
-import android.util.Log
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.wepli.devmode.di.qualifier.FcmOkHttpClient
-import com.wepli.devmode.di.qualifier.FcmRetrofit
-import com.wepli.domain.devmode.apilog.repository.DebugApiLogRepository
+import com.wepli.devmode.fcm.di.qualifier.FcmOkHttpClient
+import com.wepli.devmode.fcm.di.qualifier.FcmRetrofit
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
