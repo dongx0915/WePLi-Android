@@ -38,6 +38,7 @@ dependencies {
 
     // Firebase
     implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.fcm)
 
     // Supabase
     implementation(libs.androidx.credentials)

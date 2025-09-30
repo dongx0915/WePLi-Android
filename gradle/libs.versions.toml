@@ -133,6 +133,7 @@ orbit-compose = { group = "org.orbit-mvi", name = "orbit-compose", version.ref =
 
 # Firebase
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
+firebase-fcm = { group = "com.google.firebase", name = "firebase-messaging" }
 
 # Supabase
 supabase-bom = { group = "io.github.jan-tennert.supabase", name = "bom", version.ref = "supabase" }
