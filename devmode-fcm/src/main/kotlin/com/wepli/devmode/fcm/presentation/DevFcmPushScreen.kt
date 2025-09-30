@@ -21,6 +21,12 @@ import com.wepli.devmode.fcm.presentation.component.NoticeComponent
 import com.wepli.devmode.fcm.presentation.component.common.AppBarIcon
 import com.wepli.devmode.fcm.presentation.theme.DevModeTheme
 
+
+@Composable
+fun DevFcmPushScreenRoute() {
+    DevFcmPushScreen()
+}
+
 @Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
