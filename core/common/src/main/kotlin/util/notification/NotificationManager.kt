@@ -40,7 +40,7 @@ class NotificationManager @Inject constructor(private val context: Context) {
     fun showNotification(
         title: String,
         message: String,
-        intent: Intent? = null
+        intent: Intent
     ) {
         val pendingIntent = createPendingIntent(intent)
 
@@ -56,12 +56,10 @@ class NotificationManager @Inject constructor(private val context: Context) {
         notificationManager.notify(NOTIFICATION_ID, notification)
     }
 
-    private fun createPendingIntent(intent: Intent?): PendingIntent {
-        val targetIntent = intent
-
+    private fun createPendingIntent(intent: Intent): PendingIntent {
         val flags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
 
-        return PendingIntent.getActivity(context, 0, targetIntent, flags)
+        return PendingIntent.getActivity(context, 0, intent, flags)
     }
 
     fun cancelNotification() {
