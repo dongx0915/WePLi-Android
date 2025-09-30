@@ -138,6 +138,11 @@ private fun UserInfoLayout(state: DevModeMainState) {
         title = "리프레시 토큰",
         content = state.refreshToken
     )
+
+    ExpandableMenuComponent(
+        title = "FCM 토큰",
+        content = state.fcmToken
+    )
 }
 
 @Composable

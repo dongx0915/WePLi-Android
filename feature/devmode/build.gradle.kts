@@ -10,4 +10,7 @@ android {
 
 dependencies {
     implementation(libs.json.tree)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.fcm)
 }

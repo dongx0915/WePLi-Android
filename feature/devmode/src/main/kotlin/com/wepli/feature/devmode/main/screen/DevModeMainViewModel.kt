@@ -4,6 +4,7 @@ import base.BaseMviViewModel
 import base.Intent
 import base.SideEffect
 import base.UiState
+import com.wepli.feature.devmode.main.utils.DevModeUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import repository.setting.SettingRepository
@@ -75,12 +76,14 @@ class DevModeMainViewModel @Inject constructor(
         launch(Dispatchers.IO) {
             val accessToken = userRepository.getAccessToken()
             val refreshToken = userRepository.getRefreshToken()
+            val fcmToken = DevModeUtil.getFcmToken()
             val isEnabledScreenNameViewer = settingRepository.isEnableScreenNameViewer()
 
             reduce {
                 state.copy(
                     accessToken = accessToken,
                     refreshToken = refreshToken,
+                    fcmToken = fcmToken,
                     isEnabledScreenNameViewer = isEnabledScreenNameViewer,
                 )
             }
