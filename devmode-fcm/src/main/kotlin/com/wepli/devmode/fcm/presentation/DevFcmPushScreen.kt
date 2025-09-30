@@ -10,12 +10,10 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
 import com.wepli.devmode.fcm.presentation.component.AppBarIcon
+import com.wepli.devmode.fcm.presentation.theme.WepliTheme
 import com.wepli.devmode.fcm.R
 
 
@@ -30,11 +28,7 @@ fun DevFcmPushScreen() {
                 title = {
                     Text(
                         text = "FCM 푸시 발송",
-                        style = TextStyle(
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 16.sp,
-                            lineHeight = 20.sp,
-                        ),
+                        style = WepliTheme.typo.subTitle3,
                         color = Color.White,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
