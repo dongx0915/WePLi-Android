@@ -1,4 +1,4 @@
-package com.wepli.devmode.fcm.di
+package com.wepli.devmode.fcm.di.module
 
 import com.wepli.devmode.fcm.di.qualifier.FcmRetrofit
 import com.wepli.devmode.fcm.data.api.FcmApi

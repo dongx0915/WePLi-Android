@@ -1,4 +1,4 @@
-package com.wepli.devmode.fcm.di
+package com.wepli.devmode.fcm.di.module
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.wepli.devmode.fcm.di.qualifier.FcmOkHttpClient

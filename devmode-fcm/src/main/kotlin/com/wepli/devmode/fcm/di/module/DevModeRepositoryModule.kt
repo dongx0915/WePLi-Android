@@ -1,4 +1,4 @@
-package com.wepli.devmode.fcm.di
+package com.wepli.devmode.fcm.di.module
 
 import com.wepli.devmode.fcm.domain.repository.DevModeFcmRepository
 import com.wepli.devmode.fcm.data.repository.DevModeFcmRepositoryImpl
