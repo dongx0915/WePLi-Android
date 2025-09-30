@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -19,7 +20,8 @@ import com.wepli.devmode.fcm.presentation.theme.DevModeTheme
 @Composable
 fun NoticeComponent(
     notice: String,
-    imageVector: ImageVector,
+    leadingIcon: ImageVector,
+    trailingIcon: ImageVector? = null,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -32,15 +34,26 @@ fun NoticeComponent(
         horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.Start)
     ) {
         Icon(
-            imageVector = imageVector,
+            imageVector = leadingIcon,
             tint = DevModeTheme.color.gray900,
             contentDescription = null,
+            modifier = Modifier.size(24.dp),
         )
 
         Text(
             text = notice,
             style = DevModeTheme.typo.body6,
             color = DevModeTheme.color.gray900,
+            modifier = Modifier.weight(1f)
         )
+
+        if (trailingIcon != null) {
+            Icon(
+                imageVector = trailingIcon,
+                tint = DevModeTheme.color.gray900,
+                contentDescription = null,
+                modifier = Modifier.size(24.dp),
+            )
+        }
     }
 }

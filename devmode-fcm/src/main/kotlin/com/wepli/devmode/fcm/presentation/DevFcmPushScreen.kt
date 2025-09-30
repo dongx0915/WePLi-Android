@@ -3,7 +3,6 @@ package com.wepli.devmode.fcm.presentation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,14 +16,10 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.wepli.devmode.fcm.presentation.component.common.AppBarIcon
-import com.wepli.devmode.fcm.presentation.textfield.DevModeTextField
-import com.wepli.devmode.fcm.presentation.textfield.DevModeTextFieldType
-import com.wepli.devmode.fcm.presentation.theme.DevModeTheme
 import com.wepli.devmode.fcm.R
-import com.wepli.devmode.fcm.domain.model.FcmMessage
 import com.wepli.devmode.fcm.presentation.component.NoticeComponent
-
+import com.wepli.devmode.fcm.presentation.component.common.AppBarIcon
+import com.wepli.devmode.fcm.presentation.theme.DevModeTheme
 
 @Preview
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,8 +61,9 @@ fun DevFcmPushScreen() {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             NoticeComponent(
-                notice = "",
-                imageVector = ImageVector.vectorResource(com.wepli.core.resources.R.drawable.ic_info_vector)
+                notice = "API Key 파일이 로드 되었습니다.",
+                leadingIcon = ImageVector.vectorResource(R.drawable.ic_file_check),
+                trailingIcon = ImageVector.vectorResource(R.drawable.ic_close),
             )
         }
     }
