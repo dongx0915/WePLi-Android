@@ -7,6 +7,12 @@ plugins {
 
 android {
     namespace = "com.wepli.app"
+
+    packaging {
+        resources {
+            pickFirsts += "META-INF/INDEX.LIST"
+        }
+    }
 }
 
 // App 모듈에선 모든 모듈 참조 필요
