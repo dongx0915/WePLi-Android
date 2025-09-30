@@ -141,6 +141,7 @@ data class DevModeTypography(
     ),
 )
 
-object WepliTheme {
+object DevModeTheme {
     val typo = DevModeTypography()
+    val color = lightColors()
 }

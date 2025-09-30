@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.wepli.devmode.fcm.presentation.component.AppBarIcon
-import com.wepli.devmode.fcm.presentation.theme.WepliTheme
+import com.wepli.devmode.fcm.presentation.theme.DevModeTheme
 import com.wepli.devmode.fcm.R
 
 
@@ -22,14 +22,14 @@ import com.wepli.devmode.fcm.R
 @Composable
 fun DevFcmPushScreen() {
     Scaffold(
-        containerColor = Color.Black,
+        containerColor = DevModeTheme.color.black,
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
                     Text(
                         text = "FCM 푸시 발송",
-                        style = WepliTheme.typo.subTitle3,
-                        color = Color.White,
+                        style = DevModeTheme.typo.subTitle3,
+                        color = DevModeTheme.color.white,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
@@ -41,10 +41,10 @@ fun DevFcmPushScreen() {
                     )
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.Black,
-                    navigationIconContentColor = Color.White,
-                    actionIconContentColor = Color.White,
-                    titleContentColor = Color.White
+                    containerColor = DevModeTheme.color.black,
+                    navigationIconContentColor = DevModeTheme.color.white,
+                    actionIconContentColor = DevModeTheme.color.white,
+                    titleContentColor = DevModeTheme.color.white
                 )
             )
         }
