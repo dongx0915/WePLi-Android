@@ -67,5 +67,5 @@ interface DataSourceModule {
 
     @Binds
     @Singleton
-    fun bindDevFcmDataSource(dataSource: DevModeFcmDataSourceImpl): DebugApiLogLocalDatasource
+    fun bindDevFcmDataSource(dataSource: DevModeFcmDataSourceImpl): DevModeFcmDataSource
 }

@@ -4,6 +4,7 @@ import base.BaseMviViewModel
 import base.Intent
 import base.SideEffect
 import base.UiState
+import com.wepli.domain.devmode.fcm.repository.DevModeFcmRepository
 import com.wepli.feature.devmode.main.utils.DevModeUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +17,7 @@ data class DevModeMainState(
     val refreshToken: String = "",
     val isEnabledScreenNameViewer: Boolean = false,
     val fcmToken: String = "",
+    val fcmAccessToken: String = "",
     val androidOs: String = "",
     val sdkVersion: Int = 0,
     val deviceModel: String = "",
@@ -47,6 +49,7 @@ sealed interface DevModeMainIntent : Intent {
 class DevModeMainViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val settingRepository: SettingRepository,
+    private val devModeFcmRepository: DevModeFcmRepository,
 ) : BaseMviViewModel<DevModeMainState, DevModeMainEffect, DevModeMainIntent>(
     initialState = DevModeMainState()
 ) {
@@ -77,6 +80,7 @@ class DevModeMainViewModel @Inject constructor(
             val accessToken = userRepository.getAccessToken()
             val refreshToken = userRepository.getRefreshToken()
             val fcmToken = DevModeUtil.getFcmToken()
+            val fcmAccessToken = devModeFcmRepository.getFcmAccessToken()
             val isEnabledScreenNameViewer = settingRepository.isEnableScreenNameViewer()
 
             reduce {
@@ -84,6 +88,7 @@ class DevModeMainViewModel @Inject constructor(
                     accessToken = accessToken,
                     refreshToken = refreshToken,
                     fcmToken = fcmToken,
+                    fcmAccessToken = fcmAccessToken,
                     isEnabledScreenNameViewer = isEnabledScreenNameViewer,
                 )
             }
