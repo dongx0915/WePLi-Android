@@ -162,11 +162,11 @@ fun NoticeComponent(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(8.dp))
             .background(WepliTheme.color.gray000)
             .padding(vertical = 12.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.Start)
+        horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.Start)
     ) {
         Icon(
             imageVector = ImageVector.vectorResource(CoreR.drawable.ic_info_vector),
