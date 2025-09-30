@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import javax.inject.Inject
+import com.wepli.core.resources.R as CoreResource
 
 class NotificationManager @Inject constructor(private val context: Context) {
 
@@ -45,7 +46,7 @@ class NotificationManager @Inject constructor(private val context: Context) {
         val pendingIntent = createPendingIntent(intent)
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(com.wepli.core.resources.R.drawable.ic_wepli_logo_white)
+            .setSmallIcon(CoreResource.drawable.ic_wepli_logo_white)
             .setContentTitle(title)
             .setContentText(message)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
