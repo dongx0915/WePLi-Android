@@ -3,8 +3,8 @@ package com.wepli.data.devmode.apilog.entity
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.wepli.domain.devmode.model.ApiLog
-import com.wepli.domain.devmode.model.ApiMethod
+import com.wepli.domain.devmode.apilog.model.ApiLog
+import com.wepli.domain.devmode.apilog.model.ApiMethod
 
 @Entity(
     tableName = "ApiLogs",

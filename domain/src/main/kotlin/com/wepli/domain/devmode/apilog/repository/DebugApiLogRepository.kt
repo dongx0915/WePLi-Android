@@ -1,6 +1,6 @@
-package com.wepli.domain.devmode.repository
+package com.wepli.domain.devmode.apilog.repository
 
-import com.wepli.domain.devmode.model.ApiLog
+import com.wepli.domain.devmode.apilog.model.ApiLog
 import kotlinx.coroutines.flow.Flow
 
 interface DebugApiLogRepository {

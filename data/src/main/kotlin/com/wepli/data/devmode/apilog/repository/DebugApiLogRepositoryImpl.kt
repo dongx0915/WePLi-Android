@@ -3,8 +3,8 @@ package com.wepli.data.devmode.apilog.repository
 import com.wepli.data.devmode.apilog.datasource.DebugApiLogLocalDatasourceImpl
 import com.wepli.data.devmode.apilog.entity.toDomain
 import com.wepli.data.devmode.apilog.entity.toEntity
-import com.wepli.domain.devmode.model.ApiLog
-import com.wepli.domain.devmode.repository.DebugApiLogRepository
+import com.wepli.domain.devmode.apilog.model.ApiLog
+import com.wepli.domain.devmode.apilog.repository.DebugApiLogRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 

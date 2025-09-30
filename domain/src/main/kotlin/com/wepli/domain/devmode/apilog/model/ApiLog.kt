@@ -1,4 +1,4 @@
-package com.wepli.domain.devmode.model
+package com.wepli.domain.devmode.apilog.model
 
 import java.net.URLDecoder
 import java.text.SimpleDateFormat

@@ -15,7 +15,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import com.wepli.domain.devmode.repository.DebugApiLogRepository
+import com.wepli.domain.devmode.apilog.repository.DebugApiLogRepository
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
