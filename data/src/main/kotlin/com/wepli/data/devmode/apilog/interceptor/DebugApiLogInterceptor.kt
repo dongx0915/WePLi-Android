@@ -1,4 +1,4 @@
-package com.wepli.data.devmode.interceptor
+package com.wepli.data.devmode.apilog.interceptor
 
 import android.util.Log
 import com.wepli.data.network.baseurl.BaseUrl

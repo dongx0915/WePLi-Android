@@ -1,4 +1,4 @@
-package com.wepli.data.devmode.entity
+package com.wepli.data.devmode.apilog.entity
 
 import androidx.room.Entity
 import androidx.room.Index

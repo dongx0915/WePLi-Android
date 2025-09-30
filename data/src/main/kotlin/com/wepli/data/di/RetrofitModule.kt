@@ -10,7 +10,7 @@ import com.wepli.data.di.qualifier.BaseRetrofit
 import com.wepli.data.di.qualifier.YoutubeRetrofit
 import com.wepli.data.network.baseurl.BaseUrl
 import com.wepli.data.network.calladapter.FlowCallAdapterFactory
-import com.wepli.data.devmode.interceptor.DebugApiLogInterceptor
+import com.wepli.data.devmode.apilog.interceptor.DebugApiLogInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
