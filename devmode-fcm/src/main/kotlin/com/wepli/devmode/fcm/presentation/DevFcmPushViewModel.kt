@@ -28,6 +28,17 @@ class DevFcmPushViewModel @Inject constructor() : BaseMviViewModel<DevFcmPushSta
     initialState = DevFcmPushState()
 ) {
     override fun processIntent(intent: DevFcmPushIntent) {
-
+        when (intent) {
+            is DevFcmPushIntent.ShowPriorityBottomSheet -> {
+                updateState {
+                    copy(isShownPriorityBottomSheet = intent.isShown)
+                }
+            }
+            is DevFcmPushIntent.UpdatePriority -> {
+                updateState {
+                    copy(priority = intent.priority)
+                }
+            }
+        }
     }
 }

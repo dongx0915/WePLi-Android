@@ -122,6 +122,7 @@ fun DevFcmPushScreen(
             NotificationFieldLayout()
 
             PriorityFieldLayout(
+                priority = state.priority,
                 sendAction = sendAction,
                 modifier = Modifier.padding(horizontal = 20.dp),
             )
@@ -220,6 +221,7 @@ private fun NotificationInputLayout(
 
 @Composable
 private fun PriorityFieldLayout(
+    priority: FcmPriority,
     sendAction: (DevFcmPushIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -248,7 +250,7 @@ private fun PriorityFieldLayout(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Text(
-                    text = "High",
+                    text = priority.value,
                     style = DevModeTheme.typo.subTitle5,
                     color = DevModeTheme.color.gray700,
                     modifier = Modifier.weight(1f)
