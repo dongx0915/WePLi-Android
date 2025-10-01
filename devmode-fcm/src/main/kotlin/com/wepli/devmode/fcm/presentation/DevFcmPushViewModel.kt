@@ -143,7 +143,7 @@ class DevFcmPushViewModel @Inject constructor(
     private suspend fun getFcmPushToken(): String = withContext(Dispatchers.IO) {
         suspendCancellableCoroutine {
             FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-                if (!task.isSuccessful){
+                if (!task.isSuccessful) {
                     it.resumeWithException(
                         CancellationException("failed load fcm token")
                     )
