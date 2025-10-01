@@ -12,6 +12,7 @@ data class DevFcmPushState(
     val title: String = "",
     val priority: FcmPriority = FcmPriority.HIGH,
 
+    val pushDataItems: List<Pair<String, String>> = listOf("" to ""),
     val isShownPriorityBottomSheet: Boolean = false
 ): UiState
 

@@ -17,8 +17,11 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -39,6 +42,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.wepli.devmode.fcm.R
 import com.wepli.devmode.fcm.domain.model.FcmPriority
 import com.wepli.devmode.fcm.presentation.component.ExpandableMenuComponent
+import com.wepli.devmode.fcm.presentation.component.LimitedSwipeToDismissBox
 import com.wepli.devmode.fcm.presentation.component.NoticeComponent
 import com.wepli.devmode.fcm.presentation.component.PrioritySelectBottomSheet
 import com.wepli.devmode.fcm.presentation.component.common.AppBarIcon
@@ -46,6 +50,7 @@ import com.wepli.devmode.fcm.presentation.textfield.DevModeTextField
 import com.wepli.devmode.fcm.presentation.textfield.DevModeTextFieldType
 import com.wepli.devmode.fcm.presentation.textfield.FieldLabel
 import com.wepli.devmode.fcm.presentation.theme.DevModeTheme
+import com.wepli.devmode.fcm.presentation.theme.White
 import component.bottomsheet.WepliBottomSheet
 import component.bottomsheet.WepliBottomSheetType
 import org.orbitmvi.orbit.compose.collectAsState
@@ -110,7 +115,7 @@ fun DevFcmPushScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             NoticeComponent(
                 notice = "API Key 파일이 로드 되었습니다.",
@@ -123,6 +128,12 @@ fun DevFcmPushScreen(
 
             PriorityFieldLayout(
                 priority = state.priority,
+                sendAction = sendAction,
+                modifier = Modifier.padding(horizontal = 20.dp),
+            )
+
+            PushDataFieldLayout(
+                state = state,
                 sendAction = sendAction,
                 modifier = Modifier.padding(horizontal = 20.dp),
             )
@@ -265,4 +276,94 @@ private fun PriorityFieldLayout(
             }
         }
     }
+}
+
+@Composable
+private fun PushDataFieldLayout(
+    state: DevFcmPushState,
+    sendAction: (DevFcmPushIntent) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+
+
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        FieldLabel(
+            text = "푸시 데이터",
+            label = "*",
+            isRequired = true
+        )
+
+        state.pushDataItems.forEachIndexed { index, item ->
+            PushDataInputLayout(
+                keyQuery = item.first,
+                onKeyQueryUpdate = { },
+                valueQuery = item.second,
+                onValueQueryUpdate = { }
+            )
+        }
+    }
+}
+
+@Composable
+private fun PushDataInputLayout(
+    keyQuery: String,
+    onKeyQueryUpdate: (String) -> Unit,
+    valueQuery: String,
+    onValueQueryUpdate: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val focusRequester = remember { FocusRequester() }
+
+    LimitedSwipeToDismissBox(
+        maxOffsetDp = 50f.dp,
+        positionalThresholdFraction = 0.25f,
+        backgroundContent = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.align(Alignment.Center)
+            ) {
+                Spacer(modifier.weight(1f))
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_trash),
+                    tint = DevModeTheme.color.gray900,
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp),
+                )
+            }
+        },
+        content = {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                DevModeTextField(
+                    value = keyQuery,
+                    singleLine = true,
+                    onValueChanged = { onKeyQueryUpdate(it) },
+                    onEnter = {},
+                    placeholder = "Key",
+                    type = DevModeTextFieldType.Normal,
+                    modifier = Modifier
+                        .focusRequester(focusRequester)
+                        .height(44.dp)
+                        .weight(1f)
+                )
+
+                DevModeTextField(
+                    value = valueQuery,
+                    singleLine = true,
+                    onValueChanged = { onValueQueryUpdate(it) },
+                    onEnter = {},
+                    placeholder = "Value",
+                    type = DevModeTextFieldType.Normal,
+                    modifier = Modifier
+                        .focusRequester(focusRequester)
+                        .height(44.dp)
+                        .weight(1f)
+                )
+            }
+        }
+    )
 }
