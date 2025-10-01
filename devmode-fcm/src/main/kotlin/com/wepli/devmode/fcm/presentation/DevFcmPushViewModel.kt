@@ -42,10 +42,12 @@ sealed interface DevFcmPushIntent : Intent {
     data class RemovePushDataItem(val index: Int) : DevFcmPushIntent
 
     data class ShowPriorityBottomSheet(val isShown: Boolean) : DevFcmPushIntent
-    data class UploadJsonFile(val jsonContent: String) : DevFcmPushIntent
     data class UpdatePriority(val priority: FcmPriority) : DevFcmPushIntent
     data class UpdatePushDataKey(val index: Int, val key: String) : DevFcmPushIntent
     data class UpdatePushDataValue(val index: Int, val value: String) : DevFcmPushIntent
+
+    data class UploadJsonFile(val jsonContent: String) : DevFcmPushIntent
+    data object DeleteJsonFile : DevFcmPushIntent
 }
 
 @HiltViewModel
@@ -81,8 +83,8 @@ class DevFcmPushViewModel @Inject constructor(
                 this.projectId = intent.projectId
             }
 
-            is DevFcmPushIntent.UploadJsonFile -> {
-                uploadJsonFile(intent.jsonContent)
+            is DevFcmPushIntent.SendFcm -> {
+                sendFcmPush()
             }
 
             is DevFcmPushIntent.ShowPriorityBottomSheet -> {
@@ -113,15 +115,24 @@ class DevFcmPushViewModel @Inject constructor(
                 removePushDataItem(intent.index)
             }
 
-            DevFcmPushIntent.SendFcm -> sendFcmPush()
+            is DevFcmPushIntent.UploadJsonFile -> {
+                uploadJsonFile(intent.jsonContent)
+            }
+
+            DevFcmPushIntent.DeleteJsonFile -> {
+                deleteJsonFile()
+            }
         }
     }
 
-    private fun uploadJsonFile(jsonContent: String) = intent {
-        launch(Dispatchers.IO) {
-            devModeFcmRepository.saveFirebaseAdminJson(jsonContent)
-            reduce { state.copy(isJsonFileLoaded = true) }
-        }
+    private fun uploadJsonFile(jsonContent: String) = launch(Dispatchers.IO) {
+        devModeFcmRepository.saveFirebaseAdminJson(jsonContent)
+        updateState { copy(isJsonFileLoaded = true) }
+    }
+
+    private fun deleteJsonFile() = launch(Dispatchers.IO) {
+        devModeFcmRepository.saveFirebaseAdminJson("")
+        updateState { copy(isJsonFileLoaded = false) }
     }
 
     private suspend fun getFcmPushToken(): String = withContext(Dispatchers.IO) {

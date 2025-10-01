@@ -150,7 +150,7 @@ fun DevFcmPushScreen(
         ) {
             Spacer(modifier = Modifier.height(28.dp))
 
-            ApiKeyFileLayout(state = state, onFilePickerClick = onFilePickerClick)
+            ApiKeyFileLayout(state = state, sendAction = sendAction, onFilePickerClick = onFilePickerClick)
 
             NotificationFieldLayout()
 
@@ -202,6 +202,7 @@ fun DevFcmPushScreen(
 @Composable
 private fun ApiKeyFileLayout(
     state: DevFcmPushState,
+    sendAction: (DevFcmPushIntent) -> Unit,
     onFilePickerClick: () -> Unit,
 ) {
     if (state.isJsonFileLoaded) {
@@ -209,7 +210,11 @@ private fun ApiKeyFileLayout(
             notice = "API Key 파일이 로드 되었습니다.",
             leadingIcon = ImageVector.vectorResource(R.drawable.ic_file_check),
             trailingIcon = ImageVector.vectorResource(R.drawable.ic_close),
-            modifier = Modifier.padding(horizontal = 20.dp)
+            modifier = Modifier
+                .clickable {
+                    sendAction(DevFcmPushIntent.DeleteJsonFile)
+                }
+                .padding(horizontal = 20.dp)
         )
     } else {
         Column(
