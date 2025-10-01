@@ -23,6 +23,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -62,10 +63,15 @@ fun DevFcmPushScreenPreview() {
 
 @Composable
 fun DevFcmPushScreenRoute(
+    fcmToken: String,
     navOnBack: () -> Unit
 ) {
     val viewModel: DevFcmPushViewModel = hiltViewModel()
     val state: DevFcmPushState by viewModel.collectAsState()
+
+    LaunchedEffect(fcmToken) {
+        viewModel.processIntent(DevFcmPushIntent.Init(fcmToken))
+    }
 
     DevFcmPushScreen(
         state = state,
@@ -155,7 +161,7 @@ fun DevFcmPushScreen(
             DevModeBasicButton(
                 title = "푸시 전송",
                 isEnabled = true,
-                onClick = { },
+                onClick = { sendAction(DevFcmPushIntent.SendFcm) },
                 buttonStyle = DevModeButtonStyle.Basic,
                 modifier = Modifier
                     .background(DevModeTheme.color.black)

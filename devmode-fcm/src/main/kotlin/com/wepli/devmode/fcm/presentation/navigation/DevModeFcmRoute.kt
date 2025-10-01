@@ -3,20 +3,23 @@ package com.wepli.devmode.fcm.presentation.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.wepli.devmode.fcm.presentation.DevFcmPushScreenRoute
+import kotlinx.serialization.Serializable
 
-enum class DevModeFcmRoute(val route: String) {
-    Main("devmode_fcm_main")
-}
+@Serializable
+data class DevModeFcmRoute(
+    val token: String
+)
 
-fun NavController.navigateToDevModeFcmMain() {
-    navigate(DevModeFcmRoute.Main.route)
+fun NavController.navigateToDevModeFcmMain(fcmToken: String) {
+    navigate(route = DevModeFcmRoute(fcmToken))
 }
 
 fun NavGraphBuilder.devModeFcmGraph(navOnBack: () -> Unit) {
-    composable(
-        route = DevModeFcmRoute.Main.route
-    ) {
-        DevFcmPushScreenRoute(navOnBack)
+    composable<DevModeFcmRoute> { entry ->
+        val token = entry.toRoute<DevModeFcmRoute>().token
+
+        DevFcmPushScreenRoute(fcmToken = token, navOnBack = navOnBack)
     }
 }

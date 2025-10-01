@@ -1,28 +1,37 @@
 package com.wepli.devmode.fcm.presentation
 
 import android.util.Log
+import androidx.compose.ui.graphics.PathMeasure
 import base.BaseMviViewModel
 import base.Intent
 import base.SideEffect
 import base.UiState
+import com.wepli.devmode.fcm.data.model.toFcmMessageRequest
+import com.wepli.devmode.fcm.domain.model.FcmMessage
 import com.wepli.devmode.fcm.domain.model.FcmPriority
+import com.wepli.devmode.fcm.domain.repository.DevModeFcmRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import extensions.toPrettyJsonString
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 data class DevFcmPushState(
     val title: String = "",
+    val description: String = "",
     val priority: FcmPriority = FcmPriority.HIGH,
 
     val pushDataItems: List<Pair<String, String>> = listOf("" to ""),
     val isShownPriorityBottomSheet: Boolean = false
-): UiState
+) : UiState
 
 sealed interface DevFcmPushEffect : SideEffect
 
 sealed interface DevFcmPushIntent : Intent {
-    data object AddPushDataItem: DevFcmPushIntent
-    data class RemovePushDataItem(val index: Int): DevFcmPushIntent
+
+    data class Init(val fcmToken: String) : DevFcmPushIntent
+    data object SendFcm : DevFcmPushIntent
+    data object AddPushDataItem : DevFcmPushIntent
+    data class RemovePushDataItem(val index: Int) : DevFcmPushIntent
 
     data class ShowPriorityBottomSheet(val isShown: Boolean) : DevFcmPushIntent
     data class UpdatePriority(val priority: FcmPriority) : DevFcmPushIntent
@@ -31,16 +40,26 @@ sealed interface DevFcmPushIntent : Intent {
 }
 
 @HiltViewModel
-class DevFcmPushViewModel @Inject constructor() : BaseMviViewModel<DevFcmPushState, DevFcmPushEffect, DevFcmPushIntent>(
+class DevFcmPushViewModel @Inject constructor(
+    private val devModeFcmRepository: DevModeFcmRepository,
+) : BaseMviViewModel<DevFcmPushState, DevFcmPushEffect, DevFcmPushIntent>(
     initialState = DevFcmPushState()
 ) {
+
+    private var fcmToken: String = ""
+
     override fun processIntent(intent: DevFcmPushIntent) {
         when (intent) {
+            is DevFcmPushIntent.Init -> {
+                this.fcmToken = intent.fcmToken
+            }
+
             is DevFcmPushIntent.ShowPriorityBottomSheet -> {
                 updateState {
                     copy(isShownPriorityBottomSheet = intent.isShown)
                 }
             }
+
             is DevFcmPushIntent.UpdatePriority -> {
                 updateState {
                     copy(priority = intent.priority)
@@ -50,6 +69,7 @@ class DevFcmPushViewModel @Inject constructor() : BaseMviViewModel<DevFcmPushSta
             is DevFcmPushIntent.UpdatePushDataKey -> {
                 updatePushDataKey(intent.index, intent.key)
             }
+
             is DevFcmPushIntent.UpdatePushDataValue -> {
                 updatePushDataValue(intent.index, intent.value)
             }
@@ -61,6 +81,31 @@ class DevFcmPushViewModel @Inject constructor() : BaseMviViewModel<DevFcmPushSta
             is DevFcmPushIntent.RemovePushDataItem -> {
                 removePushDataItem(intent.index)
             }
+
+            DevFcmPushIntent.SendFcm -> sendFcmPush()
+        }
+    }
+
+    private fun sendFcmPush() = intent {
+        launch(Dispatchers.IO) {
+            devModeFcmRepository.sendMessage(
+                projectId = "wepli-app-49e90",
+                accessToken = devModeFcmRepository.getFcmAccessToken(),
+                request = FcmMessage(
+                    message = FcmMessage.Message(
+                        token = fcmToken,
+                        notification = FcmMessage.Notification(
+                            title = state.title,
+                            body = state.description,
+                            image = "",
+                        ),
+                        android = FcmMessage.AndroidConfig(
+                            priority = state.priority
+                        ),
+                        data = state.pushDataItems.toMap()
+                    )
+                ).toFcmMessageRequest()
+            )
         }
     }
 
