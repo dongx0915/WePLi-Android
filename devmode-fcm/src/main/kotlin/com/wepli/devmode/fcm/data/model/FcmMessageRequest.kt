@@ -37,7 +37,7 @@ fun FcmMessage.toFcmMessageRequest(): FcmMessageRequest {
                 body = message.notification?.body,
             ),
             android = FcmMessageRequest.AndroidConfig(
-                priority = message.android?.priority
+                priority = message.android?.priority?.name
             ),
             data = message.data
         )

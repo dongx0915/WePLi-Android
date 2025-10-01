@@ -18,6 +18,6 @@ data class FcmMessage(
     )
 
     data class AndroidConfig(
-        val priority: String = "high",
+        val priority: FcmPriority = FcmPriority.HIGH,
     )
 }
