@@ -1,6 +1,7 @@
 package com.wepli.devmode.fcm.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,7 +13,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -106,10 +109,13 @@ fun DevFcmPushScreen(
             )
         }
     ) { paddingValues ->
+        val scrollState = rememberScrollState()
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
+                .padding(paddingValues)
+                .verticalScroll(scrollState),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             NoticeComponent(
@@ -139,6 +145,23 @@ fun DevFcmPushScreen(
                     sendAction = sendAction
                 )
             }
+
+            Spacer(
+                modifier = Modifier
+                    .height(48.dp)
+                    .weight(1f)
+            )
+
+            DevModeBasicButton(
+                title = "푸시 전송",
+                isEnabled = true,
+                onClick = { },
+                buttonStyle = DevModeButtonStyle.Basic,
+                modifier = Modifier
+                    .background(DevModeTheme.color.black)
+                    .padding(horizontal = 20.dp)
+                    .padding(bottom = 20.dp)
+            )
         }
     }
 }
@@ -148,7 +171,13 @@ fun DevFcmPushScreen(
 private fun NotificationFieldLayout() {
     ExpandableMenuComponent(
         title = "Notification 속성 설정",
-        modifier = Modifier.padding(horizontal = 16.dp),
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .border(
+                width = 1.dp,
+                color = DevModeTheme.color.gray050,
+                shape = RoundedCornerShape(8.dp)
+            ),
     ) {
         Column {
             Text(
