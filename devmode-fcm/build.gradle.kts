@@ -1,5 +1,5 @@
 plugins {
-    wepli("android.library")
+    wepli("android.feature")
     wepli("android.hilt")
     wepli("android.compose")
     id("kotlinx-serialization")

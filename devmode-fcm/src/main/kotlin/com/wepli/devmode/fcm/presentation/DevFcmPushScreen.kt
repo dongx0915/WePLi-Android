@@ -1,28 +1,39 @@
 package com.wepli.devmode.fcm.presentation
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.wepli.devmode.fcm.R
 import com.wepli.devmode.fcm.presentation.component.ExpandableMenuComponent
 import com.wepli.devmode.fcm.presentation.component.NoticeComponent
@@ -36,19 +47,25 @@ import com.wepli.devmode.fcm.presentation.theme.DevModeTheme
 @Preview
 @Composable
 fun DevFcmPushScreenPreview() {
-    DevFcmPushScreen {  }
+    DevFcmPushScreen({}, {})
 }
 
 @Composable
 fun DevFcmPushScreenRoute(
     navOnBack: () -> Unit
 ) {
-    DevFcmPushScreen(navOnBack)
+    val viewModel: DevFcmPushViewModel = hiltViewModel()
+
+    DevFcmPushScreen(
+        sendAction = viewModel::processIntent,
+        navOnBack = navOnBack
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DevFcmPushScreen(
+    sendAction: (DevFcmPushIntent) -> Unit,
     navOnBack: () -> Unit
 ) {
     Scaffold(
@@ -93,6 +110,11 @@ fun DevFcmPushScreen(
             )
 
             NotificationFieldLayout()
+
+            PriorityFieldLayout(
+                sendAction = sendAction,
+                modifier = Modifier.padding(horizontal = 20.dp),
+            )
         }
     }
 }
@@ -102,8 +124,9 @@ fun DevFcmPushScreen(
 private fun NotificationFieldLayout() {
     ExpandableMenuComponent(
         title = "Notification 속성 설정",
+        modifier = Modifier.padding(horizontal = 16.dp),
     ) {
-        Column(modifier = Modifier.fillMaxWidth()) {
+        Column {
             Text(
                 text = "해당 정보는 Notification 속성에 포함됩니다.",
                 style = DevModeTheme.typo.body5,
@@ -175,4 +198,52 @@ private fun NotificationInputLayout(
             .focusRequester(focusRequester)
             .height(44.dp)
     )
+}
+
+
+@Composable
+private fun PriorityFieldLayout(
+    sendAction: (DevFcmPushIntent) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        FieldLabel(
+            text = "푸시 우선순위",
+            label = "*",
+            isRequired = true
+        )
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { sendAction(DevFcmPushIntent.ShowPriorityBottomSheet(true)) }
+                .clip(RoundedCornerShape(4.dp))
+                .background(color = DevModeTheme.color.gray000)
+                .padding(horizontal = 16.dp)
+                .height(44.dp),
+            contentAlignment = Alignment.CenterStart,
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                Text(
+                    text = "High",
+                    style = DevModeTheme.typo.subTitle5,
+                    color = DevModeTheme.color.gray700,
+                    modifier = Modifier.weight(1f)
+                )
+
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_down_vector),
+                    tint = Color.Unspecified,
+                    contentDescription = null,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+        }
+    }
 }
