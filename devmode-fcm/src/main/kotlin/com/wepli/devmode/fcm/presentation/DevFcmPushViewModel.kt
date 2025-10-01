@@ -1,6 +1,7 @@
 package com.wepli.devmode.fcm.presentation
 
 import android.util.Log
+import androidx.lifecycle.viewModelScope
 import base.BaseMviViewModel
 import base.Intent
 import base.SideEffect
@@ -14,6 +15,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import extensions.toPrettyJsonString
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -112,21 +114,20 @@ class DevFcmPushViewModel @Inject constructor(
         }
     }
 
-    private fun initialize() {
-        launch {
-            val jsonContent = devModeFcmRepository.getFirebaseAdminJson()
-            updateState {
-                copy(isJsonFileLoaded = jsonContent.isNotBlank())
-            }
-
-            try {
-                fcmToken = getFcmPushToken()
-            } catch (e: Exception) {
-                postSideEffect { DevFcmPushEffect.FcmTokenLoadFailed }
-            } finally {
-                updateState { copy(isLoading = false) }
-            }
+    private fun initialize() = launch {
+        val loadJsonJob = launch(Dispatchers.IO) {
+            val json = devModeFcmRepository.getFirebaseAdminJson()
+            updateState { copy(isJsonFileLoaded = json.isNotBlank()) }
         }
+
+        val loadFcmTokenJob = launch(Dispatchers.IO) {
+            runCatching { getFcmPushToken() }
+                .onSuccess { token -> fcmToken = token }
+                .onFailure { postSideEffect { DevFcmPushEffect.FcmTokenLoadFailed } }
+        }
+
+        joinAll(loadJsonJob, loadFcmTokenJob)
+        updateState { copy(isLoading = false) }
     }
 
     private fun uploadJsonFile(jsonContent: String) = launch(Dispatchers.IO) {
