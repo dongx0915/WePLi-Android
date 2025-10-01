@@ -27,4 +27,8 @@ dependencies {
     // Kotlin Serialization
     implementation(libs.kotlin.serialization.json)
     implementation(libs.kotlin.serialization.converter)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.fcm)
 }

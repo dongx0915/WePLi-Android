@@ -52,6 +52,7 @@ import com.wepli.devmode.fcm.presentation.textfield.DevModeTextField
 import com.wepli.devmode.fcm.presentation.textfield.DevModeTextFieldType
 import com.wepli.devmode.fcm.presentation.textfield.FieldLabel
 import com.wepli.devmode.fcm.presentation.theme.DevModeTheme
+import com.wepli.devmode.fcm.presentation.component.common.FullScreenLoader
 import org.orbitmvi.orbit.compose.collectAsState
 
 
@@ -145,13 +146,6 @@ fun DevFcmPushScreen(
                 modifier = Modifier.padding(horizontal = 20.dp),
             )
 
-            if (state.isShownPriorityBottomSheet) {
-                PrioritySelectBottomSheet(
-                    currentPriority = state.priority,
-                    sendAction = sendAction
-                )
-            }
-
             Spacer(
                 modifier = Modifier
                     .height(48.dp)
@@ -168,6 +162,18 @@ fun DevFcmPushScreen(
                     .padding(horizontal = 20.dp)
                     .padding(bottom = 20.dp)
             )
+
+
+            if (state.isShownPriorityBottomSheet) {
+                PrioritySelectBottomSheet(
+                    currentPriority = state.priority,
+                    sendAction = sendAction
+                )
+            }
+
+            if (state.isLoading) {
+                FullScreenLoader()
+            }
         }
     }
 }
