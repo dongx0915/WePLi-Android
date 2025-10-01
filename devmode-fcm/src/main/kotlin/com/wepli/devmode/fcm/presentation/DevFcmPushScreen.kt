@@ -42,6 +42,8 @@ import com.wepli.devmode.fcm.presentation.component.LimitedSwipeToDismissBox
 import com.wepli.devmode.fcm.presentation.component.NoticeComponent
 import com.wepli.devmode.fcm.presentation.component.PrioritySelectBottomSheet
 import com.wepli.devmode.fcm.presentation.component.common.AppBarIcon
+import com.wepli.devmode.fcm.presentation.component.common.DevModeBasicButton
+import com.wepli.devmode.fcm.presentation.component.common.DevModeButtonStyle
 import com.wepli.devmode.fcm.presentation.textfield.DevModeTextField
 import com.wepli.devmode.fcm.presentation.textfield.DevModeTextFieldType
 import com.wepli.devmode.fcm.presentation.textfield.FieldLabel
@@ -300,6 +302,15 @@ private fun PushDataFieldLayout(
                 },
             )
         }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        DevModeBasicButton(
+            title = "데이터 추가",
+            isEnabled = true,
+            onClick = { sendAction(DevFcmPushIntent.AddPushDataItem) },
+            buttonStyle = DevModeButtonStyle.Transparent(),
+        )
     }
 }
 

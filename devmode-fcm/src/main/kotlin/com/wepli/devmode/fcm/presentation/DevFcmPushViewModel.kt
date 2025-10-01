@@ -1,11 +1,13 @@
 package com.wepli.devmode.fcm.presentation
 
+import android.util.Log
 import base.BaseMviViewModel
 import base.Intent
 import base.SideEffect
 import base.UiState
 import com.wepli.devmode.fcm.domain.model.FcmPriority
 import dagger.hilt.android.lifecycle.HiltViewModel
+import extensions.toPrettyJsonString
 import javax.inject.Inject
 
 data class DevFcmPushState(
@@ -19,8 +21,8 @@ data class DevFcmPushState(
 sealed interface DevFcmPushEffect : SideEffect
 
 sealed interface DevFcmPushIntent : Intent {
+    data object AddPushDataItem: DevFcmPushIntent
     data class ShowPriorityBottomSheet(val isShown: Boolean) : DevFcmPushIntent
-
     data class UpdatePriority(val priority: FcmPriority) : DevFcmPushIntent
     data class UpdatePushDataKey(val index: Int, val key: String) : DevFcmPushIntent
     data class UpdatePushDataValue(val index: Int, val value: String) : DevFcmPushIntent
@@ -49,6 +51,20 @@ class DevFcmPushViewModel @Inject constructor() : BaseMviViewModel<DevFcmPushSta
             is DevFcmPushIntent.UpdatePushDataValue -> {
                 updatePushDataValue(intent.index, intent.value)
             }
+
+            DevFcmPushIntent.AddPushDataItem -> {
+                addPushDataItem()
+            }
+        }
+    }
+
+    private fun addPushDataItem() = intent {
+        val pushDataItems = state.pushDataItems.toMutableList().apply {
+            add("" to "")
+        }
+
+        reduce {
+            state.copy(pushDataItems = pushDataItems)
         }
     }
 
@@ -59,7 +75,9 @@ class DevFcmPushViewModel @Inject constructor() : BaseMviViewModel<DevFcmPushSta
         }
 
         reduce {
-            state.copy(pushDataItems = newData)
+            state.copy(pushDataItems = newData).apply {
+                Log.d("스테이트", state.toPrettyJsonString())
+            }
         }
     }
 
@@ -70,7 +88,9 @@ class DevFcmPushViewModel @Inject constructor() : BaseMviViewModel<DevFcmPushSta
         }
 
         reduce {
-            state.copy(pushDataItems = newData)
+            state.copy(pushDataItems = newData).apply {
+                Log.d("스테이트", state.toPrettyJsonString())
+            }
         }
     }
 }
