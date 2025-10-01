@@ -8,7 +8,7 @@ interface DevModeFcmDataSource {
 
     suspend fun saveFirebaseAdminJson(jsonContent: String)
 
-    suspend fun getFirebaseAdminJson(): String?
+    suspend fun getFirebaseAdminJson(): String
 
     suspend fun getFcmAccessToken(): String
 

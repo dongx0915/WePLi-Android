@@ -6,6 +6,9 @@ import com.wepli.devmode.fcm.data.datastore.DataStoreKey
 import com.wepli.devmode.fcm.data.datastore.local.DataStorePrefDataSource
 import com.wepli.devmode.fcm.data.model.FcmMessageRequest
 import com.wepli.devmode.fcm.data.model.FcmResponse
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import okhttp3.Dispatcher
 import java.io.ByteArrayInputStream
 import javax.inject.Inject
 
@@ -21,12 +24,11 @@ class DevModeFcmDataSourceImpl @Inject constructor(
         )
     }
 
-    override suspend fun getFirebaseAdminJson(): String? {
-        val json = dataStorePrefDataSource.getString(
+    override suspend fun getFirebaseAdminJson(): String = withContext(Dispatchers.IO) {
+        dataStorePrefDataSource.getString(
             key = DataStoreKey.FIREBASE_API_KEY_JSON,
             defaultValue = ""
         )
-        return json.ifEmpty { null }
     }
 
     override suspend fun getFcmAccessToken(): String {

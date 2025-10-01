@@ -1,5 +1,8 @@
 package com.wepli.devmode.fcm.presentation
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -33,6 +36,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -70,6 +74,21 @@ fun DevFcmPushScreenRoute(
     val viewModel: DevFcmPushViewModel = hiltViewModel()
     val state: DevFcmPushState by viewModel.collectAsState()
 
+    val context = LocalContext.current
+    val filePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let {
+            val jsonContent = context.contentResolver.openInputStream(it)
+                ?.bufferedReader()
+                ?.use { reader -> reader.readText() }
+
+            jsonContent?.let { json ->
+                viewModel.processIntent(DevFcmPushIntent.UploadJsonFile(json))
+            }
+        }
+    }
+
     LaunchedEffect(projectId) {
         viewModel.processIntent(DevFcmPushIntent.Init(projectId))
     }
@@ -77,7 +96,8 @@ fun DevFcmPushScreenRoute(
     DevFcmPushScreen(
         state = state,
         sendAction = viewModel::processIntent,
-        navOnBack = navOnBack
+        navOnBack = navOnBack,
+        onFilePickerClick = { filePickerLauncher.launch("application/json") }
     )
 }
 
@@ -86,7 +106,8 @@ fun DevFcmPushScreenRoute(
 fun DevFcmPushScreen(
     state: DevFcmPushState,
     sendAction: (DevFcmPushIntent) -> Unit,
-    navOnBack: () -> Unit
+    navOnBack: () -> Unit,
+    onFilePickerClick: () -> Unit = {}
 ) {
     Scaffold(
         containerColor = DevModeTheme.color.black,
@@ -125,12 +146,22 @@ fun DevFcmPushScreen(
                 .verticalScroll(scrollState),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            NoticeComponent(
-                notice = "API Key 파일이 로드 되었습니다.",
-                leadingIcon = ImageVector.vectorResource(R.drawable.ic_file_check),
-                trailingIcon = ImageVector.vectorResource(R.drawable.ic_close),
-                modifier = Modifier.padding(horizontal = 20.dp)
-            )
+            if (state.isJsonFileLoaded) {
+                NoticeComponent(
+                    notice = "API Key 파일이 로드 되었습니다.",
+                    leadingIcon = ImageVector.vectorResource(R.drawable.ic_file_check),
+                    trailingIcon = ImageVector.vectorResource(R.drawable.ic_close),
+                    modifier = Modifier.padding(horizontal = 20.dp)
+                )
+            } else {
+                DevModeBasicButton(
+                    title = "Firebase Admin JSON 파일 업로드",
+                    isEnabled = true,
+                    onClick = { onFilePickerClick() },
+                    buttonStyle = DevModeButtonStyle.Basic,
+                    modifier = Modifier.padding(horizontal = 20.dp)
+                )
+            }
 
             NotificationFieldLayout()
 

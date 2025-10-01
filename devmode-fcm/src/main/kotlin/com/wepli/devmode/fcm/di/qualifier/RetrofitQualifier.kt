@@ -10,3 +10,7 @@ annotation class FcmRetrofit
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class FcmOkHttpClient
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class FcmDataStore

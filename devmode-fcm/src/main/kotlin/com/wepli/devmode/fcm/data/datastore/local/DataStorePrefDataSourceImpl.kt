@@ -12,6 +12,7 @@ import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.wepli.devmode.fcm.di.qualifier.FcmDataStore
 import extensions.parseFromJson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -19,8 +20,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-internal class DataStorePrefDataSourceImpl @Inject constructor(
-    private val dataStore: DataStore<Preferences>
+class DataStorePrefDataSourceImpl @Inject constructor(
+    @FcmDataStore private val dataStore: DataStore<Preferences>
 ) : DataStorePrefDataSource {
 
     override suspend fun getInt(key: String, defaultValue: Int): Int {

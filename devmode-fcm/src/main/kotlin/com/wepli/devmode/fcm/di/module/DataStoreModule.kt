@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.datastore.core.DataStore
+import com.wepli.devmode.fcm.di.qualifier.FcmDataStore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,6 +22,7 @@ object DataStoreModule {
 
     @Provides
     @Singleton
+    @FcmDataStore
     fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
         return context.dataStore
     }

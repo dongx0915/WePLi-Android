@@ -9,6 +9,14 @@ class DevModeFcmRepositoryImpl @Inject constructor(
     private val devModeFcmDataSource: DevModeFcmDataSource
 ) : DevModeFcmRepository {
 
+    override suspend fun saveFirebaseAdminJson(jsonContent: String) {
+        devModeFcmDataSource.saveFirebaseAdminJson(jsonContent)
+    }
+
+    override suspend fun getFirebaseAdminJson(): String {
+        return devModeFcmDataSource.getFirebaseAdminJson()
+    }
+
     override suspend fun getFcmAccessToken(): String {
         return devModeFcmDataSource.getFcmAccessToken()
     }

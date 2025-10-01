@@ -25,6 +25,7 @@ data class DevFcmPushState(
     val priority: FcmPriority = FcmPriority.HIGH,
     val pushDataItems: List<Pair<String, String>> = listOf("" to ""),
 
+    val isJsonFileLoaded: Boolean = false,
     val isLoading: Boolean = false,
     val isShownPriorityBottomSheet: Boolean = false
 ) : UiState
@@ -41,6 +42,7 @@ sealed interface DevFcmPushIntent : Intent {
     data class RemovePushDataItem(val index: Int) : DevFcmPushIntent
 
     data class ShowPriorityBottomSheet(val isShown: Boolean) : DevFcmPushIntent
+    data class UploadJsonFile(val jsonContent: String) : DevFcmPushIntent
     data class UpdatePriority(val priority: FcmPriority) : DevFcmPushIntent
     data class UpdatePushDataKey(val index: Int, val key: String) : DevFcmPushIntent
     data class UpdatePushDataValue(val index: Int, val value: String) : DevFcmPushIntent
@@ -58,6 +60,11 @@ class DevFcmPushViewModel @Inject constructor(
 
     init {
         launch {
+            val jsonContent = devModeFcmRepository.getFirebaseAdminJson()
+            updateState {
+                copy(isJsonFileLoaded = jsonContent.isNotEmpty())
+            }
+
             try {
                 fcmToken = getFcmPushToken()
             } catch (e: Exception) {
@@ -72,6 +79,10 @@ class DevFcmPushViewModel @Inject constructor(
         when (intent) {
             is DevFcmPushIntent.Init -> {
                 this.projectId = intent.projectId
+            }
+
+            is DevFcmPushIntent.UploadJsonFile -> {
+                uploadJsonFile(intent.jsonContent)
             }
 
             is DevFcmPushIntent.ShowPriorityBottomSheet -> {
@@ -103,6 +114,13 @@ class DevFcmPushViewModel @Inject constructor(
             }
 
             DevFcmPushIntent.SendFcm -> sendFcmPush()
+        }
+    }
+
+    private fun uploadJsonFile(jsonContent: String) = intent {
+        launch(Dispatchers.IO) {
+            devModeFcmRepository.saveFirebaseAdminJson(jsonContent)
+            reduce { state.copy(isJsonFileLoaded = true) }
         }
     }
 
