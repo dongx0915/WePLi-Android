@@ -19,6 +19,7 @@ data class FcmMessageRequest(
     data class Notification(
         val title: String? = null,
         val body: String? = null,
+        val image: String? = null,
     )
 
     @Serializable

@@ -12,8 +12,9 @@ data class FcmMessage(
     )
 
     data class Notification(
-        val title: String,
-        val body: String,
+        val title: String? = null,
+        val body: String? = null,
+        val image: String? = null
     )
 
     data class AndroidConfig(
