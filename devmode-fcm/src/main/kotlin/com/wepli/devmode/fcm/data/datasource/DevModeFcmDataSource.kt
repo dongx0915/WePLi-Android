@@ -6,7 +6,11 @@ import retrofit2.Response
 
 interface DevModeFcmDataSource {
 
-    fun getFcmAccessToken(): String
+    suspend fun saveFirebaseAdminJson(jsonContent: String)
+
+    suspend fun getFirebaseAdminJson(): String?
+
+    suspend fun getFcmAccessToken(): String
 
     suspend fun sendMessage(
         projectId: String,

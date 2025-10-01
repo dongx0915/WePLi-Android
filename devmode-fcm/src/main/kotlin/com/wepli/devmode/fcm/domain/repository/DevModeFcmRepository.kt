@@ -4,7 +4,7 @@ import com.wepli.devmode.fcm.data.model.FcmMessageRequest
 
 interface DevModeFcmRepository {
 
-    fun getFcmAccessToken(): String
+    suspend fun getFcmAccessToken(): String
 
     suspend fun sendMessage(
         projectId: String,

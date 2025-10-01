@@ -9,7 +9,7 @@ class DevModeFcmRepositoryImpl @Inject constructor(
     private val devModeFcmDataSource: DevModeFcmDataSource
 ) : DevModeFcmRepository {
 
-    override fun getFcmAccessToken(): String {
+    override suspend fun getFcmAccessToken(): String {
         return devModeFcmDataSource.getFcmAccessToken()
     }
 

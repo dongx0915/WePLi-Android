@@ -2,7 +2,7 @@ package com.wepli.devmode.fcm.data.datastore.local
 
 import kotlinx.coroutines.flow.Flow
 
-internal interface DataStorePrefDataSource {
+interface DataStorePrefDataSource {
 
     suspend fun getInt(key: String, defaultValue: Int): Int
     suspend fun setInt(key: String, value: Int)
