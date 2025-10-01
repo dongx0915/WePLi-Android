@@ -29,6 +29,13 @@ fun PrioritySelectBottomSheet(
     currentPriority: FcmPriority,
     sendAction: (DevFcmPushIntent) -> Unit
 ) {
+    fun getDescription(priority: FcmPriority): String {
+        return when(priority) {
+            FcmPriority.HIGH -> "기기가 절전 상태여도 즉시 전달을 시도합니다."
+            FcmPriority.NORMAL -> "절전 모드나 기기 상태에 따라 수신이 지연될 수 있습니다."
+        }
+    }
+
     WepliBottomSheet(
         onClosed = { sendAction(DevFcmPushIntent.ShowPriorityBottomSheet(false)) },
         type = WepliBottomSheetType.Normal(
@@ -39,7 +46,7 @@ fun PrioritySelectBottomSheet(
             FcmPriority.entries.forEach {
                 PriorityItem(
                     priority = it,
-                    description = "",
+                    description = getDescription(it),
                     isChecked = currentPriority == it,
                     sendAction = sendAction
                 )
