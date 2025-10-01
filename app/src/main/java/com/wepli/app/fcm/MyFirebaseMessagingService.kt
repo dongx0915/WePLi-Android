@@ -3,26 +3,19 @@ package com.wepli.app.fcm
 import android.content.Intent
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.wepli.app.di.entrypoint.UtilEntryPoint
-import dagger.hilt.EntryPoints
 import dagger.hilt.android.AndroidEntryPoint
 import extensions.toJsonString
 import util.notification.NotificationManager
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
-    val notificationManager: NotificationManager by lazy {
-        EntryPoints
-            .get(this.applicationContext, UtilEntryPoint::class.java)
-            .getNotificationManager()
-    }
+    @Inject
+    lateinit var notificationManager: NotificationManager
 
-    val mainIntent: Intent by lazy {
-        EntryPoints
-            .get(this.applicationContext, UtilEntryPoint::class.java)
-            .getMainIntent()
-    }
+    @Inject
+    lateinit var mainIntent: Intent
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
