@@ -20,6 +20,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,12 +47,13 @@ import com.wepli.devmode.fcm.presentation.textfield.FieldLabel
 import com.wepli.devmode.fcm.presentation.theme.DevModeTheme
 import component.bottomsheet.WepliBottomSheet
 import component.bottomsheet.WepliBottomSheetType
+import org.orbitmvi.orbit.compose.collectAsState
 
 
 @Preview
 @Composable
 fun DevFcmPushScreenPreview() {
-    DevFcmPushScreen({}, {})
+    DevFcmPushScreen(DevFcmPushState(), {}, {})
 }
 
 @Composable
@@ -59,8 +61,10 @@ fun DevFcmPushScreenRoute(
     navOnBack: () -> Unit
 ) {
     val viewModel: DevFcmPushViewModel = hiltViewModel()
+    val state: DevFcmPushState by viewModel.collectAsState()
 
     DevFcmPushScreen(
+        state = state,
         sendAction = viewModel::processIntent,
         navOnBack = navOnBack
     )
@@ -69,6 +73,7 @@ fun DevFcmPushScreenRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DevFcmPushScreen(
+    state: DevFcmPushState,
     sendAction: (DevFcmPushIntent) -> Unit,
     navOnBack: () -> Unit
 ) {
@@ -119,6 +124,13 @@ fun DevFcmPushScreen(
                 sendAction = sendAction,
                 modifier = Modifier.padding(horizontal = 20.dp),
             )
+
+            if (state.isShownPriorityBottomSheet) {
+                PrioritySelectBottomSheet(
+                    currentPriority = state.priority,
+                    sendAction = sendAction
+                )
+            }
         }
     }
 }
@@ -254,7 +266,8 @@ private fun PriorityFieldLayout(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TendencySelectBottomSheet(
+fun PrioritySelectBottomSheet(
+    currentPriority: FcmPriority,
     sendAction: (DevFcmPushIntent) -> Unit
 ) {
     WepliBottomSheet(
@@ -268,7 +281,7 @@ fun TendencySelectBottomSheet(
                 PriorityItem(
                     priority = it,
                     description = "",
-                    isChecked = true,
+                    isChecked = currentPriority == it,
                     sendAction = sendAction
                 )
             }

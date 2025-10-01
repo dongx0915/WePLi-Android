@@ -10,7 +10,9 @@ import javax.inject.Inject
 
 data class DevFcmPushState(
     val title: String = "",
-    val priority: FcmPriority = FcmPriority.HIGH
+    val priority: FcmPriority = FcmPriority.HIGH,
+
+    val isShownPriorityBottomSheet: Boolean = false
 ): UiState
 
 sealed interface DevFcmPushEffect : SideEffect
