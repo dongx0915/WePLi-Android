@@ -61,20 +61,7 @@ class DevFcmPushViewModel @Inject constructor(
     private var fcmToken: String? = null
 
     init {
-        launch {
-            val jsonContent = devModeFcmRepository.getFirebaseAdminJson()
-            updateState {
-                copy(isJsonFileLoaded = jsonContent.isNotBlank())
-            }
-
-            try {
-                fcmToken = getFcmPushToken()
-            } catch (e: Exception) {
-                postSideEffect { DevFcmPushEffect.FcmTokenLoadFailed }
-            } finally {
-                updateState { copy(isLoading = false) }
-            }
-        }
+        initialize()
     }
 
     override fun processIntent(intent: DevFcmPushIntent) {
@@ -121,6 +108,23 @@ class DevFcmPushViewModel @Inject constructor(
 
             DevFcmPushIntent.DeleteJsonFile -> {
                 deleteJsonFile()
+            }
+        }
+    }
+
+    private fun initialize() {
+        launch {
+            val jsonContent = devModeFcmRepository.getFirebaseAdminJson()
+            updateState {
+                copy(isJsonFileLoaded = jsonContent.isNotBlank())
+            }
+
+            try {
+                fcmToken = getFcmPushToken()
+            } catch (e: Exception) {
+                postSideEffect { DevFcmPushEffect.FcmTokenLoadFailed }
+            } finally {
+                updateState { copy(isLoading = false) }
             }
         }
     }

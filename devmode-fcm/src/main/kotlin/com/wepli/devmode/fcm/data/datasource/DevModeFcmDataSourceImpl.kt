@@ -17,7 +17,7 @@ class DevModeFcmDataSourceImpl @Inject constructor(
     private val dataStorePrefDataSource: DataStorePrefDataSource
 ) : DevModeFcmDataSource {
 
-    override suspend fun saveFirebaseAdminJson(jsonContent: String) {
+    override suspend fun saveFirebaseAdminJson(jsonContent: String) = withContext(Dispatchers.IO) {
         dataStorePrefDataSource.setString(
             key = DataStoreKey.FIREBASE_API_KEY_JSON,
             value = jsonContent
@@ -33,8 +33,7 @@ class DevModeFcmDataSourceImpl @Inject constructor(
 
     override suspend fun getFcmAccessToken(): String {
         return runCatching {
-            val jsonContent = getFirebaseAdminJson() ?: throw Exception("Firebase Admin JSON not found")
-
+            val jsonContent = getFirebaseAdminJson()
             val inputStream = ByteArrayInputStream(jsonContent.toByteArray(Charsets.UTF_8))
 
             val googleCredentials = GoogleCredentials
