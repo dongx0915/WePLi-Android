@@ -300,6 +300,9 @@ private fun PushDataFieldLayout(
                 onValueQueryUpdate = { index, value ->
                     sendAction(DevFcmPushIntent.UpdatePushDataValue(index, value))
                 },
+                onRemove = {
+                    sendAction(DevFcmPushIntent.RemovePushDataItem(index))
+                }
             )
         }
 
@@ -321,6 +324,7 @@ private fun PushDataInputLayout(
     onKeyQueryUpdate: (Int, String) -> Unit,
     valueQuery: String,
     onValueQueryUpdate: (Int, String) -> Unit,
+    onRemove: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val focusRequester = remember { FocusRequester() }
@@ -331,7 +335,11 @@ private fun PushDataInputLayout(
         backgroundContent = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .clickable {
+                        onRemove(index)
+                    }
             ) {
                 Spacer(modifier.weight(1f))
                 Icon(

@@ -22,6 +22,8 @@ sealed interface DevFcmPushEffect : SideEffect
 
 sealed interface DevFcmPushIntent : Intent {
     data object AddPushDataItem: DevFcmPushIntent
+    data class RemovePushDataItem(val index: Int): DevFcmPushIntent
+
     data class ShowPriorityBottomSheet(val isShown: Boolean) : DevFcmPushIntent
     data class UpdatePriority(val priority: FcmPriority) : DevFcmPushIntent
     data class UpdatePushDataKey(val index: Int, val key: String) : DevFcmPushIntent
@@ -55,12 +57,26 @@ class DevFcmPushViewModel @Inject constructor() : BaseMviViewModel<DevFcmPushSta
             DevFcmPushIntent.AddPushDataItem -> {
                 addPushDataItem()
             }
+
+            is DevFcmPushIntent.RemovePushDataItem -> {
+                removePushDataItem(intent.index)
+            }
         }
     }
 
     private fun addPushDataItem() = intent {
         val pushDataItems = state.pushDataItems.toMutableList().apply {
             add("" to "")
+        }
+
+        reduce {
+            state.copy(pushDataItems = pushDataItems)
+        }
+    }
+
+    private fun removePushDataItem(index: Int) = intent {
+        val pushDataItems = state.pushDataItems.toMutableList().apply {
+            removeAt(index)
         }
 
         reduce {
