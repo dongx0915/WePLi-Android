@@ -3,6 +3,7 @@ package com.wepli.devmode.fcm.presentation
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -57,6 +58,7 @@ import com.wepli.devmode.fcm.presentation.textfield.DevModeTextFieldType
 import com.wepli.devmode.fcm.presentation.textfield.FieldLabel
 import com.wepli.devmode.fcm.presentation.theme.DevModeTheme
 import com.wepli.devmode.fcm.presentation.component.common.FullScreenLoader
+import com.wepli.devmode.fcm.presentation.component.extensions.dashedBorder
 import org.orbitmvi.orbit.compose.collectAsState
 
 
@@ -146,22 +148,9 @@ fun DevFcmPushScreen(
                 .verticalScroll(scrollState),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            if (state.isJsonFileLoaded) {
-                NoticeComponent(
-                    notice = "API Key 파일이 로드 되었습니다.",
-                    leadingIcon = ImageVector.vectorResource(R.drawable.ic_file_check),
-                    trailingIcon = ImageVector.vectorResource(R.drawable.ic_close),
-                    modifier = Modifier.padding(horizontal = 20.dp)
-                )
-            } else {
-                DevModeBasicButton(
-                    title = "Firebase Admin JSON 파일 업로드",
-                    isEnabled = true,
-                    onClick = { onFilePickerClick() },
-                    buttonStyle = DevModeButtonStyle.Basic,
-                    modifier = Modifier.padding(horizontal = 20.dp)
-                )
-            }
+            Spacer(modifier = Modifier.height(28.dp))
+
+            ApiKeyFileLayout(state = state, onFilePickerClick = onFilePickerClick)
 
             NotificationFieldLayout()
 
@@ -208,6 +197,67 @@ fun DevFcmPushScreen(
         }
     }
 }
+
+
+@Composable
+private fun ApiKeyFileLayout(
+    state: DevFcmPushState,
+    onFilePickerClick: () -> Unit,
+) {
+    if (state.isJsonFileLoaded) {
+        NoticeComponent(
+            notice = "API Key 파일이 로드 되었습니다.",
+            leadingIcon = ImageVector.vectorResource(R.drawable.ic_file_check),
+            trailingIcon = ImageVector.vectorResource(R.drawable.ic_close),
+            modifier = Modifier.padding(horizontal = 20.dp)
+        )
+    } else {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    onFilePickerClick()
+                }
+                .padding(horizontal = 20.dp)
+                .dashedBorder(
+                    color = DevModeTheme.color.gray300,
+                    shape = RoundedCornerShape(8.dp),
+                    strokeWidth = 1.dp,
+                    dashLength = 2.dp,
+                )
+                .padding(vertical = 20.dp)
+        ) {
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.ic_file_up),
+                tint = Color.Unspecified,
+                contentDescription = null,
+                modifier = Modifier.size(20.dp)
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(
+                text = "API Key JSON 파일을 업로드 해주세요.",
+                style = DevModeTheme.typo.body6,
+                color = DevModeTheme.color.white,
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Text(
+                text = "파일 선택",
+                style = DevModeTheme.typo.body6,
+                color = DevModeTheme.color.white,
+                modifier = Modifier
+                    .background(
+                        color = DevModeTheme.color.gray100,
+                        shape = RoundedCornerShape(4.dp)
+                    )
+                    .padding(horizontal = 12.dp, vertical = 6.dp)
+            )
+        }
+    }
+}
+
 
 @Preview
 @Composable

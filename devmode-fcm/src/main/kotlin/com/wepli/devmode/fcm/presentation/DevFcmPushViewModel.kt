@@ -62,7 +62,7 @@ class DevFcmPushViewModel @Inject constructor(
         launch {
             val jsonContent = devModeFcmRepository.getFirebaseAdminJson()
             updateState {
-                copy(isJsonFileLoaded = jsonContent.isNotEmpty())
+                copy(isJsonFileLoaded = jsonContent.isNotBlank())
             }
 
             try {
