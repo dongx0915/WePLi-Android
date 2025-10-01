@@ -17,11 +17,8 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SwipeToDismissBox
-import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -33,7 +30,6 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,9 +46,6 @@ import com.wepli.devmode.fcm.presentation.textfield.DevModeTextField
 import com.wepli.devmode.fcm.presentation.textfield.DevModeTextFieldType
 import com.wepli.devmode.fcm.presentation.textfield.FieldLabel
 import com.wepli.devmode.fcm.presentation.theme.DevModeTheme
-import com.wepli.devmode.fcm.presentation.theme.White
-import component.bottomsheet.WepliBottomSheet
-import component.bottomsheet.WepliBottomSheetType
 import org.orbitmvi.orbit.compose.collectAsState
 
 
@@ -284,8 +277,6 @@ private fun PushDataFieldLayout(
     sendAction: (DevFcmPushIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-
-
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -298,10 +289,15 @@ private fun PushDataFieldLayout(
 
         state.pushDataItems.forEachIndexed { index, item ->
             PushDataInputLayout(
+                index = index,
                 keyQuery = item.first,
-                onKeyQueryUpdate = { },
+                onKeyQueryUpdate = { index, key ->
+                    sendAction(DevFcmPushIntent.UpdatePushDataKey(index, key))
+                },
                 valueQuery = item.second,
-                onValueQueryUpdate = { }
+                onValueQueryUpdate = { index, value ->
+                    sendAction(DevFcmPushIntent.UpdatePushDataValue(index, value))
+                },
             )
         }
     }
@@ -309,10 +305,11 @@ private fun PushDataFieldLayout(
 
 @Composable
 private fun PushDataInputLayout(
+    index: Int,
     keyQuery: String,
-    onKeyQueryUpdate: (String) -> Unit,
+    onKeyQueryUpdate: (Int, String) -> Unit,
     valueQuery: String,
-    onValueQueryUpdate: (String) -> Unit,
+    onValueQueryUpdate: (Int, String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val focusRequester = remember { FocusRequester() }
@@ -341,7 +338,7 @@ private fun PushDataInputLayout(
                 DevModeTextField(
                     value = keyQuery,
                     singleLine = true,
-                    onValueChanged = { onKeyQueryUpdate(it) },
+                    onValueChanged = { onKeyQueryUpdate(index, it) },
                     onEnter = {},
                     placeholder = "Key",
                     type = DevModeTextFieldType.Normal,
@@ -354,7 +351,7 @@ private fun PushDataInputLayout(
                 DevModeTextField(
                     value = valueQuery,
                     singleLine = true,
-                    onValueChanged = { onValueQueryUpdate(it) },
+                    onValueChanged = { onValueQueryUpdate(index, it) },
                     onEnter = {},
                     placeholder = "Value",
                     type = DevModeTextFieldType.Normal,
