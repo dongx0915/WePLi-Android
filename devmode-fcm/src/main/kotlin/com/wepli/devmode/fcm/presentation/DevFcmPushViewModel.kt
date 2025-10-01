@@ -53,6 +53,7 @@ class DevFcmPushViewModel @Inject constructor(
     initialState = DevFcmPushState()
 ) {
 
+    private var projectId: String? = null
     private var fcmToken: String? = null
 
     init {
@@ -70,7 +71,7 @@ class DevFcmPushViewModel @Inject constructor(
     override fun processIntent(intent: DevFcmPushIntent) {
         when (intent) {
             is DevFcmPushIntent.Init -> {
-                this.fcmToken = intent.fcmToken
+                this.projectId = intent.projectId
             }
 
             is DevFcmPushIntent.ShowPriorityBottomSheet -> {
@@ -129,7 +130,7 @@ class DevFcmPushViewModel @Inject constructor(
     private fun sendFcmPush() = intent {
         launch(Dispatchers.IO) {
             devModeFcmRepository.sendMessage(
-                projectId = "wepli-app-49e90",
+                projectId = projectId.orEmpty(),
                 accessToken = devModeFcmRepository.getFcmAccessToken(),
                 request = FcmMessage(
                     message = FcmMessage.Message(

@@ -23,7 +23,6 @@ import com.wepli.devmode.fcm.presentation.navigation.devModeFcmGraph
 import com.wepli.devmode.fcm.presentation.navigation.navigateToDevModeFcmMain
 import com.wepli.feature.devmode.main.navigation.devModeMainGraph
 import com.wepli.feature.devmode.main.navigation.navigateToDevModeMain
-import com.wepli.feature.devmode.main.utils.DevModeUtil
 import com.wepli.feature.photocard.detail.navigation.photoCardDetailGraph
 import com.wepli.feature.photocard.detail.navigation.navigateToPhotoCardDetail
 import com.wepli.feature.photocard.main.navigation.photoCardMainGraph
@@ -47,12 +46,6 @@ import com.wepli.search.navigation.navigateBackWithSelectedSongs
 import com.wepli.search.navigation.navigateToSearchDetail
 import com.wepli.search.navigation.searchDetailGraph
 import com.wepli.search.navigation.searchMainGraph
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @Composable
 fun SetUpNavGraph(
@@ -207,14 +200,7 @@ fun NavGraphBuilder.devModeGraph(navController: NavController) {
     devModeMainGraph(
         navOnBack = { navController.navigateUp() },
         navOnNetworkLog = { navController.navigateToNetworkLogMain() },
-        navOnSendFcmPush = {
-            CoroutineScope(Dispatchers.Main.immediate + SupervisorJob()).launch {
-                val token = withContext(Dispatchers.IO) {
-                    DevModeUtil.getFcmToken()
-                }
-                navController.navigateToDevModeFcmMain(token)
-            }
-        }
+        navOnSendFcmPush = { navController.navigateToDevModeFcmMain("wepli-app-49e90") },
     )
 }
 

@@ -9,17 +9,17 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class DevModeFcmRoute(
-    val token: String
+    val firebaseProjectId: String
 )
 
-fun NavController.navigateToDevModeFcmMain(fcmToken: String) {
-    navigate(route = DevModeFcmRoute(fcmToken))
+fun NavController.navigateToDevModeFcmMain(firebaseProjectId: String) {
+    navigate(route = DevModeFcmRoute(firebaseProjectId))
 }
 
 fun NavGraphBuilder.devModeFcmGraph(navOnBack: () -> Unit) {
     composable<DevModeFcmRoute> { entry ->
-        val token = entry.toRoute<DevModeFcmRoute>().token
+        val projectId = entry.toRoute<DevModeFcmRoute>().firebaseProjectId
 
-        DevFcmPushScreenRoute(fcmToken = token, navOnBack = navOnBack)
+        DevFcmPushScreenRoute(projectId = projectId, navOnBack = navOnBack)
     }
 }

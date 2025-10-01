@@ -64,14 +64,14 @@ fun DevFcmPushScreenPreview() {
 
 @Composable
 fun DevFcmPushScreenRoute(
-    fcmToken: String,
+    projectId: String,
     navOnBack: () -> Unit
 ) {
     val viewModel: DevFcmPushViewModel = hiltViewModel()
     val state: DevFcmPushState by viewModel.collectAsState()
 
-    LaunchedEffect(fcmToken) {
-        viewModel.processIntent(DevFcmPushIntent.Init(fcmToken))
+    LaunchedEffect(projectId) {
+        viewModel.processIntent(DevFcmPushIntent.Init(projectId))
     }
 
     DevFcmPushScreen(
