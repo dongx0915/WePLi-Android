@@ -2,6 +2,7 @@ package com.wepli.devmode.fcm.data.repository
 
 import com.wepli.devmode.fcm.data.datasource.DevModeFcmDataSource
 import com.wepli.devmode.fcm.data.model.FcmMessageRequest
+import com.wepli.devmode.fcm.data.model.FcmResponse
 import com.wepli.devmode.fcm.domain.repository.DevModeFcmRepository
 import javax.inject.Inject
 

@@ -1,6 +1,7 @@
 package com.wepli.devmode.fcm.data.datasource
 
 import com.google.auth.oauth2.GoogleCredentials
+import com.wepli.devmode.fcm.core.DevModeException
 import com.wepli.devmode.fcm.data.api.FcmApi
 import com.wepli.devmode.fcm.data.datastore.DataStoreKey
 import com.wepli.devmode.fcm.data.datastore.local.DataStorePrefDataSource
@@ -61,9 +62,14 @@ class DevModeFcmDataSourceImpl @Inject constructor(
         )
 
         return if (response.isSuccessful && response.body() != null) {
-            response.body()!!
+            val body = response.body()!!
+            body.error?.let {
+                throw DevModeException(code = it.code, message = it.message)
+            }
+
+            body
         } else {
-            throw Exception(response.errorBody()?.string())
+            throw DevModeException(message = response.errorBody()?.string())
         }
     }
 }

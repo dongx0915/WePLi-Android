@@ -1,6 +1,7 @@
 package com.wepli.devmode.fcm.domain.repository
 
 import com.wepli.devmode.fcm.data.model.FcmMessageRequest
+import com.wepli.devmode.fcm.data.model.FcmResponse
 
 interface DevModeFcmRepository {
 

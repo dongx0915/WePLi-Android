@@ -30,7 +30,25 @@ data class DevFcmPushState(
     val isJsonFileLoaded: Boolean = false,
     val isLoading: Boolean = false,
     val isShownPriorityBottomSheet: Boolean = false
-) : UiState
+) : UiState {
+
+    fun getFcmMessage(token: String): FcmMessage {
+        return FcmMessage(
+            message = FcmMessage.Message(
+                token = token,
+                notification = FcmMessage.Notification(
+                    title = title,
+                    body = description,
+                    image = "",
+                ),
+                android = FcmMessage.AndroidConfig(
+                    priority = priority
+                ),
+                data = pushDataItems.toMap()
+            )
+        )
+    }
+}
 
 sealed interface DevFcmPushEffect : SideEffect {
     data object FcmTokenLoadFailed : DevFcmPushEffect
@@ -163,24 +181,19 @@ class DevFcmPushViewModel @Inject constructor(
 
     private fun sendFcmPush() = intent {
         launch(Dispatchers.IO) {
-            devModeFcmRepository.sendMessage(
-                projectId = projectId.orEmpty(),
-                accessToken = devModeFcmRepository.getFcmAccessToken(),
-                request = FcmMessage(
-                    message = FcmMessage.Message(
-                        token = fcmToken ?: getFcmPushToken(),
-                        notification = FcmMessage.Notification(
-                            title = state.title,
-                            body = state.description,
-                            image = "",
-                        ),
-                        android = FcmMessage.AndroidConfig(
-                            priority = state.priority
-                        ),
-                        data = state.pushDataItems.toMap()
-                    )
-                ).toFcmMessageRequest()
-            )
+            runCatching {
+                devModeFcmRepository.sendMessage(
+                    projectId = projectId.orEmpty(),
+                    accessToken = devModeFcmRepository.getFcmAccessToken(),
+                    request = state
+                        .getFcmMessage(fcmToken ?: getFcmPushToken())
+                        .toFcmMessageRequest()
+                )
+            }.onSuccess {
+                Log.d("성공", it.toString())
+            }.onFailure {
+                Log.e("실패", it.toString())
+            }
         }
     }
 
