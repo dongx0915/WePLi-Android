@@ -40,6 +40,7 @@ import com.wepli.devmode.fcm.R
 import com.wepli.devmode.fcm.domain.model.FcmPriority
 import com.wepli.devmode.fcm.presentation.component.ExpandableMenuComponent
 import com.wepli.devmode.fcm.presentation.component.NoticeComponent
+import com.wepli.devmode.fcm.presentation.component.PrioritySelectBottomSheet
 import com.wepli.devmode.fcm.presentation.component.common.AppBarIcon
 import com.wepli.devmode.fcm.presentation.textfield.DevModeTextField
 import com.wepli.devmode.fcm.presentation.textfield.DevModeTextFieldType
@@ -260,78 +261,6 @@ private fun PriorityFieldLayout(
                     modifier = Modifier.size(20.dp)
                 )
             }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun PrioritySelectBottomSheet(
-    currentPriority: FcmPriority,
-    sendAction: (DevFcmPushIntent) -> Unit
-) {
-    WepliBottomSheet(
-        onClosed = { sendAction(DevFcmPushIntent.ShowPriorityBottomSheet(false)) },
-        type = WepliBottomSheetType.Normal(
-            title = "푸시 우선순위"
-        ),
-    ) {
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            FcmPriority.entries.forEach {
-                PriorityItem(
-                    priority = it,
-                    description = "",
-                    isChecked = currentPriority == it,
-                    sendAction = sendAction
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun PriorityItem(
-    priority: FcmPriority,
-    description: String,
-    isChecked: Boolean,
-    sendAction: (DevFcmPushIntent) -> Unit,
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable {
-                sendAction(DevFcmPushIntent.UpdatePriority(priority = priority))
-                sendAction(DevFcmPushIntent.ShowPriorityBottomSheet(false))
-            }
-            .padding(vertical = 6.dp, horizontal = 20.dp),
-    ) {
-
-        Column(
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-            modifier = Modifier.weight(1f)
-        ) {
-            Text(
-                text = priority.value,
-                style = DevModeTheme.typo.subTitle3,
-                color = DevModeTheme.color.gray700
-            )
-
-            Text(
-                text = description,
-                style = DevModeTheme.typo.body6,
-                color = DevModeTheme.color.gray500
-            )
-        }
-
-        if (isChecked) {
-            Icon(
-                painter = painterResource(R.drawable.ic_checkbox),
-                tint = Color.Unspecified,
-                contentDescription = null,
-                modifier = Modifier.size(24.dp)
-            )
         }
     }
 }
