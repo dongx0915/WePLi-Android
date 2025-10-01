@@ -1,6 +1,5 @@
 package com.wepli.devmode.fcm.presentation
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -34,15 +33,24 @@ import com.wepli.devmode.fcm.presentation.textfield.FieldLabel
 import com.wepli.devmode.fcm.presentation.theme.DevModeTheme
 
 
+@Preview
 @Composable
-fun DevFcmPushScreenRoute() {
-    DevFcmPushScreen()
+fun DevFcmPushScreenPreview() {
+    DevFcmPushScreen {  }
 }
 
-@Preview
+@Composable
+fun DevFcmPushScreenRoute(
+    navOnBack: () -> Unit
+) {
+    DevFcmPushScreen(navOnBack)
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DevFcmPushScreen() {
+fun DevFcmPushScreen(
+    navOnBack: () -> Unit
+) {
     Scaffold(
         containerColor = DevModeTheme.color.black,
         topBar = {
@@ -59,7 +67,7 @@ fun DevFcmPushScreen() {
                 navigationIcon = {
                     AppBarIcon(
                         iconResource = R.drawable.ic_arrow_back,
-                        onClick = {}
+                        onClick = { navOnBack() }
                     )
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(

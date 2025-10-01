@@ -13,10 +13,10 @@ fun NavController.navigateToDevModeFcmMain() {
     navigate(DevModeFcmRoute.Main.route)
 }
 
-fun NavGraphBuilder.devModeFcmGraph() {
+fun NavGraphBuilder.devModeFcmGraph(navOnBack: () -> Unit) {
     composable(
         route = DevModeFcmRoute.Main.route
     ) {
-        DevFcmPushScreenRoute()
+        DevFcmPushScreenRoute(navOnBack)
     }
 }

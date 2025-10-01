@@ -32,13 +32,14 @@ import theme.WepliTheme
 @Preview
 @Composable
 private fun DevModeScreenPreview() {
-    DevModeScreen(DevModeMainState(), {},  {}, {})
+    DevModeScreen(DevModeMainState(), {},  {}, {}, {})
 }
 
 @Composable
 fun DevModeScreenRoute(
     navOnBack: () -> Unit,
     navOnNetworkLog: () -> Unit,
+    navOnSendFcmPush: () -> Unit,
 ) {
     val viewModel: DevModeMainViewModel = hiltViewModel()
     val state by viewModel.collectAsState()
@@ -69,7 +70,8 @@ fun DevModeScreenRoute(
         state = state,
         sendAction = viewModel::processIntent,
         navOnBack = navOnBack,
-        navOnNetworkLog = navOnNetworkLog
+        navOnNetworkLog = navOnNetworkLog,
+        navOnSendFcmPush = navOnSendFcmPush,
     )
 }
 
@@ -80,6 +82,7 @@ private fun DevModeScreen(
     sendAction: (DevModeMainIntent) -> Unit,
     navOnBack: () -> Unit,
     navOnNetworkLog: () -> Unit,
+    navOnSendFcmPush: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -101,7 +104,7 @@ private fun DevModeScreen(
                 .padding(bottom = 50.dp)
         ) {
             UserInfoLayout(state)
-            FcmPushLayout(sendAction)
+            FcmPushLayout(sendAction, navOnSendFcmPush)
             DeviceInfoLayout(state)
             ScreenInfoLayout(state)
             LogMenuLayout(state, sendAction, navOnNetworkLog)
@@ -130,12 +133,19 @@ private fun LogMenuLayout(
 @Composable
 private fun FcmPushLayout(
     sendAction: (DevModeMainIntent) -> Unit,
+    navOnSendFcmPush: () -> Unit,
 ) {
     MenuTitleComponent(title = "FCM")
     MenuComponent(
         title = "테스트 푸시 전송",
         onClickMenu = {
             sendAction(DevModeMainIntent.SendTestFcmMessage)
+        }
+    )
+    MenuComponent(
+        title = "FCM 푸시 생성",
+        onClickMenu = {
+            navOnSendFcmPush()
         }
     )
 }
