@@ -28,6 +28,9 @@ dependencies {
     implementation(libs.kotlin.serialization.json)
     implementation(libs.kotlin.serialization.converter)
 
+    // DataStore
+    implementation(libs.androidx.datastore.preferences)
+
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.fcm)

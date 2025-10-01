@@ -25,7 +25,7 @@ data class DevFcmPushState(
     val priority: FcmPriority = FcmPriority.HIGH,
     val pushDataItems: List<Pair<String, String>> = listOf("" to ""),
 
-    val isLoading: Boolean = true,
+    val isLoading: Boolean = false,
     val isShownPriorityBottomSheet: Boolean = false
 ) : UiState
 
@@ -35,7 +35,7 @@ sealed interface DevFcmPushEffect : SideEffect {
 
 sealed interface DevFcmPushIntent : Intent {
 
-    data class Init(val fcmToken: String) : DevFcmPushIntent
+    data class Init(val projectId: String) : DevFcmPushIntent
     data object SendFcm : DevFcmPushIntent
     data object AddPushDataItem : DevFcmPushIntent
     data class RemovePushDataItem(val index: Int) : DevFcmPushIntent
