@@ -49,7 +49,7 @@ import com.wepli.feature.devmode.network.detail.viewmodel.NetworkLogDetailState
 import com.wepli.feature.devmode.network.detail.viewmodel.NetworkLogDetailViewModel
 import com.wepli.feature.devmode.network.main.component.StatusTag
 import com.wepli.feature.devmode.network.main.enums.toColor
-import com.wepli.domain.devmode.model.ApiLog
+import com.wepli.domain.devmode.apilog.model.ApiLog
 import extensions.toPrettyJsonString
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme

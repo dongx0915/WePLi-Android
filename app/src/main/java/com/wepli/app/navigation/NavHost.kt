@@ -19,6 +19,9 @@ import com.wepli.mypage.menus.mypage.navigation.mypageMainGraph
 import com.wepli.community.navigation.communityWriteGraph
 import com.wepli.community.navigation.navigateToBackAndPostRefresh
 import com.wepli.community.navigation.navigateToCommunityWrite
+import com.wepli.core.common.BuildConfig
+import com.wepli.devmode.fcm.presentation.navigation.devModeFcmGraph
+import com.wepli.devmode.fcm.presentation.navigation.navigateToDevModeFcmMain
 import com.wepli.feature.devmode.main.navigation.devModeMainGraph
 import com.wepli.feature.devmode.main.navigation.navigateToDevModeMain
 import com.wepli.feature.photocard.detail.navigation.photoCardDetailGraph
@@ -98,6 +101,8 @@ fun SetUpNavGraph(
             // 개발자 모드 Graph
             // TODO: 중첩 그래프로 관리 필요성 검토
             devModeGraph(navController)
+
+            devModeFcmGraph(navController)
 
             networkLogGraph(navController)
 
@@ -195,7 +200,14 @@ fun NavGraphBuilder.profileGraph(navController: NavController) {
 fun NavGraphBuilder.devModeGraph(navController: NavController) {
     devModeMainGraph(
         navOnBack = { navController.navigateUp() },
-        navOnNetworkLog = { navController.navigateToNetworkLogMain() }
+        navOnNetworkLog = { navController.navigateToNetworkLogMain() },
+        navOnSendFcmPush = { navController.navigateToDevModeFcmMain(BuildConfig.FIREBASE_PROJECT_ID) },
+    )
+}
+
+fun NavGraphBuilder.devModeFcmGraph(navController: NavController) {
+    devModeFcmGraph(
+        navOnBack = { navController.navigateUp() }
     )
 }
 

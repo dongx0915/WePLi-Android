@@ -26,6 +26,10 @@ dependencies {
     implementation(libs.supabase.postgrest.kt)
     implementation(libs.supabase.storage.kt)
 
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.fcm)
+
     // Room
     implementation(libs.bundles.room)
     ksp(libs.androidx.room.compiler.ksp)

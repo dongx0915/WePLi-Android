@@ -10,9 +10,11 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.messaging.FirebaseMessaging
 import com.wepli.feature.devmode.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.system.exitProcess
 
 object DevModeUtil {
@@ -64,6 +66,22 @@ object DevModeUtil {
         val insets = windowMetrics.windowInsets.getInsetsIgnoringVisibility(WindowInsets.Type.navigationBars())
 
         return insets.bottom
+    }
+
+    suspend fun getFcmToken(): String {
+        return suspendCancellableCoroutine {
+            FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+                if (!task.isSuccessful) return@addOnCompleteListener
+
+                val result = if (task.result != null) {
+                    Result.success(task.result)
+                } else {
+                    Result.failure(Exception("FCM token is null"))
+                }
+
+                it.resumeWith(result = result)
+            }
+        }
     }
 
     fun restartApplication(activity: ComponentActivity) = with(activity) {

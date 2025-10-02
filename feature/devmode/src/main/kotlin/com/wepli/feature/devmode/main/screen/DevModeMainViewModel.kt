@@ -4,6 +4,9 @@ import base.BaseMviViewModel
 import base.Intent
 import base.SideEffect
 import base.UiState
+import com.wepli.devmode.fcm.data.model.FcmMessageRequest
+import com.wepli.devmode.fcm.domain.repository.DevModeFcmRepository
+import com.wepli.feature.devmode.main.utils.DevModeUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import repository.setting.SettingRepository
@@ -15,6 +18,7 @@ data class DevModeMainState(
     val refreshToken: String = "",
     val isEnabledScreenNameViewer: Boolean = false,
     val fcmToken: String = "",
+    val fcmAccessToken: String = "",
     val androidOs: String = "",
     val sdkVersion: Int = 0,
     val deviceModel: String = "",
@@ -40,12 +44,14 @@ sealed interface DevModeMainIntent : Intent {
     ) : DevModeMainIntent
 
     data class ChangeScreenNameViewerState(val enabled: Boolean) : DevModeMainIntent
+    data object SendTestFcmMessage : DevModeMainIntent
 }
 
 @HiltViewModel
 class DevModeMainViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val settingRepository: SettingRepository,
+    private val devModeFcmRepository: DevModeFcmRepository,
 ) : BaseMviViewModel<DevModeMainState, DevModeMainEffect, DevModeMainIntent>(
     initialState = DevModeMainState()
 ) {
@@ -68,6 +74,7 @@ class DevModeMainViewModel @Inject constructor(
             }
 
             is DevModeMainIntent.ChangeScreenNameViewerState -> updateScreenNameViewerSetting(intent.enabled)
+            DevModeMainIntent.SendTestFcmMessage -> sendTestFcmMessage()
         }
     }
 
@@ -75,12 +82,16 @@ class DevModeMainViewModel @Inject constructor(
         launch(Dispatchers.IO) {
             val accessToken = userRepository.getAccessToken()
             val refreshToken = userRepository.getRefreshToken()
+            val fcmToken = DevModeUtil.getFcmToken()
+            val fcmAccessToken = devModeFcmRepository.getFcmAccessToken()
             val isEnabledScreenNameViewer = settingRepository.isEnableScreenNameViewer()
 
             reduce {
                 state.copy(
                     accessToken = accessToken,
                     refreshToken = refreshToken,
+                    fcmToken = fcmToken,
+                    fcmAccessToken = fcmAccessToken,
                     isEnabledScreenNameViewer = isEnabledScreenNameViewer,
                 )
             }
@@ -91,5 +102,23 @@ class DevModeMainViewModel @Inject constructor(
         settingRepository.setEnableScreenNameViewer(isEnabled)
 
         postSideEffect { DevModeMainEffect.RestartApplication }
+    }
+
+    private fun sendTestFcmMessage() {
+        launch(Dispatchers.IO) {
+            devModeFcmRepository.sendMessage(
+                projectId = "wepli-app-49e90",
+                accessToken = devModeFcmRepository.getFcmAccessToken(),
+                request = FcmMessageRequest(
+                    message = FcmMessageRequest.Message(
+                        token = DevModeUtil.getFcmToken(),
+                        data = mapOf(
+                            "Nick" to "Mario",
+                            "Room" to "PortugalVSDenmark"
+                        ),
+                    )
+                )
+            )
+        }
     }
 }

@@ -16,10 +16,11 @@ fun NavController.navigateToDevModeMain() {
 fun NavGraphBuilder.devModeMainGraph(
     navOnBack: () -> Unit,
     navOnNetworkLog: () -> Unit,
+    navOnSendFcmPush: () -> Unit,
 ) {
     composable(
         route = DevModeRoute.Main.route
     ) {
-        DevModeScreenRoute(navOnBack, navOnNetworkLog)
+        DevModeScreenRoute(navOnBack, navOnNetworkLog, navOnSendFcmPush)
     }
 }

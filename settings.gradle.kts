@@ -60,5 +60,6 @@ include(
     ":designsystem",
     ":domain",
     ":data",
-    ":app"
+    ":app",
+    ":devmode-fcm"
 )
