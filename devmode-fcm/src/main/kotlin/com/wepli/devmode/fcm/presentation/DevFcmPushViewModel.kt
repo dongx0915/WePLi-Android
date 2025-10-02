@@ -68,6 +68,9 @@ sealed interface DevFcmPushIntent : Intent {
     data class RemovePushDataItem(val index: Int) : DevFcmPushIntent
 
     data class ShowPriorityBottomSheet(val isShown: Boolean) : DevFcmPushIntent
+
+    data class UpdateTitle(val title: String) : DevFcmPushIntent
+    data class UpdateDescription(val description: String) : DevFcmPushIntent
     data class UpdatePriority(val priority: FcmPriority) : DevFcmPushIntent
     data class UpdatePushDataKey(val index: Int, val key: String) : DevFcmPushIntent
     data class UpdatePushDataValue(val index: Int, val value: String) : DevFcmPushIntent
@@ -103,6 +106,18 @@ class DevFcmPushViewModel @Inject constructor(
             is DevFcmPushIntent.ShowPriorityBottomSheet -> {
                 updateState {
                     copy(isShownPriorityBottomSheet = intent.isShown)
+                }
+            }
+
+            is DevFcmPushIntent.UpdateTitle -> {
+                updateState {
+                    copy(title = intent.title)
+                }
+            }
+
+            is DevFcmPushIntent.UpdateDescription -> {
+                updateState {
+                    copy(description = intent.description)
                 }
             }
 

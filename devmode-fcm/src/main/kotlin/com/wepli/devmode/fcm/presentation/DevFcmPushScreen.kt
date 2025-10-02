@@ -171,7 +171,7 @@ fun DevFcmPushScreen(
 
             ApiKeyFileLayout(state = state, sendAction = sendAction, onFilePickerClick = onFilePickerClick)
 
-            NotificationFieldLayout()
+            NotificationFieldLayout(sendAction = sendAction)
 
             PriorityFieldLayout(
                 priority = state.priority,
@@ -223,7 +223,7 @@ private fun ApiKeyFileLayout(
     state: DevFcmPushState,
     sendAction: (DevFcmPushIntent) -> Unit,
     onFilePickerClick: () -> Unit,
-) { 
+) {
     if (state.isJsonFileLoaded) {
         NoticeComponent(
             notice = stringResource(R.string.dev_fcm_api_key_loaded),
@@ -282,10 +282,10 @@ private fun ApiKeyFileLayout(
     }
 }
 
-
-@Preview
 @Composable
-private fun NotificationFieldLayout() {
+private fun NotificationFieldLayout(
+    sendAction: (DevFcmPushIntent) -> Unit,
+) {
     ExpandableMenuComponent(
         title = stringResource(R.string.dev_fcm_notification_title),
         modifier = Modifier
@@ -316,7 +316,9 @@ private fun NotificationFieldLayout() {
                 isRequired = false,
                 query = "",
                 placeholder = stringResource(R.string.dev_fcm_notification_placeholder_title),
-                onQueryUpdate = {},
+                onQueryUpdate = {
+                    sendAction(DevFcmPushIntent.UpdateTitle(it))
+                },
                 onEnter = {}
             )
 
@@ -327,7 +329,9 @@ private fun NotificationFieldLayout() {
                 isRequired = false,
                 query = "",
                 placeholder = stringResource(R.string.dev_fcm_notification_placeholder_content),
-                onQueryUpdate = {},
+                onQueryUpdate = {
+                    sendAction(DevFcmPushIntent.UpdateDescription(it))
+                },
                 onEnter = {}
             )
         }
