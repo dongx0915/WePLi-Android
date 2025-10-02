@@ -110,24 +110,12 @@ class DevFcmPushViewModel @Inject constructor(
         updateState { copy(isJsonFileLoaded = false) }
     }
 
-    private fun addPushDataItem() = intent {
-        val pushDataItems = state.pushDataItems.toMutableList().apply {
-            add("" to "")
-        }
-
-        reduce {
-            state.copy(pushDataItems = pushDataItems)
-        }
+    private fun addPushDataItem() = updateState {
+        copy(pushDataItems = pushDataItems + ("" to ""))
     }
 
-    private fun removePushDataItem(index: Int) = intent {
-        val pushDataItems = state.pushDataItems.toMutableList().apply {
-            removeAt(index)
-        }
-
-        reduce {
-            state.copy(pushDataItems = pushDataItems)
-        }
+    private fun removePushDataItem(index: Int) = updateState {
+        copy(pushDataItems = pushDataItems - listOfNotNull(pushDataItems.getOrNull(index)))
     }
 
     private fun updateNotificationTitle(title: String) = updateState {
