@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wepli.devmode.fcm.R
 import com.wepli.devmode.fcm.domain.model.FcmPriority
@@ -29,17 +30,18 @@ fun PrioritySelectBottomSheet(
     currentPriority: FcmPriority,
     sendAction: (DevFcmPushIntent) -> Unit
 ) {
+    @Composable
     fun getDescription(priority: FcmPriority): String {
         return when(priority) {
-            FcmPriority.HIGH -> "기기가 절전 상태여도 즉시 전달을 시도합니다."
-            FcmPriority.NORMAL -> "절전 모드나 기기 상태에 따라 수신이 지연될 수 있습니다."
+            FcmPriority.HIGH -> stringResource(R.string.dev_fcm_priority_high_desc)
+            FcmPriority.NORMAL -> stringResource(R.string.dev_fcm_priority_normal_desc)
         }
     }
 
     WepliBottomSheet(
         onClosed = { sendAction(DevFcmPushIntent.ShowPriorityBottomSheet(false)) },
         type = WepliBottomSheetType.Normal(
-            title = "푸시 우선순위"
+            title = stringResource(R.string.dev_fcm_priority_title)
         ),
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
