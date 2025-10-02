@@ -2,7 +2,7 @@ package com.wepli.data.di.database
 
 import android.content.Context
 import com.wepli.data.db.WePLiDatabase
-import com.wepli.data.devmode.dao.ApiLogDao
+import com.wepli.data.devmode.apilog.dao.ApiLogDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -7,6 +7,12 @@ plugins {
 
 android {
     namespace = "com.wepli.app"
+
+    packaging {
+        resources {
+            pickFirsts += "META-INF/INDEX.LIST"
+        }
+    }
 }
 
 // App 모듈에선 모든 모듈 참조 필요
@@ -28,6 +34,7 @@ dependencies {
     implementation(projects.feature.devmode)
     implementation(projects.feature.photocard)
     implementation(projects.feature.song)
+    implementation(project(":devmode-fcm"))
 
     // Orbit
     implementation(libs.bundles.orbit)
@@ -38,6 +45,7 @@ dependencies {
 
     // Firebase
     implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.fcm)
 
     // Supabase
     implementation(libs.androidx.credentials)

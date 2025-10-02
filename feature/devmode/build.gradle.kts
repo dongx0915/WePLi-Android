@@ -9,5 +9,9 @@ android {
 }
 
 dependencies {
+    implementation(project(":devmode-fcm"))
     implementation(libs.json.tree)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.fcm)
 }

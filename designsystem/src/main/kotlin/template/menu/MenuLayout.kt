@@ -2,7 +2,9 @@ package template.menu
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,7 +22,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import base.Intent
@@ -153,6 +157,7 @@ fun SwitchMenuComponent(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
 fun ExpandableMenuComponent(
@@ -165,13 +170,19 @@ fun ExpandableMenuComponent(
         targetValue = if (expanded) 270f else 90f,
         label = "ArrowRotationAngle"
     )
+    val clipboardManager = LocalClipboardManager.current
 
     Column(
         modifier = modifier
             .animateContentSize()
-            .clickable {
-                expanded = !expanded
-            }
+            .combinedClickable(
+                onClick = {
+                    expanded = !expanded
+                },
+                onLongClick = {
+                    clipboardManager.setText(AnnotatedString(content))
+                }
+            )
             .fillMaxWidth()
             .padding(vertical = 16.dp, horizontal = 20.dp),
     ) {
