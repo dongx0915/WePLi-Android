@@ -40,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -99,16 +100,16 @@ fun DevFcmPushScreenRoute(
     viewModel.collectSideEffect {
         when (it) {
             DevFcmPushEffect.SendFcmSuccess -> {
-                Toast.makeText(context, "푸시가 발송 되었습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.dev_fcm_send_success), Toast.LENGTH_SHORT).show()
             }
             DevFcmPushEffect.AuthorizationError -> {
-                Toast.makeText(context, "API Key 인증에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.dev_fcm_auth_error), Toast.LENGTH_SHORT).show()
             }
             DevFcmPushEffect.FcmTokenLoadFailed -> {
-                Toast.makeText(context, "FCM 토큰을 불러오는데 실패하였습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.dev_fcm_token_load_failed), Toast.LENGTH_SHORT).show()
             }
             is DevFcmPushEffect.UnknownError -> {
-                Toast.makeText(context, "알 수 없는 오류가 발생하였습니다.(${it.code})", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.dev_fcm_unknown_error, it.code), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -135,7 +136,7 @@ fun DevFcmPushScreen(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = "FCM 푸시 발송",
+                        text = stringResource(R.string.dev_fcm_push_title),
                         style = DevModeTheme.typo.subTitle3,
                         color = DevModeTheme.color.white,
                         maxLines = 1,
@@ -191,7 +192,7 @@ fun DevFcmPushScreen(
             )
 
             DevModeBasicButton(
-                title = "푸시 전송",
+                title = stringResource(R.string.dev_fcm_push_send_button),
                 isEnabled = true,
                 onClick = { sendAction(DevFcmPushIntent.SendFcm) },
                 buttonStyle = DevModeButtonStyle.Basic,
@@ -222,10 +223,10 @@ private fun ApiKeyFileLayout(
     state: DevFcmPushState,
     sendAction: (DevFcmPushIntent) -> Unit,
     onFilePickerClick: () -> Unit,
-) {
+) { 
     if (state.isJsonFileLoaded) {
         NoticeComponent(
-            notice = "API Key 파일이 로드 되었습니다.",
+            notice = stringResource(R.string.dev_fcm_api_key_loaded),
             leadingIcon = ImageVector.vectorResource(R.drawable.ic_file_check),
             trailingIcon = ImageVector.vectorResource(R.drawable.ic_close),
             onClickTrailingIcon = {
@@ -260,14 +261,14 @@ private fun ApiKeyFileLayout(
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = "API Key JSON 파일을 업로드 해주세요.",
+                text = stringResource(R.string.dev_fcm_api_key_upload_guide),
                 style = DevModeTheme.typo.body6,
                 color = DevModeTheme.color.white,
             )
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
-                text = "파일 선택",
+                text = stringResource(R.string.dev_fcm_file_select),
                 style = DevModeTheme.typo.body6,
                 color = DevModeTheme.color.white,
                 modifier = Modifier
@@ -286,7 +287,7 @@ private fun ApiKeyFileLayout(
 @Composable
 private fun NotificationFieldLayout() {
     ExpandableMenuComponent(
-        title = "Notification 속성 설정",
+        title = stringResource(R.string.dev_fcm_notification_title),
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .border(
@@ -297,13 +298,13 @@ private fun NotificationFieldLayout() {
     ) {
         Column {
             Text(
-                text = "해당 정보는 Notification 속성에 포함됩니다.",
+                text = stringResource(R.string.dev_fcm_notification_description),
                 style = DevModeTheme.typo.body5,
                 color = DevModeTheme.color.white
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Notification 속성이 포함되면 앱 내 서비스로 푸시 알림이 수신 되지 않습니다.",
+                text = stringResource(R.string.dev_fcm_notification_warning),
                 style = DevModeTheme.typo.body6,
                 color = DevModeTheme.color.gray600
             )
@@ -311,10 +312,10 @@ private fun NotificationFieldLayout() {
             Spacer(modifier = Modifier.height(20.dp))
 
             NotificationInputLayout(
-                labelTitle = "제목",
+                labelTitle = stringResource(R.string.dev_fcm_notification_field_title),
                 isRequired = false,
                 query = "",
-                placeholder = "제목을 입력해주세요",
+                placeholder = stringResource(R.string.dev_fcm_notification_placeholder_title),
                 onQueryUpdate = {},
                 onEnter = {}
             )
@@ -322,10 +323,10 @@ private fun NotificationFieldLayout() {
             Spacer(modifier = Modifier.height(16.dp))
 
             NotificationInputLayout(
-                labelTitle = "내용",
+                labelTitle = stringResource(R.string.dev_fcm_notification_field_content),
                 isRequired = false,
                 query = "",
-                placeholder = "내용을 입력해주세요",
+                placeholder = stringResource(R.string.dev_fcm_notification_placeholder_content),
                 onQueryUpdate = {},
                 onEnter = {}
             )
@@ -348,7 +349,7 @@ private fun NotificationInputLayout(
 
     FieldLabel(
         text = labelTitle,
-        label = if (isRequired) "" else "선택",
+        label = if (isRequired) "" else stringResource(R.string.dev_fcm_field_optional),
         isRequired = isRequired,
     )
 
@@ -381,8 +382,8 @@ private fun PriorityFieldLayout(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         FieldLabel(
-            text = "푸시 우선순위",
-            label = "*",
+            text = stringResource(R.string.dev_fcm_priority_title),
+            label = stringResource(R.string.dev_fcm_field_required),
             isRequired = true
         )
 
@@ -429,8 +430,8 @@ private fun PushDataFieldLayout(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         FieldLabel(
-            text = "푸시 데이터",
-            label = "*",
+            text = stringResource(R.string.dev_fcm_push_data_title),
+            label = stringResource(R.string.dev_fcm_field_required),
             isRequired = true
         )
 
@@ -454,7 +455,7 @@ private fun PushDataFieldLayout(
         Spacer(modifier = Modifier.height(12.dp))
 
         DevModeBasicButton(
-            title = "데이터 추가",
+            title = stringResource(R.string.dev_fcm_push_data_add_button),
             isEnabled = true,
             onClick = { sendAction(DevFcmPushIntent.AddPushDataItem) },
             buttonStyle = DevModeButtonStyle.Transparent(),
@@ -504,7 +505,7 @@ private fun PushDataInputLayout(
                     singleLine = true,
                     onValueChanged = { onKeyQueryUpdate(index, it) },
                     onEnter = {},
-                    placeholder = "Key",
+                    placeholder = stringResource(R.string.dev_fcm_push_data_key_placeholder),
                     type = DevModeTextFieldType.Normal,
                     modifier = Modifier
                         .focusRequester(focusRequester)
@@ -517,7 +518,7 @@ private fun PushDataInputLayout(
                     singleLine = true,
                     onValueChanged = { onValueQueryUpdate(index, it) },
                     onEnter = {},
-                    placeholder = "Value",
+                    placeholder = stringResource(R.string.dev_fcm_push_data_value_placeholder),
                     type = DevModeTextFieldType.Normal,
                     modifier = Modifier
                         .focusRequester(focusRequester)
