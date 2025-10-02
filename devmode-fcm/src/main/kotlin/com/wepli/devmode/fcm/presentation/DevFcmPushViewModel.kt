@@ -211,10 +211,8 @@ class DevFcmPushViewModel @Inject constructor(
                         .toFcmMessageRequest()
                 )
             }.onSuccess {
-                Log.d("성공", it.toString())
                 postSideEffect { DevFcmPushEffect.SendFcmSuccess }
             }.onFailure {
-                Log.e("실패", it.toString())
                 val error = when (it.code()) {
                     401 -> DevFcmPushEffect.AuthorizationError
                     else -> DevFcmPushEffect.UnknownError(it.code())
