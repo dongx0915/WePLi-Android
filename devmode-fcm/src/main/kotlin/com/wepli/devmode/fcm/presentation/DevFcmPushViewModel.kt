@@ -77,6 +77,8 @@ class DevFcmPushViewModel @Inject constructor(
     }
 
     private fun sendFcmPush() = intent {
+        reduce { state.copy(isLoading = true) }
+
         launch(Dispatchers.IO) {
             runCatching {
                 devModeFcmRepository.sendMessage(
@@ -97,6 +99,8 @@ class DevFcmPushViewModel @Inject constructor(
 
                 postSideEffect { error }
             }
+
+            reduce { state.copy(isLoading = false) }
         }
     }
 
