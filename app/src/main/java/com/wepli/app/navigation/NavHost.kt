@@ -19,6 +19,7 @@ import com.wepli.mypage.menus.mypage.navigation.mypageMainGraph
 import com.wepli.community.navigation.communityWriteGraph
 import com.wepli.community.navigation.navigateToBackAndPostRefresh
 import com.wepli.community.navigation.navigateToCommunityWrite
+import com.wepli.core.common.BuildConfig
 import com.wepli.devmode.fcm.presentation.navigation.devModeFcmGraph
 import com.wepli.devmode.fcm.presentation.navigation.navigateToDevModeFcmMain
 import com.wepli.feature.devmode.main.navigation.devModeMainGraph
@@ -200,7 +201,7 @@ fun NavGraphBuilder.devModeGraph(navController: NavController) {
     devModeMainGraph(
         navOnBack = { navController.navigateUp() },
         navOnNetworkLog = { navController.navigateToNetworkLogMain() },
-        navOnSendFcmPush = { navController.navigateToDevModeFcmMain("wepli-app-49e90") },
+        navOnSendFcmPush = { navController.navigateToDevModeFcmMain(BuildConfig.FIREBASE_PROJECT_ID) },
     )
 }
 
