@@ -141,9 +141,7 @@ class DevFcmPushViewModel @Inject constructor(
         }
 
         reduce {
-            state.copy(pushDataItems = newData).apply {
-                Log.d("스테이트", state.toPrettyJsonString())
-            }
+            state.copy(pushDataItems = newData)
         }
     }
 
@@ -154,9 +152,7 @@ class DevFcmPushViewModel @Inject constructor(
         }
 
         reduce {
-            state.copy(pushDataItems = newData).apply {
-                Log.d("스테이트", state.toPrettyJsonString())
-            }
+            state.copy(pushDataItems = newData)
         }
     }
 }
