@@ -1,12 +1,10 @@
 package com.wepli.devmode.fcm.presentation
 
 import android.util.Log
-import androidx.lifecycle.viewModelScope
 import base.BaseMviViewModel
 import base.Intent
 import base.SideEffect
 import base.UiState
-import com.google.firebase.messaging.FirebaseMessaging
 import com.wepli.devmode.fcm.core.code
 import com.wepli.devmode.fcm.data.model.toFcmMessageRequest
 import com.wepli.devmode.fcm.domain.model.FcmMessage
@@ -14,13 +12,9 @@ import com.wepli.devmode.fcm.domain.model.FcmPriority
 import com.wepli.devmode.fcm.domain.repository.DevModeFcmRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import extensions.toPrettyJsonString
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.joinAll
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.coroutines.resumeWithException
 
 data class DevFcmPushState(
     val title: String = "",
@@ -160,7 +154,7 @@ class DevFcmPushViewModel @Inject constructor(
         }
 
         val loadFcmTokenJob = launch(Dispatchers.IO) {
-            runCatching { getFcmPushToken() }
+            runCatching { devModeFcmRepository.getFcmPushToken() }
                 .onSuccess { token -> fcmToken = token }
                 .onFailure { postSideEffect { DevFcmPushEffect.FcmTokenLoadFailed } }
         }
@@ -179,27 +173,6 @@ class DevFcmPushViewModel @Inject constructor(
         updateState { copy(isJsonFileLoaded = false) }
     }
 
-    private suspend fun getFcmPushToken(): String = withContext(Dispatchers.IO) {
-        suspendCancellableCoroutine {
-            FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    it.resumeWithException(
-                        CancellationException("failed load fcm token")
-                    )
-                    return@addOnCompleteListener
-                }
-
-                val result = if (task.result != null) {
-                    Result.success(task.result)
-                } else {
-                    Result.failure(Exception("fcm token is null"))
-                }
-
-                it.resumeWith(result = result)
-            }
-        }
-    }
-
     private fun sendFcmPush() = intent {
         launch(Dispatchers.IO) {
             runCatching {
@@ -207,7 +180,7 @@ class DevFcmPushViewModel @Inject constructor(
                     projectId = projectId.orEmpty(),
                     accessToken = devModeFcmRepository.getFcmAccessToken(),
                     request = state
-                        .getFcmMessage(fcmToken ?: getFcmPushToken())
+                        .getFcmMessage(fcmToken.orEmpty())
                         .toFcmMessageRequest()
                 )
             }.onSuccess {

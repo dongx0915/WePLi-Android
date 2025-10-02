@@ -22,6 +22,10 @@ class DevModeFcmRepositoryImpl @Inject constructor(
         return devModeFcmDataSource.getFcmAccessToken()
     }
 
+    override suspend fun getFcmPushToken(): String {
+        return devModeFcmDataSource.getFcmPushToken()
+    }
+
     override suspend fun sendMessage(
         projectId: String,
         accessToken: String,

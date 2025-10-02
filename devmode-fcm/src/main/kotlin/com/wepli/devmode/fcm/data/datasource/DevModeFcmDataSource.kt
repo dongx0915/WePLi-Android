@@ -12,6 +12,8 @@ interface DevModeFcmDataSource {
 
     suspend fun getFcmAccessToken(): String
 
+    suspend fun getFcmPushToken(): String
+
     suspend fun sendMessage(
         projectId: String,
         accessToken: String,

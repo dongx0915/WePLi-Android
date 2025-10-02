@@ -1,6 +1,7 @@
 package com.wepli.devmode.fcm.data.datasource
 
 import com.google.auth.oauth2.GoogleCredentials
+import com.google.firebase.messaging.FirebaseMessaging
 import com.wepli.devmode.fcm.core.DevModeException
 import com.wepli.devmode.fcm.data.api.FcmApi
 import com.wepli.devmode.fcm.data.datastore.DataStoreKey
@@ -8,10 +9,12 @@ import com.wepli.devmode.fcm.data.datastore.local.DataStorePrefDataSource
 import com.wepli.devmode.fcm.data.model.FcmMessageRequest
 import com.wepli.devmode.fcm.data.model.FcmResponse
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import okhttp3.Dispatcher
 import java.io.ByteArrayInputStream
 import javax.inject.Inject
+import kotlin.coroutines.resumeWithException
 
 class DevModeFcmDataSourceImpl @Inject constructor(
     private val fcmApi: FcmApi,
@@ -47,6 +50,25 @@ class DevModeFcmDataSourceImpl @Inject constructor(
             googleCredentials?.accessToken?.tokenValue.orEmpty()
         }.getOrElse {
             it.message.toString()
+        }
+    }
+
+    override suspend fun getFcmPushToken(): String = withContext(Dispatchers.IO) {
+        suspendCancellableCoroutine {
+            FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    it.resumeWithException(Exception("failed load fcm token"))
+                    return@addOnCompleteListener
+                }
+
+                val result = if (task.result != null) {
+                    Result.success(task.result)
+                } else {
+                    Result.failure(Exception("fcm token is null"))
+                }
+
+                it.resumeWith(result)
+            }
         }
     }
 
