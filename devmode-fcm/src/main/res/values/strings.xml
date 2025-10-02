@@ -34,6 +34,7 @@
     <!-- Toast Messages -->
     <string name="dev_fcm_send_success">푸시가 발송 되었습니다.</string>
     <string name="dev_fcm_auth_error">API Key 인증에 실패하였습니다.</string>
+    <string name="dev_fcm_token_error">FCM 토큰 인증에 실패하였습니다.</string>
     <string name="dev_fcm_token_load_failed">FCM 토큰을 불러오는데 실패하였습니다.</string>
-    <string name="dev_fcm_unknown_error">알 수 없는 오류가 발생하였습니다.(%s)</string>
+    <string name="dev_fcm_unknown_error">알 수 없는 오류가 발생하였습니다.(%d)</string>
 </resources>

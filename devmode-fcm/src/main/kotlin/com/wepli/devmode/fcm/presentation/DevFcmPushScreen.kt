@@ -4,7 +4,6 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -97,13 +96,17 @@ fun DevFcmPushScreenRoute(
     LaunchedEffect(projectId) {
         viewModel.processIntent(DevFcmPushIntent.Init(projectId))
     }
+
     viewModel.collectSideEffect {
         when (it) {
             DevFcmPushEffect.SendFcmSuccess -> {
                 Toast.makeText(context, context.getString(R.string.dev_fcm_send_success), Toast.LENGTH_SHORT).show()
             }
-            DevFcmPushEffect.AuthorizationError -> {
+            DevFcmPushEffect.ApiKeyValidError -> {
                 Toast.makeText(context, context.getString(R.string.dev_fcm_auth_error), Toast.LENGTH_SHORT).show()
+            }
+            DevFcmPushEffect.FcmTokenValidError -> {
+                Toast.makeText(context, context.getString(R.string.dev_fcm_token_error), Toast.LENGTH_SHORT).show()
             }
             DevFcmPushEffect.FcmTokenLoadFailed -> {
                 Toast.makeText(context, context.getString(R.string.dev_fcm_token_load_failed), Toast.LENGTH_SHORT).show()

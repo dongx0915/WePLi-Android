@@ -49,7 +49,8 @@ sealed interface DevFcmPushEffect : SideEffect {
 
     data object SendFcmSuccess : DevFcmPushEffect
     data object FcmTokenLoadFailed : DevFcmPushEffect
-    data object AuthorizationError : DevFcmPushEffect
+    data object FcmTokenValidError : DevFcmPushEffect
+    data object ApiKeyValidError : DevFcmPushEffect
 
     data class UnknownError(val code: Int) : DevFcmPushEffect
 }
@@ -187,7 +188,8 @@ class DevFcmPushViewModel @Inject constructor(
                 postSideEffect { DevFcmPushEffect.SendFcmSuccess }
             }.onFailure {
                 val error = when (it.code()) {
-                    401 -> DevFcmPushEffect.AuthorizationError
+                    400 -> DevFcmPushEffect.FcmTokenValidError
+                    401 -> DevFcmPushEffect.ApiKeyValidError
                     else -> DevFcmPushEffect.UnknownError(it.code())
                 }
 
