@@ -1,4 +1,4 @@
-package com.wepli.devmode.fcm.presentation.component.extensions
+package com.wepli.devmode.fcm.core.ui.extensions
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent

@@ -47,19 +47,19 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wepli.devmode.fcm.R
 import com.wepli.devmode.fcm.domain.model.FcmPriority
-import com.wepli.devmode.fcm.presentation.component.ExpandableMenuComponent
-import com.wepli.devmode.fcm.presentation.component.LimitedSwipeToDismissBox
+import com.wepli.devmode.fcm.core.ui.ExpandableMenuComponent
+import com.wepli.devmode.fcm.core.ui.LimitedSwipeToDismissBox
 import com.wepli.devmode.fcm.presentation.component.NoticeComponent
 import com.wepli.devmode.fcm.presentation.component.PrioritySelectBottomSheet
-import com.wepli.devmode.fcm.presentation.component.common.AppBarIcon
-import com.wepli.devmode.fcm.presentation.component.common.DevModeBasicButton
-import com.wepli.devmode.fcm.presentation.component.common.DevModeButtonStyle
+import com.wepli.devmode.fcm.core.ui.common.AppBarIcon
+import com.wepli.devmode.fcm.core.ui.common.DevModeBasicButton
+import com.wepli.devmode.fcm.core.ui.common.DevModeButtonStyle
 import com.wepli.devmode.fcm.presentation.textfield.DevModeTextField
 import com.wepli.devmode.fcm.presentation.textfield.DevModeTextFieldType
 import com.wepli.devmode.fcm.presentation.textfield.FieldLabel
 import com.wepli.devmode.fcm.presentation.theme.DevModeTheme
-import com.wepli.devmode.fcm.presentation.component.common.FullScreenLoader
-import com.wepli.devmode.fcm.presentation.component.extensions.dashedBorder
+import com.wepli.devmode.fcm.core.ui.common.FullScreenLoader
+import com.wepli.devmode.fcm.core.ui.extensions.dashedBorder
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 

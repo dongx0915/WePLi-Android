@@ -1,4 +1,4 @@
-package com.wepli.devmode.fcm.presentation.component.common
+package com.wepli.devmode.fcm.core.ui.common
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Box

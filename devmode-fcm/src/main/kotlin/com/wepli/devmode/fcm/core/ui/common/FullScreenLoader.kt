@@ -1,4 +1,4 @@
-package com.wepli.devmode.fcm.presentation.component.common
+package com.wepli.devmode.fcm.core.ui.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

@@ -1,4 +1,4 @@
-package com.wepli.devmode.fcm.presentation.component
+package com.wepli.devmode.fcm.core.ui
 
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.rememberSplineBasedDecay
