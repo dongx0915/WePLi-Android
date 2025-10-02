@@ -94,57 +94,27 @@ class DevFcmPushViewModel @Inject constructor(
                 this.projectId = intent.projectId
             }
 
-            is DevFcmPushIntent.SendFcm -> {
-                sendFcmPush()
-            }
+            is DevFcmPushIntent.SendFcm -> sendFcmPush()
 
-            is DevFcmPushIntent.ShowPriorityBottomSheet -> {
-                updateState {
-                    copy(isShownPriorityBottomSheet = intent.isShown)
-                }
-            }
+            is DevFcmPushIntent.ShowPriorityBottomSheet -> showPriorityBottomSheet(intent.isShown)
 
-            is DevFcmPushIntent.UpdateTitle -> {
-                updateState {
-                    copy(title = intent.title)
-                }
-            }
+            is DevFcmPushIntent.UpdateTitle -> updateNotificationTitle(intent.title)
 
-            is DevFcmPushIntent.UpdateDescription -> {
-                updateState {
-                    copy(description = intent.description)
-                }
-            }
+            is DevFcmPushIntent.UpdateDescription -> updateNotificationDesc(intent.description)
 
-            is DevFcmPushIntent.UpdatePriority -> {
-                updateState {
-                    copy(priority = intent.priority)
-                }
-            }
+            is DevFcmPushIntent.UpdatePriority -> updatePriority(intent.priority)
 
-            is DevFcmPushIntent.UpdatePushDataKey -> {
-                updatePushDataKey(intent.index, intent.key)
-            }
+            is DevFcmPushIntent.UpdatePushDataKey -> updatePushDataKey(intent.index, intent.key)
 
-            is DevFcmPushIntent.UpdatePushDataValue -> {
-                updatePushDataValue(intent.index, intent.value)
-            }
+            is DevFcmPushIntent.UpdatePushDataValue -> updatePushDataValue(intent.index, intent.value)
 
-            DevFcmPushIntent.AddPushDataItem -> {
-                addPushDataItem()
-            }
+            is DevFcmPushIntent.AddPushDataItem -> addPushDataItem()
 
-            is DevFcmPushIntent.RemovePushDataItem -> {
-                removePushDataItem(intent.index)
-            }
+            is DevFcmPushIntent.RemovePushDataItem -> removePushDataItem(intent.index)
 
-            is DevFcmPushIntent.UploadJsonFile -> {
-                uploadJsonFile(intent.jsonContent)
-            }
+            is DevFcmPushIntent.UploadJsonFile -> uploadJsonFile(intent.jsonContent)
 
-            DevFcmPushIntent.DeleteJsonFile -> {
-                deleteJsonFile()
-            }
+            is DevFcmPushIntent.DeleteJsonFile -> deleteJsonFile()
         }
     }
 
@@ -164,14 +134,8 @@ class DevFcmPushViewModel @Inject constructor(
         updateState { copy(isLoading = false) }
     }
 
-    private fun uploadJsonFile(jsonContent: String) = launch(Dispatchers.IO) {
-        devModeFcmRepository.saveFirebaseAdminJson(jsonContent)
-        updateState { copy(isJsonFileLoaded = true) }
-    }
-
-    private fun deleteJsonFile() = launch(Dispatchers.IO) {
-        devModeFcmRepository.saveFirebaseAdminJson("")
-        updateState { copy(isJsonFileLoaded = false) }
+    private fun showPriorityBottomSheet(isShown: Boolean) = updateState {
+        copy(isShownPriorityBottomSheet = isShown)
     }
 
     private fun sendFcmPush() = intent {
@@ -197,6 +161,16 @@ class DevFcmPushViewModel @Inject constructor(
             }
         }
     }
+    
+    private fun uploadJsonFile(jsonContent: String) = launch(Dispatchers.IO) {
+        devModeFcmRepository.saveFirebaseAdminJson(jsonContent)
+        updateState { copy(isJsonFileLoaded = true) }
+    }
+
+    private fun deleteJsonFile() = launch(Dispatchers.IO) {
+        devModeFcmRepository.saveFirebaseAdminJson("")
+        updateState { copy(isJsonFileLoaded = false) }
+    }
 
     private fun addPushDataItem() = intent {
         val pushDataItems = state.pushDataItems.toMutableList().apply {
@@ -216,6 +190,18 @@ class DevFcmPushViewModel @Inject constructor(
         reduce {
             state.copy(pushDataItems = pushDataItems)
         }
+    }
+
+    private fun updateNotificationTitle(title: String) = updateState {
+        copy(title = title)
+    }
+
+    private fun updateNotificationDesc(description: String) = updateState {
+        copy(description = description)
+    }
+
+    private fun updatePriority(priority: FcmPriority) = updateState {
+        copy(priority = priority)
     }
 
     private fun updatePushDataKey(index: Int, key: String) = intent {
