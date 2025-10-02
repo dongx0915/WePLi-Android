@@ -174,7 +174,7 @@ fun DevFcmPushScreen(
 
             ApiKeyFileLayout(state = state, sendAction = sendAction, onFilePickerClick = onFilePickerClick)
 
-            NotificationFieldLayout(sendAction = sendAction)
+            NotificationFieldLayout(state = state, sendAction = sendAction)
 
             PriorityFieldLayout(
                 priority = state.priority,
@@ -287,6 +287,7 @@ private fun ApiKeyFileLayout(
 
 @Composable
 private fun NotificationFieldLayout(
+    state: DevFcmPushState,
     sendAction: (DevFcmPushIntent) -> Unit,
 ) {
     ExpandableMenuComponent(
@@ -317,7 +318,7 @@ private fun NotificationFieldLayout(
             NotificationInputLayout(
                 labelTitle = stringResource(R.string.dev_fcm_notification_field_title),
                 isRequired = false,
-                query = "",
+                query = state.title,
                 placeholder = stringResource(R.string.dev_fcm_notification_placeholder_title),
                 onQueryUpdate = {
                     sendAction(DevFcmPushIntent.UpdateTitle(it))
@@ -330,7 +331,7 @@ private fun NotificationFieldLayout(
             NotificationInputLayout(
                 labelTitle = stringResource(R.string.dev_fcm_notification_field_content),
                 isRequired = false,
-                query = "",
+                query = state.description,
                 placeholder = stringResource(R.string.dev_fcm_notification_placeholder_content),
                 onQueryUpdate = {
                     sendAction(DevFcmPushIntent.UpdateDescription(it))
