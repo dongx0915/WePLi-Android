@@ -1,6 +1,7 @@
 package com.wepli.devmode.fcm.presentation
 
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
@@ -60,6 +61,7 @@ import com.wepli.devmode.fcm.presentation.theme.DevModeTheme
 import com.wepli.devmode.fcm.presentation.component.common.FullScreenLoader
 import com.wepli.devmode.fcm.presentation.component.extensions.dashedBorder
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 
 
 @Preview
@@ -93,6 +95,22 @@ fun DevFcmPushScreenRoute(
 
     LaunchedEffect(projectId) {
         viewModel.processIntent(DevFcmPushIntent.Init(projectId))
+    }
+    viewModel.collectSideEffect {
+        when (it) {
+            DevFcmPushEffect.SendFcmSuccess -> {
+                Toast.makeText(context, "푸시가 발송 되었습니다.", Toast.LENGTH_SHORT).show()
+            }
+            DevFcmPushEffect.AuthorizationError -> {
+                Toast.makeText(context, "API Key 인증에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+            }
+            DevFcmPushEffect.FcmTokenLoadFailed -> {
+                Toast.makeText(context, "FCM 토큰을 불러오는데 실패하였습니다.", Toast.LENGTH_SHORT).show()
+            }
+            is DevFcmPushEffect.UnknownError -> {
+                Toast.makeText(context, "알 수 없는 오류가 발생하였습니다.(${it.code})", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     DevFcmPushScreen(

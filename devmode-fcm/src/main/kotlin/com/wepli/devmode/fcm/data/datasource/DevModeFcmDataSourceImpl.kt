@@ -69,7 +69,7 @@ class DevModeFcmDataSourceImpl @Inject constructor(
 
             body
         } else {
-            throw DevModeException(message = response.errorBody()?.string())
+            throw DevModeException(code = response.code(), message = response.errorBody()?.string())
         }
     }
 }

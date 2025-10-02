@@ -7,6 +7,7 @@ import base.Intent
 import base.SideEffect
 import base.UiState
 import com.google.firebase.messaging.FirebaseMessaging
+import com.wepli.devmode.fcm.core.code
 import com.wepli.devmode.fcm.data.model.toFcmMessageRequest
 import com.wepli.devmode.fcm.domain.model.FcmMessage
 import com.wepli.devmode.fcm.domain.model.FcmPriority
@@ -51,7 +52,12 @@ data class DevFcmPushState(
 }
 
 sealed interface DevFcmPushEffect : SideEffect {
+
+    data object SendFcmSuccess : DevFcmPushEffect
     data object FcmTokenLoadFailed : DevFcmPushEffect
+    data object AuthorizationError : DevFcmPushEffect
+
+    data class UnknownError(val code: Int) : DevFcmPushEffect
 }
 
 sealed interface DevFcmPushIntent : Intent {
@@ -191,8 +197,15 @@ class DevFcmPushViewModel @Inject constructor(
                 )
             }.onSuccess {
                 Log.d("성공", it.toString())
+                postSideEffect { DevFcmPushEffect.SendFcmSuccess }
             }.onFailure {
                 Log.e("실패", it.toString())
+                val error = when (it.code()) {
+                    401 -> DevFcmPushEffect.AuthorizationError
+                    else -> DevFcmPushEffect.UnknownError(it.code())
+                }
+
+                postSideEffect { error }
             }
         }
     }
