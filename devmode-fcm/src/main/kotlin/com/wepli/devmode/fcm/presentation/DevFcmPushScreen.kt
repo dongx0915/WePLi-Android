@@ -228,10 +228,10 @@ private fun ApiKeyFileLayout(
             notice = "API Key 파일이 로드 되었습니다.",
             leadingIcon = ImageVector.vectorResource(R.drawable.ic_file_check),
             trailingIcon = ImageVector.vectorResource(R.drawable.ic_close),
+            onClickTrailingIcon = {
+                sendAction(DevFcmPushIntent.DeleteJsonFile)
+            },
             modifier = Modifier
-                .clickable {
-                    sendAction(DevFcmPushIntent.DeleteJsonFile)
-                }
                 .padding(horizontal = 20.dp)
         )
     } else {

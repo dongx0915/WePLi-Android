@@ -1,6 +1,7 @@
 package com.wepli.devmode.fcm.presentation.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,6 +23,7 @@ fun NoticeComponent(
     notice: String,
     leadingIcon: ImageVector,
     trailingIcon: ImageVector? = null,
+    onClickTrailingIcon: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -52,7 +54,9 @@ fun NoticeComponent(
                 imageVector = trailingIcon,
                 tint = DevModeTheme.color.gray900,
                 contentDescription = null,
-                modifier = Modifier.size(24.dp),
+                modifier = Modifier
+                    .clickable { onClickTrailingIcon() }
+                    .size(24.dp),
             )
         }
     }
