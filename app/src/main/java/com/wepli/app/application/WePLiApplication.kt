@@ -26,23 +26,21 @@ class WePLiApplication : Application() {
         initScreenNameViewer()
     }
 
-     private fun initScreenNameViewer() = applicationScope.launch {
+    private fun initScreenNameViewer() = applicationScope.launch(Dispatchers.Main.immediate) {
         val isEnabled = withContext(Dispatchers.IO) {
             settingRepository.isEnableScreenNameViewer()
         }
 
-         withContext(Dispatchers.Main.immediate) {
-             initScreenNameViewer(this@WePLiApplication) {
-                 settings {
-                     debugMode { BuildConfig.DEBUG }
-                     enabled { isEnabled }
-                 }
-                 config {
-                     textStyle {
-                         this.color = Color.CYAN
-                     }
-                 }
-             }
-         }
+        initScreenNameViewer(this@WePLiApplication) {
+            settings {
+                debugModeCondition = BuildConfig.DEBUG
+                enableCondition = isEnabled
+            }
+            config {
+                textStyle {
+                    this.color = Color.CYAN
+                }
+            }
+        }
     }
 }
