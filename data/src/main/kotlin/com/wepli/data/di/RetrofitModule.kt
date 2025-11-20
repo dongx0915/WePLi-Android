@@ -10,12 +10,10 @@ import com.wepli.data.di.qualifier.BaseRetrofit
 import com.wepli.data.di.qualifier.YoutubeRetrofit
 import com.wepli.data.network.baseurl.BaseUrl
 import com.wepli.data.network.calladapter.FlowCallAdapterFactory
-import com.wepli.data.devmode.apilog.interceptor.DebugApiLogInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import com.wepli.domain.devmode.apilog.repository.DebugApiLogRepository
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
@@ -62,20 +60,14 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideDebugApiLogInterceptor(apiLogRepository: DebugApiLogRepository): Interceptor {
-        return DebugApiLogInterceptor(apiLogRepository)
-    }
-
-    @Provides
-    @Singleton
     @BaseOkHttpClient
     fun provideHttpClient(
         logger: HttpLoggingInterceptor,
-        debugApiLogInterceptor: DebugApiLogInterceptor
+        debugInterceptors: Set<@JvmSuppressWildcards Interceptor>
     ): OkHttpClient {
         return OkHttpClient().newBuilder()
             .addInterceptor(logger)
-            .addInterceptor(debugApiLogInterceptor)
+            .apply { debugInterceptors.forEach { addInterceptor(it) } }
             .build()
     }
 
@@ -84,7 +76,7 @@ object RetrofitModule {
     @AppleMusicOkHttpClient
     fun provideAppleApiHttpClient(
         logger: HttpLoggingInterceptor,
-        debugApiLogInterceptor: DebugApiLogInterceptor,
+        debugInterceptors: Set<@JvmSuppressWildcards Interceptor>
     ): OkHttpClient {
         return OkHttpClient().newBuilder()
             .addInterceptor(logger)
@@ -94,7 +86,7 @@ object RetrofitModule {
                     .build()
                 chain.proceed(request)
             }
-            .addInterceptor(debugApiLogInterceptor)
+            .apply { debugInterceptors.forEach { addInterceptor(it) } }
             .build()
     }
 

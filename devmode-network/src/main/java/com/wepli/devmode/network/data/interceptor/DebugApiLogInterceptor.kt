@@ -1,10 +1,9 @@
-package com.wepli.data.devmode.apilog.interceptor
+package com.wepli.devmode.network.data.interceptor
 
 import android.util.Log
-import com.wepli.data.network.baseurl.BaseUrl
-import com.wepli.domain.devmode.apilog.model.ApiLog
-import com.wepli.domain.devmode.apilog.model.ApiMethod
-import com.wepli.domain.devmode.apilog.repository.DebugApiLogRepository
+import com.wepli.devmode.network.data.model.ApiLog
+import com.wepli.devmode.network.data.model.ApiMethod
+import com.wepli.devmode.network.data.repository.DebugApiLogRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -14,7 +13,8 @@ import okhttp3.Response
 import javax.inject.Inject
 
 class DebugApiLogInterceptor @Inject constructor(
-    private val apiLogRepository: DebugApiLogRepository
+    private val apiLogRepository: DebugApiLogRepository,
+    private val baseUrlMatcher: BaseUrlMatcher
 ) : Interceptor {
 
     private val ioScope: CoroutineScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
@@ -28,13 +28,13 @@ class DebugApiLogInterceptor @Inject constructor(
         }
 
         val fullUrl = request.url.toString()
-        val matchedBaseUrl = BaseUrl.entries.firstOrNull { fullUrl.startsWith(it.url) } ?: BaseUrl.UNKNOWN
+        val matchedBaseUrl = baseUrlMatcher.match(fullUrl)
         val relativePath = fullUrl.removePrefix(matchedBaseUrl.url)
 
         runCatching {
             ApiLog(
                 method = ApiMethod.fromString(request.method),
-                baseUrlType = matchedBaseUrl.value,
+                baseUrlType = matchedBaseUrl.type,
                 baseUrl = matchedBaseUrl.url,
                 url = relativePath,
                 requestHeaders = headersMap,

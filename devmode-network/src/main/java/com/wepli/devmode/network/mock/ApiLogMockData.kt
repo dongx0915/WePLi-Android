@@ -1,7 +1,7 @@
 package com.wepli.devmode.network.mock
 
-import com.wepli.domain.devmode.apilog.model.ApiLog
-import com.wepli.domain.devmode.apilog.model.ApiMethod
+import com.wepli.devmode.network.data.model.ApiLog
+import com.wepli.devmode.network.data.model.ApiMethod
 
 val mockApiLogs = listOf(
     ApiLog(

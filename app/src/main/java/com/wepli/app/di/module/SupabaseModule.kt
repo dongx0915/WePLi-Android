@@ -3,9 +3,9 @@ package com.wepli.app.di.module
 import android.util.Log
 import com.wepli.core.common.BuildConfig
 import com.wepli.data.network.baseurl.BaseUrl
-import com.wepli.domain.devmode.apilog.model.ApiLog
-import com.wepli.domain.devmode.apilog.model.ApiMethod
-import com.wepli.domain.devmode.apilog.repository.DebugApiLogRepository
+import com.wepli.devmode.network.data.model.ApiLog
+import com.wepli.devmode.network.data.model.ApiMethod
+import com.wepli.devmode.network.data.repository.DebugApiLogRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

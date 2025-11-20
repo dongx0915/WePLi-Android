@@ -1,6 +1,6 @@
-package com.wepli.data.devmode.apilog.datasource
+package com.wepli.devmode.network.data.datasource
 
-import com.wepli.data.devmode.apilog.entity.ApiLogEntity
+import com.wepli.devmode.network.data.entity.ApiLogEntity
 
 interface DebugApiLogLocalDatasource {
 

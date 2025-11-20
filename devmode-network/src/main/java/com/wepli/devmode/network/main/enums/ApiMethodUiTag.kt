@@ -1,7 +1,7 @@
 package com.wepli.devmode.network.main.enums
 
 import androidx.compose.ui.graphics.Color
-import com.wepli.domain.devmode.apilog.model.ApiMethod
+import com.wepli.devmode.network.data.model.ApiMethod
 
 enum class ApiMethodUiTag {
     ALL,

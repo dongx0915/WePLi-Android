@@ -1,7 +1,6 @@
-package com.wepli.domain.devmode.apilog.repository
+package com.wepli.devmode.network.data.repository
 
-import com.wepli.domain.devmode.apilog.model.ApiLog
-import kotlinx.coroutines.flow.Flow
+import com.wepli.devmode.network.data.model.ApiLog
 
 interface DebugApiLogRepository {
     suspend fun getLogs(count: Int): List<ApiLog>

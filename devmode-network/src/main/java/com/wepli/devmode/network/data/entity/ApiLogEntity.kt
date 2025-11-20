@@ -1,10 +1,10 @@
-package com.wepli.data.devmode.apilog.entity
+package com.wepli.devmode.network.data.entity
 
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.wepli.domain.devmode.apilog.model.ApiLog
-import com.wepli.domain.devmode.apilog.model.ApiMethod
+import com.wepli.devmode.network.data.model.ApiLog
+import com.wepli.devmode.network.data.model.ApiMethod
 
 @Entity(
     tableName = "ApiLogs",

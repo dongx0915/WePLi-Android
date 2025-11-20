@@ -1,10 +1,9 @@
-package com.wepli.data.devmode.apilog.repository
+package com.wepli.devmode.network.data.repository
 
-import com.wepli.data.devmode.apilog.datasource.DebugApiLogLocalDatasourceImpl
-import com.wepli.data.devmode.apilog.entity.toDomain
-import com.wepli.data.devmode.apilog.entity.toEntity
-import com.wepli.domain.devmode.apilog.model.ApiLog
-import com.wepli.domain.devmode.apilog.repository.DebugApiLogRepository
+import com.wepli.devmode.network.data.datasource.DebugApiLogLocalDatasourceImpl
+import com.wepli.devmode.network.data.entity.toDomain
+import com.wepli.devmode.network.data.entity.toEntity
+import com.wepli.devmode.network.data.model.ApiLog
 import javax.inject.Inject
 import javax.inject.Singleton
 

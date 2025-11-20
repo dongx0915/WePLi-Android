@@ -1,7 +1,7 @@
-package com.wepli.data.devmode.apilog.datasource
+package com.wepli.devmode.network.data.datasource
 
-import com.wepli.data.devmode.apilog.dao.ApiLogDao
-import com.wepli.data.devmode.apilog.entity.ApiLogEntity
+import com.wepli.devmode.network.data.dao.ApiLogDao
+import com.wepli.devmode.network.data.entity.ApiLogEntity
 import javax.inject.Inject
 
 class DebugApiLogLocalDatasourceImpl @Inject constructor(
@@ -19,7 +19,7 @@ class DebugApiLogLocalDatasourceImpl @Inject constructor(
     override suspend fun insertLog(log: ApiLogEntity) {
         apiLogDao.insertLogWithCleanUp(log = log, maxLogs = 50, threshold = 70)
     }
-    
+
     override suspend fun deleteOldLogs(limit: Int) {
         apiLogDao.deleteOldLogs(limit)
     }

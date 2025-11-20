@@ -5,8 +5,8 @@ import base.Intent
 import base.SideEffect
 import base.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import com.wepli.domain.devmode.apilog.model.ApiLog
-import com.wepli.domain.devmode.apilog.repository.DebugApiLogRepository
+import com.wepli.devmode.network.data.model.ApiLog
+import com.wepli.devmode.network.data.repository.DebugApiLogRepository
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
