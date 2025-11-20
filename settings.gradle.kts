@@ -1,5 +1,3 @@
-import java.util.Properties
-
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 pluginManagement {
     // build-logic은 전역적으로 관리
@@ -50,5 +48,6 @@ include(
     ":domain",
     ":data",
     ":app",
-    ":devmode-fcm"
+    ":devmode-fcm",
+    ":devmode-network",
 )

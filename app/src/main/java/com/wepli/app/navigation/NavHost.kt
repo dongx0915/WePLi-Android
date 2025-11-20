@@ -22,6 +22,10 @@ import com.wepli.community.navigation.navigateToCommunityWrite
 import com.wepli.core.common.BuildConfig
 import com.wepli.devmode.fcm.presentation.navigation.devModeFcmGraph
 import com.wepli.devmode.fcm.presentation.navigation.navigateToDevModeFcmMain
+import com.wepli.devmode.network.detail.navigation.navigateToNetworkLogDetail
+import com.wepli.devmode.network.detail.navigation.networkLogDetailGraph
+import com.wepli.devmode.network.main.navigation.navigateToNetworkLogMain
+import com.wepli.devmode.network.main.navigation.networkLogMainGraph
 import com.wepli.feature.devmode.main.navigation.devModeMainGraph
 import com.wepli.feature.devmode.main.navigation.navigateToDevModeMain
 import com.wepli.feature.photocard.detail.navigation.photoCardDetailGraph
@@ -32,10 +36,6 @@ import com.wepli.feature.photocard.result.navigation.photoCardResultGraph
 import com.wepli.feature.photocard.result.navigation.navigateToPhotoCardResult
 import com.wepli.feature.song.info.navigation.navigateToSongInfo
 import com.wepli.feature.song.info.navigation.songInfoGraph
-import com.wepli.feature.devmode.network.detail.navigation.navigateToNetworkLogDetail
-import com.wepli.feature.devmode.network.detail.navigation.networkLogDetailGraph
-import com.wepli.feature.devmode.network.main.navigation.navigateToNetworkLogMain
-import com.wepli.feature.devmode.network.main.navigation.networkLogMainGraph
 import com.wepli.mypage.menus.profile.navigation.navigateProfileMain
 import com.wepli.mypage.menus.profile.navigation.profileMainGraph
 import com.wepli.playlist.navigation.navigateToPlaylistDetail
