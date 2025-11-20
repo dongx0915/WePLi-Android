@@ -13,6 +13,7 @@ dependencies {
     implementation(libs.json.tree)
     implementation(libs.okhttp3)
     implementation(libs.kotlin.serialization.json)
+    implementation(libs.ktor.client.core)
 
     implementation(libs.bundles.room)
     ksp(libs.androidx.room.compiler.ksp)
