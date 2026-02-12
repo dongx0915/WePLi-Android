@@ -6,7 +6,7 @@ import com.wepli.devmode.network.data.datasource.DebugApiLogLocalDatasource
 import com.wepli.devmode.network.data.datasource.DebugApiLogLocalDatasourceImpl
 import com.wepli.devmode.network.data.db.ApiLogDatabase
 import com.wepli.devmode.network.data.interceptor.BaseUrlMatcher
-import com.wepli.devmode.network.data.interceptor.DebugApiLogInterceptor
+import com.wepli.devmode.network.plugin.retrofit.ApiLogRetrofitPlugin
 import com.wepli.devmode.network.data.repository.DebugApiLogRepository
 import com.wepli.devmode.network.data.repository.DebugApiLogRepositoryImpl
 import com.wepli.devmode.network.plugin.ktor.ApiLogKtorPlugin
@@ -53,7 +53,7 @@ interface NetworkLogModule {
             apiLogRepository: DebugApiLogRepository,
             baseUrlMatcher: BaseUrlMatcher
         ): Interceptor {
-            return DebugApiLogInterceptor(apiLogRepository, baseUrlMatcher)
+            return ApiLogRetrofitPlugin(apiLogRepository, baseUrlMatcher)
         }
 
         @Provides

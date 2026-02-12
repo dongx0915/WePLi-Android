@@ -1,6 +1,7 @@
-package com.wepli.devmode.network.data.interceptor
+package com.wepli.devmode.network.plugin.retrofit
 
 import android.util.Log
+import com.wepli.devmode.network.data.interceptor.BaseUrlMatcher
 import com.wepli.devmode.network.data.model.ApiLog
 import com.wepli.devmode.network.data.model.ApiMethod
 import com.wepli.devmode.network.data.repository.DebugApiLogRepository
@@ -12,7 +13,7 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
 
-class DebugApiLogInterceptor @Inject constructor(
+class ApiLogRetrofitPlugin @Inject constructor(
     private val apiLogRepository: DebugApiLogRepository,
     private val baseUrlMatcher: BaseUrlMatcher
 ) : Interceptor {
@@ -33,7 +34,7 @@ class DebugApiLogInterceptor @Inject constructor(
 
         runCatching {
             ApiLog(
-                method = ApiMethod.fromString(request.method),
+                method = ApiMethod.Companion.fromString(request.method),
                 baseUrlType = matchedBaseUrl.type,
                 baseUrl = matchedBaseUrl.url,
                 url = relativePath,
