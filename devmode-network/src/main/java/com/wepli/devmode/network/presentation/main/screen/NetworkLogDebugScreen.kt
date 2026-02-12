@@ -1,24 +1,24 @@
 package com.wepli.devmode.network.presentation.main.screen
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalOverscrollConfiguration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -26,6 +26,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -39,19 +40,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.WepliAppBar
+import com.wepli.devmode.network.R
+import com.wepli.devmode.network.mock.mockApiLogs
 import com.wepli.devmode.network.presentation.main.component.ApiResultComponent
 import com.wepli.devmode.network.presentation.main.component.MethodTag
 import com.wepli.devmode.network.presentation.main.enums.ApiMethodUiTag
 import com.wepli.devmode.network.presentation.main.viewmodel.NetworkLogIntent
 import com.wepli.devmode.network.presentation.main.viewmodel.NetworkLogState
 import com.wepli.devmode.network.presentation.main.viewmodel.NetworkLogViewModel
-import com.wepli.devmode.network.mock.mockApiLogs
+import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
 import com.wepli.core.resources.R as CoreR
-import com.wepli.devmode.network.R
-import com.wepli.devmode.network.data.model.ApiMethod
-import kotlinx.coroutines.launch
 
 
 @Preview
@@ -120,7 +120,7 @@ fun NetworkLogDebugScreen(
                     selectedTag = ApiMethodUiTag.entries[pagerState.currentPage],
                     modifier = Modifier
                         .background(WepliTheme.color.black)
-                        .padding(top = 20.dp, bottom = 20.dp, start = 20.dp),
+                        .padding(top = 20.dp, bottom = 20.dp),
                     onClick = {
                         scope.launch {
                             pagerState.animateScrollToPage(ApiMethodUiTag.indexOf(it))
@@ -160,17 +160,25 @@ fun MethodTagHeader(
     onClick: (ApiMethodUiTag) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val tagScrollState = rememberScrollState()
+    val listState = rememberLazyListState()
 
-    Row(
+    LaunchedEffect(selectedTag) {
+        val index = selectedTag.ordinal
+
+        listState.animateScrollToItem(index)
+    }
+
+    LazyRow(
+        state = listState,
         horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.Start),
-        modifier = modifier.fillMaxWidth().horizontalScroll(tagScrollState),
+        contentPadding = PaddingValues(horizontal = 20.dp),
+        modifier = modifier.fillMaxWidth(),
     ) {
-        ApiMethodUiTag.entries.forEach {
+        items(ApiMethodUiTag.entries) { tag ->
             MethodTag(
-                tagName = it.name,
-                isSelected = selectedTag == it,
-                modifier = Modifier.clickable { onClick(it) }
+                tagName = tag.name,
+                isSelected = selectedTag == tag,
+                modifier = Modifier.clickable { onClick(tag) }
             )
         }
     }
