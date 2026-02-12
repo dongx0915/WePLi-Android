@@ -1,18 +1,23 @@
 package com.wepli.devmode.network.presentation.main.screen
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalOverscrollConfiguration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,6 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,6 +50,8 @@ import org.orbitmvi.orbit.compose.collectAsState
 import theme.WepliTheme
 import com.wepli.core.resources.R as CoreR
 import com.wepli.devmode.network.R
+import com.wepli.devmode.network.data.model.ApiMethod
+import kotlinx.coroutines.launch
 
 
 @Preview
@@ -51,7 +59,7 @@ import com.wepli.devmode.network.R
 fun NetworkLogDebugScreenPreview() {
     NetworkLogDebugScreen(
         state = NetworkLogState(
-            originApiLogs = mockApiLogs
+            filteredApiLogs = mockApiLogs.groupBy { it.method.name },
         ),
         navOnNetworkLogDetail = {},
         navOnBack = {},
@@ -83,7 +91,8 @@ fun NetworkLogDebugScreen(
     navOnBack: () -> Unit,
     sendAction: (NetworkLogIntent) -> Unit,
 ) {
-    val scrollState = rememberLazyListState()
+    val pagerState = rememberPagerState { ApiMethodUiTag.entries.size }
+    val scope = rememberCoroutineScope()
 
     Scaffold(
         containerColor = WepliTheme.color.black,
@@ -97,36 +106,48 @@ fun NetworkLogDebugScreen(
         }
     ) { paddingValues ->
         CompositionLocalProvider(LocalOverscrollConfiguration provides null) {
-            LazyColumn(
-                state = scrollState,
+            Column(
                 modifier = Modifier.padding(paddingValues)
             ) {
-                item {
-                    NoticeComponent(
-                        maxLogCount = state.maxApiLogs,
-                        modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 20.dp)
-                    )
-                }
+                NoticeComponent(
+                    maxLogCount = state.maxApiLogs,
+                    modifier = Modifier
+                        .padding(horizontal = 20.dp)
+                        .padding(top = 20.dp)
+                )
 
-                stickyHeader {
-                    MethodTagList(
-                        selectedTag = state.selectedTag,
-                        modifier = Modifier
-                            .background(WepliTheme.color.black)
-                            .padding(top = 20.dp, bottom = 20.dp, start = 20.dp),
-                        onClick = {
-                            sendAction(NetworkLogIntent.SelectTag(it))
+                MethodTagHeader(
+                    selectedTag = ApiMethodUiTag.entries[pagerState.currentPage],
+                    modifier = Modifier
+                        .background(WepliTheme.color.black)
+                        .padding(top = 20.dp, bottom = 20.dp, start = 20.dp),
+                    onClick = {
+                        scope.launch {
+                            pagerState.animateScrollToPage(ApiMethodUiTag.indexOf(it))
                         }
-                    )
-                }
+                    }
+                )
 
-                itemsIndexed(state.filteredApiLogs) { _, log ->
-                    ApiResultComponent(
-                        apiLog = log,
-                        modifier = Modifier
-                            .clickable { navOnNetworkLogDetail(log.id) }
-                            .padding(start = 20.dp, end = 20.dp, bottom = 12.dp),
-                    )
+                HorizontalPager(
+                    state = pagerState,
+                    modifier = Modifier.fillMaxSize(),
+                ) { page ->
+                    val apiMethod: String = ApiMethodUiTag.entries[page].name
+                    val items = state.filteredApiLogs[apiMethod].orEmpty()
+
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        itemsIndexed(items) { index, log ->
+                            ApiResultComponent(
+                                apiLog = log,
+                                modifier = Modifier
+                                    .clickable { navOnNetworkLogDetail(log.id) }
+                                    .padding(horizontal = 20.dp)
+                                    .padding(bottom = 12.dp)
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -134,7 +155,7 @@ fun NetworkLogDebugScreen(
 }
 
 @Composable
-fun MethodTagList(
+fun MethodTagHeader(
     selectedTag: ApiMethodUiTag,
     onClick: (ApiMethodUiTag) -> Unit,
     modifier: Modifier = Modifier,

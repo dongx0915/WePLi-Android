@@ -10,6 +10,12 @@ enum class ApiMethodUiTag {
     PUT,
     PATCH,
     DELETE;
+
+    companion object {
+        fun indexOf(method: ApiMethodUiTag): Int {
+            return entries.indexOf(method)
+        }
+    }
 }
 
 fun ApiMethod.toColor(): Color {
