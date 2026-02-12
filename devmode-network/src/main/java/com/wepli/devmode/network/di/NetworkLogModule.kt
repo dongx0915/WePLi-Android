@@ -6,7 +6,7 @@ import com.wepli.devmode.network.data.datasource.DebugApiLogLocalDatasource
 import com.wepli.devmode.network.data.datasource.DebugApiLogLocalDatasourceImpl
 import com.wepli.devmode.network.data.db.ApiLogDatabase
 import com.wepli.devmode.network.data.model.BaseUrlMatcher
-import com.wepli.devmode.network.plugin.retrofit.ApiLogRetrofitPlugin
+import com.wepli.devmode.network.plugin.retrofit.ApiLogRetrofitInterceptor
 import com.wepli.devmode.network.data.repository.DebugApiLogRepository
 import com.wepli.devmode.network.data.repository.DebugApiLogRepositoryImpl
 import com.wepli.devmode.network.plugin.ktor.ApiLogKtorPlugin
@@ -49,11 +49,11 @@ interface NetworkLogModule {
         @Provides
         @IntoSet
         @Singleton
-        fun provideDebugApiLogInterceptor(
+        fun provideApiLogRetrofitInterceptor(
             apiLogRepository: DebugApiLogRepository,
             baseUrlMatcher: BaseUrlMatcher
         ): Interceptor {
-            return ApiLogRetrofitPlugin(apiLogRepository, baseUrlMatcher)
+            return ApiLogRetrofitInterceptor(apiLogRepository, baseUrlMatcher)
         }
 
         @Provides

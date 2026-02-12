@@ -13,7 +13,7 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
 
-class ApiLogRetrofitPlugin @Inject constructor(
+class ApiLogRetrofitInterceptor @Inject constructor(
     private val apiLogRepository: DebugApiLogRepository,
     private val baseUrlMatcher: BaseUrlMatcher
 ) : Interceptor {
