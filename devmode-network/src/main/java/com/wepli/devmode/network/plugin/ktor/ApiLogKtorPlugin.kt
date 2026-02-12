@@ -1,4 +1,4 @@
-package com.wepli.devmode.network.data.ktor
+package com.wepli.devmode.network.plugin.ktor
 
 import com.wepli.devmode.network.data.interceptor.BaseUrlMatcher
 import com.wepli.devmode.network.data.model.ApiLog
@@ -25,7 +25,7 @@ class ApiLogKtorPlugin @Inject constructor(
     private val apiLogRepository: DebugApiLogRepository,
     private val baseUrlMatcher: BaseUrlMatcher
 ) {
-    private val RequestBodyKey = AttributeKey<String>("requestBodyForLog")
+    private val requestBodyKey = AttributeKey<String>("requestBodyForLog")
 
     private val requestBodyCapture = createClientPlugin("RequestBodyCapture") {
         on(Send) { request ->
@@ -38,7 +38,7 @@ class ApiLogKtorPlugin @Inject constructor(
                 else -> content.toString()
             }
             val call: HttpClientCall = proceed(request)
-            call.attributes.put(RequestBodyKey, bodyStr)
+            call.attributes.put(requestBodyKey, bodyStr)
             call
         }
     }
@@ -57,7 +57,7 @@ class ApiLogKtorPlugin @Inject constructor(
         val request = call.request
         val requestHeaders = request.headers.entries()
             .associate { (key, values) -> key to values.joinToString(", ") }
-        val requestBody = call.attributes.getOrNull(RequestBodyKey).orEmpty()
+        val requestBody = call.attributes.getOrNull(requestBodyKey).orEmpty()
 
         val fullUrl = request.url.toString()
         val matched = baseUrlMatcher.match(fullUrl)

@@ -9,6 +9,7 @@ import com.wepli.devmode.network.data.interceptor.BaseUrlMatcher
 import com.wepli.devmode.network.data.interceptor.DebugApiLogInterceptor
 import com.wepli.devmode.network.data.repository.DebugApiLogRepository
 import com.wepli.devmode.network.data.repository.DebugApiLogRepositoryImpl
+import com.wepli.devmode.network.plugin.ktor.ApiLogKtorPlugin
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -60,8 +61,8 @@ interface NetworkLogModule {
         fun provideApiLogKtorPlugin(
             apiLogRepository: DebugApiLogRepository,
             baseUrlMatcher: BaseUrlMatcher
-        ): com.wepli.devmode.network.data.ktor.ApiLogKtorPlugin {
-            return com.wepli.devmode.network.data.ktor.ApiLogKtorPlugin(apiLogRepository, baseUrlMatcher)
+        ): ApiLogKtorPlugin {
+            return ApiLogKtorPlugin(apiLogRepository, baseUrlMatcher)
         }
     }
 }

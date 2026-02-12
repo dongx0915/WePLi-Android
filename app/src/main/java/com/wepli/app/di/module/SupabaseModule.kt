@@ -2,7 +2,7 @@ package com.wepli.app.di.module
 
 import com.wepli.core.common.BuildConfig
 import com.wepli.data.network.baseurl.BaseUrl
-import com.wepli.devmode.network.data.ktor.ApiLogKtorPlugin
+import com.wepli.devmode.network.plugin.ktor.ApiLogKtorPlugin
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
