@@ -1,6 +1,6 @@
 package com.wepli.devmode.network.plugin.ktor
 
-import com.wepli.devmode.network.data.interceptor.BaseUrlMatcher
+import com.wepli.devmode.network.data.model.BaseUrlMatcher
 import com.wepli.devmode.network.data.model.ApiLog
 import com.wepli.devmode.network.data.model.ApiMethod
 import com.wepli.devmode.network.data.repository.DebugApiLogRepository

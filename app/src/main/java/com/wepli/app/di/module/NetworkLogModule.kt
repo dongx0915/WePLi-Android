@@ -1,8 +1,8 @@
 package com.wepli.app.di.module
 
 import com.wepli.data.network.baseurl.BaseUrl
-import com.wepli.devmode.network.data.interceptor.BaseUrlInfo
-import com.wepli.devmode.network.data.interceptor.BaseUrlMatcher
+import com.wepli.devmode.network.data.model.BaseUrlInfo
+import com.wepli.devmode.network.data.model.BaseUrlMatcher
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

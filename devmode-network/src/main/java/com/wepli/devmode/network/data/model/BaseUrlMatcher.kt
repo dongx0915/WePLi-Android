@@ -1,4 +1,4 @@
-package com.wepli.devmode.network.data.interceptor
+package com.wepli.devmode.network.data.model
 
 data class BaseUrlInfo(
     val type: String,
