@@ -1,4 +1,4 @@
-package com.wepli.devmode.network.main.component
+package com.wepli.devmode.network.presentation.main.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -15,7 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.wepli.devmode.network.main.enums.toColor
+import com.wepli.devmode.network.presentation.main.enums.toColor
 import com.wepli.devmode.network.data.model.ApiLog
 import theme.WepliTheme
 

@@ -22,10 +22,10 @@ import com.wepli.community.navigation.navigateToCommunityWrite
 import com.wepli.core.common.BuildConfig
 import com.wepli.devmode.fcm.presentation.navigation.devModeFcmGraph
 import com.wepli.devmode.fcm.presentation.navigation.navigateToDevModeFcmMain
-import com.wepli.devmode.network.detail.navigation.navigateToNetworkLogDetail
-import com.wepli.devmode.network.detail.navigation.networkLogDetailGraph
-import com.wepli.devmode.network.main.navigation.navigateToNetworkLogMain
-import com.wepli.devmode.network.main.navigation.networkLogMainGraph
+import com.wepli.devmode.network.presentation.detail.navigation.navigateToNetworkLogDetail
+import com.wepli.devmode.network.presentation.detail.navigation.networkLogDetailGraph
+import com.wepli.devmode.network.presentation.main.navigation.navigateToNetworkLogMain
+import com.wepli.devmode.network.presentation.main.navigation.networkLogMainGraph
 import com.wepli.feature.devmode.main.navigation.devModeMainGraph
 import com.wepli.feature.devmode.main.navigation.navigateToDevModeMain
 import com.wepli.feature.photocard.detail.navigation.photoCardDetailGraph

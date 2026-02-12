@@ -1,9 +1,9 @@
-package com.wepli.devmode.network.main.navigation
+package com.wepli.devmode.network.presentation.main.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.wepli.devmode.network.main.screen.NetworkLogDebugScreenRoute
+import com.wepli.devmode.network.presentation.main.screen.NetworkLogDebugScreenRoute
 import com.wepli.devmode.network.navigation.NetworkLogRoute
 
 fun NavController.navigateToNetworkLogMain() {

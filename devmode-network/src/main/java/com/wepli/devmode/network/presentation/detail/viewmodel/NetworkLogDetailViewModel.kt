@@ -1,4 +1,4 @@
-package com.wepli.devmode.network.detail.viewmodel
+package com.wepli.devmode.network.presentation.detail.viewmodel
 
 import base.BaseMviViewModel
 import base.Intent

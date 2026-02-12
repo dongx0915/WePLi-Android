@@ -1,4 +1,4 @@
-package com.wepli.devmode.network.detail.screen
+package com.wepli.devmode.network.presentation.detail.screen
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
@@ -43,11 +43,11 @@ import appbar.ScrollableAppBar
 import appbar.WepliAppBar
 import com.sebastianneubauer.jsontree.JsonTree
 import com.sebastianneubauer.jsontree.TreeColors
-import com.wepli.devmode.network.detail.viewmodel.NetworkLogDetailIntent
-import com.wepli.devmode.network.detail.viewmodel.NetworkLogDetailState
-import com.wepli.devmode.network.detail.viewmodel.NetworkLogDetailViewModel
-import com.wepli.devmode.network.main.component.StatusTag
-import com.wepli.devmode.network.main.enums.toColor
+import com.wepli.devmode.network.presentation.detail.viewmodel.NetworkLogDetailIntent
+import com.wepli.devmode.network.presentation.detail.viewmodel.NetworkLogDetailState
+import com.wepli.devmode.network.presentation.detail.viewmodel.NetworkLogDetailViewModel
+import com.wepli.devmode.network.presentation.main.component.StatusTag
+import com.wepli.devmode.network.presentation.main.enums.toColor
 import com.wepli.devmode.network.mock.mockApiLogs
 import com.wepli.devmode.network.data.model.ApiLog
 import extensions.toPrettyJsonString
