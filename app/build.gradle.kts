@@ -35,6 +35,7 @@ dependencies {
     implementation(projects.feature.photocard)
     implementation(projects.feature.song)
     implementation(project(":devmode-fcm"))
+    implementation(projects.devmodeNetwork)
 
     // Orbit
     implementation(libs.bundles.orbit)

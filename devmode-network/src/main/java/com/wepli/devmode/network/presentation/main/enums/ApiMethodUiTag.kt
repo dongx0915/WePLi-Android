@@ -1,0 +1,30 @@
+package com.wepli.devmode.network.presentation.main.enums
+
+import androidx.compose.ui.graphics.Color
+import com.wepli.devmode.network.data.model.ApiMethod
+
+enum class ApiMethodUiTag {
+    ALL,
+    GET,
+    POST,
+    PUT,
+    PATCH,
+    DELETE;
+
+    companion object {
+        fun indexOf(method: ApiMethodUiTag): Int {
+            return entries.indexOf(method)
+        }
+    }
+}
+
+fun ApiMethod.toColor(): Color {
+    return when (this) {
+        ApiMethod.GET -> Color(0xFF8CAD51)
+        ApiMethod.POST -> Color(0xFF7B94CB)
+        ApiMethod.PUT,
+        ApiMethod.PATCH -> Color(0xFFBB9F3A)
+        ApiMethod.DELETE -> Color(0xFFE07B67)
+        ApiMethod.UNKNOWN -> Color.White
+    }
+}
