@@ -1,0 +1,10 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <activity
+            android:name="com.wepli.devmode.network.presentation.main.screen.NetworkLogActivity"
+            android:exported="false"
+            android:label="@string/title_activity_network_log"
+            android:theme="@style/Theme.WePLi" />
+    </application>
+</manifest>

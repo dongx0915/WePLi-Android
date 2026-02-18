@@ -45,6 +45,7 @@ import androidx.navigation.compose.rememberNavController
 import com.wepli.app.login.LoginActivity
 import com.wepli.app.navigation.BottomNavRoute
 import com.wepli.app.navigation.SetUpNavGraph
+import com.wepli.devmode.network.presentation.main.screen.NetworkLogActivity
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.HazeStyle
@@ -69,10 +70,15 @@ class MainActivity : ComponentActivity() {
         setContent {
             ProvideWindowWidthSizeClass(this) {
                 WePLiTheme {
-                    MainApp {
-                        startActivity(Intent(this, LoginActivity::class.java))
-                        finish()
-                    }
+                    MainApp(
+                        goToLoginActivity = {
+                            startActivity(Intent(this, LoginActivity::class.java))
+                            finish()
+                        },
+                        goToNetworkLogActivity = {
+                            startActivity(Intent(this, NetworkLogActivity::class.java))
+                        }
+                    )
                 }
             }
         }
@@ -82,7 +88,8 @@ class MainActivity : ComponentActivity() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "RememberReturnType")
 @Composable
 fun MainApp(
-    goToLoginActivity: () -> Unit
+    goToLoginActivity: () -> Unit,
+    goToNetworkLogActivity: () -> Unit,
 ) {
     val navController = rememberNavController()
     val bottomNavItems = remember {
@@ -138,7 +145,8 @@ fun MainApp(
                 SetUpNavGraph(
                     navController = navController,
                     startDestination = BottomNavRoute.Home.route,
-                    goToLoginActivity = { goToLoginActivity() }
+                    goToLoginActivity = goToLoginActivity,
+                    goToNetworkLogActivity = goToNetworkLogActivity,
                 )
             }
         }

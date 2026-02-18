@@ -62,7 +62,7 @@ fun NetworkLogDebugScreenPreview() {
             filteredApiLogs = mockApiLogs.groupBy { it.method.name },
         ),
         navOnNetworkLogDetail = {},
-        navOnBack = {},
+        onFinishActivity = {},
         sendAction = {}
     )
 }
@@ -70,7 +70,7 @@ fun NetworkLogDebugScreenPreview() {
 @Composable
 fun NetworkLogDebugScreenRoute(
     navOnNetworkLogDetail: (Int) -> Unit,
-    navOnBack: () -> Unit
+    onFinishActivity: () -> Unit
 ) {
     val viewModel: NetworkLogViewModel = hiltViewModel()
     val state: NetworkLogState by viewModel.collectAsState()
@@ -78,7 +78,7 @@ fun NetworkLogDebugScreenRoute(
     NetworkLogDebugScreen(
         state = state,
         navOnNetworkLogDetail = navOnNetworkLogDetail,
-        navOnBack = navOnBack,
+        onFinishActivity = onFinishActivity,
         sendAction = viewModel::processIntent
     )
 }
@@ -88,7 +88,7 @@ fun NetworkLogDebugScreenRoute(
 fun NetworkLogDebugScreen(
     state: NetworkLogState,
     navOnNetworkLogDetail: (Int) -> Unit,
-    navOnBack: () -> Unit,
+    onFinishActivity: () -> Unit,
     sendAction: (NetworkLogIntent) -> Unit,
 ) {
     val pagerState = rememberPagerState { ApiMethodUiTag.entries.size }
@@ -101,7 +101,7 @@ fun NetworkLogDebugScreen(
                 containerColor = Color.Transparent,
                 title = stringResource(R.string.dev_mode_api_log_title),
                 showBackButton = true,
-                onClickBack = navOnBack
+                onClickBack = onFinishActivity
             )
         }
     ) { paddingValues ->
