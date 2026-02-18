@@ -66,5 +66,6 @@ dependencies {
     implementation(libs.androidx.junit.ktx)
 
     // debugging
-    implementation(libs.screen.name.viewer)
+    debugImplementation(libs.screen.name.viewer)
+    releaseImplementation(libs.screen.name.viewer.no.op)
 }
