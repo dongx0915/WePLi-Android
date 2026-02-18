@@ -16,18 +16,6 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven {
-            val props = Properties().apply {
-                File(rootDir, "local.properties").inputStream().use { load(it) }
-            }
-
-            url = uri("https://maven.pkg.github.com/DongLab-DevTools/ScreenNameViewer-For-Compose")
-
-            credentials {
-                username = props.getProperty("github_username")
-                password = props.getProperty("github_token")
-            }
-        }
     }
 }
 

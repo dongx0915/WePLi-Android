@@ -34,8 +34,8 @@ class WePLiApplication : Application() {
          withContext(Dispatchers.Main.immediate) {
              initScreenNameViewer(this@WePLiApplication) {
                  settings {
-                     debugMode { BuildConfig.DEBUG }
-                     enabled { isEnabled }
+                     debugModeCondition = BuildConfig.DEBUG
+                     enableCondition = isEnabled
                  }
                  config {
                      textStyle {
