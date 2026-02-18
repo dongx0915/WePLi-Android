@@ -26,7 +26,7 @@ class WePLiApplication : Application() {
         initScreenNameViewer()
     }
 
-     private fun initScreenNameViewer() = applicationScope.launch {
+    private fun initScreenNameViewer() = applicationScope.launch(Dispatchers.Main.immediate) {
         val isEnabled = withContext(Dispatchers.IO) {
             settingRepository.isEnableScreenNameViewer()
         }

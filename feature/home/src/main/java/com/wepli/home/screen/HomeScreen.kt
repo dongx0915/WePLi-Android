@@ -3,27 +3,14 @@ package com.wepli.home.screen
 import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -32,35 +19,25 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import appbar.HomeAppBar
 import appbar.WepliAppBar
-import com.wepli.home.component.PlayListCoverItem
-import com.wepli.home.component.RelaylistBackground
-import com.wepli.home.component.RelaylistBannerComponent
-import com.wepli.home.component.WePLiBanner
-import com.wepli.home.component.WePLiBannerType
+import com.wepli.feature.home.R
 import com.wepli.home.mvi.HomeEffect
 import com.wepli.home.mvi.HomeIntent
+import com.wepli.home.mvi.HomeUiState
+import com.wepli.home.component.artist.ArtistLayout
+import com.wepli.home.component.relaylist.RelaylistPagerLayout
+import com.wepli.home.component.banner.WePLiBannerLayout
+import com.wepli.home.component.chart.WePLiChartLayout
+import com.wepli.home.component.playlist.WePLiPlaylistLayout
 import com.wepli.home.viewmodel.HomeViewModel
 import com.wepli.shared.feature.mock.artistMockData
 import com.wepli.shared.feature.mock.musicMockData
 import com.wepli.shared.feature.mock.recommendPlaylistMockData
-import com.wepli.shared.feature.mock.relaylistMockData
-import com.wepli.shared.feature.uimodel.artist.ArtistUiData
-import com.wepli.uimodel.music.ChartMusicUiData
-import compose.MeasuredHeightContainer
-import custom.ArtistProfileListItem
-import custom.MusicItem
-import custom.MusicItemType
-import custom.OneLineTitle
-import custom.TwoLineTitle
+import com.wepli.shared.feature.mock.relaylistUiMockData
 import dev.chrisbanes.haze.hazeSource
-import compose.calculateCurrentOffsetForPage
-import model.playlist.RecommendPlaylist
-import model.relaylist.Relaylist
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import theme.LocalHazeState
 import theme.WepliTheme
-import com.wepli.feature.home.R
 
 @Composable
 fun HomeRoute(
@@ -90,11 +67,7 @@ fun HomeRoute(
     }
 
     HomeScreen(
-        relaylists = state.relaylists,
-        topChartList = state.topChartList,
-        artistList = state.artistList,
-        recommendPlaylists = state.recommendPlaylists,
-        themePlaylists = state.themePlaylists,
+        state = state,
         sendAction = viewModel::processIntent,
     )
 }
@@ -102,14 +75,15 @@ fun HomeRoute(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @Composable
 fun HomeScreen(
-    relaylists: List<Relaylist>,
-    topChartList: List<ChartMusicUiData>,
-    artistList: List<ArtistUiData>,
-    recommendPlaylists: List<RecommendPlaylist>,
-    themePlaylists: List<RecommendPlaylist>,
+    state: HomeUiState,
     sendAction: (HomeIntent) -> Unit,
 ) {
     val hazeState = LocalHazeState.current
+    val topChartList = state.topChartList
+    val artistList = state.artistList
+    val recommendPlaylists = state.recommendPlaylists
+    val themePlaylists = state.themePlaylists
+
     HomeAppBar { scrollState, paddingValues ->
         val topPadding = paddingValues.calculateTopPadding()
         val bottomPadding = paddingValues.calculateBottomPadding()
@@ -119,15 +93,16 @@ fun HomeScreen(
                 .hazeSource(hazeState)
                 .background(WepliTheme.color.black)
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(24.dp),
+            verticalArrangement = Arrangement.spacedBy(48.dp),
             contentPadding = PaddingValues(bottom = 50.dp + bottomPadding * 2),
             state = scrollState
         ) {
             item {
                 RelaylistPagerLayout(
-                    topPagerModifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
-                    relaylists = relaylists,
-                    onClick = { relaylistId -> sendAction(HomeIntent.LoadRelaylist(relaylistId)) }
+                    topPagerModifier = Modifier.padding(top = topPadding),
+                    state = state,
+                    onClick = { relaylistId -> sendAction(HomeIntent.LoadRelaylist(relaylistId)) },
+                    onPageChanged = { page -> sendAction(HomeIntent.UpdateCurrentPage(page))}
                 )
             }
 
@@ -156,196 +131,17 @@ fun HomeScreen(
     }
 }
 
-
-@SuppressLint("RestrictedApi")
-@Composable
-fun RelaylistPagerLayout(
-    modifier: Modifier = Modifier,
-    topPagerModifier: Modifier = Modifier,
-    relaylists: List<Relaylist>,
-    onClick: (relaylistId: Int) -> Unit,
-) {
-    val topPagerState = rememberPagerState(
-        pageCount = { relaylists.size }
-    )
-    val bottomPagerState = rememberPagerState(
-        pageCount = { relaylists.size }
-    )
-
-    val scaleSizeRatio = 0.8f
-
-    // 상위 Pager 스크롤에 따라 하위 Pager를 동기화
-    LaunchedEffect(topPagerState) {
-        snapshotFlow { topPagerState.currentPageOffsetFraction }
-            .collect { offset ->
-                // 하위 Pager의 오프셋을 상위 Pager와 동일하게 업데이트
-                bottomPagerState.scrollToPage(topPagerState.currentPage, offset)
-            }
-    }
-
-    Box(modifier = modifier) {
-        HorizontalPager(
-            state = bottomPagerState, // 상단 Pager와 동기화
-            userScrollEnabled = false,
-            modifier = Modifier.matchParentSize()
-        ) { page ->
-            val relaylist = relaylists[page]
-
-            RelaylistBackground(
-                modifier = Modifier.matchParentSize(),
-                item = relaylist,
-                page = page,
-                bottomPagerState = bottomPagerState
-            )
-        }
-
-        HorizontalPager(
-            state = topPagerState,
-            modifier = topPagerModifier
-                .fillMaxWidth()
-                .padding(top = 20.dp),
-            contentPadding = PaddingValues(horizontal = 24.dp),
-            pageSpacing = 12.dp
-        ) { page ->
-            val relaylist = relaylists[page]
-            val pageOffset = topPagerState.calculateCurrentOffsetForPage(page)
-
-            RelaylistBannerComponent(item = relaylist, scaleSizeRatio = scaleSizeRatio, pageOffset = pageOffset, modifier = Modifier.clickable { onClick(relaylist.id) })
-        }
-    }
-}
-
-@Composable
-fun WePLiBannerLayout() {
-    val bannerList = listOf(
-        WePLiBannerType.Twitter,
-        WePLiBannerType.Instagram
-    )
-    val pagerState = rememberPagerState(pageCount = { bannerList.size })
-
-    HorizontalPager(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
-        state = pagerState,
-        contentPadding = PaddingValues(horizontal = 20.dp),
-        pageSpacing = 12.dp
-    ) { page ->
-        val banner = bannerList[page]
-        WePLiBanner(modifier = Modifier.fillMaxWidth(), bannerType = banner)
-    }
-}
-
-@Composable
-fun WePLiChartLayout(
-    modifier: Modifier = Modifier,
-    musicList: List<ChartMusicUiData>
-) {
-    if (musicList.isEmpty()) return
-
-    val pageCount = remember(musicList.size) { musicList.size / 5 }
-    val pagerState = rememberPagerState(
-        pageCount = { pageCount }
-    )
-    val musicChunk = remember(musicList.size) {
-        musicList.chunked(5)
-    }
-
-    Column(modifier = modifier) {
-        TwoLineTitle(
-            title = stringResource(R.string.home_top_100_title),
-            subscription = stringResource(R.string.home_top_100_update_time)
-        )
-        HorizontalPager(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 12.dp),
-            state = pagerState,
-            contentPadding = PaddingValues(start = 20.dp, end = 10.dp),
-        ) { page ->
-            // LazyColumn 내에 동일한 스크롤 방향의 LazyColumn 추가 불가
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                musicChunk[page].forEach { music ->
-                    MusicItem(
-                        modifier = Modifier.padding(end = 22.dp),
-                        musicItemType = MusicItemType.Chart(music),
-                        showPlayIcon = true,
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun WePLiPlaylistLayout(
-    title: String,
-    playlists: List<RecommendPlaylist>,
-    onClick: (playlistId: Int) -> Unit = {},
-) {
-    val playlistWithMaxTitle = remember(playlists.size) {
-        playlists.maxByOrNull { it.title.length }
-    } ?: return
-
-    Column(
-        verticalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        OneLineTitle(title = title)
-
-        MeasuredHeightContainer(
-            modifier = Modifier,
-            measured = {
-                PlayListCoverItem(recommendPlaylist = playlistWithMaxTitle)
-            },
-        ) {
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                contentPadding = PaddingValues(horizontal = 20.dp)
-            ) {
-                items(playlists) { playlist ->
-                    PlayListCoverItem(
-                        modifier = Modifier.clickable { onClick(playlist.id) },
-                        recommendPlaylist = playlist,
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun ArtistLayout(artistList: List<ArtistUiData>) {
-    if (artistList.isEmpty()) return
-
-    Column {
-        TwoLineTitle(
-            title = stringResource(R.string.home_top_artist_title),
-            subscription = stringResource(R.string.home_top_artist_desc),
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(horizontal = 20.dp)
-        ) {
-            items(artistList) { artist ->
-                ArtistProfileListItem(artist)
-            }
-        }
-    }
-}
-
-@Preview
+@Preview(heightDp = 2000)
 @Composable
 fun HomeScreenPreview() {
     HomeScreen(
-        relaylists = relaylistMockData,
-        topChartList = musicMockData,
-        artistList = artistMockData,
-        recommendPlaylists = recommendPlaylistMockData,
-        themePlaylists = recommendPlaylistMockData,
+        state = HomeUiState(
+            relaylists = relaylistUiMockData,
+            topChartList = musicMockData,
+            artistList = artistMockData,
+            recommendPlaylists = recommendPlaylistMockData,
+            themePlaylists = recommendPlaylistMockData,
+        ),
         sendAction = {},
     )
 }
@@ -359,14 +155,3 @@ fun AppBarPreview() {
     )
 }
 
-@Preview
-@Composable
-fun WePLiChartPreview() {
-    WePLiChartLayout(musicList = musicMockData)
-}
-
-@Preview
-@Composable
-fun ArtistLayoutPreview() {
-    ArtistLayout(artistList = artistMockData)
-}

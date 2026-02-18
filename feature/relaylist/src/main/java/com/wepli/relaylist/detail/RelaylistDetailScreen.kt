@@ -118,7 +118,7 @@ fun RelaylistDetailScreen(
                 )
 
                 Text(
-                    text = "${relaylist.formattedCreatedAt} • 총 ${relaylist.songCnt}곡",
+                    text = "${relaylist.formattedCreatedAt} • 총 ${relaylist.songCount}곡",
                     style = WepliTheme.typo.body3,
                     color = WepliTheme.color.gray700,
                     modifier = Modifier.padding(top = 8.dp)

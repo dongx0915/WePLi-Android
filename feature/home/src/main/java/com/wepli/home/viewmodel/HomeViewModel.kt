@@ -2,14 +2,19 @@ package com.wepli.home.viewmodel
 
 import android.util.Log
 import base.BaseMviViewModel
+import com.wepli.core.kotlin.flow.firstResult
 import com.wepli.core.kotlin.flow.suspendCollectResult
+import com.wepli.core.kotlin.flow.suspendFirstResult
 import com.wepli.home.mvi.HomeEffect
 import com.wepli.home.mvi.HomeIntent
 import com.wepli.home.mvi.HomeUiState
 import com.wepli.shared.feature.uimodel.artist.ArtistUiData
+import com.wepli.shared.feature.uimodel.relaylist.RelaylistUiData
 import com.wepli.uimodel.music.ChartMusicUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flowOn
 import repository.artist.ArtistRepository
 import repository.chart.ChartRepository
@@ -27,6 +32,8 @@ class HomeViewModel @Inject constructor(
     initialState = HomeUiState()
 ) {
 
+    private var timerJob: Job? = null
+
     init {
         getRelaylists()
         getTopChart()
@@ -39,16 +46,26 @@ class HomeViewModel @Inject constructor(
         when (intent) {
             is HomeIntent.LoadPlaylist -> loadPlaylistById(intent.playlistId)
             is HomeIntent.LoadRelaylist -> loadRelaylistById(intent.relaylistId)
+            is HomeIntent.UpdateCurrentPage -> updateCurrentPage(intent.page)
         }
+    }
+
+    private fun updateCurrentPage(page: Int) = intent {
+        val currentRelaylist = state.relaylists.getOrNull(page) ?: return@intent
+        updateState {
+            copy(currentRelaylistRemainingTime = currentRelaylist.remainingTime)
+        }
+
+        startTimer()
     }
 
     private fun getRelaylists() = intent {
         launchWithHandler {
             relaylistRepository.getRelaylists()
                 .flowOn(Dispatchers.IO)
-                .suspendCollectResult(
+                .suspendFirstResult(
                     onSuccess = { relaylists ->
-                        reduce { state.copy(relaylists = relaylists) }
+                        reduce { state.copy(relaylists = relaylists.map(RelaylistUiData::fromDomain)) }
                     }
                 )
         }
@@ -58,7 +75,7 @@ class HomeViewModel @Inject constructor(
         launch {
             chartRepository.getTopChart()
                 .flowOn(Dispatchers.IO)
-                .suspendCollectResult(
+                .suspendFirstResult(
                     onSuccess = { topChartList ->
                         reduce {
                             state.copy(topChartList = topChartList.map(ChartMusicUiData::fromDomain))
@@ -72,7 +89,7 @@ class HomeViewModel @Inject constructor(
         launch {
             artistRepository.getArtists()
                 .flowOn(Dispatchers.IO)
-                .suspendCollectResult(
+                .suspendFirstResult(
                     onSuccess = { artistList ->
                         reduce {
                             state.copy(artistList = artistList.map(ArtistUiData::fromDomain))
@@ -86,7 +103,7 @@ class HomeViewModel @Inject constructor(
         launch {
             playlistRepository.getRecommendPlaylist()
                 .flowOn(Dispatchers.IO)
-                .suspendCollectResult(
+                .suspendFirstResult(
                     onSuccess = { playlists ->
                         reduce { state.copy(recommendPlaylists = playlists) }
                     }
@@ -98,7 +115,7 @@ class HomeViewModel @Inject constructor(
         launch {
             playlistRepository.getThemePlaylist()
                 .flowOn(Dispatchers.IO)
-                .suspendCollectResult(
+                .suspendFirstResult(
                     onSuccess = { playlists ->
                         reduce { state.copy(themePlaylists = playlists) }
                     }
@@ -109,7 +126,7 @@ class HomeViewModel @Inject constructor(
     private fun loadPlaylistById(id: Int) = launch {
         playlistRepository.getPlaylistById(id)
             .flowOn(Dispatchers.IO)
-            .suspendCollectResult(
+            .suspendFirstResult(
                 onSuccess = {
                     postSideEffect { HomeEffect.PlaylistLoadSuccess(it.id) }
                 },
@@ -124,7 +141,7 @@ class HomeViewModel @Inject constructor(
         launch {
             relaylistRepository.getRelaylistById(id)
                 .flowOn(Dispatchers.IO)
-                .suspendCollectResult(
+                .suspendFirstResult(
                     onSuccess = {
                         postSideEffect { HomeEffect.RelaylistLoadSuccess(it.id) }
                     },
@@ -133,6 +150,18 @@ class HomeViewModel @Inject constructor(
                         postSideEffect { HomeEffect.RelaylistLoadFailed }
                     }
                 )
+        }
+    }
+
+    private fun startTimer() = intent {
+        timerJob?.cancel()
+        timerJob = launch(Dispatchers.Default) {
+            while (state.currentRelaylistRemainingTime >= 0L) {
+                delay(1000)
+                reduce {
+                    state.copy(currentRelaylistRemainingTime = state.currentRelaylistRemainingTime - 1000)
+                }
+            }
         }
     }
 }
