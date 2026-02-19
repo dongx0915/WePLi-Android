@@ -1,5 +1,8 @@
 <resources>
     <string name="dev_mode_api_log_limit_notice">최근 %d개 내역만 보여집니다.</string>
     <string name="dev_mode_api_log_title">네트워크 로그</string>
+    <string name="dev_mode_api_log_empty_title">기록된 요청이 없습니다.</string>
+    <string name="dev_mode_api_log_empty_description">전송된 네트워크 요청이 아직 없습니다.</string>
+
     <string name="title_activity_network_log">NetworkLogActivity</string>
 </resources>
