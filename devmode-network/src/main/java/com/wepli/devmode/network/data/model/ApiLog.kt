@@ -1,10 +1,12 @@
 package com.wepli.devmode.network.data.model
 
+import androidx.compose.runtime.Stable
 import java.net.URLDecoder
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+@Stable
 data class ApiLog(
     val id: Int = 0,
     val method: ApiMethod,

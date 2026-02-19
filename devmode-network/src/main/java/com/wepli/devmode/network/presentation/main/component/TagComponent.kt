@@ -26,10 +26,11 @@ fun PreviewMethodTag() {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun PreviewStatusTag() {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(16.dp)) {
+        StatusTag(status = 100)
         StatusTag(status = 200)
         StatusTag(status = 301)
         StatusTag(status = 404)
@@ -61,12 +62,12 @@ fun MethodTag(tagName: String, isSelected: Boolean, modifier: Modifier = Modifie
 fun StatusTag(status: Int) {
     val (statusColor, backgroundColor) = remember(status) {
         when(status) {
-            in 100..199 -> Color(0xFF4CAF50) to Color(0xFF1C2015) // 1xx: Informational
-            in 200..299 -> Color(0xFF4CAF50) to Color(0xFF1C2015) // 2xx: Success
-            in 300..399 -> Color(0xFFFF9800) to Color(0xFF211E12) // 3xx: Redirection
-            in 400..499 -> Color(0xFFF44336) to Color(0xFF261A17) // 4xx: Client Error
-            in 500..599 -> Color(0xFFF44336) to Color(0xFF261A17) // 5xx: Server Error
-            else -> Color(0xFF9E9E9E) to Color(0xFF9E9E9E) // Unknown status
+            in 100..199 -> Color(0xFF51A2FF) to Color(0x1A51A2FF) // 1xx: Informational
+            in 200..299 -> Color(0xFF00D492) to Color(0x1A00BC7D) // 2xx: Success
+            in 300..399 -> Color(0xFFFFB900) to Color(0x1AFE9A00) // 3xx: Redirection
+            in 400..499 -> Color(0xFFFF6467) to Color(0x1AFB2C36) // 4xx: Client Error
+            in 500..599 -> Color(0xFFFF6467) to Color(0x1AFB2C36) // 5xx: Server Error
+            else -> Color(0xFFF0F0F0) to Color(0x1A818181) // Unknown status
         }
     }
 
@@ -75,8 +76,8 @@ fun StatusTag(status: Int) {
         style = NetworkLogTheme.typo.subTitle6,
         color = statusColor,
         modifier = Modifier
-            .background(color = backgroundColor, shape = CircleShape)
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .background(color = backgroundColor, shape = RoundedCornerShape(8.dp))
+            .padding(horizontal = 8.dp, vertical = 4.dp)
     )
 }
 
