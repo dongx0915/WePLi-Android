@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.wepli.devmode.network.navigation.NetworkLogNavGraph
 import dagger.hilt.android.AndroidEntryPoint
-import theme.WePLiTheme
+import com.wepli.devmode.network.theme.NetworkLogTheme
 
 @AndroidEntryPoint
 class NetworkLogActivity : ComponentActivity() {
@@ -19,7 +19,7 @@ class NetworkLogActivity : ComponentActivity() {
         setContent {
             val navController: NavHostController = rememberNavController()
 
-            WePLiTheme {
+            NetworkLogTheme {
                 NetworkLogNavGraph(
                     navController = navController,
                     onFinishActivity = { finish() }

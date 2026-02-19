@@ -17,15 +17,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.wepli.devmode.network.presentation.main.enums.toColor
 import com.wepli.devmode.network.data.model.ApiLog
-import theme.WepliTheme
+import com.wepli.devmode.network.theme.NetworkLogTheme
 
 @Composable
 fun ApiResultComponent(apiLog: ApiLog, modifier: Modifier = Modifier) {
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier
-            .background(color = WepliTheme.color.gray050, shape = RoundedCornerShape(8.dp))
-            .border(width = 1.dp, color = WepliTheme.color.gray100, shape = RoundedCornerShape(8.dp))
+            .background(color = NetworkLogTheme.color.gray050, shape = RoundedCornerShape(8.dp))
+            .border(width = 1.dp, color = NetworkLogTheme.color.gray100, shape = RoundedCornerShape(8.dp))
             .padding(horizontal = 16.dp, vertical = 16.dp)
     ) {
         // Header
@@ -35,7 +35,7 @@ fun ApiResultComponent(apiLog: ApiLog, modifier: Modifier = Modifier) {
         ) {
             Text(
                 text = apiLog.method.name.uppercase(),
-                style = WepliTheme.typo.subTitle2,
+                style = NetworkLogTheme.typo.subTitle2,
                 color = apiLog.method.toColor(),
             )
 
@@ -43,8 +43,8 @@ fun ApiResultComponent(apiLog: ApiLog, modifier: Modifier = Modifier) {
 
             Text(
                 text = apiLog.baseUrlType,
-                style = WepliTheme.typo.body6,
-                color = WepliTheme.color.gray700,
+                style = NetworkLogTheme.typo.body6,
+                color = NetworkLogTheme.color.gray700,
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -55,22 +55,22 @@ fun ApiResultComponent(apiLog: ApiLog, modifier: Modifier = Modifier) {
         // Body
         Text(
             text = apiLog.decodedUrl,
-            style = WepliTheme.typo.subTitle2,
-            color = WepliTheme.color.gray900,
+            style = NetworkLogTheme.typo.subTitle2,
+            color = NetworkLogTheme.color.gray900,
         )
 
         // Footer
         Row {
             Text(
                 text = apiLog.formattedStartTime(),
-                style = WepliTheme.typo.body6,
-                color = WepliTheme.color.gray600,
+                style = NetworkLogTheme.typo.body6,
+                color = NetworkLogTheme.color.gray600,
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = apiLog.durationMs.toString() + "ms",
-                style = WepliTheme.typo.body3,
-                color = WepliTheme.color.gray600,
+                style = NetworkLogTheme.typo.body3,
+                color = NetworkLogTheme.color.gray600,
             )
         }
     }

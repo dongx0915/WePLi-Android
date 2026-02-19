@@ -50,7 +50,7 @@ import com.wepli.devmode.network.presentation.main.viewmodel.NetworkLogState
 import com.wepli.devmode.network.presentation.main.viewmodel.NetworkLogViewModel
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.compose.collectAsState
-import theme.WepliTheme
+import com.wepli.devmode.network.theme.NetworkLogTheme
 import com.wepli.core.resources.R as CoreR
 
 
@@ -95,7 +95,7 @@ fun NetworkLogDebugScreen(
     val scope = rememberCoroutineScope()
 
     Scaffold(
-        containerColor = WepliTheme.color.black,
+        containerColor = NetworkLogTheme.color.black,
         topBar = {
             WepliAppBar(
                 containerColor = Color.Transparent,
@@ -119,7 +119,7 @@ fun NetworkLogDebugScreen(
                 MethodTagHeader(
                     selectedTag = ApiMethodUiTag.entries[pagerState.currentPage],
                     modifier = Modifier
-                        .background(WepliTheme.color.black)
+                        .background(NetworkLogTheme.color.black)
                         .padding(top = 20.dp, bottom = 20.dp),
                     onClick = {
                         scope.launch {
@@ -193,22 +193,22 @@ fun NoticeComponent(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
-            .background(WepliTheme.color.gray000)
+            .background(NetworkLogTheme.color.gray000)
             .padding(vertical = 12.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.Start)
     ) {
         Icon(
             imageVector = ImageVector.vectorResource(CoreR.drawable.ic_info_vector),
-            tint = WepliTheme.color.gray900,
+            tint = NetworkLogTheme.color.gray900,
             contentDescription = null,
             modifier = Modifier.size(24.dp)
         )
 
         Text(
             text = stringResource(R.string.dev_mode_api_log_limit_notice, maxLogCount),
-            style = WepliTheme.typo.body6,
-            color = WepliTheme.color.gray900,
+            style = NetworkLogTheme.typo.body6,
+            color = NetworkLogTheme.color.gray900,
         )
     }
 }
