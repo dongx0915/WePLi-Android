@@ -19,7 +19,6 @@ sealed class NetworkLogRoute {
 @Composable
 fun NetworkLogNavGraph(
     navController: NavHostController,
-    onFinishActivity: () -> Unit,
 ) {
     NavHost(
         navController = navController,
@@ -31,7 +30,6 @@ fun NetworkLogNavGraph(
             navOnNetworkLogDetail = { apiLogId ->
                 navController.navigate(NetworkLogRoute.Detail(apiLogId))
             },
-            onFinishActivity = onFinishActivity
         )
 
         networkLogDetailGraph(

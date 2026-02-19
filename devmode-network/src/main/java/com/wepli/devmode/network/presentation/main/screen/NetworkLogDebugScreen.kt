@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -32,25 +33,23 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import appbar.WepliAppBar
 import com.wepli.devmode.network.R
 import com.wepli.devmode.network.mock.mockApiLogs
 import com.wepli.devmode.network.presentation.main.component.ApiResultComponent
 import com.wepli.devmode.network.presentation.main.component.MethodTag
+import com.wepli.devmode.network.presentation.main.component.NetworkLoggerAppBar
 import com.wepli.devmode.network.presentation.main.enums.ApiMethodUiTag
-import com.wepli.devmode.network.presentation.main.viewmodel.NetworkLogIntent
 import com.wepli.devmode.network.presentation.main.viewmodel.NetworkLogState
 import com.wepli.devmode.network.presentation.main.viewmodel.NetworkLogViewModel
+import com.wepli.devmode.network.theme.NetworkLogTheme
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.compose.collectAsState
-import com.wepli.devmode.network.theme.NetworkLogTheme
 import com.wepli.core.resources.R as CoreR
 
 
@@ -62,15 +61,12 @@ fun NetworkLogDebugScreenPreview() {
             filteredApiLogs = mockApiLogs.groupBy { it.method.name },
         ),
         navOnNetworkLogDetail = {},
-        onFinishActivity = {},
-        sendAction = {}
     )
 }
 
 @Composable
 fun NetworkLogDebugScreenRoute(
-    navOnNetworkLogDetail: (Int) -> Unit,
-    onFinishActivity: () -> Unit
+    navOnNetworkLogDetail: (Int) -> Unit
 ) {
     val viewModel: NetworkLogViewModel = hiltViewModel()
     val state: NetworkLogState by viewModel.collectAsState()
@@ -78,18 +74,15 @@ fun NetworkLogDebugScreenRoute(
     NetworkLogDebugScreen(
         state = state,
         navOnNetworkLogDetail = navOnNetworkLogDetail,
-        onFinishActivity = onFinishActivity,
-        sendAction = viewModel::processIntent
     )
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun NetworkLogDebugScreen(
     state: NetworkLogState,
     navOnNetworkLogDetail: (Int) -> Unit,
-    onFinishActivity: () -> Unit,
-    sendAction: (NetworkLogIntent) -> Unit,
 ) {
     val pagerState = rememberPagerState { ApiMethodUiTag.entries.size }
     val scope = rememberCoroutineScope()
@@ -97,11 +90,8 @@ fun NetworkLogDebugScreen(
     Scaffold(
         containerColor = NetworkLogTheme.color.black,
         topBar = {
-            WepliAppBar(
-                containerColor = Color.Transparent,
-                title = stringResource(R.string.dev_mode_api_log_title),
-                showBackButton = true,
-                onClickBack = onFinishActivity
+            NetworkLoggerAppBar(
+                modifier = Modifier.padding(top = 12.dp)
             )
         }
     ) { paddingValues ->
@@ -109,13 +99,6 @@ fun NetworkLogDebugScreen(
             Column(
                 modifier = Modifier.padding(paddingValues)
             ) {
-                NoticeComponent(
-                    maxLogCount = state.maxApiLogs,
-                    modifier = Modifier
-                        .padding(horizontal = 20.dp)
-                        .padding(top = 20.dp)
-                )
-
                 MethodTagHeader(
                     selectedTag = ApiMethodUiTag.entries[pagerState.currentPage],
                     modifier = Modifier
@@ -181,34 +164,5 @@ fun MethodTagHeader(
                 modifier = Modifier.clickable { onClick(tag) }
             )
         }
-    }
-}
-
-@Composable
-fun NoticeComponent(
-    maxLogCount: Int,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
-            .background(NetworkLogTheme.color.gray000)
-            .padding(vertical = 12.dp, horizontal = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.Start)
-    ) {
-        Icon(
-            imageVector = ImageVector.vectorResource(CoreR.drawable.ic_info_vector),
-            tint = NetworkLogTheme.color.gray900,
-            contentDescription = null,
-            modifier = Modifier.size(24.dp)
-        )
-
-        Text(
-            text = stringResource(R.string.dev_mode_api_log_limit_notice, maxLogCount),
-            style = NetworkLogTheme.typo.body6,
-            color = NetworkLogTheme.color.gray900,
-        )
     }
 }

@@ -22,7 +22,6 @@ class NetworkLogActivity : ComponentActivity() {
             NetworkLogTheme {
                 NetworkLogNavGraph(
                     navController = navController,
-                    onFinishActivity = { finish() }
                 )
             }
         }

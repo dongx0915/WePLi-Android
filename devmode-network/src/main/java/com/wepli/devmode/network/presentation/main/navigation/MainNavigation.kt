@@ -7,12 +7,10 @@ import com.wepli.devmode.network.presentation.main.screen.NetworkLogDebugScreenR
 
 fun NavGraphBuilder.networkLogMainGraph(
     navOnNetworkLogDetail: (Int) -> Unit,
-    onFinishActivity: () -> Unit
 ) {
     composable<NetworkLogRoute.Main> {
         NetworkLogDebugScreenRoute(
             navOnNetworkLogDetail = navOnNetworkLogDetail,
-            onFinishActivity = onFinishActivity
         )
     }
 }
