@@ -1,6 +1,5 @@
 package com.wepli.devmode.network.presentation.main.component
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,8 +12,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,22 +25,12 @@ fun ApiLogItem(
     apiLog: ApiLog = mockApiLogs.first(),
     modifier: Modifier = Modifier
 ) {
-    val borderColor = NetworkLogTheme.color.gray000
-
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .drawBehind {
-                drawLine(
-                    color = borderColor,
-                    start = Offset(0f, size.height),
-                    end = Offset(size.width, size.height),
-                    strokeWidth = 1.dp.toPx()
-                )
-            }
             .padding(horizontal = 16.dp, vertical = 20.dp),
     ) {
-        StatusTag(apiLog.responseCode)
+        StatusTag(status = apiLog.responseCode, modifier = Modifier.padding(top = 8.dp))
 
         Spacer(modifier = Modifier.width(16.dp))
 
@@ -67,7 +54,7 @@ fun ApiLogItem(
                 )
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             Text(
                 text = apiLog.decodedUrl,

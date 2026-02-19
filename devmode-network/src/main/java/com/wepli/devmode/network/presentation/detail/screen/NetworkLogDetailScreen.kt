@@ -143,7 +143,7 @@ private fun ApiInfoHeader(apiLog: ApiLog, modifier: Modifier = Modifier) {
                 color = apiLog.method.toColor(),
             )
 
-            StatusTag(apiLog.responseCode)
+            StatusTag(status = apiLog.responseCode)
         }
 
         // Url

@@ -59,7 +59,7 @@ fun MethodTag(tagName: String, isSelected: Boolean, modifier: Modifier = Modifie
 }
 
 @Composable
-fun StatusTag(status: Int) {
+fun StatusTag(modifier: Modifier = Modifier, status: Int) {
     val (statusColor, backgroundColor) = remember(status) {
         when(status) {
             in 100..199 -> Color(0xFF51A2FF) to Color(0x1A51A2FF) // 1xx: Informational
@@ -75,7 +75,7 @@ fun StatusTag(status: Int) {
         text = status.toString(),
         style = NetworkLogTheme.typo.subTitle6,
         color = statusColor,
-        modifier = Modifier
+        modifier = modifier
             .background(color = backgroundColor, shape = RoundedCornerShape(8.dp))
             .padding(horizontal = 8.dp, vertical = 4.dp)
     )
