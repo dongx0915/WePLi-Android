@@ -52,7 +52,7 @@ import com.wepli.devmode.network.mock.mockApiLogs
 import com.wepli.devmode.network.data.model.ApiLog
 import extensions.toPrettyJsonString
 import org.orbitmvi.orbit.compose.collectAsState
-import theme.WepliTheme
+import com.wepli.devmode.network.theme.NetworkLogTheme
 import com.wepli.core.resources.R as CoreR
 
 @Preview
@@ -108,7 +108,7 @@ fun NetworkLogDetailScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(WepliTheme.color.black)
+                .background(NetworkLogTheme.color.black)
                 .verticalScroll(scrollState)
                 .padding(paddingValues)
                 .padding(horizontal = 20.dp, vertical = 20.dp),
@@ -139,7 +139,7 @@ private fun ApiInfoHeader(apiLog: ApiLog, modifier: Modifier = Modifier) {
         ) {
             Text(
                 text = apiLog.method.name.uppercase(),
-                style = WepliTheme.typo.subTitle2,
+                style = NetworkLogTheme.typo.subTitle2,
                 color = apiLog.method.toColor(),
             )
 
@@ -149,8 +149,8 @@ private fun ApiInfoHeader(apiLog: ApiLog, modifier: Modifier = Modifier) {
         // Url
         Text(
             text = apiLog.decodedUrl,
-            style = WepliTheme.typo.subTitle5,
-            color = WepliTheme.color.gray800,
+            style = NetworkLogTheme.typo.subTitle5,
+            color = NetworkLogTheme.color.gray800,
             modifier = Modifier.padding(top = 16.dp)
         )
 
@@ -176,8 +176,8 @@ private fun ApiRequestComponent(apiLog: ApiLog, modifier: Modifier = Modifier) {
     ) {
         Text(
             text = "Request",
-            style = WepliTheme.typo.subTitle2,
-            color = WepliTheme.color.gray900,
+            style = NetworkLogTheme.typo.subTitle2,
+            color = NetworkLogTheme.color.gray900,
         )
 
         CollapsingComponent(title = "Headers", contents = apiLog.requestHeaders.toPrettyJsonString())
@@ -193,8 +193,8 @@ private fun ApiResponseComponent(apiLog: ApiLog, modifier: Modifier = Modifier) 
     ) {
         Text(
             text = "Response",
-            style = WepliTheme.typo.subTitle2,
-            color = WepliTheme.color.gray900,
+            style = NetworkLogTheme.typo.subTitle2,
+            color = NetworkLogTheme.color.gray900,
         )
 
         CollapsingComponent(title = "Body", contents = apiLog.responseBody)
@@ -210,16 +210,16 @@ private fun ApiSubInfoComponent(title: String, data: String, modifier: Modifier 
     ) {
         Text(
             text = title,
-            style = WepliTheme.typo.body3,
-            color = WepliTheme.color.gray600,
+            style = NetworkLogTheme.typo.body3,
+            color = NetworkLogTheme.color.gray600,
         )
 
         Spacer(modifier = Modifier.weight(1f))
 
         Text(
             text = data,
-            style = WepliTheme.typo.body3,
-            color = WepliTheme.color.gray800,
+            style = NetworkLogTheme.typo.body3,
+            color = NetworkLogTheme.color.gray800,
         )
     }
 }
@@ -243,8 +243,8 @@ private fun CollapsingComponent(
             .animateContentSize()
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
-            .background(color = WepliTheme.color.gray050)
-            .border(width = 1.dp, color = WepliTheme.color.gray100)
+            .background(color = NetworkLogTheme.color.gray050)
+            .border(width = 1.dp, color = NetworkLogTheme.color.gray100)
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
@@ -258,15 +258,15 @@ private fun CollapsingComponent(
         ) {
             Text(
                 text = title,
-                style = WepliTheme.typo.body1,
-                color = WepliTheme.color.gray700,
+                style = NetworkLogTheme.typo.body1,
+                color = NetworkLogTheme.color.gray700,
             )
 
             Spacer(modifier = Modifier.weight(1f))
 
             Icon(
                 imageVector = ImageVector.vectorResource(CoreR.drawable.ic_arrow_down_vector),
-                tint = WepliTheme.color.gray400,
+                tint = NetworkLogTheme.color.gray400,
                 contentDescription = null,
                 modifier = Modifier
                     .size(24.dp)
@@ -291,12 +291,12 @@ private fun CollapsingComponent(
                     selectedHighlightColor = Color(0xFF264F78), // 선택된 항목 강조: 파란색 오버레이
                     highlightColor = Color(0xFF3E4451)          // 하이라이트 배경: 미묘한 회색
                 ),
-                textStyle = WepliTheme.typo.body6,
+                textStyle = NetworkLogTheme.typo.body6,
                 modifier = Modifier
                     .fillMaxWidth()
                     .heightIn(max = 600.dp)
                     .clip(RoundedCornerShape(8.dp))
-                    .background(color = WepliTheme.color.gray100)
+                    .background(color = NetworkLogTheme.color.gray100)
                     .padding(vertical = 12.dp, horizontal = 16.dp)
             )
 
@@ -310,14 +310,14 @@ private fun CollapsingComponent(
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(CoreR.drawable.ic_copy_right),
-                    tint = WepliTheme.color.gray900,
+                    tint = NetworkLogTheme.color.gray900,
                     contentDescription = null,
                     modifier = Modifier.size(16.dp)
                 )
                 Text(
                     text = "copy",
-                    style = WepliTheme.typo.body6,
-                    color = WepliTheme.color.gray900
+                    style = NetworkLogTheme.typo.body6,
+                    color = NetworkLogTheme.color.gray900
                 )
             }
         }

@@ -22,10 +22,6 @@ import com.wepli.community.navigation.navigateToCommunityWrite
 import com.wepli.core.common.BuildConfig
 import com.wepli.devmode.fcm.presentation.navigation.devModeFcmGraph
 import com.wepli.devmode.fcm.presentation.navigation.navigateToDevModeFcmMain
-import com.wepli.devmode.network.presentation.detail.navigation.navigateToNetworkLogDetail
-import com.wepli.devmode.network.presentation.detail.navigation.networkLogDetailGraph
-import com.wepli.devmode.network.presentation.main.navigation.navigateToNetworkLogMain
-import com.wepli.devmode.network.presentation.main.navigation.networkLogMainGraph
 import com.wepli.feature.devmode.main.navigation.devModeMainGraph
 import com.wepli.feature.devmode.main.navigation.navigateToDevModeMain
 import com.wepli.feature.photocard.detail.navigation.photoCardDetailGraph
@@ -53,6 +49,7 @@ fun SetUpNavGraph(
     navController: NavHostController,
     startDestination: String,
     goToLoginActivity: () -> Unit,
+    goToNetworkLogActivity: () -> Unit,
 ) {
     ScreenNameTracker(navController) {
         NavHost(
@@ -100,11 +97,9 @@ fun SetUpNavGraph(
 
             // 개발자 모드 Graph
             // TODO: 중첩 그래프로 관리 필요성 검토
-            devModeGraph(navController)
+            devModeGraph(navController, goToNetworkLogActivity)
 
             devModeFcmGraph(navController)
-
-            networkLogGraph(navController)
 
             // 프로필 Graph
             profileGraph(navController)
@@ -197,29 +192,16 @@ fun NavGraphBuilder.profileGraph(navController: NavController) {
 
 // 개발자 모드 Graph
 
-fun NavGraphBuilder.devModeGraph(navController: NavController) {
+fun NavGraphBuilder.devModeGraph(navController: NavController, goToNetworkLogActivity: () -> Unit) {
     devModeMainGraph(
         navOnBack = { navController.navigateUp() },
-        navOnNetworkLog = { navController.navigateToNetworkLogMain() },
+        navOnNetworkLog = goToNetworkLogActivity,
         navOnSendFcmPush = { navController.navigateToDevModeFcmMain(BuildConfig.FIREBASE_PROJECT_ID) },
     )
 }
 
 fun NavGraphBuilder.devModeFcmGraph(navController: NavController) {
     devModeFcmGraph(
-        navOnBack = { navController.navigateUp() }
-    )
-}
-
-fun NavGraphBuilder.networkLogGraph(navController: NavController) {
-    networkLogMainGraph(
-        navOnNetworkLogDetail = { apiLogId ->
-            navController.navigateToNetworkLogDetail(apiLogId)
-        },
-        navOnBack = { navController.navigateUp() }
-    )
-
-    networkLogDetailGraph(
         navOnBack = { navController.navigateUp() }
     )
 }

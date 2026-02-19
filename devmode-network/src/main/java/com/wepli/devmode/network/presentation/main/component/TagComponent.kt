@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import theme.WepliTheme
+import com.wepli.devmode.network.theme.NetworkLogTheme
 
 @Preview(showBackground = true)
 @Composable
@@ -40,18 +40,18 @@ fun PreviewStatusTag() {
 
 @Composable
 fun MethodTag(tagName: String, isSelected: Boolean, modifier: Modifier = Modifier) {
-    val textColor = if (isSelected) WepliTheme.color.gray900 else WepliTheme.color.gray200
-    val backgroundColor = if (isSelected) WepliTheme.color.gray000 else Color.Transparent
+    val textColor = if (isSelected) NetworkLogTheme.color.gray900 else NetworkLogTheme.color.gray200
+    val backgroundColor = if (isSelected) NetworkLogTheme.color.gray000 else Color.Transparent
 
     Box(
         modifier = modifier
             .background(color = backgroundColor, shape = RoundedCornerShape(8.dp))
-            .border(width = 1.dp, color = WepliTheme.color.gray050, shape = RoundedCornerShape(8.dp))
+            .border(width = 1.dp, color = NetworkLogTheme.color.gray050, shape = RoundedCornerShape(8.dp))
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         Text(
             text = tagName,
-            style = WepliTheme.typo.subTitle5,
+            style = NetworkLogTheme.typo.subTitle5,
             color = textColor
         )
     }
@@ -72,7 +72,7 @@ fun StatusTag(status: Int) {
 
     Text(
         text = status.toString(),
-        style = WepliTheme.typo.subTitle6,
+        style = NetworkLogTheme.typo.subTitle6,
         color = statusColor,
         modifier = Modifier
             .background(color = backgroundColor, shape = CircleShape)

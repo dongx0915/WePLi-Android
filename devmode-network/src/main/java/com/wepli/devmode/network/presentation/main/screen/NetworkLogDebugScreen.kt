@@ -50,7 +50,7 @@ import com.wepli.devmode.network.presentation.main.viewmodel.NetworkLogState
 import com.wepli.devmode.network.presentation.main.viewmodel.NetworkLogViewModel
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.compose.collectAsState
-import theme.WepliTheme
+import com.wepli.devmode.network.theme.NetworkLogTheme
 import com.wepli.core.resources.R as CoreR
 
 
@@ -62,7 +62,7 @@ fun NetworkLogDebugScreenPreview() {
             filteredApiLogs = mockApiLogs.groupBy { it.method.name },
         ),
         navOnNetworkLogDetail = {},
-        navOnBack = {},
+        onFinishActivity = {},
         sendAction = {}
     )
 }
@@ -70,7 +70,7 @@ fun NetworkLogDebugScreenPreview() {
 @Composable
 fun NetworkLogDebugScreenRoute(
     navOnNetworkLogDetail: (Int) -> Unit,
-    navOnBack: () -> Unit
+    onFinishActivity: () -> Unit
 ) {
     val viewModel: NetworkLogViewModel = hiltViewModel()
     val state: NetworkLogState by viewModel.collectAsState()
@@ -78,7 +78,7 @@ fun NetworkLogDebugScreenRoute(
     NetworkLogDebugScreen(
         state = state,
         navOnNetworkLogDetail = navOnNetworkLogDetail,
-        navOnBack = navOnBack,
+        onFinishActivity = onFinishActivity,
         sendAction = viewModel::processIntent
     )
 }
@@ -88,20 +88,20 @@ fun NetworkLogDebugScreenRoute(
 fun NetworkLogDebugScreen(
     state: NetworkLogState,
     navOnNetworkLogDetail: (Int) -> Unit,
-    navOnBack: () -> Unit,
+    onFinishActivity: () -> Unit,
     sendAction: (NetworkLogIntent) -> Unit,
 ) {
     val pagerState = rememberPagerState { ApiMethodUiTag.entries.size }
     val scope = rememberCoroutineScope()
 
     Scaffold(
-        containerColor = WepliTheme.color.black,
+        containerColor = NetworkLogTheme.color.black,
         topBar = {
             WepliAppBar(
                 containerColor = Color.Transparent,
                 title = stringResource(R.string.dev_mode_api_log_title),
                 showBackButton = true,
-                onClickBack = navOnBack
+                onClickBack = onFinishActivity
             )
         }
     ) { paddingValues ->
@@ -119,7 +119,7 @@ fun NetworkLogDebugScreen(
                 MethodTagHeader(
                     selectedTag = ApiMethodUiTag.entries[pagerState.currentPage],
                     modifier = Modifier
-                        .background(WepliTheme.color.black)
+                        .background(NetworkLogTheme.color.black)
                         .padding(top = 20.dp, bottom = 20.dp),
                     onClick = {
                         scope.launch {
@@ -193,22 +193,22 @@ fun NoticeComponent(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
-            .background(WepliTheme.color.gray000)
+            .background(NetworkLogTheme.color.gray000)
             .padding(vertical = 12.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.Start)
     ) {
         Icon(
             imageVector = ImageVector.vectorResource(CoreR.drawable.ic_info_vector),
-            tint = WepliTheme.color.gray900,
+            tint = NetworkLogTheme.color.gray900,
             contentDescription = null,
             modifier = Modifier.size(24.dp)
         )
 
         Text(
             text = stringResource(R.string.dev_mode_api_log_limit_notice, maxLogCount),
-            style = WepliTheme.typo.body6,
-            color = WepliTheme.color.gray900,
+            style = NetworkLogTheme.typo.body6,
+            color = NetworkLogTheme.color.gray900,
         )
     }
 }
