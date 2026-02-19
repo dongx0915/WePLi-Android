@@ -20,7 +20,7 @@ fun NetworkLogTheme(
     content: @Composable () -> Unit
 ) {
     val colorScheme = remember(darkTheme) {
-        if (darkTheme) darkColors() else lightColors()
+        if (darkTheme) Colors.darkColors() else Colors.lightColors()
     }
 
     // 시스템 하단바 색상 설정
