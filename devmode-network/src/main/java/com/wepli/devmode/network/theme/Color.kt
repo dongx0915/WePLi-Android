@@ -2,7 +2,10 @@ package com.wepli.devmode.network.theme
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+
+internal val LocalNetworkLogColors = staticCompositionLocalOf { Colors.lightColors() }
 
 @Stable val White = Color(0xFFFFFFFF)
 @Stable val Gray900 = Color(0xFFF0F0F0)
