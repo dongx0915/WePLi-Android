@@ -36,6 +36,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -265,6 +266,8 @@ private fun ApiSubInfoComponent(title: String, data: String, modifier: Modifier 
             text = data,
             style = NetworkLogTheme.typo.body3,
             color = NetworkLogTheme.color.gray800,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
         )
     }
 }
