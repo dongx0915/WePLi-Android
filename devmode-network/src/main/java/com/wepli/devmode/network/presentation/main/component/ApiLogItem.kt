@@ -30,7 +30,7 @@ fun ApiLogItem(
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 20.dp),
     ) {
-        StatusTag(status = apiLog.responseCode, modifier = Modifier.padding(top = 8.dp))
+        StatusTag(status = apiLog.response.code, modifier = Modifier.padding(top = 8.dp))
 
         Spacer(modifier = Modifier.width(16.dp))
 
@@ -40,13 +40,13 @@ fun ApiLogItem(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
-                    text = apiLog.method.name.uppercase(),
+                    text = apiLog.meta.method.name.uppercase(),
                     style = NetworkLogTheme.typo.subTitle5,
                     color = NetworkLogTheme.color.gray900,
                 )
 
                 Text(
-                    text = apiLog.baseUrl,
+                    text = apiLog.meta.baseUrl,
                     style = NetworkLogTheme.typo.body6,
                     color = NetworkLogTheme.color.gray500,
                     overflow = TextOverflow.Ellipsis,
@@ -57,8 +57,8 @@ fun ApiLogItem(
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
-                text = apiLog.decodedUrl,
-                style = NetworkLogTheme.typo.body4,
+                text = apiLog.meta.decodedUrl,
+                style = NetworkLogTheme.typo.body1,
                 color = NetworkLogTheme.color.gray800,
             )
 
@@ -69,7 +69,7 @@ fun ApiLogItem(
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
-                    text = "${apiLog.durationMs}ms",
+                    text = "${apiLog.meta.durationMs}ms",
                     style = NetworkLogTheme.typo.subTitle6,
                     color = NetworkLogTheme.color.gray400,
                 )
@@ -81,7 +81,7 @@ fun ApiLogItem(
                 )
 
                 Text(
-                    text = "2.0 KB",
+                    text = apiLog.response.formattedBodySize,
                     style = NetworkLogTheme.typo.subTitle6,
                     color = NetworkLogTheme.color.gray400,
                 )
@@ -89,7 +89,7 @@ fun ApiLogItem(
                 Spacer(modifier = Modifier.weight(1f))
 
                 Text(
-                    text = apiLog.formattedStartTime(),
+                    text = apiLog.meta.formattedStartTime(),
                     style = NetworkLogTheme.typo.subTitle6,
                     color = NetworkLogTheme.color.gray400,
                 )

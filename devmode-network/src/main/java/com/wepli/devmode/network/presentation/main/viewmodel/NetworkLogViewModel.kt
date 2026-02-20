@@ -41,12 +41,12 @@ class NetworkLogViewModel @Inject constructor(
         launch(Dispatchers.IO) {
             val originApiLogs = apiLogRepository
                 .getLogs(state.maxApiLogs)
-                .sortedByDescending { it.startTime }
+                .sortedByDescending { it.meta.startTime }
 
             val filteredApiLogs = mutableMapOf<String, List<ApiLog>>()
                 .apply {
                     put(ApiMethodUiTag.ALL.name, originApiLogs)
-                    putAll(originApiLogs.groupBy { it.method.name })
+                    putAll(originApiLogs.groupBy { it.meta.method.name })
                 }
 
             updateState {

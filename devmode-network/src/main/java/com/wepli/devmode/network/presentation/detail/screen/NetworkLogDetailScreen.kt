@@ -99,7 +99,7 @@ fun NetworkLogDetailScreen(
         topBarComponent = { backgroundColor, _, _, scrollFaction ->
             WepliAppBar(
                 containerColor = backgroundColor,
-                title = if (scrollFaction >= 0.4) "${state.apiLog.method.name} ${state.apiLog.url}" else "",
+                title = if (scrollFaction >= 0.4) "${state.apiLog.meta.method.name} ${state.apiLog.meta.url}" else "",
                 showBackButton = true,
                 onClickBack = navOnBack
             )
@@ -138,33 +138,77 @@ private fun ApiInfoHeader(apiLog: ApiLog, modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Text(
-                text = apiLog.method.name.uppercase(),
+                text = apiLog.meta.method.name.uppercase(),
                 style = NetworkLogTheme.typo.subTitle2,
-                color = apiLog.method.toColor(),
+                color = apiLog.meta.method.toColor(),
             )
 
-            StatusTag(status = apiLog.responseCode)
+            StatusTag(status = apiLog.response.code)
+
+            if (apiLog.response.message.isNotEmpty()) {
+                Text(
+                    text = apiLog.response.message,
+                    style = NetworkLogTheme.typo.body4,
+                    color = NetworkLogTheme.color.gray500,
+                )
+            }
         }
 
         // Url
         Text(
-            text = apiLog.decodedUrl,
+            text = apiLog.meta.decodedUrl,
             style = NetworkLogTheme.typo.subTitle5,
             color = NetworkLogTheme.color.gray800,
             modifier = Modifier.padding(top = 16.dp)
         )
 
         ApiSubInfoComponent(
-            title = "Time:",
-            data = apiLog.formattedStartTime(),
+            title = "Host:",
+            data = "${apiLog.meta.scheme}://${apiLog.meta.host}",
             modifier = Modifier.padding(top = 24.dp)
         )
 
         ApiSubInfoComponent(
-            title = "Duration:",
-            data = apiLog.durationMs.toString() + "ms",
+            title = "Time:",
+            data = apiLog.meta.formattedStartTime(),
             modifier = Modifier.padding(top = 12.dp)
         )
+
+        ApiSubInfoComponent(
+            title = "Duration:",
+            data = apiLog.meta.durationMs.toString() + "ms",
+            modifier = Modifier.padding(top = 12.dp)
+        )
+
+        ApiSubInfoComponent(
+            title = "Protocol:",
+            data = apiLog.meta.protocol,
+            modifier = Modifier.padding(top = 12.dp)
+        )
+
+        if (apiLog.response.tlsVersion != null) {
+            ApiSubInfoComponent(
+                title = "TLS:",
+                data = apiLog.response.tlsVersion,
+                modifier = Modifier.padding(top = 12.dp)
+            )
+        }
+
+        if (apiLog.response.cipherSuite != null) {
+            ApiSubInfoComponent(
+                title = "Cipher Suite:",
+                data = apiLog.response.cipherSuite,
+                modifier = Modifier.padding(top = 12.dp)
+            )
+        }
+
+        if (apiLog.meta.errorMessage != null) {
+            ApiSubInfoComponent(
+                title = "Error:",
+                data = apiLog.meta.errorMessage,
+                modifier = Modifier.padding(top = 12.dp)
+            )
+        }
     }
 }
 
@@ -180,8 +224,8 @@ private fun ApiRequestComponent(apiLog: ApiLog, modifier: Modifier = Modifier) {
             color = NetworkLogTheme.color.gray900,
         )
 
-        CollapsingComponent(title = "Headers", contents = apiLog.requestHeaders.toPrettyJsonString())
-        CollapsingComponent(title = "Body", contents = apiLog.requestBody)
+        CollapsingComponent(title = "Headers", contents = apiLog.request.headers.toPrettyJsonString())
+        CollapsingComponent(title = "Body", contents = apiLog.request.body)
     }
 }
 
@@ -197,7 +241,8 @@ private fun ApiResponseComponent(apiLog: ApiLog, modifier: Modifier = Modifier) 
             color = NetworkLogTheme.color.gray900,
         )
 
-        CollapsingComponent(title = "Body", contents = apiLog.responseBody)
+        CollapsingComponent(title = "Headers", contents = apiLog.response.headers.toPrettyJsonString())
+        CollapsingComponent(title = "Body", contents = apiLog.response.body)
     }
 }
 

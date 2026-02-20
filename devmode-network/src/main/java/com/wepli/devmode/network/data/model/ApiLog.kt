@@ -6,19 +6,17 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-@Stable
-data class ApiLog(
-    val id: Int = 0,
+data class ApiLogMeta(
     val method: ApiMethod,
     val baseUrlType: String,
     val baseUrl: String,
+    val host: String,
+    val scheme: String,
     val url: String,
-    val requestHeaders: Map<String, String>,
-    val requestBody: String,
-    val responseCode: Int,
-    val responseBody: String,
+    val protocol: String,
+    val errorMessage: String?,
     val startTime: Long,
-    val durationMs: Long = System.currentTimeMillis() - startTime
+    val durationMs: Long,
 ) {
     val decodedUrl: String by lazy {
         try {
@@ -33,6 +31,42 @@ data class ApiLog(
         return sdf.format(Date(startTime))
     }
 }
+
+data class ApiLogRequest(
+    val headers: Map<String, String>,
+    val headersSize: Long,
+    val body: String,
+    val bodySize: Long,
+    val contentType: String?,
+)
+
+data class ApiLogResponse(
+    val code: Int,
+    val message: String,
+    val headers: Map<String, String>,
+    val headersSize: Long,
+    val body: String,
+    val bodySize: Long,
+    val contentType: String?,
+    val tlsVersion: String?,
+    val cipherSuite: String?,
+) {
+    val formattedBodySize: String
+        get() = when {
+            bodySize < 0L -> "unknown"
+            bodySize < 1024L -> "${bodySize} B"
+            bodySize < 1024L * 1024L -> "${"%.1f".format(bodySize / 1024.0)} KB"
+            else -> "${"%.1f".format(bodySize / (1024.0 * 1024.0))} MB"
+        }
+}
+
+@Stable
+data class ApiLog(
+    val id: Int = 0,
+    val meta: ApiLogMeta,
+    val request: ApiLogRequest,
+    val response: ApiLogResponse,
+)
 
 enum class ApiMethod {
     GET,

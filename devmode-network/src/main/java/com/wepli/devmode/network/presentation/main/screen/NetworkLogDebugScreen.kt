@@ -57,7 +57,7 @@ import org.orbitmvi.orbit.compose.collectAsState
 fun NetworkLogDebugScreenPreview() {
     NetworkLogDebugScreen(
         state = NetworkLogState(
-            filteredApiLogs = mockApiLogs.groupBy { it.method.name },
+            filteredApiLogs = mockApiLogs.groupBy { it.meta.method.name },
         ),
         navOnNetworkLogDetail = {},
     )
