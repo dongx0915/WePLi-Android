@@ -26,7 +26,19 @@ import com.wepli.devmode.network.theme.NetworkLogTheme
 
 @Preview
 @Composable
-fun NetworkLoggerAppBar(modifier: Modifier = Modifier) {
+private fun NetworkLoggerAppBarPreview() {
+    NetworkLoggerAppBar(
+        title = "Network Logger",
+        subTitle = "12 requests captured"
+    )
+}
+
+@Composable
+fun NetworkLoggerAppBar(
+    modifier: Modifier = Modifier,
+    title: String,
+    subTitle: String,
+) {
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -55,7 +67,7 @@ fun NetworkLoggerAppBar(modifier: Modifier = Modifier) {
 
         Column {
             Text(
-                text = "Network Logger",
+                text = title,
                 style = NetworkLogTheme.typo.title3,
                 color = NetworkLogTheme.color.gray900,
             )
@@ -63,7 +75,7 @@ fun NetworkLoggerAppBar(modifier: Modifier = Modifier) {
             Spacer(modifier = Modifier.height(2.dp))
 
             Text(
-                text = "12 requests captured",
+                text = subTitle,
                 style = NetworkLogTheme.typo.caption1,
                 color = NetworkLogTheme.color.gray700,
             )

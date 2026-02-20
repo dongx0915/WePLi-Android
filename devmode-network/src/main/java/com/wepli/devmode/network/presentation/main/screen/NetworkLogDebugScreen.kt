@@ -90,6 +90,8 @@ fun NetworkLogDebugScreen(
         containerColor = NetworkLogTheme.color.black,
         topBar = {
             NetworkLoggerAppBar(
+                title = "Network Logger",
+                subTitle = "${state.originApiLogs.size} requests captured",
                 modifier = Modifier.padding(top = 12.dp)
             )
         }
