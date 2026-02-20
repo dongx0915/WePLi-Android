@@ -5,6 +5,7 @@ import com.wepli.devmode.network.data.model.ApiLogMeta
 import com.wepli.devmode.network.data.model.ApiLogRequest
 import com.wepli.devmode.network.data.model.ApiLogResponse
 import com.wepli.devmode.network.data.model.ApiMethod
+import com.wepli.devmode.network.data.model.BaseUrlInfo
 import com.wepli.devmode.network.data.model.BaseUrlMatcher
 import com.wepli.devmode.network.data.repository.DebugApiLogRepository
 import io.ktor.client.HttpClientConfig
@@ -58,56 +59,74 @@ class ApiLogKtorPlugin @Inject constructor(
     }
 
     private suspend fun HttpResponse.toApiLog(): ApiLog {
-        val request = call.request
-        val requestHeaders = request.headers.entries()
-            .associate { (key, values) -> key to values.joinToString(", ") }
-        val requestHeadersSize = requestHeaders.entries.sumOf { (k, v) -> k.length + v.length + 4L }
-        val requestBody = call.attributes.getOrNull(requestBodyKey).orEmpty()
-        val requestBodySize = request.headers["Content-Length"]?.toLongOrNull() ?: -1L
-        val requestContentType = request.headers["Content-Type"]
-
-        val fullUrl = request.url.toString()
+        val fullUrl = call.request.url.toString()
         val matched = baseUrlMatcher.match(fullUrl)
         val relativePath = fullUrl.removePrefix(matched.url)
+        val startTime = requestTime.timestamp
+        val durationMs = System.currentTimeMillis() - startTime
 
-        val responseHeaders = headers.entries()
-            .associate { (key, values) -> key to values.joinToString(", ") }
-        val responseHeadersSize = responseHeaders.entries.sumOf { (k, v) -> k.length + v.length + 4L }
-        val responseBodyStr = bodyAsText()
-        val responseBodySize = contentLength() ?: responseBodyStr.length.toLong()
-        val responseContentType = headers["Content-Type"]
+        val requestBody = call.attributes.getOrNull(requestBodyKey).orEmpty()
+        val responseBody = bodyAsText()
 
         return ApiLog(
-            meta = ApiLogMeta(
-                method = ApiMethod.fromString(request.method.value),
-                baseUrlType = matched.type,
-                baseUrl = matched.url,
-                host = request.url.host,
-                scheme = request.url.protocol.name,
-                url = relativePath,
-                protocol = version.toString(),
-                errorMessage = null,
-                startTime = requestTime.timestamp,
-                durationMs = System.currentTimeMillis() - requestTime.timestamp,
-            ),
-            request = ApiLogRequest(
-                headers = requestHeaders,
-                headersSize = requestHeadersSize,
-                body = requestBody,
-                bodySize = requestBodySize,
-                contentType = requestContentType,
-            ),
-            response = ApiLogResponse(
-                code = status.value,
-                message = status.description,
-                headers = responseHeaders,
-                headersSize = responseHeadersSize,
-                body = responseBodyStr,
-                bodySize = responseBodySize,
-                contentType = responseContentType,
-                tlsVersion = null,
-                cipherSuite = null,
-            ),
+            meta = call.buildMeta(matched, relativePath, startTime, durationMs, version.toString()),
+            request = call.buildRequest(requestBody),
+            response = buildResponse(responseBody),
+        )
+    }
+
+    private fun HttpClientCall.buildMeta(
+        baseUrlInfo: BaseUrlInfo,
+        relativePath: String,
+        startTime: Long,
+        durationMs: Long,
+        protocol: String,
+    ): ApiLogMeta = ApiLogMeta(
+        method = ApiMethod.fromString(request.method.value),
+        baseUrlType = baseUrlInfo.type,
+        baseUrl = baseUrlInfo.url,
+        host = request.url.host,
+        scheme = request.url.protocol.name,
+        url = relativePath,
+        protocol = protocol,
+        errorMessage = null,
+        startTime = startTime,
+        durationMs = durationMs,
+    )
+
+    private fun HttpClientCall.buildRequest(body: String): ApiLogRequest {
+        val parsedHeaders = request.headers
+            .entries()
+            .associate { (key, values) ->
+                key to values.joinToString(", ")
+            }
+
+        return ApiLogRequest(
+            headers = parsedHeaders,
+            headersSize = parsedHeaders.entries.sumOf { (k, v) -> k.length + v.length + 4L },
+            body = body,
+            bodySize = request.headers["Content-Length"]?.toLongOrNull() ?: -1L,
+            contentType = request.headers["Content-Type"],
+        )
+    }
+
+    private fun HttpResponse.buildResponse(body: String): ApiLogResponse {
+        val parsedHeaders = headers
+            .entries()
+            .associate { (key, values) ->
+                key to values.joinToString(", ")
+            }
+
+        return ApiLogResponse(
+            code = status.value,
+            message = status.description,
+            headers = parsedHeaders,
+            headersSize = parsedHeaders.entries.sumOf { (k, v) -> k.length + v.length + 4L },
+            body = body,
+            bodySize = contentLength() ?: body.length.toLong(),
+            contentType = headers["Content-Type"],
+            tlsVersion = null,
+            cipherSuite = null,
         )
     }
 }

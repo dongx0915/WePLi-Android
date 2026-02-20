@@ -58,6 +58,20 @@ data class ApiLogResponse(
             bodySize < 1024L * 1024L -> "${"%.1f".format(bodySize / 1024.0)} KB"
             else -> "${"%.1f".format(bodySize / (1024.0 * 1024.0))} MB"
         }
+
+    companion object {
+        fun default(): ApiLogResponse = ApiLogResponse(
+            code = 0,
+            message = "",
+            headers = emptyMap(),
+            headersSize = -1L,
+            body = "",
+            bodySize = -1L,
+            contentType = null,
+            tlsVersion = null,
+            cipherSuite = null,
+        )
+    }
 }
 
 @Stable
