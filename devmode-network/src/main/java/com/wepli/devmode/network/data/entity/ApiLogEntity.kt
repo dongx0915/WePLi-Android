@@ -21,17 +21,27 @@ import com.wepli.devmode.network.data.model.ApiMethod
 data class ApiLogEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
+
+    /* meta */
     val method: ApiMethod,
+    val url: String,
     val baseUrlType: String,
     val baseUrl: String,
     val host: String = "",
     val scheme: String = "unknown",
-    val url: String,
+    val protocol: String = "unknown",
+    val errorMessage: String? = null,
+    val startTime: Long,
+    val durationMs: Long = System.currentTimeMillis() - startTime,
+
+    /* request */
     val requestHeaders: Map<String, String>,
     val requestHeadersSize: Long = -1L,
     val requestBody: String,
     val requestBodySize: Long = -1L,
     val requestContentType: String? = null,
+
+    /* response */
     val responseCode: Int,
     val responseMessage: String = "",
     val responseHeaders: Map<String, String> = emptyMap(),
@@ -41,10 +51,6 @@ data class ApiLogEntity(
     val responseContentType: String? = null,
     val responseTlsVersion: String? = null,
     val responseCipherSuite: String? = null,
-    val protocol: String = "unknown",
-    val errorMessage: String? = null,
-    val startTime: Long,
-    val durationMs: Long = System.currentTimeMillis() - startTime
 )
 
 fun ApiLogEntity.toDomain(): ApiLog {
@@ -86,17 +92,24 @@ fun ApiLogEntity.toDomain(): ApiLog {
 fun ApiLog.toEntity(): ApiLogEntity {
     return ApiLogEntity(
         id = 0,
+        /* meta */
         method = meta.method,
         baseUrlType = meta.baseUrlType,
         baseUrl = meta.baseUrl,
         host = meta.host,
         scheme = meta.scheme,
         url = meta.url,
+        protocol = meta.protocol,
+        errorMessage = meta.errorMessage,
+        startTime = meta.startTime,
+        durationMs = meta.durationMs,
+        /* request */
         requestHeaders = request.headers,
         requestHeadersSize = request.headersSize,
         requestBody = request.body,
         requestBodySize = request.bodySize,
         requestContentType = request.contentType,
+        /* response */
         responseCode = response.code,
         responseMessage = response.message,
         responseHeaders = response.headers,
@@ -106,9 +119,5 @@ fun ApiLog.toEntity(): ApiLogEntity {
         responseContentType = response.contentType,
         responseTlsVersion = response.tlsVersion,
         responseCipherSuite = response.cipherSuite,
-        protocol = meta.protocol,
-        errorMessage = meta.errorMessage,
-        startTime = meta.startTime,
-        durationMs = meta.durationMs,
     )
 }
