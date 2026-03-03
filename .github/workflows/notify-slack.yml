@@ -1,0 +1,58 @@
+name: Slack BlockKit Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  send-slack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Block Kit message to Slack
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          if [ -z "$SLACK_WEBHOOK_URL" ]; then
+            echo "SLACK_WEBHOOK_URL not set"
+            exit 1
+          fi
+
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{
+            "blocks": [
+              {
+                "type": "header",
+                "text": {
+                  "type": "plain_text",
+                  "text": "🚀 CI/CD Slack 테스트 성공",
+                  "emoji": true
+                }
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Repository:* `'"${GITHUB_REPOSITORY}"'`\n*Branch:* `'"${GITHUB_REF_NAME}"'`\n*Triggered by:* `'"${GITHUB_ACTOR}"'`"
+                }
+              },
+              {
+                "type": "divider"
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "이 메시지는 *GitHub Actions*에서 보낸 Block Kit 테스트 메시지입니다."
+                }
+              },
+              {
+                "type": "context",
+                "elements": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "🕒 Run ID: '"${GITHUB_RUN_ID}"'"
+                  }
+                ]
+              }
+            ]
+          }' \
+          $SLACK_WEBHOOK_URL
