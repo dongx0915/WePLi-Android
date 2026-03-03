@@ -47,8 +47,7 @@ jobs:
           # Truncate if too long (Slack block limits). Keep safety margin.
           MAX_LEN=3000
           if [ "${#MSG}" -gt "$MAX_LEN" ]; then
-            MSG="${MSG:0:$MAX_LEN}
-(…truncated)"
+            MSG="${MSG:0:$MAX_LEN}(…truncated)"
           fi
 
           # Build Block Kit JSON safely using jq (install if missing)
