@@ -1,113 +1,99 @@
-name: Slack BlockKit — Sonar / Failure test
+name: Slack BlockKit — Sonar Failure Message
 
 on:
   workflow_dispatch:
     inputs:
+      branch:
+        description: "브랜치명 (예: release/26.11.01)"
+        required: true
+        default: "release/26.11.01"
       assignee:
-        description: '담당자 (optional)'
+        description: "담당자 (optional)"
         required: false
+        default: ""
       message:
-        description: '보낼 메시지 (optional, 기본값은 예제 텍스트)'
-        required: false
-        default: |
-          :x:[AndroidTV:tv:] Sonar Check 실패!! ㅠㅠ 
-          [QE-374] 광고 플레이어 > 컴포넌트 ON > 하단 방향키 클릭 시 컴포넌트 OFF 안 됨 (#384) README.md app benchmark build build-logic build.gradle.kts cjhv_tvingstick.keystore core feature flipper-buildvariant-implement.gradle flipperandroidnoop gaudioLab git-hook-files git-hook-files-script.gradle gradle gradle-build-variant.gradle gradle.properties gradlew gradlew.bat sentry.properties settings.gradle.kts tvUtils [QE-374] 광고 플레이어 컨트롤러 ON 상태에서 하단 방향키로 OFF 처리 Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com> README.md app benchmark build build-logic build.gradle.kts cjhv_tvingstick.keystore core feature flipper-buildvariant-implement.gradle flipperandroidnoop gaudioLab git-hook-files git-hook-files-script.gradle gradle gradle-build-variant.gradle gradle.properties gradlew gradlew.bat sentry.properties settings.gradle.kts tvUtils [QE-334] 티빙톡 에러 문구 가로 Max width 319 → 390 변경 Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com> README.md app benchmark build build-logic build.gradle.kts cjhv_tvingstick.keystore core feature flipper-buildvariant-implement.gradle flipperandroidnoop gaudioLab git-hook-files git-hook-files-script.gradle gradle gradle-build-variant.gradle gradle.properties gradlew gradlew.bat sentry.properties settings.gradle.kts tvUtils Revert "[QE-334] 티빙톡 에러 문구 가로 Max width 319 → 390 변경" This reverts commit 6397d8d2988f09b7c0fc9befa707b69dc850912b. --------- Co-authored-by: Claude Opus 4.6 <noreply@anthropic.com> 
-          브랜치 : release/26.11.01 
-          담당자 :
+        description: "Slack에 보낼 원문 메시지"
+        required: true
+        default: ":x: Sonar Check 실패!!"
 
 jobs:
-  send-blockkit:
+  send-slack:
     runs-on: ubuntu-latest
     steps:
-      - name: Prepare payload and send Slack Block Kit message
+      - name: Send Block Kit message
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           REPO: ${{ github.repository }}
           ACTOR: ${{ github.actor }}
           RUN_ID: ${{ github.run_id }}
-          REF: ${{ github.ref }}
-          # workflow_dispatch inputs
+          BRANCH: ${{ github.event.inputs.branch }}
           ASSIGNEE: ${{ github.event.inputs.assignee }}
           INPUT_MESSAGE: ${{ github.event.inputs.message }}
         run: |
           set -euo pipefail
 
           if [ -z "${SLACK_WEBHOOK_URL:-}" ]; then
-            echo "ERROR: SLACK_WEBHOOK_URL secret is not set. Add it to repo secrets."
+            echo "ERROR: SLACK_WEBHOOK_URL secret is not set."
             exit 1
           fi
 
-          # Compute branch name (fallback)
-          BRANCH="${REF##*/}"
-          # Use provided message or fallback to default (INPUT_MESSAGE already contains default)
-          MSG="${INPUT_MESSAGE:-No message provided.}"
-          # Trim leading/trailing whitespace
-          MSG="$(echo "$MSG" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
-
-          # Truncate if too long (Slack block limits). Keep safety margin.
-          MAX_LEN=3000
-          if [ "${#MSG}" -gt "$MAX_LEN" ]; then
-            MSG="${MSG:0:$MAX_LEN}(…truncated)"
-          fi
-
-          # Build Block Kit JSON safely using jq (install if missing)
+          # jq 설치 (없을 때만)
           if ! command -v jq >/dev/null 2>&1; then
             sudo apt-get update -y
             sudo apt-get install -y jq
           fi
 
-          HEADER_TEXT="⛔ Sonar Check 실패"
-          SUBTITLE="*레포:* \`$REPO\`  •  *브랜치:* \`$BRANCH\`  •  *Trigger:* \`$ACTOR\`"
-          if [ -n "${ASSIGNEE:-}" ]; then
-            SUBTITLE="$SUBTITLE  •  *담당자:* \`$ASSIGNEE\`"
+          # 메시지 트렁케이트 (Slack 제한 회피)
+          MSG="${INPUT_MESSAGE}"
+          MAX_LEN=2800
+          if [ "${#MSG}" -gt "$MAX_LEN" ]; then
+            MSG="${MSG:0:$MAX_LEN}(…truncated)"
           fi
 
-          BRANCH_URL="https://github.com/${REPO}/tree/${BRANCH}"
           RUN_URL="https://github.com/${REPO}/actions/runs/${RUN_ID}"
+          BRANCH_URL="https://github.com/${REPO}/tree/${BRANCH}"
 
-          # Build blocks
+          SUBTITLE="*브랜치:* \`${BRANCH}\`  •  *레포:* \`${REPO}\`  •  *Trigger:* \`${ACTOR}\`"
+          if [ -n "${ASSIGNEE:-}" ]; then
+            SUBTITLE="${SUBTITLE}  •  *담당자:* \`${ASSIGNEE}\`"
+          fi
+
+          # ✅ 핵심 수정: jq에서 + 연결 대신 문자열 보간 \(... ) 사용
           BLOCKS=$(jq -nc \
-            --arg header "$HEADER_TEXT" \
+            --arg header "⛔ Sonar Check 실패" \
             --arg subtitle "$SUBTITLE" \
             --arg run_url "$RUN_URL" \
             --arg branch_url "$BRANCH_URL" \
             --arg msg "$MSG" \
             '[
-              { "type":"header", "text": { "type":"plain_text", "text": $header, "emoji": true } },
-              { "type":"section", "text": { "type":"mrkdwn", "text": $subtitle } },
-              {
-                "type": "actions",
-                "elements": [
-                  { "type":"button", "text": { "type":"plain_text", "text":"🔎 Actions Run 보기", "emoji": true }, "url": $run_url },
-                  { "type":"button", "text": { "type":"plain_text", "text":"🌿 브랜치 보기", "emoji": true }, "url": $branch_url }
+              { "type":"header",
+                "text": { "type":"plain_text", "text": $header, "emoji": true }
+              },
+              { "type":"section",
+                "text": { "type":"mrkdwn", "text": $subtitle }
+              },
+              { "type":"actions",
+                "elements":[
+                  { "type":"button",
+                    "text": { "type":"plain_text", "text":"🔎 Actions Run 보기", "emoji": true },
+                    "url": $run_url
+                  },
+                  { "type":"button",
+                    "text": { "type":"plain_text", "text":"🌿 브랜치 보기", "emoji": true },
+                    "url": $branch_url
+                  }
                 ]
               },
               { "type":"divider" },
-              {
-                "type":"section",
-                "text": { "type":"mrkdwn", "text": "*Details*\n```" + ($msg) + "```" }
-              },
-              {
-                "type":"context",
-                "elements": [
-                  { "type":"mrkdwn", "text": "자동 알림: Sonar/CI 검사 실패 알림입니다." }
-                ]
+              { "type":"section",
+                "text": { "type":"mrkdwn",
+                          "text": "*Details*\n```\n\($msg)\n```"
+                        }
               }
             ]')
 
-          # Build final payload
           PAYLOAD=$(jq -nc --argjson blocks "$BLOCKS" '{ blocks: $blocks }')
 
-          # Debug: print payload size and first 400 chars
-          echo "Payload length: $(echo -n "$PAYLOAD" | wc -c) bytes"
-          echo "Preview:"
-          echo "$PAYLOAD" | head -c 400
-          echo "..."
-
-          # Send to Slack
-          curl -sS -X POST -H 'Content-type: application/json' --data "$PAYLOAD" "$SLACK_WEBHOOK_URL" || {
-            echo "Warning: Slack webhook call failed"
-            exit 0
-          }
-
-          echo "Slack message sent."
+          curl -sS -X POST -H 'Content-type: application/json' \
+            --data "$PAYLOAD" \
+            "$SLACK_WEBHOOK_URL"
