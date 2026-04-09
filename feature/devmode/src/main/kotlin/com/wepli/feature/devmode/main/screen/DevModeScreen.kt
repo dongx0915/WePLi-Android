@@ -29,7 +29,7 @@ import template.menu.ShortContentMenuComponent
 import template.menu.SwitchMenuComponent
 import theme.WepliTheme
 
-@Preview
+@Preview(heightDp = 1500)
 @Composable
 private fun DevModeScreenPreview() {
     DevModeScreen(DevModeMainState(), {},  {}, {}, {})
@@ -126,6 +126,14 @@ private fun LogMenuLayout(
         onClickMenu = {},
         onCheckedChanged = { newState ->
             sendAction(DevModeMainIntent.ChangeScreenNameViewerState(newState))
+        }
+    )
+    SwitchMenuComponent(
+        title = "ComposableNametag 활성화",
+        checked = state.isEnabledComposableNametag,
+        onClickMenu = {},
+        onCheckedChanged = { newState ->
+            sendAction(DevModeMainIntent.ChangeComposableNametagState(newState))
         }
     )
 }

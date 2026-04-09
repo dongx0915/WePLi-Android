@@ -4,6 +4,7 @@ import base.BaseMviViewModel
 import base.Intent
 import base.SideEffect
 import base.UiState
+import com.donglab.compose.debug.ComposeDebugConfig
 import com.wepli.devmode.fcm.data.model.FcmMessageRequest
 import com.wepli.devmode.fcm.domain.repository.DevModeFcmRepository
 import com.wepli.feature.devmode.main.utils.DevModeUtil
@@ -17,6 +18,7 @@ data class DevModeMainState(
     val accessToken: String = "",
     val refreshToken: String = "",
     val isEnabledScreenNameViewer: Boolean = false,
+    val isEnabledComposableNametag: Boolean = false,
     val fcmToken: String = "",
     val fcmAccessToken: String = "",
     val androidOs: String = "",
@@ -44,6 +46,7 @@ sealed interface DevModeMainIntent : Intent {
     ) : DevModeMainIntent
 
     data class ChangeScreenNameViewerState(val enabled: Boolean) : DevModeMainIntent
+    data class ChangeComposableNametagState(val enabled: Boolean) : DevModeMainIntent
     data object SendTestFcmMessage : DevModeMainIntent
 }
 
@@ -74,6 +77,7 @@ class DevModeMainViewModel @Inject constructor(
             }
 
             is DevModeMainIntent.ChangeScreenNameViewerState -> updateScreenNameViewerSetting(intent.enabled)
+            is DevModeMainIntent.ChangeComposableNametagState -> updateComposableNametagSetting(intent.enabled)
             DevModeMainIntent.SendTestFcmMessage -> sendTestFcmMessage()
         }
     }
@@ -93,6 +97,7 @@ class DevModeMainViewModel @Inject constructor(
                     fcmToken = fcmToken,
                     fcmAccessToken = fcmAccessToken,
                     isEnabledScreenNameViewer = isEnabledScreenNameViewer,
+                    isEnabledComposableNametag = ComposeDebugConfig.enabled,
                 )
             }
         }
@@ -102,6 +107,14 @@ class DevModeMainViewModel @Inject constructor(
         settingRepository.setEnableScreenNameViewer(isEnabled)
 
         postSideEffect { DevModeMainEffect.RestartApplication }
+    }
+
+    private fun updateComposableNametagSetting(isEnabled: Boolean) = intent {
+        ComposeDebugConfig.enabled = isEnabled
+
+        reduce {
+            state.copy(isEnabledComposableNametag = isEnabled)
+        }
     }
 
     private fun sendTestFcmMessage() {

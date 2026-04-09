@@ -14,6 +14,7 @@ class AndroidComposePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
+                apply("io.github.dongx0915.composable.nametag")
                 apply("org.jetbrains.kotlin.plugin.compose")
                 apply("com.google.devtools.ksp")
             }
